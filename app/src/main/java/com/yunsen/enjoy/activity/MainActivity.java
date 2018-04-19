@@ -61,7 +61,6 @@ public class MainActivity extends BaseFragmentActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onSaveInstanceState(outState);
         outState.putInt(CURR_INDEX, currIndex);
     }
