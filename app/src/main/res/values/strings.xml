@@ -40,6 +40,8 @@
 	<string name="set_complete">设置成功</string>
 	<string name="forget_gesture">忘记手势密码</string>
     <string name="search_word">搜索你想要的车</string>
+    <string name="more">更多</string>
+    <string name="service_project">服务项目</string>
 
 
 </resources>

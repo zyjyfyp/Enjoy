@@ -1,28 +1,55 @@
 package com.yunsen.enjoy.fragment;
 
 
+import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
+import com.yunsen.enjoy.fragment.home.StoreRecyclerAdapter;
 import com.yunsen.enjoy.fragment.model.BannerData;
+import com.yunsen.enjoy.fragment.model.CarStoreMode;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.widget.ADTextView;
+import com.yunsen.enjoy.widget.HorizontalLayout;
+import com.yunsen.enjoy.widget.HorizontalLayout2;
 import com.yunsen.enjoy.widget.SearchActionBar;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.ButterKnife;
 
 /**
  * 首页
  */
 public class MainPagerFragment extends BaseFragment implements SearchActionBar.SearchClickListener {
 
+    LinearLayout buttonLayout;
+    LinearLayout newCarLayout;
+    ImageView carImgBig;
+    ImageView carImg1;
+    ImageView carImg2;
+    ImageView carImg3;
+    ImageView carImg4;
+    ImageView carImg5;
+    LinearLayout shopLayout;
     private AutoLoopViewPager banner;
     private CirclePageIndicator indicatorLayout;
     private BannerAdapter bannerAdapter;
     private SearchActionBar searchBar;
     private ADTextView adtTv1;
     private ADTextView adtTv2;
+    private HorizontalLayout oneHLayout;
+    private HorizontalLayout2 twoHLayout;
+    private RecyclerView recyclerView;
+    private View topView;
 
 
     @Override
@@ -33,17 +60,40 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     @Override
     protected void initView() {
         searchBar = ((SearchActionBar) rootView.findViewById(R.id.search_bar));
-        banner = (AutoLoopViewPager) rootView.findViewById(R.id.pager);
-        indicatorLayout = ((CirclePageIndicator) rootView.findViewById(R.id.indicator));
+        recyclerView = rootView.findViewById(R.id.recyclerView);
 
-        adtTv1 = (ADTextView) rootView.findViewById(R.id.adt_text1);
-        adtTv2 = (ADTextView) rootView.findViewById(R.id.adt_text2);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+       topView = inflater.inflate(R.layout.fragment_top_layout, null);
+
+        banner = (AutoLoopViewPager) topView.findViewById(R.id.pager);
+        indicatorLayout = ((CirclePageIndicator) topView.findViewById(R.id.indicator));
+
+        adtTv1 = (ADTextView) topView.findViewById(R.id.adt_text1);
+        adtTv2 = (ADTextView) topView.findViewById(R.id.adt_text2);
+
+        oneHLayout = (HorizontalLayout) topView.findViewById(R.id.one_horizontal_layout);
+        twoHLayout = (HorizontalLayout2) topView.findViewById(R.id.two_horizontal_layout);
 
 
     }
 
     @Override
     protected void initData() {
+        LinearLayoutManager layoutmanager = new LinearLayoutManager(getActivity());
+        //设置RecyclerView 布局
+        layoutmanager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutmanager);
+        ArrayList<CarStoreMode> storeModes = new ArrayList<>();
+        storeModes.add(new CarStoreMode(null, "上海大众汽车广东省深圳市宝安区4S店"));
+        storeModes.add(new CarStoreMode(null, "上海大众汽车广东省深圳市宝安区4S店"));
+        storeModes.add(new CarStoreMode(null, "上海大众汽车广东省深圳市宝安区4S店"));
+        storeModes.add(new CarStoreMode(null, "上海大众汽车广东省深圳市宝安区4S店"));
+        storeModes.add(new CarStoreMode(null, "上海大众汽车广东省深圳市宝安区4S店"));
+        storeModes.add(new CarStoreMode(null, "上海大众汽车广东省深圳市宝安区4S店"));
+
+        recyclerView.setAdapter(new StoreRecyclerAdapter(getActivity(), storeModes, R.layout.shop_item));
+        layoutmanager.addView(topView);
+
         bannerAdapter = new BannerAdapter(getData(), getActivity());
         banner.setAdapter(bannerAdapter);
         indicatorLayout.setViewPager(banner);
@@ -67,6 +117,21 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
         adtTv2.setResources(texts);
         adtTv2.setTextStillTime(3000, 2);
+        //两行汽车类型
+        ArrayList<String> data = new ArrayList<>();
+        data.add("5万元以下");
+        data.add("5-10万元");
+        data.add("10-15万元");
+        data.add("15万元以上");
+        oneHLayout.setData(data);
+
+        ArrayList<String> data1 = new ArrayList<>();
+        data1.add("奔驰");
+        data1.add("宝马");
+        data1.add("奥迪");
+        data1.add("大众");
+        twoHLayout.setData(data1);
+
     }
 
     @Override
@@ -111,5 +176,13 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 //        adtTv1.onStopAuto(1);
 //        adtTv2.onStopAuto(2);
     }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
 
 }

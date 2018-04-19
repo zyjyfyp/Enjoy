@@ -153,7 +153,7 @@ public class MainActivity extends BaseFragmentActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (System.currentTimeMillis() - mFirstPressedTime < 2000) {
-                moveTaskToBack(true);
+              finish();
             } else {
                 Toast.makeText(MainActivity.this, "再按一次退出", Toast.LENGTH_SHORT).show();
                 mFirstPressedTime = System.currentTimeMillis();
