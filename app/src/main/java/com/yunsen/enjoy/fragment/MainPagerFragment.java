@@ -127,6 +127,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         texts.add("11 111111111111111");
         texts.add("22 2222222222222222");
         texts.add("33 3333333333333333");
+
         texts.add("44 44444444444444444444");
         ArrayList<String> list = new ArrayList<>();
         list.add("3-5万元汽车");
