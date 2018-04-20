@@ -22,9 +22,15 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+
 import okhttp3.Request;
 
-public class HttpResponseHandler {
+public class HttpResponseHandler<T> {
     protected static final int SUCCESS_MESSAGE = 0;
     protected static final int FAILURE_MESSAGE = 1;
 
@@ -54,7 +60,7 @@ public class HttpResponseHandler {
      *
      * @param response the body of the HTTP RESTApi response from the server
      */
-    public void onSuccess(RestApiResponse response) {
+    public void onSuccess(T response) {
     }
 
     /**
@@ -70,12 +76,23 @@ public class HttpResponseHandler {
     // 后台线程调用方法，通过Handler sendMessage把结果转到UI主线程
     //
 
-    protected void sendSuccessMessage(RestApiResponse response) {
+    protected void sendSuccessMessage(String jsonString) {
         try {
+            T response = getRestApiResponse(jsonString);
             sendMessage(obtainMessage(SUCCESS_MESSAGE, response));
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private T getRestApiResponse(String responseBody) throws Exception {
+        Class<? super T> rawType;
+        rawType = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        RestApiResponse apiResponse = (RestApiResponse) JSON.parseObject(responseBody, rawType);
+        if (apiResponse == null && !"y".equalsIgnoreCase(apiResponse.getStatus())) {
+            throw new Exception("server error (response = " + responseBody + ")");
+        }
+        return (T) apiResponse;
     }
 
     protected void sendFailureMessage(Request request, Exception e) {
@@ -86,7 +103,7 @@ public class HttpResponseHandler {
     // Pre-processing of messages (in original calling thread, typically the UI thread)
     //
 
-    protected void handleSuccessMessage(RestApiResponse response) {
+    protected void handleSuccessMessage(T response) {
         onSuccess(response);
     }
 
@@ -99,7 +116,7 @@ public class HttpResponseHandler {
     protected void handleMessage(Message msg) {
         switch (msg.what) {
             case SUCCESS_MESSAGE:
-                handleSuccessMessage((RestApiResponse) msg.obj);
+                handleSuccessMessage((T) msg.obj);
                 break;
             case FAILURE_MESSAGE:
                 Object[] response = (Object[]) msg.obj;

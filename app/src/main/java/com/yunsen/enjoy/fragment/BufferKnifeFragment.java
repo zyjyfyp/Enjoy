@@ -123,27 +123,27 @@ public class BufferKnifeFragment extends Fragment {
         }
         param.setPno(pno);
         listView.setLoadMoreViewTextLoading();
-        HttpClient.getRecommendShops(param, new HttpResponseHandler() {
-
-            @Override
-            public void onSuccess(RestApiResponse response) {
-                listView.onRefreshComplete();
-                List<SearchShop> list = JSONArray.parseArray(response.body, SearchShop.class);
-                listView.updateLoadMoreViewText(list);
-                isLoadAll = list.size() < HttpClient.PAGE_SIZE;
-                if(pno == 1) {
-                    adapter.clear();
-                }
-                adapter.addAll(list);
-                pno++;
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
-                listView.onRefreshComplete();
-                listView.setLoadMoreViewTextError();
-            }
-        });
+//        HttpClient.getRecommendShops(param, new HttpResponseHandler() {
+//
+//            @Override
+//            public void onSuccess(RestApiResponse response) {
+//                listView.onRefreshComplete();
+////                List<SearchShop> list = JSONArray.parseArray(response.body, SearchShop.class);
+////                listView.updateLoadMoreViewText(list);
+////                isLoadAll = list.size() < HttpClient.PAGE_SIZE;
+////                if(pno == 1) {
+////                    adapter.clear();
+////                }
+////                adapter.addAll(list);
+////                pno++;
+//            }
+//
+//            @Override
+//            public void onFailure(Request request, Exception e) {
+//                listView.onRefreshComplete();
+//                listView.setLoadMoreViewTextError();
+//            }
+//        });
     }
 
     @Override

@@ -18,6 +18,7 @@ import com.yunsen.enjoy.fragment.model.BannerData;
 import com.yunsen.enjoy.fragment.model.CarStoreMode;
 import com.yunsen.enjoy.http.HttpClient;
 import com.yunsen.enjoy.http.HttpResponseHandler;
+import com.yunsen.enjoy.http.RequestProxy;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.widget.ADTextView;
@@ -146,9 +147,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
     @Override
     protected void requestData() {
-        HttpClient.get("https://szlxkg.com/tools/mobile_ajax.asmx/get_adbanner_list?advert_id=13",null,new HttpResponseHandler(){
-
-        });
+        RequestProxy.getHomeAdvertList();
     }
 
     @Override

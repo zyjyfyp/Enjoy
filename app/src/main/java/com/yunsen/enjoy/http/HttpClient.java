@@ -88,7 +88,7 @@ public class HttpClient {
             Toast.makeText(AppContext.getInstance(), R.string.no_network_connection_toast, Toast.LENGTH_SHORT).show();
             return;
         }
-        if(param != null && param.size() > 0) {
+        if (param != null && param.size() > 0) {
             url = url + "?" + mapToQueryString(param);
         }
         Request request = new Request.Builder().url(url).build();
@@ -96,8 +96,11 @@ public class HttpClient {
             @Override
             public void onResponse(Call call, Response response) {
                 try {
-                    RestApiResponse apiResponse = getRestApiResponse(response.body().toString());
-                    handler.sendSuccessMessage(apiResponse);
+                    String responseBody = response.body().string();
+                    if (!isJsonString(responseBody)) {
+                        throw new Exception("server response not json string (response = " + responseBody + ")");
+                    }
+                    handler.sendSuccessMessage(responseBody);
                 } catch (Exception e) {
                     handler.sendFailureMessage(call.request(), e);
                 }
@@ -116,8 +119,9 @@ public class HttpClient {
             return;
         }
         String paramStr = "";
-        if(param != null && param.size() > 0) {
-            paramStr = url += mapToQueryString(param);;
+        if (param != null && param.size() > 0) {
+            paramStr = url += mapToQueryString(param);
+            ;
             url = url + "?" + paramStr;
         }
         RequestBody body = RequestBody.create(MEDIA_TYPE, paramStr);
@@ -126,8 +130,11 @@ public class HttpClient {
             @Override
             public void onResponse(Call call, Response response) {
                 try {
-                    RestApiResponse apiResponse = getRestApiResponse(response.body().toString());
-                    handler.sendSuccessMessage(apiResponse);
+                    String responseBody = response.body().toString();
+                    if (!isJsonString(responseBody)) {
+                        throw new Exception("server response not json string (response = " + responseBody + ")");
+                    }
+                    handler.sendSuccessMessage(responseBody);
                 } catch (Exception e) {
                     handler.sendFailureMessage(call.request(), e);
                 }
@@ -140,22 +147,22 @@ public class HttpClient {
         });
     }
 
-    private static RestApiResponse getRestApiResponse(String responseBody) throws Exception {
-        if(!isJsonString(responseBody)) {
-            throw new Exception("server response not json string (response = " + responseBody + ")");
-        }
-        RestApiResponse apiResponse = JSON.parseObject(responseBody, RestApiResponse.class);
-        if(apiResponse == null && apiResponse.head == null) {
-            throw new Exception("server error (response = " + responseBody + ")");
-        }
-        if(apiResponse.head.status == RestApiResponse.STATUS_SUCCESS) {
-            throw new Exception("server error (business status code = " + apiResponse.head.status + "; response =" + responseBody + ")");
-        }
-        return apiResponse;
-    }
+//    private static RestApiResponse getRestApiResponse(String responseBody) throws Exception {
+//        if (!isJsonString(responseBody)) {
+//            throw new Exception("server response not json string (response = " + responseBody + ")");
+//        }
+//        RestApiResponse apiResponse = JSON.parseObject(responseBody, RestApiResponse.class);
+//        if (apiResponse == null && !"y".equalsIgnoreCase(apiResponse.getStatus())) {
+//            throw new Exception("server error (response = " + responseBody + ")");
+//        }
+////        if (apiResponse.head.status == RestApiResponse.STATUS_SUCCESS) {
+////            throw new Exception("server error (business status code = " + apiResponse.head.status + "; response =" + responseBody + ")");
+////        }
+//        return apiResponse;
+//    }
 
     private static boolean isJsonString(String responseBody) {
-        return TextUtils.isEmpty(responseBody) && (responseBody.startsWith("{") && responseBody.endsWith("}"));
+        return !TextUtils.isEmpty(responseBody) && (responseBody.startsWith("{") && responseBody.endsWith("}"));
     }
 
     public static String mapToQueryString(Map<String, String> map) {
@@ -164,7 +171,7 @@ public class HttpClient {
             string.append("?");
         }*/
         try {
-            for(Map.Entry<String, String> entry : map.entrySet()) {
+            for (Map.Entry<String, String> entry : map.entrySet()) {
                 string.append(entry.getKey());
                 string.append("=");
                 string.append(URLEncoder.encode(entry.getValue(), UTF_8));
@@ -180,6 +187,7 @@ public class HttpClient {
     public static final int PAGE_SIZE = 30;
     private static final String HTTP_DOMAIN = "http://sye.zhongsou.com/ent/rest";
     private static final String SHOP_RECOMMEND = "dpSearch.recommendShop"; // 推荐商家
+
     public static void getRecommendShops(SearchParam param, HttpResponseHandler httpResponseHandler) {
         param.setLat(39.982314);
         param.setLng(116.409671);

@@ -1,6 +1,9 @@
 package com.yunsen.enjoy.http;
 
 
+import android.util.Log;
+
+import com.yunsen.enjoy.model.AdvertList;
 import com.yunsen.enjoy.model.SearchParam;
 
 import okhttp3.Request;
@@ -10,25 +13,25 @@ import okhttp3.Request;
  */
 
 public class RequestProxy {
+    private static final String TAG = "RequestProxy";
 
     /**
      * 获取首页广告
-     *
-     * @param param
-     * @param httpResponseHandler
      */
-    public static void getHomeAdvertList(SearchParam param, HttpResponseHandler httpResponseHandler) {
-            HttpClient.get(URLConstants.HOME_ADV_URL, null, new HttpResponseHandler(){
-                @Override
-                public void onSuccess(RestApiResponse response) {
-                    super.onSuccess(response);
-                }
+    public static void getHomeAdvertList() {
+        HttpClient.get(URLConstants.HOME_ADV_URL, null, new HttpResponseHandler<AdvertList>() {
+            @Override
+            public void onSuccess(AdvertList response) {
+                super.onSuccess(response);
+                Log.e(TAG, "onSuccess: " + response.toString());
+            }
 
-                @Override
-                public void onFailure(Request request, Exception e) {
-                    super.onFailure(request, e);
-                }
-            });
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                Log.e(TAG, "onFailure: " + e.getMessage());
+            }
+        });
     }
 
 }

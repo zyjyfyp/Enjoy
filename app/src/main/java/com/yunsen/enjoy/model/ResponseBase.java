@@ -5,6 +5,7 @@ package com.yunsen.enjoy.model;
  */
 
 public class ResponseBase {
+
     private String status;
     private String code;
     private String info;
