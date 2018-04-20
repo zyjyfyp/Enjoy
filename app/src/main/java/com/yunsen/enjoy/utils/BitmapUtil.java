@@ -61,7 +61,5 @@ public class BitmapUtil {
     }
 
     public static void loadImgRes(Context context, ImageView img, String url) {
-        Picasso.with(context).load(url).placeholder(R.mipmap.car_1).into(img);
-
     }
 }

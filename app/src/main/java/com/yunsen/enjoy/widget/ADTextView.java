@@ -18,6 +18,8 @@ import android.widget.ViewSwitcher;
 
 
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.model.AdvertModel;
+import com.yunsen.enjoy.model.NoticeModel;
 
 import java.util.List;
 import java.util.Timer;
@@ -53,7 +55,7 @@ public class ADTextView extends TextSwitcher implements ViewSwitcher.ViewFactory
         ;
     };
 
-    private List<String> resources;
+    private List<NoticeModel> resources;
     private long mTime;
 
     public ADTextView(Context context) {
@@ -74,7 +76,7 @@ public class ADTextView extends TextSwitcher implements ViewSwitcher.ViewFactory
         this.setOutAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_in_from_top));
     }
 
-    public void setResources(List<String> res) {
+    public void setResources(List<NoticeModel> res) {
         this.resources = res;
     }
 
@@ -93,7 +95,7 @@ public class ADTextView extends TextSwitcher implements ViewSwitcher.ViewFactory
     }
 
     private void updateText() {
-        this.setText(resources.get(index));
+        this.setText(resources.get(index).getTitle());
     }
 
     @Override

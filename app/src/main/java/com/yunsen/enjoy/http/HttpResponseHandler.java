@@ -21,6 +21,7 @@ package com.yunsen.enjoy.http;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
@@ -69,7 +70,9 @@ public class HttpResponseHandler<T> {
      * exchange, it is possible that the remote server accepted the request
      * before the failure.
      */
+    private static final String TAG = "HttpResponseHandler";
     public void onFailure(Request request, Exception e) {
+        Log.e(TAG, "onFailure: "+e.getMessage() );
     }
 
     //

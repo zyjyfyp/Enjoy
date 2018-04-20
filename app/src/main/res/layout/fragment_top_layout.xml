@@ -68,7 +68,7 @@
                 <com.yunsen.enjoy.widget.ADTextView
                     android:id="@+id/adt_text1"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="20dp"
                     android:layout_centerInParent="true"
                     android:gravity="center" />
 
@@ -95,7 +95,7 @@
                 <com.yunsen.enjoy.widget.ADTextView
                     android:id="@+id/adt_text2"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="20dp"
                     android:layout_centerInParent="true"
                     android:gravity="center" />
 

@@ -132,7 +132,7 @@ public class AdvertModel {
     }
 
     public String getAd_url() {
-        return ad_url;
+        return URLConstants.REALM_URL + ad_url;
     }
 
     public void setAd_url(String ad_url) {
