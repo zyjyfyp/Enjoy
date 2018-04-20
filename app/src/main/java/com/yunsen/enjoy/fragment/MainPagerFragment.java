@@ -2,6 +2,8 @@ package com.yunsen.enjoy.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.widget.LinearLayout;
 
 import com.squareup.picasso.Picasso;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
 import com.yunsen.enjoy.fragment.home.StoreRecyclerAdapter;
 import com.yunsen.enjoy.fragment.model.CarStoreMode;
@@ -40,7 +43,7 @@ import okhttp3.Request;
 /**
  * 首页
  */
-public class MainPagerFragment extends BaseFragment implements SearchActionBar.SearchClickListener {
+public class MainPagerFragment extends BaseFragment implements SearchActionBar.SearchClickListener, View.OnClickListener {
 
     LinearLayout buttonLayout;
     LinearLayout newCarLayout;
@@ -66,6 +69,8 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     private View topView;
     private HeaderAndFooterWrapper mHeaderWrapper;
     private StoreRecyclerAdapter mAdapter;
+    private View allCars;
+    private View moreCar;
 
 
     @Override
@@ -89,6 +94,9 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
         oneHLayout = (HorizontalLayout) topView.findViewById(R.id.one_horizontal_layout);
         twoHLayout = (HorizontalLayout2) topView.findViewById(R.id.two_horizontal_layout);
+
+        allCars = topView.findViewById(R.id.button_layout);
+        moreCar = topView.findViewById(R.id.more_tv);
 
         mCarImgArray[0] = topView.findViewById(R.id.car_img_big);
         mCarImgArray[1] = topView.findViewById(R.id.car_img_1);
@@ -145,9 +153,11 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         data1.add(new CarModel("奥迪", ""));
         data1.add(new CarModel("大众", ""));
         twoHLayout.setData(data1);
+
     }
 
     private static final String TAG = "MainPagerFragment";
+
     @Override
     protected void requestData() {
         HttpProxy.getHomeAdvertList(new HttpCallBack<List<AdvertModel>>() {
@@ -169,7 +179,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                 for (int i = 0; i < responseData.size() && i < mCarImgArray.length; i++) {
                     AdvertModel model = responseData.get(i);
                     String ad_url = model.getAd_url();
-                    Log.e(TAG, "onSuccess: "+ad_url );
+                    Log.e(TAG, "onSuccess: " + ad_url);
                     Picasso.with(getActivity()).load(ad_url)
                             .placeholder(R.mipmap.car_1).into(mCarImgArray[i]);
                 }
@@ -241,6 +251,8 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     @Override
     protected void initListener() {
         searchBar.setSearchClick(this);
+        allCars.setOnClickListener(this);
+        moreCar.setOnClickListener(this);
     }
 
     public List<AdvertModel> getData() {
@@ -260,10 +272,26 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
             case CENTER_LAYOUT:
                 break;
             case RIGHT_IMG:
+                Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:400****120"));//跳转到拨号界面，同时传递电话号码
+                startActivity(dialIntent);
                 break;
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_layout:
+            case R.id.more_tv:
+                toBuyCarFragment();
+                break;
+        }
+
+    }
+
+    private void toBuyCarFragment() {
+        ((MainActivity) getActivity()).setCurrIndex(1);
+    }
 
     @Override
     public void onResume() {
@@ -287,5 +315,6 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
+
 
 }

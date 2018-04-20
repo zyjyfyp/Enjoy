@@ -23,7 +23,7 @@ public class MainActivity extends BaseFragmentActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String CURR_INDEX = "currIndex";
-    private static int currIndex = 0;
+    private int currIndex = 0;
 
     private RadioGroup group;
 
@@ -152,7 +152,7 @@ public class MainActivity extends BaseFragmentActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (System.currentTimeMillis() - mFirstPressedTime < 2000) {
-              finish();
+                finish();
             } else {
                 Toast.makeText(MainActivity.this, "再按一次退出", Toast.LENGTH_SHORT).show();
                 mFirstPressedTime = System.currentTimeMillis();
@@ -160,6 +160,30 @@ public class MainActivity extends BaseFragmentActivity {
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    public void setCurrIndex(int index) {
+        if (index < 0) {
+            index = 0;
+        }
+        if (index > 3) {
+            index = 0;
+        }
+        switch (index) {
+            case 0:
+                group.check(R.id.foot_bar_home);
+                break;
+            case 1:
+                group.check(R.id.foot_bar_im);
+                break;
+            case 2:
+                group.check(R.id.foot_bar_interest);
+                break;
+            case 3:
+                group.check(R.id.main_footbar_user);
+                break;
+
+        }
     }
 
 }
