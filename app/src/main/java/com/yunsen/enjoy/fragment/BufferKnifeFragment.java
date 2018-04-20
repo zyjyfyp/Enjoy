@@ -2,29 +2,27 @@ package com.yunsen.enjoy.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.RelativeLayout;
 
-import com.alibaba.fastjson.JSONArray;
 import com.squareup.picasso.Picasso;
 import com.yunsen.enjoy.R;
-import com.yunsen.enjoy.http.HttpClient;
-import com.yunsen.enjoy.http.HttpResponseHandler;
-import com.yunsen.enjoy.http.RestApiResponse;
-import com.yunsen.enjoy.model.SearchParam;
-import com.yunsen.enjoy.model.SearchShop;
-import com.yunsen.enjoy.ui.UIHelper;
-import com.yunsen.enjoy.ui.pulltorefresh.PullToRefreshBase;
-import com.yunsen.enjoy.ui.pulltorefresh.PullToRefreshListView;
-import com.yunsen.enjoy.ui.quickadapter.BaseAdapterHelper;
-import com.yunsen.enjoy.ui.quickadapter.QuickAdapter;
+import com.yunsen.enjoy.fragment.home.BannerAdapter;
+import com.yunsen.enjoy.http.HttpCallBack;
+import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.model.AdvertModel;
+import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
+import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
+import com.yunsen.enjoy.widget.SearchActionBar;
 
-
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -32,135 +30,98 @@ import butterknife.ButterKnife;
 import okhttp3.Request;
 
 
-public class BufferKnifeFragment extends Fragment {
+public class BufferKnifeFragment extends BaseFragment {
 
-    private Activity context;
+    @Bind(R.id.search_bar)
+    SearchActionBar searchBar;
+    @Bind(R.id.buy_indicator)
+    CirclePageIndicator buyIndicator;
+    @Bind(R.id.layout_ent_gallery)
+    RelativeLayout layoutEntGallery;
+    @Bind(R.id.buy_main_tab)
+    TabLayout buyMainTab;
+    @Bind(R.id.buyMainPager)
+    ViewPager buyMainPager;
+    private Activity mContext;
+    private ArrayList<AdvertModel> mAdvDatas;
+    private BannerAdapter bannerAdapter;
 
-    private SearchParam param;
-    private int pno = 1;
-    private boolean isLoadAll;
-
-    @Bind(R.id.listView)
-    PullToRefreshListView listView;
-    QuickAdapter<SearchShop> adapter;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.recommend_shop_list, container, false);
-        ButterKnife.bind(this, view);
-        return view;
-    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        context = getActivity();
-        initData();
-        initView();
-        loadData();
+        mContext = getActivity();
     }
 
-    void initView() {
-        adapter = new QuickAdapter<SearchShop>(context, R.layout.recommend_shop_list_item) {
-            @Override
-            protected void convert(BaseAdapterHelper helper, SearchShop shop) {
-                helper.setText(R.id.name, shop.getName())
-                        .setText(R.id.address, shop.getAddr())
-                        .setImageUrl(R.id.logo, shop.getLogo()); // 自动异步加载图片
-            }
-        };
+    @Override
+    protected int getLayoutId() {
+        return R.layout.recommend_shop_list;
+    }
 
-        listView.withLoadMoreView();
-        listView.setAdapter(adapter);
-        // 下拉刷新
-        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
-            @Override
-            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                initData();
-                loadData();
-            }
-        });
-        // 加载更多
-        listView.setOnLastItemVisibleListener(new PullToRefreshBase.OnLastItemVisibleListener() {
-            @Override
-            public void onLastItemVisible() {
-                loadData();
-            }
-        });
-        // 点击事件
-        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                UIHelper.showHouseDetailActivity(context);
-            }
-        });
+    private static final String TAG = "BufferKnifeFragment";
 
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+    @Override
+    protected void initView() {
+        ButterKnife.bind(this, rootView);
+        buyMainPager = rootView.findViewById(R.id.buy_pager);
+    }
+
+    @Override
+    protected void initData() {
+        bannerAdapter = new BannerAdapter(getData(), getActivity());
+        buyMainPager.setAdapter(bannerAdapter);
+        buyIndicator.setViewPager(buyMainPager);
+        buyIndicator.setPadding(5, 5, 10, 5);
+    }
+
+    @Override
+    protected void requestData() {
+        Log.e(TAG, "requestData: qeu" );
+        HttpProxy.getHomeAdvertList(1017, new HttpCallBack<List<AdvertModel>>() {
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
-                    Picasso.with(context).pauseTag(context);
-                } else {
-                    Picasso.with(context).resumeTag(context);
-                }
+            public void onSuccess(List<AdvertModel> responseData) {
+                bannerAdapter = new BannerAdapter(responseData, getActivity());// TODO: 2018/4/20 need
+                buyMainPager.setAdapter(bannerAdapter);
             }
 
             @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            public void onError(Request request, Exception e) {
+
             }
         });
     }
 
-    private void initData() {
-        param = new SearchParam();
-        pno = 1;
-        isLoadAll = false;
+    @Override
+    protected void initListener() {
+
     }
 
-    private void loadData() {
-        if (isLoadAll) {
-            return;
-        }
-        param.setPno(pno);
-        listView.setLoadMoreViewTextLoading();
-//        HttpClient.getRecommendShops(param, new HttpResponseHandler() {
-//
-//            @Override
-//            public void onSuccess(RestApiResponse response) {
-//                listView.onRefreshComplete();
-////                List<SearchShop> list = JSONArray.parseArray(response.body, SearchShop.class);
-////                listView.updateLoadMoreViewText(list);
-////                isLoadAll = list.size() < HttpClient.PAGE_SIZE;
-////                if(pno == 1) {
-////                    adapter.clear();
-////                }
-////                adapter.addAll(list);
-////                pno++;
-//            }
-//
-//            @Override
-//            public void onFailure(Request request, Exception e) {
-//                listView.onRefreshComplete();
-//                listView.setLoadMoreViewTextError();
-//            }
-//        });
+    public List<AdvertModel> getData() {
+        ArrayList<AdvertModel> data = new ArrayList<>();
+        data.add(new AdvertModel(R.mipmap.adv_home, null));
+        data.add(new AdvertModel(R.mipmap.adv_home, "http://pic71.nipic.com/file/20150610/13549908_104823135000_2.jpg"));
+        return data;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Picasso.with(context).resumeTag(context);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Picasso.with(context).pauseTag(context);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Picasso.with(context).cancelTag(context);
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 }

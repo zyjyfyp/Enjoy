@@ -1,12 +1,10 @@
 package com.yunsen.enjoy.fragment.home;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 import com.yunsen.enjoy.R;
-import com.yunsen.enjoy.fragment.model.CarStoreMode;
 
 import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.widget.recyclerview.CommonAdapter;

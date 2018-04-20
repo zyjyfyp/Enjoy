@@ -17,7 +17,6 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
 import com.yunsen.enjoy.fragment.home.StoreRecyclerAdapter;
-import com.yunsen.enjoy.fragment.model.CarStoreMode;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.AdvertModel;
@@ -36,7 +35,6 @@ import com.yunsen.enjoy.widget.recyclerview.wrapper.HeaderAndFooterWrapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import okhttp3.Request;
 
 
@@ -47,12 +45,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
     LinearLayout buttonLayout;
     LinearLayout newCarLayout;
-    private ImageView carImgBig;
-    private ImageView carImg1;
-    private ImageView carImg2;
-    private ImageView carImg3;
-    private ImageView carImg4;
-    private ImageView carImg5;
+
     private ImageView[] mCarImgArray
             = new ImageView[6];
     LinearLayout shopLayout;
@@ -128,10 +121,10 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         mHeaderWrapper.addHeaderView(topView);
         recyclerView.setAdapter(mHeaderWrapper);
 
-        bannerAdapter = new BannerAdapter(getData(), getActivity());
-        banner.setAdapter(bannerAdapter);
-        indicatorLayout.setViewPager(banner);
-        indicatorLayout.setPadding(5, 5, 10, 5);
+//        bannerAdapter = new BannerAdapter(getData(), getActivity());
+//        banner.setAdapter(bannerAdapter);
+//        indicatorLayout.setViewPager(banner);
+//        indicatorLayout.setPadding(5, 5, 10, 5);
 
         searchBar.setLeftText("深圳");
         searchBar.setSearchText("请输入车名搜索");
@@ -160,11 +153,11 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
     @Override
     protected void requestData() {
-        HttpProxy.getHomeAdvertList(new HttpCallBack<List<AdvertModel>>() {
+        HttpProxy.getHomeAdvertList(11,new HttpCallBack<List<AdvertModel>>() {
             @Override
             public void onSuccess(List<AdvertModel> responseData) {
-                bannerAdapter = new BannerAdapter(responseData, getActivity());// TODO: 2018/4/20 need
-                banner.setAdapter(bannerAdapter);
+//                bannerAdapter = new BannerAdapter(responseData, getActivity());// TODO: 2018/4/20 need
+//                banner.setAdapter(bannerAdapter);
             }
 
             @Override
@@ -313,7 +306,6 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
 

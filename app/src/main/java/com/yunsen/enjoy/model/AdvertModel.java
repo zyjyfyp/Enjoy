@@ -132,7 +132,11 @@ public class AdvertModel {
     }
 
     public String getAd_url() {
-        return URLConstants.REALM_URL + ad_url;
+        if (ad_url != null && ad_url.matches("https")) {
+            return ad_url;
+        } else {
+            return URLConstants.REALM_URL + ad_url;
+        }
     }
 
     public void setAd_url(String ad_url) {

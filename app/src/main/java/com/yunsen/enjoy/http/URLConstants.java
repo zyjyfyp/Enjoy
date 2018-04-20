@@ -12,7 +12,7 @@ public class URLConstants {
     /**
      * 头部广告
      */
-    public static final String HOME_ADV_URL="https://szlxkg.com/tools/mobile_ajax.asmx/get_adbanner_list?advert_id=11";
+    public static final String HOME_ADV_URL="https://szlxkg.com/tools/mobile_ajax.asmx/get_adbanner_list?advert_id=";
     /**
      * 小汽车广告
      */

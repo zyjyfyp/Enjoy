@@ -25,10 +25,10 @@ public class HttpProxy {
     private static final String TAG = "HttpProxy";
 
     /**
-     * 获取首页广告
+     * 获取首页广告 ；买车页面广告
      */
-    public static void getHomeAdvertList(final HttpCallBack<List<AdvertModel>> callBack) {
-        HttpClient.get(URLConstants.HOME_ADV_URL, null, new HttpResponseHandler<AdvertList>() {
+    public static void getHomeAdvertList(int id, final HttpCallBack<List<AdvertModel>> callBack) {
+        HttpClient.get(URLConstants.HOME_ADV_URL + id, null, new HttpResponseHandler<AdvertList>() {
             @Override
             public void onSuccess(AdvertList response) {
                 List<AdvertModel> data = response.getData();
@@ -62,6 +62,11 @@ public class HttpProxy {
         });
     }
 
+    /**
+     * 首页通知1
+     *
+     * @param callBack
+     */
     public static void getNoticeData1(final HttpCallBack<List<NoticeModel>> callBack) {
         HashMap<String, String> param = new HashMap<>();
         param.put("channel_name", "news");
@@ -69,7 +74,7 @@ public class HttpProxy {
         param.put("page_size", "8");
         param.put("page_index", "1");
         param.put("strwhere", "status=0");
-        param.put("orderby","");
+        param.put("orderby", "");
 
 
         HttpClient.get(URLConstants.NOTICE_URL, param, new HttpResponseHandler<NoticeResponse>() {
@@ -85,6 +90,11 @@ public class HttpProxy {
         });
     }
 
+    /**
+     * 首页通知2
+     *
+     * @param callBack
+     */
     public static void getNoticeData2(final HttpCallBack<List<NoticeModel>> callBack) {
         HashMap<String, String> param = new HashMap<>();
         param.put("channel_name", "news");
@@ -92,7 +102,7 @@ public class HttpProxy {
         param.put("page_size", "8");
         param.put("page_index", "1");
         param.put("strwhere", "status=0");
-        param.put("orderby","");
+        param.put("orderby", "");
 
         HttpClient.get(URLConstants.NOTICE_URL, param, new HttpResponseHandler<NoticeResponse>() {
             @Override
@@ -107,6 +117,11 @@ public class HttpProxy {
         });
     }
 
+    /**
+     * 推荐汽车列表
+     *
+     * @param callBack
+     */
     public static void getBrandData(final HttpCallBack<List<CarModel>> callBack) {
         HashMap<String, String> param = new HashMap<>();
         param.put("top", "4");
@@ -135,13 +150,18 @@ public class HttpProxy {
 
     }
 
+    /**
+     * 首页底部的服务商
+     *
+     * @param callBack
+     */
     public static void getServiceProvider(final HttpCallBack<List<SProviderModel>> callBack) {
         HashMap<String, String> param = new HashMap<>();
         param.put("trade_id", "0");
         param.put("page_size", "5");
         param.put("page_index", "1");
         param.put("strwhere", "status=0 and datatype='Supply'");
-        param.put("orderby","");
+        param.put("orderby", "");
 
 
         HttpClient.get(URLConstants.SERVICE_PROVIDE, param, new HttpResponseHandler<ServiceProvideResponse>() {
@@ -162,4 +182,6 @@ public class HttpProxy {
             }
         });
     }
+
+
 }
