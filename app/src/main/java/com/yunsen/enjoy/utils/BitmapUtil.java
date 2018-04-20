@@ -1,8 +1,14 @@
 package com.yunsen.enjoy.utils;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
+import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.http.URLConstants;
 
 /**
  * Created by tiansj on 15/11/16.
@@ -52,5 +58,10 @@ public class BitmapUtil {
         options.inJustDecodeBounds = false;
         Bitmap src = BitmapFactory.decodeFile(pathName, options);
         return createScaleBitmap(src, reqWidth, reqHeight);
+    }
+
+    public static void loadImgRes(Context context, ImageView img, String url) {
+        Picasso.with(context).load(url).placeholder(R.mipmap.car_1).into(img);
+
     }
 }

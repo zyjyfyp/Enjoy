@@ -13,6 +13,9 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.HouseDetailActivity;
 import com.yunsen.enjoy.activity.ImageGalleryActivity;
 import com.yunsen.enjoy.fragment.model.BannerData;
+import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.model.AdvertList;
+import com.yunsen.enjoy.model.AdvertModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +26,10 @@ import java.util.List;
 
 public class BannerAdapter extends PagerAdapter {
     private static final String TAG = "BannerAdapter";
-    private List<BannerData> mDatas;
+    private List<AdvertModel> mDatas;
     private Context mContext;
 
-    public BannerAdapter(List<BannerData> datas, Context context) {
+    public BannerAdapter(List<AdvertModel> datas, Context context) {
         this.mDatas = datas;
         this.mContext = context;
     }
@@ -44,8 +47,12 @@ public class BannerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
         ImageView item = new ImageView(mContext);
-        BannerData data = mDatas.get(position);
-        Picasso.with(mContext).load(data.getImgUrl()).placeholder(R.mipmap.car_1).into(item);
+        AdvertModel data = mDatas.get(position);
+        if (data.getAd_url() == null) {
+            item.setImageResource(data.getRseImg());
+        } else {
+            Picasso.with(mContext).load(URLConstants.REALM_URL+data.getAd_url()).placeholder(R.mipmap.car_1).into(item);
+        }
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(-1, -1);
         item.setLayoutParams(params);
         item.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -64,5 +71,13 @@ public class BannerAdapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup collection, int position, Object view) {
         collection.removeView((View) view);
+    }
+
+    public void upData(List<AdvertModel> datas) {
+        if (datas != null) {
+            mDatas.clear();
+            mDatas.addAll(datas);
+            notifyDataSetChanged();
+        }
     }
 }

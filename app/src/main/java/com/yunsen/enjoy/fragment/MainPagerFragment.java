@@ -2,36 +2,36 @@ package com.yunsen.enjoy.fragment;
 
 
 import android.content.Context;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
 import com.yunsen.enjoy.fragment.home.StoreRecyclerAdapter;
 import com.yunsen.enjoy.fragment.model.BannerData;
 import com.yunsen.enjoy.fragment.model.CarStoreMode;
-import com.yunsen.enjoy.http.HttpClient;
-import com.yunsen.enjoy.http.HttpResponseHandler;
-import com.yunsen.enjoy.http.RequestProxy;
+import com.yunsen.enjoy.http.HttpCallBack;
+import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.model.AdvertList;
+import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
+import com.yunsen.enjoy.utils.BitmapUtil;
 import com.yunsen.enjoy.widget.ADTextView;
 import com.yunsen.enjoy.widget.HorizontalLayout;
 import com.yunsen.enjoy.widget.HorizontalLayout2;
 import com.yunsen.enjoy.widget.SearchActionBar;
 import com.yunsen.enjoy.widget.recyclerview.wrapper.HeaderAndFooterWrapper;
-import com.yunsen.enjoy.widget.recyclerview.wrapper.LoadmoreWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import okhttp3.Request;
 
 
 /**
@@ -47,6 +47,8 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     ImageView carImg3;
     ImageView carImg4;
     ImageView carImg5;
+    private ImageView[] mCarImgArray
+            = new ImageView[]{carImgBig, carImg1, carImg2, carImg3, carImg4, carImg5};
     LinearLayout shopLayout;
     private AutoLoopViewPager banner;
     private CirclePageIndicator indicatorLayout;
@@ -84,6 +86,13 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         oneHLayout = (HorizontalLayout) topView.findViewById(R.id.one_horizontal_layout);
         twoHLayout = (HorizontalLayout2) topView.findViewById(R.id.two_horizontal_layout);
 
+        carImgBig = topView.findViewById(R.id.car_img_big);
+        carImg1 = topView.findViewById(R.id.car_img_1);
+        carImg2 = topView.findViewById(R.id.car_img_2);
+        carImg3 = topView.findViewById(R.id.car_img_3);
+        carImg4 = topView.findViewById(R.id.car_img_4);
+        carImg5 = topView.findViewById(R.id.car_img_5);
+
 
     }
 
@@ -100,7 +109,8 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         storeModes.add(new CarStoreMode(null, "上海大众汽车广东省深圳市宝安区4S店"));
         storeModes.add(new CarStoreMode(null, "上海大众汽车广东省深圳市宝安区4S店"));
         storeModes.add(new CarStoreMode(null, "上海大众汽车广东省深圳市宝安区4S店"));
-        mAdapter = new StoreRecyclerAdapter(getActivity(),R.layout.shop_item, storeModes);
+
+        mAdapter = new StoreRecyclerAdapter(getActivity(), R.layout.shop_item, storeModes);
         mHeaderWrapper = new HeaderAndFooterWrapper(mAdapter);
         mHeaderWrapper.addHeaderView(topView);
         recyclerView.setAdapter(mHeaderWrapper);
@@ -147,7 +157,33 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
     @Override
     protected void requestData() {
-        RequestProxy.getHomeAdvertList();
+        HttpProxy.getHomeAdvertList(new HttpCallBack<List<AdvertModel>>() {
+            @Override
+            public void onSuccess(List<AdvertModel> responseData) {
+                bannerAdapter = new BannerAdapter(responseData, getActivity());// TODO: 2018/4/20 need
+                banner.setAdapter(bannerAdapter);
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
+
+        HttpProxy.getCarList(new HttpCallBack<List<AdvertModel>>() {
+            @Override
+            public void onSuccess(List<AdvertModel> responseData) {
+                for (int i = 0; i < responseData.size() && i < mCarImgArray.length; i++) {
+                    AdvertModel model = responseData.get(i);
+                    BitmapUtil.loadImgRes(getActivity(), mCarImgArray[i], model.getAd_url());
+                }
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
     }
 
     @Override
@@ -155,12 +191,12 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         searchBar.setSearchClick(this);
     }
 
-    public List<BannerData> getData() {
-        ArrayList<BannerData> data = new ArrayList<>();
-        data.add(new BannerData("http://img.zcool.cn/community/018d4e554967920000019ae9df1533.jpg@900w_1l_2o_100sh.jpg"));
-        data.add(new BannerData("http://pic71.nipic.com/file/20150610/13549908_104823135000_2.jpg"));
-        data.add(new BannerData("http://img07.tooopen.com/images/20170316/tooopen_sy_201956178977.jpg"));
-        data.add(new BannerData("http://img.zcool.cn/community/010a1b554c01d1000001bf72a68b37.jpg@1280w_1l_2o_100sh.png"));
+    public List<AdvertModel> getData() {
+        ArrayList<AdvertModel> data = new ArrayList<>();
+        data.add(new AdvertModel(R.mipmap.adv_home, null));
+        data.add(new AdvertModel(R.mipmap.adv_home, "http://pic71.nipic.com/file/20150610/13549908_104823135000_2.jpg"));
+        data.add(new AdvertModel(R.mipmap.adv_home, "http://img07.tooopen.com/images/20170316/tooopen_sy_201956178977.jpg"));
+        data.add(new AdvertModel(R.mipmap.adv_home, "http://img.zcool.cn/community/010a1b554c01d1000001bf72a68b37.jpg@1280w_1l_2o_100sh.png"));
         return data;
     }
 
@@ -180,17 +216,17 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     @Override
     public void onResume() {
         super.onResume();
-//        banner.startAutoScroll();
-//        adtTv1.onStartAuto(1);
-//        adtTv2.onStopAuto(2);
+        banner.startAutoScroll();
+        adtTv1.onStartAuto(1);
+        adtTv2.onStopAuto(2);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-//        banner.stopAutoScroll();
-//        adtTv1.onStopAuto(1);
-//        adtTv2.onStopAuto(2);
+        banner.stopAutoScroll();
+        adtTv1.onStopAuto(1);
+        adtTv2.onStopAuto(2);
     }
 
 
