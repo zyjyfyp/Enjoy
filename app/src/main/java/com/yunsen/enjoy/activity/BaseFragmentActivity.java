@@ -8,6 +8,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.squareup.picasso.Picasso;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.AppManager;
 
@@ -36,17 +37,15 @@ public abstract class BaseFragmentActivity extends FragmentActivity {
     }
 
 
-    public abstract int getLayout() ;
+    public abstract int getLayout();
+
     protected abstract void initView();
+
     protected abstract void initData(Bundle savedInstanceState);
+
     protected abstract void initListener();
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // 结束Activity从堆栈中移除
-        AppManager.getAppManager().finishActivity(this);
-    }
+
 
     @TargetApi(19)
     protected void setTranslucentStatus() {
@@ -59,6 +58,26 @@ public abstract class BaseFragmentActivity extends FragmentActivity {
 //        window.setFlags(
 //                WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
 //                WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Picasso.with(this).resumeTag(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Picasso.with(this).pauseTag(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Picasso.with(this).cancelTag(this);
+        // 结束Activity从堆栈中移除
+        AppManager.getAppManager().finishActivity(this);
     }
 
 }

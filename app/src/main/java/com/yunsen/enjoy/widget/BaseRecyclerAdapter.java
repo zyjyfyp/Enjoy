@@ -16,9 +16,6 @@ import java.util.List;
  */
 public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRecyclerHolder> {
 
-    private static final int BASE_ITEM_TYPE_HEADER = 100000;
-    private static final int BASE_ITEM_TYPE_FOOTER = 200000;
-
     private Context context;//上下文
     private List<T> list;//数据源
     private LayoutInflater inflater;//布局器

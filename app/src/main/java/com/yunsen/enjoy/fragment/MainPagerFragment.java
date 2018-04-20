@@ -2,29 +2,36 @@ package com.yunsen.enjoy.fragment;
 
 
 import android.content.Context;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
 import com.yunsen.enjoy.fragment.home.StoreRecyclerAdapter;
 import com.yunsen.enjoy.fragment.model.BannerData;
 import com.yunsen.enjoy.fragment.model.CarStoreMode;
+import com.yunsen.enjoy.http.HttpClient;
+import com.yunsen.enjoy.http.HttpResponseHandler;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.widget.ADTextView;
 import com.yunsen.enjoy.widget.HorizontalLayout;
 import com.yunsen.enjoy.widget.HorizontalLayout2;
 import com.yunsen.enjoy.widget.SearchActionBar;
+import com.yunsen.enjoy.widget.recyclerview.wrapper.HeaderAndFooterWrapper;
+import com.yunsen.enjoy.widget.recyclerview.wrapper.LoadmoreWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
+
 
 /**
  * 首页
@@ -50,6 +57,8 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     private HorizontalLayout2 twoHLayout;
     private RecyclerView recyclerView;
     private View topView;
+    private HeaderAndFooterWrapper mHeaderWrapper;
+    private StoreRecyclerAdapter mAdapter;
 
 
     @Override
@@ -63,7 +72,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         recyclerView = rootView.findViewById(R.id.recyclerView);
 
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-       topView = inflater.inflate(R.layout.fragment_top_layout, null);
+        topView = inflater.inflate(R.layout.fragment_top_layout, null);
 
         banner = (AutoLoopViewPager) topView.findViewById(R.id.pager);
         indicatorLayout = ((CirclePageIndicator) topView.findViewById(R.id.indicator));
@@ -90,9 +99,10 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         storeModes.add(new CarStoreMode(null, "上海大众汽车广东省深圳市宝安区4S店"));
         storeModes.add(new CarStoreMode(null, "上海大众汽车广东省深圳市宝安区4S店"));
         storeModes.add(new CarStoreMode(null, "上海大众汽车广东省深圳市宝安区4S店"));
-
-        recyclerView.setAdapter(new StoreRecyclerAdapter(getActivity(), storeModes, R.layout.shop_item));
-        layoutmanager.addView(topView);
+        mAdapter = new StoreRecyclerAdapter(getActivity(),R.layout.shop_item, storeModes);
+        mHeaderWrapper = new HeaderAndFooterWrapper(mAdapter);
+        mHeaderWrapper.addHeaderView(topView);
+        recyclerView.setAdapter(mHeaderWrapper);
 
         bannerAdapter = new BannerAdapter(getData(), getActivity());
         banner.setAdapter(bannerAdapter);
@@ -135,6 +145,13 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     }
 
     @Override
+    protected void requestData() {
+        HttpClient.get("https://szlxkg.com/tools/mobile_ajax.asmx/get_adbanner_list?advert_id=13",null,new HttpResponseHandler(){
+
+        });
+    }
+
+    @Override
     protected void initListener() {
         searchBar.setSearchClick(this);
     }
@@ -164,7 +181,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     @Override
     public void onResume() {
         super.onResume();
-        banner.startAutoScroll();
+//        banner.startAutoScroll();
 //        adtTv1.onStartAuto(1);
 //        adtTv2.onStopAuto(2);
     }
@@ -172,7 +189,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     @Override
     public void onPause() {
         super.onPause();
-        banner.stopAutoScroll();
+//        banner.stopAutoScroll();
 //        adtTv1.onStopAuto(1);
 //        adtTv2.onStopAuto(2);
     }

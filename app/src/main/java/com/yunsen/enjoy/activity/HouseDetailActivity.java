@@ -140,12 +140,12 @@ public class HouseDetailActivity extends SwipeBackActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        pager.startAutoScroll();
+//        pager.startAutoScroll();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        pager.stopAutoScroll();
+//        pager.stopAutoScroll();
     }
 }
