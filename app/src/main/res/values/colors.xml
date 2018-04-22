@@ -66,5 +66,7 @@
     <color name="color_eab8aa">#eab8aa</color>
     <color name="color_f5f7fa">#f5f7fa</color>
     <color name="color_888">#888888</color>
+    <color name="color_000">#000000</color>
+    <color name="color_888888">#888888</color>
 
 </resources>

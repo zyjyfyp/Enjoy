@@ -2,7 +2,7 @@ package com.yunsen.enjoy.common;
 
 import android.app.Application;
 
-import com.squareup.leakcanary.LeakCanary;
+import com.mob.MobSDK;
 
 
 public class AppContext extends Application {
@@ -24,6 +24,8 @@ public class AppContext extends Application {
     public void onCreate() {
         super.onCreate();
 //        LeakCanary.install(this);
+
+        MobSDK.init(this);
         registerUncaughtExceptionHandler();
     }
 

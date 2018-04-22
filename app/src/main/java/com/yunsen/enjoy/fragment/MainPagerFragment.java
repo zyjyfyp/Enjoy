@@ -12,15 +12,12 @@ import android.widget.LinearLayout;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
 import com.yunsen.enjoy.fragment.home.StoreRecyclerAdapter;
-import com.yunsen.enjoy.fragment.model.BannerData;
 import com.yunsen.enjoy.fragment.model.CarStoreMode;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
-import com.yunsen.enjoy.model.AdvertList;
 import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
-import com.yunsen.enjoy.utils.BitmapUtil;
 import com.yunsen.enjoy.widget.ADTextView;
 import com.yunsen.enjoy.widget.HorizontalLayout;
 import com.yunsen.enjoy.widget.HorizontalLayout2;
@@ -175,8 +172,8 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
             @Override
             public void onSuccess(List<AdvertModel> responseData) {
                 for (int i = 0; i < responseData.size() && i < mCarImgArray.length; i++) {
-                    AdvertModel model = responseData.get(i);
-                    BitmapUtil.loadImgRes(getActivity(), mCarImgArray[i], model.getAd_url());
+//                    AdvertModel model = responseData.get(i);
+//                    BitmapUtil.loadImgRes(getActivity(), mCarImgArray[i], model.getAd_url());
                 }
             }
 
