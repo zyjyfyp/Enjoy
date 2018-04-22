@@ -2,9 +2,9 @@ package com.yunsen.enjoy.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -21,7 +21,7 @@ import com.yunsen.enjoy.utils.SharedPreferences;
 /**
  * Created by tiansj on 15/7/29.
  */
-public class SplashActivity extends FragmentActivity {
+public class SplashActivity extends AppCompatActivity {
 
     private Button btnHome;
     private CirclePageIndicator indicator;
