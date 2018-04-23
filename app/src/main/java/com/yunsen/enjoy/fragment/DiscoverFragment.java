@@ -1,30 +1,26 @@
 package com.yunsen.enjoy.fragment;
 
 import android.graphics.Typeface;
-import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.fragment.discover.GoodsAdapter;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
-import com.yunsen.enjoy.fragment.home.StoreRecyclerAdapter;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.GoodsData;
-import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.widget.ZyViewPager;
+import com.yunsen.enjoy.widget.recyclerview.wrapper.HeaderAndFooterWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -150,8 +146,8 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     private void requestOne() {
         HttpProxy.getDiscoverDatas(new HttpCallBack<List<GoodsData>>() {
             @Override
-            public void onSuccess(List<GoodsData> responseData) {
-                mAdapter1.upData(responseData);
+            public void onSuccess(final List<GoodsData> responseData) {
+//                mAdapter1.upData(responseData);
             }
 
             @Override
@@ -228,6 +224,8 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     public List<RecyclerView> getRecyclerView() {
         ArrayList<RecyclerView> views = new ArrayList<>();
         RecyclerView recyclerView = new RecyclerView(getActivity());
+        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+
         LinearLayoutManager layoutmanager = new LinearLayoutManager(getActivity());
         //设置RecyclerView 布局
         layoutmanager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -241,9 +239,12 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         storeModes.add(new GoodsData(null, "上海大众汽车广东省深圳市宝安区4S店"));
         storeModes.add(new GoodsData(null, "上海大众汽车广东省深圳市宝安区4S店"));
         mAdapter1 = new GoodsAdapter(getActivity(), R.layout.goods_item, storeModes);
-        recyclerView.setAdapter(mAdapter1);
+        HeaderAndFooterWrapper adapter = new HeaderAndFooterWrapper(mAdapter1);
+        TextView view = new TextView(getActivity());
+        view.setText("aa");
+        adapter.addFootView(view);
+        recyclerView.setAdapter(adapter);
         views.add(recyclerView);
-
         RecyclerView recyclerView2 = new RecyclerView(getActivity());
 
         LinearLayoutManager layoutmanager2 = new LinearLayoutManager(getActivity());
@@ -272,9 +273,9 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         mAdapter4 = new GoodsAdapter(getActivity(), R.layout.goods_item, new ArrayList<GoodsData>());
         recyclerView4.setAdapter(mAdapter4);
         views.add(recyclerView4);
-//       View view = getActivity().getLayoutInflater().inflate(R.layout.activity_login,null);
-//        ArrayList<View> views = new ArrayList<>();
-//        views.add(view);
+        //       View view = getActivity().getLayoutInflater().inflate(R.layout.activity_login,null);
+        //        ArrayList<View> views = new ArrayList<>();
+        //        views.add(view);
         return views;
     }
 

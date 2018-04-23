@@ -76,7 +76,7 @@ public class AutoLoopViewPager extends LoopViewPager {
         } else if (ev.getAction() == MotionEvent.ACTION_UP) {
             startAutoScroll();
         }
-        getParent().requestDisallowInterceptTouchEvent(true);
+//        getParent().requestDisallowInterceptTouchEvent(true);
 
         return super.dispatchTouchEvent(ev);
     }
@@ -134,4 +134,8 @@ public class AutoLoopViewPager extends LoopViewPager {
     public void setInterval(long interval) {
         this.interval = interval;
     }
+
+
+
+
 }
