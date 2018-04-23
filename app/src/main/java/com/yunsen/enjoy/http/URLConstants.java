@@ -8,15 +8,15 @@ public class URLConstants {
     /**
      * 域名
      */
-    public static final String REALM_URL="https://szlxkg.com";
+    public static final String REALM_URL = "https://szlxkg.com";
     /**
      * 头部广告
      */
-    public static final String HOME_ADV_URL="https://szlxkg.com/tools/mobile_ajax.asmx/get_adbanner_list?advert_id=";
+    public static final String HOME_ADV_URL = "https://szlxkg.com/tools/mobile_ajax.asmx/get_adbanner_list?advert_id=";
     /**
      * 小汽车广告
      */
-    public static final String CAR_ADV_URL="https://szlxkg.com/tools/mobile_ajax.asmx/get_adbanner_list?advert_id=11";
+    public static final String CAR_ADV_URL = "https://szlxkg.com/tools/mobile_ajax.asmx/get_adbanner_list?advert_id=11";
     /**
      * 公告
      */
@@ -28,15 +28,19 @@ public class URLConstants {
     /**
      * 服务商
      */
-    public static final String SERVICE_PROVIDE="https://szlxkg.com/tools/mobile_ajax.asmx/get_user_commpany";
+    public static final String SERVICE_PROVIDE = "https://szlxkg.com/tools/mobile_ajax.asmx/get_user_commpany";
 
+    /* ---买车--**/
+    /**
+     * 买车
+     */
+    public static final String BUY_CAR_URL = "https://szlxkg.com/tools/mobile_ajax.asmx/get_article_page_size_list";
 
-
-    /**----发现------**/
+    /*----发现------**/
     /**
      * 头条
      */
-    public static final String DISCOVER_FIRST_URL ="https://szlxkg.com/tools/mobile_ajax.asmx/get_article_page_size_list";
+    public static final String DISCOVER_FIRST_URL = "https://szlxkg.com/tools/mobile_ajax.asmx/get_article_page_size_list";
 
 
 }

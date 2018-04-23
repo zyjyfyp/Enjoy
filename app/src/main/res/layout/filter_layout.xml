@@ -19,14 +19,15 @@
             android:id="@+id/filter_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="2dp"
             android:text="宝马"
             android:textColor="@color/color_666"
             android:textSize="12sp" />
 
         <ImageView
-
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_gravity="center"

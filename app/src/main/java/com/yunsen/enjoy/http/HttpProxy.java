@@ -183,6 +183,70 @@ public class HttpProxy {
         });
     }
 
+    /**
+     * 买车页面
+     * <p>
+     * channel_name: goods（新车）,promotion（二手车）
+     * 价格：
+     * 5万以下： and sell_price<5
+     * 5-10万： and sell_price between 5 and 10
+     * 10-15万： and sell_price between 10 and 15
+     * 15万以上： and sell_price>15
+     * <p>
+     * 不限： and sell_price>=0
+     * 3万以下： and sell_price<=3
+     * 3-5万： and sell_price between 3 and 5
+     * 5-7万： and sell_price between 5 and 7
+     * 7-9万： and sell_price between 7 and 9
+     * 9-12万： and sell_price between 9 and 12
+     * 12-16万： and sell_price between 12 and 16
+     * 16-20万： and sell_price between 16 and 20
+     * 20万以上： and sell_price>20
+     * <p>
+     * 搜索框条件： and title like '%条件%'
+     * <p>
+     * 车型： and brand_id like '%条件%'
+     * <p>
+     * 城市： and city like '%"条件"%' or city like '%所有城市%'
+     * <p>
+     * strwhere: strwhere,
+     * <p>
+     * ------------排序条件----------------
+     * <p>
+     * 智能排序：click desc
+     * 最新上架：add_time desc
+     * 价格最低：sell_price asc
+     * 价格最高：sell_price desc
+     */
+
+    public static void getFilterBuyCarDatas(final HttpCallBack<List<GoodsData>> callBack, String channel, String strwhere, String orderby) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("channel_name", channel);
+        param.put("category_id", "0");
+        param.put("page_size", "8");
+        param.put("page_index", "1");
+        param.put("strwhere", strwhere);
+        param.put("orderby", orderby);
+
+        HttpClient.get(URLConstants.BUY_CAR_URL, param, new HttpResponseHandler<GoogsListResponse>() {
+            @Override
+            public void onSuccess(GoogsListResponse response) {
+                if (response.getData() != null) {
+                    List<GoodsData> list = response.getData();
+                    callBack.onSuccess(list);
+                } else {
+                    callBack.onError(null, new Exception("date is empty!"));
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
 
     /**
      * 发现页面

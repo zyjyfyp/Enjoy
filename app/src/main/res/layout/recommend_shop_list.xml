@@ -12,9 +12,9 @@
         android:orientation="vertical" />
 
     <com.yunsen.enjoy.widget.ZyScrollView
-        android:fillViewport="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,8 +25,7 @@
                 android:id="@+id/layout_ent_gallery"
                 android:layout_width="fill_parent"
                 android:layout_height="170dp"
-                android:background="@color/white"
-                >
+                android:background="@color/white">
 
                 <com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager
                     android:id="@+id/buy_pager"
@@ -46,18 +45,22 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <android.support.design.widget.TabLayout
                     android:id="@+id/buy_main_tab"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    app:tabIndicatorColor="@color/footer_text_color_selected"
-                    app:tabMode="scrollable"
-                    app:tabSelectedTextColor="@color/footer_text_color_selected"
-                    app:tabTextColor="#3a434b">
+                    android:layout_height="44dp"
+                    app:tabIndicatorColor="@color/color_dc4016"
+                    app:tabIndicatorHeight="1dp"
+                    app:tabGravity="fill"
+                    app:tabMode="fixed"
+                    app:tabTextAppearance="@style/TabLayoutStyle"
+                    app:tabSelectedTextColor="@color/color_dc4016"
+                    app:tabTextColor="@color/color_3a434c">
 
                 </android.support.design.widget.TabLayout>
+
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/buyMainPager"

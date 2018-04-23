@@ -1,5 +1,6 @@
 package com.yunsen.enjoy.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.http.URLConstants;
 
@@ -8,32 +9,31 @@ import java.util.List;
 /**
  * Created by Administrator on 2018/4/23.
  */
-
 public class GoodsData {
     /**
-     * id : 15933
-     * company_id : 96
-     * company_name : 自营
-     * channel_id : 6
-     * channel_name : news
-     * category_id : 7
-     * category_title : 商品评测
+     * id : 10284
+     * company_id : 11873
+     * company_name : 深圳齐善食品有限公司
+     * channel_id : 7
+     * channel_name : goods
+     * category_id : 595
+     * category_title :
      * brand_id : 0
      * brand_title :
-     * code : 2477804182138570659
-     * title : 行驶证丢了不要慌，看完攻略补办更简单
-     * subtitle : 原来真的很简单
-     * call_index : xingshizhengdiuliaobuyaohuang
+     * code : 5957711081653130194
+     * title : 齐善食品_散装豆干 素肉豆腐干 酱香味 26g
+     * subtitle : 小吃零食 齐善素食 美味爽口
+     * call_index : goods201612291547242720
      * link_url :
-     * img_url : /upload/201804/18/201804182140388459.png
+     * img_url : /upload/201701/04/201701041416224379.jpg
      * seo_title :
      * seo_keywords :
      * seo_description :
      * summary :
-     * content :
-     * mcontent :
-     * sort_id :
-     * click : 0
+     * content : <img alt="" src="/upload/201611/08/201611081654060702.jpg" /><img alt="" src="/upload/201611/08/201611081654068983.jpg" /><img alt="" src="/upload/201611/08/201611081654096796.jpg" /><img alt="" src="/upload/201611/08/201611081654117421.jpg" />
+     * mcontent : <img alt="" src="/upload/201611/08/201611081654060702.jpg" /><img alt="" src="/upload/201611/08/201611081654068983.jpg" /><img alt="" src="/upload/201611/08/201611081654096796.jpg" /><img alt="" src="/upload/201611/08/201611081654117421.jpg" />
+     * sort_id : <img alt="" src="/upload/201611/08/201611081654060702.jpg" /><img alt="" src="/upload/201611/08/201611081654068983.jpg" /><img alt="" src="/upload/201611/08/201611081654096796.jpg" /><img alt="" src="/upload/201611/08/201611081654117421.jpg" />
+     * click : 120
      * status : 0
      * is_msg : 0
      * is_top : 0
@@ -41,18 +41,18 @@ public class GoodsData {
      * is_hot : 0
      * is_slide : 0
      * is_sys : 1
-     * user_id : 0
-     * user_name :
-     * province : 所有省份
-     * city : 所有城市
-     * area : 所有区县
+     * user_id : 118
+     * user_name : 姚小娟
+     * province : 广东省
+     * city : 深圳市
+     * area : 南山区
      * street : 所有乡村
-     * address : null
+     * address : 所有省份,所有城市,所有区县
      * start_time : null
      * end_time : null
-     * add_time : 2018-04-18 21:40:55
-     * update_time : 2018-04-18 21:40:55
-     * comment : 0
+     * add_time : 2016-11-08 16:55:12
+     * update_time : 2017-08-17 17:34:55
+     * comment : 1
      * sell_price : 0
      * market_price : 0
      * first_payment : 0
@@ -60,7 +60,7 @@ public class GoodsData {
      * term : 0
      * cashing_packet : 0
      * cashing_point : 0
-     * albums : []
+     * albums : [{"id":43910,"article_id":10284,"thumb_path":"/upload/201612/15/thumb_201612151928555185.jpg","original_path":"/upload/201612/15/201612151928555185.jpg","remark":"","add_time":"2018-04-23 15:22:39","update_time":"2017-08-17 17:34:55"},{"id":43992,"article_id":10284,"thumb_path":"/upload/201612/30/thumb_201612301746299271.jpg","original_path":"/upload/201612/30/201612301746299271.jpg","remark":"","add_time":"2018-04-23 15:22:39","update_time":"2017-08-17 17:34:55"}]
      * activity : null
      */
 
@@ -73,7 +73,8 @@ public class GoodsData {
     private String category_title;
     private int brand_id;
     private String brand_title;
-    private String code;
+    @JSONField(name = "code")
+    private String codeX;
     private String title;
     private String subtitle;
     private String call_index;
@@ -87,7 +88,8 @@ public class GoodsData {
     private String mcontent;
     private String sort_id;
     private int click;
-    private int status;
+    @JSONField(name = "status")
+    private int statusX;
     private int is_msg;
     private int is_top;
     private int is_red;
@@ -100,7 +102,7 @@ public class GoodsData {
     private String city;
     private String area;
     private String street;
-    private Object address;
+    private String address;
     private Object start_time;
     private Object end_time;
     private String add_time;
@@ -114,7 +116,7 @@ public class GoodsData {
     private int cashing_packet;
     private int cashing_point;
     private Object activity;
-    private List<?> albums;
+    private List<AlbumsBean> albums;
 
     public GoodsData() {
     }
@@ -196,12 +198,12 @@ public class GoodsData {
         this.brand_title = brand_title;
     }
 
-    public String getCode() {
-        return code;
+    public String getCodeX() {
+        return codeX;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setCodeX(String codeX) {
+        this.codeX = codeX;
     }
 
     public String getTitle() {
@@ -308,12 +310,12 @@ public class GoodsData {
         this.click = click;
     }
 
-    public int getStatus() {
-        return status;
+    public int getStatusX() {
+        return statusX;
     }
 
     public void setStatusX(int statusX) {
-        this.status = statusX;
+        this.statusX = statusX;
     }
 
     public int getIs_msg() {
@@ -412,11 +414,11 @@ public class GoodsData {
         this.street = street;
     }
 
-    public Object getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(Object address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
@@ -524,11 +526,12 @@ public class GoodsData {
         this.activity = activity;
     }
 
-    public List<?> getAlbums() {
+    public List<AlbumsBean> getAlbums() {
         return albums;
     }
 
-    public void setAlbums(List<?> albums) {
+    public void setAlbums(List<AlbumsBean> albums) {
         this.albums = albums;
     }
+
 }

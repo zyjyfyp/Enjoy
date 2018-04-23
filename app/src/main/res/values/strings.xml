@@ -42,6 +42,8 @@
     <string name="search_word">搜索你想要的车</string>
     <string name="more">更多</string>
     <string name="service_project">服务项目</string>
+    <string name="cancel">取消</string>
+	<string name="ok">确定</string>
 
 
 </resources>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_marginRight="@dimen/app_margin"
+        android:layout_marginLeft="@dimen/app_margin"
+        android:id="@+id/goods_left_img"
+        android:layout_width="122dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center_vertical"
+        />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/goods_title_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="2"
+            android:text="标题"
+            android:textColor="@color/color_3c434c"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/goods_sub_title_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="小标题"
+            android:textColor="@color/color_888"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/goods_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="钱"
+                android:textColor="@color/color_fe0000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/goods_first_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text="钱"
+                android:textColor="@color/color_fe0000"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/address_icon" />
+
+            <TextView
+                android:id="@+id/goods_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/app_margin"
+                android:text="深圳"
+                android:textColor="@color/color_888"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -11,7 +11,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.yunsen.enjoy.R;
-import com.yunsen.enjoy.fragment.BufferKnifeFragment;
+import com.yunsen.enjoy.fragment.BuyFragment;
 import com.yunsen.enjoy.fragment.DiscoverFragment;
 import com.yunsen.enjoy.fragment.MainPagerFragment;
 import com.yunsen.enjoy.fragment.MemberFragment;
@@ -139,7 +139,7 @@ public class MainActivity extends BaseFragmentActivity {
             case 0:
                 return new MainPagerFragment();
             case 1:
-                return new BufferKnifeFragment();
+                return new BuyFragment();
             case 2:
                 return new DiscoverFragment();
             case 3:

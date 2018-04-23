@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
+    android:layout_height="32dp"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -15,10 +15,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="5dp"
-            android:drawableRight="@mipmap/down_more"
             android:gravity="center"
             android:text="智能排序"
-            android:textColor="@color/color_888"
+            android:drawableRight="@drawable/down_more_selected"
+            android:textColor="@drawable/orange_text_select"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -33,10 +33,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="5dp"
-            android:drawableRight="@mipmap/down_more"
             android:gravity="center"
             android:text="智能排序"
-            android:textColor="@color/color_888"
+            android:drawableRight="@drawable/down_more_selected"
+            android:textColor="@drawable/orange_text_select"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -51,10 +51,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="5dp"
-            android:drawableRight="@mipmap/down_more"
+            android:drawableRight="@drawable/down_more_selected"
+            android:textColor="@drawable/orange_text_select"
             android:gravity="center"
             android:text="智能排序"
-            android:textColor="@color/color_888"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -69,10 +69,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="5dp"
-            android:drawableRight="@mipmap/down_more"
             android:gravity="center"
             android:text="智能排序"
-            android:textColor="@color/color_888"
+            android:drawableRight="@drawable/down_more_selected"
+            android:textColor="@drawable/orange_text_select"
             android:textSize="14sp" />
     </LinearLayout>
 

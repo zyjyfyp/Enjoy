@@ -1,9 +1,14 @@
 package com.yunsen.enjoy.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -12,13 +17,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.squareup.picasso.Picasso;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.fragment.buy.FilterFragment;
+import com.yunsen.enjoy.fragment.buy.FilterFragmentAdapter;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.AdvertModel;
-import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.widget.SearchActionBar;
 
@@ -30,10 +36,12 @@ import butterknife.ButterKnife;
 import okhttp3.Request;
 
 
-public class BufferKnifeFragment extends BaseFragment {
+public class BuyFragment extends BaseFragment implements SearchActionBar.SearchClickListener {
 
     @Bind(R.id.search_bar)
     SearchActionBar searchBar;
+    @Bind(R.id.buy_pager)
+    ViewPager buyPager;
     @Bind(R.id.buy_indicator)
     CirclePageIndicator buyIndicator;
     @Bind(R.id.layout_ent_gallery)
@@ -42,9 +50,11 @@ public class BufferKnifeFragment extends BaseFragment {
     TabLayout buyMainTab;
     @Bind(R.id.buyMainPager)
     ViewPager buyMainPager;
+
     private Activity mContext;
     private ArrayList<AdvertModel> mAdvDatas;
     private BannerAdapter bannerAdapter;
+    private FilterFragmentAdapter mFragmentAdapter;
 
 
     @Override
@@ -58,30 +68,49 @@ public class BufferKnifeFragment extends BaseFragment {
         return R.layout.recommend_shop_list;
     }
 
-    private static final String TAG = "BufferKnifeFragment";
+    private static final String TAG = "BuyFragment";
 
     @Override
     protected void initView() {
         ButterKnife.bind(this, rootView);
-        buyMainPager = rootView.findViewById(R.id.buy_pager);
+        searchBar.setLeftText("深圳");
     }
 
     @Override
     protected void initData() {
         bannerAdapter = new BannerAdapter(getData(), getActivity());
-        buyMainPager.setAdapter(bannerAdapter);
-        buyIndicator.setViewPager(buyMainPager);
+        buyPager.setAdapter(bannerAdapter);
+        buyIndicator.setViewPager(buyPager);
         buyIndicator.setPadding(5, 5, 10, 5);
+
+        mFragmentAdapter = new FilterFragmentAdapter(getChildFragmentManager(), getFragments());
+        buyMainPager.setAdapter(mFragmentAdapter);
+        buyMainTab.setupWithViewPager(buyMainPager);
+    }
+
+    private List<Fragment> getFragments() {
+        ArrayList<Fragment> list = new ArrayList<>();
+        FilterFragment newCar = new FilterFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.CHANNEL_KEY, "goods");
+        newCar.setArguments(bundle);
+        list.add(newCar);
+        FilterFragment olderCar = new FilterFragment();
+        Bundle bundle2 = new Bundle();
+        bundle2.putString(Constants.CHANNEL_KEY, "promotion");
+        olderCar.setArguments(bundle2);
+        list.add(olderCar);
+        return list;
     }
 
     @Override
     protected void requestData() {
-        Log.e(TAG, "requestData: qeu" );
+        Log.e(TAG, "requestData: qeu");
         HttpProxy.getHomeAdvertList(1017, new HttpCallBack<List<AdvertModel>>() {
             @Override
             public void onSuccess(List<AdvertModel> responseData) {
                 bannerAdapter = new BannerAdapter(responseData, getActivity());// TODO: 2018/4/20 need
-                buyMainPager.setAdapter(bannerAdapter);
+                buyPager.setAdapter(bannerAdapter);
             }
 
             @Override
@@ -93,7 +122,7 @@ public class BufferKnifeFragment extends BaseFragment {
 
     @Override
     protected void initListener() {
-
+        searchBar.setSearchClick(this);
     }
 
     public List<AdvertModel> getData() {
@@ -123,5 +152,19 @@ public class BufferKnifeFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onSearchClick(SearchActionBar.ViewType type) {
+        switch (type) {
+            case LEFT_IMG:
+                break;
+            case CENTER_LAYOUT:
+                break;
+            case RIGHT_IMG:
+                Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:400****120"));//跳转到拨号界面，同时传递电话号码
+                startActivity(dialIntent);
+                break;
+        }
     }
 }
