@@ -95,4 +95,9 @@
 		<item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
 		<item name="android:windowExitAnimation">@anim/push_bottom_out</item>
 	</style>
+
+	<style name="TabLayoutStyle">
+		<item name="android:textSize">18sp</item>
+		<item name="android:textStyle">bold</item>
+	</style>
 </resources>

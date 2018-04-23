@@ -16,7 +16,7 @@ public class URLConstants {
     /**
      * 小汽车广告
      */
-    public static final String CAR_ADV_URL="https://szlxkg.com/tools/mobile_ajax.asmx/get_adbanner_list?advert_id=13";
+    public static final String CAR_ADV_URL="https://szlxkg.com/tools/mobile_ajax.asmx/get_adbanner_list?advert_id=11";
     /**
      * 公告
      */
@@ -29,4 +29,14 @@ public class URLConstants {
      * 服务商
      */
     public static final String SERVICE_PROVIDE="https://szlxkg.com/tools/mobile_ajax.asmx/get_user_commpany";
+
+
+
+    /**----发现------**/
+    /**
+     * 头条
+     */
+    public static final String DISCOVER_FIRST_URL ="https://szlxkg.com/tools/mobile_ajax.asmx/get_article_page_size_list";
+
+
 }

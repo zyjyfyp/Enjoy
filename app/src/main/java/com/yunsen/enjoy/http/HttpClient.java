@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.orhanobut.logger.Logger;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.AppContext;
 import com.yunsen.enjoy.model.SearchParam;
@@ -91,6 +92,7 @@ public class HttpClient {
         if (param != null && param.size() > 0) {
             url = url + "?" + mapToQueryString(param);
         }
+        Logger.d(TAG, "get: "+url );
         Request request = new Request.Builder().url(url).build();
         client.newCall(request).enqueue(new Callback() {
             @Override

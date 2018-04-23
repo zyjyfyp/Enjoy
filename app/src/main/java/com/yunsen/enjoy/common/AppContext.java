@@ -1,8 +1,13 @@
 package com.yunsen.enjoy.common;
 
 import android.app.Application;
+import android.support.annotation.Nullable;
 
 import com.mob.MobSDK;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.BuildConfig;
+import com.orhanobut.logger.DiskLogAdapter;
+import com.orhanobut.logger.Logger;
 
 
 public class AppContext extends Application {
@@ -26,6 +31,21 @@ public class AppContext extends Application {
 //        LeakCanary.install(this);
 
         MobSDK.init(this);
+        /**
+         * logger 日志
+         */
+        Logger.addLogAdapter(new AndroidLogAdapter(){
+            @Override
+            public boolean isLoggable(int priority, @Nullable String tag) {
+                return true;
+            }
+        });
+        Logger.addLogAdapter(new DiskLogAdapter(){
+            @Override
+            public boolean isLoggable(int priority, @Nullable String tag) {
+                return true;
+            }
+        });
         registerUncaughtExceptionHandler();
     }
 

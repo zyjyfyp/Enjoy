@@ -2,8 +2,11 @@ package com.yunsen.enjoy.fragment;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.yunsen.enjoy.common.Constants;
 
 import java.util.List;
 
@@ -13,9 +16,9 @@ import java.util.List;
 
 public class ListPagerAdapter extends PagerAdapter {
     private final Context mContext;
-    private List<View> mViews;
+    private List<RecyclerView> mViews;
 
-    public ListPagerAdapter(List<View> views, Context context) {
+    public ListPagerAdapter(List<RecyclerView> views, Context context) {
         this.mViews = views;
         this.mContext = context;
     }
@@ -43,6 +46,17 @@ public class ListPagerAdapter extends PagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return "标题"+position;
+        String title = "";
+        if (position >= 0 && position <= Constants.DISCOVER_TITLE.length) {
+            title = Constants.DISCOVER_TITLE[position];
+        }
+        return title;
+    }
+
+    public RecyclerView getRecyclerView(int index) {
+        if (index >= 0 && index < mViews.size()) {
+            return mViews.get(index);
+        }
+        return null;
     }
 }

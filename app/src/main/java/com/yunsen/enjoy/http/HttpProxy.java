@@ -1,12 +1,12 @@
 package com.yunsen.enjoy.http;
 
 
-import android.util.Log;
-
 import com.yunsen.enjoy.model.AdvertList;
 import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.BrandResponse;
 import com.yunsen.enjoy.model.CarModel;
+import com.yunsen.enjoy.model.GoodsData;
+import com.yunsen.enjoy.model.GoogsListResponse;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.NoticeResponse;
 import com.yunsen.enjoy.model.SProviderModel;
@@ -169,6 +169,42 @@ public class HttpProxy {
             public void onSuccess(ServiceProvideResponse response) {
                 if (response.getData() != null) {
                     List<SProviderModel> list = response.getData();
+                    callBack.onSuccess(list);
+                } else {
+                    callBack.onError(null, new Exception("date is empty!"));
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+
+    /**
+     * 发现页面
+     *
+     * @param callBack
+     */
+    public static void getDiscoverDatas(final HttpCallBack<List<GoodsData>> callBack, String id) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("channel_name", "news");
+        param.put("category_id", id);
+        param.put("page_size", "8");
+        param.put("page_index", "1");
+        param.put("strwhere", "status=0");
+        param.put("orderby", "");
+//      头条-3 / 导购-2778 / 用车-2750 / 百科-4065,
+
+
+        HttpClient.get(URLConstants.DISCOVER_FIRST_URL, param, new HttpResponseHandler<GoogsListResponse>() {
+            @Override
+            public void onSuccess(GoogsListResponse response) {
+                if (response.getData() != null) {
+                    List<GoodsData> list = response.getData();
                     callBack.onSuccess(list);
                 } else {
                     callBack.onError(null, new Exception("date is empty!"));
