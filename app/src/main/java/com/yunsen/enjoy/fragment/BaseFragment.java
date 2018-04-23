@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.squareup.picasso.Picasso;
-
 /**
  * Created by yunsenA on 2018/4/18.
  */
@@ -42,18 +40,15 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Picasso.with(getActivity()).resumeTag(getActivity());
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Picasso.with(getActivity()).pauseTag(getActivity());
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Picasso.with(getActivity()).cancelTag(getActivity());
     }
 }

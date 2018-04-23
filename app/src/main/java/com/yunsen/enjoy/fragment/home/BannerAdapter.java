@@ -73,4 +73,10 @@ public class BannerAdapter extends PagerAdapter {
             notifyDataSetChanged();
         }
     }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        Log.e(TAG, "getPageTitle: p= "+position );
+        return "标题"+position;
+    }
 }

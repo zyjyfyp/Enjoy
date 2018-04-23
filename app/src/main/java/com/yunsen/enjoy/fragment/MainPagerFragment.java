@@ -121,11 +121,10 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         mHeaderWrapper.addHeaderView(topView);
         recyclerView.setAdapter(mHeaderWrapper);
 
-//        bannerAdapter = new BannerAdapter(getData(), getActivity());
-//        banner.setAdapter(bannerAdapter);
-//        indicatorLayout.setViewPager(banner);
-//        indicatorLayout.setPadding(5, 5, 10, 5);
-
+        bannerAdapter = new BannerAdapter(getData(), getActivity());
+        banner.setAdapter(bannerAdapter);
+        indicatorLayout.setViewPager(banner);
+        indicatorLayout.setPadding(5, 5, 10, 5);
         searchBar.setLeftText("深圳");
         searchBar.setSearchText("请输入车名搜索");
 

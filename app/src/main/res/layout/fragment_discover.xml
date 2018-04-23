@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:tabIndicatorHeight="0dp"
+        app:tabSelectedTextColor="#04b4ae"
+        app:tabTextColor="@color/color_5e6570"/>
+
+    <com.yunsen.enjoy.widget.BaseScrollView
+        android:layout_width="match_parent"
+        android:layout_height="2000dp"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2000dp"
+            android:orientation="vertical">
+
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/layout_ent_gallery"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="170dp"-->
+                <!--android:background="@color/white"-->
+                <!--&gt;-->
+
+                <!--<com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager-->
+                    <!--android:id="@+id/loop_pager"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="170dp"/>-->
+
+                <!--<com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator-->
+                    <!--android:id="@+id/indicator"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentBottom="true"-->
+                    <!--android:layout_centerHorizontal="true"-->
+                    <!--android:layout_marginBottom="5dp"-->
+                    <!--android:padding="5dp"/>-->
+            <!--</RelativeLayout>-->
+
+            <com.yunsen.enjoy.widget.ZyViewPager
+                android:id="@+id/data_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </com.yunsen.enjoy.widget.ZyViewPager>
+
+        </LinearLayout>
+
+    </com.yunsen.enjoy.widget.BaseScrollView>
+
+</LinearLayout>

@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.fragment.BufferKnifeFragment;
+import com.yunsen.enjoy.fragment.DiscoverFragment;
 import com.yunsen.enjoy.fragment.MainPagerFragment;
 import com.yunsen.enjoy.fragment.MemberFragment;
 import com.yunsen.enjoy.ui.UIHelper;
@@ -140,7 +141,7 @@ public class MainActivity extends BaseFragmentActivity {
             case 1:
                 return new BufferKnifeFragment();
             case 2:
-                return new BufferKnifeFragment();
+                return new DiscoverFragment();
             case 3:
                 return new MemberFragment();
             default:

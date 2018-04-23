@@ -8,9 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.squareup.picasso.Picasso;
-import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.AppManager;
 
 
