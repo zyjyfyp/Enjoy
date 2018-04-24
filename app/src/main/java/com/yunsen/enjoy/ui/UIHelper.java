@@ -6,9 +6,13 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
+import com.yunsen.enjoy.activity.AdvertActivity;
+import com.yunsen.enjoy.activity.CarDetailsActivity;
 import com.yunsen.enjoy.activity.HouseDetailActivity;
 import com.yunsen.enjoy.activity.LoginActivity;
 import com.yunsen.enjoy.activity.MainActivity;
+import com.yunsen.enjoy.activity.MoveActivity;
+import com.yunsen.enjoy.activity.SearchActivity;
 import com.yunsen.enjoy.activity.SelectCityActivity;
 
 /**
@@ -66,5 +70,45 @@ public class UIHelper {
     public static void showSelectCityActivity(Activity context) {
         Intent intent = new Intent(context, SelectCityActivity.class);
         context.startActivity(intent);
+    }
+
+    /**
+     * 搜索页面
+     *
+     * @param act
+     */
+    public static void showSearchActivity(Activity act) {
+        Intent intent = new Intent(act, SearchActivity.class);
+        act.startActivity(intent);
+    }
+
+    /**
+     * 广告页面
+     *
+     * @param act
+     */
+    public static void showAdvertActivity(Context act) {
+        Intent intent = new Intent(act, AdvertActivity.class);
+        act.startActivity(intent);
+    }
+
+    /**
+     * 活动
+     *
+     * @param act
+     */
+    public static void showMoveActivity(Context act) {
+        Intent intent = new Intent(act, MoveActivity.class);
+        act.startActivity(intent);
+    }
+
+    /**
+     * 汽车详情
+     *
+     * @param act
+     */
+    public static void shoCarDetailsActivity(Context act) {
+        Intent intent = new Intent(act, CarDetailsActivity.class);
+        act.startActivity(intent);
     }
 }

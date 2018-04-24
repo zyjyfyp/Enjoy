@@ -34,6 +34,7 @@ import com.yunsen.enjoy.widget.ADTextView;
 import com.yunsen.enjoy.widget.HorizontalLayout;
 import com.yunsen.enjoy.widget.HorizontalLayout2;
 import com.yunsen.enjoy.widget.SearchActionBar;
+import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 import com.yunsen.enjoy.widget.recyclerview.wrapper.HeaderAndFooterWrapper;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ import okhttp3.Request;
 /**
  * 首页
  */
-public class MainPagerFragment extends BaseFragment implements SearchActionBar.SearchClickListener, View.OnClickListener {
+public class MainPagerFragment extends BaseFragment implements SearchActionBar.SearchClickListener, View.OnClickListener, HorizontalLayout.onHorizontalItemClick, MultiItemTypeAdapter.OnItemClickListener {
 
     LinearLayout buttonLayout;
     LinearLayout newCarLayout;
@@ -249,6 +250,16 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         searchBar.setSearchClick(this);
         allCars.setOnClickListener(this);
         moreCar.setOnClickListener(this);
+        adtTv1.setOnClickListener(this);
+        adtTv2.setOnClickListener(this);
+        oneHLayout.setmListener(this);
+        mCarImgArray[0].setOnClickListener(this);
+        mCarImgArray[1].setOnClickListener(this);
+        mCarImgArray[2].setOnClickListener(this);
+        mCarImgArray[3].setOnClickListener(this);
+        mCarImgArray[4].setOnClickListener(this);
+        mCarImgArray[5].setOnClickListener(this);
+        mAdapter.setOnItemClickListener(this);
     }
 
     public List<AdvertModel> getData() {
@@ -267,6 +278,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                 UIHelper.showSelectCityActivity(getActivity());
                 break;
             case CENTER_LAYOUT:
+                UIHelper.showSearchActivity(getActivity());
                 break;
             case RIGHT_IMG:
                 Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:400****120"));//跳转到拨号界面，同时传递电话号码
@@ -281,6 +293,30 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
             case R.id.button_layout:
             case R.id.more_tv:
                 toBuyCarFragment();
+                break;
+            case R.id.adt_text1:
+                UIHelper.showSearchActivity(getActivity());
+                break;
+            case R.id.adt_text2:
+                UIHelper.showSearchActivity(getActivity());
+                break;
+            case R.id.car_img_big:
+                UIHelper.shoCarDetailsActivity(getActivity());
+                break;
+            case R.id.car_img_1:
+                UIHelper.shoCarDetailsActivity(getActivity());
+                break;
+            case R.id.car_img_2:
+                UIHelper.shoCarDetailsActivity(getActivity());
+                break;
+            case R.id.car_img_3:
+                UIHelper.shoCarDetailsActivity(getActivity());
+                break;
+            case R.id.car_img_4:
+                UIHelper.shoCarDetailsActivity(getActivity());
+                break;
+            case R.id.car_img_5:
+                UIHelper.shoCarDetailsActivity(getActivity());
                 break;
         }
 
@@ -315,4 +351,18 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     }
 
 
+    @Override
+    public void onItemClick(String data) {
+        toBuyCarFragment();
+    }
+
+    @Override
+    public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+        UIHelper.shoCarDetailsActivity(getActivity());
+    }
+
+    @Override
+    public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+        return false;
+    }
 }

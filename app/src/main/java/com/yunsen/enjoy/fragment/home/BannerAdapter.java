@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.model.AdvertModel;
+import com.yunsen.enjoy.ui.UIHelper;
 
 import java.util.List;
 
@@ -57,7 +58,12 @@ public class BannerAdapter extends PagerAdapter {
                 Log.e(TAG, "onClick: " + position);
             }
         });
-
+        item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIHelper.showAdvertActivity(mContext);
+            }
+        });
         return item;
     }
 
@@ -76,7 +82,7 @@ public class BannerAdapter extends PagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        Log.e(TAG, "getPageTitle: p= "+position );
-        return "标题"+position;
+        Log.e(TAG, "getPageTitle: p= " + position);
+        return "标题" + position;
     }
 }

@@ -13,7 +13,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.fragment.MainPagerFragment;
 import com.yunsen.enjoy.model.CarModel;
+import com.yunsen.enjoy.ui.UIHelper;
 
 import java.util.List;
 
@@ -26,6 +28,7 @@ public class HorizontalLayout2 extends LinearLayout implements View.OnClickListe
     private Context mContext;
     private LayoutInflater mInflater;
     private List<CarModel> mData;
+    private OnItemListener mListener;
 
     public HorizontalLayout2(Context context) {
         super(context);
@@ -66,7 +69,7 @@ public class HorizontalLayout2 extends LinearLayout implements View.OnClickListe
                 View view = this.getChildAt(i);
                 ImageView leftImg = view.findViewById(R.id.left_img);
                 TextView rightTv = (TextView) view.findViewById(R.id.right_tv);
-                Log.e(TAG, "upData: "+data.get(i).getImg_url() );
+                Log.e(TAG, "upData: " + data.get(i).getImg_url());
                 Picasso.with(mContext).load(data.get(i).getImg_url()).placeholder(R.mipmap.car_1).into(leftImg);
                 rightTv.setText(data.get(i).getTitle());
             }
@@ -98,6 +101,15 @@ public class HorizontalLayout2 extends LinearLayout implements View.OnClickListe
         if (v.getTag() != null) {
             CarModel carModel = mData.get(tagId);
             Log.e(TAG, "onClick: " + carModel.getTitle());
+            UIHelper.showMoveActivity(mContext);
         }
+    }
+
+    public void setOnItemListener(OnItemListener listener) {
+        this.mListener = listener;
+    }
+
+    public interface OnItemListener {
+        public void onItem2Click(String data);
     }
 }

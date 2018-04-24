@@ -22,6 +22,7 @@ public class HorizontalLayout extends LinearLayout {
     private Context mContext;
     private LayoutInflater mInflater;
     private List<String> mData;
+    private onHorizontalItemClick mListener;
 
     public HorizontalLayout(Context context) {
         super(context);
@@ -70,18 +71,34 @@ public class HorizontalLayout extends LinearLayout {
 
 
     private LinearLayout createChild(String data) {
+        final  String fData=data;
         LinearLayout layout = new LinearLayout(mContext);
         LayoutParams lp = new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
         lp.weight = 1;
         layout.setLayoutParams(lp);
-        View view = mInflater.inflate(R.layout.double_text_layout, layout,false);
+        View view = mInflater.inflate(R.layout.double_text_layout, layout, false);
         TextView topTv = view.findViewById(R.id.top_tv);
         TextView bottomTv = (TextView) view.findViewById(R.id.bottom_tv);
         topTv.setText(data);
         bottomTv.setText("汽车名");
         layout.addView(view);
+        layout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener !=null) {
+                    mListener.onItemClick(fData);
+                }
+            }
+        });
         return layout;
     }
 
+    public void setmListener(onHorizontalItemClick listener) {
+        this.mListener = listener;
+    }
+
+    public interface onHorizontalItemClick {
+        public void onItemClick(String data);
+    }
 
 }
