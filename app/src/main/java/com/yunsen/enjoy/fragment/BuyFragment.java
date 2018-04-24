@@ -25,6 +25,7 @@ import com.yunsen.enjoy.fragment.home.BannerAdapter;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.AdvertModel;
+import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.widget.SearchActionBar;
 
@@ -158,6 +159,7 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
     public void onSearchClick(SearchActionBar.ViewType type) {
         switch (type) {
             case LEFT_IMG:
+                UIHelper.showSelectCityActivity(getActivity());
                 break;
             case CENTER_LAYOUT:
                 break;

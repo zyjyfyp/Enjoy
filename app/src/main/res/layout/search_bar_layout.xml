@@ -12,7 +12,6 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:lines="1"
-        android:ellipsize="end"
         android:textSize="14sp" />
 
     <ImageView

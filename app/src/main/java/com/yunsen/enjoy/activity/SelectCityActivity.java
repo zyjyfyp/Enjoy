@@ -1,7 +1,6 @@
 package com.yunsen.enjoy.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
@@ -67,7 +66,7 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
         letterListView = (MyLetterListView) findViewById(R.id.cityLetterListView);
         actionBarTitle.setText("选择城市");
         String currentCity = SharedPreferences.getInstance().getString(SpConstants.CITY_KEY, "深圳");
-        currentCityTv.setText(currentCity);
+        currentCityTv.setText("当前的选择的城市：" + currentCity);
     }
 
     @Override
@@ -178,28 +177,29 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
-            if (convertView == null) {
-                convertView = inflater.inflate(R.layout.public_cityhot_item, null);
-                holder = new ViewHolder();
-                holder.alpha = (TextView) convertView.findViewById(R.id.alpha);
-                holder.name = (TextView) convertView.findViewById(R.id.public_cityhot_item_textview);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
 
             switch (getItemViewType(position)) {
                 case TYPE_TITLE:
-                    convertView = inflater.inflate(R.layout.public_cityhot_item, null);
-
-                    holder.alpha.setVisibility(View.VISIBLE);
-                    holder.name.setVisibility(View.GONE);
+                    if (convertView == null) {
+                        convertView = inflater.inflate(R.layout.public_cityhot_title_item, null);
+                        holder = new ViewHolder();
+                        holder.alpha = (TextView) convertView.findViewById(R.id.alpha);
+                        convertView.setTag(holder);
+                    } else {
+                        holder = (ViewHolder) convertView.getTag();
+                    }
                     holder.alpha.setText(list.get(position).getFirstLetter());
                     break;
                 case TYPE_CITY:
-                    holder.name.setVisibility(View.VISIBLE);
+                    if (convertView == null) {
+                        convertView = inflater.inflate(R.layout.public_cityhot_item, null);
+                        holder = new ViewHolder();
+                        holder.name = (TextView) convertView.findViewById(R.id.public_cityhot_item_textview);
+                        convertView.setTag(holder);
+                    } else {
+                        holder = (ViewHolder) convertView.getTag();
+                    }
                     holder.name.setText(list.get(position).getName());
-                    holder.alpha.setVisibility(View.GONE);
                     break;
             }
 

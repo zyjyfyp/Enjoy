@@ -25,6 +25,7 @@ import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.CarModel;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.SProviderModel;
+import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.utils.BitmapUtil;
@@ -263,9 +264,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     public void onSearchClick(SearchActionBar.ViewType type) {
         switch (type) {
             case LEFT_IMG:
-                Log.e(TAG, "onSearchClick: left");
-                Intent intent = new Intent(getActivity(), SelectCityActivity.class);
-                startActivity(intent);
+                UIHelper.showSelectCityActivity(getActivity());
                 break;
             case CENTER_LAYOUT:
                 break;

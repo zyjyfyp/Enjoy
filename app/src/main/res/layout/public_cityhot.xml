@@ -37,7 +37,7 @@
                 android:background="@color/city_search_bg"
                 android:cacheColorHint="@android:color/transparent"
                 android:divider="@null"
-                android:listSelector="@android:color/transparent" />
+                android:listSelector="@color/white" />
         </LinearLayout>
 
         <com.yunsen.enjoy.widget.city.MyLetterListView
