@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import com.squareup.picasso.Picasso;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.MainActivity;
+import com.yunsen.enjoy.activity.SelectCityActivity;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
 import com.yunsen.enjoy.fragment.home.StoreRecyclerAdapter;
 import com.yunsen.enjoy.http.HttpCallBack;
@@ -26,6 +28,7 @@ import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.utils.BitmapUtil;
+import com.yunsen.enjoy.utils.SharedPreferences;
 import com.yunsen.enjoy.widget.ADTextView;
 import com.yunsen.enjoy.widget.HorizontalLayout;
 import com.yunsen.enjoy.widget.HorizontalLayout2;
@@ -152,7 +155,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
     @Override
     protected void requestData() {
-        HttpProxy.getHomeAdvertList(13,new HttpCallBack<List<AdvertModel>>() {
+        HttpProxy.getHomeAdvertList(13, new HttpCallBack<List<AdvertModel>>() {
             @Override
             public void onSuccess(List<AdvertModel> responseData) {
 //                bannerAdapter = new BannerAdapter(responseData, getActivity());// TODO: 2018/4/20 need
@@ -260,6 +263,9 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     public void onSearchClick(SearchActionBar.ViewType type) {
         switch (type) {
             case LEFT_IMG:
+                Log.e(TAG, "onSearchClick: left");
+                Intent intent = new Intent(getActivity(), SelectCityActivity.class);
+                startActivity(intent);
                 break;
             case CENTER_LAYOUT:
                 break;
@@ -289,6 +295,8 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     public void onResume() {
         super.onResume();
         banner.startAutoScroll();
+        String currentCity = SharedPreferences.getInstance().getString(SpConstants.CITY_KEY, "深圳");
+        searchBar.setLeftText(currentCity);
 //        adtTv1.onStartAuto(1);
 //        adtTv2.onStopAuto(2);
     }

@@ -46,7 +46,7 @@ public class AppContext extends Application {
                 return true;
             }
         });
-        registerUncaughtExceptionHandler();
+//        registerUncaughtExceptionHandler();
     }
 
     // 注册App异常崩溃处理器

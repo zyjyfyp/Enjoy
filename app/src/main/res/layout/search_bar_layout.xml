@@ -11,6 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:lines="1"
+        android:ellipsize="end"
         android:textSize="14sp" />
 
     <ImageView
@@ -66,9 +68,9 @@
             android:layout_alignParentRight="true"
             android:layout_alignTop="@id/right_img"
             android:gravity="center"
-            android:visibility="gone"
             android:textColor="@color/color_fff"
-            android:textSize="9sp" />
+            android:textSize="9sp"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/right_img"

@@ -78,5 +78,11 @@
     <color name="color_dc4016">#dc4016</color>
     <color name="color_fe0000">#fe0000</color>
     <color name="color_da4922">#da4922</color>
+    <color name="city_search_bg">#fff2f2f2</color>
 
+    <color name="city_item_letter_color">#ff8c8c8c</color>
+    <color name="city_item_divider_color">#ffdddddc</color>
+    <color name="city_item_text_color">#1b1b1b</color>
+    <color name="city_item_title">#9ba4a4a0</color>
+    <color name="color_e9fce9">#e9fce9</color>
 </resources>

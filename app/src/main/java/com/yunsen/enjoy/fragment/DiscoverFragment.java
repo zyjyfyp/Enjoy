@@ -110,6 +110,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         indicator.setPadding(5, 5, 10, 5);
 
         mListPagerAdapter = new ListPagerAdapter(getRecyclerView(), getActivity());
+        dataPager.setOffscreenPageLimit(4);
         dataPager.setAdapter(mListPagerAdapter);
         tabLayout.setupWithViewPager(dataPager);
     }
@@ -147,7 +148,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         HttpProxy.getDiscoverDatas(new HttpCallBack<List<GoodsData>>() {
             @Override
             public void onSuccess(final List<GoodsData> responseData) {
-//                mAdapter1.upData(responseData);
+                mAdapter1.upData(responseData);
             }
 
             @Override
@@ -239,11 +240,11 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         storeModes.add(new GoodsData(null, "上海大众汽车广东省深圳市宝安区4S店"));
         storeModes.add(new GoodsData(null, "上海大众汽车广东省深圳市宝安区4S店"));
         mAdapter1 = new GoodsAdapter(getActivity(), R.layout.goods_item, storeModes);
-        HeaderAndFooterWrapper adapter = new HeaderAndFooterWrapper(mAdapter1);
-        TextView view = new TextView(getActivity());
-        view.setText("aa");
-        adapter.addFootView(view);
-        recyclerView.setAdapter(adapter);
+//        HeaderAndFooterWrapper adapter = new HeaderAndFooterWrapper(mAdapter1);
+//        TextView view = new TextView(getActivity());
+//        view.setText("aa");
+//        adapter.addFootView(view);
+        recyclerView.setAdapter(mAdapter1);
         views.add(recyclerView);
         RecyclerView recyclerView2 = new RecyclerView(getActivity());
 

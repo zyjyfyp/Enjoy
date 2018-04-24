@@ -82,4 +82,12 @@
 	<dimen name="space_2">2.0dip</dimen>
 	<dimen name="space_1">0.0dip</dimen>
     <dimen name="app_margin">10dp</dimen>
+    <dimen name="city_letter_size">12sp</dimen>
+
+	<dimen name="city_list_margin_left_dimen">20.0dip</dimen>
+	<dimen name="city_list_margin_right_dimen">40.0dip</dimen>
+	<dimen name="city_hot_item_height">36.0dip</dimen>
+	<dimen name="city_list_text_size">14.0sp</dimen>
+	<dimen name="city_list_item_height">44.0dip</dimen>
+
 </resources>

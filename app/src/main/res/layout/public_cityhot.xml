@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/city_home_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/back_action_bar" />
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/current_city_tv"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/color_e9fce9"
+                android:gravity="center_vertical"
+                android:text="当前的选择的城市：北京"
+                android:textColor="@color/color_000"
+                android:textSize="14sp" />
+
+            <ListView
+                android:id="@+id/public_allcity_list"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="0.0dip"
+                android:background="@color/city_search_bg"
+                android:cacheColorHint="@android:color/transparent"
+                android:divider="@null"
+                android:listSelector="@android:color/transparent" />
+        </LinearLayout>
+
+        <com.yunsen.enjoy.widget.city.MyLetterListView
+            android:id="@+id/cityLetterListView"
+            android:layout_width="40dip"
+            android:layout_height="fill_parent"
+            android:layout_gravity="right"
+            android:background="#00000000" />
+    </FrameLayout>
+</LinearLayout>

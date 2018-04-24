@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
-    android:background="@drawable/background_draw"
+    android:background="@mipmap/app_login_bg"
     android:orientation="vertical">
 
-    <include layout="@layout/back_action_bar"/>
+    <include layout="@layout/back_action_bar" />
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="210dp"
+        android:layout_width="137dp"
+        android:layout_height="137dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/car_3"/>
+        android:src="@mipmap/login_icon" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:id="@+id/rl_1"
             android:layout_width="fill_parent"
             android:layout_height="90.0dip"
             android:layout_marginLeft="@dimen/app_margin"
-            android:layout_marginRight="@dimen/app_margin"
-            >
+            android:layout_marginRight="@dimen/app_margin">
 
             <RelativeLayout
                 android:id="@+id/layoutPhone"
@@ -39,7 +38,7 @@
                     android:layout_height="18.0dip"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10.0dip"
-                    android:background="@drawable/login_phone"/>
+                    android:background="@mipmap/login_phone" />
 
                 <EditText
                     android:id="@+id/phone"
@@ -54,7 +53,7 @@
                     android:singleLine="true"
                     android:textColor="#ff111111"
                     android:textColorHint="#ffaaaaaa"
-                    android:textSize="16.0sp"/>
+                    android:textSize="16.0sp" />
 
                 <ImageView
                     android:id="@+id/imgCancel"
@@ -64,7 +63,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="12.0dip"
                     android:background="@drawable/cancel_phone"
-                    android:visibility="invisible"/>
+                    android:visibility="invisible" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -75,7 +74,7 @@
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="0.5dip"
-                    android:background="#ffdddddd"/>
+                    android:background="#ffdddddd" />
 
                 <ImageView
                     android:id="@+id/imgCode"
@@ -83,7 +82,7 @@
                     android:layout_height="18.0dip"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10.0dip"
-                    android:background="@drawable/login_lock"/>
+                    android:background="@mipmap/login_lock" />
 
                 <EditText
                     android:id="@+id/code"
@@ -98,7 +97,7 @@
                     android:singleLine="true"
                     android:textColor="#ff111111"
                     android:textColorHint="#ffaaaaaa"
-                    android:textSize="16.0sp"/>
+                    android:textSize="16.0sp" />
 
                 <Button
                     android:id="@+id/btnGetCode"
@@ -110,7 +109,7 @@
                     android:background="@drawable/login_yzm_oval_shape_gray"
                     android:text="获取验证码"
                     android:textColor="#ff888888"
-                    android:textSize="14.0sp"/>
+                    android:textSize="14.0sp" />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -125,7 +124,7 @@
             android:background="@drawable/btn_bg_gray"
             android:text="登录"
             android:textColor="#ffffffff"
-            android:textSize="18.0sp"/>
+            android:textSize="18.0sp" />
 
         <Button
             android:id="@+id/btnClose"
@@ -135,10 +134,9 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="40.0dip"
             android:background="@drawable/login_close"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </RelativeLayout>
-
 
 
 </LinearLayout>

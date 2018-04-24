@@ -81,6 +81,7 @@ public class SearchActionBar extends LinearLayout implements View.OnClickListene
         leftImg.setOnClickListener(this);
         rightImg.setOnClickListener(this);
         searchLayout.setOnClickListener(this);
+        leftTv.setOnClickListener(this);
     }
 
 
@@ -91,6 +92,7 @@ public class SearchActionBar extends LinearLayout implements View.OnClickListene
         }
         switch (view.getId()) {
             case R.id.left_img:
+            case R.id.left_tv:
                 mListener.onSearchClick(ViewType.LEFT_IMG);
                 break;
             case R.id.search_layout:

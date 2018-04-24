@@ -17,7 +17,6 @@ public abstract class CommonAdapter<T> extends MultiItemTypeAdapter<T>
 {
     protected Context mContext;
     protected int mLayoutId;
-    protected List<T> mDatas;
     protected LayoutInflater mInflater;
 
     public CommonAdapter(final Context context, final int layoutId, List<T> datas)
@@ -26,7 +25,6 @@ public abstract class CommonAdapter<T> extends MultiItemTypeAdapter<T>
         mContext = context;
         mInflater = LayoutInflater.from(context);
         mLayoutId = layoutId;
-        mDatas = datas;
 
         addItemViewDelegate(new ItemViewDelegate<T>()
         {

@@ -1,5 +1,11 @@
 package com.yunsen.enjoy.utils;
 
+import android.app.Activity;
+import android.content.res.AssetManager;
+
+import com.yunsen.enjoy.widget.city.CityList;
+import com.yunsen.enjoy.widget.city.CityModel;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,6 +16,7 @@ import java.net.URLEncoder;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -430,4 +437,67 @@ public class StringUtils {
         return sb.toString();
     }
 
+    public static String getJson(Activity act, String path) {
+        StringBuffer sb = new StringBuffer();
+        AssetManager am = act.getAssets();
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(am.open(path)));
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sb.toString().trim();
+    }
+
+    public static ArrayList<CityModel> getCityModel(CityList list) {
+        ArrayList<CityModel> datas = new ArrayList<>();
+        datas.add(new CityModel("A"));
+        datas.addAll(list.getA());
+        datas.add(new CityModel("B"));
+        datas.addAll(list.getB());
+        datas.add(new CityModel("C"));
+        datas.addAll(list.getC());
+        datas.add(new CityModel("D"));
+        datas.addAll(list.getD());
+        datas.add(new CityModel("E"));
+        datas.addAll(list.getE());
+        datas.add(new CityModel("F"));
+        datas.addAll(list.getF());
+        datas.add(new CityModel("G"));
+        datas.addAll(list.getG());
+        datas.add(new CityModel("H"));
+        datas.addAll(list.getH());
+        datas.add(new CityModel("J"));
+        datas.addAll(list.getJ());
+        datas.add(new CityModel("K"));
+        datas.addAll(list.getK());
+        datas.add(new CityModel("L"));
+        datas.addAll(list.getL());
+        datas.add(new CityModel("M"));
+        datas.addAll(list.getM());
+        datas.add(new CityModel("N"));
+        datas.addAll(list.getN());
+        datas.add(new CityModel("P"));
+        datas.addAll(list.getP());
+        datas.add(new CityModel("Q"));
+        datas.addAll(list.getQ());
+        datas.add(new CityModel("R"));
+        datas.addAll(list.getR());
+        datas.add(new CityModel("S"));
+        datas.addAll(list.getS());
+        datas.add(new CityModel("T"));
+        datas.addAll(list.getT());
+        datas.add(new CityModel("W"));
+        datas.addAll(list.getW());
+        datas.add(new CityModel("X"));
+        datas.addAll(list.getX());
+        datas.add(new CityModel("Y"));
+        datas.addAll(list.getY());
+        datas.add(new CityModel("Z"));
+        datas.addAll(list.getZ());
+        return datas;
+    }
 }
