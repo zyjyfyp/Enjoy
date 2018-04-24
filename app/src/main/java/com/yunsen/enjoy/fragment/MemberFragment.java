@@ -9,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mob.tools.utils.UIHandler;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.ui.UIHelper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -119,6 +121,7 @@ public class MemberFragment extends BaseFragment {
 
     @OnClick(R.id.account_manager_layout)
     public void onAccountManagerLayoutClicked() {
+        UIHelper.showPersonCenterActivity(getActivity());
     }
 
     @OnClick(R.id.collection_layout)

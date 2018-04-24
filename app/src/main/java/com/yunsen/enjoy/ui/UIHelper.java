@@ -14,6 +14,7 @@ import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.activity.MoveActivity;
 import com.yunsen.enjoy.activity.SearchActivity;
 import com.yunsen.enjoy.activity.SelectCityActivity;
+import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 
 /**
  * 应用程序UI工具包：封装UI相关的一些操作
@@ -110,5 +111,15 @@ public class UIHelper {
     public static void shoCarDetailsActivity(Context act) {
         Intent intent = new Intent(act, CarDetailsActivity.class);
         act.startActivity(intent);
+    }
+
+    /**
+     * 账户管理
+     *
+     * @param ctx
+     */
+    public static void showPersonCenterActivity(Context ctx) {
+        Intent intent = new Intent(ctx, PersonCenterActivity.class);
+        ctx.startActivity(intent);
     }
 }

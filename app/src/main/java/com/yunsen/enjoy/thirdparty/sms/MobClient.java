@@ -29,7 +29,6 @@ import javax.net.ssl.X509TrustManager;
 
 /**
  * @author : Tian (Ten)
- * @Description: TODO
  * @date ： 2015-1-20 上午11:31:08
  */
 public class MobClient {

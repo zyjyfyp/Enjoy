@@ -1,116 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<!--
-		Base application theme, dependent on API level. This theme is replaced
-		by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-	-->
-	<style name="AppBaseTheme" parent="android:Theme.Holo.Light.NoActionBar">
-		<!--
-			Theme customizations available in newer API levels can go in
-			res/values-vXX/styles.xml, while customizations related to
-			backward-compatibility can go here.
-		-->
-		<item name="android:windowNoTitle">true</item>
-	</style>
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Holo.Light.NoActionBar">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+        <item name="android:windowNoTitle">true</item>
+    </style>
 
-	<!-- Application theme. -->
-	<style name="AppTheme" parent="AppBaseTheme">
-		<!-- All customizations that are NOT specific to a particular API-level can go here. -->
-		<item name="vpiIconPageIndicatorStyle">@style/Widget.IconPageIndicator</item>
-		<item name="vpiTabPageIndicatorStyle">@style/Widget.TabPageIndicator.Custom</item>
-		<item name="android:windowIsTranslucent">true</item>
-		<!-- translucent system bars
-		<item name="android:windowTranslucentStatus">true</item>
-		<item name="android:windowTranslucentNavigation">true</item>
-		<item name="android:fitsSystemWindows">true</item>
-		 -->
-	</style>
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="vpiIconPageIndicatorStyle">@style/Widget.IconPageIndicator</item>
+        <item name="vpiTabPageIndicatorStyle">@style/Widget.TabPageIndicator.Custom</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- translucent system bars
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:fitsSystemWindows">true</item>
+         -->
+    </style>
 
-	<style name="Widget.TabPageIndicator.Custom" parent="Widget">
-		<item name="android:gravity">center</item>
-		<item name="android:background">@drawable/vpi__tab_indicator</item>
-		<item name="android:paddingLeft">22dip</item>
-		<item name="android:paddingRight">22dip</item>
-		<item name="android:paddingTop">10dp</item>
-		<item name="android:paddingBottom">10dp</item>
-		<item name="android:textAppearance">@style/TextAppearance.TabPageIndicator.Custom</item>
-		<item name="android:textSize">14sp</item>
-		<item name="android:maxLines">1</item>
-	</style>
-	<style name="TextAppearance.TabPageIndicator.Custom" parent="Widget">
-		<item name="android:textColor">@color/vpi__background_holo_dark</item>
-	</style>
+    <style name="Widget.TabPageIndicator.Custom" parent="Widget">
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/vpi__tab_indicator</item>
+        <item name="android:paddingLeft">22dip</item>
+        <item name="android:paddingRight">22dip</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.TabPageIndicator.Custom</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:maxLines">1</item>
+    </style>
 
-	<style name="footer_bar">
-		<item name="android:layout_width">0dp</item>
-		<item name="android:layout_height">fill_parent</item>
-		<item name="android:layout_weight">1</item>
-		<item name="android:gravity">center</item>
-		<item name="android:background">@null</item>
-		<item name="android:button">@null</item>
-	</style>
+    <style name="TextAppearance.TabPageIndicator.Custom" parent="Widget">
+        <item name="android:textColor">@color/vpi__background_holo_dark</item>
+    </style>
 
-	<style name="main_footer_bar_radio" parent="footer_bar">
-		<item name="android:paddingTop">5dp</item>
-		<item name="android:paddingBottom">5dp</item>
-		<item name="android:drawablePadding">3dp</item>
-		<item name="android:textSize">@dimen/text_size_11</item>
-		<item name="android:textColor">@drawable/footer_text_color</item>
-	</style>
+    <style name="footer_bar">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@null</item>
+        <item name="android:button">@null</item>
+    </style>
 
-	<style name="main_head_title">
-		<item name="android:layout_width">wrap_content</item>
-		<item name="android:layout_height">wrap_content</item>
-		<item name="android:textSize">@dimen/text_size_19</item>
-		<item name="android:textColor">@color/text_color_white</item>
-	</style>
+    <style name="main_footer_bar_radio" parent="footer_bar">
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:drawablePadding">3dp</item>
+        <item name="android:textSize">@dimen/text_size_11</item>
+        <item name="android:textColor">@drawable/footer_text_color</item>
+    </style>
 
-	<style name="title_base_button">
-		<item name="android:layout_width">48dp</item>
-		<item name="android:layout_height">match_parent</item>
-		<item name="android:textSize">@dimen/text_size_14</item>
-		<item name="android:textColor">@color/text_color_gray</item>
-	</style>
+    <style name="main_head_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_19</item>
+        <item name="android:textColor">@color/text_color_white</item>
+    </style>
 
-	<style name="title_button" parent="title_base_button">
-		<item name="android:paddingLeft">12dp</item>
-		<item name="android:paddingRight">12dp</item>
-		<item name="android:paddingTop">5dp</item>
-		<item name="android:paddingBottom">5dp</item>
-		<item name="android:layout_marginLeft">15dp</item>
-	</style>
+    <style name="title_base_button">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textColor">@color/text_color_gray</item>
+    </style>
 
-	<style name="CommonListViewStyle">
-		<item name="android:divider">@drawable/list_view_divider</item>
-		<item name="android:listSelector">@drawable/list_item_selector</item>
-		<item name="android:fadingEdge">none</item>
-		<item name="android:scrollbars">none</item>
-		<item name="android:fastScrollEnabled">false</item>
-		<item name="android:scrollingCache">true</item>
-		<item name="android:smoothScrollbar">true</item>
-	</style>
+    <style name="title_button" parent="title_base_button">
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+    </style>
 
-	<style name="PopupAnimation" parent="android:Animation">
-		<item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
-		<item name="android:windowExitAnimation">@anim/push_bottom_out</item>
-	</style>
+    <style name="CommonListViewStyle">
+        <item name="android:divider">@drawable/list_view_divider</item>
+        <item name="android:listSelector">@drawable/list_item_selector</item>
+        <item name="android:fadingEdge">none</item>
+        <item name="android:scrollbars">none</item>
+        <item name="android:fastScrollEnabled">false</item>
+        <item name="android:scrollingCache">true</item>
+        <item name="android:smoothScrollbar">true</item>
+    </style>
 
-	<style name="TabLayoutStyle">
-		<item name="android:textSize">18sp</item>
-		<item name="android:textStyle">bold</item>
-	</style>
+    <style name="PopupAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+    </style>
 
-	<!-- 自定义Dialog主题 -->
-	<style name="BottomDialogStyle" parent="@android:style/Theme.Holo.Light.Dialog">
-		<item name="android:windowNoTitle">true</item>
-		<item name="android:windowBackground">@android:color/white</item>
-		<item name="android:windowAnimationStyle">@style/BottomDialogAnimation</item>
-	</style>
+    <style name="TabLayoutStyle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
-	<!-- 自定义Dialog动画 -->
-	<style name="BottomDialogAnimation">
-		<item name="android:windowEnterAnimation">@anim/input_method_enter</item>
-		<item name="android:windowExitAnimation">@anim/input_method_exit</item>
-	</style>
+    <!-- 自定义Dialog主题 -->
+    <style name="BottomDialogStyle" parent="@android:style/Theme.Holo.Light.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowAnimationStyle">@style/BottomDialogAnimation</item>
+    </style>
+
+    <!-- 自定义Dialog动画 -->
+    <style name="BottomDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/input_method_enter</item>
+        <item name="android:windowExitAnimation">@anim/input_method_exit</item>
+    </style>
+
+    <style name="progressBarHorizontal_color" parent="android:Widget.ProgressBar.Horizontal">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/progress_color_horizontal</item>
+        <item name="android:minHeight">5dip</item>
+        <item name="android:maxHeight">5dip</item>
+    </style>
+
+    <!-- 自定义仿IOS的AlertDialog的样式 -->
+    <style name="AlertDialogStyle" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="AnimBottom" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+    </style>
+
+    <style name="DialogStyleBottom" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowAnimationStyle">@style/AnimBottom</item>
+        <item name="android:windowFrame">@null</item>
+        <!-- 边框 -->
+        <!--<item name="android:windowIsFloating">false</item>-->
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 半透明 -->
+        <!--<item name="android:windowNoTitle">false</item>-->
+        <!-- 无标题 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 背景透明 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!--<item name="android:windowActionBarOverlay">false</item>-->
+        <!--<item name="android:windowActionModeOverlay">true</item>-->
+
+    </style>
+
 </resources>

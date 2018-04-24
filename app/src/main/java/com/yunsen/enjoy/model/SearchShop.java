@@ -21,7 +21,7 @@ public class SearchShop implements Serializable, NotObfuscateInterface {
     private long _id;
     private int t;  //0-大众点评导入商家  1-合作商家
     private long sid;    // 商家Id
-    private List<Long> aid1; // 商圈一级分类ID  TODO
+    private List<Long> aid1; // 商圈一级分类ID
     private long aid2; // 商圈二级级分类ID
     private String name; // 商家名称
     private String logo; // 合作商家logo
