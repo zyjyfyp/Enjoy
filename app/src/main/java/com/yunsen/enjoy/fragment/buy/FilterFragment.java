@@ -3,7 +3,6 @@ package com.yunsen.enjoy.fragment.buy;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,7 +12,14 @@ import com.yunsen.enjoy.fragment.BaseFragment;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.GoodsData;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpUiEvent;
+import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
+import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
+import com.yunsen.enjoy.widget.MoreCarView;
 import com.yunsen.enjoy.widget.NumberPickerDialog;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,8 +82,10 @@ public class FilterFragment extends BaseFragment {
         layoutmanager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutmanager);
         mAdapter = new FilterRecAdapter(getActivity(), R.layout.goods_item_2, new ArrayList<GoodsData>());
-        recyclerView.setAdapter(mAdapter);
-
+        HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
+        recyclerView.setAdapter(recyclerViewAdapter);
+        RecyclerViewUtils.setFooterView(recyclerView, new MoreCarView(getActivity()));
+        EventBus.getDefault().post(new UpUiEvent(EventConstants.UP_VIEW_PAGER_HEIGHT));
     }
 
     @Override
@@ -98,12 +106,6 @@ public class FilterFragment extends BaseFragment {
     @Override
     protected void initListener() {
 
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
 
@@ -154,4 +156,12 @@ public class FilterFragment extends BaseFragment {
         });
         picker.show();
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+
 }

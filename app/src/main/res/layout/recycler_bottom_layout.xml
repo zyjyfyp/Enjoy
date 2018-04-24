@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="80dp"
-              android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/bottom_layout"
+    <TextView
+        android:id="@+id/bottom_more_tv"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="vertical"
-        >
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center_horizontal"
-            android:text="更多精彩内容持续关注哦~"/>
-    </LinearLayout>
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:text="更多精彩内容持续关注哦~"/>
+</RelativeLayout>

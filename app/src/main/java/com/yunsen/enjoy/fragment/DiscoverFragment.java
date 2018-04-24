@@ -18,9 +18,11 @@ import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
+import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
+import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
+import com.yunsen.enjoy.widget.LoadMoreView;
 import com.yunsen.enjoy.widget.ZyViewPager;
-import com.yunsen.enjoy.widget.recyclerview.wrapper.HeaderAndFooterWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,9 +112,9 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         indicator.setPadding(5, 5, 10, 5);
 
         mListPagerAdapter = new ListPagerAdapter(getRecyclerView(), getActivity());
-        dataPager.setOffscreenPageLimit(4);
         dataPager.setAdapter(mListPagerAdapter);
         tabLayout.setupWithViewPager(dataPager);
+        dataPager.setOffscreenPageLimit(4);
     }
 
     public List<AdvertModel> getData() {
@@ -240,11 +242,9 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         storeModes.add(new GoodsData(null, "上海大众汽车广东省深圳市宝安区4S店"));
         storeModes.add(new GoodsData(null, "上海大众汽车广东省深圳市宝安区4S店"));
         mAdapter1 = new GoodsAdapter(getActivity(), R.layout.goods_item, storeModes);
-//        HeaderAndFooterWrapper adapter = new HeaderAndFooterWrapper(mAdapter1);
-//        TextView view = new TextView(getActivity());
-//        view.setText("aa");
-//        adapter.addFootView(view);
-        recyclerView.setAdapter(mAdapter1);
+        HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter1);
+        recyclerView.setAdapter(recyclerViewAdapter);
+        RecyclerViewUtils.setFooterView(recyclerView, new LoadMoreView(getActivity()));
         views.add(recyclerView);
         RecyclerView recyclerView2 = new RecyclerView(getActivity());
 
@@ -252,8 +252,14 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         //设置RecyclerView 布局
         layoutmanager2.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView2.setLayoutManager(layoutmanager2);
-        mAdapter2 = new GoodsAdapter(getActivity(), R.layout.goods_item, new ArrayList<GoodsData>());
-        recyclerView2.setAdapter(mAdapter2);
+        ArrayList<GoodsData> datas = new ArrayList<>();
+        datas.add(new GoodsData(null, "上海大众汽车广东省深圳市宝安区4S店"));
+        mAdapter2 = new GoodsAdapter(getActivity(), R.layout.goods_item, datas);
+        HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter2 = new HeaderAndFooterRecyclerViewAdapter(mAdapter2);
+        recyclerView2.setAdapter(recyclerViewAdapter2);
+        TextView view1 = new TextView(getActivity());
+        view1.setText("aaa");
+        RecyclerViewUtils.setFooterView(recyclerView2, new LoadMoreView(getActivity()));
         views.add(recyclerView2);
 
         RecyclerView recyclerView3 = new RecyclerView(getActivity());
@@ -263,7 +269,9 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         recyclerView3.setLayoutManager(layoutmanager3);
 
         mAdapter3 = new GoodsAdapter(getActivity(), R.layout.goods_item, new ArrayList<GoodsData>());
-        recyclerView3.setAdapter(mAdapter3);
+        HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter3 = new HeaderAndFooterRecyclerViewAdapter(mAdapter3);
+        recyclerView3.setAdapter(recyclerViewAdapter3);
+        RecyclerViewUtils.setFooterView(recyclerView3, new LoadMoreView(getActivity()));
         views.add(recyclerView3);
 
         RecyclerView recyclerView4 = new RecyclerView(getActivity());
@@ -272,11 +280,10 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         layoutmanager4.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView4.setLayoutManager(layoutmanager4);
         mAdapter4 = new GoodsAdapter(getActivity(), R.layout.goods_item, new ArrayList<GoodsData>());
-        recyclerView4.setAdapter(mAdapter4);
+        HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter4 = new HeaderAndFooterRecyclerViewAdapter(mAdapter4);
+        recyclerView4.setAdapter(recyclerViewAdapter4);
+        RecyclerViewUtils.setFooterView(recyclerView4, new LoadMoreView(getActivity()));
         views.add(recyclerView4);
-        //       View view = getActivity().getLayoutInflater().inflate(R.layout.activity_login,null);
-        //        ArrayList<View> views = new ArrayList<>();
-        //        views.add(view);
         return views;
     }
 

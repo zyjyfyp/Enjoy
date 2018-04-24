@@ -1,20 +1,14 @@
 package com.yunsen.enjoy.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.yunsen.enjoy.R;
@@ -25,9 +19,16 @@ import com.yunsen.enjoy.fragment.home.BannerAdapter;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.AdvertModel;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.widget.SearchActionBar;
+import com.yunsen.enjoy.widget.ZyViewPager;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +51,7 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
     @Bind(R.id.buy_main_tab)
     TabLayout buyMainTab;
     @Bind(R.id.buyMainPager)
-    ViewPager buyMainPager;
+    ZyViewPager buyMainPager;
 
     private Activity mContext;
     private ArrayList<AdvertModel> mAdvDatas;
@@ -75,6 +76,12 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
     protected void initView() {
         ButterKnife.bind(this, rootView);
         searchBar.setLeftText("深圳");
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -168,5 +175,20 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
                 startActivity(dialIntent);
                 break;
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(UpUiEvent event) {
+        if (event.getEventId() == EventConstants.UP_VIEW_PAGER_HEIGHT) {
+            buyMainPager.requestLayout();
+            Log.e(TAG, "onEvent: 跟新高度" );
+        }
+    }
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        EventBus.getDefault().unregister(this);
     }
 }

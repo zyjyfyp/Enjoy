@@ -6,9 +6,13 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.model.GoodsData;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.widget.recyclerview.CommonAdapter;
 import com.yunsen.enjoy.widget.recyclerview.base.ViewHolder;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -42,6 +46,7 @@ class FilterRecAdapter extends CommonAdapter<GoodsData> {
             mDatas.clear();
             mDatas.addAll(responseData);
             notifyDataSetChanged();
+            EventBus.getDefault().post(new UpUiEvent(EventConstants.UP_VIEW_PAGER_HEIGHT));
         }
     }
 }

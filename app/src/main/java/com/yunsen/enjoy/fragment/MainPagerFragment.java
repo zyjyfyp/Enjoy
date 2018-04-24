@@ -27,10 +27,13 @@ import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
+import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
+import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.utils.BitmapUtil;
 import com.yunsen.enjoy.utils.SharedPreferences;
 import com.yunsen.enjoy.widget.ADTextView;
+import com.yunsen.enjoy.widget.HomeFootView;
 import com.yunsen.enjoy.widget.HorizontalLayout;
 import com.yunsen.enjoy.widget.HorizontalLayout2;
 import com.yunsen.enjoy.widget.SearchActionBar;
@@ -122,10 +125,10 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         storeModes.add(new SProviderModel(null, "上海大众汽车广东省深圳市宝安区4S店"));
 
         mAdapter = new StoreRecyclerAdapter(getActivity(), R.layout.shop_item, storeModes);
-        mHeaderWrapper = new HeaderAndFooterWrapper(mAdapter);
-        mHeaderWrapper.addHeaderView(topView);
-        recyclerView.setAdapter(mHeaderWrapper);
-
+        HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
+        recyclerView.setAdapter(recyclerViewAdapter);
+        RecyclerViewUtils.setHeaderView(recyclerView, topView);
+        RecyclerViewUtils.setFooterView(recyclerView, new HomeFootView(getActivity()));
         bannerAdapter = new BannerAdapter(getData(), getActivity());
         banner.setAdapter(bannerAdapter);
         indicatorLayout.setViewPager(banner);
@@ -160,8 +163,8 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         HttpProxy.getHomeAdvertList(13, new HttpCallBack<List<AdvertModel>>() {
             @Override
             public void onSuccess(List<AdvertModel> responseData) {
-//                bannerAdapter = new BannerAdapter(responseData, getActivity());// TODO: 2018/4/20 need
-//                banner.setAdapter(bannerAdapter);
+                //                bannerAdapter = new BannerAdapter(responseData, getActivity());// TODO: 2018/4/20 need
+                //                banner.setAdapter(bannerAdapter);
             }
 
             @Override
@@ -340,8 +343,8 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     public void onPause() {
         super.onPause();
         banner.stopAutoScroll();
-//        adtTv1.onStopAuto(1);
-//        adtTv2.onStopAuto(2);
+        //        adtTv1.onStopAuto(1);
+        //        adtTv2.onStopAuto(2);
     }
 
 
