@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:background="@color/no_color"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/ll_zhifu_buju"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/rl_title"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/ybs" >
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="填写信息"
+                android:textSize="15dip" />
+
+            <ImageView
+                android:id="@+id/iv_guanxi"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/limitbuy_esoterica_close" />
+
+            <ImageView
+                android:id="@+id/iv_fanhui"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/fanhuijian" />
+            <!-- market_information_sep_closed -->
+        </RelativeLayout>
+         <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+              android:paddingLeft="5dp"
+            android:text="身份证号码"
+            android:textColor="@color/blcak"
+            android:textSize="15dip" />
+
+        <EditText
+            android:id="@+id/et_user_shoujihao"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/zhou_btn_red_3_5_shanchu_bg"
+            android:hint="请输入证件号"
+            android:inputType="text"
+            android:maxLength="50"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:singleLine="true"
+            android:textColor="@color/all_wenzi"
+            android:textColorHint="@color/all_c1c1c1"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="姓名"
+            android:paddingLeft="5dp"
+            android:textColor="@color/blcak"
+            android:textSize="15dip" />
+
+        <EditText
+            android:id="@+id/et_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/zhou_btn_red_3_5_shanchu_bg"
+            android:hint="请输入姓名"
+            android:inputType="text"
+            android:maxLength="20"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/all_wenzi"
+            android:textColorHint="@color/all_c1c1c1"
+            android:textSize="16sp" />
+
+ <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+              android:paddingLeft="5dp"
+            android:text="所属大厅"
+            android:textColor="@color/blcak"
+            android:textSize="15dip" />
+
+        <EditText
+            android:id="@+id/et_beizhu"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/zhou_btn_red_3_5_shanchu_bg"
+            android:hint="请输入所属大厅"
+            android:inputType="text"
+            android:maxLength="500"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:singleLine="true"
+            android:textColor="@color/all_wenzi"
+            android:textColorHint="@color/all_c1c1c1"
+            android:textSize="16sp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/list_diver" />
+
+        <LinearLayout
+            android:id="@+id/market_information_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:background="@color/white"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/btnConfirm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:text=""
+                    android:textColor="@color/blcak"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/index_item"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:background="@color/hongse"
+                android:gravity="center" >
+
+                <TextView
+                    android:id="@+id/tv_activity_ent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

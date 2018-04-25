@@ -34,7 +34,10 @@ import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.activity.JuTuanGouXq2Activity;
 import com.yunsen.enjoy.activity.mine.adapter.ShopingCartOrderAdapter;
+import com.yunsen.enjoy.activity.pay.TishiCarArchivesActivity;
+import com.yunsen.enjoy.activity.pay.ZhiFuOKActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
@@ -1006,19 +1009,18 @@ public class JuTuanConfrimActivity extends AppCompatActivity {
 						// startActivity(intent);
 						// }
 					} else {
-						// TODO: 2018/4/25  zyjy
-//						progress.CloseProgress();
-//						try {
-//
-//							System.out.println("ct_tuanshu-------------"
-//									+ TishiCarArchivesActivity.order_no);
-//							Toast.makeText(JuTuanConfrimActivity.this, info,
-//									Toast.LENGTH_SHORT).show();
-//
-//						} catch (Exception e) {
-//
-//							e.printStackTrace();
-//						}
+						progress.CloseProgress();
+						try {
+
+							System.out.println("ct_tuanshu-------------"
+									+ TishiCarArchivesActivity.order_no);
+							Toast.makeText(JuTuanConfrimActivity.this, info,
+									Toast.LENGTH_SHORT).show();
+
+						} catch (Exception e) {
+
+							e.printStackTrace();
+						}
 					}
 
 				} catch (Exception e) {
@@ -1225,26 +1227,25 @@ public class JuTuanConfrimActivity extends AppCompatActivity {
 									System.out
 											.println("buy_no====================="
 													+ buy_no);
-									// TODO: 2018/4/25 zyjy
-//									Intent intent = new Intent(
-//											JuTuanConfrimActivity.this,
-//											JuTuanGouXq2Activity.class);
-//									intent.putExtra("order_no", buy_no);
-//									intent.putExtra("ct_tuanshu", people);
-//									intent.putExtra("stare", stare);// 判断参团或邀请提示分享
-//									// intent.putExtra("ct_id",ct_id);
-//									intent.putExtra("type", type_jutuan);// 聚精彩状态
-//									intent.putExtra("jiekou", jiekou);
-//									intent.putExtra("fx_shuzi", fx_shuzi);
-//									startActivity(intent);
-//
-//									System.out.println("stare-------------"
-//											+ stare);
-//									if (stare.equals("3")) {
-//										JuTuanGouXq2Activity.handlerll
-//												.sendEmptyMessage(2);
-//									}
-//									finish();
+									Intent intent = new Intent(
+											JuTuanConfrimActivity.this,
+											JuTuanGouXq2Activity.class);
+									intent.putExtra("order_no", buy_no);
+									intent.putExtra("ct_tuanshu", people);
+									intent.putExtra("stare", stare);// 判断参团或邀请提示分享
+									// intent.putExtra("ct_id",ct_id);
+									intent.putExtra("type", type_jutuan);// 聚精彩状态
+									intent.putExtra("jiekou", jiekou);
+									intent.putExtra("fx_shuzi", fx_shuzi);
+									startActivity(intent);
+
+									System.out.println("stare-------------"
+											+ stare);
+									if (stare.equals("3")) {
+										JuTuanGouXq2Activity.handlerll
+												.sendEmptyMessage(2);
+									}
+									finish();
 								} else {
 									progress.CloseProgress();
 									teby = false;
@@ -1343,11 +1344,10 @@ public class JuTuanConfrimActivity extends AppCompatActivity {
 									Toast.makeText(JuTuanConfrimActivity.this,
 											info, Toast.LENGTH_SHORT).show();
 									finish();
-									// TODO: 2018/4/25  zyjy
-//									Intent intent = new Intent(
-//											JuTuanConfrimActivity.this,
-//											ZhiFuOKActivity.class);
-//									startActivity(intent);
+									Intent intent = new Intent(
+											JuTuanConfrimActivity.this,
+											ZhiFuOKActivity.class);
+									startActivity(intent);
 								} else {
 									progress.CloseProgress();
 									teby = false;

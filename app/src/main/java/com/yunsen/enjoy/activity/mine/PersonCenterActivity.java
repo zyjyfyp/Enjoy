@@ -40,6 +40,9 @@ import com.gghl.view.wheelcity.adapters.ArrayWheelAdapter;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.activity.MainActivity;
+import com.yunsen.enjoy.activity.user.UserLoginActivity;
+import com.yunsen.enjoy.fragment.MemberFragment;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.http.down.UpdateApkThread;
@@ -582,8 +585,8 @@ public class PersonCenterActivity extends AppCompatActivity implements OnClickLi
                             client.login("zams", "zams1230.");
                             SimpleDateFormat f = new SimpleDateFormat("yyyyMMddHHmmssSSS");
                             time = f.format(new Date());
-//                            yth = IndividualCenterActivity.yth;
-                            // TODO: 2018/4/24 zhangyong
+                            yth = MemberFragment.yth;   // TODO: 2018/4/24 yth 是什么值
+
                             String remotePathTmp = "phone/" + "" + yth + "";//路径
                             System.out.println("========================" + remotePathTmp);
 
@@ -904,14 +907,14 @@ public class PersonCenterActivity extends AppCompatActivity implements OnClickLi
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 System.out.println("MainFragment.zhuangtai------------------");
-                // TODO: 2018/4/24  zhangyong 下载
-//                if (MainFragment.zhuangtai == true) {
-//                    Toast.makeText(PersonCenterActivity.this, "正在下载...", Toast.LENGTH_SHORT).show();
-//                    dialog.dismiss();
-//                } else if (UserLoginActivity.zhuangtai == true) {
-//                    Toast.makeText(PersonCenterActivity.this, "正在下载...", Toast.LENGTH_SHORT).show();
-//                    dialog.dismiss();
-//                } else
+                // TODO: 2018/4/24  zhangyong  MainActivity.zhuangtai  状态下载
+                if (MainActivity.zhuangtai == true) {
+                    Toast.makeText(PersonCenterActivity.this, "正在下载...", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                } else if (UserLoginActivity.zhuangtai == true) {
+                    Toast.makeText(PersonCenterActivity.this, "正在下载...", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                } else
 
                 if (PersonCenterActivity.zhuangtai == true) {
                     Toast.makeText(PersonCenterActivity.this, "正在下载...", Toast.LENGTH_SHORT).show();

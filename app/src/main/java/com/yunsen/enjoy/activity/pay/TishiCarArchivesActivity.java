@@ -271,8 +271,8 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
 									//									 System.out.println("order_type==============1==================="+order_type);
 
 									//活动支付成功不显示详情
-									// TODO: 2018/4/25 zyjy
-
+									// TODO: 2018/4/25 zyjy 报名成功
+									Toast.makeText(TishiCarArchivesActivity.this, "报名成功", Toast.LENGTH_SHORT).show();
 //									if (BaoMinTiShiActivity.huodong_zf_type.equals("1")) {
 //										BaoMinTiShiActivity.huodong_zf_type = "0";
 //										//										 huodong_type = "1";//活动支付成功之后设置不能继续报名

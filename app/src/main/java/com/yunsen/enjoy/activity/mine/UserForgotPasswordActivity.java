@@ -181,13 +181,12 @@ public class UserForgotPasswordActivity extends AppCompatActivity implements
 
 
             switch (v.getId()) {
-//                case R.id.regise_tip:
-//					Intent intent4 = new Intent(UserForgotPasswordActivity.this,
-//							Webview1.class);
-//					intent4.putExtra("userxy", "5997");
-//					startActivity(intent4);
-// TODO: 2018/4/24  zyjy
-//                    break;
+                case R.id.regise_tip:
+					Intent intent4 = new Intent(UserForgotPasswordActivity.this,
+							Webview1.class);
+					intent4.putExtra("userxy", "5997");
+					startActivity(intent4);
+                    break;
                 case R.id.get_yz:
                     phone = userphone.getText().toString().trim();
                     if (phone.equals("")) {
@@ -240,7 +239,6 @@ public class UserForgotPasswordActivity extends AppCompatActivity implements
 //					intent.putExtra("login", index);
 //					startActivity(intent);
 //					finish();
-                    // TODO: 2018/4/24 zyjy
 //                    break;
                 case R.id.btn_register:
                     yz = et_user_yz.getText().toString().trim();

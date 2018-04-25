@@ -46,4 +46,5 @@ public class URLConstants {
     public static final String REALM_NAME_WEB = "http://mobile.zams.cn";
     public static final String REALM_NAME_HTTP = "http://mobile.zams.cn";
     public static final String REALM_NAME_LL = "http://mobile.zams.cn/tools/mobile_ajax.asmx";
+    public static final String REALM_NAME_FX = "http://mobile.zams.cn";
 }

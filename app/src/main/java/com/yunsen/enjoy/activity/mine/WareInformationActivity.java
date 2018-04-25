@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -45,6 +46,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.mine.adapter.GoodsGgcsListAdapter;
 import com.yunsen.enjoy.activity.mine.adapter.GuigeListAdapter;
+import com.yunsen.enjoy.activity.user.DBFengXiangActivity;
 import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.activity.user.UserLoginWayActivity;
@@ -1021,10 +1023,9 @@ public class WareInformationActivity extends AppCompatActivity implements
                                     }
                                 }
                             } else {
-                                // TODO: 2018/4/25 zyjy 
-//								Intent intent = new Intent(WareInformationActivity.this,UserLoginActivity.class);
-//								startActivity(intent);
-//								progress.CloseProgress();
+                                Intent intent = new Intent(WareInformationActivity.this, UserLoginActivity.class);
+                                startActivity(intent);
+                                progress.CloseProgress();
                             }
                         }
                     });
@@ -1097,7 +1098,7 @@ public class WareInformationActivity extends AppCompatActivity implements
                 case 1:
                     Toast.makeText(getApplicationContext(), "成功加入购物车", Toast.LENGTH_SHORT).show();
                     progress.CloseProgress();
-                    // TODO: 2018/4/25  
+                    // TODO: 2018/4/25  聚乐购
 //                    try {
 //
 //                        AppManager.getAppManager().finishActivity(
@@ -1235,10 +1236,10 @@ public class WareInformationActivity extends AppCompatActivity implements
                             String id = obj.getString("id");
                             String count = obj.getString("count");
                             //									Toast.makeText(WareInformationActivity.this, info, Toast.LENGTH_SHORT).show();
-                            // TODO: 2018/4/25 zyjy 
-//							Intent intent=new Intent(WareInformationActivity.this, MyOrderConfrimActivity.class);
-//							intent.putExtra("shopping_ids",id);
-//							startActivity(intent);
+
+                            Intent intent = new Intent(WareInformationActivity.this, MyOrderConfrimActivity.class);
+                            intent.putExtra("shopping_ids", id);
+                            startActivity(intent);
                         } else {
                             progress.CloseProgress();
                             Toast.makeText(WareInformationActivity.this, info, Toast.LENGTH_SHORT).show();
@@ -1322,57 +1323,56 @@ public class WareInformationActivity extends AppCompatActivity implements
             @Override
             public void onClick(View arg0) {
 
-// TODO: 2018/4/25 zyjy 
-//				try {
-//					if (!nickname.equals("")) {
-//						if (!user_name.equals("")) {
-//							// TODO: 2018/4/25  zyjy
-////							if (UserLoginActivity.wx_fanhui == false) {
-////								Intent intent5 = new Intent(WareInformationActivity.this,UserLoginActivity.class);
-////								startActivity(intent5);
-////							}else {
-////								Intent intentll = new Intent(WareInformationActivity.this,DBFengXiangActivity.class);
-////								intentll.putExtra("sp_id",sp_id);
-////								intentll.putExtra("company_id", company_id);
-////								intentll.putExtra("title",title);
-////								intentll.putExtra("subtitle",subtitle);
-////								intentll.putExtra("img_url", imgs_url);
-////								//							title = obj.getString("title");
-////								//							subtitle = obj.getString("subtitle");
-////								//					        imgs_url = obj.getString("imgs_url");
-////								startActivity(intentll);
-////							}
-//						} else {
-//							Intent intent2 = new Intent(WareInformationActivity.this, TishiWxBangDingActivity.class);
-//							startActivity(intent2);
-//							progress.CloseProgress();
-//						}
-//					}else {
-//
-//						if (user_name.equals("")) {
-//							Intent intent = new Intent(WareInformationActivity.this,UserLoginActivity.class);
-//							startActivity(intent);
-//							progress.CloseProgress();
-//						}else {
-//							//					SoftWarePopuWindow(img_shared, context);
-//							if (UserLoginActivity.wx_fanhui == false) {
-//								Intent intent5 = new Intent(WareInformationActivity.this,UserLoginActivity.class);
-//								startActivity(intent5);
-//							}else {
-//								Intent intentll = new Intent(WareInformationActivity.this,DBFengXiangActivity.class);
-//								intentll.putExtra("sp_id",sp_id);
-//								intentll.putExtra("company_id", company_id);
-//								intentll.putExtra("title",title);
-//								intentll.putExtra("subtitle",subtitle);
-//								intentll.putExtra("img_url", imgs_url);
-//								startActivity(intentll);
-//							}
-//						}
-//					}
-//				} catch (Exception e) {
-//
-//					e.printStackTrace();
-//				}
+
+                try {
+                    if (!TextUtils.isEmpty(nickname)) {
+                        if (!TextUtils.isEmpty(user_name)) {
+                            if (UserLoginActivity.wx_fanhui == false) {
+                                Intent intent5 = new Intent(WareInformationActivity.this, UserLoginActivity.class);
+                                startActivity(intent5);
+                            } else {
+                                Intent intentll = new Intent(WareInformationActivity.this, DBFengXiangActivity.class);
+                                intentll.putExtra("sp_id", sp_id);
+                                intentll.putExtra("company_id", company_id);
+                                intentll.putExtra("title", title);
+                                intentll.putExtra("subtitle", subtitle);
+                                intentll.putExtra("img_url", imgs_url);
+                                //							title = obj.getString("title");
+                                //							subtitle = obj.getString("subtitle");
+                                //					        imgs_url = obj.getString("imgs_url");
+                                startActivity(intentll);
+                            }
+                        } else {
+                            Intent intent2 = new Intent(WareInformationActivity.this, TishiWxBangDingActivity.class);
+                            startActivity(intent2);
+                            progress.CloseProgress();
+                        }
+                    } else {
+
+                        if (TextUtils.isEmpty(user_name)) {
+                            Intent intent = new Intent(WareInformationActivity.this, UserLoginActivity.class);
+                            startActivity(intent);
+                            progress.CloseProgress();
+                        } else {
+                            //					SoftWarePopuWindow(img_shared, context);
+                            if (UserLoginActivity.wx_fanhui == false) {
+                                Intent intent5 = new Intent(WareInformationActivity.this, UserLoginActivity.class);
+                                startActivity(intent5);
+                            } else {
+                                Intent intentll = new Intent(WareInformationActivity.this, DBFengXiangActivity.class);
+                                intentll.putExtra("sp_id", sp_id);
+                                intentll.putExtra("company_id", company_id);
+                                intentll.putExtra("title", title);
+                                intentll.putExtra("subtitle", subtitle);
+                                intentll.putExtra("img_url", imgs_url);
+                                startActivity(intentll);
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -1434,28 +1434,32 @@ public class WareInformationActivity extends AppCompatActivity implements
 
             @Override
             public void onClick(View arg0) {
-// TODO: 2018/4/25  
                 System.out.println("点击");
-//				if (!nickname.equals("")) {
-//					if (!user_name.equals("")) {
+                if (!nickname.equals("")) {
+                    if (!user_name.equals("")) {
+                        // TODO: 2018/4/25 去购物车
+                        Toast.makeText(context, "去购物车", Toast.LENGTH_SHORT).show();
 //						Intent Intent2 = new Intent(WareInformationActivity.this,MyShopCarActivity.class);
 //						startActivity(Intent2);
-//					} else {
-//						Intent intent2 = new Intent(WareInformationActivity.this, TishiWxBangDingActivity.class);
-//						startActivity(intent2);
-//						progress.CloseProgress();
-//					}
-//				}else {
-//					if (user_name.equals("")) {
-//						Intent intent = new Intent(WareInformationActivity.this,UserLoginActivity.class);
+                    } else {
+                        Intent intent2 = new Intent(WareInformationActivity.this, TishiWxBangDingActivity.class);
+                        startActivity(intent2);
+                        progress.CloseProgress();
+                    }
+                } else {
+                    if (user_name.equals("")) {
+                        Intent intent = new Intent(WareInformationActivity.this, UserLoginActivity.class);
+                        startActivity(intent);
+                        progress.CloseProgress();
+                    } else {
+                        // TODO: 2018/4/25 去购物车
+                        Toast.makeText(context, "去购物车2", Toast.LENGTH_SHORT).show();
+
+//                        Intent intent = new Intent(WareInformationActivity.this,MyShopCarActivity.class);
 //						startActivity(intent);
-//						progress.CloseProgress();
-//					}else {
-//						Intent intent = new Intent(WareInformationActivity.this,MyShopCarActivity.class);
-//						startActivity(intent);
-//
-//					}
-//				}
+
+                    }
+                }
             }
         });
 
@@ -1524,10 +1528,9 @@ public class WareInformationActivity extends AppCompatActivity implements
                             }, lists.get(0).id);
                             progress.CloseProgress();
                         } else {
-                            // TODO: 2018/4/25
-//                            Intent intent2 = new Intent(WareInformationActivity.this, TishiWxBangDingActivity.class);
-//                            startActivity(intent2);
-//                            progress.CloseProgress();
+                            Intent intent2 = new Intent(WareInformationActivity.this, TishiWxBangDingActivity.class);
+                            startActivity(intent2);
+                            progress.CloseProgress();
                         }
                     } else {
                         if (!user_name.equals("")) {
@@ -1543,9 +1546,8 @@ public class WareInformationActivity extends AppCompatActivity implements
                             }, lists.get(0).id);
                             progress.CloseProgress();
                         } else {
-                            // TODO: 2018/4/25 zyjy
-//                            Intent intent = new Intent(WareInformationActivity.this, UserLoginActivity.class);
-//                            startActivity(intent);
+                            Intent intent = new Intent(WareInformationActivity.this, UserLoginActivity.class);
+                            startActivity(intent);
                             progress.CloseProgress();
                         }
                     }
@@ -1564,7 +1566,8 @@ public class WareInformationActivity extends AppCompatActivity implements
             public void onClick(View arg0) {
                 //				initPopupWindow(rads, 0);
                 //				showPopupWindow(btn_add_shop_cart);
-// TODO: 2018/4/25 zyjy
+// TODO: 2018/4/25  选择商品数量
+                Toast.makeText(WareInformationActivity.this, "选择商品数量", Toast.LENGTH_SHORT).show();
 //                Intent intent = new Intent(WareInformationActivity.this, SYBActivity.class);
 //                intent.putExtra("proName", title);
 //                intent.putExtra("proFaceImg", proFaceImg);
@@ -1612,9 +1615,8 @@ public class WareInformationActivity extends AppCompatActivity implements
                         }, lists.get(0).id);
                         progress.CloseProgress();
                     } else {
-                        // TODO: 2018/4/25  zyjy
-//                        Intent intent2 = new Intent(WareInformationActivity.this, TishiWxBangDingActivity.class);
-//                        startActivity(intent2);
+                        Intent intent2 = new Intent(WareInformationActivity.this, TishiWxBangDingActivity.class);
+                        startActivity(intent2);
                         progress.CloseProgress();
                     }
                 } else {
@@ -1632,9 +1634,8 @@ public class WareInformationActivity extends AppCompatActivity implements
                         }, lists.get(0).id);
                         progress.CloseProgress();
                     } else {
-                        // TODO: 2018/4/25 zyjy
-//                        Intent intent = new Intent(WareInformationActivity.this, UserLoginActivity.class);
-//                        startActivity(intent);
+                        Intent intent = new Intent(WareInformationActivity.this, UserLoginActivity.class);
+                        startActivity(intent);
                         progress.CloseProgress();
                     }
 
@@ -1772,17 +1773,15 @@ public class WareInformationActivity extends AppCompatActivity implements
                             }
                         }, getApplicationContext());
                     } else {
-                        // TODO: 2018/4/25 zyjy
-//                        Intent intent2 = new Intent(WareInformationActivity.this, TishiWxBangDingActivity.class);
-//                        startActivity(intent2);
-//                        progress.CloseProgress();
+                        Intent intent2 = new Intent(WareInformationActivity.this, TishiWxBangDingActivity.class);
+                        startActivity(intent2);
+                        progress.CloseProgress();
                     }
                 } else {
                     if (user_name.equals("")) {
-                        // TODO: 2018/4/25 zyjy
-//                        Intent intent = new Intent(WareInformationActivity.this, UserLoginActivity.class);
-//                        startActivity(intent);
-//                        progress.CloseProgress();
+                        Intent intent = new Intent(WareInformationActivity.this, UserLoginActivity.class);
+                        startActivity(intent);
+                        progress.CloseProgress();
                     } else {
 
                         String article_id = getIntent().getStringExtra("id");
@@ -1822,28 +1821,28 @@ public class WareInformationActivity extends AppCompatActivity implements
                 //			id = spPreferences.getString("user_id", "");
                 if (!nickname.equals("")) {
                     if (!user_name.equals("")) {
-                        // TODO: 2018/4/25
+                        // TODO: 2018/4/25 去评价页面 点评
+                        Toast.makeText(this, "点评", Toast.LENGTH_SHORT).show();
 //                        Intent intent = new Intent(WareInformationActivity.this, DianPingActivity.class);
 //                        intent.putExtra("article_id", sp_id);
 //                        startActivity(intent);
                         progress.CloseProgress();
                     } else {
-                        // TODO: 2018/4/25 zyjy
-//                        Intent intent2 = new Intent(WareInformationActivity.this, TishiWxBangDingActivity.class);
-//                        startActivity(intent2);
+                        Intent intent2 = new Intent(WareInformationActivity.this, TishiWxBangDingActivity.class);
+                        startActivity(intent2);
                         progress.CloseProgress();
                     }
                 } else {
                     if (!user_name.equals("")) {
-                        // TODO: 2018/4/25 zyjy
+                        // TODO: 2018/4/25 去评价页面 点评
+                        Toast.makeText(this, "点评", Toast.LENGTH_SHORT).show();
 //                        Intent intent = new Intent(WareInformationActivity.this, DianPingActivity.class);
 //                        intent.putExtra("article_id", sp_id);
 //                        startActivity(intent);
                         progress.CloseProgress();
                     } else {
-                        // TODO: 2018/4/25 zyjy
-//                        Intent intent = new Intent(WareInformationActivity.this, UserLoginActivity.class);
-//                        startActivity(intent);
+                        Intent intent = new Intent(WareInformationActivity.this, UserLoginActivity.class);
+                        startActivity(intent);
                         progress.CloseProgress();
                     }
                 }

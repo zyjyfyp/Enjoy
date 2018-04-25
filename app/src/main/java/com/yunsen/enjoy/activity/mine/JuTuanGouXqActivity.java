@@ -32,9 +32,12 @@ import com.androidquery.AQuery;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.activity.JuTuanGouXq2Activity;
 import com.yunsen.enjoy.activity.mine.adapter.JuTuanAdapter;
 import com.yunsen.enjoy.activity.mine.adapter.MyJutuanMxAdapter;
 import com.yunsen.enjoy.activity.mine.adapter.ZhongAnYlAdapter;
+import com.yunsen.enjoy.activity.user.DBFengXiangActivity;
+import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.JuTuanGouData;
@@ -208,33 +211,32 @@ public class JuTuanGouXqActivity extends AppCompatActivity implements OnClickLis
 
 				@Override
 				public void onClick(View arg0) {
-// TODO: 2018/4/25 zyjy
-//					try {
-//						if (user_name_phone.equals("")) {
-//							Intent intent = new Intent(JuTuanGouXqActivity.this,UserLoginActivity.class);
-//							startActivity(intent);
-//							progress.CloseProgress();
-//						}else {
-//							if (UserLoginActivity.wx_fanhui == false) {
-//								Intent intent5 = new Intent(JuTuanGouXqActivity.this,UserLoginActivity.class);
-//								startActivity(intent5);
-//							}else {
-//								System.out.println("pt_fx===================="+pt_fx);
-//								Intent intentll = new Intent(JuTuanGouXqActivity.this,DBFengXiangActivity.class);
-//								intentll.putExtra("pt_id",pt_fx);
-//								intentll.putExtra("title",data.getTitle());
-//								intentll.putExtra("fx_shuzi",getIntent().getStringExtra("fx_shuzi"));
-//								intentll.putExtra("subtitle",data.getSubtitle());
-//								intentll.putExtra("company_id",data.getCompany_id());
-//								//						intentll.putExtra("img_url", data.img_url);
-//								intentll.putExtra("img_url", "");
-//								startActivity(intentll);
-//							}
-//						}
-//					} catch (Exception e) {
-//
-//						e.printStackTrace();
-//					}
+					try {
+						if (user_name_phone.equals("")) {
+							Intent intent = new Intent(JuTuanGouXqActivity.this,UserLoginActivity.class);
+							startActivity(intent);
+							progress.CloseProgress();
+						}else {
+							if (UserLoginActivity.wx_fanhui == false) {
+								Intent intent5 = new Intent(JuTuanGouXqActivity.this,UserLoginActivity.class);
+								startActivity(intent5);
+							}else {
+								System.out.println("pt_fx===================="+pt_fx);
+								Intent intentll = new Intent(JuTuanGouXqActivity.this,DBFengXiangActivity.class);
+								intentll.putExtra("pt_id",pt_fx);
+								intentll.putExtra("title",data.getTitle());
+								intentll.putExtra("fx_shuzi",getIntent().getStringExtra("fx_shuzi"));
+								intentll.putExtra("subtitle",data.getSubtitle());
+								intentll.putExtra("company_id",data.getCompany_id());
+								//						intentll.putExtra("img_url", data.img_url);
+								intentll.putExtra("img_url", "");
+								startActivity(intentll);
+							}
+						}
+					} catch (Exception e) {
+
+						e.printStackTrace();
+					}
 				}
 			});
 		} catch (Exception e) {
@@ -379,27 +381,26 @@ public class JuTuanGouXqActivity extends AppCompatActivity implements OnClickLis
 					}
 					break;
 				case 3://
-					// TODO: 2018/4/25 zyjy
-//					if (!user_name_phone.equals("")) {
-//						ct_id = (String) msg.obj;
-//						System.out.println("ct_id===================="+ct_id);
-//						System.out.println("datetime===================="+datetime);
-//						//					System.out.println("ct_tuanshu===================="+ct_tuanshu);
-//
-//						Intent intent = new Intent(JuTuanGouXqActivity.this,JuTuanGouXq2Activity.class);
-//						choujiang = getIntent().getStringExtra("choujiang");
-//						//					intent.putExtra("orders_no", ct_id);
-//						intent.putExtra("fx_shuzi",getIntent().getStringExtra("fx_shuzi"));
-//						intent.putExtra("trade_no", trade_no);
-//						intent.putExtra("stare", "1");
-//						intent.putExtra("fx_yes", "fx_yes");
-//						intent.putExtra("jiekou", getIntent().getStringExtra("jiekou"));
-//						startActivity(intent);
-//					} else {
-//						Intent intent = new Intent(JuTuanGouXqActivity.this,UserLoginActivity.class);
-//						startActivity(intent);
-//						progress.CloseProgress();
-//					}
+					if (!user_name_phone.equals("")) {
+						ct_id = (String) msg.obj;
+						System.out.println("ct_id===================="+ct_id);
+						System.out.println("datetime===================="+datetime);
+						//					System.out.println("ct_tuanshu===================="+ct_tuanshu);
+
+						Intent intent = new Intent(JuTuanGouXqActivity.this,JuTuanGouXq2Activity.class);
+						choujiang = getIntent().getStringExtra("choujiang");
+						//					intent.putExtra("orders_no", ct_id);
+						intent.putExtra("fx_shuzi",getIntent().getStringExtra("fx_shuzi"));
+						intent.putExtra("trade_no", trade_no);
+						intent.putExtra("stare", "1");
+						intent.putExtra("fx_yes", "fx_yes");
+						intent.putExtra("jiekou", getIntent().getStringExtra("jiekou"));
+						startActivity(intent);
+					} else {
+						Intent intent = new Intent(JuTuanGouXqActivity.this,UserLoginActivity.class);
+						startActivity(intent);
+						progress.CloseProgress();
+					}
 					break;
 				case 4:
 					try {
@@ -423,27 +424,26 @@ public class JuTuanGouXqActivity extends AppCompatActivity implements OnClickLis
 				case 6://参团分享
 					ct_id = (String) msg.obj;
 					System.out.println("ct_id=========6==========="+ct_id);
-					// TODO: 2018/4/25 zyjy
-//					if (user_name_phone.equals("")) {
-//						Intent intent = new Intent(JuTuanGouXqActivity.this,UserLoginActivity.class);
-//						startActivity(intent);
-//						progress.CloseProgress();
-//					}else {
-//						if (UserLoginActivity.wx_fanhui == false) {
-//							Intent intent5 = new Intent(JuTuanGouXqActivity.this,UserLoginActivity.class);
-//							startActivity(intent5);
-//						}else {
-//							Intent intentll = new Intent(JuTuanGouXqActivity.this,DBFengXiangActivity.class);
-//							intentll.putExtra("ct_id",ct_id);
-//							intentll.putExtra("title",data.getTitle());
-//							intentll.putExtra("fx_shuzi",getIntent().getStringExtra("fx_shuzi"));
-//							intentll.putExtra("subtitle",data.getSubtitle());
-//							intentll.putExtra("company_id",data.getCompany_id());
-//							//					intentll.putExtra("img_url", data.img_url);
-//							intentll.putExtra("img_url", "");
-//							startActivity(intentll);
-//						}
-//					}
+					if (user_name_phone.equals("")) {
+						Intent intent = new Intent(JuTuanGouXqActivity.this,UserLoginActivity.class);
+						startActivity(intent);
+						progress.CloseProgress();
+					}else {
+						if (UserLoginActivity.wx_fanhui == false) {
+							Intent intent5 = new Intent(JuTuanGouXqActivity.this,UserLoginActivity.class);
+							startActivity(intent5);
+						}else {
+							Intent intentll = new Intent(JuTuanGouXqActivity.this,DBFengXiangActivity.class);
+							intentll.putExtra("ct_id",ct_id);
+							intentll.putExtra("title",data.getTitle());
+							intentll.putExtra("fx_shuzi",getIntent().getStringExtra("fx_shuzi"));
+							intentll.putExtra("subtitle",data.getSubtitle());
+							intentll.putExtra("company_id",data.getCompany_id());
+							//					intentll.putExtra("img_url", data.img_url);
+							intentll.putExtra("img_url", "");
+							startActivity(intentll);
+						}
+					}
 					break;
 				case 7:
 					ct_id = (String) msg.obj;
@@ -884,27 +884,26 @@ public class JuTuanGouXqActivity extends AppCompatActivity implements OnClickLis
 				break;
 			case R.id.tv_anniu1://会员开团邀请分享
 				System.out.println("ct_id==========="+ct_id);
-				// TODO: 2018/4/25 zyjy
-//				if (user_name_phone.equals("")) {
-//					Intent intent = new Intent(JuTuanGouXqActivity.this,UserLoginActivity.class);
-//					startActivity(intent);
-//					progress.CloseProgress();
-//				}else {
-//					if (UserLoginActivity.wx_fanhui == false) {
-//						Intent intent5 = new Intent(JuTuanGouXqActivity.this,UserLoginActivity.class);
-//						startActivity(intent5);
-//					}else {
-//						Intent intentll = new Intent(JuTuanGouXqActivity.this,DBFengXiangActivity.class);
-//						intentll.putExtra("ct_id",ct_id);
-//						intentll.putExtra("title",data.getTitle());
-//						intentll.putExtra("fx_shuzi",getIntent().getStringExtra("fx_shuzi"));
-//						intentll.putExtra("subtitle",data.getSubtitle());
-//						intentll.putExtra("company_id",data.getCompany_id());
-//						//				intentll.putExtra("img_url", data.img_url);
-//						intentll.putExtra("img_url", "");
-//						startActivity(intentll);
-//					}
-//				}
+				if (user_name_phone.equals("")) {
+					Intent intent = new Intent(JuTuanGouXqActivity.this,UserLoginActivity.class);
+					startActivity(intent);
+					progress.CloseProgress();
+				}else {
+					if (UserLoginActivity.wx_fanhui == false) {
+						Intent intent5 = new Intent(JuTuanGouXqActivity.this,UserLoginActivity.class);
+						startActivity(intent5);
+					}else {
+						Intent intentll = new Intent(JuTuanGouXqActivity.this,DBFengXiangActivity.class);
+						intentll.putExtra("ct_id",ct_id);
+						intentll.putExtra("title",data.getTitle());
+						intentll.putExtra("fx_shuzi",getIntent().getStringExtra("fx_shuzi"));
+						intentll.putExtra("subtitle",data.getSubtitle());
+						intentll.putExtra("company_id",data.getCompany_id());
+						//				intentll.putExtra("img_url", data.img_url);
+						intentll.putExtra("img_url", "");
+						startActivity(intentll);
+					}
+				}
 				break;
 			case R.id.ll_dianping://收藏
 				//			progress.CreateProgress();
@@ -977,9 +976,8 @@ public class JuTuanGouXqActivity extends AppCompatActivity implements OnClickLis
 							}
 						}, getApplicationContext());
 					} else {
-						// TODO: 2018/4/25 zyjy
-//						Intent intent = new Intent(JuTuanGouXqActivity.this,UserLoginActivity.class);
-//						startActivity(intent);
+						Intent intent = new Intent(JuTuanGouXqActivity.this,UserLoginActivity.class);
+						startActivity(intent);
 						progress.CloseProgress();
 					}
 

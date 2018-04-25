@@ -30,6 +30,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.orhanobut.logger.Logger;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.mine.adapter.MyAddressManagerAdapter;
+import com.yunsen.enjoy.activity.user.EditUserAddressActivity;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserAddressData;
@@ -220,16 +221,16 @@ public class AddressManagerGlActivity extends AppCompatActivity {
 
                                         if (getIntent().hasExtra("order_confrim")) {
                                             // 表示是来自订单确认
-                                            // TODO: 2018/4/25
-//											Intent intent = new Intent(
-//													AddressManagerGlActivity.this,
-//													EditUserAddressActivity.class);
 
-//											UserAddressData bean = list.get(arg2);
-//											Bundle bundle = new Bundle();
-//											bundle.putSerializable("bean", bean);
-//											intent.putExtras(bundle);
-//											startActivity(intent);
+											Intent intent = new Intent(
+													AddressManagerGlActivity.this,
+													EditUserAddressActivity.class);
+
+											UserAddressData bean = list.get(arg2);
+											Bundle bundle = new Bundle();
+											bundle.putSerializable("bean", bean);
+											intent.putExtras(bundle);
+											startActivity(intent);
 
                                         }
 

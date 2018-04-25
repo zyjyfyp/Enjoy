@@ -172,6 +172,30 @@
         <activity
             android:name=".activity.user.MobilePhoneActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.user.EditUserAddressActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.user.DBFengXiangActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DialogStyleBottom" />
+
+        <activity
+            android:name=".activity.pay.ZhiFuOKActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.pay.TishiBaoMinOkActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AlertDialogStyle" />
+
+        <activity
+            android:name=".activity.pay.MyOrderZFActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DialogStyleBottom" />
+        <activity
+            android:name=".activity.pay.DianZiPiaoActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

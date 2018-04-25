@@ -1,6 +1,7 @@
 package com.yunsen.enjoy.activity.mine;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -169,9 +170,9 @@ public class CollectionActivity extends AppCompatActivity {
                     try {
                         String article_id = (String) msg.obj;
                         System.out.println("article_id====================" + article_id);
-//						Intent intent = new Intent(CollectionActivity.this,WareInformationActivity.class); todo zyjy
-//						intent.putExtra("id", article_id);
-//						startActivity(intent);
+						Intent intent = new Intent(CollectionActivity.this,WareInformationActivity.class);
+						intent.putExtra("id", article_id);
+						startActivity(intent);
                     } catch (Exception e) {
 
                         e.printStackTrace();

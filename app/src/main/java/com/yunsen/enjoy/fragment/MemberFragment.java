@@ -26,6 +26,7 @@ import butterknife.OnClick;
 
 public class MemberFragment extends BaseFragment {
 
+    public static String yth;
     @Bind(R.id.login_icon)
     ImageView loginIcon;
     @Bind(R.id.login_tv)
@@ -169,13 +170,13 @@ public class MemberFragment extends BaseFragment {
                 Intent intent5 = new Intent(getActivity(),
                         CollectionActivity.class);
                 startActivity(intent5);
-            } else {// TODO: 2018/4/25 zyjy
+            } else {
                 Intent intent = new Intent(getActivity(),
                         TishiWxBangDingActivity.class);
                 startActivity(intent);
             }
         } else {
-            if (TextUtils.isEmpty(user_name_phone)) { // TODO: 2018/4/25 zyjy
+            if (TextUtils.isEmpty(user_name_phone)) {
                 Intent intent9 = new Intent(getActivity(),
                         UserLoginActivity.class);
                 startActivity(intent9);

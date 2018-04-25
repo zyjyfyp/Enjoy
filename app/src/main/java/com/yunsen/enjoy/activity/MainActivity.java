@@ -24,6 +24,7 @@ public class MainActivity extends BaseFragmentActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String CURR_INDEX = "currIndex";
+    public static boolean zhuangtai;
     private int currIndex = 0;
 
     private RadioGroup group;
