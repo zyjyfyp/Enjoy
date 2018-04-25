@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal" >
+
+        
+
+        <LinearLayout
+            android:id="@+id/ll_wenzi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical" >
+            
+            
+<LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp" >
+<LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical" >
+                <TextView
+                    android:id="@+id/tv_remark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="账户余额充值"
+                    android:textSize="14dip" />
+                 </LinearLayout>
+
+                    <TextView
+                         android:id="@+id/tv_income"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                         android:gravity="right"
+                         android:textSize="14dip" 
+                         android:textColor="@color/hongse"
+                        android:text="+50" />
+
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_add_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical"
+                android:text="2016-09-29  17:57:30"
+                android:textSize="13dip" />
+
+
+        </LinearLayout>
+        
+    </LinearLayout>
+
+</LinearLayout>

@@ -14,7 +14,11 @@ import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.activity.MoveActivity;
 import com.yunsen.enjoy.activity.SearchActivity;
 import com.yunsen.enjoy.activity.SelectCityActivity;
+import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
+import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
+import com.yunsen.enjoy.activity.mine.TeamActivity;
+import com.yunsen.enjoy.activity.mine.Webview1;
 
 /**
  * 应用程序UI工具包：封装UI相关的一些操作
@@ -121,5 +125,50 @@ public class UIHelper {
     public static void showPersonCenterActivity(Context ctx) {
         Intent intent = new Intent(ctx, PersonCenterActivity.class);
         ctx.startActivity(intent);
+    }
+
+    /**
+     * 团队信息
+     *
+     * @param ctx
+     */
+    public static void showTeamActivity(Context ctx) {
+        Intent intent = new Intent(ctx, TeamActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 我的资产
+     *
+     * @param ctx
+     */
+    public static void showAssetsActivity(Context ctx) {
+        Intent intent = new Intent(ctx, MyAssetsActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 充值
+     *
+     * @param ctx
+     */
+    public static void showRechargeActivity(Context ctx) {
+        Intent intent = new Intent(ctx, MyQianBaoActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 去帮助页面
+     *
+     * @param ctx
+     */
+    public static void showHelpActivity(Context ctx) {
+        Intent intent4 = new Intent(ctx, Webview1.class);
+        intent4.putExtra("jysbz_id", "10334");
+        ctx.startActivity(intent4);
+    }
+
+    public static void showAppointmentActivity(Context ctx) {
+
     }
 }

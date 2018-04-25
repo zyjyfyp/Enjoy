@@ -6,14 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.mob.tools.utils.UIHandler;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
@@ -188,16 +185,19 @@ public class MemberFragment extends BaseFragment {
         }
     }
 
-    @OnClick(R.id.team_layout)
+    @OnClick(R.id.team_layout) //团队信息
     public void onTeamLayoutClicked() {
+        UIHelper.showTeamActivity(getActivity());
     }
 
     @OnClick(R.id.finance_layout)
     public void onFinanceLayoutClicked() {
+        UIHelper.showAssetsActivity(getActivity());
     }
 
     @OnClick(R.id.recharge_layout)
     public void onRechargeLayoutClicked() {
+        UIHelper.showRechargeActivity(getActivity());
     }
 
     @OnClick(R.id.apply_service_layout)
@@ -206,14 +206,17 @@ public class MemberFragment extends BaseFragment {
 
     @OnClick(R.id.appointment_layout)
     public void onAppointmentLayoutClicked() {
+        UIHelper.showAppointmentActivity(getActivity());
     }
 
     @OnClick(R.id.help_layout)
     public void onHelpLayoutClicked() {
+        UIHelper.showHelpActivity(getActivity());
     }
 
     @OnClick(R.id.logout_layout)
     public void onLogoutLayoutClicked() {
+        Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
     }
 
     @Override
