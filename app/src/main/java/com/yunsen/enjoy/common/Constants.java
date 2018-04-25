@@ -8,6 +8,9 @@ import java.util.Map;
  */
 
 public class Constants {
+    //    微信
+    public static final String APP_ID = "wx88beb35a2752bade";
+    public static final String MCH_ID = "1394459302";
 
     public final static String[] DISCOVER_TITLE = {"头条", "导购", "用车", "百科"};
     public static final CharSequence[] BUY_CAR = {"新车", "二手车"};

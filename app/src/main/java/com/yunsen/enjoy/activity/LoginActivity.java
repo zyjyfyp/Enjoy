@@ -162,10 +162,10 @@ public class LoginActivity extends BaseFragmentActivity {
         SMSSDK.registerEventHandler(new EventHandler() {
             public void afterEvent(int event, int result, Object data) {
                 if (result == SMSSDK.RESULT_COMPLETE) {
-                    // TODO 处理成功得到验证码的结果
+                    // 处理成功得到验证码的结果
                     Log.e(TAG, "afterEvent: " + result + "data=" + data);
                 } else {
-                    // TODO 处理错误的结果
+                    // 处理错误的结果
                     Log.e(TAG, "afterEvent: data=" + data);
                 }
 
@@ -181,10 +181,10 @@ public class LoginActivity extends BaseFragmentActivity {
         SMSSDK.registerEventHandler(new EventHandler() {
             public void afterEvent(int event, int result, Object data) {
                 if (result == SMSSDK.RESULT_COMPLETE) {
-                    // TODO 处理验证成功的结果
+                    //  处理验证成功的结果
                     //     data={phone=15111628556, country=86}
                 } else {
-                    // TODO 处理错误的结果
+                    //  处理错误的结果
                 }
 
             }

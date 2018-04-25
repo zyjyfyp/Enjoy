@@ -156,4 +156,19 @@
 
     </style>
 
+    <style name="delete_pop_style" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@color/no_color</item>
+        <item name="android:windowBackground">@color/no_color</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowAnimationStyle">@style/delete_pop_anim</item>
+    </style>
+    <style name="delete_pop_anim" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/push_up_in</item>
+        <item name="android:windowExitAnimation">@anim/push_up_out</item>
+    </style>
+
 </resources>

@@ -122,7 +122,6 @@ public class TishiNicknameActivity extends Activity implements OnClickListener {
 					}else{
 					}
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			};

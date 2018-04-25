@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <declare-styleable name="calendar_cell">
+    <attr name="state_selectable" format="boolean" />
+    <attr name="state_current_month" format="boolean" />
+    <attr name="state_today" format="boolean" />
+    <attr name="state_range_first" format="boolean" />
+    <attr name="state_range_middle" format="boolean" />
+    <attr name="state_range_last" format="boolean" />
+    <attr name="state_highlighted" format="boolean" />
+  </declare-styleable>
+    <declare-styleable name="ViewfinderView">
+  </declare-styleable>
+  
+     <declare-styleable name="swipelistviewstyle">
+        <attr name="right_width" format="dimension"></attr>
+    </declare-styleable>
+        <declare-styleable name="FlowLayout">
+        <attr name="horizontalSpacing" format="dimension"/>
+        <attr name="verticalSpacing" format="dimension"/>
+        <attr name="orientation" format="enum">
+            <enum name="horizontal" value="0"/>
+            <enum name="vertical" value="1"/>
+        </attr>
+        <attr name="debugDraw" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="FlowLayout_LayoutParams">
+        <attr name="layout_newLine" format="boolean"/>
+        <attr name="layout_horizontalSpacing" format="dimension"/>
+        <attr name="layout_verticalSpacing" format="dimension"/>
+    </declare-styleable>
+</resources>

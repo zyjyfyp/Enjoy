@@ -244,10 +244,8 @@ public class HouseDetailActivity extends SwipeBackActivity {
                     HashMap<String, Object> phoneMap = (HashMap<String, Object>) data;
                     String country = (String) phoneMap.get("country"); // 国家代码，如“86”
                     String phone = (String) phoneMap.get("phone"); // 手机号码，如“13800138000”
-                    // TODO 利用国家代码和手机号码进行后续的操作
                     Log.e(TAG, "afterEvent:country= " + country + "phone =" + phone);
                 } else {
-                    // TODO 处理错误的结果
                     Log.e(TAG, "afterEvent: "+ result +"event = " +event );
                 }
             }

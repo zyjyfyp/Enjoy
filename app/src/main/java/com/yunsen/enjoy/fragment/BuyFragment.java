@@ -117,7 +117,7 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
         HttpProxy.getHomeAdvertList(1017, new HttpCallBack<List<AdvertModel>>() {
             @Override
             public void onSuccess(List<AdvertModel> responseData) {
-                bannerAdapter = new BannerAdapter(responseData, getActivity());// TODO: 2018/4/20 need
+                bannerAdapter = new BannerAdapter(responseData, getActivity());// TODO: 2018/4/20 need upData方法
                 buyPager.setAdapter(bannerAdapter);
             }
 

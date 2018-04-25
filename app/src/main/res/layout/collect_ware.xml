@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f0f0"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/ybs">
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="收藏"
+            android:textSize="18dip" />
+
+
+        <ImageView
+            android:id="@+id/iv_fanhui"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/back" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center_vertical"
+        android:text="(向右滑动可进行删除)"
+        android:textColor="@color/all_c1c1c1"
+        android:textSize="12sp" />
+
+
+    <ListView
+        android:id="@+id/list_ware_collect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/list_div"
+        android:dividerHeight="1dip" />
+
+    <com.yunsen.enjoy.widget.SwipeListView
+        android:id="@+id/my_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:cacheColorHint="#00000000"
+        android:divider="#dddbdb"
+        android:dividerHeight="1dp"/>
+</LinearLayout>

@@ -1,7 +1,11 @@
 package com.yunsen.enjoy.fragment;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +15,7 @@ import android.widget.TextView;
 
 import com.mob.tools.utils.UIHandler;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.ui.UIHelper;
 
 import butterknife.Bind;
@@ -67,6 +72,17 @@ public class MemberFragment extends BaseFragment {
     LinearLayout logoutLayout;
     private Activity context;
 
+    private String nickname;
+    private String user_name_phone;
+    private SharedPreferences spPreferences;
+    private String user_id;
+    private String user_name_key;
+    private SharedPreferences spPreferences_login;
+    private String headimgurl;
+    private String unionid;
+    private String access_token;
+    private String sex;
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -85,6 +101,25 @@ public class MemberFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        spPreferences = getActivity().getSharedPreferences("longuserset",
+                Context.MODE_PRIVATE);
+        user_name_phone = spPreferences.getString("user", "");
+        System.out.println("user_name_phone================="
+                + user_name_phone);
+        if (!TextUtils.isEmpty(user_name_phone)) {
+            user_id = spPreferences.getString("user_id", "");
+            user_name_key = user_name_phone;
+        }
+
+        spPreferences_login = getActivity().getSharedPreferences(
+                "longuserset_login", Context.MODE_PRIVATE);
+
+        nickname = spPreferences_login.getString("nickname", "");
+        headimgurl = spPreferences_login.getString("headimgurl", "");
+        unionid = spPreferences_login.getString("unionid", "");
+        access_token = spPreferences_login.getString("access_token", "");
+        sex = spPreferences_login.getString("sex", "");
+        String oauth_openid = spPreferences_login.getString("oauth_openid", "");
 
     }
 
@@ -124,8 +159,32 @@ public class MemberFragment extends BaseFragment {
         UIHelper.showPersonCenterActivity(getActivity());
     }
 
-    @OnClick(R.id.collection_layout)
+    @OnClick(R.id.collection_layout) //收藏
     public void onCollectionLayoutClicked() {
+        Intent intent1 = new Intent(getActivity(),
+                CollectionActivity.class);
+        startActivity(intent1);
+        if (!TextUtils.isEmpty(nickname)) {
+            if (!TextUtils.isEmpty(user_name_phone)) {
+                Intent intent5 = new Intent(getActivity(),
+                        CollectionActivity.class);
+                startActivity(intent5);
+            } else {// TODO: 2018/4/25 zyjy
+//                Intent intent = new Intent(getActivity(),
+//                        TishiWxBangDingActivity.class);
+//                startActivity(intent);
+            }
+        } else {
+            if (TextUtils.isEmpty(user_name_phone)) { // TODO: 2018/4/25 zyjy
+//                Intent intent9 = new Intent(getActivity(),
+//                        UserLoginActivity.class);
+//                startActivity(intent9);
+            } else {
+                Intent intent9 = new Intent(getActivity(),
+                        CollectionActivity.class);
+                startActivity(intent9);
+            }
+        }
     }
 
     @OnClick(R.id.team_layout)

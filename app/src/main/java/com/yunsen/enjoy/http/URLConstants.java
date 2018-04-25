@@ -43,4 +43,7 @@ public class URLConstants {
     public static final String DISCOVER_FIRST_URL = "https://szlxkg.com/tools/mobile_ajax.asmx/get_article_page_size_list";
 
 
+    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";
+    public static final String REALM_NAME_HTTP = "http://mobile.zams.cn";
+    public static final String REALM_NAME_LL = "http://mobile.zams.cn/tools/mobile_ajax.asmx";
 }

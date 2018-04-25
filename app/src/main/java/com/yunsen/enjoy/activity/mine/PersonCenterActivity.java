@@ -173,25 +173,11 @@ public class PersonCenterActivity extends AppCompatActivity implements OnClickLi
             v6.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View arg0) {
-                    //				Intent intent = new Intent(PersonCenterActivity.this,AddressManagerActivity.class);
-                    //				startActivity(intent);
-//                    Intent intent = new Intent(PersonCenterActivity.this, AddressManagerGlActivity.class);
-//                    intent.putExtra("order_confrim", "order_confrim");// 标示
-//                    startActivity(intent);
-                    Toast.makeText(PersonCenterActivity.this, "地址管理", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(PersonCenterActivity.this, AddressManagerGlActivity.class);
+                    intent.putExtra("order_confrim", "order_confrim");// 标示
+                    startActivity(intent);
                 }
             });
-            //		mm.setOnClickListener(new OnClickListener() {
-            //
-            //			@Override
-            //			public void onClick(View arg0) {
-            //			/*	Intent intent = new Intent(PersonCenterActivity.this,
-            //						ModPassActivity.class);
-            //				startActivity(intent);*/
-            //				initPopupWindow();
-            //				showPopupWindow(mm);
-            //			}
-            //		});
 
         } catch (Exception e) {
 
@@ -440,7 +426,7 @@ public class PersonCenterActivity extends AppCompatActivity implements OnClickLi
                 intent1.putExtra("type", "1");
                 startActivity(intent1);
                 break;
-            case R.id.mm:
+            case R.id.mm: //账户安全
                 Intent intent2 = new Intent(PersonCenterActivity.this, GenderFangShiActivity.class);
                 intent2.putExtra("type", "2");
                 startActivity(intent2);
