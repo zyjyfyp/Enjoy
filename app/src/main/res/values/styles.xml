@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="android:Theme.Holo.Light.NoActionBar">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
-        <item name="android:windowNoTitle">true</item>
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
     </style>
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
+        <item name="android:statusBarColor" tools:ignore="NewApi">@android:color/black</item>
+        <!-- true: status栏的图标和文字为黑色；false: sstatus栏的图标和文字为白色 -->
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        <item name="vpiIconPageIndicatorStyle">@style/Widget.IconPageIndicator</item>
-        <item name="vpiTabPageIndicatorStyle">@style/Widget.TabPageIndicator.Custom</item>
-        <item name="android:windowIsTranslucent">true</item>
+        <!--<item name="vpiIconPageIndicatorStyle">@style/Widget.IconPageIndicator</item>-->
+        <!--<item name="vpiTabPageIndicatorStyle">@style/Widget.TabPageIndicator.Custom</item>-->
+        <!--<item name="android:windowIsTranslucent">true</item>-->
         <!-- translucent system bars
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>

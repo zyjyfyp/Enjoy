@@ -3,7 +3,6 @@ package com.yunsen.enjoy.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.yunsen.enjoy.activity.AdvertActivity;
@@ -14,6 +13,8 @@ import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.activity.MoveActivity;
 import com.yunsen.enjoy.activity.SearchActivity;
 import com.yunsen.enjoy.activity.SelectCityActivity;
+import com.yunsen.enjoy.activity.mine.ApplyServiceActivity;
+import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
 import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
@@ -168,7 +169,23 @@ public class UIHelper {
         ctx.startActivity(intent4);
     }
 
+    /**
+     * 预约管理
+     *
+     * @param ctx
+     */
     public static void showAppointmentActivity(Context ctx) {
+        Intent intent = new Intent(ctx, AppointmentActivity.class);
+        ctx.startActivity(intent);
+    }
 
+    /**
+     * 申请服务商
+     *
+     * @param ctx
+     */
+    public static void showApplyServiceActivity(Context ctx) {
+        Intent intent = new Intent(ctx, ApplyServiceActivity.class);
+        ctx.startActivity(intent);
     }
 }
