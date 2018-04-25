@@ -7,11 +7,12 @@
 
     <TextView
         android:id="@+id/left_tv"
-        android:layout_width="32dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:lines="1"
+        android:maxEms="3"
         android:textSize="14sp" />
 
     <ImageView
@@ -21,6 +22,11 @@
         android:layout_gravity="center_vertical"
         android:layout_marginRight="10dp"
         android:src="@mipmap/down_more" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1" />
 
     <LinearLayout
         android:id="@+id/search_layout"
@@ -51,7 +57,7 @@
 
     <View
         android:layout_width="0dp"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:layout_weight="1" />
 
     <RelativeLayout
