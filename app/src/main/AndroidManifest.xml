@@ -60,6 +60,30 @@
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <!-- 微信 -->
+
+
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent222222" />
+                <!-- 100380359 100381104 222222 -->
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+
+        <!--app activity-->
         <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait" />
@@ -124,6 +148,29 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.mine.WareInformationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.pay.TishiCarArchivesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.user.PhoneLoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.user.UserLoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.user.UserLoginWayActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DialogStyleBottom" />
+        <activity
+            android:name=".activity.user.UserRegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.user.TishiWxBangDingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AlertDialogStyle" />
+        <activity
+            android:name=".activity.user.MobilePhoneActivity"
             android:screenOrientation="portrait" />
     </application>
 

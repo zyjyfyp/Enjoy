@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.mob.tools.utils.UIHandler;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
+import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
+import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.ui.UIHelper;
 
 import butterknife.Bind;
@@ -161,24 +163,22 @@ public class MemberFragment extends BaseFragment {
 
     @OnClick(R.id.collection_layout) //收藏
     public void onCollectionLayoutClicked() {
-        Intent intent1 = new Intent(getActivity(),
-                CollectionActivity.class);
-        startActivity(intent1);
+
         if (!TextUtils.isEmpty(nickname)) {
             if (!TextUtils.isEmpty(user_name_phone)) {
                 Intent intent5 = new Intent(getActivity(),
                         CollectionActivity.class);
                 startActivity(intent5);
             } else {// TODO: 2018/4/25 zyjy
-//                Intent intent = new Intent(getActivity(),
-//                        TishiWxBangDingActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(getActivity(),
+                        TishiWxBangDingActivity.class);
+                startActivity(intent);
             }
         } else {
             if (TextUtils.isEmpty(user_name_phone)) { // TODO: 2018/4/25 zyjy
-//                Intent intent9 = new Intent(getActivity(),
-//                        UserLoginActivity.class);
-//                startActivity(intent9);
+                Intent intent9 = new Intent(getActivity(),
+                        UserLoginActivity.class);
+                startActivity(intent9);
             } else {
                 Intent intent9 = new Intent(getActivity(),
                         CollectionActivity.class);

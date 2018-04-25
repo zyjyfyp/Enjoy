@@ -45,6 +45,9 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.mine.adapter.GoodsGgcsListAdapter;
 import com.yunsen.enjoy.activity.mine.adapter.GuigeListAdapter;
+import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
+import com.yunsen.enjoy.activity.user.UserLoginActivity;
+import com.yunsen.enjoy.activity.user.UserLoginWayActivity;
 import com.yunsen.enjoy.common.AppManager;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.http.AsyncHttp;
@@ -202,16 +205,15 @@ public class WareInformationActivity extends AppCompatActivity implements
         String unionid = spPreferences_login.getString("unionid", "");
         String access_token = spPreferences_login.getString("access_token", "");
         String sex = spPreferences_login.getString("sex", "");
-// TODO: 2018/4/25 zyjy
-//		System.out.println("UserLoginActivity====================="+UserLoginActivity.oauth_name);
-//		System.out.println("UserLoginWayActivity====================="+UserLoginWayActivity.oauth_name);
-//
-//		if (UserLoginActivity.oauth_name.equals("weixin")) {
-//			oauth_name = "weixin";
-//		} else if (UserLoginWayActivity.oauth_name.equals("weixin")) {
-//			oauth_name = "qq";
-//			unionid = "";
-//		}
+        System.out.println("UserLoginActivity=====================" + UserLoginActivity.oauth_name);
+        System.out.println("UserLoginWayActivity=====================" + UserLoginWayActivity.oauth_name);
+
+        if (UserLoginActivity.oauth_name.equals("weixin")) {
+            oauth_name = "weixin";
+        } else if (UserLoginWayActivity.oauth_name.equals("weixin")) {
+            oauth_name = "qq";
+            unionid = "";
+        }
 
         System.out.println("nickname-----1-----" + nickname);
         String nick_name = nickname.replaceAll("\\s*", "");
@@ -242,65 +244,63 @@ public class WareInformationActivity extends AppCompatActivity implements
                     //							area = obj.getString("area");
 
                     System.out.println("datall==============" + datall);
-//					if (datall.equals("null")) {
-//
-//						SharedPreferences spPreferences_tishi = getSharedPreferences("longuserset_tishi", MODE_PRIVATE);
-//						weixin = spPreferences_tishi.getString("weixin", "");
-//						qq = spPreferences_tishi.getString("qq", "");
-//						System.out.println("=================weixin==" + weixin);
-//						System.out.println("=================qq==" + qq);
-//
-//						System.out.println("UserLoginActivity.panduan====1=="+UserLoginActivity.panduan_tishi);
-//						System.out.println("UserLoginWayActivity.panduan====2=="+UserLoginWayActivity.panduan_tishi);
-//						if (!nickname.equals("")) {
-//
-//							if (UserLoginActivity.panduan_tishi == true) {
-//								if (weixin.equals("weixin")) {
-//								}else {
-//									Intent intent1 = new Intent(WareInformationActivity.this, TishiWxBangDingActivity.class);
-//									startActivity(intent1);
-//									UserLoginActivity.panduan_tishi = false;
-//								}
-//
-//							}else if (UserLoginWayActivity.panduan_tishi == true) {
-//								if (qq.equals("qq")) {
-//								}else {
-//									Intent intent2 = new Intent(WareInformationActivity.this, TishiWxBangDingActivity.class);
-//									startActivity(intent2);
-//									UserLoginWayActivity.panduan_tishi = false;
-//								}
-//							}
-//						}
-//
-//					}else {
-//						UserRegisterllData data = new UserRegisterllData();
-//						JSONObject obj = object.getJSONObject("data");
-//						data.id = obj.getString("id");
-//						data.user_name = obj.getString("user_name");
-//						user_id = data.id;
-//						System.out.println("---data.user_name-------------------"+data.user_name);
-//						System.out.println("---user_id-------------------"+user_id);
-//						if (data.user_name.equals("匿名")) {
-//							System.out.println("---微信还未绑定-------------------");
-//							Intent intent1 = new Intent(WareInformationActivity.this, TishiWxBangDingActivity.class);
-//							startActivity(intent1);
-//						}else {
-//							SharedPreferences spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-//							String user = spPreferences.getString("user", "");
-//							System.out.println("---1-------------------"+user);
-//							data.login_sign = obj.getString("login_sign");
-//
-//							Editor editor = spPreferences.edit();
-//							editor.putString("user",data.user_name);
-//							editor.putString("user_id", data.id);
-//							editor.putString("login_sign", data.login_sign);
-//							editor.commit();
-//
-//							String user_name = spPreferences.getString("user", "");
-//							System.out.println("---2-------------------"+user_name);
-//						}
-//					}
-                    // TODO: 2018/4/25 zyjy
+                    if (("null").equals(datall)) {
+                        SharedPreferences spPreferences_tishi = getSharedPreferences("longuserset_tishi", MODE_PRIVATE);
+                        weixin = spPreferences_tishi.getString("weixin", "");
+                        qq = spPreferences_tishi.getString("qq", "");
+                        System.out.println("=================weixin==" + weixin);
+                        System.out.println("=================qq==" + qq);
+
+                        System.out.println("UserLoginActivity.panduan====1==" + UserLoginActivity.panduan_tishi);
+                        System.out.println("UserLoginWayActivity.panduan====2==" + UserLoginWayActivity.panduan_tishi);
+                        if (!nickname.equals("")) {
+
+                            if (UserLoginActivity.panduan_tishi == true) {
+                                if (weixin.equals("weixin")) {
+                                } else {
+                                    Intent intent1 = new Intent(WareInformationActivity.this, TishiWxBangDingActivity.class);
+                                    startActivity(intent1);
+                                    UserLoginActivity.panduan_tishi = false;
+                                }
+
+                            } else if (UserLoginWayActivity.panduan_tishi == true) {
+                                if (qq.equals("qq")) {
+                                } else {
+                                    Intent intent2 = new Intent(WareInformationActivity.this, TishiWxBangDingActivity.class);
+                                    startActivity(intent2);
+                                    UserLoginWayActivity.panduan_tishi = false;
+                                }
+                            }
+                        }
+
+                    } else {
+                        UserRegisterllData data = new UserRegisterllData();
+                        JSONObject obj = object.getJSONObject("data");
+                        data.id = obj.getString("id");
+                        data.user_name = obj.getString("user_name");
+                        user_id = data.id;
+                        System.out.println("---data.user_name-------------------" + data.user_name);
+                        System.out.println("---user_id-------------------" + user_id);
+                        if (data.user_name.equals("匿名")) {
+                            System.out.println("---微信还未绑定-------------------");
+                            Intent intent1 = new Intent(WareInformationActivity.this, TishiWxBangDingActivity.class);
+                            startActivity(intent1);
+                        } else {
+                            SharedPreferences spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
+                            String user = spPreferences.getString("user", "");
+                            System.out.println("---1-------------------" + user);
+                            data.login_sign = obj.getString("login_sign");
+
+                            Editor editor = spPreferences.edit();
+                            editor.putString("user", data.user_name);
+                            editor.putString("user_id", data.id);
+                            editor.putString("login_sign", data.login_sign);
+                            editor.commit();
+
+                            String user_name = spPreferences.getString("user", "");
+                            System.out.println("---2-------------------" + user_name);
+                        }
+                    }
                     getuserxinxi();
                 } catch (JSONException e) {
 

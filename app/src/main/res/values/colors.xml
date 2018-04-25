@@ -207,4 +207,10 @@
     <color name="colorText">#ffffff</color>
     <!-- 字体颜色 -->
     <color name="huiheise">#C8CACC</color>
+
+    <color name="color333">#333333</color>
+    <color name="color_f8f8fb">#f8f8fb</color>
+    <color name="color_ff9250">#ff9250</color>
+    <color name="color999">#999999</color>
+    <color name="color_eee">#eee</color>
 </resources>

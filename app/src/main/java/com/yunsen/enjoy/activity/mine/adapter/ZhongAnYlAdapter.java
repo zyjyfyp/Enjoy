@@ -110,7 +110,7 @@ public class ZhongAnYlAdapter extends BaseAdapter {
 						String id = list.get(position).getId();
 						String title = list.get(position).getTitle();
 						System.out.println("=====================" + id);
-						// TODO: 2018/4/25  zyjy
+						// TODO: 2018/4/25  zyjy 中安养老
 //						Intent intent = new Intent(context,
 //								ZhongAnYlListActivity.class);
 //						intent.putExtra("id", id);

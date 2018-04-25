@@ -1,0 +1,87 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+     >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/dialog_tips_mid"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_yue"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dip"
+                android:gravity="center"
+                android:text="绑定乐享汽车手机号"
+                android:textColor="@color/all_wenzi"
+                android:textSize="18sp" />
+
+            
+           <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:gravity="center"
+                android:text="您目前是第三方账号登录，完善手机可获得更多你感兴趣的内容！"
+                android:textColor="@color/all_wenzi"
+                android:textSize="16sp" />
+        </LinearLayout>
+<View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray" />
+        <LinearLayout
+            android:id="@+id/layBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btnCancle"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="0.5dp"
+                android:layout_marginTop="0.1dp"
+                android:layout_weight="1"
+                android:text="去绑定"
+                 android:background="@null"
+                android:textColor="@color/all_wenzi"
+                android:textSize="16sp" />
+<View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray" />
+            <Button
+                android:id="@+id/btnConfirm"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="0.1dp"
+                android:layout_marginTop="0.1dp"
+                android:layout_weight="1"
+                android:text="跳过"
+                 android:background="@null"
+                android:textColor="@color/all_wenzi"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

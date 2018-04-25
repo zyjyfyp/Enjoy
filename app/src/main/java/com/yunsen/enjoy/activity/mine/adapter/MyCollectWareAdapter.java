@@ -118,7 +118,7 @@ public class MyCollectWareAdapter extends BaseAdapter {
 						context.startActivity(intent);
 					} else {
 						Intent intent = new Intent(context,
-								WareInformationActivity.class); //todo ing
+								WareInformationActivity.class);
 						intent.putExtra("id", list.get(position).article_id);
 						context.startActivity(intent);
 

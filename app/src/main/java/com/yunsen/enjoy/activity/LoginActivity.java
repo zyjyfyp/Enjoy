@@ -70,7 +70,7 @@ public class LoginActivity extends BaseFragmentActivity {
 
     @Override
     public int getLayout() {
-        return R.layout.activity_login;
+        return R.layout.activity_login2;
     }
 
     @Override

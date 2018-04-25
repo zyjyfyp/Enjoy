@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+    <!-- android:background="#FF0000"  -->
+    <LinearLayout
+        android:id="@+id/ll_zhifufs"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/edt_zhifu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:gravity="right"
+            android:text="配送方式"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+
+
+        <TextView
+            android:id="@+id/edt_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|right"
+            android:hint=""
+            android:paddingRight="0dp"
+            android:textColor="@color/hongse"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/iv_tubiao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/checkbox_shangjia"
+            android:visibility="gone" />
+
+        <CheckBox
+            android:id="@+id/ck_xuanzhe"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/checkbox_shangjia"
+            android:button="@null"
+            android:checked="true"
+            android:visibility="gone" />
+
+        <CheckedTextView
+            android:id="@android:id/text1"
+            android:layout_width="50dp"
+            android:layout_height="?android:attr/listPreferredItemHeightSmall"
+            android:checkMark="?android:attr/listChoiceIndicatorSingle"
+            android:gravity="center_vertical"
+            android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+            android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:visibility="gone"
+            tools:ignore="RtlCompat" />
+    </LinearLayout>
+
+
+</LinearLayout>

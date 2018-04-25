@@ -114,15 +114,14 @@ public class AddressManagerActivity extends AppCompatActivity {
 //					finish();
 //				}
 				String jutuan_type = getIntent().getStringExtra("jutuan_type");
-				// TODO: 2018/4/25  zyjy
-//			    if (jutuan_type != null) {
-//			    	intent = new Intent(AddressManagerActivity.this,JuTuanConfrimActivity.class);
-//			    	JuTuanConfrimActivity.handlerll.sendEmptyMessage(2);
-//				}else {
-//					intent = new Intent(AddressManagerActivity.this,MyOrderConfrimActivity.class);
-//					MyOrderConfrimActivity.handlerll.sendEmptyMessage(2);
-//				}
-//
+			    if (jutuan_type != null) {
+			    	intent = new Intent(AddressManagerActivity.this,JuTuanConfrimActivity.class);
+			    	JuTuanConfrimActivity.handlerll.sendEmptyMessage(2);
+				}else {
+					intent = new Intent(AddressManagerActivity.this,MyOrderConfrimActivity.class);
+					MyOrderConfrimActivity.handlerll.sendEmptyMessage(2);
+				}
+
 				String no = getIntent().getStringExtra("no");
 				String title = getIntent().getStringExtra("title");
 				String stare = getIntent().getStringExtra("stare");

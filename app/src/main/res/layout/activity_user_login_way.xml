@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/no_color"
+    android:orientation="vertical"
+    android:layout_gravity="bottom"
+    >
+
+<LinearLayout
+    android:id="@+id/ll_zhifu_buju"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/gray"
+    android:orientation="vertical"
+     >
+    <TextView
+        android:id="@+id/item0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         android:background="@drawable/actionsheet_middle_selector"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:visibility="gone"
+        android:text="手机号登录"
+        android:textSize="16sp" />
+	 <TextView
+        android:id="@+id/item1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/actionsheet_middle_selector"
+        android:gravity="center"
+         android:textColor="@color/black"
+        android:text="QQ登录"
+        android:textSize="16sp" />
+    <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/gray" />
+    <TextView
+        android:id="@+id/item4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/actionsheet_middle_selector"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="#8F8F8F"
+        android:textSize="16sp" />
+    </LinearLayout>
+</LinearLayout>
