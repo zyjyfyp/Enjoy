@@ -26,10 +26,13 @@ import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.utils.GetImgUtil;
 import com.yunsen.enjoy.utils.Utils;
 import com.yunsen.enjoy.widget.DialogProgress;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,7 +41,7 @@ public class UserLoginWayActivity extends AppCompatActivity implements
     private DialogProgress progress;
     public static String kahao;
     private String nickname, sex, province, city, country;
-    // private SharedPreferences spPreferences_qq;
+    // private SharedPreference spPreferences_qq;
     private SharedPreferences spPreferences_login;
     public static boolean isWXLogin = false;
     public static IWXAPI mWxApi;
@@ -47,8 +50,9 @@ public class UserLoginWayActivity extends AppCompatActivity implements
     public static QQAuth mQQAuth;
     private UserInfo mInfo;
     private Tencent mTencent;
-    private final String APP_ID = "1105738127";
-    // private final String APP_ID = "222222";// 测试时使用，真正发布的时候要换成自己的APP_ID
+    //        private final String APP_ID = "1105738127";
+// TODO: 2018/4/26
+    private final String APP_ID = "222222";// 测试时使用，真正发布的时候要换成自己的APP_ID
     public static Bitmap bitmap;
     public static String oauth_name = "";
     public static boolean panduan = false;
@@ -99,7 +103,7 @@ public class UserLoginWayActivity extends AppCompatActivity implements
     protected void onResume() {
 
         super.onResume();
-        // SharedPreferences spPreferences = getSharedPreferences("longuserset",
+        // SharedPreference spPreferences = getSharedPreferences("longuserset",
         // MODE_PRIVATE);
         // user_name = spPreferences.getString("user_name", "");
         // if (nickname == null && bitmap == null) {
@@ -165,22 +169,15 @@ public class UserLoginWayActivity extends AppCompatActivity implements
 
         switch (v.getId()) {
             case R.id.item0://
-                Intent intent3 = new Intent(UserLoginWayActivity.this,
-                        PhoneLoginActivity.class);
+                Intent intent3 = new Intent(UserLoginWayActivity.this, PhoneLoginActivity.class);
                 startActivity(intent3);
                 finish();
                 break;
             case R.id.item1://
-                try {
-                    onClickLogin();
-                    // Intent intent = new
-                    // Intent(UserLoginActivity.this,QQLoginActivity.class);
-                    // startActivity(intent);
-
-                } catch (Exception e) {
-
-                    e.printStackTrace();
-                }
+                onClickLogin();
+                // Intent intent = new
+                // Intent(UserLoginActivity.this,QQLoginActivity.class);
+                // startActivity(intent);
                 break;
             case R.id.item4://
                 finish();
@@ -192,8 +189,7 @@ public class UserLoginWayActivity extends AppCompatActivity implements
 
     private void onClickLogin() {
         try {
-            SharedPreferences spPreferences_tishi = getSharedPreferences(
-                    "longuserset_tishi", MODE_PRIVATE);
+            SharedPreferences spPreferences_tishi = getSharedPreferences("longuserset_tishi", MODE_PRIVATE);
             String weixin = spPreferences_tishi.getString("weixin", "");
             if (!weixin.equals("")) {
                 spPreferences_tishi.edit().clear().commit();
@@ -211,10 +207,7 @@ public class UserLoginWayActivity extends AppCompatActivity implements
                         }
                     };
                     mQQAuth.login(this, "all", listener);
-                    // mTencent.loginWithOEM(this,
-                    // "all",listener,"10000144","10000144","xxxx");
                     mTencent.login(this, "all", listener);
-                    // finish();
                 } catch (Exception e) {
 
                     e.printStackTrace();
@@ -222,7 +215,6 @@ public class UserLoginWayActivity extends AppCompatActivity implements
             } else {
                 mQQAuth.logout(this);
                 updateUserInfo();
-                // finish();
             }
         } catch (Exception e) {
 
@@ -324,40 +316,23 @@ public class UserLoginWayActivity extends AppCompatActivity implements
                                                 String headimgurl2 = Utils.bitmaptoString(bitmap);
                                                 Editor editor = spPreferences_login
                                                         .edit();
-                                                editor.putString("nickname",
-                                                        nickname);
-                                                editor.putString("headimgurl2",
-                                                        headimgurl2);
+                                                editor.putString("nickname", nickname);
+                                                editor.putString("headimgurl2", headimgurl2);
                                                 editor.putString("sex", sex);
-                                                editor.putString("province",
-                                                        province);
+                                                editor.putString("province", province);
                                                 editor.putString("city", city);
-                                                editor.putString("country",
-                                                        country);
+                                                editor.putString("country", country);
                                                 editor.commit();
                                                 System.out
                                                         .println("bitmap==============="
                                                                 + bitmap);
-
-                                                // SharedPreferences
-                                                // spPreferences_tishi =
-                                                // getSharedPreferences("longuserset_tishi",
-                                                // MODE_PRIVATE);
-                                                // spPreferences_tishi.edit().clear().commit();
-
+                                                EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
                                             }
-
-                                            // Message msg = new Message();
-                                            // msg.obj = bitmap;
-                                            // msg.what = 1;
-                                            // mHandler.sendMessage(msg);
-                                            // finish();
-
                                             if (nickname != null
                                                     && bitmap != null) {
-                                                // SharedPreferences
+                                                // SharedPreference
                                                 // spPreferences_3_wx =
                                                 // getSharedPreferences("longuserset_3_wx",
                                                 // MODE_PRIVATE);
@@ -367,7 +342,7 @@ public class UserLoginWayActivity extends AppCompatActivity implements
                                                         .sendEmptyMessage(1);
                                             } else {
 
-                                                // SharedPreferences
+                                                // SharedPreference
                                                 // spPreferences_3_wx =
                                                 // getSharedPreferences("longuserset_3_wx",
                                                 // MODE_PRIVATE);

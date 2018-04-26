@@ -64,7 +64,7 @@ public class JuTuanGouXqActivity extends AppCompatActivity implements OnClickLis
 
 	private ImageView iv_img;
 	private DialogProgress progress;
-	//	private SharedPreferences spPreferences_user;
+	//	private SharedPreference spPreferences_user;
 	private SharedPreferences spPreferences;
 	private ListView listview_01;
 	private ArrayList<JuTuanGouData> list = null;

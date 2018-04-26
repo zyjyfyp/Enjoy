@@ -39,8 +39,11 @@ import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.http.down.UpdateApkThread;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.widget.DialogProgress;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -78,6 +81,7 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
     SharedPreferences longuserset_ptye;
     SharedPreferences spPreferences_qq;
     Editor editor;
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,12 +127,12 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
     protected void onResume() {
 
         super.onResume();
-        //			SharedPreferences spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
+        //			SharedPreference spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
         //			user_name = spPreferences.getString("user_name", "");
 
-        //			SharedPreferences spPreferences_weixin = getSharedPreferences("longuserset_weixin", MODE_PRIVATE);
+        //			SharedPreference spPreferences_weixin = getSharedPreferences("longuserset_weixin", MODE_PRIVATE);
         //			spPreferences_weixin.edit().clear().commit();
-        //			SharedPreferences spPreferences_qq = getSharedPreferences("longuserset_qq", MODE_PRIVATE);
+        //			SharedPreference spPreferences_qq = getSharedPreferences("longuserset_qq", MODE_PRIVATE);
         //			spPreferences_qq.edit().clear().commit();
 
         wx_fanhui = true;//分享微信返回APP
@@ -206,7 +210,6 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
             AsyncHttp.get(accessTokenUrl, new AsyncHttpResponseHandler() {
                 public void onSuccess(int arg0, String arg1) {
                     System.out.println("======输出2=============" + arg1);
-                    //						Toast.makeText(UserLoginActivity.this, "数据2为+"+arg1, 400).show();
                     try {
                         JSONObject object = new JSONObject(arg1);
                         nickname = object.getString("nickname");
@@ -229,10 +232,7 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
                         editor.putString("country", country);
                         editor.putString("oauth_openid", oauth_openid);
                         editor.commit();
-                        //							mBitmap = HttpUtil.getBitmapFromURL(headimgurl);
-                        //							mTextView.setText(nickname);
-                        //							mImageView.setImageBitmap(mBitmap);
-
+                        EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
                     } catch (JSONException e) {
 
                         e.printStackTrace();
@@ -241,8 +241,6 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
                     spPreferences_qq = getSharedPreferences("longuserset_3_qq", MODE_PRIVATE);
                     spPreferences_qq.edit().clear().commit();
 
-                    //						SharedPreferences spPreferences_tishi = getSharedPreferences("longuserset_tishi", MODE_PRIVATE);
-                    //						spPreferences_tishi.edit().clear().commit();
 
                     isWXLogin = false;
                     finish();
@@ -504,7 +502,6 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
     private void dialog() {
 
         AlertDialog.Builder builder = new Builder(UserLoginActivity.this);
-        //		builder.setMessage(updatainfo);
         builder.setMessage("检查到最新版本，是否要更新！");
         builder.setTitle("提示:新版本");
         builder.setPositiveButton("更新", new DialogInterface.OnClickListener() {
@@ -512,7 +509,7 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 System.out.println("UserLoginActivity.zhuangtai------------------" + UserLoginActivity.zhuangtai);
-// TODO: 2018/4/25 zyjy 升级标记
+                // TODO: 2018/4/25 zyjy 升级标记
                 if (MainActivity.zhuangtai == true) {
                     Toast.makeText(UserLoginActivity.this, "正在下载...", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
@@ -538,9 +535,8 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
                         dialog.dismiss();
                     }
                 });
-        builder.create().
-
-                show();
+        dialog = builder.create();
+        dialog.show();
     }
 
     // 获取当前程序的版本信息
@@ -561,4 +557,14 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
         return versionName;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (dialog != null) {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
+            dialog = null;
+        }
+    }
 }

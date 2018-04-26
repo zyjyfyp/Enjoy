@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
-import com.yunsen.enjoy.utils.SharedPreferences;
+import com.yunsen.enjoy.utils.SharedPreference;
 
 
 /**
@@ -39,7 +39,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        final boolean firstTimeUse = SharedPreferences.getInstance().getBoolean("first-time-use", true);
+        final boolean firstTimeUse = SharedPreference.getInstance().getBoolean("first-time-use", true);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -61,7 +61,7 @@ public class SplashActivity extends AppCompatActivity {
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences.getInstance().putBoolean("first-time-use", false);
+                SharedPreference.getInstance().putBoolean("first-time-use", false);
                 UIHelper.showHome(SplashActivity.this);
             }
         });

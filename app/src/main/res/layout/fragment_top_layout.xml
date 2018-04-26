@@ -9,8 +9,7 @@
         android:id="@+id/layout_ent_gallery"
         android:layout_width="fill_parent"
         android:layout_height="170dp"
-        android:background="@color/white"
-        >
+        android:background="@color/white">
 
         <com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager
             android:id="@+id/pager"
@@ -24,7 +23,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="5dp"
-        android:padding="5dp" />
+            android:padding="5dp" />
     </RelativeLayout>
 
     <LinearLayout
@@ -130,35 +129,14 @@
         android:orientation="horizontal"
         android:weightSum="4" />
 
-    <LinearLayout
+    <ImageView
         android:id="@+id/button_layout"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/orange_button"
-        android:gravity="center"
-        android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_gravity="center"
-            android:layout_marginRight="10dp"
-            android:src="@mipmap/down_more" />
+        android:layout_height="40dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:maxLines="1"
-            android:text="查看全部车源"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
 
-    </LinearLayout>
+    </ImageView>
 
     <View
         android:layout_width="match_parent"
@@ -204,8 +182,8 @@
             android:id="@+id/car_img_big"
             android:layout_width="164dp"
             android:layout_height="match_parent"
-            android:scaleType="fitXY"
             android:layout_marginRight="2dp"
+            android:scaleType="fitXY"
             android:src="@mipmap/car_big_1" />
 
         <LinearLayout
@@ -246,29 +224,31 @@
 
         <ImageView
             android:id="@+id/car_img_3"
-            android:src="@mipmap/car_3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginRight="1dp"
             android:layout_weight="1"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:src="@mipmap/car_3" />
+
         <ImageView
             android:id="@+id/car_img_4"
-            android:src="@mipmap/car_4"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginRight="1dp"
             android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
             android:layout_weight="1"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:src="@mipmap/car_4" />
+
         <ImageView
             android:id="@+id/car_img_5"
-            android:src="@mipmap/car_5"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:src="@mipmap/car_5" />
     </LinearLayout>
 
     <LinearLayout

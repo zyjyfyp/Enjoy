@@ -3,6 +3,7 @@ package com.yunsen.enjoy.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.yunsen.enjoy.activity.AdvertActivity;
@@ -15,11 +16,15 @@ import com.yunsen.enjoy.activity.SearchActivity;
 import com.yunsen.enjoy.activity.SelectCityActivity;
 import com.yunsen.enjoy.activity.mine.ApplyServiceActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
+import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
 import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.activity.mine.TeamActivity;
 import com.yunsen.enjoy.activity.mine.Webview1;
+import com.yunsen.enjoy.activity.order.MyOrderActivity;
+import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
+import com.yunsen.enjoy.activity.user.UserLoginActivity;
 
 /**
  * 应用程序UI工具包：封装UI相关的一些操作
@@ -58,10 +63,7 @@ public class UIHelper {
         context.finish();
     }
 
-    public static void showLogin(Activity context) {
-        Intent intent = new Intent(context, LoginActivity.class);
-        context.startActivity(intent);
-    }
+
 
     public static void showHouseDetailActivity(Activity context) {
         Intent intent = new Intent(context, HouseDetailActivity.class);
@@ -140,10 +142,10 @@ public class UIHelper {
 
     /**
      * 我的资产
-     *
+     *  1 2 3 4
      * @param ctx
      */
-    public static void showAssetsActivity(Context ctx) {
+    public static void showAssetsActivity(Context ctx,String type) {
         Intent intent = new Intent(ctx, MyAssetsActivity.class);
         ctx.startActivity(intent);
     }
@@ -188,4 +190,48 @@ public class UIHelper {
         Intent intent = new Intent(ctx, ApplyServiceActivity.class);
         ctx.startActivity(intent);
     }
+
+    /**
+     * 去订单页面
+     *
+     * @param ctx
+     * @param type
+     */
+    public static void showOrderActivity(Context ctx, String type) {
+        Intent intent = new Intent(ctx, MyOrderActivity.class);
+        intent.putExtra("status", type);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 绑定手机
+     *
+     * @param ctx
+     */
+    public static void showBundPhoneActivity(Context ctx) {
+        Intent intent = new Intent(ctx, TishiWxBangDingActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 微信登录
+     *
+     * @param ctx
+     */
+    public static void showUserLoginActivity(Context ctx) {
+        Intent intent = new Intent(ctx, UserLoginActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 收藏页面
+     *
+     * @param ctx
+     */
+    public static void showCollectionActivity(Context ctx) {
+        Intent intent = new Intent(ctx, CollectionActivity.class);
+        ctx.startActivity(intent);
+    }
+
+
 }

@@ -391,11 +391,11 @@ public class MobilePhoneActivity extends AppCompatActivity implements
 											editor.commit();
 										}
 
-										// SharedPreferences spPreferences_3_wx =
+										// SharedPreference spPreferences_3_wx =
 										// getSharedPreferences("longuserset_3_wx",
 										// MODE_PRIVATE);
 										// spPreferences_3_wx.edit().clear().commit();
-										// SharedPreferences spPreferences_qq =
+										// SharedPreference spPreferences_qq =
 										// getSharedPreferences("longuserset_3_qq",
 										// MODE_PRIVATE);
 										// spPreferences_qq.edit().clear().commit();
@@ -513,7 +513,7 @@ public class MobilePhoneActivity extends AppCompatActivity implements
 																	// if
 																	// (oauth_name.equals("weixin"))
 																	// {
-																	// SharedPreferences
+																	// SharedPreference
 																	// spPreferences
 																	// =
 																	// getSharedPreferences("longuserset_3_wx",
@@ -529,7 +529,7 @@ public class MobilePhoneActivity extends AppCompatActivity implements
 																	// System.out.println("=================user_wx==");
 																	// }else if
 																	// (oauth_name.equals("qq")){
-																	// SharedPreferences
+																	// SharedPreference
 																	// spPreferences
 																	// =
 																	// getSharedPreferences("longuserset_3_qq",

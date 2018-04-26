@@ -331,7 +331,7 @@ public class WareInformationActivity extends AppCompatActivity implements
             user_name_key = user_name_phone;
         }
 
-        //		SharedPreferences spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
+        //		SharedPreference spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
         //		Editor editor = spPreferences.edit();
         //		editor.putString("user", user_name_key);
         //		editor.putString("user_id", user_id);

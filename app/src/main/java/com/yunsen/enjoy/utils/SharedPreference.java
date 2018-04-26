@@ -6,25 +6,25 @@ import android.content.SharedPreferences.Editor;
 import com.yunsen.enjoy.common.AppContext;
 
 
-public class SharedPreferences {
+public class SharedPreference {
 
     private static final String SP_NAME = "souyue";
     public static final String KEY_LOGIN_TOKEN = "login_token";
     public static final String KEY_LOGIN_TYPE = "login_type";
 
 
-    private static SharedPreferences instance = new SharedPreferences();
+    private static SharedPreference instance = new SharedPreference();
 
-    public SharedPreferences() {
+    public SharedPreference() {
     }
 
     private static synchronized void syncInit() {
         if (instance == null) {
-            instance = new SharedPreferences();
+            instance = new SharedPreference();
         }
     }
 
-    public static SharedPreferences getInstance() {
+    public static SharedPreference getInstance() {
         if (instance == null) {
             syncInit();
         }

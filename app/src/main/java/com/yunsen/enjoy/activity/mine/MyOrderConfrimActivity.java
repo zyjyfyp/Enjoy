@@ -1830,7 +1830,7 @@ public class MyOrderConfrimActivity extends AppCompatActivity {
         try {
 
             //
-            String orderInfo = getOrderInfo("中安民生商品", "商品描述", recharge_no);
+            String orderInfo = getOrderInfo("乐享汽车商品", "商品描述", recharge_no);
 
             // 对订单做RSA 签名
             String sign = sign(orderInfo);

@@ -28,8 +28,8 @@
              android:layout_alignParentLeft="true"
              android:layout_centerVertical="true"
              android:layout_marginLeft="10dp"
-             android:src="@drawable/fanhuijian"
-             android:textSize="18dip" />
+             android:src="@drawable/back"
+             />
 
      </RelativeLayout>
 

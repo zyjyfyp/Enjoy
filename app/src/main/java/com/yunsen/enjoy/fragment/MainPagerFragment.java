@@ -12,10 +12,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.squareup.picasso.Picasso;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.MainActivity;
-import com.yunsen.enjoy.activity.SelectCityActivity;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
 import com.yunsen.enjoy.fragment.home.StoreRecyclerAdapter;
@@ -30,8 +32,7 @@ import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
-import com.yunsen.enjoy.utils.BitmapUtil;
-import com.yunsen.enjoy.utils.SharedPreferences;
+import com.yunsen.enjoy.utils.SharedPreference;
 import com.yunsen.enjoy.widget.ADTextView;
 import com.yunsen.enjoy.widget.HomeFootView;
 import com.yunsen.enjoy.widget.HorizontalLayout;
@@ -40,6 +41,7 @@ import com.yunsen.enjoy.widget.SearchActionBar;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 import com.yunsen.enjoy.widget.recyclerview.wrapper.HeaderAndFooterWrapper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,7 +72,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     private View topView;
     private HeaderAndFooterWrapper mHeaderWrapper;
     private StoreRecyclerAdapter mAdapter;
-    private View allCars;
+    private ImageView allCars;
     private View moreCar;
 
 
@@ -111,6 +113,11 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
     @Override
     protected void initData() {
+        Glide.with(getActivity())
+                .load(R.mipmap.home_img)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .into(new GlideDrawableImageViewTarget(allCars, 1));
         LinearLayoutManager layoutmanager = new LinearLayoutManager(getActivity());
         //设置RecyclerView 布局
         layoutmanager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -118,7 +125,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
         ArrayList<SProviderModel> storeModes = new ArrayList<>();
         storeModes.add(new SProviderModel(null, "上海大众汽车广东省深圳市宝安区4S店"));
-        storeModes.add(new SProviderModel(null, "上海大众汽车广东省深圳市宝安区4S店"));
+        storeModes.add(new SProviderModel(null, "上海大众汽车广东省深圳市宝安区4S店上海大众汽车广东省深圳市宝安区4S店"));
         storeModes.add(new SProviderModel(null, "上海大众汽车广东省深圳市宝安区4S店"));
         storeModes.add(new SProviderModel(null, "上海大众汽车广东省深圳市宝安区4S店"));
         storeModes.add(new SProviderModel(null, "上海大众汽车广东省深圳市宝安区4S店"));
@@ -333,7 +340,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     public void onResume() {
         super.onResume();
         banner.startAutoScroll();
-        String currentCity = SharedPreferences.getInstance().getString(SpConstants.CITY_KEY, "深圳");
+        String currentCity = SharedPreference.getInstance().getString(SpConstants.CITY_KEY, "深圳");
         searchBar.setLeftText(currentCity);
 //        adtTv1.onStartAuto(1);
 //        adtTv2.onStopAuto(2);

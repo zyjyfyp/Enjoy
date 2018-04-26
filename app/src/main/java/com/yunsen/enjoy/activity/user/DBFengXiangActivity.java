@@ -153,7 +153,7 @@ public class DBFengXiangActivity extends AppCompatActivity implements OnClickLis
 			System.out.println("user_id==========" + user_id);
 
 			SharedPreferences spPreferences_login = getSharedPreferences("longuserset_login", MODE_PRIVATE);
-//			SharedPreferences spPreferences_tishi = getSharedPreferences("longuserset_tishi", MODE_PRIVATE);
+//			SharedPreference spPreferences_tishi = getSharedPreferences("longuserset_tishi", MODE_PRIVATE);
 			SharedPreferences spPreferences = getSharedPreferences("longuserset_ptye", MODE_PRIVATE);
 			String ptye = spPreferences.getString("ptye", "");
 //			String qq = spPreferences_tishi.getString("qq", "");

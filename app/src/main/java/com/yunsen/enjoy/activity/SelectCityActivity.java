@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.SpConstants;
-import com.yunsen.enjoy.utils.SharedPreferences;
+import com.yunsen.enjoy.utils.SharedPreference;
 import com.yunsen.enjoy.utils.StringUtils;
 import com.yunsen.enjoy.widget.city.CityList;
 import com.yunsen.enjoy.widget.city.CityModel;
@@ -65,7 +65,7 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
         mCityLit = (ListView) findViewById(R.id.public_allcity_list);
         letterListView = (MyLetterListView) findViewById(R.id.cityLetterListView);
         actionBarTitle.setText("选择城市");
-        String currentCity = SharedPreferences.getInstance().getString(SpConstants.CITY_KEY, "深圳");
+        String currentCity = SharedPreference.getInstance().getString(SpConstants.CITY_KEY, "深圳");
         currentCityTv.setText("当前的选择的城市：" + currentCity);
     }
 
@@ -105,7 +105,7 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
         CityModel cityModel = (CityModel) mCityLit.getAdapter()
                 .getItem(pos);
         if (cityModel != null && TextUtils.isEmpty(cityModel.getFirstLetter())) {
-            SharedPreferences.getInstance().putString(SpConstants.CITY_KEY, cityModel.getName());
+            SharedPreference.getInstance().putString(SpConstants.CITY_KEY, cityModel.getName());
             finish();
         }
     }

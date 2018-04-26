@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:text="注册中安民生账户"
+                    android:text="注册乐享汽车账户"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -220,7 +220,7 @@
                     android:id="@+id/regise_tip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="《中安民生服务与用户协议》"
+                    android:text="《乐享汽车服务与用户协议》"
                     android:textColor="@color/black" >
                 </TextView>
             </LinearLayout>

@@ -29,6 +29,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 收藏页面
+ */
 public class CollectionActivity extends AppCompatActivity {
 
     private ArrayAdapter<String> mAdapter;
@@ -104,25 +107,11 @@ public class CollectionActivity extends AppCompatActivity {
 
     public void onDestroy() {
         super.onDestroy();
-        try {
-
-            //			if (MyCollectWareAdapter.type == true) {
-            //				MyCollectWareAdapter.mAq.clear();
-            //				MyCollectWareAdapter.type = false;
-            //			}
-
-            if (list.size() > 0) {
+            if (list!=null&&list.size() > 0) {
                 list.clear();
                 list = null;
             }
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
     }
-
-    ;
 
     Handler handler = new Handler() {
         public void dispatchMessage(Message msg) {

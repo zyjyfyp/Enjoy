@@ -549,7 +549,7 @@ public class MyPopupWindowMenu extends PopupWindow implements OnClickListener,
             //							String data = "http://183.62.138.31:8088/appshare/"+id+".html";
             String data = "http://183.62.138.31:1011/appshare/" + user_id + ".html";
             System.out.println("分享11======================" + data);
-            String zhou = "中安民生下载地址,下载后可帮分享的好友获得福利" + data;
+            String zhou = "乐享汽车下载地址,下载后可帮分享的好友获得福利" + data;
 
             System.out.println("==========" + zhou);
             softshareWxChat(zhou);
@@ -574,7 +574,7 @@ public class MyPopupWindowMenu extends PopupWindow implements OnClickListener,
         //		webpage.webpageUrl = temp[1];
         WXMediaMessage msg = new WXMediaMessage(webpage);
         //msg.title = "我发你一个软件,看看呗!";
-        msg.title = "中安民生APP分享";
+        msg.title = "乐享汽车APP分享";
         msg.description = temp[0];
         Bitmap thumb = BitmapFactory.decodeResource(context.getResources(), R.mipmap.app_icon);
         msg.thumbData = Utils.bmpToByteArray(thumb, true);

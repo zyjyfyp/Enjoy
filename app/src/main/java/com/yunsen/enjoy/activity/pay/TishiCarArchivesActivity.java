@@ -172,7 +172,7 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
 	 */
 	private void userloginqm() {
 		try{
-			//			SharedPreferences spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
+			//			SharedPreference spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
 			//			String user_name = spPreferences.getString("user", "");
 			String strUrlone = URLConstants.REALM_NAME_LL + "/get_user_model?username="+user_name+"";
 			System.out.println("======11============="+strUrlone);

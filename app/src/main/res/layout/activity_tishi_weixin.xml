@@ -3,23 +3,22 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="center"
-    android:orientation="vertical"
-     >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/dialog_tips_mid"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:orientation="vertical" >
+        android:background="@drawable/dialog_tips_mid"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_yue"
@@ -33,8 +32,8 @@
                 android:textColor="@color/all_wenzi"
                 android:textSize="18sp" />
 
-            
-           <TextView
+
+            <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
@@ -43,17 +42,19 @@
                 android:textColor="@color/all_wenzi"
                 android:textSize="16sp" />
         </LinearLayout>
-<View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray" />
+
         <LinearLayout
             android:id="@+id/layBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
             android:gravity="center"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnCancle"
@@ -62,14 +63,16 @@
                 android:layout_marginRight="0.5dp"
                 android:layout_marginTop="0.1dp"
                 android:layout_weight="1"
+                android:background="@null"
                 android:text="去绑定"
-                 android:background="@null"
                 android:textColor="@color/all_wenzi"
                 android:textSize="16sp" />
-<View
+
+            <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="@color/gray" />
+
             <Button
                 android:id="@+id/btnConfirm"
                 android:layout_width="0dp"
@@ -77,8 +80,8 @@
                 android:layout_marginLeft="0.1dp"
                 android:layout_marginTop="0.1dp"
                 android:layout_weight="1"
+                android:background="@null"
                 android:text="跳过"
-                 android:background="@null"
                 android:textColor="@color/all_wenzi"
                 android:textSize="16sp" />
         </LinearLayout>

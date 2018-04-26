@@ -3,17 +3,27 @@ package com.yunsen.enjoy.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.activity.user.PhoneLoginActivity;
+import com.yunsen.enjoy.activity.user.UserLoginActivity;
+import com.yunsen.enjoy.activity.user.UserLoginWayActivity;
 
 /**
  * Created by Administrator on 2018/4/23.
  */
 
 public class DialogUtils {
+
+    private static AlertDialog dialog;
+
     public static Dialog createNumbmerPickerDialog(Activity act) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(act);
         View view = act.getLayoutInflater().inflate(R.layout.num_picker_dialog, null);
@@ -42,4 +52,103 @@ public class DialogUtils {
         picker.setWrapSelectorWheel(true);
         return builder.create();
     }
+
+
+    /**
+     * 提示是否注销登录
+     */
+    public static void showLoginDialog(Activity act) {
+        final Activity fAct = act;
+        AlertDialog.Builder builder = new AlertDialog.Builder(act);
+        builder.setMessage("是否注销登录?");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //  setinten();
+                // TODO: 2018/4/26   更新我的界面
+
+                // 清空SharedPreferences保存数据
+                SharedPreferences jdh_spPreferences = fAct.getSharedPreferences(
+                        "user_juduihuan", Context.MODE_PRIVATE);
+                SharedPreferences spPreferences = fAct.getSharedPreferences(
+                        "longuserset", Context.MODE_PRIVATE);
+                SharedPreferences spPreferences_login = fAct.getSharedPreferences(
+                        "longuserset_login", Context.MODE_PRIVATE);
+
+                if (UserLoginActivity.panduan == true) {
+                    // if (!user_name_weixin.equals("")) {
+                    spPreferences_login.edit().clear().commit();
+                    spPreferences.edit().clear().commit();
+                    jdh_spPreferences.edit().clear().commit();// 积兑换保存福利清除
+                    String nickname = spPreferences_login.getString("nickname", "");
+                    System.out.println("1======" + nickname);
+                    // Toast.makeText(getActivity(), "微信名/"+nickname,
+                    UserLoginActivity.panduan = false;
+                    Intent intent4 = new Intent(fAct, UserLoginActivity.class);
+                    fAct.startActivity(intent4);
+
+                } else if (UserLoginWayActivity.panduan == true) {
+
+                    // if (!user_name_qq.equals("")) {
+                    spPreferences_login.edit().clear().commit();
+                    spPreferences.edit().clear().commit();
+                    jdh_spPreferences.edit().clear().commit();// 积兑换保存福利清除
+                    String nickname = spPreferences_login.getString("nickname",
+                            "");
+                    // Toast.makeText(getActivity(), "QQ名/"+nickname,
+                    // 200).show();
+                    System.out.println("1======" + nickname);
+                    UserLoginWayActivity.panduan = false;
+                    Intent intent4 = new Intent(fAct, UserLoginActivity.class);
+                    fAct.startActivity(intent4);
+                } else if (PhoneLoginActivity.panduan == true) {
+
+                    // if (!user_name.equals("")) {
+                    spPreferences.edit().clear().commit();
+                    spPreferences_login.edit().clear().commit();
+                    jdh_spPreferences.edit().clear().commit();// 积兑换保存福利清除
+                    String user_name = spPreferences.getString("user", "");
+                    System.out.println("2======" + user_name);
+                    // Toast.makeText(getActivity(), "用户名/"+user_name,
+                    // 200).show();
+                    Intent intent4 = new Intent(fAct,
+                            UserLoginActivity.class);
+                    // intent4.putExtra("login", index);
+                    PhoneLoginActivity.panduan = false;
+                    fAct.startActivity(intent4);
+                } else {
+                    spPreferences.edit().clear().commit();
+                    spPreferences_login.edit().clear().commit();
+                    jdh_spPreferences.edit().clear().commit();// 积兑换保存福利清除
+                    Intent intent4 = new Intent(fAct, UserLoginActivity.class);
+                    fAct.startActivity(intent4);
+                }
+                SharedPreferences spPreferences_tishi = fAct.getSharedPreferences("longuserset_tishi", Context.MODE_PRIVATE);
+                spPreferences_tishi.edit().clear().commit();// 第三方授权登录提示绑定手机号信息清空
+            }
+        });
+
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog = builder.create();
+        dialog.show();
+    }
+
+    public static void closeLoginDialog() {
+        if (dialog != null) {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
+            dialog = null;
+        }
+
+    }
+
 }

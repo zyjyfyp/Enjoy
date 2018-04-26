@@ -1,0 +1,260 @@
+<!-- 主页 -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_weight="1"
+    android:background="@color/white"
+    android:scrollbars="none" >
+
+    <LinearLayout
+        android:id="@+id/lv_system_msg"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <!-- 订单项目 -->
+
+
+
+            <!-- 底部内容 -->
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/baihuise"
+                android:orientation="vertical" >
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1px"
+                    android:background="@color/all_939393" />
+
+                <LinearLayout
+                    android:id="@+id/lv_dingdanxq"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/baihuise"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="90dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                         android:gravity="center"
+                         >
+
+                        <ImageView
+                            android:id="@+id/iv_tupian"
+                            android:layout_width="70dip"
+                            android:layout_height="70dip"
+                            android:background="@color/gray"
+                            android:scaleType="fitXY"
+                             />
+                        
+                        <!-- ic_launcher  youbian -->
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:orientation="vertical"
+                        android:paddingRight="10dp" >
+
+                        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                 >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical" >
+                    
+                    <TextView
+                        android:id="@+id/tv_goods_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                     android:textSize="12sp"
+                    android:text="商品名称" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_goods_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="2dp"
+                    android:visibility="gone"
+                     android:textSize="12sp"
+                    android:text="￥119.00" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                  android:layout_marginTop="4dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical" >
+                    
+                    <TextView
+                         android:id="@+id/tv_real_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="2dp"
+                     android:textSize="12sp"
+                    android:text="￥119.00" />
+                </LinearLayout>
+
+                <TextView
+                     android:id="@+id/tv_market_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="2dp"
+                     android:textSize="12sp"
+                    android:text="￥119.00" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                 android:layout_marginTop="4dp"
+                 >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical" >
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="2dp"
+                     android:textSize="12sp"
+                    android:text="x1" />
+            </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                
+                <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:background="@color/white"
+                        android:orientation="vertical"
+                        android:paddingRight="0dp" >
+
+                        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                 android:layout_marginBottom="10dp"
+                 >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical" >
+                    
+                    <TextView
+                        android:id="@+id/tv_order_zj"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                     android:textSize="15sp"
+                    android:text="订单总价" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_zongjia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                     android:textSize="15sp"
+                    android:text="￥0.00" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                  android:layout_marginBottom="10dp"
+                android:visibility="gone"
+                >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical" >
+                     <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                     android:textSize="12sp"
+                    android:text="运费" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                     android:textSize="12sp"
+                    android:text="￥0.00" />
+            </LinearLayout>
+            <LinearLayout
+                 android:id="@+id/ll_kedihongbao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical" >
+                     <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                     android:textSize="12sp"
+                    android:text="已抵红包" />
+                </LinearLayout>
+
+                <TextView
+                     android:id="@+id/tv_hongbao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                     android:textSize="12sp"
+                    android:text="￥0.00" />
+            </LinearLayout>
+            
+              <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="@color/all_c1c1c1" />
+</LinearLayout>
+                          
+</LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

@@ -121,7 +121,7 @@
     </style>
 
     <!-- 自定义仿IOS的AlertDialog的样式 -->
-    <style name="AlertDialogStyle" parent="@android:style/Theme.Dialog">
+    <style name="AlertDialogStyle" parent="@style/Theme.AppCompat.Light.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowIsFloating">true</item>
