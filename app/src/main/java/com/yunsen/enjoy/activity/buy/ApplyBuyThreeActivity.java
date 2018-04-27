@@ -1,13 +1,11 @@
 package com.yunsen.enjoy.activity.buy;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
-import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.widget.BuyCarStepLayout;
 
 import butterknife.Bind;
@@ -16,10 +14,10 @@ import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2018/4/27.
- * 申请购买第一步
+ * 申请购买第三步
  */
 
-public class ApplyBuyFirstActivity extends BaseFragmentActivity {
+public class ApplyBuyThreeActivity extends BaseFragmentActivity {
 
     @Bind(R.id.action_back)
     ImageView actionBack;
@@ -27,33 +25,21 @@ public class ApplyBuyFirstActivity extends BaseFragmentActivity {
     TextView actionBarTitle;
     @Bind(R.id.action_bar_right)
     ImageView actionBarRight;
-    @Bind(R.id.buy_step_car_name)
-    TextView buyStepCarName;
-    @Bind(R.id.first_pay_tv)
-    TextView firstPayTv;
-    @Bind(R.id.first_pay_unit)
-    TextView firstPayUnit;
-    @Bind(R.id.first_pay_all)
-    TextView firstPayAll;
-    @Bind(R.id.month_pay_tv_data)
-    TextView monthPayTvData;
-    @Bind(R.id.month_pay_tv_money)
-    TextView monthPayTvMoney;
-    @Bind(R.id.apply_first_bottom_btn)
-    TextView applyFirstBottomBtn;
     @Bind(R.id.buy_step_layout)
     BuyCarStepLayout buyStepLayout;
+    @Bind(R.id.apply_first_bottom_btn)
+    TextView applyFirstBottomBtn;
 
     @Override
     public int getLayout() {
-        return R.layout.activity_apply_first;
+        return R.layout.activity_apply_three;
     }
 
     @Override
     protected void initView() {
         ButterKnife.bind(this);
         actionBarTitle.setText("申请购买");
-        buyStepLayout.setOneStep();
+        buyStepLayout.setThreeStep();
     }
 
     @Override
@@ -66,16 +52,10 @@ public class ApplyBuyFirstActivity extends BaseFragmentActivity {
 
     }
 
-    @OnClick({R.id.apply_first_bottom_btn, R.id.action_back})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.action_back:
-                finish();
-                break;
-            case R.id.apply_first_bottom_btn:
-                UIHelper.showApplyTwoActivity(this);
-                break;
-        }
+
+    @OnClick(R.id.action_back)
+    public void onViewClicked() {
+        finish();
     }
 
     @Override
@@ -83,4 +63,5 @@ public class ApplyBuyFirstActivity extends BaseFragmentActivity {
         super.onDestroy();
         ButterKnife.unbind(this);
     }
+
 }

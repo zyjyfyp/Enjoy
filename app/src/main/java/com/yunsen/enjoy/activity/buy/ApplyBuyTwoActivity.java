@@ -2,6 +2,7 @@ package com.yunsen.enjoy.activity.buy;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,10 +17,10 @@ import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2018/4/27.
- * 申请购买第一步
+ * 申请购买第二步
  */
 
-public class ApplyBuyFirstActivity extends BaseFragmentActivity {
+public class ApplyBuyTwoActivity extends BaseFragmentActivity {
 
     @Bind(R.id.action_back)
     ImageView actionBack;
@@ -29,31 +30,26 @@ public class ApplyBuyFirstActivity extends BaseFragmentActivity {
     ImageView actionBarRight;
     @Bind(R.id.buy_step_car_name)
     TextView buyStepCarName;
-    @Bind(R.id.first_pay_tv)
-    TextView firstPayTv;
-    @Bind(R.id.first_pay_unit)
-    TextView firstPayUnit;
-    @Bind(R.id.first_pay_all)
-    TextView firstPayAll;
-    @Bind(R.id.month_pay_tv_data)
-    TextView monthPayTvData;
-    @Bind(R.id.month_pay_tv_money)
-    TextView monthPayTvMoney;
-    @Bind(R.id.apply_first_bottom_btn)
-    TextView applyFirstBottomBtn;
+    @Bind(R.id.phone_input_edt)
+    EditText phoneInputEdt;
+    @Bind(R.id.phone_img)
+    TextView phoneImg;
+    @Bind(R.id.apply_two_bottom_btn)
+    TextView applyTwoBottomBtn;
     @Bind(R.id.buy_step_layout)
     BuyCarStepLayout buyStepLayout;
 
     @Override
     public int getLayout() {
-        return R.layout.activity_apply_first;
+        return R.layout.activity_apply_two;
     }
 
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-        actionBarTitle.setText("申请购买");
-        buyStepLayout.setOneStep();
+        actionBarTitle.setText("预约看车");
+        buyStepLayout.setTwoStep();
+
     }
 
     @Override
@@ -66,16 +62,10 @@ public class ApplyBuyFirstActivity extends BaseFragmentActivity {
 
     }
 
-    @OnClick({R.id.apply_first_bottom_btn, R.id.action_back})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.action_back:
-                finish();
-                break;
-            case R.id.apply_first_bottom_btn:
-                UIHelper.showApplyTwoActivity(this);
-                break;
-        }
+
+    @OnClick(R.id.action_back)
+    public void onViewClicked() {
+        finish();
     }
 
     @Override
@@ -83,4 +73,19 @@ public class ApplyBuyFirstActivity extends BaseFragmentActivity {
         super.onDestroy();
         ButterKnife.unbind(this);
     }
+
+
+    @OnClick({R.id.phone_img, R.id.apply_two_bottom_btn})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.phone_img:
+                UIHelper.showPhoneNumberActivity(this, "400****120");
+                break;
+            case R.id.apply_two_bottom_btn:
+                UIHelper.showApplyThreeActivity(this);
+                break;
+        }
+    }
+
+
 }

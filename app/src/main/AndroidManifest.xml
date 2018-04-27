@@ -227,6 +227,13 @@
         <activity
             android:name=".activity.buy.ApplyBuyFirstActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.buy.ApplyBuyTwoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.buy.ApplyBuyThreeActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

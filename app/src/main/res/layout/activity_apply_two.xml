@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="com.yunsen.enjoy.activity.buy.ApplyBuyTwoActivity">
+
+    <include layout="@layout/back_action_bar"/>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
+        android:layout_marginTop="45dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <com.yunsen.enjoy.widget.BuyCarStepLayout
+                android:id="@+id/buy_step_layout"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"/>
+
+            <TextView
+                android:id="@+id/buy_step_car_name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                android:layout_marginLeft="@dimen/app_margin"
+                android:layout_marginRight="@dimen/app_margin"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:maxEms="1"
+                android:text="大众捷达2013款1.6L自动舒适型"
+                android:textColor="@color/back_light"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/app_margin"
+                android:background="@color/gray_light"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray_light"/>
+
+            <EditText
+                android:id="@+id/phone_input_edt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="@dimen/app_margin"
+                android:layout_marginRight="@dimen/app_margin"
+                android:layout_marginTop="@dimen/app_margin"
+                android:background="@drawable/edittext"
+                android:gravity="center_vertical"
+                android:hint="请输入您的手机号码"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:gravity="center"
+                android:text="请留下您的电话，我们会尽快联系您！"
+                android:textColor="@color/color_fe0000"
+                android:textSize="15sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="@dimen/app_margin"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="如需加急预约，请点击"
+                    android:textColor="@color/color_888"
+                    android:textSize="15sp"/>
+
+                <TextView
+                    android:id="@+id/phone_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/app_margin"
+                    android:background="@drawable/phone_btn_bg"
+                    android:drawableLeft="@mipmap/phone_icon"
+                    android:drawablePadding="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="@dimen/app_margin"
+                    android:paddingRight="@dimen/app_margin"
+                    android:paddingTop="5dp"
+                    android:text="拨打电话"
+                    android:textColor="@color/color_d81e06"/>
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/gray_light"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/apply_two_bottom_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/button_bg"
+        android:gravity="center"
+        android:text="提交"
+        android:textColor="@color/white"
+        android:textSize="20sp"/>
+
+</FrameLayout>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:fitsSystemWindows="true">
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/white"
+             android:fitsSystemWindows="true">
 
-    <include layout="@layout/back_action_bar" />
+    <include layout="@layout/back_action_bar"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
                 <com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager
                     android:id="@+id/pager"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" />
+                    android:layout_height="fill_parent"/>
 
                 <com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator
                     android:id="@+id/indicator"
@@ -38,13 +38,13 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="5dp"
-                    android:padding="5dp" />
+                    android:padding="5dp"/>
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/background_color" />
+                android:background="@color/background_color"/>
 
             <TextView
                 android:id="@+id/details_title"
@@ -58,7 +58,7 @@
                 android:maxLines="2"
                 android:text="长安CS35 2012 款1.6L手动"
                 android:textColor="@color/color_3c434c"
-                android:textSize="20sp" />
+                android:textSize="20sp"/>
 
             <com.yunsen.enjoy.widget.FlowLayout
                 android:id="@+id/flow_layout"
@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:text="6.98万"
                     android:textColor="@color/color_fe0000"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"/>
 
                 <TextView
                     android:id="@+id/details_old_car_money"
@@ -91,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="新车含税13.98万"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"/>
 
             </LinearLayout>
 
@@ -113,7 +113,7 @@
                     android:paddingTop="5dp"
                     android:text="首付2.34万专享0首付"
                     android:textColor="@color/color_dc4116"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"/>
 
                 <TextView
                     android:id="@+id/apply_buy_tv"
@@ -126,7 +126,7 @@
                     android:paddingTop="5dp"
                     android:text="申请购买"
                     android:textColor="@color/white"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"/>
 
             </LinearLayout>
 
@@ -154,7 +154,7 @@
                         android:maxLines="1"
                         android:text="服务费：3500元"
                         android:textColor="@color/color_888"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -173,7 +173,7 @@
                                 android:layout_width="14dp"
                                 android:layout_height="14dp"
                                 android:layout_marginRight="8dp"
-                                android:src="@mipmap/check_service" />
+                                android:src="@mipmap/check_service"/>
 
                             <TextView
                                 android:id="@+id/quality_tv"
@@ -182,13 +182,13 @@
                                 android:maxLines="1"
                                 android:text="整车质保"
                                 android:textColor="@color/color_888"
-                                android:textSize="15sp" />
+                                android:textSize="15sp"/>
                         </LinearLayout>
 
                         <View
                             android:layout_width="0dp"
                             android:layout_height="1dp"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"/>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -200,7 +200,7 @@
                                 android:layout_width="14dp"
                                 android:layout_height="14dp"
                                 android:layout_marginRight="8dp"
-                                android:src="@mipmap/check_service" />
+                                android:src="@mipmap/check_service"/>
 
                             <TextView
                                 android:id="@+id/can_return_tv"
@@ -209,13 +209,13 @@
                                 android:maxLines="1"
                                 android:text="14天可退"
                                 android:textColor="@color/color_888"
-                                android:textSize="15sp" />
+                                android:textSize="15sp"/>
                         </LinearLayout>
 
                         <View
                             android:layout_width="0dp"
                             android:layout_height="1dp"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"/>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -227,7 +227,7 @@
                                 android:layout_width="14dp"
                                 android:layout_height="14dp"
                                 android:layout_marginRight="8dp"
-                                android:src="@mipmap/check_service" />
+                                android:src="@mipmap/check_service"/>
 
                             <TextView
                                 android:id="@+id/car_state_tv"
@@ -236,7 +236,7 @@
                                 android:maxLines="1"
                                 android:text="249项汽车检测"
                                 android:textColor="@color/color_888"
-                                android:textSize="15sp" />
+                                android:textSize="15sp"/>
                         </LinearLayout>
                     </LinearLayout>
 
@@ -247,14 +247,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="@dimen/app_margin"
-                    android:src="@mipmap/more" />
+                    android:src="@mipmap/more"/>
             </LinearLayout>
 
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="15dp"
-                android:background="@color/gray_light" />
+                android:background="@color/gray_light"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -263,19 +263,19 @@
                 android:layout_marginRight="@dimen/app_margin"
                 android:text="基本信息"
                 android:textColor="@color/color_3c434c"
-                android:textSize="20sp" />
+                android:textSize="20sp"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/base_info_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="15dp"
-                android:background="@color/gray_light" />
+                android:background="@color/gray_light"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -284,7 +284,7 @@
                 android:layout_marginRight="@dimen/app_margin"
                 android:text="汽车介绍"
                 android:textColor="@color/color_3c434c"
-                android:textSize="20sp" />
+                android:textSize="20sp"/>
 
             <TextView
                 android:id="@+id/base_introduce_tv"
@@ -294,7 +294,7 @@
                 android:layout_marginRight="@dimen/app_margin"
                 android:text="非常好"
                 android:textColor="@color/color_888"
-                android:textSize="15sp" />
+                android:textSize="15sp"/>
 
         </LinearLayout>
 
@@ -326,7 +326,7 @@
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/shoucang" />
+                    android:src="@drawable/shoucang"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -334,7 +334,7 @@
                     android:layout_gravity="center"
                     android:text="收藏"
                     android:textColor="@color/huiheise"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -350,7 +350,7 @@
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/pinglun" />
+                    android:src="@drawable/pinglun"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -358,7 +358,7 @@
                     android:layout_gravity="center"
                     android:text="询问低价"
                     android:textColor="@color/huiheise"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"/>
             </LinearLayout>
 
 
@@ -373,7 +373,7 @@
             android:gravity="center"
             android:text="预约看车"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
 
         <LinearLayout
             android:id="@+id/order_buy_layout"
@@ -388,7 +388,11 @@
                 android:layout_height="wrap_content"
                 android:text="0购付"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
         </LinearLayout>
     </LinearLayout>
+
+    <com.yunsen.enjoy.widget.drag.DragLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </FrameLayout>

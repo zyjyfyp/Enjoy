@@ -14,6 +14,8 @@ import com.yunsen.enjoy.activity.MoveActivity;
 import com.yunsen.enjoy.activity.SearchActivity;
 import com.yunsen.enjoy.activity.SelectCityActivity;
 import com.yunsen.enjoy.activity.WebActivity;
+import com.yunsen.enjoy.activity.buy.ApplyBuyThreeActivity;
+import com.yunsen.enjoy.activity.buy.ApplyBuyTwoActivity;
 import com.yunsen.enjoy.activity.mine.ApplyServiceActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
@@ -288,6 +290,26 @@ public class UIHelper {
      */
     public static void showApplyBuyFirstActivity(Context ctx) {
         Intent intent = new Intent(ctx, ApplyBuyFirstActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 申请买车页面二
+     *
+     * @param ctx
+     */
+    public static void showApplyTwoActivity(Context ctx) {
+        Intent intent = new Intent(ctx, ApplyBuyTwoActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 申请卖出页面三
+     *
+     * @param ctx
+     */
+    public static void showApplyThreeActivity(Context ctx) {
+        Intent intent = new Intent(ctx, ApplyBuyThreeActivity.class);
         ctx.startActivity(intent);
     }
 
