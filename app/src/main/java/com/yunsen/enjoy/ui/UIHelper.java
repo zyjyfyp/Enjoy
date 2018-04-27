@@ -3,6 +3,7 @@ package com.yunsen.enjoy.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
@@ -14,6 +15,7 @@ import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.activity.MoveActivity;
 import com.yunsen.enjoy.activity.SearchActivity;
 import com.yunsen.enjoy.activity.SelectCityActivity;
+import com.yunsen.enjoy.activity.WebActivity;
 import com.yunsen.enjoy.activity.mine.ApplyServiceActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
@@ -25,6 +27,7 @@ import com.yunsen.enjoy.activity.mine.Webview1;
 import com.yunsen.enjoy.activity.order.MyOrderActivity;
 import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
+import com.yunsen.enjoy.common.Constants;
 
 /**
  * 应用程序UI工具包：封装UI相关的一些操作
@@ -62,7 +65,6 @@ public class UIHelper {
         context.startActivity(intent);
         context.finish();
     }
-
 
 
     public static void showHouseDetailActivity(Activity context) {
@@ -115,7 +117,7 @@ public class UIHelper {
      *
      * @param act
      */
-    public static void shoCarDetailsActivity(Context act) {
+    public static void showCarDetailsActivity(Context act) {
         Intent intent = new Intent(act, CarDetailsActivity.class);
         act.startActivity(intent);
     }
@@ -142,10 +144,11 @@ public class UIHelper {
 
     /**
      * 我的资产
-     *  1 2 3 4
+     * 1 2 3 4
+     *
      * @param ctx
      */
-    public static void showAssetsActivity(Context ctx,String type) {
+    public static void showAssetsActivity(Context ctx, String type) {
         Intent intent = new Intent(ctx, MyAssetsActivity.class);
         ctx.startActivity(intent);
     }
@@ -233,5 +236,26 @@ public class UIHelper {
         ctx.startActivity(intent);
     }
 
+    /**
+     * 显示拨号界面
+     *
+     * @param ctx
+     * @param number
+     */
+    public static void showPhoneNumberActivity(Context ctx, String number) {
+        Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + number));//跳转到拨号界面，同时传递电话号码
+        ctx.startActivity(dialIntent);
+    }
 
+    /**
+     * 跳转网页
+     *
+     * @param ctx
+     * @param url
+     */
+    public static void showWebActivity(Context ctx, String url) {
+        Intent intent = new Intent(ctx, WebActivity.class);
+        intent.putExtra(Constants.WEB_URL_KEY, url);
+        ctx.startActivity(intent);
+    }
 }

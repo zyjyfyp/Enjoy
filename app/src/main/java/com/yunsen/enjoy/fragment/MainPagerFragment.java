@@ -41,7 +41,6 @@ import com.yunsen.enjoy.widget.SearchActionBar;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 import com.yunsen.enjoy.widget.recyclerview.wrapper.HeaderAndFooterWrapper;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -301,22 +300,22 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                 UIHelper.showSearchActivity(getActivity());
                 break;
             case R.id.car_img_big:
-                UIHelper.shoCarDetailsActivity(getActivity());
+                UIHelper.showCarDetailsActivity(getActivity());
                 break;
             case R.id.car_img_1:
-                UIHelper.shoCarDetailsActivity(getActivity());
+                UIHelper.showCarDetailsActivity(getActivity());
                 break;
             case R.id.car_img_2:
-                UIHelper.shoCarDetailsActivity(getActivity());
+                UIHelper.showCarDetailsActivity(getActivity());
                 break;
             case R.id.car_img_3:
-                UIHelper.shoCarDetailsActivity(getActivity());
+                UIHelper.showCarDetailsActivity(getActivity());
                 break;
             case R.id.car_img_4:
-                UIHelper.shoCarDetailsActivity(getActivity());
+                UIHelper.showCarDetailsActivity(getActivity());
                 break;
             case R.id.car_img_5:
-                UIHelper.shoCarDetailsActivity(getActivity());
+                UIHelper.showCarDetailsActivity(getActivity());
                 break;
             case R.id.load_more_btn:
                 /**
@@ -374,12 +373,12 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     }
 
     @Override
-    public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-        UIHelper.shoCarDetailsActivity(getActivity());
+    public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
+        UIHelper.showCarDetailsActivity(getActivity());
     }
 
     @Override
-    public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+    public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         return false;
     }
 }

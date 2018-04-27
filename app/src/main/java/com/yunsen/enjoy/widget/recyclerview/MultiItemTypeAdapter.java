@@ -21,6 +21,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
     protected ItemViewDelegateManager mItemViewDelegateManager;
     protected OnItemClickListener mOnItemClickListener;
+    private String mAdapterTag;
 
 
     public MultiItemTypeAdapter(Context context, List<T> datas) {
@@ -66,7 +67,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
             public void onClick(View v) {
                 if (mOnItemClickListener != null) {
                     int position = viewHolder.getAdapterPosition();
-                    mOnItemClickListener.onItemClick(v, viewHolder, position);
+                    mOnItemClickListener.onItemClick(v, MultiItemTypeAdapter.this, viewHolder, position);
                 }
             }
         });
@@ -76,7 +77,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
             public boolean onLongClick(View v) {
                 if (mOnItemClickListener != null) {
                     int position = viewHolder.getAdapterPosition();
-                    return mOnItemClickListener.onItemLongClick(v, viewHolder, position);
+                    return mOnItemClickListener.onItemLongClick(v, MultiItemTypeAdapter.this, viewHolder, position);
                 }
                 return false;
             }
@@ -113,12 +114,20 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     }
 
     public interface OnItemClickListener {
-        void onItemClick(View view, RecyclerView.ViewHolder holder, int position);
+        void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position);
 
-        boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position);
+        boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.mOnItemClickListener = onItemClickListener;
+    }
+
+    public String getmAdapterTag() {
+        return mAdapterTag;
+    }
+
+    public void setmAdapterTag(String mAdapterTag) {
+        this.mAdapterTag = mAdapterTag;
     }
 }

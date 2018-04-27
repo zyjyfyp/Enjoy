@@ -6,23 +6,28 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
+import android.util.Log;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.fragment.discover.GoodsAdapter;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.GoodsData;
+import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.widget.LoadMoreView;
 import com.yunsen.enjoy.widget.ZyViewPager;
+import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +40,9 @@ import okhttp3.Request;
  * Created by Administrator on 2018/4/22.
  */
 
-public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener {
+public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener, MultiItemTypeAdapter.OnItemClickListener {
+
+
     @Bind(R.id.tab_layout)
     TabLayout tabLayout;
     @Bind(R.id.loop_pager)
@@ -53,6 +60,12 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     private GoodsAdapter mAdapter2;
     private GoodsAdapter mAdapter3;
     private GoodsAdapter mAdapter4;
+
+    private static final String ONE_ADAPTER = "one_adapter";
+    private static final String TWO_ADAPTER = "two_adapter";
+    private static final String THREE_ADAPTER = "three_adapter";
+    private static final String FOUR_ADAPTER = "four_adapter";
+
 
     @Override
     protected int getLayoutId() {
@@ -140,6 +153,10 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     @Override
     protected void initListener() {
         dataPager.setOnPageChangeListener(this);
+        mAdapter1.setOnItemClickListener(this);
+        mAdapter2.setOnItemClickListener(this);
+        mAdapter3.setOnItemClickListener(this);
+        mAdapter4.setOnItemClickListener(this);
     }
 
 
@@ -226,14 +243,14 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
 
     public List<RecyclerView> getRecyclerView() {
         ArrayList<RecyclerView> views = new ArrayList<>();
+
         RecyclerView recyclerView = new RecyclerView(getActivity());
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
-
         LinearLayoutManager layoutmanager = new LinearLayoutManager(getActivity());
         //设置RecyclerView 布局
         layoutmanager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutmanager);
 
+        recyclerView.setLayoutManager(layoutmanager);
         ArrayList<GoodsData> storeModes = new ArrayList<>();
         storeModes.add(new GoodsData(null, "上海大众汽车广东省深圳市宝安区4S店"));
         storeModes.add(new GoodsData(null, "上海大众汽车广东省深圳市宝安区4S店"));
@@ -242,12 +259,14 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         storeModes.add(new GoodsData(null, "上海大众汽车广东省深圳市宝安区4S店"));
         storeModes.add(new GoodsData(null, "上海大众汽车广东省深圳市宝安区4S店"));
         mAdapter1 = new GoodsAdapter(getActivity(), R.layout.goods_item, storeModes);
+        mAdapter1.setmAdapterTag(ONE_ADAPTER);
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter1);
         recyclerView.setAdapter(recyclerViewAdapter);
         RecyclerViewUtils.setFooterView(recyclerView, new LoadMoreView(getActivity()));
         views.add(recyclerView);
-        RecyclerView recyclerView2 = new RecyclerView(getActivity());
 
+
+        RecyclerView recyclerView2 = new RecyclerView(getActivity());
         LinearLayoutManager layoutmanager2 = new LinearLayoutManager(getActivity());
         //设置RecyclerView 布局
         layoutmanager2.setOrientation(LinearLayoutManager.VERTICAL);
@@ -255,12 +274,15 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         ArrayList<GoodsData> datas = new ArrayList<>();
         datas.add(new GoodsData(null, "上海大众汽车广东省深圳市宝安区4S店"));
         mAdapter2 = new GoodsAdapter(getActivity(), R.layout.goods_item, datas);
+        mAdapter2.setmAdapterTag(TWO_ADAPTER);
+
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter2 = new HeaderAndFooterRecyclerViewAdapter(mAdapter2);
         recyclerView2.setAdapter(recyclerViewAdapter2);
         TextView view1 = new TextView(getActivity());
         view1.setText("aaa");
         RecyclerViewUtils.setFooterView(recyclerView2, new LoadMoreView(getActivity()));
         views.add(recyclerView2);
+
 
         RecyclerView recyclerView3 = new RecyclerView(getActivity());
         LinearLayoutManager layoutmanager3 = new LinearLayoutManager(getActivity());
@@ -269,10 +291,12 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         recyclerView3.setLayoutManager(layoutmanager3);
 
         mAdapter3 = new GoodsAdapter(getActivity(), R.layout.goods_item, new ArrayList<GoodsData>());
+        mAdapter3.setmAdapterTag(THREE_ADAPTER);
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter3 = new HeaderAndFooterRecyclerViewAdapter(mAdapter3);
         recyclerView3.setAdapter(recyclerViewAdapter3);
         RecyclerViewUtils.setFooterView(recyclerView3, new LoadMoreView(getActivity()));
         views.add(recyclerView3);
+
 
         RecyclerView recyclerView4 = new RecyclerView(getActivity());
         LinearLayoutManager layoutmanager4 = new LinearLayoutManager(getActivity());
@@ -280,6 +304,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         layoutmanager4.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView4.setLayoutManager(layoutmanager4);
         mAdapter4 = new GoodsAdapter(getActivity(), R.layout.goods_item, new ArrayList<GoodsData>());
+        mAdapter4.setmAdapterTag(FOUR_ADAPTER);
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter4 = new HeaderAndFooterRecyclerViewAdapter(mAdapter4);
         recyclerView4.setAdapter(recyclerViewAdapter4);
         RecyclerViewUtils.setFooterView(recyclerView4, new LoadMoreView(getActivity()));
@@ -316,5 +341,41 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
 
+    }
+
+
+    @Override
+    public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
+        List<GoodsData> datas = null;
+        if (adapter instanceof MultiItemTypeAdapter) {
+            MultiItemTypeAdapter typeAdapter = (MultiItemTypeAdapter) adapter;
+            switch ((typeAdapter.getmAdapterTag())) {
+                case ONE_ADAPTER:
+                    datas = mAdapter1.getDatas();
+                    Log.e(TAG, "onItemClick: 1");
+                    break;
+                case TWO_ADAPTER:
+                    datas = mAdapter2.getDatas();
+                    Log.e(TAG, "onItemClick:2");
+
+                    break;
+                case THREE_ADAPTER:
+                    datas = mAdapter3.getDatas();
+                    break;
+                case FOUR_ADAPTER:
+                    datas = mAdapter4.getDatas();
+                    break;
+            }
+            if (datas != null && datas.size() > 0 && datas.size() > position) {
+                GoodsData goodsData = datas.get(position);
+                UIHelper.showWebActivity(getActivity(), URLConstants.REALM_URL + goodsData.getLink_url());
+            }
+        }
+
+    }
+
+    @Override
+    public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
+        return false;
     }
 }

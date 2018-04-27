@@ -2,8 +2,6 @@ package com.yunsen.enjoy.fragment;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -169,10 +167,10 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
                 UIHelper.showSelectCityActivity(getActivity());
                 break;
             case CENTER_LAYOUT:
+                UIHelper.showSearchActivity(getActivity());
                 break;
             case RIGHT_IMG:
-                Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:400****120"));//跳转到拨号界面，同时传递电话号码
-                startActivity(dialIntent);
+                UIHelper.showPhoneNumberActivity(getActivity(), "400****120");
                 break;
         }
     }
@@ -181,7 +179,7 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
     public void onEvent(UpUiEvent event) {
         if (event.getEventId() == EventConstants.UP_VIEW_PAGER_HEIGHT) {
             buyMainPager.requestLayout();
-            Log.e(TAG, "onEvent: 跟新高度" );
+            Log.e(TAG, "onEvent: 跟新高度");
         }
     }
 

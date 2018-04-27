@@ -17,6 +17,7 @@ public class Constants {
     public static final CharSequence[] BUY_CAR = {"新车", "二手车"};
     public static final String[] SORT_METHED = new String[]{"智能排序", "最新上架", "价格最低", "价格最高", "车龄最短", "理财最少"};
     public static final String CHANNEL_KEY = "channel_key";
+    public static final String WEB_URL_KEY = "web_url_key";
 
     public static Map<String, String> SHOT_METHED_VALUE = new HashMap<String, String>();
 

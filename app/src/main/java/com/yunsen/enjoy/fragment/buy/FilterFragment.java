@@ -14,10 +14,12 @@ import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
+import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.widget.MoreCarView;
 import com.yunsen.enjoy.widget.NumberPickerDialog;
+import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -33,7 +35,7 @@ import okhttp3.Request;
  * Created by Administrator on 2018/4/23.
  */
 
-public class FilterFragment extends BaseFragment {
+public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter.OnItemClickListener {
     private static final String TAG = "FilterFragment";
     @Bind(R.id.text_hor_1)
     TextView textHor1;
@@ -105,6 +107,7 @@ public class FilterFragment extends BaseFragment {
 
     @Override
     protected void initListener() {
+        mAdapter.setOnItemClickListener(this);
 
     }
 
@@ -164,4 +167,18 @@ public class FilterFragment extends BaseFragment {
     }
 
 
+
+    @Override
+    public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
+        List<GoodsData> datas = mAdapter.getDatas();
+        if (datas != null && datas.size() > 0 && datas.size() >position) {
+            GoodsData goodsData = datas.get(position);
+            UIHelper.showCarDetailsActivity(getActivity());
+        }
+    }
+
+    @Override
+    public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
+        return false;
+    }
 }
