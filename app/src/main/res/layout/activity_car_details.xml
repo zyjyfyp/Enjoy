@@ -371,7 +371,7 @@
             android:layout_weight="3"
             android:background="#dc9e4c"
             android:gravity="center"
-            android:text="加入购物车"
+            android:text="预约看车"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
@@ -386,7 +386,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="立刻购买"
+                android:text="0购付"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
         </LinearLayout>

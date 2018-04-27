@@ -11,8 +11,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.widget.FlowLayout;
@@ -118,16 +120,22 @@ public class CarDetailsActivity extends BaseFragmentActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.more_service_layout:
+                UIHelper.showCarServiceActivity(this);
                 break;
             case R.id.collect_layout:
+                Toast.makeText(this, "添加收藏", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ask_layout:
+                UIHelper.showPhoneNumberActivity(this, "400****120");
                 break;
             case R.id.add_shop_btn:
+                UIHelper.showWatchCarActivity(this);
                 break;
             case R.id.order_buy_layout:
+                UIHelper.showApplyBuyFirstActivity(this);
                 break;
             case R.id.apply_buy_tv:
+                UIHelper.showApplyBuyFirstActivity(this);
                 break;
         }
     }

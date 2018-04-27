@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.yunsen.enjoy.activity.AdvertActivity;
 import com.yunsen.enjoy.activity.CarDetailsActivity;
 import com.yunsen.enjoy.activity.HouseDetailActivity;
-import com.yunsen.enjoy.activity.LoginActivity;
 import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.activity.MoveActivity;
 import com.yunsen.enjoy.activity.SearchActivity;
@@ -28,6 +26,9 @@ import com.yunsen.enjoy.activity.order.MyOrderActivity;
 import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.activity.buy.ApplyBuyFirstActivity;
+import com.yunsen.enjoy.activity.buy.CarServiceActivity;
+import com.yunsen.enjoy.activity.buy.WatchCarActivity;
 
 /**
  * 应用程序UI工具包：封装UI相关的一些操作
@@ -243,7 +244,8 @@ public class UIHelper {
      * @param number
      */
     public static void showPhoneNumberActivity(Context ctx, String number) {
-        Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + number));//跳转到拨号界面，同时传递电话号码
+        String num = "tel:" + number;
+        Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse(num));//跳转到拨号界面，同时传递电话号码
         ctx.startActivity(dialIntent);
     }
 
@@ -258,4 +260,35 @@ public class UIHelper {
         intent.putExtra(Constants.WEB_URL_KEY, url);
         ctx.startActivity(intent);
     }
+
+    /**
+     * 乐享汽车服务
+     *
+     * @param ctx
+     */
+    public static void showCarServiceActivity(Context ctx) {
+        Intent intent = new Intent(ctx, CarServiceActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 预约看车
+     *
+     * @param ctx
+     */
+    public static void showWatchCarActivity(Context ctx) {
+        Intent intent = new Intent(ctx, WatchCarActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 申请买车页面一
+     *
+     * @param ctx
+     */
+    public static void showApplyBuyFirstActivity(Context ctx) {
+        Intent intent = new Intent(ctx, ApplyBuyFirstActivity.class);
+        ctx.startActivity(intent);
+    }
+
 }

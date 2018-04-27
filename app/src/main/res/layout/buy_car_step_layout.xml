@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/gray_light"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/app_margin"
+        android:paddingRight="@dimen/app_margin">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/buy_first_num"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/round_bg"
+                android:gravity="center"
+                android:text="1"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/buy_first_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="在线申请"
+                android:textColor="@drawable/orange_text_select"
+                android:textSize="11sp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/buy_two_num"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="@dimen/app_margin"
+                android:background="@drawable/round_bg"
+                android:gravity="center"
+                android:text="2"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/buy_two_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="预约看车"
+                android:textColor="@drawable/orange_text_select"
+                android:textSize="11sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/buy_three_num"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/round_bg"
+                android:gravity="center"
+                android:text="3"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/buy_three_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="资料审核"
+                android:textColor="@drawable/orange_text_select"
+                android:textSize="11sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/buy_four_num"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@drawable/round_bg"
+                android:gravity="center"
+                android:text="4"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/buy_four_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="放款过户"
+                android:textColor="@drawable/orange_text_select"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/buy_step_car_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/app_margin"
+        android:text="大众捷达2013款1.6L自动舒适型" />
+
+
+</LinearLayout>
