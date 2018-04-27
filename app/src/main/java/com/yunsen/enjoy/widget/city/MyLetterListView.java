@@ -42,7 +42,7 @@ public class MyLetterListView extends View {
         int singleHeight = height / b.length;
         for (int i = 0; i < b.length; i++) {
             paint.setTextSize(getResources().getDimension(R.dimen.city_letter_size));
-            paint.setColor(Color.parseColor("#77736B"));
+            paint.setColor(Color.parseColor("#006605"));
             paint.setAntiAlias(true);
             if (i == choose) {
                 paint.setColor(Color.parseColor("#ff7800"));

@@ -259,8 +259,10 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
 
     @Override
     protected void onDestroy() {
-        windowManager.removeView(overlay);
         super.onDestroy();
+        if (windowManager != null) {
+            windowManager.removeView(overlay);
+        }
         ButterKnife.unbind(this);
     }
 

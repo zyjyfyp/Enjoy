@@ -3,6 +3,7 @@ package com.yunsen.enjoy.widget;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import com.yunsen.enjoy.R;
@@ -12,6 +13,10 @@ import com.yunsen.enjoy.R;
  */
 
 public class HomeFootView extends LinearLayout {
+
+    private View noMoreTv;
+    private View loadMoreBtn;
+
     public HomeFootView(Context context) {
         super(context);
         initView(context);
@@ -29,6 +34,20 @@ public class HomeFootView extends LinearLayout {
 
     public void initView(Context context) {
         this.setOrientation(VERTICAL);
-        inflate(context, R.layout.home_foot_view, this);
+        View view = inflate(context, R.layout.home_foot_view, this);
+        noMoreTv = view.findViewById(R.id.no_more_tv);
+        loadMoreBtn = view.findViewById(R.id.load_more_btn);
+    }
+
+    public View getLoadMoreBtn() {
+        return loadMoreBtn;
+    }
+
+    /**
+     * 显示没有更多内容
+     */
+    public void changeState() {
+        noMoreTv.setVisibility(VISIBLE);
+        loadMoreBtn.setVisibility(GONE);
     }
 }

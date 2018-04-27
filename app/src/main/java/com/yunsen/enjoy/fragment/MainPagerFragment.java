@@ -74,6 +74,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     private StoreRecyclerAdapter mAdapter;
     private ImageView allCars;
     private View moreCar;
+    private HomeFootView footView;
 
 
     @Override
@@ -135,7 +136,9 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         recyclerView.setAdapter(recyclerViewAdapter);
         RecyclerViewUtils.setHeaderView(recyclerView, topView);
-        RecyclerViewUtils.setFooterView(recyclerView, new HomeFootView(getActivity()));
+        footView = new HomeFootView(getActivity());
+        RecyclerViewUtils.setFooterView(recyclerView, footView);
+
         bannerAdapter = new BannerAdapter(getData(), getActivity());
         banner.setAdapter(bannerAdapter);
         indicatorLayout.setViewPager(banner);
@@ -237,20 +240,6 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
             }
         });
-        /**
-         * 服务商
-         */
-        HttpProxy.getServiceProvider(new HttpCallBack<List<SProviderModel>>() {
-            @Override
-            public void onSuccess(List<SProviderModel> responseData) {
-
-            }
-
-            @Override
-            public void onError(Request request, Exception e) {
-
-            }
-        });
 
 
     }
@@ -270,6 +259,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         mCarImgArray[4].setOnClickListener(this);
         mCarImgArray[5].setOnClickListener(this);
         mAdapter.setOnItemClickListener(this);
+        footView.getLoadMoreBtn().setOnClickListener(this);
     }
 
     public List<AdvertModel> getData() {
@@ -327,6 +317,23 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                 break;
             case R.id.car_img_5:
                 UIHelper.shoCarDetailsActivity(getActivity());
+                break;
+            case R.id.load_more_btn:
+                /**
+                 * 服务商
+                 */
+                HttpProxy.getServiceProvider(new HttpCallBack<List<SProviderModel>>() {
+                    @Override
+                    public void onSuccess(List<SProviderModel> responseData) {
+
+                    }
+
+                    @Override
+                    public void onError(Request request, Exception e) {
+
+                    }
+                });
+                footView.changeState();
                 break;
         }
 

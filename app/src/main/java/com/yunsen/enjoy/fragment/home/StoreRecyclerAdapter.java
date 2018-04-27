@@ -3,6 +3,7 @@ package com.yunsen.enjoy.fragment.home;
 import android.content.Context;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.yunsen.enjoy.R;
 
@@ -26,9 +27,10 @@ public class StoreRecyclerAdapter extends CommonAdapter<SProviderModel> {
     protected void convert(ViewHolder holder, SProviderModel carStoreMode, int position) {
         holder.setText(R.id.shop_item_title, carStoreMode.getTitle());
         if (carStoreMode.getImgUrl() != null) {
-            Picasso.with(mContext)
+            Glide.with(mContext)
                     .load(carStoreMode.getImgUrl())
                     .placeholder(R.mipmap.car_4)
+                    .centerCrop()
                     .into((ImageView) holder.getView(R.id.shop_item_img));
         } else {
             holder.setImageResource(R.id.shop_item_img, R.mipmap.car_2);
