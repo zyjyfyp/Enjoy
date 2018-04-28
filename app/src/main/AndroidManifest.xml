@@ -229,9 +229,13 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.buy.ApplyBuyTwoActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
+            android:configChanges="orientation|keyboard|keyboardHidden|navigation"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.buy.ApplyBuyThreeActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
+            android:configChanges="orientation|keyboard|keyboardHidden|navigation"
             android:screenOrientation="portrait" />
 
     </application>

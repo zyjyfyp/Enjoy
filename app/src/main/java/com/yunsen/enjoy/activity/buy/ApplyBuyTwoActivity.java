@@ -45,12 +45,12 @@ public class ApplyBuyTwoActivity extends BaseFragmentActivity {
 
     @Override
     public int getLayout() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         return R.layout.activity_apply_two;
     }
 
     @Override
     protected void initView() {
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         ButterKnife.bind(this);
         actionBarTitle.setText("预约看车");
         buyStepLayout.setTwoStep();

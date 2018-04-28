@@ -38,8 +38,8 @@ public abstract class BaseFragmentActivity extends AppCompatActivity {
 //        SystemBarTintManager tintManager = new SystemBarTintManager(this);
 //        tintManager.setStatusBarTintEnabled(true);
 //        tintManager.setStatusBarTintResource(R.color.status_bar_bg);//通知栏所需颜色
-        getLayout();
-        setContentView(getLayout());
+        int layout = getLayout();
+        setContentView(layout);
         initView();
         initData(savedInstanceState);
         initListener();

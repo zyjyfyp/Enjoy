@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
@@ -26,7 +27,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.yunsen.enjoy.activity.mine.PersonCenterActivity.path;
 
 /**
  * Created by Administrator on 2018/4/27.
@@ -62,12 +62,12 @@ public class ApplyBuyThreeActivity extends BaseFragmentActivity {
 
     @Override
     public int getLayout() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         return R.layout.activity_apply_three;
     }
 
     @Override
     protected void initView() {
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         ButterKnife.bind(this);
         actionBarTitle.setText("资料审核");
         buyStepLayout.setThreeStep();
@@ -123,18 +123,28 @@ public class ApplyBuyThreeActivity extends BaseFragmentActivity {
                     filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
             cursor.moveToFirst();
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            path = cursor.getString(columnIndex); //获取照片路径
+            String path = cursor.getString(columnIndex); //获取照片路径
             cursor.close();
             bitmap = BitmapFactory.decodeFile(path);
+
             switch (requestCode) {
-                case Constants.PHOTO_ACTIVITY_REQUEST://这里的requestCode是我自己设置的，就是确定返回到那个Activity的标志
-                    icCardImg.setImageBitmap(bitmap);
+                case Constants.PHOTO_IC_CARD://这里的requestCode是我自己设置的，就是确定返回到那个Activity的标志
+                    Glide.with(ApplyBuyThreeActivity.this)
+                            .load(selectedImage)
+                            .override(200, 200)
+                            .into(icCardImg);
                     break;
                 case Constants.PHOTO_IC_CARD_BG:
-                    icCardImgBg.setImageBitmap(bitmap);
+                    Glide.with(ApplyBuyThreeActivity.this)
+                            .load(selectedImage)
+                            .override(200, 200)
+                            .into(icCardImgBg);
                     break;
                 case Constants.PHOTO_BANK:
-                    bannerMoneyImg.setImageBitmap(bitmap);
+                    Glide.with(ApplyBuyThreeActivity.this)
+                            .load(selectedImage)
+                            .override(200, 200)
+                            .into(bannerMoneyImg);
                     break;
             }
         }
