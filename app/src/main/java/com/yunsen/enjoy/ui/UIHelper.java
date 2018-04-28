@@ -313,4 +313,16 @@ public class UIHelper {
         ctx.startActivity(intent);
     }
 
+    public static void showPhotoActivity(Activity act, int requestCode) {
+        Intent intent = new Intent(
+                Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        //裁剪的大小
+        intent.putExtra("outputX", 200);
+        intent.putExtra("outputY", 150);
+        intent.putExtra("return-data", true);
+        act.startActivityForResult(intent, requestCode);
+    }
 }

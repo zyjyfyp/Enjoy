@@ -3,16 +3,26 @@ package com.yunsen.enjoy.activity;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.yanzhenjie.permission.Action;
+import com.yanzhenjie.permission.AndPermission;
 import com.yunsen.enjoy.common.AppManager;
+import com.yunsen.enjoy.common.DefaultRationale;
+import com.yunsen.enjoy.common.PermissionSetting;
+
+import java.util.List;
 
 
 public abstract class BaseFragmentActivity extends AppCompatActivity {
+
+    protected PermissionSetting mSetting;
+    protected DefaultRationale mRationale;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +43,8 @@ public abstract class BaseFragmentActivity extends AppCompatActivity {
         initView();
         initData(savedInstanceState);
         initListener();
+        mSetting = new PermissionSetting(this);
+        mRationale = new DefaultRationale();
     }
 
 
@@ -43,7 +55,6 @@ public abstract class BaseFragmentActivity extends AppCompatActivity {
     protected abstract void initData(Bundle savedInstanceState);
 
     protected abstract void initListener();
-
 
 
     @TargetApi(19)
@@ -58,6 +69,55 @@ public abstract class BaseFragmentActivity extends AppCompatActivity {
 //                WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
 //                WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
     }
+
+    public void requestPermission(String permissions, final int requestCode) {
+        AndPermission.with(this)
+                .permission(permissions)
+                .rationale(mRationale)
+                .onGranted(new Action() {
+                    @Override
+                    public void onAction(List<String> permissions) {
+                        onRequestPermissionSuccess(requestCode);
+                    }
+                })
+                .onDenied(new Action() {
+                    @Override
+                    public void onAction(@NonNull List<String> permissions) {
+                        if (AndPermission.hasAlwaysDeniedPermission(BaseFragmentActivity.this, permissions)) {
+                            mSetting.showSetting(permissions);
+                        }
+                    }
+                })
+                .start();
+    }
+
+    /**
+     * 权限请求成功
+     *
+     * @param requestCode
+     */
+    protected  void onRequestPermissionSuccess(int requestCode){};
+
+    protected void requestPermission(String[]... permissions) {
+        AndPermission.with(this)
+                .permission(permissions)
+                .rationale(mRationale)
+                .onGranted(new Action() {
+                    @Override
+                    public void onAction(List<String> permissions) {
+                    }
+                })
+                .onDenied(new Action() {
+                    @Override
+                    public void onAction(@NonNull List<String> permissions) {
+                        if (AndPermission.hasAlwaysDeniedPermission(BaseFragmentActivity.this, permissions)) {
+                            mSetting.showSetting(permissions);
+                        }
+                    }
+                })
+                .start();
+    }
+
 
     @Override
     protected void onResume() {

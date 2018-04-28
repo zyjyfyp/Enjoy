@@ -5,6 +5,6 @@
         android:topRightRadius="5dp" />
 
 
-    <solid android:color="@color/color_dc4116" />
+    <solid android:color="@color/color_theme" />
 
 </shape>

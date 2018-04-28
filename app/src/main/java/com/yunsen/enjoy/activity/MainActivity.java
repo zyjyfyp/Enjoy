@@ -11,6 +11,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.fragment.BuyFragment;
 import com.yunsen.enjoy.fragment.DiscoverFragment;
 import com.yunsen.enjoy.fragment.MainPagerFragment;
@@ -185,4 +186,11 @@ public class MainActivity extends BaseFragmentActivity {
         }
     }
 
+    @Override
+    protected void onRequestPermissionSuccess(int requestCode) {
+        super.onRequestPermissionSuccess(requestCode);
+        if (requestCode == Constants.CALL_PHONE) {
+            UIHelper.showPhoneNumberActivity(this, "400****120");
+        }
+    }
 }

@@ -112,7 +112,7 @@
                     android:paddingLeft="20dp"
                     android:paddingTop="5dp"
                     android:text="首付2.34万专享0首付"
-                    android:textColor="@color/color_dc4116"
+                    android:textColor="@color/color_theme"
                     android:textSize="20sp"/>
 
                 <TextView
@@ -380,7 +380,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:background="@color/color_dc4116"
+            android:background="@color/color_theme"
             android:gravity="center">
 
             <TextView
@@ -393,6 +393,7 @@
     </LinearLayout>
 
     <com.yunsen.enjoy.widget.drag.DragLayout
+        android:id="@+id/drag_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </FrameLayout>

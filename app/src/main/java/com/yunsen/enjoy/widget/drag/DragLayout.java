@@ -1,5 +1,6 @@
 package com.yunsen.enjoy.widget.drag;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
@@ -7,11 +8,20 @@ import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.yanzhenjie.permission.Permission;
+import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.activity.BaseFragmentActivity;
+import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.ui.UIHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +29,12 @@ import java.util.List;
 /**
  * Created by Administrator on 2018/4/5.
  */
-public class DragLayout extends FrameLayout {
+public class DragLayout extends FrameLayout implements View.OnClickListener {
     private List<DragAttr> mAttr = new ArrayList<>(3);
 
     private int oldIndex = 0;
 
-    private DragIcon dragIcon;
+    private ImageView dragIcon;
     private ViewDragHelper mDragHelper;
     private boolean mCanDrag = true;
     private int oldXStart;
@@ -36,6 +46,7 @@ public class DragLayout extends FrameLayout {
     private int statusType = 0;//0无 随便移动   1靠左  2靠右 0靠左右
     private float showPercent = 1;
     private int screenWidth;
+    private Activity mActivity;
 
     public DragLayout(Context context) {
         super(context);
@@ -54,9 +65,15 @@ public class DragLayout extends FrameLayout {
 
     private void initView() {
         screenWidth = getScreenWidth(getContext());
-        dragIcon = new DragIcon(getContext());
+        dragIcon = new ImageView(getContext());
+        dragIcon.setImageResource(R.mipmap.phone_drag_icon);
+        LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.gravity = Gravity.BOTTOM | Gravity.END;
+        lp.bottomMargin = 300;
+        lp.rightMargin = 50;
+        dragIcon.setLayoutParams(lp);
         this.addView(dragIcon);
-        mDragHelper = ViewDragHelper.create(dragIcon, 1.0f, new ViewDragHelper.Callback() {
+        mDragHelper = ViewDragHelper.create(this, 1.0f, new ViewDragHelper.Callback() {
             @Override
             public boolean tryCaptureView(View child, int pointerId) {
                 return mCanDrag;
@@ -83,10 +100,10 @@ public class DragLayout extends FrameLayout {
             public void onViewDragStateChanged(int state) {
                 switch (state) {
                     case ViewDragHelper.STATE_IDLE:
-                        oldXStart = dragIcon.getIconLayout().getLeft();
-                        oldYStart = dragIcon.getIconLayout().getTop();
-                        oldXEnd = oldXStart + dragIcon.getIconLayout().getWidth();
-                        oldYEnd = oldYStart + dragIcon.getIconLayout().getHeight();
+                        oldXStart = dragIcon.getLeft();
+                        oldYStart = dragIcon.getTop();
+                        oldXEnd = oldXStart + dragIcon.getWidth();
+                        oldYEnd = oldYStart + dragIcon.getHeight();
                         //                        Log.e(TAG, "onViewDragStateChanged: oldXStart=" + oldXStart + "  oldYEnd=" + oldYStart);
                         break;
                     case ViewDragHelper.STATE_DRAGGING:
@@ -188,10 +205,10 @@ public class DragLayout extends FrameLayout {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        oldXStart = dragIcon.getIconLayout().getLeft();
-        oldYStart = dragIcon.getIconLayout().getTop();
-        oldXEnd = oldXStart + dragIcon.getIconLayout().getWidth();
-        oldYEnd = oldYStart + dragIcon.getIconLayout().getHeight();
+        oldXStart = dragIcon.getLeft();
+        oldYStart = dragIcon.getTop();
+        oldXEnd = oldXStart + dragIcon.getWidth();
+        oldYEnd = oldYStart + dragIcon.getHeight();
         if (finalLeft == -1 && finalTop == -1) {
             mAttr.add(new DragAttr(oldXStart, oldYStart, oldXEnd, oldYEnd));
             mAttr.add(new DragAttr(oldXStart, oldYStart, oldXEnd, oldYEnd));
@@ -215,12 +232,12 @@ public class DragLayout extends FrameLayout {
     }
 
     public void setDragIconDrawable(Drawable drawable) {
-        dragIcon.setImgViewRes(drawable);
+        dragIcon.setImageDrawable(drawable);
     }
 
-
-    public void setCloseImgVisibility(int visibility) {
-        dragIcon.setCloseImgVisibility(visibility);
+    public void setDragIconClick(Activity act) {
+        this.mActivity=act;
+        dragIcon.setOnClickListener(this);
     }
 
     /**
@@ -255,16 +272,21 @@ public class DragLayout extends FrameLayout {
         return outMetrics.widthPixels;
     }
 
-//    public void noticeView(int index) {
-//        DragAttr olderDragAttr = mAttr.get(oldIndex);
-//        olderDragAttr.saveLayout(oldXStart, oldYStart, oldXEnd, oldYEnd);
-//        DragAttr attr = mAttr.get(index);
-//        FrameLayout iconLayout = dragIcon.getIconLayout();
-//        if (attr.needLayout()) {
-//            iconLayout. layout(attr.getStartX(), attr.getStartY(), attr.getEndX(), attr.getEndY());
-//        }
-//        iconLayout.setVisibility(attr.isDragHasVis() ? VISIBLE : GONE);
-//        dragIcon.setCloseImgVisibility(attr.isCloseImgHas() ? VISIBLE : GONE);
-//        oldIndex = index;
-//    }
+    public void noticeView(int index) {
+        DragAttr olderDragAttr = mAttr.get(oldIndex);
+        olderDragAttr.saveLayout(oldXStart, oldYStart, oldXEnd, oldYEnd);
+        DragAttr attr = mAttr.get(index);
+
+        if (attr.needLayout()) {
+            dragIcon.layout(attr.getStartX(), attr.getStartY(), attr.getEndX(), attr.getEndY());
+        }
+        oldIndex = index;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (mActivity instanceof BaseFragmentActivity) {
+            ((BaseFragmentActivity) mActivity).requestPermission(Permission.CALL_PHONE, Constants.CALL_PHONE);
+        }
+    }
 }

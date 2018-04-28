@@ -9,7 +9,9 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.widget.RelativeLayout;
 
+import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.fragment.buy.FilterFragment;
 import com.yunsen.enjoy.fragment.buy.FilterFragmentAdapter;
@@ -170,10 +172,12 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
                 UIHelper.showSearchActivity(getActivity());
                 break;
             case RIGHT_IMG:
-                UIHelper.showPhoneNumberActivity(getActivity(), "400****120");
+                ((BaseFragmentActivity) getActivity()).requestPermission(Permission.CALL_PHONE, Constants.CALL_PHONE);
                 break;
         }
     }
+
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UpUiEvent event) {

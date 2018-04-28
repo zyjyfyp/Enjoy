@@ -14,10 +14,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.widget.FlowLayout;
+import com.yunsen.enjoy.widget.drag.DragLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,6 +71,8 @@ public class CarDetailsActivity extends BaseFragmentActivity {
     LinearLayout orderBuyLayout;
     @Bind(R.id.apply_buy_tv)
     TextView applyBuyTv;
+    @Bind(R.id.drag_layout)
+    DragLayout dragLayout;
 
     private GalleryPagerAdapter galleryAdapter;
     private int[] imageViewIds;
@@ -106,14 +110,21 @@ public class CarDetailsActivity extends BaseFragmentActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
+        dragLayout.setCanDrag(false);
     }
 
     @Override
     protected void initListener() {
-
+        dragLayout.setDragIconClick(this);
     }
 
+    @Override
+    protected void onRequestPermissionSuccess(int requestCode) {
+        super.onRequestPermissionSuccess(requestCode);
+        if (requestCode == Constants.CALL_PHONE) {
+            UIHelper.showPhoneNumberActivity(this, "444****120");
+        }
+    }
 
     @OnClick({R.id.more_service_layout, R.id.collect_layout, R.id.ask_layout,
             R.id.add_shop_btn, R.id.order_buy_layout, R.id.apply_buy_tv})

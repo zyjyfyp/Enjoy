@@ -16,8 +16,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.squareup.picasso.Picasso;
+import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.activity.MainActivity;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
 import com.yunsen.enjoy.fragment.home.StoreRecyclerAdapter;
@@ -280,8 +283,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                 UIHelper.showSearchActivity(getActivity());
                 break;
             case RIGHT_IMG:
-                Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:400****120"));//跳转到拨号界面，同时传递电话号码
-                startActivity(dialIntent);
+                ((BaseFragmentActivity) getActivity()).requestPermission(Permission.CALL_PHONE, Constants.CALL_PHONE);
                 break;
         }
     }

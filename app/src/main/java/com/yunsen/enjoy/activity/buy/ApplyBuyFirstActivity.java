@@ -7,8 +7,10 @@ import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.widget.BuyCarStepLayout;
+import com.yunsen.enjoy.widget.drag.DragLayout;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,6 +45,8 @@ public class ApplyBuyFirstActivity extends BaseFragmentActivity {
     TextView applyFirstBottomBtn;
     @Bind(R.id.buy_step_layout)
     BuyCarStepLayout buyStepLayout;
+    @Bind(R.id.drag_layout)
+    DragLayout dragLayout;
 
     @Override
     public int getLayout() {
@@ -58,12 +62,19 @@ public class ApplyBuyFirstActivity extends BaseFragmentActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
+        dragLayout.setCanDrag(false);
     }
 
     @Override
     protected void initListener() {
+        dragLayout.setDragIconClick(this);
+    }
 
+    @Override
+    protected void onRequestPermissionSuccess(int requestCode) {
+        if (requestCode == Constants.CALL_PHONE) {
+            UIHelper.showPhoneNumberActivity(this, "444****120");
+        }
     }
 
     @OnClick({R.id.apply_first_bottom_btn, R.id.action_back})

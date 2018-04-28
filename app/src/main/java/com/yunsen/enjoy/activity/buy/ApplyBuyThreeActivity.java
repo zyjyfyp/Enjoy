@@ -1,16 +1,32 @@
 package com.yunsen.enjoy.activity.buy;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
+import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.widget.BuyCarStepLayout;
+
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.yunsen.enjoy.activity.mine.PersonCenterActivity.path;
 
 /**
  * Created by Administrator on 2018/4/27.
@@ -29,6 +45,20 @@ public class ApplyBuyThreeActivity extends BaseFragmentActivity {
     BuyCarStepLayout buyStepLayout;
     @Bind(R.id.apply_first_bottom_btn)
     TextView applyFirstBottomBtn;
+    @Bind(R.id.name_input)
+    EditText nameInput;
+    @Bind(R.id.ic_card_input)
+    EditText icCardInput;
+    @Bind(R.id.ic_card_img)
+    ImageView icCardImg;
+    @Bind(R.id.ic_card_img_bg)
+    ImageView icCardImgBg;
+    @Bind(R.id.banner_money_img)
+    ImageView bannerMoneyImg;
+    @Bind(R.id.add_banner_image_tv)
+    TextView addBannerImageTv;
+
+    private int mRequestActivityCode;
 
     @Override
     public int getLayout() {
@@ -37,8 +67,9 @@ public class ApplyBuyThreeActivity extends BaseFragmentActivity {
 
     @Override
     protected void initView() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         ButterKnife.bind(this);
-        actionBarTitle.setText("申请购买");
+        actionBarTitle.setText("资料审核");
         buyStepLayout.setThreeStep();
     }
 
@@ -52,10 +83,64 @@ public class ApplyBuyThreeActivity extends BaseFragmentActivity {
 
     }
 
+    private static final String TAG = "ApplyBuyThreeActivity";
 
-    @OnClick(R.id.action_back)
-    public void onViewClicked() {
-        finish();
+    @Override
+    protected void onRequestPermissionSuccess(int requestCode) {
+        UIHelper.showPhotoActivity(this, mRequestActivityCode);
+    }
+
+    @OnClick({R.id.ic_card_img, R.id.ic_card_img_bg, R.id.add_banner_image_tv, R.id.action_back})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.action_back:
+                finish();
+                break;
+            case R.id.ic_card_img:
+                mRequestActivityCode = Constants.PHOTO_IC_CARD;
+                requestPermission(Permission.WRITE_EXTERNAL_STORAGE, Constants.WRITE_EXTERNAL_STORAGE);
+                break;
+            case R.id.ic_card_img_bg:
+                mRequestActivityCode = Constants.PHOTO_IC_CARD_BG;
+                requestPermission(Permission.WRITE_EXTERNAL_STORAGE, Constants.WRITE_EXTERNAL_STORAGE);
+                break;
+            case R.id.add_banner_image_tv:
+                mRequestActivityCode = Constants.PHOTO_BANK;
+                requestPermission(Permission.WRITE_EXTERNAL_STORAGE, Constants.WRITE_EXTERNAL_STORAGE);
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //在相册里面选择好相片之后调回到现在的这个activity中
+        if (resultCode == RESULT_OK) {
+            Bitmap bitmap = null;
+            Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            path = cursor.getString(columnIndex); //获取照片路径
+            cursor.close();
+            bitmap = BitmapFactory.decodeFile(path);
+            switch (requestCode) {
+                case Constants.PHOTO_ACTIVITY_REQUEST://这里的requestCode是我自己设置的，就是确定返回到那个Activity的标志
+                    icCardImg.setImageBitmap(bitmap);
+                    break;
+                case Constants.PHOTO_IC_CARD_BG:
+                    icCardImgBg.setImageBitmap(bitmap);
+                    break;
+                case Constants.PHOTO_BANK:
+                    bannerMoneyImg.setImageBitmap(bitmap);
+                    break;
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     @Override

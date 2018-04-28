@@ -213,7 +213,7 @@
     <color name="color_ff9250">#ff9250</color>
     <color name="color999">#999999</color>
     <color name="color_eee">#eee</color>
-    <color name="color_dc4116">#dc4116</color>
+    <color name="color_theme">#dc4116</color>
     <color name="back_light">#161616</color>
     <color name="color_d81e06">#d81e06</color>
 </resources>

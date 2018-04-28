@@ -18,6 +18,17 @@ public class Constants {
     public static final String[] SORT_METHED = new String[]{"智能排序", "最新上架", "价格最低", "价格最高", "车龄最短", "理财最少"};
     public static final String CHANNEL_KEY = "channel_key";
     public static final String WEB_URL_KEY = "web_url_key";
+    public static final int PHOTO_ACTIVITY_REQUEST = 10;//照片页面请求码
+    public static final int PHOTO_IC_CARD = 1;
+    public static final int PHOTO_IC_CARD_BG = 2;
+    public static final int PHOTO_BANK = 3;
+    /**
+     * 申请手机权限时的请求码
+     */
+    public static final int CALL_PHONE = 1;//打电话的权限
+    public static final int CAMERA = 2;
+    public static final int WRITE_EXTERNAL_STORAGE = 3;//存储权限
+
 
     public static Map<String, String> SHOT_METHED_VALUE = new HashMap<String, String>();
 

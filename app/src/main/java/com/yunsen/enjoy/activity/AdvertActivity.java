@@ -41,6 +41,11 @@ public class AdvertActivity extends BaseFragmentActivity {
 
     }
 
+    @Override
+    protected void onRequestPermissionSuccess(int requestCode) {
+
+    }
+
 
     @OnClick(R.id.action_back)
     public void onViewClicked() {
