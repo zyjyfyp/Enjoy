@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.yunsen.enjoy.activity.AdvertActivity;
@@ -31,6 +32,7 @@ import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.activity.buy.ApplyBuyFirstActivity;
 import com.yunsen.enjoy.activity.buy.CarServiceActivity;
 import com.yunsen.enjoy.activity.buy.WatchCarActivity;
+import com.yunsen.enjoy.fragment.buy.SelectBrandActivity;
 
 /**
  * 应用程序UI工具包：封装UI相关的一些操作
@@ -324,5 +326,11 @@ public class UIHelper {
 //        intent.putExtra("outputY", 150);
         intent.putExtra("return-data", true);
         act.startActivityForResult(intent, requestCode);
+    }
+
+    public static void showSelectBrandActivity(Activity act,String type) {
+        Intent intent = new Intent(act, SelectBrandActivity.class);
+        intent.putExtra(Constants.FRAGMENT_TYPE_KEY,type);
+        act.startActivity(intent);
     }
 }

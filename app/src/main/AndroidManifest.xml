@@ -229,15 +229,15 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.buy.ApplyBuyTwoActivity"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
             android:configChanges="orientation|keyboard|keyboardHidden|navigation"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <activity
             android:name=".activity.buy.ApplyBuyThreeActivity"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
             android:configChanges="orientation|keyboard|keyboardHidden|navigation"
-            android:screenOrientation="portrait" />
-
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity android:name=".fragment.buy.SelectBrandActivity"></activity>
     </application>
 
 </manifest>

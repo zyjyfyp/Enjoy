@@ -4,6 +4,7 @@ package com.yunsen.enjoy.http;
 import com.yunsen.enjoy.model.AdvertList;
 import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.BrandResponse;
+import com.yunsen.enjoy.model.CarBrandList;
 import com.yunsen.enjoy.model.CarModel;
 import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.GoogsListResponse;
@@ -11,6 +12,7 @@ import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.NoticeResponse;
 import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.model.ServiceProvideResponse;
+import com.yunsen.enjoy.model.response.CarBrandResponese;
 
 import java.util.HashMap;
 import java.util.List;
@@ -270,6 +272,39 @@ public class HttpProxy {
                 if (response.getData() != null) {
                     List<GoodsData> list = response.getData();
                     callBack.onSuccess(list);
+                } else {
+                    callBack.onError(null, new Exception("date is empty!"));
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 汽车品牌种类列表
+     *
+     * @param callBack
+     * @param id
+     */
+    public static void getCarBrandDatas(final HttpCallBack<CarBrandList> callBack, String id) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("top", "0");
+        param.put("parent_id", "0");
+        param.put("channel_id", "7");
+        param.put("orderby", "id desc");
+        param.put("flag", "true");
+
+        HttpClient.get(URLConstants.CAR_BRAND_URL, param, new HttpResponseHandler<CarBrandResponese>() {
+            @Override
+            public void onSuccess(CarBrandResponese response) {
+                if (response.getData() != null) {
+                    CarBrandList data = response.getData();
+                    callBack.onSuccess(data);
                 } else {
                     callBack.onError(null, new Exception("date is empty!"));
                 }

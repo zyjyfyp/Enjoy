@@ -3,6 +3,8 @@ package com.yunsen.enjoy.fragment.buy;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,16 +14,20 @@ import com.yunsen.enjoy.fragment.BaseFragment;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.GoodsData;
+import com.yunsen.enjoy.model.event.ActivityResultEvent;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
+import com.yunsen.enjoy.widget.FilterHorLayout;
 import com.yunsen.enjoy.widget.MoreCarView;
 import com.yunsen.enjoy.widget.NumberPickerDialog;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +41,9 @@ import okhttp3.Request;
  * Created by Administrator on 2018/4/23.
  */
 
-public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter.OnItemClickListener {
+public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter.OnItemClickListener, FilterHorLayout.OnFilterResetListener, FilterHorLayout.OnItemCloseListener {
     private static final String TAG = "FilterFragment";
+    private int mFragmentId;
     @Bind(R.id.text_hor_1)
     TextView textHor1;
     @Bind(R.id.text_hor_2)
@@ -45,17 +52,16 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
     TextView textHor3;
     @Bind(R.id.text_hor_4)
     TextView textHor4;
-    @Bind(R.id.filter_tv)
-    TextView filterTv;
-    @Bind(R.id.filter_reset_tv)
-    TextView filterResetTv;
+    @Bind(R.id.filter_layout)
+    FilterHorLayout filterLayout;
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
-    private FilterRecAdapter mAdapter;
 
+    private FilterRecAdapter mAdapter;
     private String mChannel; //新车还是二手车
     private String mStrwhere = "sell_price<5";//价格范围
     private String mOrderby = "click desc";//排序条件
+    private String mBrandId;
 
 
     @Override
@@ -108,25 +114,24 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
     @Override
     protected void initListener() {
         mAdapter.setOnItemClickListener(this);
-
+        filterLayout.setOnResetListener(this);
+        filterLayout.setOnItemColseListener(this);
     }
 
 
-    @OnClick({R.id.text_hor_1, R.id.text_hor_2, R.id.text_hor_3, R.id.text_hor_4, R.id.filter_tv, R.id.filter_reset_tv, R.id.recyclerView})
+    @OnClick({R.id.text_hor_1, R.id.text_hor_2, R.id.text_hor_3, R.id.text_hor_4, R.id.recyclerView})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.text_hor_1:
                 showPickerDialog();
                 break;
             case R.id.text_hor_2:
+                UIHelper.showSelectBrandActivity(getActivity(), mChannel);
                 break;
             case R.id.text_hor_3:
+                showPriceDialog();
                 break;
             case R.id.text_hor_4:
-                break;
-            case R.id.filter_tv:
-                break;
-            case R.id.filter_reset_tv:
                 break;
             case R.id.recyclerView:
                 break;
@@ -160,18 +165,50 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
         picker.show();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
+    /**
+     * 显示价格排序
+     */
+    private void showPriceDialog() {
+        final NumberPickerDialog picker = new NumberPickerDialog(getActivity(), Constants.SORT_PRICES);
+        picker.setLeftOnclickListener("取消", new NumberPickerDialog.onLeftOnclickListener() {
+            @Override
+            public void onLeftClick() {
+                if (picker != null && picker.isShowing()) {
+                    picker.dismiss();
+                }
+            }
+        });
+        picker.setRightOnclickListener("确定", new NumberPickerDialog.onRightOnclickListener() {
+            @Override
+            public void onRightClick(int index) {
+                if (picker != null && picker.isShowing()) {
+                    mStrwhere = Constants.SHOT_PRICES_VALUES.get(Constants.SORT_PRICES[index]);
+                    textHor3.setText(Constants.SORT_PRICES[index]);
+                    requestData();
+                    picker.dismiss();
+                }
+            }
+        });
+        picker.show();
     }
 
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onActivityEvent(ActivityResultEvent event) {
+        if (event.getEventId() == EventConstants.CAR_BRAND_ID_KEY
+                && !TextUtils.isEmpty(mChannel) && mChannel.equals(event.getFragmentType())) {
+            int dataId = event.getDataId();
+            mBrandId = dataId + "";
+            filterLayout.addItemView(event.getName(), dataId);
+            filterLayout.setVisibility(View.VISIBLE);
+        }
+    }
 
 
     @Override
     public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         List<GoodsData> datas = mAdapter.getDatas();
-        if (datas != null && datas.size() > 0 && datas.size() >position) {
+        if (datas != null && datas.size() > 0 && datas.size() > position) {
             GoodsData goodsData = datas.get(position);
             UIHelper.showCarDetailsActivity(getActivity());
         }
@@ -180,5 +217,35 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
     @Override
     public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         return false;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+
+    @Override
+    public void onFilterReset() {
+        filterLayout.setVisibility(View.GONE);
+        requestData();
+    }
+
+    @Override
+    public void onItemClose(int id) {
+        requestData();
     }
 }

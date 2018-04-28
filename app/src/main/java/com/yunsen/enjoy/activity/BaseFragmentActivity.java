@@ -42,9 +42,14 @@ public abstract class BaseFragmentActivity extends AppCompatActivity {
         setContentView(layout);
         initView();
         initData(savedInstanceState);
+        requestData();
         initListener();
         mSetting = new PermissionSetting(this);
         mRationale = new DefaultRationale();
+    }
+
+    public void requestData() {
+
     }
 
 
