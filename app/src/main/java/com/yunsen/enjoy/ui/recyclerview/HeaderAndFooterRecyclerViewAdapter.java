@@ -1,5 +1,6 @@
 package com.yunsen.enjoy.ui.recyclerview;
 
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
@@ -71,6 +72,7 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
     /**
      * 设置adapter
+     *
      * @param adapter
      */
     public void setAdapter(RecyclerView.Adapter<RecyclerView.ViewHolder> adapter) {
@@ -116,18 +118,20 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
     /**
      * 返回第一个FoView
+     *
      * @return
      */
     public View getFooterView() {
-        return  getFooterViewsCount()>0 ? mFooterViews.get(0) : null;
+        return getFooterViewsCount() > 0 ? mFooterViews.get(0) : null;
     }
 
     /**
      * 返回第一个HeaderView
+     *
      * @return
      */
     public View getHeaderView() {
-        return  getHeaderViewsCount()>0 ? mHeaderViews.get(0) : null;
+        return getHeaderViewsCount() > 0 ? mHeaderViews.get(0) : null;
     }
 
     public void removeHeaderView(View view) {
@@ -177,7 +181,7 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         } else {
             ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
 
-            if(layoutParams instanceof StaggeredGridLayoutManager.LayoutParams) {
+            if (layoutParams instanceof StaggeredGridLayoutManager.LayoutParams) {
                 ((StaggeredGridLayoutManager.LayoutParams) layoutParams).setFullSpan(true);
             } else if (layoutParams == null && mLayoutManager instanceof StaggeredGridLayoutManager) {
                 StaggeredGridLayoutManager.LayoutParams lp = new StaggeredGridLayoutManager.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT);
@@ -202,7 +206,7 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         } else if (headerViewsCountCount <= position && position < headerViewsCountCount + innerCount) {
 
             int innerItemViewType = mInnerAdapter.getItemViewType(position - headerViewsCountCount);
-            if(innerItemViewType >= Integer.MAX_VALUE / 2) {
+            if (innerItemViewType >= Integer.MAX_VALUE / 2) {
                 throw new IllegalArgumentException("your adapter's return value of getViewTypeCount() must < Integer.MAX_VALUE / 2");
             }
             return innerItemViewType + Integer.MAX_VALUE / 2;
@@ -224,6 +228,28 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
         if (mLayoutManager == null) {
             mLayoutManager = recyclerView.getLayoutManager();
+        }
+
+        if (mLayoutManager instanceof GridLayoutManager) {
+            final GridLayoutManager gridLayoutManager = (GridLayoutManager) mLayoutManager;
+            final GridLayoutManager.SpanSizeLookup spanSizeLookup = gridLayoutManager.getSpanSizeLookup();
+
+            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    int viewType = getItemViewType(position);
+                    if (viewType == (TYPE_HEADER_VIEW + position) && mHeaderViews.get(position) != null) {
+                        return gridLayoutManager.getSpanCount();
+                    } else if (viewType == (TYPE_FOOTER_VIEW + position - getHeaderViewsCount() - mInnerAdapter.getItemCount())
+                            && mFooterViews.get(position - getHeaderViewsCount() - mInnerAdapter.getItemCount()) != null) {
+                        return gridLayoutManager.getSpanCount();
+                    }
+                    if (spanSizeLookup != null)
+                        return spanSizeLookup.getSpanSize(position);
+                    return 1;
+                }
+            });
+            gridLayoutManager.setSpanCount(gridLayoutManager.getSpanCount());
         }
     }
 

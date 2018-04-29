@@ -11,5 +11,6 @@ public class EventConstants {
 
     //选择品牌
     public static final int CAR_BRAND_ID_KEY = 1;
-
+    //高级筛选
+    public static final int SENIOR_FILTER_ID = 2;
 }

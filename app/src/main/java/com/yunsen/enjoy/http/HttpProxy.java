@@ -4,6 +4,7 @@ package com.yunsen.enjoy.http;
 import com.yunsen.enjoy.model.AdvertList;
 import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.BrandResponse;
+import com.yunsen.enjoy.model.CarBrand;
 import com.yunsen.enjoy.model.CarBrandList;
 import com.yunsen.enjoy.model.CarModel;
 import com.yunsen.enjoy.model.GoodsData;
@@ -263,7 +264,7 @@ public class HttpProxy {
         param.put("page_index", "1");
         param.put("strwhere", "status=0");
         param.put("orderby", "");
-//      头条-3 / 导购-2778 / 用车-2750 / 百科-4065,
+        //      头条-3 / 导购-2778 / 用车-2750 / 百科-4065,
 
 
         HttpClient.get(URLConstants.DISCOVER_FIRST_URL, param, new HttpResponseHandler<GoogsListResponse>() {
@@ -318,5 +319,34 @@ public class HttpProxy {
         });
     }
 
+    public static void getSeniorCarBrandDatas(final HttpCallBack<List<CarBrand>> callBack, String id) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("top", "0");
+        param.put("parent_id", "0");
+        param.put("channel_id", "7");
+        param.put("orderby", "id desc");
+        param.put("flag", "false");
 
+        HttpClient.get(URLConstants.CAR_BRAND_URL, param, new HttpResponseHandler<CarBrandResponese>() {
+            @Override
+            public void onSuccess(CarBrandResponese response) {
+                if (response.getData() != null) {
+                    CarBrandList data = response.getData();
+                    if (data != null) {
+                        List<CarBrand> list = data.getList();
+                        callBack.onSuccess(list);
+                        return;
+                    }
+                }
+
+                callBack.onError(null, new Exception("date is empty!"));
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
 }

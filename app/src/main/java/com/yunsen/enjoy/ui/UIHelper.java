@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.yunsen.enjoy.activity.AdvertActivity;
@@ -15,8 +14,11 @@ import com.yunsen.enjoy.activity.MoveActivity;
 import com.yunsen.enjoy.activity.SearchActivity;
 import com.yunsen.enjoy.activity.SelectCityActivity;
 import com.yunsen.enjoy.activity.WebActivity;
+import com.yunsen.enjoy.activity.buy.ApplyBuyFirstActivity;
 import com.yunsen.enjoy.activity.buy.ApplyBuyThreeActivity;
 import com.yunsen.enjoy.activity.buy.ApplyBuyTwoActivity;
+import com.yunsen.enjoy.activity.buy.CarServiceActivity;
+import com.yunsen.enjoy.activity.buy.WatchCarActivity;
 import com.yunsen.enjoy.activity.mine.ApplyServiceActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
@@ -29,10 +31,8 @@ import com.yunsen.enjoy.activity.order.MyOrderActivity;
 import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.common.Constants;
-import com.yunsen.enjoy.activity.buy.ApplyBuyFirstActivity;
-import com.yunsen.enjoy.activity.buy.CarServiceActivity;
-import com.yunsen.enjoy.activity.buy.WatchCarActivity;
 import com.yunsen.enjoy.fragment.buy.SelectBrandActivity;
+import com.yunsen.enjoy.fragment.buy.SeniorFilterActivity;
 
 /**
  * 应用程序UI工具包：封装UI相关的一些操作
@@ -319,18 +319,38 @@ public class UIHelper {
         Intent intent = new Intent(
                 Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//        intent.putExtra("aspectX", 1);
-//        intent.putExtra("aspectY", 1);
-//        //裁剪的大小
-//        intent.putExtra("outputX", 200);
-//        intent.putExtra("outputY", 150);
+        //        intent.putExtra("aspectX", 1);
+        //        intent.putExtra("aspectY", 1);
+        //        //裁剪的大小
+        //        intent.putExtra("outputX", 200);
+        //        intent.putExtra("outputY", 150);
         intent.putExtra("return-data", true);
         act.startActivityForResult(intent, requestCode);
     }
 
-    public static void showSelectBrandActivity(Activity act,String type) {
+    /**
+     * 选择品牌
+     *
+     * @param act
+     * @param type
+     */
+    public static void showSelectBrandActivity(Activity act, String type) {
         Intent intent = new Intent(act, SelectBrandActivity.class);
-        intent.putExtra(Constants.FRAGMENT_TYPE_KEY,type);
+        intent.putExtra(Constants.FRAGMENT_TYPE_KEY, type);
         act.startActivity(intent);
     }
+
+    /**
+     * 高级筛选
+     *
+     * @param act
+     * @param type
+     */
+    public static void showSeniorSelectBrandActivity(Activity act, String type) {
+        Intent intent = new Intent(act, SeniorFilterActivity.class);
+        intent.putExtra(Constants.FRAGMENT_TYPE_KEY, type);
+        act.startActivity(intent);
+    }
+
+
 }

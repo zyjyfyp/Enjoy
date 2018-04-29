@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -30,7 +29,10 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -59,12 +61,16 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
 
     private FilterRecAdapter mAdapter;
     private String mChannel; //新车还是二手车
-    private String mStrwhere = "sell_price<5";//价格范围
     private String mOrderby = "click desc";//排序条件
-    private String mBrandId;
+    private String mPrice = "sell_price<5";//价格范围
+    private Map<String, String> mBrands = new HashMap<>(); //车型：
+    private String mCarTitle;
+    private String mCarCity; //搜索框条件：
+    private String mStrwhere = "sell_price<5";
 
 
     @Override
+
     protected int getLayoutId() {
         return R.layout.fragment_filter;
     }
@@ -119,7 +125,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
     }
 
 
-    @OnClick({R.id.text_hor_1, R.id.text_hor_2, R.id.text_hor_3, R.id.text_hor_4, R.id.recyclerView})
+    @OnClick({R.id.text_hor_1, R.id.text_hor_2, R.id.text_hor_3, R.id.text_hor_4})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.text_hor_1:
@@ -132,9 +138,9 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
                 showPriceDialog();
                 break;
             case R.id.text_hor_4:
+                UIHelper.showSeniorSelectBrandActivity(getActivity(), mChannel);
                 break;
-            case R.id.recyclerView:
-                break;
+
         }
     }
 
@@ -195,13 +201,22 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onActivityEvent(ActivityResultEvent event) {
-        if (event.getEventId() == EventConstants.CAR_BRAND_ID_KEY
-                && !TextUtils.isEmpty(mChannel) && mChannel.equals(event.getFragmentType())) {
-            int dataId = event.getDataId();
-            mBrandId = dataId + "";
-            filterLayout.addItemView(event.getName(), dataId);
-            filterLayout.setVisibility(View.VISIBLE);
+        switch (event.getEventId()) {
+            case EventConstants.CAR_BRAND_ID_KEY:
+            case EventConstants.SENIOR_FILTER_ID:
+                if (!TextUtils.isEmpty(mChannel) && mChannel.equals(event.getFragmentType())) {
+                    int dataId = event.getDataId();
+                    if (!mBrands.containsKey(String.valueOf(dataId))) {
+                        mBrands.put(String.valueOf(dataId), event.getName());
+                        mStrwhere = mStrwhere + " and brand_id like \'%" + dataId + "%\'";
+                        filterLayout.addItemView(event.getName(), dataId);
+                    }
+                    filterLayout.setVisibility(View.VISIBLE);
+                }
+                break;
         }
+
+
     }
 
 
@@ -241,11 +256,24 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
     @Override
     public void onFilterReset() {
         filterLayout.setVisibility(View.GONE);
+        mBrands.clear();
+        mStrwhere = mPrice;
         requestData();
     }
 
     @Override
     public void onItemClose(int id) {
+        mBrands.remove(String.valueOf(id));
+        mStrwhere = mPrice;
+        Iterator<String> iterator = mBrands.keySet().iterator();
+        while (iterator.hasNext()) {
+            String next = iterator.next();
+            mStrwhere += mStrwhere + " and brand_id like \'%" + next + "%\'";
+        }
+        if (mBrands.size() == 0) {
+            filterLayout.setVisibility(View.GONE);
+        }
         requestData();
     }
 }
+

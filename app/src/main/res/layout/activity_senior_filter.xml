@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/back_action_bar"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/top_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="@dimen/app_margin"
+        android:layout_marginRight="@dimen/app_margin"
+        android:background="@color/gray_light"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="@dimen/app_margin"
+        android:gravity="center_vertical"
+        android:text="车牌所在地"
+        android:textColor="@color/title_color"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height"
+        android:layout_marginLeft="@dimen/app_margin"
+        android:layout_marginRight="@dimen/app_margin"
+        android:gravity="center_vertical"
+        android:text="本地拍照外地牌照"
+        android:textColor="@color/title_color"
+        android:textSize="15sp"/>
+
+</LinearLayout>
