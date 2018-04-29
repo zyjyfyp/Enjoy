@@ -234,12 +234,17 @@ public class FlowLayout extends ViewGroup {
     }
 
     public void setDatas(List<DatatypeBean> datas) {
-        if (datas == null || datas.size() == 0) {
+        if (datas == null) {
             Logger.e("FlowLayout setDatas datas is null");
             this.setVisibility(GONE);
-        } else {
-            this.setVisibility(VISIBLE);
+            return;
         }
+        if (datas.size() == 0) {
+            this.setVisibility(GONE);
+            return;
+        }
+
+        this.setVisibility(VISIBLE);
         this.mDatas = datas;
         for (DatatypeBean data : datas) {
             final TextView textView = new TextView(getContext());
