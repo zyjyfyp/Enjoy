@@ -1,5 +1,7 @@
 package com.hengyushop.dao;
 
+import com.yunsen.enjoy.http.URLConstants;
+
 import java.io.Serializable;
 
 public class AdvertDao1 implements Serializable {
@@ -37,7 +39,11 @@ public class AdvertDao1 implements Serializable {
 	}
 
 	public String getAd_url() {
-		return ad_url;
+		if (ad_url != null && ad_url.startsWith("http")) {
+			return ad_url;
+		} else {
+			return URLConstants.REALM_URL + ad_url;
+		}
 	}
 
 	public void setAd_url(String ad_url) {

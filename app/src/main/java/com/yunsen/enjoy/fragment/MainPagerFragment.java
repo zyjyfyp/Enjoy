@@ -2,8 +2,6 @@ package com.yunsen.enjoy.fragment;
 
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -77,6 +75,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     private ImageView allCars;
     private View moreCar;
     private HomeFootView footView;
+    private List<AdvertModel> mAdverModels = new ArrayList<>();
 
 
     @Override
@@ -172,7 +171,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
     @Override
     protected void requestData() {
-        HttpProxy.getHomeAdvertList(13, new HttpCallBack<List<AdvertModel>>() {
+        HttpProxy.getHomeAdvertList(11, new HttpCallBack<List<AdvertModel>>() {
             @Override
             public void onSuccess(List<AdvertModel> responseData) {
                 bannerAdapter = new BannerAdapter(responseData, getActivity());// TODO: 2018/4/20 need upData方法
@@ -188,10 +187,12 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         HttpProxy.getCarList(new HttpCallBack<List<AdvertModel>>() {
             @Override
             public void onSuccess(List<AdvertModel> responseData) {
+                mAdverModels.clear();
                 for (int i = 0; i < responseData.size() && i < mCarImgArray.length; i++) {
                     AdvertModel model = responseData.get(i);
                     String ad_url = model.getAd_url();
-                    Log.e(TAG, "onSuccess: " + ad_url);
+                    Log.e(TAG, "model.getAd_url: " + ad_url);
+                    mAdverModels.add(model);
                     Picasso.with(getActivity()).load(ad_url)
                             .placeholder(R.mipmap.car_1).into(mCarImgArray[i]);
                 }
@@ -288,6 +289,15 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         }
     }
 
+    private String getAdverModelUrl(int index) {
+        if (mAdverModels.size() > index) {
+            return mAdverModels.get(index).getLink_url();
+        }
+        return null;
+    }
+
+    ;
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -296,28 +306,31 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                 toBuyCarFragment();
                 break;
             case R.id.adt_text1:
-                UIHelper.showSearchActivity(getActivity());
+                NoticeModel data = adtTv1.getCurrentData();
+                UIHelper.showNoticeWebActivity(getActivity(), data.getId());
                 break;
             case R.id.adt_text2:
-                UIHelper.showSearchActivity(getActivity());
+                NoticeModel data2 = adtTv2.getCurrentData();
+                UIHelper.showNoticeWebActivity(getActivity(), data2.getId());
                 break;
             case R.id.car_img_big:
-                UIHelper.showCarDetailsActivity(getActivity());
+                AdvertModel advertModel = mAdverModels.get(0);
+                UIHelper.showCarDetailsActivity(getActivity(), getAdverModelUrl(0));
                 break;
             case R.id.car_img_1:
-                UIHelper.showCarDetailsActivity(getActivity());
+                UIHelper.showCarDetailsActivity(getActivity(), getAdverModelUrl(1));
                 break;
             case R.id.car_img_2:
-                UIHelper.showCarDetailsActivity(getActivity());
+                UIHelper.showCarDetailsActivity(getActivity(), getAdverModelUrl(2));
                 break;
             case R.id.car_img_3:
-                UIHelper.showCarDetailsActivity(getActivity());
+                UIHelper.showCarDetailsActivity(getActivity(), getAdverModelUrl(3));
                 break;
             case R.id.car_img_4:
-                UIHelper.showCarDetailsActivity(getActivity());
+                UIHelper.showCarDetailsActivity(getActivity(), getAdverModelUrl(4));
                 break;
             case R.id.car_img_5:
-                UIHelper.showCarDetailsActivity(getActivity());
+                UIHelper.showCarDetailsActivity(getActivity(), getAdverModelUrl(5));
                 break;
             case R.id.load_more_btn:
                 /**
@@ -326,7 +339,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                 HttpProxy.getServiceProvider(new HttpCallBack<List<SProviderModel>>() {
                     @Override
                     public void onSuccess(List<SProviderModel> responseData) {
-
+                        mAdapter.upDatas(responseData);
                     }
 
                     @Override
@@ -350,8 +363,8 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         banner.startAutoScroll();
         String currentCity = SharedPreference.getInstance().getString(SpConstants.CITY_KEY, "深圳");
         searchBar.setLeftText(currentCity);
-//        adtTv1.onStartAuto(1);
-//        adtTv2.onStopAuto(2);
+        //        adtTv1.onStartAuto(1);
+        //        adtTv2.onStopAuto(2);
     }
 
     @Override
@@ -376,7 +389,12 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
     @Override
     public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
-        UIHelper.showCarDetailsActivity(getActivity());
+        List<SProviderModel> datas = mAdapter.getDatas();
+
+        if (datas != null && position > 0 && datas.size() > position - 1) {
+            Log.e(TAG, "onItemClick: " + datas.get(position).getTitle());
+            UIHelper.showCarDetailsActivity(getActivity(), "14837");
+        }
     }
 
     @Override

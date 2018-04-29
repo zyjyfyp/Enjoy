@@ -3,7 +3,6 @@ package com.yunsen.enjoy.widget;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.StateListDrawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
+import com.yunsen.enjoy.model.DatatypeBean;
 import com.yunsen.enjoy.utils.DeviceUtil;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class FlowLayout extends ViewGroup {
 
     //用来存放所有的Line对象
     private ArrayList<Line> lineList = new ArrayList<Line>();
-    private List<String> mDatas;
+    private List<DatatypeBean> mDatas;
 
     public FlowLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -135,7 +135,7 @@ public class FlowLayout extends ViewGroup {
             //1.获取每行的留白的宽度
             int remainSpacing = getLineRemainSpacing(line);
             //2.计算每个view平均得到的值
-//            float perSpacing = remainSpacing / viewList.size();
+            //            float perSpacing = remainSpacing / viewList.size();
             float perSpacing = horizontalSpacing;
 
             for (int j = 0; j < viewList.size(); j++) {
@@ -233,14 +233,17 @@ public class FlowLayout extends ViewGroup {
         }
     }
 
-    public void setDatas(List<String> datas) {
-        if (datas == null) {
+    public void setDatas(List<DatatypeBean> datas) {
+        if (datas == null || datas.size() == 0) {
             Logger.e("FlowLayout setDatas datas is null");
+            this.setVisibility(GONE);
+        } else {
+            this.setVisibility(VISIBLE);
         }
         this.mDatas = datas;
-        for (String data : datas) {
+        for (DatatypeBean data : datas) {
             final TextView textView = new TextView(getContext());
-            textView.setText(data);
+            textView.setText(data.getDatatype_title());
             //背景图片
             GradientDrawable gradientDrawable = new GradientDrawable();
             gradientDrawable.setShape(GradientDrawable.RECTANGLE);
@@ -248,22 +251,22 @@ public class FlowLayout extends ViewGroup {
             gradientDrawable.setCornerRadius(dp5);
             gradientDrawable.setColor(Color.parseColor("#8997a8"));
 
-//            GradientDrawable gradientDrawable2 = new GradientDrawable();
-//            gradientDrawable2.setShape(GradientDrawable.RECTANGLE);
-//
-//            gradientDrawable2.setCornerRadius(dp5);
-//            gradientDrawable2.setColor(Color.YELLOW);
+            //            GradientDrawable gradientDrawable2 = new GradientDrawable();
+            //            gradientDrawable2.setShape(GradientDrawable.RECTANGLE);
+            //
+            //            gradientDrawable2.setCornerRadius(dp5);
+            //            gradientDrawable2.setColor(Color.YELLOW);
 
             textView.setTextColor(Color.WHITE);
-            textView.setTextSize(16);
+            textView.setTextSize(12);
             textView.setPadding(10, 5, 10, 5);
             textView.setGravity(Gravity.CENTER);
 
             //设置点击效果
-//            StateListDrawable stateListDrawable = new StateListDrawable();
-//            stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, gradientDrawable);
-//            stateListDrawable.addState(new int[]{}, gradientDrawable2);
-//            textView.setBackgroundDrawable(stateListDrawable);
+            //            StateListDrawable stateListDrawable = new StateListDrawable();
+            //            stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, gradientDrawable);
+            //            stateListDrawable.addState(new int[]{}, gradientDrawable2);
+            //            textView.setBackgroundDrawable(stateListDrawable);
 
             textView.setBackgroundDrawable(gradientDrawable);
             textView.setOnClickListener(new View.OnClickListener() {

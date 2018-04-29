@@ -4,12 +4,9 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 import com.yunsen.enjoy.R;
-
 import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.widget.recyclerview.CommonAdapter;
-
 import com.yunsen.enjoy.widget.recyclerview.base.ViewHolder;
 
 import java.util.List;
@@ -38,4 +35,12 @@ public class StoreRecyclerAdapter extends CommonAdapter<SProviderModel> {
     }
 
 
+    public void upDatas(List<SProviderModel> datas) {
+        if (datas != null) {
+            this.mDatas.clear();
+            this.mDatas.addAll(datas);
+            this.notifyDataSetChanged();
+        }
+
+    }
 }

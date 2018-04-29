@@ -6,6 +6,7 @@ import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.BrandResponse;
 import com.yunsen.enjoy.model.CarBrand;
 import com.yunsen.enjoy.model.CarBrandList;
+import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.CarModel;
 import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.GoogsListResponse;
@@ -14,6 +15,7 @@ import com.yunsen.enjoy.model.NoticeResponse;
 import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.model.ServiceProvideResponse;
 import com.yunsen.enjoy.model.response.CarBrandResponese;
+import com.yunsen.enjoy.model.response.CarDetailsResponse;
 
 import java.util.HashMap;
 import java.util.List;
@@ -348,5 +350,26 @@ public class HttpProxy {
                 callBack.onError(request, e);
             }
         });
+    }
+
+    /**
+     * 获取汽车详情
+     * @param callBack
+     * @param carId
+     */
+    public static void getCarDetailsData(final HttpCallBack<CarDetails> callBack, String carId) {
+        HttpClient.get(URLConstants.CAR_DETAILS_URL + carId, new HashMap<String, String>(), new HttpResponseHandler<CarDetailsResponse>() {
+            @Override
+            public void onSuccess(CarDetailsResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+            }
+        });
+
     }
 }

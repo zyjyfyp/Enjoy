@@ -12,12 +12,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
-import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.fragment.discover.GoodsAdapter;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
-import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.ui.UIHelper;
@@ -368,7 +366,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
             }
             if (datas != null && datas.size() > 0 && datas.size() > position) {
                 GoodsData goodsData = datas.get(position);
-                UIHelper.showWebActivity(getActivity(), URLConstants.REALM_URL + goodsData.getLink_url());
+                UIHelper.showNoticeWebActivity(getActivity(), goodsData.getId());
             }
         }
 

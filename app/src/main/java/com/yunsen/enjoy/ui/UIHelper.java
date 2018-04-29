@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.yunsen.enjoy.activity.AdvertActivity;
@@ -33,6 +34,7 @@ import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.fragment.buy.SelectBrandActivity;
 import com.yunsen.enjoy.fragment.buy.SeniorFilterActivity;
+import com.yunsen.enjoy.http.URLConstants;
 
 /**
  * 应用程序UI工具包：封装UI相关的一些操作
@@ -122,8 +124,24 @@ public class UIHelper {
      *
      * @param act
      */
-    public static void showCarDetailsActivity(Context act) {
+    public static void showCarDetailsActivity(Context act, String linkUrl) {
+        if (linkUrl == null) {
+            Toast.makeText(act, "网络异常，请稍后再试", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String url = linkUrl.trim();
+        String id = null;
+        int index = url.lastIndexOf("=") + 1;
+        if (index == -1) {
+            id = linkUrl;
+        } else {
+            id = url.substring(index);
+            Log.e(TAG, "showCarDetailsActivity: url=" + url);
+            Log.e(TAG, "showCarDetailsActivity: id=" + id);
+        }
+
         Intent intent = new Intent(act, CarDetailsActivity.class);
+        intent.putExtra(Constants.CAR_DETAILS_ID, id);
         act.startActivity(intent);
     }
 
@@ -262,6 +280,19 @@ public class UIHelper {
     public static void showWebActivity(Context ctx, String url) {
         Intent intent = new Intent(ctx, WebActivity.class);
         intent.putExtra(Constants.WEB_URL_KEY, url);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 跳转消息网页
+     *
+     * @param ctx
+     * @param url
+     */
+    public static void showNoticeWebActivity(Context ctx, int url) {
+        Intent intent = new Intent(ctx, WebActivity.class);
+        String value = Integer.toString(url);
+        intent.putExtra(Constants.WEB_URL_KEY, URLConstants.getNoticeHtmlUrl(value));
         ctx.startActivity(intent);
     }
 

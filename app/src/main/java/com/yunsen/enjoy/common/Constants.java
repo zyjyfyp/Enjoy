@@ -62,9 +62,12 @@ public class Constants {
         SHOT_PRICES_VALUES.put("16-20万", "sell_price between 16and 20");
         SHOT_PRICES_VALUES.put("20万以上", "and sell_price>20");
     }
+
     public static final String FRAGMENT_TYPE_KEY = "fragment_type";
-
-
+    /**
+     * 汽车详情
+     */
+    public static final String CAR_DETAILS_ID = "car_details_id";
 
 
 }

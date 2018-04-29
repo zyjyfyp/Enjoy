@@ -13,8 +13,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.http.HttpCallBack;
+import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.model.CarDetails;
+import com.yunsen.enjoy.model.DatatypeBean;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
@@ -28,9 +33,10 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Request;
 
 public class CarDetailsActivity extends BaseFragmentActivity {
-
+    private static final String TAG = "CarDetailsActivity";
     @Bind(R.id.pager)
     AutoLoopViewPager pager;
     @Bind(R.id.indicator)
@@ -71,6 +77,8 @@ public class CarDetailsActivity extends BaseFragmentActivity {
     LinearLayout orderBuyLayout;
     @Bind(R.id.apply_buy_tv)
     TextView applyBuyTv;
+    @Bind(R.id.first_pay_tv)
+    TextView firstPayTv;
     @Bind(R.id.drag_layout)
     DragLayout dragLayout;
 
@@ -80,7 +88,9 @@ public class CarDetailsActivity extends BaseFragmentActivity {
             "http://pic.nipic.com/2008-07-11/20087119630716_2.jpg",
             "http://pic.nipic.com/2008-07-11/20087119630716_2.jpg",
             "http://pic.nipic.com/2008-07-11/20087119630716_2.jpg"));
-    private ArrayList<String> datas = new ArrayList<>();
+    private ArrayList<DatatypeBean> datas = new ArrayList<>();
+    private String mCarId;
+    private CarDetails mData;
 
     @Override
     public int getLayout() {
@@ -97,25 +107,57 @@ public class CarDetailsActivity extends BaseFragmentActivity {
         pager.setAdapter(galleryAdapter);
         indicator.setViewPager(pager);
         indicator.setPadding(5, 5, 10, 5);
-        initData();
-        flowLayout.setDatas(datas);
     }
 
-    private void initData() {
-        datas.add("4s店保养");
-        datas.add("0过户");
-        datas.add("急售");
-        datas.add("超值");
-    }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        Intent intent = getIntent();
+        if (intent != null) {
+            mCarId = intent.getStringExtra(Constants.CAR_DETAILS_ID);
+        }
         dragLayout.setCanDrag(false);
     }
 
     @Override
     protected void initListener() {
         dragLayout.setDragIconClick(this);
+    }
+
+    @Override
+    public void requestData() {
+        HttpProxy.getCarDetailsData(new HttpCallBack<CarDetails>() {
+
+            @Override
+            public void onSuccess(CarDetails responseData) {
+                mData=responseData;
+                upView(responseData);
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        }, mCarId);
+    }
+
+    /**
+     * 更加数据跟新View
+     *
+     * @param responseData
+     */
+    private void upView(CarDetails responseData) {
+        detailsTitle.setText(responseData.getTitle());
+        flowLayout.setDatas(responseData.getDatatype());//超值
+        CarDetails.DefaultSpecItemBean defaultSpecItem = responseData.getDefault_spec_item();
+        double rebatePrice = defaultSpecItem.getRebate_price();
+        detailsCarMoney.setText(rebatePrice + "万");
+        double market_price = defaultSpecItem.getMarket_price();
+        detailsOldCarMoney.setText("新车含税" + market_price + "万");
+        double firstPayment = defaultSpecItem.getFirst_payment();
+        int stockQuantity = defaultSpecItem.getStock_quantity();
+        firstPayTv.setText("首付" + firstPayment + "万 直卖专享" + stockQuantity + "首付");
+
     }
 
     @Override
@@ -137,7 +179,7 @@ public class CarDetailsActivity extends BaseFragmentActivity {
                 Toast.makeText(this, "添加收藏", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ask_layout:
-                UIHelper.showPhoneNumberActivity(this, "400****120");
+                requestPermission(Permission.CALL_PHONE, Constants.CALL_PHONE);
                 break;
             case R.id.add_shop_btn:
                 UIHelper.showWatchCarActivity(this);

@@ -1,29 +1,22 @@
 package com.yunsen.enjoy.widget;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
-
 import com.yunsen.enjoy.R;
-import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.NoticeModel;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 /**
@@ -120,6 +113,11 @@ public class ADTextView extends TextSwitcher implements ViewSwitcher.ViewFactory
         if (mHandler != null && mHandler.hasMessages(eventId)) {
             mHandler.removeMessages(eventId);
         }
+    }
+
+    public NoticeModel getCurrentData() {
+        return resources.get(index);
+
     }
 
 }

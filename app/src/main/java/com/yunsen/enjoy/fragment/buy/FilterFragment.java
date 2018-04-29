@@ -225,7 +225,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
         List<GoodsData> datas = mAdapter.getDatas();
         if (datas != null && datas.size() > 0 && datas.size() > position) {
             GoodsData goodsData = datas.get(position);
-            UIHelper.showCarDetailsActivity(getActivity());
+            UIHelper.showCarDetailsActivity(getActivity(),Integer.toString(goodsData.getId()));
         }
     }
 

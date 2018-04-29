@@ -16,13 +16,13 @@ public class URLConstants {
     /**
      * 小汽车广告
      */
-    public static final String CAR_ADV_URL = "http://szlxkg.com/tools/mobile_ajax.asmx/get_adbanner_list?advert_id=11";
+    public static final String CAR_ADV_URL = "http://szlxkg.com/tools/mobile_ajax.asmx/get_adbanner_list?advert_id=13";
     /**
      * 公告
      */
     public static final String NOTICE_URL = "http://szlxkg.com/tools/mobile_ajax.asmx/get_article_page_size_list";
     /**
-     * 推荐汽车
+     * 推荐汽车,品牌筛选，高级筛选
      */
     public static final String CAR_BRAND_URL = "http://szlxkg.com/tools/mobile_ajax.asmx/get_article_brand";
     /**
@@ -42,6 +42,19 @@ public class URLConstants {
      */
     public static final String DISCOVER_FIRST_URL = "http://szlxkg.com/tools/mobile_ajax.asmx/get_article_page_size_list";
 
+    /**
+     * 消息通知
+     */
+    private static String NOTICE_HTML_URL = "http://mobile.szlxkg.com/news/show-15933.html";
+
+    public static String getNoticeHtmlUrl(String id) {
+        return NOTICE_HTML_URL.replace("15933", id);
+    }
+
+    /**
+     * 汽车详情
+     */
+    public static String CAR_DETAILS_URL = "http://szlxkg.com/tools/mobile_ajax.asmx/get_article_model?id=";
 
     public static final String REALM_NAME_WEB = "http://mobile.zams.cn";
     public static final String REALM_NAME_HTTP = "http://mobile.zams.cn";
