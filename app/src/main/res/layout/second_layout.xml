@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/images_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <com.yunsen.enjoy.widget.MyPosterllView
+                    android:id="@+id/adv_pagerll"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+                </com.yunsen.enjoy.widget.MyPosterllView>
+            </FrameLayout>
+   <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+                     android:gravity="center|right"
+            android:orientation="vertical" >
+        <TextView
+             android:id="@+id/tv_tiaoguo"
+            android:layout_width="45dp"
+            android:layout_height="25dp"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="跳过"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_red_3_5_tiaoguo"
+            android:textSize="13sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/gd_ll"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        />
+
+</LinearLayout>

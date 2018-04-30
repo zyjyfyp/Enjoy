@@ -370,6 +370,19 @@ public class HttpProxy {
                 super.onFailure(request, e);
             }
         });
+    }
 
+    public static void getAppointementCarData(){
+        HttpClient.get(URLConstants.APPOINTEMENT_MANAGER,new HashMap<String, String>(),new HttpResponseHandler(){
+            @Override
+            public void onSuccess(Object response) {
+                super.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+            }
+        });
     }
 }

@@ -5,13 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,6 +23,7 @@ import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.activity.mine.TeamActivity;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.MyOrderData;
@@ -182,24 +180,24 @@ public class MemberFragment extends BaseFragment {
             loginIcon.setVisibility(View.VISIBLE);
             loginTv.setVisibility(View.VISIBLE);
         }
-        spPreferences = getActivity().getSharedPreferences("longuserset",
+        spPreferences = getActivity().getSharedPreferences(SpConstants.SP_USER_SET,
                 Context.MODE_PRIVATE);
-        user_name_phone = spPreferences.getString("user", "");
+        user_name_phone = spPreferences.getString(SpConstants.USER, "");
         System.out.println("user_name_phone================="
                 + user_name_phone);
         if (!TextUtils.isEmpty(user_name_phone)) {
-            user_id = spPreferences.getString("user_id", "");
+            user_id = spPreferences.getString(SpConstants.USER_ID, "");
             user_name_key = user_name_phone;
         }
 
         spPreferences_login = getActivity().getSharedPreferences(
-                "longuserset_login", Context.MODE_PRIVATE);
-        nickname = spPreferences_login.getString("nickname", "");
-        headimgurl = spPreferences_login.getString("headimgurl", "");
-        unionid = spPreferences_login.getString("unionid", "");
-        access_token = spPreferences_login.getString("access_token", "");
-        sex = spPreferences_login.getString("sex", "");
-        String oauth_openid = spPreferences_login.getString("oauth_openid", "");
+                SpConstants.SP_LONG_USER_SET, Context.MODE_PRIVATE);
+        nickname = spPreferences_login.getString(SpConstants.NICK_NAME, "");
+        headimgurl = spPreferences_login.getString(SpConstants.HEAD_IMG_URL, "");
+        unionid = spPreferences_login.getString(SpConstants.UNION_ID, "");
+        access_token = spPreferences_login.getString(SpConstants.ACCESS_TOKEN, "");
+        sex = spPreferences_login.getString(SpConstants.SEX, "");
+        String oauth_openid = spPreferences_login.getString(SpConstants.OAUTH_OPEN_ID, "");
 
     }
 
@@ -263,7 +261,7 @@ public class MemberFragment extends BaseFragment {
 
     @OnClick(R.id.account_manager_layout) //账户管理
     public void onAccountManagerLayoutClicked() {
-//        UIHelper.showPersonCenterActivity(getActivity());
+        //        UIHelper.showPersonCenterActivity(getActivity());
         goLoginOrOtherActivity(PersonCenterActivity.class);
     }
 
@@ -301,25 +299,25 @@ public class MemberFragment extends BaseFragment {
 
     @OnClick(R.id.finance_layout)
     public void onFinanceLayoutClicked() {
-//        UIHelper.showAssetsActivity(getActivity());
+        //        UIHelper.showAssetsActivity(getActivity());
         goLoginOrOtherActivity(MyAssetsActivity.class);
     }
 
     @OnClick(R.id.recharge_layout)
     public void onRechargeLayoutClicked() {
-//        UIHelper.showRechargeActivity(getActivity());
+        //        UIHelper.showRechargeActivity(getActivity());
         goLoginOrOtherActivity(TeamActivity.class);
     }
 
     @OnClick(R.id.apply_service_layout) //申请服务商（我是服务商）
     public void onApplyServiceLayoutClicked() {
-//        UIHelper.showApplyServiceActivity(getActivity());
+        //        UIHelper.showApplyServiceActivity(getActivity());
         goLoginOrOtherActivity(ApplyServiceActivity.class);
     }
 
     @OnClick(R.id.appointment_layout) //预约管理
     public void onAppointmentLayoutClicked() {
-//        UIHelper.showAppointmentActivity(getActivity());
+        //        UIHelper.showAppointmentActivity(getActivity());
         goLoginOrOtherActivity(AppointmentActivity.class);
     }
 
@@ -468,17 +466,17 @@ public class MemberFragment extends BaseFragment {
     private void getUserInfo() {
         try {
 
-            spPreferences_login = getActivity().getSharedPreferences("longuserset_login", Context.MODE_PRIVATE);
-            nickname = spPreferences_login.getString("nickname", "");
-            headimgurl = spPreferences_login.getString("headimgurl", "");
-            headimgurl2 = spPreferences_login.getString("headimgurl2", "");
+            spPreferences_login = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET, Context.MODE_PRIVATE);
+            nickname = spPreferences_login.getString(SpConstants.NICK_NAME, "");
+            headimgurl = spPreferences_login.getString(SpConstants.HEAD_IMG_URL, "");
+            headimgurl2 = spPreferences_login.getString(SpConstants.HEAD_IMG_URL_2, "");
 
-            spPreferences = getActivity().getSharedPreferences("longuserset", Context.MODE_PRIVATE);
-            user_name_phone = spPreferences.getString("user", "");
+            spPreferences = getActivity().getSharedPreferences(SpConstants.SP_USER_SET, Context.MODE_PRIVATE);
+            user_name_phone = spPreferences.getString(SpConstants.USER, "");
             System.out.println("user_name_phone=================" + user_name_phone);
 
             if (!TextUtils.isEmpty(user_name_phone)) {
-                user_id = spPreferences.getString("user_id", "");
+                user_id = spPreferences.getString(SpConstants.USER_ID, "");
                 user_name_key = user_name_phone;
             }
             System.out.println("user_id=================" + user_id);
@@ -494,7 +492,7 @@ public class MemberFragment extends BaseFragment {
                     try {
                         System.out.println("==22====");
                         // TODO: 2018/4/26 清空用户数据
-//                        setinten();// 数据清空
+                        //                        setinten();// 数据清空
                         setUserIconAndName(nickname, headimgurl2, headimgurl);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -504,7 +502,7 @@ public class MemberFragment extends BaseFragment {
                 System.out.println("==33======================="
                         + user_name_phone);
                 if (!TextUtils.isEmpty(user_name_phone)) {
-//                    handler.sendEmptyMessage(-11);
+                    //                    handler.sendEmptyMessage(-11);
                     getLeXiangUserInfo();//获取乐享用户信息
                     load_list();
                 } else {
@@ -610,19 +608,19 @@ public class MemberFragment extends BaseFragment {
                                 editor.putString("group_name", data.group_name);
                                 editor.commit();
 
-//                                if (!data.vip_card.equals("")) {
-//                                    tv_usertag.setText("服务金卡:" + data.vip_card);
-//                                } else {
-//                                    tv_usertag.setText("健康卡号:" + data.user_code);
-//                                }
+                                //                                if (!data.vip_card.equals("")) {
+                                //                                    tv_usertag.setText("服务金卡:" + data.vip_card);
+                                //                                } else {
+                                //                                    tv_usertag.setText("健康卡号:" + data.user_code);
+                                //                                }
                                 System.out.println("group_name=======企业职员========" + data.group_name);
-//                                if (data.group_name.contains("企业职员")) {
-//                                    iv_buju.setVisibility(View.VISIBLE);
-//                                    ll_saoyisao_qd.setVisibility(View.VISIBLE);
-//                                } else {
-//                                    iv_buju_dzc.setVisibility(View.VISIBLE);
-//                                    img_btn_daizhuce.setVisibility(View.VISIBLE);
-//                                }
+                                //                                if (data.group_name.contains("企业职员")) {
+                                //                                    iv_buju.setVisibility(View.VISIBLE);
+                                //                                    ll_saoyisao_qd.setVisibility(View.VISIBLE);
+                                //                                } else {
+                                //                                    iv_buju_dzc.setVisibility(View.VISIBLE);
+                                //                                    img_btn_daizhuce.setVisibility(View.VISIBLE);
+                                //                                }
 
                                 data.exp = obj.getString("exp");
 
@@ -632,36 +630,36 @@ public class MemberFragment extends BaseFragment {
                                 commissionTv.setText(data.packet);//钱包
                                 readyMoneyTv.setText(data.point);// 福利
                                 // point
-//                                System.out.println("tp_type===============" + tp_type);
+                                //                                System.out.println("tp_type===============" + tp_type);
                                 System.out.println("data.avatar===============" + data.avatar);
-//                                if (tp_type == false) { todo ??
-//                                    tp_type = false;
-//                                    mImageLoader = initImageLoader(getActivity(), mImageLoader, "test");
-//                                    if (!data.avatar.equals("")) {
-//                                        mImageLoader.displayImage(RealmName.REALM_NAME_FTP + data.avatar, networkImage);
-//                                    } else {
-//                                        if (data.avatar.equals("")) {
-//                                            bitMap = BitmapFactory.decodeResource(getResources(), R.drawable.app_zams);
-//                                            networkImage.setImageBitmap(bitMap);
-//                                        } else {
-//                                            if (!headimgurl.equals("")) {
-//                                                img_head.setVisibility(View.GONE);
-//                                                networkImage.setVisibility(View.VISIBLE);
-//                                                mImageLoader = initImageLoader(getActivity(), mImageLoader, "test");
-//                                                mImageLoader.displayImage(headimgurl, networkImage);
-//                                            } else {
-//                                                if (!headimgurl2.equals("")) {
-//                                                    img_head.setVisibility(View.VISIBLE);
-//                                                    networkImage.setVisibility(View.GONE);
-//                                                    bitmap = BitUtil.stringtoBitmap(headimgurl2);
-//                                                    bitmap = Utils.toRoundBitmap(bitmap, null); // 这个时候的图片已经被处理成圆形的了
-//                                                    img_head.setImageBitmap(bitmap);
-//                                                }
-//                                            }
-//                                        }
-//                                    }
-//                                }
-//                                userpanduan(data.login_sign); 判断是否升级 todo??
+                                //                                if (tp_type == false) { todo ??
+                                //                                    tp_type = false;
+                                //                                    mImageLoader = initImageLoader(getActivity(), mImageLoader, "test");
+                                //                                    if (!data.avatar.equals("")) {
+                                //                                        mImageLoader.displayImage(RealmName.REALM_NAME_FTP + data.avatar, networkImage);
+                                //                                    } else {
+                                //                                        if (data.avatar.equals("")) {
+                                //                                            bitMap = BitmapFactory.decodeResource(getResources(), R.drawable.app_zams);
+                                //                                            networkImage.setImageBitmap(bitMap);
+                                //                                        } else {
+                                //                                            if (!headimgurl.equals("")) {
+                                //                                                img_head.setVisibility(View.GONE);
+                                //                                                networkImage.setVisibility(View.VISIBLE);
+                                //                                                mImageLoader = initImageLoader(getActivity(), mImageLoader, "test");
+                                //                                                mImageLoader.displayImage(headimgurl, networkImage);
+                                //                                            } else {
+                                //                                                if (!headimgurl2.equals("")) {
+                                //                                                    img_head.setVisibility(View.VISIBLE);
+                                //                                                    networkImage.setVisibility(View.GONE);
+                                //                                                    bitmap = BitUtil.stringtoBitmap(headimgurl2);
+                                //                                                    bitmap = Utils.toRoundBitmap(bitmap, null); // 这个时候的图片已经被处理成圆形的了
+                                //                                                    img_head.setImageBitmap(bitmap);
+                                //                                                }
+                                //                                            }
+                                //                                        }
+                                //                                    }
+                                //                                }
+                                //                                userpanduan(data.login_sign); 判断是否升级 todo??
 
                             } catch (Exception e) {
 
