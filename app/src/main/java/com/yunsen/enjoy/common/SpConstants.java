@@ -42,5 +42,6 @@ public class SpConstants {
      */
     public static final String SP_LONG_USER_SET_TISHI = "longuserset_tishi";
 
+    public static final String SP_GUIDE = "guide";
 
 }

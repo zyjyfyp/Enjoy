@@ -1,11 +1,11 @@
 package com.yunsen.enjoy.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,7 +29,7 @@ import java.util.ArrayList;
  * @date 2014-9-25 下午03:26:37
  * @version V1.0
  */
-public class Guide2Activity extends Activity implements OnClickListener,
+public class Guide2Activity extends AppCompatActivity implements OnClickListener,
         OnPageChangeListener {
 	LayoutInflater layoutInflater;
 	LinearLayout ll_yindaoye1,ll_yindaoye2,ll_yindaoye3;
@@ -60,11 +60,8 @@ public class Guide2Activity extends Activity implements OnClickListener,
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		//getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE|WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		setContentView(R.layout.activity_guide);
-
 		initView();
-
 		initData();
 	}
 

@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -38,8 +37,11 @@ import com.tencent.connect.auth.QQAuth;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.tauth.Tencent;
+import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.activity.mine.UserForgotPasswordActivity;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserRegisterllData;
@@ -65,7 +67,7 @@ import java.security.MessageDigest;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-public class PhoneLoginActivity extends AppCompatActivity implements OnClickListener {
+public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickListener {
     private Button btn_login;
     private EditText et_username, et_pwd, userphone;
     private Button img_title_register;
@@ -113,36 +115,47 @@ public class PhoneLoginActivity extends AppCompatActivity implements OnClickList
     public static boolean panduan = false;
     UserRegisterllData data;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public int getLayout() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_login);
+        return R.layout.activity_login;
+    }
+
+    @Override
+    protected void initView() {
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         // getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
         // R.layout.title_login);
         spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-        // user_name = spPreferences.getString("user_name", "");
-        // user_id = spPreferences.getString("user_id", "");
-        // pwd = spPreferences.getString("pwd", "");
         try {
             progress = new DialogProgress(PhoneLoginActivity.this);
             popupWindowMenu = new MyPopupWindowMenu(this);
             md5 = new PhoneLoginActivity();
-
-            // Intent intent = this.getIntent();
-            // Bundle bundle = intent.getExtras();
-            // login = (Integer) bundle.get("login");
-            // if (login == 2) {
-            // wareid = (Integer) bundle.get("wareid");
-            // }
-
             initdata();
         } catch (Exception e) {
 
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onRequestPermissionSuccess(int requestCode) {
+        if (requestCode == Constants.READ_PHONE_STATE) {
+            Intent intent = new Intent(PhoneLoginActivity.this, UserRegisterActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    protected void initData(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    protected void initListener() {
+
     }
 
     @Override
@@ -544,7 +557,6 @@ public class PhoneLoginActivity extends AppCompatActivity implements OnClickList
         btn_login.setOnClickListener(this);
         imgbtn_findpwd.setOnClickListener(this);
 
-        //		ImageView img_menu = (ImageView) findViewById(R.id.img_menu);
         TextView img_menu = (TextView) findViewById(R.id.iv_fanhui);
         img_menu.setOnClickListener(new OnClickListener() {
 
@@ -579,17 +591,15 @@ public class PhoneLoginActivity extends AppCompatActivity implements OnClickList
             case R.id.img_qq_login:// QQ登录
                 break;
             case R.id.img_title_registre:
-                Intent intent = new Intent(PhoneLoginActivity.this, UserRegisterActivity.class);
-                startActivity(intent);
+                requestPermission(new String[]{Permission.READ_PHONE_STATE, Permission.READ_PHONE_STATE}, Constants.READ_PHONE_STATE);
                 break;
             case R.id.btn_login:
                 try {
                     name = userphone.getText().toString().trim();
-                    //			name = et_username.getText().toString();
                     password = et_pwd.getText().toString();
-                    if (name.equals("")) {
+                    if ("".equals(name)) {
                         Toast.makeText(PhoneLoginActivity.this, "手机号码不能为空", Toast.LENGTH_SHORT).show();
-                    } else if (password.equals("")) {
+                    } else if ("".equals(password)) {
                         Toast.makeText(PhoneLoginActivity.this, "密码不能为空", Toast.LENGTH_SHORT).show();
                     } else {
                         progress.CreateProgress();

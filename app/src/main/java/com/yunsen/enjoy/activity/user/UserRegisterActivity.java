@@ -28,10 +28,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.hengyushop.dao.CityDao;
 import com.hengyushop.dao.WareDao;
-
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.mine.Webview1;
@@ -49,6 +47,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.lang.ref.WeakReference;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,12 +56,9 @@ import java.util.Map;
 public class UserRegisterActivity extends AppCompatActivity implements
         OnClickListener {
 
-    private Button img_title_login;
     private EditText userpwd, userphone, et_user_yz;
-    // userpostbox, userpwd, userpwdagain,
     private Button btn_register, get_yz;
-    private String name, phone, postbox, pwd, pwdagain, insertdata, yz,
-            shoujihao;
+    private String phone, pwd, yz;
     private UserRegisterData data;
     private WareDao wareDao;
     private int isEnable = 1;
@@ -75,149 +71,92 @@ public class UserRegisterActivity extends AppCompatActivity implements
     private RelativeLayout lay;
     private ArrayAdapter aa_sheng, aa_shi, aa_area;
     private String yanzhengma;
+    public final Handler mHandler = new MyHandler(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_zhuce);
-        getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        // getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-        // R.layout.title_register);
+        getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         popupWindowMenu = new MyPopupWindowMenu(this);
         wareDao = new WareDao(getApplicationContext());
         initdata();
-
-        System.out.println(Environment.getDataDirectory());
-        System.out.println(Environment.getDataDirectory().getPath());
-        File[] f = Environment.getDataDirectory().listRoots();
-        for (int i = 0; i < f.length; i++) {
-            System.out.println(f[i].getPath());
-        }
-        System.out.println(Environment.getDataDirectory());
-        System.out.println(Environment.getDownloadCacheDirectory().getPath());
-        System.out.println(Environment.getExternalStorageDirectory().getPath());
-        System.out.println(Environment.getRootDirectory().getPath());
-
-        //		ImageView img_menu = (ImageView) findViewById(R.id.img_menu);
         TextView img_menu = (TextView) findViewById(R.id.iv_fanhui);
         img_menu.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-
                 finish();
             }
         });
 
     }
 
-    Handler handler = new Handler() {
+    static class MyHandler extends Handler {
+        WeakReference<UserRegisterActivity> mActivityReference;
 
-        public void dispatchMessage(android.os.Message msg) {
+        MyHandler(UserRegisterActivity activity) {
+            mActivityReference = new WeakReference<UserRegisterActivity>(activity);
+        }
 
-            switch (msg.what) {
-                case 0:
-                    // et_user_yz.setText("");
-                    // username.setText("");
-                    // userphone.setText("");
-                    // userpostbox.setText("");
-                    // userpwd.setText("");
-                    // userpwdagain.setText("");
-                    String strhengyuname = (String) msg.obj;
-                    // dialog(strhengyuname);
-                    Toast.makeText(getApplicationContext(), strhengyuname,
-                            Toast.LENGTH_SHORT).show();
-                    progress.CloseProgress();
-                    // Intent intent = new Intent(UserRegisterActivity.this,
-                    // UserLoginActivity.class);
-                    // startActivity(intent);
-                    finish();
-                    break;
-                case 1:
-                    String strmsg = (String) msg.obj;
-                    Toast
-                            .makeText(getApplicationContext(), strmsg, Toast.LENGTH_SHORT)
-                            .show();
-                    break;
-                case 2:
-                    Toast.makeText(getApplicationContext(), "验证码已发送",
-                            Toast.LENGTH_SHORT).show();
-                    new Thread() {
-                        public void run() {
-                            for (int i = 120; i >= 0; i--) {
-                                if (i == Toast.LENGTH_SHORT) {
-                                    handler.sendEmptyMessage(4);
-                                } else {
-                                    Message msg = new Message();
-                                    msg.arg1 = i;
-                                    msg.what = 5;
-                                    handler.sendMessage(msg);
+        @Override
+        public void handleMessage(Message msg) {
+            final UserRegisterActivity activity = mActivityReference.get();
+            if (activity != null) {
 
-                                    try {
-                                        Thread.sleep(1000);
-                                    } catch (InterruptedException e) {
-
-                                        e.printStackTrace();
-                                    }
-
-                                }
+                switch (msg.what) {
+                    case 0:
+                        String strhengyuname = (String) msg.obj;
+                        Toast.makeText(activity, strhengyuname,
+                                Toast.LENGTH_SHORT).show();
+                        activity.progress.CloseProgress();
+                        activity.finish();
+                        break;
+                    case 1:
+                        String strmsg = (String) msg.obj;
+                        Toast.makeText(activity, strmsg, Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2:
+                        Toast.makeText(activity, "验证码已发送",
+                                Toast.LENGTH_SHORT).show();
+                        for (int i = 120; i >= 0; i--) {
+                            if (i == 0) {
+                                sendEmptyMessage(4);
+                            } else {
+                                Message message = Message.obtain();
+                                message.arg1 = i;
+                                message.what = 5;
+                                sendMessageDelayed(message, 1000);
                             }
                         }
 
-                        ;
-                    }.start();
-                    break;
-                case 3:
+                        break;
+                    case 3:
+                        Toast.makeText(activity, "验证码已发送",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case 4:
+                        activity.get_yz.setEnabled(true);
+                        activity.get_yz.setText("获取验证码");
+                        break;
+                    case 5:
+                        activity.get_yz.setEnabled(false);
+                        activity.get_yz.setText(msg.arg1 + "s");
+                        break;
+                    default:
+                        break;
+                }
 
-                    Toast.makeText(getApplicationContext(), "验证码已发送",
-                            Toast.LENGTH_SHORT).show();
-                    break;
-                case 4:
-                    get_yz.setEnabled(true);
-                    get_yz.setText("获取验证码");
-                    break;
-                case 5:
-                    get_yz.setEnabled(false);
-                    get_yz.setText(msg.arg1 + "s");
-                    break;
-                // case 6:
-                // al_sheng = (ArrayList<String>) msg.obj;
-                // aa_sheng = new ArrayAdapter(UserRegisterActivity.this,
-                // android.R.layout.simple_spinner_item, al_sheng);
-                // aa_sheng.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                // sp_sheng.setAdapter(aa_sheng);
-                // break;
-                // case 7:
-                // al_shi = (ArrayList<String>) msg.obj;
-                // aa_shi = new ArrayAdapter(UserRegisterActivity.this,
-                // android.R.layout.simple_spinner_item, al_shi);
-                // aa_shi.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                // sp_shi.setAdapter(aa_shi);
-                // break;
-                // case 8:
-                // al_xian = (ArrayList<String>) msg.obj;
-                // aa_area = new ArrayAdapter(UserRegisterActivity.this,
-                // android.R.layout.simple_spinner_item, al_xian);
-                // aa_area.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                // sp_xian.setAdapter(aa_area);
-                // break;
-                default:
-                    break;
+
             }
         }
+    }
 
-        ;
-
-    };
     private LayoutInflater mLayoutInflater;
     private View popView;
     private PopupWindow mPopupWindow;
 
-    // private Spinner sp_sheng;
-    // private Spinner sp_shi;
-    // private Spinner sp_xian;
     private void initPopupWindow() {
         mLayoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         popView = mLayoutInflater.inflate(R.layout.register_tip, null);
@@ -268,7 +207,7 @@ public class UserRegisterActivity extends AppCompatActivity implements
             // 第二个参数指定起始点为parent的右下角，第三个参数设置以parent的右下角为原点，向左、上各偏移10像素。
             int[] location = new int[2];
             view.getLocationOnScreen(location);
-//			mPopupWindow.showAsDropDown(lay);
+            //			mPopupWindow.showAsDropDown(lay);
         }
     }
 
@@ -286,45 +225,26 @@ public class UserRegisterActivity extends AppCompatActivity implements
     }
 
     private void initdata() {
-        try {
-            LinearLayout ll_buju = (LinearLayout) findViewById(R.id.ll_buju);
-            //			ll_buju.setBackgroundResource(R.drawable.denglu_beijing);
-            // sp_sheng = (Spinner) findViewById(R.id.sp_sheng);
-            // sp_shi = (Spinner) findViewById(R.id.sp_shi);
-            // sp_xian = (Spinner) findViewById(R.id.sp_xian);
-
-            cityDao = new CityDao(UserRegisterActivity.this);
-            ArrayList<CityData> shengs = cityDao.findSheng();
-            ArrayList<String> list = new ArrayList<String>();
-            for (int i = 0; i < shengs.size(); i++) {
-                list.add(shengs.get(i).name);
-            }
-            Message message = new Message();
-            message.what = 6;
-            message.obj = list;
-            handler.sendMessage(message);
-
-            // spinnerData();
-//			lay = (RelativeLayout) findViewById(R.id.lay);
-            regise_tip = (TextView) findViewById(R.id.regise_tip);
-            et_user_yz = (EditText) findViewById(R.id.et_user_yz);
-            get_yz = (Button) findViewById(R.id.get_yz);
-            // img_title_login = (Button) findViewById(R.id.img_title_login);
-            // username = (EditText) findViewById(R.id.et_user_name);
-            userphone = (EditText) findViewById(R.id.et_user_phone);
-            // userpostbox = (EditText) findViewById(R.id.et_user_postbox);
-            userpwd = (EditText) findViewById(R.id.et_user_pwd);
-            // userpwdagain = (EditText) findViewById(R.id.et_user_pwd_again);
-            btn_register = (Button) findViewById(R.id.btn_register);
-            // img_title_login.setOnClickListener(this);
-            btn_register.setOnClickListener(this);
-            get_yz.setOnClickListener(this);
-            // regise_tip.setText(Html.fromHtml(" <u>用户协议</u> "));
-            regise_tip.setOnClickListener(this);
-        } catch (Exception e) {
-
-            e.printStackTrace();
+        LinearLayout ll_buju = (LinearLayout) findViewById(R.id.ll_buju);
+        cityDao = new CityDao(UserRegisterActivity.this);
+        ArrayList<CityData> shengs = cityDao.findSheng();
+        ArrayList<String> list = new ArrayList<String>();
+        for (int i = 0; i < shengs.size(); i++) {
+            list.add(shengs.get(i).name);
         }
+        Message message = new Message();
+        message.what = 6;
+        message.obj = list;
+        mHandler.sendMessage(message);
+        regise_tip = (TextView) findViewById(R.id.regise_tip);
+        et_user_yz = (EditText) findViewById(R.id.et_user_yz);
+        get_yz = (Button) findViewById(R.id.get_yz);
+        userphone = (EditText) findViewById(R.id.et_user_phone);
+        userpwd = (EditText) findViewById(R.id.et_user_pwd);
+        btn_register = (Button) findViewById(R.id.btn_register);
+        btn_register.setOnClickListener(this);
+        get_yz.setOnClickListener(this);
+        regise_tip.setOnClickListener(this);
     }
 
     private ArrayList<String> al_sheng, al_shi, al_xian;
@@ -332,85 +252,6 @@ public class UserRegisterActivity extends AppCompatActivity implements
     private int sheng_code, shi_code, area_code, index;
     private CityDao cityDao;
 
-    // private void spinnerData() {
-    // sp_sheng.setOnItemSelectedListener(new OnItemSelectedListener() {
-    //
-    //
-    //
-    // @Override
-    // public void onItemSelected(AdapterView<?> arg0, View arg1,
-    // int arg2, long arg3) {
-    //
-    // sheng = al_sheng.get(arg2);
-    // cityDao = new CityDao(UserRegisterActivity.this);
-    // CityData cityData = cityDao.findShengCode(sheng);
-    // sheng_code = cityData.getCode();
-    // Log.v("data2", cityData.getCode() + "");
-    // cityDao = new CityDao(UserRegisterActivity.this);
-    // ArrayList<CityData> shis = cityDao.findCity(sheng_code);
-    // ArrayList<String> list2 = new ArrayList<String>();
-    // for (int i = 0; i < shis.size(); i++) {
-    // list2.add(shis.get(i).name);
-    // }
-    // Message message = new Message();
-    // message.what = 7;
-    // message.obj = list2;
-    // handler.sendMessage(message);
-    //
-    // }
-    //
-    // @Override
-    // public void onNothingSelected(AdapterView<?> arg0) {
-    //
-    // }
-    // });
-    //
-    // sp_shi.setOnItemSelectedListener(new OnItemSelectedListener() {
-    //
-    // @Override
-    // public void onItemSelected(AdapterView<?> arg0, View arg1,
-    // int arg2, long arg3) {
-    //
-    // shi = al_shi.get(arg2);
-    // cityDao = new CityDao(UserRegisterActivity.this);
-    // CityData cityData = cityDao.findCityCode(shi);
-    // shi_code = cityData.getCode();
-    // cityDao = new CityDao(UserRegisterActivity.this);
-    // ArrayList<CityData> areas = cityDao.findArea(shi_code);
-    // ArrayList<String> list3 = new ArrayList<String>();
-    // for (int i = 0; i < areas.size(); i++) {
-    // list3.add(areas.get(i).name);
-    // }
-    // Message message = new Message();
-    // message.what = 8;
-    // message.obj = list3;
-    // handler.sendMessage(message);
-    // }
-    //
-    // @Override
-    // public void onNothingSelected(AdapterView<?> arg0) {
-    //
-    // }
-    // });
-    // sp_xian.setOnItemSelectedListener(new OnItemSelectedListener() {
-    //
-    // @Override
-    // public void onItemSelected(AdapterView<?> arg0, View arg1,
-    // int arg2, long arg3) {
-    //
-    // xian = al_xian.get(arg2);
-    // cityDao = new CityDao(UserRegisterActivity.this);
-    // CityData cityData = cityDao.findAreaCode(xian);
-    // area_code = cityData.getCode();
-    // }
-    //
-    // @Override
-    // public void onNothingSelected(AdapterView<?> arg0) {
-    //
-    // }
-    // });
-    //
-    // }
 
     // 字符串上传服务器 乱码 问题的解决方法
     private String processParam(String temp)
@@ -421,8 +262,6 @@ public class UserRegisterActivity extends AppCompatActivity implements
     @Override
     public void onClick(View v) {
         try {
-
-
             switch (v.getId()) {
                 case R.id.regise_tip:
                     // initPopupWindow();
@@ -460,7 +299,7 @@ public class UserRegisterActivity extends AppCompatActivity implements
                                             // Toast.makeText(UserRegisterActivity.this,
                                             // info, Toast.LENGTH_SHORT).show();
                                             yanzhengma = object.getString("data");
-                                            handler.sendEmptyMessage(2);
+                                            mHandler.sendEmptyMessage(2);
                                         } else {
                                             Toast.makeText(
                                                     UserRegisterActivity.this,
@@ -488,14 +327,14 @@ public class UserRegisterActivity extends AppCompatActivity implements
                     }
 
                     break;
-//				case R.id.img_title_login:
-//					int index = 0;
-//					Intent intent = new Intent(UserRegisterActivity.this,
-//							UserLoginActivity.class);
-//					intent.putExtra("login", index);
-//					startActivity(intent);
-//					finish();
-//					break;
+                //				case R.id.img_title_login:
+                //					int index = 0;
+                //					Intent intent = new Intent(UserRegisterActivity.this,
+                //							UserLoginActivity.class);
+                //					intent.putExtra("login", index);
+                //					startActivity(intent);
+                //					finish();
+                //					break;
                 case R.id.btn_register:
                     yz = et_user_yz.getText().toString().trim();
                     // name = username.getText().toString().trim();
@@ -541,64 +380,6 @@ public class UserRegisterActivity extends AppCompatActivity implements
                                     try {
                                         String sn = "";
 
-									/*
-                                     * System.out.println(Environment.
-									 * getExternalStorageDirectory());
-									 * searchFile(".sntxt",
-									 * Environment.getExternalStorageDirectory
-									 * ()); //float i=141533847400f;
-									 * if(bookList!=null&&bookList.size()!=0){
-									 *
-									 * float time[] = new
-									 * float[bookList.size()]; for(int
-									 * i=0;i<time.length;i++){
-									 *
-									 *
-									 * time[i] = bookList.get(i).getTime();
-									 * System.out.println(time[i]+"---"+i); }
-									 * for(int j=0;j<time.length;j++){
-									 * bubbleSort(time); }
-									 *
-									 * for(int k=0;k<bookList.size();k++){
-									 * System
-									 * .out.println(k+"------"+bookList.get
-									 * (k).getPath());
-									 * if(bookList.get(k).getTime()==time[0]){
-									 * System
-									 * .out.println("最大的地址"+bookList.get(k)
-									 * .getPath()); File file = new
-									 * File(bookList.get(k).getPath());
-									 * HttpUtils utils = new HttpUtils();
-									 * FileInputStream in = new
-									 * FileInputStream(file);
-									 * sn=utils.convertStreamToString(in,
-									 * "UTF-8"); } } }
-									 */
-
-                                        // strUrl = URLConstants.REALM_NAME
-                                        // + "/mi/registerUser2."
-                                        // + "ashx?act=UserBasicRegister&username="
-                                        // + processParam(name) + "&pwd=" + pwd
-                                        // + "&phone=" + phone + "&email"
-                                        // + postbox + "&regValidatecode=" +
-                                        // yz+"&RequestType=1&addressProvinceCode="+sheng_code+"&addressCityCode="+shi_code+"&addressAreaCode="+area_code+"&sn="+sn;
-                                        // System.out.println("注册" + strUrl);
-
-                                        // et_user_yz.setText("");
-                                        // username.setText("");
-                                        // userphone.setText("");
-                                        // userpostbox.setText("");
-                                        // userpwd.setText("");
-                                        // userpwdagain.setText("");
-                                        // System.out.println("=================11=="
-                                        // + phone);
-                                        // System.out.println("=================12=="
-                                        // + pwd);
-                                        // System.out.println("=================13=="
-                                        // + postbox);
-                                        // System.out.println("=================14=="
-                                        // + shoujihao);//"+123488+"
-
                                         strUrl = URLConstants.REALM_NAME_LL
                                                 + "/user_register?site=mobile&code="
                                                 + yz + "&username=" + phone
@@ -606,103 +387,82 @@ public class UserRegisterActivity extends AppCompatActivity implements
                                                 + phone + "";
                                         System.out.println("注册" + strUrl);
 
-                                        AsyncHttp.get(strUrl,
-                                                new AsyncHttpResponseHandler() {
-                                                    @Override
-                                                    public void onSuccess(int arg0,
-                                                                          String arg1) {
+                                        AsyncHttp.get(strUrl, new AsyncHttpResponseHandler() {
+                                            @Override
+                                            public void onSuccess(int arg0,
+                                                                  String arg1) {
 
-                                                        // method stub
-                                                        super.onSuccess(arg0, arg1);
+                                                // method stub
+                                                super.onSuccess(arg0, arg1);
+                                                try {
+                                                    JSONObject jsonObject = new JSONObject(
+                                                            arg1);
+                                                    System.out
+                                                            .println("=================1=="
+                                                                    + arg1);
+                                                    String status = jsonObject
+                                                            .getString("status");
+                                                    String info = jsonObject
+                                                            .getString("info");
+                                                    if (status.equals("n")) {
+                                                        System.out
+                                                                .println("=================2==");
+                                                        str = jsonObject
+                                                                .getString("info");
+                                                        progress.CloseProgress();
+                                                        Message message = new Message();
+                                                        message.what = 1;
+                                                        message.obj = str;
+                                                        sendMessage(message);
+                                                    } else if (status
+                                                            .equals("y")) {
                                                         try {
-                                                            JSONObject jsonObject = new JSONObject(
-                                                                    arg1);
                                                             System.out
-                                                                    .println("=================1=="
-                                                                            + arg1);
-                                                            String status = jsonObject
-                                                                    .getString("status");
-                                                            String info = jsonObject
+                                                                    .println("=================3=="
+                                                                            + info);
+                                                            hengyuName = jsonObject
                                                                     .getString("info");
-                                                            if (status.equals("n")) {
-                                                                System.out
-                                                                        .println("=================2==");
-                                                                str = jsonObject
-                                                                        .getString("info");
-                                                                // String no =
-                                                                // jsonObject.getString("info");
-                                                                // // str =
-                                                                // jsonObject.getString("info");
-                                                                // Toast.makeText(getApplicationContext(),
-                                                                // no,false,
-                                                                // 0).show();
-                                                                progress.CloseProgress();
-                                                                Message message = new Message();
-                                                                message.what = 1;
-                                                                message.obj = str;
-                                                                handler.sendMessage(message);
-                                                            } else if (status
-                                                                    .equals("y")) {
-                                                                try {
-                                                                    System.out
-                                                                            .println("=================3=="
-                                                                                    + info);
-                                                                    hengyuName = jsonObject
-                                                                            .getString("info");
-                                                                    // Toast.makeText(getApplicationContext(),
-                                                                    // info,false,
-                                                                    // 0).show();
-                                                                    SharedPreferences spPreferences = getSharedPreferences(
-                                                                            "longuserset_user",
-                                                                            MODE_PRIVATE);
-                                                                    Editor editor = spPreferences
-                                                                            .edit();
-                                                                    editor.putBoolean(
-                                                                            "save",
-                                                                            true);
-                                                                    editor.putString(
-                                                                            "user_name",
-                                                                            userphone
-                                                                                    .getText()
-                                                                                    .toString());
-                                                                    editor.putString(
-                                                                            "pwd",
-                                                                            userpwd.getText()
-                                                                                    .toString());
-                                                                    editor.commit();
+                                                            SharedPreferences spPreferences = getSharedPreferences(
+                                                                    "longuserset_user",
+                                                                    MODE_PRIVATE);
+                                                            Editor editor = spPreferences
+                                                                    .edit();
+                                                            editor.putBoolean(
+                                                                    "save",
+                                                                    true);
+                                                            editor.putString(
+                                                                    "user_name",
+                                                                    userphone
+                                                                            .getText()
+                                                                            .toString());
+                                                            editor.putString(
+                                                                    "pwd",
+                                                                    userpwd.getText()
+                                                                            .toString());
+                                                            editor.commit();
 
-                                                                    Log.v("data1",
-                                                                            hengyuName
-                                                                                    + "");
-                                                                    progress.CloseProgress();
-                                                                    Message message = new Message();
-                                                                    message.what = 0;
-                                                                    message.obj = hengyuName;
-                                                                    handler.sendMessage(message);
-                                                                    // Intent intent
-                                                                    // = new
-                                                                    // Intent(UserRegisterActivity.this,
-                                                                    // HomeActivity.class);
-                                                                    // startActivity(intent);
-                                                                    // finish();
-                                                                } catch (Exception e) {
-                                                                    e.printStackTrace();
-                                                                }
-                                                            }
-                                                        } catch (JSONException e) {
-
-                                                            // catch block
+                                                            Log.v("data1",
+                                                                    hengyuName
+                                                                            + "");
+                                                            progress.CloseProgress();
+                                                            Message message = Message.obtain();
+                                                            message.what = 0;
+                                                            message.obj = hengyuName;
+                                                            sendMessage(message);
+                                                        } catch (Exception e) {
                                                             e.printStackTrace();
                                                         }
                                                     }
-                                                }, getApplicationContext());
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }, getApplicationContext());
 
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
                                 }
-
-                                ;
                             }.start();
 
                         } catch (Exception e) {
@@ -807,4 +567,9 @@ public class UserRegisterActivity extends AppCompatActivity implements
         return false; // true--显示系统自带菜单；false--不显示。
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
+    }
 }

@@ -1,13 +1,11 @@
 package com.yunsen.enjoy.activity;
 
 import android.annotation.TargetApi;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.yanzhenjie.permission.Action;
@@ -32,12 +30,12 @@ public abstract class BaseFragmentActivity extends AppCompatActivity {
         AppManager.getAppManager().addActivity(this);
 
         // 修改状态栏颜色，4.4+生效
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            setTranslucentStatus();
-//        }
-//        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-//        tintManager.setStatusBarTintEnabled(true);
-//        tintManager.setStatusBarTintResource(R.color.status_bar_bg);//通知栏所需颜色
+        //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        //            setTranslucentStatus();
+        //        }
+        //        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        //        tintManager.setStatusBarTintEnabled(true);
+        //        tintManager.setStatusBarTintResource(R.color.status_bar_bg);//通知栏所需颜色
         int layout = getLayout();
         setContentView(layout);
         initView();
@@ -70,9 +68,9 @@ public abstract class BaseFragmentActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                 WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         // Translucent navigation bar
-//        window.setFlags(
-//                WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
-//                WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        //        window.setFlags(
+        //                WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
+        //                WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
     }
 
     public void requestPermission(String permissions, final int requestCode) {
@@ -101,15 +99,19 @@ public abstract class BaseFragmentActivity extends AppCompatActivity {
      *
      * @param requestCode
      */
-    protected  void onRequestPermissionSuccess(int requestCode){};
+    protected void onRequestPermissionSuccess(int requestCode) {
+    }
 
-    protected void requestPermission(String[]... permissions) {
+    ;
+
+    protected void requestPermission(String[] permissions,final int requestCode) {
         AndPermission.with(this)
                 .permission(permissions)
                 .rationale(mRationale)
                 .onGranted(new Action() {
                     @Override
                     public void onAction(List<String> permissions) {
+                        onRequestPermissionSuccess(requestCode);
                     }
                 })
                 .onDenied(new Action() {

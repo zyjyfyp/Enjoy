@@ -53,10 +53,9 @@ public class SecondActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-
                 Intent intent = new Intent(SecondActivity.this, MainActivity.class);
                 startActivity(intent);
-                AppManager.getAppManager().finishActivity();
+                finish();
             }
         });
         // 广告滚动
@@ -108,23 +107,16 @@ public class SecondActivity extends AppCompatActivity {
 
     public void onDestroy() {
         super.onDestroy();
-        try {
-
-            if (MyPosterView.type == true) {
+        if (MyPosterView.type == true) {
+            if (MyPosterView.mQuery != null) {
                 MyPosterView.mQuery.clear();
-                MyPosterView.type = false;
-                images = null;
-                tempss = null;
-                urls = null;
             }
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
+            MyPosterView.type = false;
+            images = null;
+            tempss = null;
+            urls = null;
         }
     }
-
-    ;
 
     ArrayList<AdvertDao1> tempss;
     ArrayList<String> urls;
@@ -229,5 +221,6 @@ public class SecondActivity extends AppCompatActivity {
 
         ;
     };
+
 
 }

@@ -71,6 +71,8 @@
                 <!-- 100380359 100381104 222222 -->
             </intent-filter>
         </activity>
+
+
         <!-- app activity -->
         <activity
             android:name=".activity.MainActivity"

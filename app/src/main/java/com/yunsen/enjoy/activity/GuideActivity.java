@@ -4,81 +4,89 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.view.ViewPager;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
-import com.yunsen.enjoy.common.AppManager;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import java.lang.ref.WeakReference;
 
+/**
+ * 引导页的界面
+ */
 public class GuideActivity extends AppCompatActivity {
-    /**
-     * 关于引导页的界面
-     */
-    private ViewPager viewPager;
-    private ArrayList<View> pageViews;
     SharedPreferences preferences;
     private ImageView i0;
-    private ViewPager i1;
+    private MyHandler handler;
 
-    private Handler handler = new Handler() {
-        public void dispatchMessage(android.os.Message msg) {
-            switch (msg.what) {
-                case 0:
-                    preferences = getSharedPreferences("guide",
-                            Activity.MODE_PRIVATE);
-                    // 如果程序已经进入
-                    if (preferences.getString("flow", "").equals("yes")) {
-                        getgaoguan();
-                    } else {
-                        i0.setVisibility(View.GONE);
-                        Intent intent = new Intent(GuideActivity.this, Guide2Activity.class);
-                        Editor editor = preferences.edit();
-                        editor.putString("flow", "yes");
-                        editor.commit();
-                        startActivity(intent);
-                        finish();
-                    }
-                    break;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        super.onCreate(savedInstanceState);
+        handler = new MyHandler(this);
+        setContentView(R.layout.item01);
+        i0 = (ImageView) findViewById(R.id.i0);
+        i0.setVisibility(View.VISIBLE);
+        handler.sendEmptyMessageDelayed(0, 3000);
+        Glide.with(this)
+                .load(R.drawable.zams_qdy)
+                .into(i0);
+    }
 
-                default:
-                    break;
-            }
+
+    public static class MyHandler extends Handler {
+        private WeakReference<GuideActivity> weakReference;
+
+        public MyHandler(GuideActivity activity) {
+            this.weakReference = new WeakReference<GuideActivity>(activity);
         }
 
-        ;
-    };
+        @Override
+        public void handleMessage(Message msg) {
+            final GuideActivity act = weakReference.get();
+            if (act != null) {
+                switch (msg.what) {
+                    case 0:
+                        act.preferences = act.getSharedPreferences(SpConstants.SP_GUIDE, Activity.MODE_PRIVATE);
+                        // 如果程序已经进入
+                        if (act.preferences.getString("flow", "").equals("yes")) {
+                            act.getgaoguan();
+                        } else {
+                            act.i0.setVisibility(View.GONE);
+                            Intent intent = new Intent(act, Guide2Activity.class);
+                            Editor editor = act.preferences.edit();
+                            editor.putString("flow", "yes");
+                            editor.commit();
+                            act.startActivity(intent);
+                            act.finish();
+                        }
+                        break;
 
-    //当Activity被销毁时会调用onDestory方法
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        BitmapDrawable bd1 = (BitmapDrawable) i0.getBackground();
-        i0.setBackgroundResource(0);//别忘了把背景设为null，避免onDraw刷新背景时候出现used a recycled bitmap错误
-        bd1.setCallback(null);
-        bd1.getBitmap().recycle();
+                    default:
+                        break;
+                }
+            }
+        }
     }
+
 
     /**
      * 判断是否有广告
      */
     private void getgaoguan() {
-
         AsyncHttp.get(URLConstants.REALM_NAME_LL + "/?advert_id=15", new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int arg0, String arg1) {
@@ -87,7 +95,7 @@ public class GuideActivity extends AppCompatActivity {
                     System.out.println("-----------------" + arg1);
                     JSONObject object = new JSONObject(arg1);
                     String status = object.getString("status");
-                    if (status.equals("y")) {
+                    if ("y".equals(status)) {
                         Intent intent = new Intent(GuideActivity.this, SecondActivity.class);
                         startActivity(intent);
                         finish();
@@ -103,36 +111,19 @@ public class GuideActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Throwable arg0, String arg1) {
-
                 super.onFailure(arg0, arg1);
                 System.out.println("异常-----------------" + arg1);
                 Intent intent = new Intent(GuideActivity.this, MainActivity.class);
                 startActivity(intent);
-                AppManager.getAppManager().finishActivity();
+                finish();
             }
         }, GuideActivity.this);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.item01);
-        i0 = (ImageView) findViewById(R.id.i0);
-        //		i0.setBackgroundResource(R.drawable.zams_qdy);
-        Bitmap bm = BitmapFactory.decodeResource(this.getResources(), R.drawable.zams_qdy);
-        BitmapDrawable bd = new BitmapDrawable(this.getResources(), bm);
-        i0.setBackgroundDrawable(bd);
-        i1 = (ViewPager) findViewById(R.id.i1);
-        i0.setVisibility(View.VISIBLE);
-        i1.setVisibility(View.GONE);
-        i0.postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                handler.sendEmptyMessage(0);
-            }
-        }, 3000);
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
     }
 
 

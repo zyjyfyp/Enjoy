@@ -32,6 +32,7 @@ public class Constants {
     public static final int CALL_PHONE = 1;//打电话的权限
     public static final int CAMERA = 2;
     public static final int WRITE_EXTERNAL_STORAGE = 3;//存储权限
+    public static final int READ_PHONE_STATE = 4;
 
     /**
      * 买车界面
