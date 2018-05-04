@@ -389,4 +389,9 @@ public class UIHelper {
     }
 
 
+    public static void showMeetAddressActivity(Activity act) {
+        Intent intent = new Intent(act, SeniorFilterActivity.class);
+        act.startActivityForResult(intent,Constants.MEET_ADDRESS_REQUEST);
+
+    }
 }

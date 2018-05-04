@@ -21,7 +21,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
             <include layout="@layout/goods_item_2" />
 
             <View
@@ -163,7 +162,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/app_margin"
                     android:layout_marginRight="@dimen/app_margin"
-                    android:text="看车时间"
+                    android:text="看车地点"
                     android:textColor="@color/color_888" />
 
                 <TextView
@@ -200,10 +199,10 @@
 
                 <TextView
                     android:id="@+id/watch_time_tv"
-                    android:layout_width="wrap_content"
+                    android:paddingRight="@dimen/app_margin"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@mipmap/address_icon"
-                    android:drawablePadding="5dp"
+                    android:paddingLeft="5dp"
                     android:maxLines="1"
                     android:text="2018-04-27"
                     android:textColor="@color/color_3c434c" />

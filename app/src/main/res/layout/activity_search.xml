@@ -3,15 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.yunsen.enjoy.activity.SearchActivity">
 
     <include layout="@layout/back_action_bar" />
 
-    <SearchView
+    <android.support.v7.widget.SearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
+        android:queryHint="请输入汽车名称"
+        app:showAsAction="always"
         android:layout_height="50dp">
 
-    </SearchView>
+    </android.support.v7.widget.SearchView>
 </LinearLayout>

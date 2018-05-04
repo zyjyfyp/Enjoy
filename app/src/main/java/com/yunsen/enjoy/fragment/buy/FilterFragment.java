@@ -22,6 +22,8 @@ import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.widget.FilterHorLayout;
 import com.yunsen.enjoy.widget.MoreCarView;
 import com.yunsen.enjoy.widget.NumberPickerDialog;
+import com.yunsen.enjoy.widget.interfaces.onLeftOnclickListener;
+import com.yunsen.enjoy.widget.interfaces.onRightOnclickListener;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -148,7 +150,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
      */
     private void showPickerDialog() {
         final NumberPickerDialog picker = new NumberPickerDialog(getActivity(), Constants.SORT_METHED);
-        picker.setLeftOnclickListener("取消", new NumberPickerDialog.onLeftOnclickListener() {
+        picker.setLeftOnclickListener("取消", new onLeftOnclickListener() {
             @Override
             public void onLeftClick() {
                 if (picker != null && picker.isShowing()) {
@@ -156,12 +158,12 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
                 }
             }
         });
-        picker.setRightOnclickListener("确定", new NumberPickerDialog.onRightOnclickListener() {
+        picker.setRightOnclickListener("确定", new onRightOnclickListener() {
             @Override
-            public void onRightClick(int index) {
+            public void onRightClick(int[] index) {
                 if (picker != null && picker.isShowing()) {
-                    mOrderby = Constants.SHOT_METHED_VALUE.get(Constants.SORT_METHED[index]);
-                    textHor1.setText(Constants.SORT_METHED[index]);
+                    mOrderby = Constants.SHOT_METHED_VALUE.get(Constants.SORT_METHED[index[0]]);
+                    textHor1.setText(Constants.SORT_METHED[index[0]]);
                     requestData();
                     picker.dismiss();
                 }
@@ -175,7 +177,8 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
      */
     private void showPriceDialog() {
         final NumberPickerDialog picker = new NumberPickerDialog(getActivity(), Constants.SORT_PRICES);
-        picker.setLeftOnclickListener("取消", new NumberPickerDialog.onLeftOnclickListener() {
+
+        picker.setLeftOnclickListener("取消", new onLeftOnclickListener() {
             @Override
             public void onLeftClick() {
                 if (picker != null && picker.isShowing()) {
@@ -183,12 +186,12 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
                 }
             }
         });
-        picker.setRightOnclickListener("确定", new NumberPickerDialog.onRightOnclickListener() {
+        picker.setRightOnclickListener("确定", new onRightOnclickListener() {
             @Override
-            public void onRightClick(int index) {
+            public void onRightClick(int[] index) {
                 if (picker != null && picker.isShowing()) {
-                    mStrwhere = Constants.SHOT_PRICES_VALUES.get(Constants.SORT_PRICES[index]);
-                    textHor3.setText(Constants.SORT_PRICES[index]);
+                    mStrwhere = Constants.SHOT_PRICES_VALUES.get(Constants.SORT_PRICES[index[0]]);
+                    textHor3.setText(Constants.SORT_PRICES[index[0]]);
                     requestData();
                     picker.dismiss();
                 }
