@@ -92,7 +92,7 @@ public class HttpClient {
         if (param != null && param.size() > 0) {
             url = url + "?" + mapToQueryString(param);
         }
-        Logger.d(TAG, "get: "+url );
+        Logger.d(TAG+"zyjy get: ="+url );
         Request request = new Request.Builder().url(url).build();
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -169,9 +169,6 @@ public class HttpClient {
 
     public static String mapToQueryString(Map<String, String> map) {
         StringBuilder string = new StringBuilder();
-        /*if(map.size() > 0) {
-            string.append("?");
-        }*/
         try {
             for (Map.Entry<String, String> entry : map.entrySet()) {
                 string.append(entry.getKey());
@@ -185,31 +182,5 @@ public class HttpClient {
         return string.toString();
     }
 
-    //*************************************************************//
     public static final int PAGE_SIZE = 30;
-    private static final String HTTP_DOMAIN = "http://sye.zhongsou.com/ent/rest";
-    private static final String SHOP_RECOMMEND = "dpSearch.recommendShop"; // 推荐商家
-
-    public static void getRecommendShops(SearchParam param, HttpResponseHandler httpResponseHandler) {
-        param.setLat(39.982314);
-        param.setLng(116.409671);
-        param.setCity("beijing");
-        param.setPsize(PAGE_SIZE);
-
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("city", param.getCity());
-        params.put("lat", param.getLat());
-        params.put("lng", param.getLng());
-        params.put("pno", param.getPno());
-        params.put("psize", param.getPsize());
-        String paramStr = JSON.toJSONString(param);
-        paramStr = Base64.encodeToString(paramStr.getBytes(), Base64.DEFAULT);
-
-        HashMap<String, String> rq = new HashMap<>();
-        rq.put("m", SHOP_RECOMMEND);
-        rq.put("p", paramStr);
-//        String url = HTTP_DOMAIN + "?" + URLEncodedUtils.format(rq, UTF_8);
-        get(HTTP_DOMAIN, rq, httpResponseHandler);
-    }
-    //*************************************************************//
 }

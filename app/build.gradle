@@ -5,9 +5,9 @@ apply plugin: "com.mob.sdk"
 
 packer {
     /**渠道包**/
-    manifestMatcher = ['UMENG_CHANNEL', 'Promotion_Market']
-    archiveOutput = file(new File(project.rootProject.buildDir.path, "apks"))
-    archiveNameFormat = '${appPkg}-c-${buildType}-${buildTime}'
+//    manifestMatcher = ['UMENG_CHANNEL', 'Promotion_Market']
+//    archiveOutput = file(new File(project.rootProject.buildDir.path, "apks"))
+//    archiveNameFormat = '${appPkg}-c-${buildType}-${buildTime}'
 
     /**版本号自增**/
     // 指定是否使用build版本号自增

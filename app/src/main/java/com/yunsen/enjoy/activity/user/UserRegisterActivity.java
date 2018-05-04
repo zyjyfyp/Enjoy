@@ -226,16 +226,16 @@ public class UserRegisterActivity extends AppCompatActivity implements
 
     private void initdata() {
         LinearLayout ll_buju = (LinearLayout) findViewById(R.id.ll_buju);
-        cityDao = new CityDao(UserRegisterActivity.this);
-        ArrayList<CityData> shengs = cityDao.findSheng();
-        ArrayList<String> list = new ArrayList<String>();
-        for (int i = 0; i < shengs.size(); i++) {
-            list.add(shengs.get(i).name);
-        }
-        Message message = new Message();
-        message.what = 6;
-        message.obj = list;
-        mHandler.sendMessage(message);
+//        cityDao = new CityDao(UserRegisterActivity.this);
+//        ArrayList<CityData> shengs = cityDao.findSheng();
+//        ArrayList<String> list = new ArrayList<String>();
+//        for (int i = 0; i < shengs.size(); i++) {
+//            list.add(shengs.get(i).name);
+//        }
+//        Message message = new Message();
+//        message.what = 6;
+//        message.obj = list;
+//        mHandler.sendMessage(message);
         regise_tip = (TextView) findViewById(R.id.regise_tip);
         et_user_yz = (EditText) findViewById(R.id.et_user_yz);
         get_yz = (Button) findViewById(R.id.get_yz);

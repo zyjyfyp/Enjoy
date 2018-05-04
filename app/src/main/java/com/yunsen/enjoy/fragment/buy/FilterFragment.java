@@ -45,7 +45,6 @@ import okhttp3.Request;
 
 public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter.OnItemClickListener, FilterHorLayout.OnFilterResetListener, FilterHorLayout.OnItemCloseListener {
     private static final String TAG = "FilterFragment";
-    private int mFragmentId;
     @Bind(R.id.text_hor_1)
     TextView textHor1;
     @Bind(R.id.text_hor_2)
@@ -213,6 +212,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
                     }
                     filterLayout.setVisibility(View.VISIBLE);
                 }
+                requestData();
                 break;
         }
 
@@ -225,7 +225,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
         List<GoodsData> datas = mAdapter.getDatas();
         if (datas != null && datas.size() > 0 && datas.size() > position) {
             GoodsData goodsData = datas.get(position);
-            UIHelper.showCarDetailsActivity(getActivity(),Integer.toString(goodsData.getId()));
+            UIHelper.showCarDetailsActivity(getActivity(), Integer.toString(goodsData.getId()));
         }
     }
 

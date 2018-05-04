@@ -13,17 +13,18 @@ import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.fragment.buy.FilterFragment;
 import com.yunsen.enjoy.fragment.buy.FilterFragmentAdapter;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.AdvertModel;
-import com.yunsen.enjoy.model.event.ActivityResultEvent;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
+import com.yunsen.enjoy.utils.SharedPreference;
 import com.yunsen.enjoy.widget.SearchActionBar;
 import com.yunsen.enjoy.widget.ZyViewPager;
 
@@ -144,6 +145,8 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
     @Override
     public void onResume() {
         super.onResume();
+        String currentCity = SharedPreference.getInstance().getString(SpConstants.CITY_KEY, "深圳");
+        searchBar.setLeftText(currentCity);
     }
 
     @Override
@@ -179,12 +182,11 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
     }
 
 
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UpUiEvent event) {
         if (event.getEventId() == EventConstants.UP_VIEW_PAGER_HEIGHT) {
+            //动态改变ViewPager的高度
             buyMainPager.requestLayout();
-            Log.e(TAG, "onEvent: 跟新高度");
         }
     }
 

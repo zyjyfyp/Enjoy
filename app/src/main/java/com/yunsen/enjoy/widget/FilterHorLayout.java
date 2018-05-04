@@ -56,13 +56,16 @@ public class FilterHorLayout extends HorizontalScrollView implements View.OnClic
         TextView textView = (TextView) view.findViewById(R.id.filter_tv);
         View imgView = view.findViewById(R.id.close_img);
         textView.setText(title);
-        view.setTag(id);
+        imgView.setTag(id);
         imgView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 ViewParent parent = v.getParent();
                 if (parent instanceof LinearLayout) {
                     rootLayout.removeView(((LinearLayout) parent));
+                    if (mOnItemCloseListener != null) {
+                        mOnItemCloseListener.onItemClose((Integer) v.getTag());
+                    }
                 }
             }
         });

@@ -79,7 +79,7 @@ public class NumberPickerDialog extends Dialog {
         setNumberPickerDividerColor(picker);
         picker.setMaxValue(datas.length - 1);
         picker.setMinValue(0);
-        picker.setWrapSelectorWheel(true);
+        picker.setWrapSelectorWheel(false);
 
     }
 

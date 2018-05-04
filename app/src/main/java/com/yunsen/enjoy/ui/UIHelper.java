@@ -267,8 +267,13 @@ public class UIHelper {
      */
     public static void showPhoneNumberActivity(Context ctx, String number) {
         String num = "tel:" + number;
-        Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse(num));//跳转到拨号界面，同时传递电话号码
-        ctx.startActivity(dialIntent);
+        try {
+            Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse(num));//跳转到拨号界面，同时传递电话号码
+            ctx.startActivity(dialIntent);
+        } catch (NoClassDefFoundError error) {
+            Log.e(TAG, "showPhoneNumberActivity: 不支持打电话");
+        }
+        ;
     }
 
     /**
