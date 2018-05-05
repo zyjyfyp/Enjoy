@@ -314,8 +314,10 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                 UIHelper.showNoticeWebActivity(getActivity(), data2.getId());
                 break;
             case R.id.car_img_big:
-                AdvertModel advertModel = mAdverModels.get(0);
-                UIHelper.showCarDetailsActivity(getActivity(), getAdverModelUrl(0));
+                if (mAdverModels != null && mAdverModels.size() > 0) {
+                    AdvertModel advertModel = mAdverModels.get(0);
+                    UIHelper.showCarDetailsActivity(getActivity(), getAdverModelUrl(0));
+                }
                 break;
             case R.id.car_img_1:
                 UIHelper.showCarDetailsActivity(getActivity(), getAdverModelUrl(1));
@@ -392,7 +394,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         List<SProviderModel> datas = mAdapter.getDatas();
 
         if (datas != null && position > 0 && datas.size() > position - 1) {
-            Log.e(TAG, "onItemClick: " + datas.get(position-1).getTitle());
+            Log.e(TAG, "onItemClick: " + datas.get(position - 1).getTitle());
             UIHelper.showCarDetailsActivity(getActivity(), "14837");
         }
     }

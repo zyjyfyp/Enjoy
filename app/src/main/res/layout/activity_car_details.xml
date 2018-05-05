@@ -1,301 +1,302 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:background="@color/white"
-             android:fitsSystemWindows="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true">
 
-    <include layout="@layout/back_action_bar"/>
+    <include layout="@layout/back_action_bar" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="50dp"
         android:layout_marginTop="45dp"
-        android:fadingEdge="none"
         android:scrollbars="none">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:id="@+id/layout_ent_gallery"
+            <LinearLayout
+                android:id="@+id/data_layout"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:background="@color/white">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager
-                    android:id="@+id/pager"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"/>
+                <RelativeLayout
+                    android:id="@+id/layout_ent_gallery"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:background="@color/white">
 
-                <com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator
-                    android:id="@+id/indicator"
+                    <com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager
+                        android:id="@+id/pager"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" />
+
+                    <com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator
+                        android:id="@+id/indicator"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="5dp"
+                        android:padding="5dp" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/background_color" />
+
+                <TextView
+                    android:id="@+id/details_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="5dp"
-                    android:padding="5dp"/>
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/background_color"/>
-
-            <TextView
-                android:id="@+id/details_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/app_margin"
-                android:layout_marginRight="@dimen/app_margin"
-                android:layout_marginTop="5dp"
-                android:gravity="center_vertical"
-                android:maxLines="2"
-                android:text="长安CS35 2012 款1.6L手动"
-                android:textColor="@color/color_3c434c"
-                android:textSize="16sp"/>
-
-            <com.yunsen.enjoy.widget.FlowLayout
-                android:layout_marginTop="@dimen/app_margin"
-                android:id="@+id/flow_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/app_margin"
-                android:paddingRight="@dimen/app_margin"
-                android:visibility="gone"
-                />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginLeft="@dimen/app_margin"
-                android:layout_marginRight="@dimen/app_margin"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/details_car_money"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="6.98万"
-                    android:textColor="@color/color_fe0000"
-                    android:textSize="16sp"/>
-
-                <TextView
-                    android:id="@+id/details_old_car_money"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="新车含税13.98万"
-                    android:textSize="13sp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="@dimen/app_margin"
-                android:layout_marginRight="@dimen/app_margin"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/first_pay_tv"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/details_text_bg"
+                    android:layout_marginLeft="@dimen/app_margin"
+                    android:layout_marginRight="@dimen/app_margin"
+                    android:layout_marginTop="5dp"
                     android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:paddingLeft="20dp"
-                    android:text="首付2.34万专享0首付"
-                    android:textColor="@color/color_theme"
-                    android:textSize="16sp"/>
+                    android:maxLines="2"
+                    android:text="长安CS35 2012 款1.6L手动"
+                    android:textColor="@color/color_3c434c"
+                    android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/apply_buy_tv"
+                <com.yunsen.enjoy.widget.FlowLayout
+                    android:id="@+id/flow_layout"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/details_btn_bg"
-                    android:gravity="center"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:text="申请购买"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/more_service_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="@dimen/app_margin"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/app_margin"
+                    android:paddingLeft="@dimen/app_margin"
+                    android:paddingRight="@dimen/app_margin"
+                    android:visibility="gone" />
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="@dimen/app_margin"
+                    android:layout_marginRight="@dimen/app_margin"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:id="@+id/details_car_money"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginRight="@dimen/app_margin"
-                        android:layout_marginTop="@dimen/app_margin"
-                        android:maxLines="1"
-                        android:text="服务费：3500元  （车价x4%，最低3500元）"
-                        android:textColor="@color/color_888"
-                        android:textSize="13sp"/>
+                        android:text="6.98万"
+                        android:textColor="@color/color_fe0000"
+                        android:textSize="16sp" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/details_old_car_money"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/app_margin"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:layout_marginRight="8dp"
-                                android:src="@mipmap/check_service"/>
-
-                            <TextView
-                                android:id="@+id/quality_tv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:maxLines="1"
-                                android:text="整车质保"
-                                android:textColor="@color/color_888"
-                                android:textSize="13sp"/>
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="1dp"
-                            android:layout_weight="1"/>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:layout_marginRight="8dp"
-                                android:src="@mipmap/check_service"/>
-
-                            <TextView
-                                android:id="@+id/can_return_tv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:maxLines="1"
-                                android:text="14天可退"
-                                android:textColor="@color/color_888"
-                                android:textSize="13sp"/>
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="1dp"
-                            android:layout_weight="1"/>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:layout_marginRight="8dp"
-                                android:src="@mipmap/check_service"/>
-
-                            <TextView
-                                android:id="@+id/car_state_tv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:maxLines="1"
-                                android:text="249项汽车检测"
-                                android:textColor="@color/color_888"
-                                android:textSize="13sp"/>
-                        </LinearLayout>
-                    </LinearLayout>
+                        android:layout_marginLeft="10dp"
+                        android:text="新车含税13.98万"
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
-                <ImageView
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="@dimen/app_margin"
+                    android:layout_marginRight="@dimen/app_margin"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/first_pay_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/details_text_bg"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:paddingLeft="20dp"
+                        android:text="首付2.34万专享0首付"
+                        android:textColor="@color/color_theme"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/apply_buy_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/details_btn_bg"
+                        android:gravity="center"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="申请购买"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/more_service_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="@dimen/app_margin"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginRight="@dimen/app_margin"
+                            android:layout_marginTop="@dimen/app_margin"
+                            android:maxLines="1"
+                            android:text="服务费：3500元  （车价x4%，最低3500元）"
+                            android:textColor="@color/color_888"
+                            android:textSize="13sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/app_margin"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:layout_marginRight="8dp"
+                                    android:src="@mipmap/check_service" />
+
+                                <TextView
+                                    android:id="@+id/quality_tv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:text="整车质保"
+                                    android:textColor="@color/color_888"
+                                    android:textSize="13sp" />
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="1dp"
+                                android:layout_weight="1" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:layout_marginRight="8dp"
+                                    android:src="@mipmap/check_service" />
+
+                                <TextView
+                                    android:id="@+id/can_return_tv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:text="14天可退"
+                                    android:textColor="@color/color_888"
+                                    android:textSize="13sp" />
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="1dp"
+                                android:layout_weight="1" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:layout_marginRight="8dp"
+                                    android:src="@mipmap/check_service" />
+
+                                <TextView
+                                    android:id="@+id/car_state_tv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:maxLines="1"
+                                    android:text="249项汽车检测"
+                                    android:textColor="@color/color_888"
+                                    android:textSize="13sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="@dimen/app_margin"
+                        android:src="@mipmap/more" />
+                </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:background="@color/gray_light" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/app_margin"
                     android:layout_marginRight="@dimen/app_margin"
-                    android:src="@mipmap/more"/>
+                    android:text="基本信息"
+                    android:textColor="@color/color_3c434c"
+                    android:textSize="16sp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/base_info_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:background="@color/gray_light" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/app_margin"
+                    android:layout_marginRight="@dimen/app_margin"
+                    android:text="汽车介绍"
+                    android:textColor="@color/color_3c434c"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/base_introduce_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/app_margin"
+                    android:layout_marginRight="@dimen/app_margin"
+                    android:text="非常好"
+                    android:textColor="@color/color_888"
+                    android:textSize="13sp" />
             </LinearLayout>
 
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="15dp"
-                android:background="@color/gray_light"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/app_margin"
-                android:layout_marginRight="@dimen/app_margin"
-                android:text="基本信息"
-                android:textColor="@color/color_3c434c"
-                android:textSize="16sp"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/base_info_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"/>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="15dp"
-                android:background="@color/gray_light"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/app_margin"
-                android:layout_marginRight="@dimen/app_margin"
-                android:text="汽车介绍"
-                android:textColor="@color/color_3c434c"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:id="@+id/base_introduce_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/app_margin"
-                android:layout_marginRight="@dimen/app_margin"
-                android:text="非常好"
-                android:textColor="@color/color_888"
-                android:textSize="13sp"/>
-
-        </LinearLayout>
 
     </ScrollView>
 
@@ -325,7 +326,7 @@
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/shoucang"/>
+                    android:src="@drawable/shoucang" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -333,7 +334,7 @@
                     android:layout_gravity="center"
                     android:text="收藏"
                     android:textColor="@color/huiheise"
-                    android:textSize="13sp"/>
+                    android:textSize="13sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -349,7 +350,7 @@
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/pinglun"/>
+                    android:src="@drawable/pinglun" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -357,7 +358,7 @@
                     android:layout_gravity="center"
                     android:text="询问低价"
                     android:textColor="@color/huiheise"
-                    android:textSize="13sp"/>
+                    android:textSize="13sp" />
             </LinearLayout>
 
 
@@ -372,7 +373,7 @@
             android:gravity="center"
             android:text="预约看车"
             android:textColor="@color/white"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <LinearLayout
             android:id="@+id/order_buy_layout"
@@ -387,12 +388,19 @@
                 android:layout_height="wrap_content"
                 android:text="0购付"
                 android:textColor="@color/white"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
 
     <com.yunsen.enjoy.widget.drag.DragLayout
         android:id="@+id/drag_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
+
+    <com.yunsen.enjoy.widget.NoticeView
+        android:id="@+id/notice_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        app:notice_type="loading"/>
 </FrameLayout>

@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -23,7 +24,9 @@ import com.yunsen.enjoy.model.DatatypeBean;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
+import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.widget.FlowLayout;
+import com.yunsen.enjoy.widget.NoticeView;
 import com.yunsen.enjoy.widget.drag.DragLayout;
 
 import java.util.ArrayList;
@@ -35,7 +38,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Request;
 
-public class CarDetailsActivity extends BaseFragmentActivity {
+public class CarDetailsActivity extends BaseFragmentActivity implements NoticeView.OnNoticeListener {
     private static final String TAG = "CarDetailsActivity";
     @Bind(R.id.pager)
     AutoLoopViewPager pager;
@@ -81,6 +84,10 @@ public class CarDetailsActivity extends BaseFragmentActivity {
     TextView firstPayTv;
     @Bind(R.id.drag_layout)
     DragLayout dragLayout;
+    @Bind(R.id.notice_view)
+    NoticeView noticeView;
+    @Bind(R.id.data_layout)
+    LinearLayout dataLayout;
 
     private GalleryPagerAdapter galleryAdapter;
     private int[] imageViewIds;
@@ -122,20 +129,30 @@ public class CarDetailsActivity extends BaseFragmentActivity {
     @Override
     protected void initListener() {
         dragLayout.setDragIconClick(this);
+        noticeView.setOnNoticeListener(this);
     }
 
     @Override
     public void requestData() {
+        dataLayout.setVisibility(View.GONE);
+        if (!DeviceUtil.isNetworkAvailable(CarDetailsActivity.this)) {
+            noticeView.showNoticeType(NoticeView.Type.NO_INTERNET);
+            return;
+        }
+        noticeView.showNoticeType(NoticeView.Type.LOADING);
         HttpProxy.getCarDetailsData(new HttpCallBack<CarDetails>() {
 
             @Override
             public void onSuccess(CarDetails responseData) {
-                mData=responseData;
+                mData = responseData;
                 upView(responseData);
+                noticeView.closeNoticeView();
+                dataLayout.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onError(Request request, Exception e) {
+                Log.e(TAG, "onError: " + e.getMessage());
 
             }
         }, mCarId);
@@ -191,6 +208,11 @@ public class CarDetailsActivity extends BaseFragmentActivity {
                 UIHelper.showApplyBuyFirstActivity(this);
                 break;
         }
+    }
+
+    @Override
+    public void noticeClick(View view) {
+        requestData();
     }
 
 

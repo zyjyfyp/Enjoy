@@ -7,7 +7,6 @@ import android.os.Parcelable;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -104,7 +103,6 @@ public class DragLayout extends FrameLayout implements View.OnClickListener {
                         oldYStart = dragIcon.getTop();
                         oldXEnd = oldXStart + dragIcon.getWidth();
                         oldYEnd = oldYStart + dragIcon.getHeight();
-                        //                        Log.e(TAG, "onViewDragStateChanged: oldXStart=" + oldXStart + "  oldYEnd=" + oldYStart);
                         break;
                     case ViewDragHelper.STATE_DRAGGING:
                         break;
@@ -164,7 +162,6 @@ public class DragLayout extends FrameLayout implements View.OnClickListener {
             @Override
             public void onEdgeTouched(int edgeFlags, int pointerId) {
 
-                Log.e("TAG", "滑动到左边或右边了");
                 super.onEdgeTouched(edgeFlags, pointerId);
                 Toast.makeText(getContext(), "点击到左边了", Toast.LENGTH_SHORT).show();
             }
@@ -176,9 +173,6 @@ public class DragLayout extends FrameLayout implements View.OnClickListener {
         float evX = (int) ev.getX();
         float evY = (int) ev.getY();
         boolean b = super.dispatchTouchEvent(ev);
-        Log.e(TAG, "dispatchTouchEvent: dispatch= evX=" + evX + "  evY=" + evY);
-        Log.e(TAG, "dispatchTouchEvent: oldXStart=" + oldXStart + " oldXEnd= " + oldXEnd + "oldYStart="
-                + oldYStart + " oldYEnd=" + oldYEnd);
         if (evX > oldXStart && evX < oldXEnd && evY > oldYStart && evY < oldYEnd) {
             return true;
         } else {
@@ -190,7 +184,6 @@ public class DragLayout extends FrameLayout implements View.OnClickListener {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         boolean b = mDragHelper.shouldInterceptTouchEvent(ev);
-        Log.e(TAG, "onInterceptTouchEvent: intercept=" + b);
         return b;
     }
 

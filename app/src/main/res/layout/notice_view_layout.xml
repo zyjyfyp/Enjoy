@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/notice_no_internet"
+        android:layout_width="@dimen/notice_width"
+        android:layout_height="@dimen/notice_width"
+        android:layout_gravity="center"
+        android:src="@mipmap/no_internet"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/notice_loading"
+        android:layout_width="@dimen/notice_width"
+        android:layout_height="@dimen/notice_width"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/notice_layout"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/notice_img"
+            android:layout_width="@dimen/notice_width"
+            android:layout_height="@dimen/notice_width" />
+
+        <TextView
+            android:id="@+id/notice_tv"
+            android:layout_width="match_parent"
+            android:textSize="15sp"
+            android:textColor="@color/color_888"
+            android:layout_height="30dp"
+            android:layout_marginLeft="@dimen/app_margin"
+            android:layout_marginRight="@dimen/app_margin"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+</FrameLayout>

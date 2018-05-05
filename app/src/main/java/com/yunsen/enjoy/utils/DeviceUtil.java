@@ -2,6 +2,8 @@ package com.yunsen.enjoy.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 
@@ -36,6 +38,7 @@ public class DeviceUtil {
 
     /**
      * 获取DisplayMetrics，包括屏幕高宽，密度等
+     *
      * @param context
      * @return
      */
@@ -47,6 +50,7 @@ public class DeviceUtil {
 
     /**
      * 获得屏幕宽度 px
+     *
      * @param context
      * @return
      */
@@ -58,6 +62,7 @@ public class DeviceUtil {
 
     /**
      * 获得屏幕高度 px
+     *
      * @param context
      * @return
      */
@@ -113,4 +118,27 @@ public class DeviceUtil {
         return "";
     }
 
+    /**
+     * 判断网络是否可用
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager manager = (ConnectivityManager) context
+                .getApplicationContext().getSystemService(
+                        Context.CONNECTIVITY_SERVICE);
+
+        if (manager == null) {
+            return false;
+        }
+
+        NetworkInfo networkinfo = manager.getActiveNetworkInfo();
+
+        if (networkinfo == null || !networkinfo.isAvailable()) {
+            return false;
+        }
+
+        return true;
+    }
 }
