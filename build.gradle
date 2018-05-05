@@ -5,9 +5,9 @@ buildscript {
     repositories {
 
 // 添加MobSDK的maven地址
-        maven {
-            url "http://mvn.mob.com/android"
-        }
+//        maven {
+//            url "http://mvn.mob.com/android"
+//        }
         google()
         jcenter()
 
@@ -19,7 +19,7 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
         // 注册MobSDK
-        classpath "com.mob.sdk:MobSDK:+"
+//        classpath "com.mob.sdk:MobSDK:+"
     }
 }
 

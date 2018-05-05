@@ -95,9 +95,7 @@
         <activity
             android:name=".activity.SecondActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.LoginActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".activity.HouseDetailActivity"
             android:screenOrientation="portrait" />

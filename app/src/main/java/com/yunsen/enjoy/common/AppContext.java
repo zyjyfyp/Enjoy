@@ -3,9 +3,7 @@ package com.yunsen.enjoy.common;
 import android.app.Application;
 import android.support.annotation.Nullable;
 
-import com.mob.MobSDK;
 import com.orhanobut.logger.AndroidLogAdapter;
-import com.orhanobut.logger.BuildConfig;
 import com.orhanobut.logger.DiskLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
@@ -33,7 +31,6 @@ public class AppContext extends Application {
         super.onCreate();
 //        LeakCanary.install(this);
 
-        MobSDK.init(this);
         WebUitls.init(this);
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
                 .showThreadInfo(false)  // (Optional) Whether to show thread info or not. Default true

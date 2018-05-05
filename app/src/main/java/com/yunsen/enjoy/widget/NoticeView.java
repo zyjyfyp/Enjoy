@@ -51,7 +51,7 @@ public class NoticeView extends LinearLayout implements View.OnClickListener {
     private void initView(Context context, AttributeSet attrs) {
         this.mContext = context;
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NoticeStyle);
-        int type =  typedArray.getInt(R.styleable.NoticeStyle_notice_type, 0);
+        int type = typedArray.getInt(R.styleable.NoticeStyle_notice_type, 0);
         typedArray.recycle();
         switch (type) {
             case 0:
@@ -97,6 +97,7 @@ public class NoticeView extends LinearLayout implements View.OnClickListener {
         mNoticeLayout.setVisibility(GONE);
         mNoticeLoading.setVisibility(GONE);
         mNoticeNoInternet.setVisibility(GONE);
+        this.setVisibility(VISIBLE);
         switch (type) {
             case NO_INTERNET:
                 mNoticeNoInternet.setVisibility(VISIBLE);
@@ -117,6 +118,7 @@ public class NoticeView extends LinearLayout implements View.OnClickListener {
     }
 
     public void closeNoticeView() {
+        this.setVisibility(VISIBLE);
         switch (mType) {
             case NO_INTERNET:
                 mNoticeNoInternet.setVisibility(GONE);

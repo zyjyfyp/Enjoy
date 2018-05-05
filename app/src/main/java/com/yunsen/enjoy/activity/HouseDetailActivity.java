@@ -33,10 +33,7 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import cn.sharesdk.onekeyshare.OnekeyShare;
-import cn.smssdk.EventHandler;
-import cn.smssdk.SMSSDK;
-import cn.smssdk.gui.RegisterPage;
+
 
 /**
  * Created by tiansj on 15/6/29.
@@ -109,35 +106,35 @@ public class HouseDetailActivity extends SwipeBackActivity {
                 Log.e(TAG, "onClick: 分享");
                 //                PayProxy.payV2(HouseDetailActivity.this, mHandler, v);
 //                showShare();
-                sendCode(HouseDetailActivity.this);
+//                sendCode(HouseDetailActivity.this);
             }
         });
 
     }
 
-    /**
-     * shareSDK 简单的
-     */
-    private void showShare() {
-        OnekeyShare oks = new OnekeyShare();
-        //关闭sso授权
-        oks.disableSSOWhenAuthorize();
-
-        // title标题，微信、QQ和QQ空间等平台使用
-        oks.setTitle("我的分享zz");
-        // titleUrl QQ和QQ空间跳转链接
-        oks.setTitleUrl("http://sharesdk.cn");
-        // text是分享文本，所有平台都需要这个字段
-        oks.setText("我是分享文本");
-        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-        oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
-        // url在微信、微博，Facebook等平台中使用
-        oks.setUrl("http://sharesdk.cn");
-        // comment是我对这条分享的评论，仅在人人网使用
-        oks.setComment("我是测试评论文本");
-        // 启动分享GUI
-        oks.show(this);
-    }
+//    /**
+//     * shareSDK 简单的
+//     */
+//    private void showShare() {
+//        OnekeyShare oks = new OnekeyShare();
+//        //关闭sso授权
+//        oks.disableSSOWhenAuthorize();
+//
+//        // title标题，微信、QQ和QQ空间等平台使用
+//        oks.setTitle("我的分享zz");
+//        // titleUrl QQ和QQ空间跳转链接
+//        oks.setTitleUrl("http://sharesdk.cn");
+//        // text是分享文本，所有平台都需要这个字段
+//        oks.setText("我是分享文本");
+//        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+//        oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+//        // url在微信、微博，Facebook等平台中使用
+//        oks.setUrl("http://sharesdk.cn");
+//        // comment是我对这条分享的评论，仅在人人网使用
+//        oks.setComment("我是测试评论文本");
+//        // 启动分享GUI
+//        oks.show(this);
+//    }
 
     private static final String TAG = "HouseDetailActivity";
     @SuppressLint("HandlerLeak")
@@ -235,23 +232,23 @@ public class HouseDetailActivity extends SwipeBackActivity {
         }
     }
 
-    public void sendCode(Context context) {
-        RegisterPage page = new RegisterPage();
-        page.setRegisterCallback(new EventHandler() {
-            public void afterEvent(int event, int result, Object data) {
-                if (result == SMSSDK.RESULT_COMPLETE) {
-                    // 处理成功的结果
-                    HashMap<String, Object> phoneMap = (HashMap<String, Object>) data;
-                    String country = (String) phoneMap.get("country"); // 国家代码，如“86”
-                    String phone = (String) phoneMap.get("phone"); // 手机号码，如“13800138000”
-                    Log.e(TAG, "afterEvent:country= " + country + "phone =" + phone);
-                } else {
-                    Log.e(TAG, "afterEvent: "+ result +"event = " +event );
-                }
-            }
-        });
-        page.show(context);
-    }
+//    public void sendCode(Context context) {
+//        RegisterPage page = new RegisterPage();
+//        page.setRegisterCallback(new EventHandler() {
+//            public void afterEvent(int event, int result, Object data) {
+//                if (result == SMSSDK.RESULT_COMPLETE) {
+//                    // 处理成功的结果
+//                    HashMap<String, Object> phoneMap = (HashMap<String, Object>) data;
+//                    String country = (String) phoneMap.get("country"); // 国家代码，如“86”
+//                    String phone = (String) phoneMap.get("phone"); // 手机号码，如“13800138000”
+//                    Log.e(TAG, "afterEvent:country= " + country + "phone =" + phone);
+//                } else {
+//                    Log.e(TAG, "afterEvent: "+ result +"event = " +event );
+//                }
+//            }
+//        });
+//        page.show(context);
+//    }
 
     /**
      * 服务端运行状态
