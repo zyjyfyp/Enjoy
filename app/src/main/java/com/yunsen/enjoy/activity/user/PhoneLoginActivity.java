@@ -322,8 +322,6 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
                             }
                         }
 
-                        ;
-
                         @Override
                         public void onFailure(Throwable arg0, String arg1) {
 
@@ -361,9 +359,6 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
         }
         return versionName;
     }
-
-    private String strUrl = URLConstants.REALM_URL
-            + "/apkdown/ysj_apk/version.xml";
 
     // private String strUrl = URLConstants.REALM_NAME_LL;
     private String url, version, updatainfo;
@@ -657,8 +652,6 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
                                             System.out
                                                     .println("===========user_id========"
                                                             + user_id);
-                                            Context context = null;
-                                            context = getApplicationContext();
                                             editor = spPreferences.edit();
                                             editor.putBoolean("save", true);
                                             editor.putString("user", userphone.getText().toString());
@@ -721,6 +714,12 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
                                     }
 
                                 }
+
+                                @Override
+                                public void onFailure(Throwable throwable, String s) {
+                                    super.onFailure(throwable, s);
+                                    Log.e(TAG, "onFailure: "+s );
+                                }
                             }, PhoneLoginActivity.this);
                         } catch (Exception e1) {
 
@@ -746,6 +745,7 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
         }
     }
 
+    private static final String TAG = "PhoneLoginActivity";
     public void MD5() {
         inStr = null;
         md = null;

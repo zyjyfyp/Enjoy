@@ -21,6 +21,7 @@ import com.yunsen.enjoy.activity.mine.ApplyServiceActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
+import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.activity.mine.TeamActivity;
 import com.yunsen.enjoy.common.SpConstants;
@@ -305,8 +306,7 @@ public class MemberFragment extends BaseFragment {
 
     @OnClick(R.id.recharge_layout)
     public void onRechargeLayoutClicked() {
-        //        UIHelper.showRechargeActivity(getActivity());
-        goLoginOrOtherActivity(TeamActivity.class);
+        goLoginOrOtherActivity(MyQianBaoActivity.class);
     }
 
     @OnClick(R.id.apply_service_layout) //申请服务商（我是服务商）

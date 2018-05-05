@@ -63,11 +63,11 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
     private FilterRecAdapter mAdapter;
     private String mChannel; //新车还是二手车
     private String mOrderby = "click desc";//排序条件
-    private String mPrice = "sell_price<5";//价格范围
+    private String mPrice = "sell_price>=0";//价格范围
     private Map<String, String> mBrands = new HashMap<>(); //车型：
     private String mCarTitle;
     private String mCarCity; //搜索框条件：
-    private String mStrwhere = "sell_price<5";
+    private String mStrwhere = "sell_price>=0";
 
 
     @Override

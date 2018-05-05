@@ -71,8 +71,7 @@ public class UserLoginWayActivity extends AppCompatActivity implements
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         // spPreferences_qq = getSharedPreferences("longuserset_qq",
         // MODE_PRIVATE);
-        spPreferences_login = getSharedPreferences("longuserset_login",
-                MODE_PRIVATE);
+        spPreferences_login = getSharedPreferences("longuserset_login", MODE_PRIVATE);
         try {
             jiemian = true;// 判断界面是否打开
 
@@ -232,8 +231,7 @@ public class UserLoginWayActivity extends AppCompatActivity implements
                         .getString("access_token");
                 String openid = ((JSONObject) response).getString("openid");
                 String ret = ((JSONObject) response).getString("ret");
-                String oauth_openid = ((JSONObject) response)
-                        .getString("openid");
+                String oauth_openid = ((JSONObject) response).getString("openid");
                 // System.out.println("access_token==============="+access_token);
                 Editor editor = spPreferences_login.edit();
                 editor.putString("access_token", access_token);
@@ -314,8 +312,7 @@ public class UserLoginWayActivity extends AppCompatActivity implements
 
                                                 bitmap = GetImgUtil.getImage(json.getString("figureurl_qq_2"));
                                                 String headimgurl2 = Utils.bitmaptoString(bitmap);
-                                                Editor editor = spPreferences_login
-                                                        .edit();
+                                                Editor editor = spPreferences_login.edit();
                                                 editor.putString("nickname", nickname);
                                                 editor.putString("headimgurl2", headimgurl2);
                                                 editor.putString("sex", sex);

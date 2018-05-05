@@ -35,7 +35,7 @@ public class AccountUtils {
         access_token = sp2.getString("access_token", "");
         sex = sp2.getString("sex", "");
         String oauth_openid = sp2.getString("oauth_openid", "");
-        return !TextUtils.isEmpty(nickname);
+        return !TextUtils.isEmpty(nickname)|| hasBoundPhone();
     }
 
     /**

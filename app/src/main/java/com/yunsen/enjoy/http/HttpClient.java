@@ -179,6 +179,7 @@ public class HttpClient {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+        Log.e(TAG, "mapToQueryString: "+string.toString() );
         return string.toString();
     }
 
