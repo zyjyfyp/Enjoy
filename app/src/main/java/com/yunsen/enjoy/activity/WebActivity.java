@@ -96,8 +96,8 @@ public class WebActivity extends BaseFragmentActivity {
 
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-//                String data = "页面未找到！";
-//                view.loadUrl("javascript:document.body.innerHTML=\"" + data + "\"");
+                //                String data = "页面未找到！";
+                //                view.loadUrl("javascript:document.body.innerHTML=\"" + data + "\"");
                 Log.e(TAG, "onReceivedError: " + failingUrl);
             }
         });
@@ -105,11 +105,13 @@ public class WebActivity extends BaseFragmentActivity {
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
-                if (newProgress > 90) {
-                    webProgress.setVisibility(View.INVISIBLE);
-                } else {
-                    webProgress.setVisibility(View.VISIBLE);
-                    webProgress.setProgress(newProgress);
+                if (webProgress != null) {
+                    if (newProgress > 90) {
+                        webProgress.setVisibility(View.INVISIBLE);
+                    } else {
+                        webProgress.setVisibility(View.VISIBLE);
+                        webProgress.setProgress(newProgress);
+                    }
                 }
                 super.onProgressChanged(view, newProgress);
             }
@@ -117,7 +119,7 @@ public class WebActivity extends BaseFragmentActivity {
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
-                if (title != null) {
+                if (title != null && actionBarTitle != null) {
                     actionBarTitle.setText(title);
                 }
             }
