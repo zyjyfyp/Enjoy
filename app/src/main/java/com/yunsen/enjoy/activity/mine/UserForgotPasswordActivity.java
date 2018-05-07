@@ -182,10 +182,10 @@ public class UserForgotPasswordActivity extends AppCompatActivity implements
 
             switch (v.getId()) {
                 case R.id.regise_tip:
-					Intent intent4 = new Intent(UserForgotPasswordActivity.this,
-							Webview1.class);
-					intent4.putExtra("userxy", "5997");
-					startActivity(intent4);
+                    Intent intent4 = new Intent(UserForgotPasswordActivity.this,
+                            Webview1.class);
+                    intent4.putExtra("userxy", "5997");
+                    startActivity(intent4);
                     break;
                 case R.id.get_yz:
                     phone = userphone.getText().toString().trim();
@@ -332,11 +332,6 @@ public class UserForgotPasswordActivity extends AppCompatActivity implements
                                                                         .getString("info");
                                                                 String no = jsonObject
                                                                         .getString("info");
-                                                                // // str =
-                                                                // jsonObject.getString("info");
-                                                                // NewDataToast.makeText(getApplicationContext(),
-                                                                // no,false,
-                                                                // 0).show();
                                                                 progress.CloseProgress();
                                                                 Message message = new Message();
                                                                 message.what = 1;
@@ -364,18 +359,9 @@ public class UserForgotPasswordActivity extends AppCompatActivity implements
                                                                             MODE_PRIVATE);
                                                                     Editor editor = spPreferences
                                                                             .edit();
-                                                                    editor.putBoolean(
-                                                                            "save",
-                                                                            true);
-                                                                    editor.putString(
-                                                                            "user_name",
-                                                                            userphone
-                                                                                    .getText()
-                                                                                    .toString());
-                                                                    editor.putString(
-                                                                            "pwd",
-                                                                            userpwd.getText()
-                                                                                    .toString());
+                                                                    editor.putBoolean("save", true);
+                                                                    editor.putString("user_name", userphone.getText().toString());
+                                                                    editor.putString("pwd", userpwd.getText().toString());
                                                                     editor.commit();
 
                                                                     progress.CloseProgress();

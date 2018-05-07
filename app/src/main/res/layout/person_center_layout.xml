@@ -314,7 +314,7 @@
                             android:layout_height="35dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="10dp"
-                            android:background="@mipmap/sfz" />
+                          />
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -516,12 +516,7 @@
                             android:textSize="14sp"
                             android:visibility="invisible" />
 
-                        <ImageView
-                            android:layout_width="60dp"
-                            android:layout_height="35dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginRight="10dp"
-                            android:background="@mipmap/sfz" />
+
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -560,7 +555,6 @@
                                 android:layout_marginBottom="10dp"
                                 android:layout_marginTop="10dp"
                                 android:scaleType="fitXY"
-                                android:src="@drawable/zmzp"
                                 android:textSize="18dip" />
 
                             <ImageView
@@ -571,7 +565,6 @@
                                 android:layout_marginLeft="15dp"
                                 android:layout_marginTop="10dp"
                                 android:scaleType="fitXY"
-                                android:src="@drawable/fmzp"
                                 android:textSize="18dip" />
                         </LinearLayout>
 

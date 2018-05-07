@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">乐享</string>
+    <string name="app_name">乐享商城</string>
 
     <string name="clear_cache_menu">Clear Caches</string>
     <string name="clear_cache_complete_toast">Caches have been cleared</string>
@@ -86,6 +86,7 @@
     <string name="message_permission_always_failed">我们需要以下权限，请在设置中为我们开启：\n\n%1$s</string>
 
     <string name="permission_setting">权限设置</string>
+    <string name="pwd_hint_info">请输入密码(6&#8211;20位数字的密码)</string>
 
 
 </resources>

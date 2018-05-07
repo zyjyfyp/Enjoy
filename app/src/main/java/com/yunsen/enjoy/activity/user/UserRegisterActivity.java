@@ -10,7 +10,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,26 +17,19 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout.LayoutParams;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hengyushop.dao.CityDao;
-import com.hengyushop.dao.WareDao;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.mine.Webview1;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
-import com.yunsen.enjoy.model.CityData;
 import com.yunsen.enjoy.model.Register_Va;
-import com.yunsen.enjoy.model.UserRegisterData;
 import com.yunsen.enjoy.utils.Validator;
 import com.yunsen.enjoy.widget.DialogProgress;
 import com.yunsen.enjoy.widget.MyPopupWindowMenu;
@@ -53,24 +45,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserRegisterActivity extends AppCompatActivity implements
-        OnClickListener {
+public class UserRegisterActivity extends AppCompatActivity implements OnClickListener {
 
     private EditText userpwd, userphone, et_user_yz;
     private Button btn_register, get_yz;
     private String phone, pwd, yz;
-    private UserRegisterData data;
-    private WareDao wareDao;
-    private int isEnable = 1;
-    private int isLogin = 0;
     private String str, hengyuName;
     private DialogProgress progress;
     private String strUrl;
     private MyPopupWindowMenu popupWindowMenu;
     private TextView regise_tip;
-    private RelativeLayout lay;
-    private ArrayAdapter aa_sheng, aa_shi, aa_area;
-    private String yanzhengma;
     public final Handler mHandler = new MyHandler(this);
 
     @Override
@@ -78,10 +62,9 @@ public class UserRegisterActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_zhuce);
-        getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         popupWindowMenu = new MyPopupWindowMenu(this);
-        wareDao = new WareDao(getApplicationContext());
-        initdata();
+        initData();
         TextView img_menu = (TextView) findViewById(R.id.iv_fanhui);
         img_menu.setOnClickListener(new OnClickListener() {
 
@@ -224,18 +207,7 @@ public class UserRegisterActivity extends AppCompatActivity implements
         return args;
     }
 
-    private void initdata() {
-        LinearLayout ll_buju = (LinearLayout) findViewById(R.id.ll_buju);
-//        cityDao = new CityDao(UserRegisterActivity.this);
-//        ArrayList<CityData> shengs = cityDao.findSheng();
-//        ArrayList<String> list = new ArrayList<String>();
-//        for (int i = 0; i < shengs.size(); i++) {
-//            list.add(shengs.get(i).name);
-//        }
-//        Message message = new Message();
-//        message.what = 6;
-//        message.obj = list;
-//        mHandler.sendMessage(message);
+    private void initData() {
         regise_tip = (TextView) findViewById(R.id.regise_tip);
         et_user_yz = (EditText) findViewById(R.id.et_user_yz);
         get_yz = (Button) findViewById(R.id.get_yz);
@@ -247,237 +219,134 @@ public class UserRegisterActivity extends AppCompatActivity implements
         regise_tip.setOnClickListener(this);
     }
 
-    private ArrayList<String> al_sheng, al_shi, al_xian;
-    private String sheng, shi, xian, yth, key;
-    private int sheng_code, shi_code, area_code, index;
-    private CityDao cityDao;
-
-
-    // 字符串上传服务器 乱码 问题的解决方法
-    private String processParam(String temp)
-            throws UnsupportedEncodingException {
-        return URLEncoder.encode(temp, "UTF-8");
-    }
-
     @Override
     public void onClick(View v) {
-        try {
-            switch (v.getId()) {
-                case R.id.regise_tip:
-                    // initPopupWindow();
-                    // showPopupWindow(regise_tip);
+        switch (v.getId()) {
+            case R.id.regise_tip:
+                Intent intent4 = new Intent(UserRegisterActivity.this, Webview1.class);
+                intent4.putExtra("zhuce_id", "5997");
+                startActivity(intent4);
+                break;
+            case R.id.get_yz:
+                phone = userphone.getText().toString().trim();
+                if (phone.equals("")) {
+                    Toast.makeText(UserRegisterActivity.this, "请输入手机号码", Toast.LENGTH_SHORT)
+                            .show();
+                } else if (phone.length() < 11) {
+                    Toast.makeText(UserRegisterActivity.this, "手机号少于11位", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (Validator.isMobile(phone)) {
+                        strUrl = URLConstants.REALM_NAME_LL + "/user_verify_smscode?mobile=" + phone + "";
+                        AsyncHttp.get(strUrl, new AsyncHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int arg0, String arg1) {
+                                super.onSuccess(arg0, arg1);
+                                System.out.println("=============" + arg1);
+                                try {
+                                    JSONObject object = new JSONObject(arg1);
+                                    String result = object.getString("status");//
+                                    String info = object.getString("info");// info
+                                    if (result.equals("y")) {
+                                        mHandler.sendEmptyMessage(2);
+                                    } else {
+                                        Toast.makeText(UserRegisterActivity.this, info, Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, getApplicationContext());
 
-                    Intent intent4 = new Intent(UserRegisterActivity.this,
-                            Webview1.class);
-                    intent4.putExtra("zhuce_id", "5997");
-                    startActivity(intent4);
-                    break;
-                case R.id.get_yz:
-                    phone = userphone.getText().toString().trim();
-                    if (phone.equals("")) {
-                        Toast.makeText(UserRegisterActivity.this, "请输入手机号码", Toast.LENGTH_SHORT)
-                                .show();
-                    } else if (phone.length() < 11) {
-                        Toast.makeText(UserRegisterActivity.this, "手机号少于11位",
+                    } else {
+                        Toast.makeText(UserRegisterActivity.this, "手机号码不正确",
                                 Toast.LENGTH_SHORT).show();
-                    } else {
-                        if (Validator.isMobile(phone)) {
-                            // if (phone != null && phone.length() == 11) {
-                            strUrl = URLConstants.REALM_NAME_LL
-                                    + "/user_verify_smscode?mobile=" + phone + "";
-
-                            AsyncHttp.get(strUrl, new AsyncHttpResponseHandler() {
-                                @Override
-                                public void onSuccess(int arg0, String arg1) {
-                                    super.onSuccess(arg0, arg1);
-                                    System.out.println("=============" + arg1);
-                                    try {
-                                        JSONObject object = new JSONObject(arg1);
-                                        String result = object.getString("status");//
-                                        String info = object.getString("info");// info
-                                        if (result.equals("y")) {
-                                            // Toast.makeText(UserRegisterActivity.this,
-                                            // info, Toast.LENGTH_SHORT).show();
-                                            yanzhengma = object.getString("data");
-                                            mHandler.sendEmptyMessage(2);
-                                        } else {
-                                            Toast.makeText(
-                                                    UserRegisterActivity.this,
-                                                    info, Toast.LENGTH_SHORT).show();
-                                            // handler.sendEmptyMessage(3);
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }, getApplicationContext());
-
-                        } else {
-                            // Toast.makeText(getApplicationContext(),
-                            // "请输入手机号码",false,0).show();
-                            Toast.makeText(UserRegisterActivity.this, "手机号码不正确",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                        // } else {
-                        // // Toast.makeText(getApplicationContext(),
-                        // "请输入手机号码",false,0).show();
-                        // Toast.makeText(UserRegisterActivity.this, "手机号码不能为空",
-                        // Toast.LENGTH_SHORT).show();
-                        // }
                     }
+                }
 
-                    break;
-                //				case R.id.img_title_login:
-                //					int index = 0;
-                //					Intent intent = new Intent(UserRegisterActivity.this,
-                //							UserLoginActivity.class);
-                //					intent.putExtra("login", index);
-                //					startActivity(intent);
-                //					finish();
-                //					break;
-                case R.id.btn_register:
-                    yz = et_user_yz.getText().toString().trim();
-                    // name = username.getText().toString().trim();
-                    phone = userphone.getText().toString().trim();
-                    // postbox = userpostbox.getText().toString().trim();
-                    pwd = userpwd.getText().toString().trim();
-                    // pwdagain = userpwdagain.getText().toString().trim();
-                    // SimpleDateFormat formatter = new SimpleDateFormat(
-                    // "yyyy年MM月dd日   HH:mm:ss");
-                    // Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
-                    // insertdata = formatter.format(curDate);
+                break;
+            case R.id.btn_register:
+                yz = et_user_yz.getText().toString().trim();
+                phone = userphone.getText().toString().trim();
+                final String pwd = userpwd.getText().toString();
+                this.pwd = pwd.trim();
+                if (phone.equals("")) {
+                    Toast.makeText(UserRegisterActivity.this, "手机号码不能为空", Toast.LENGTH_SHORT)
+                            .show();
+                } else if (phone.length() < 11) {
+                    Toast.makeText(UserRegisterActivity.this, "手机号码少于11位", Toast.LENGTH_SHORT)
+                            .show();
+                } else if (yz.equals("")) {
+                    Toast.makeText(UserRegisterActivity.this, "请输入验证码", Toast.LENGTH_SHORT)
+                            .show();
+                } else if (this.pwd.equals("")) {
+                    Toast.makeText(UserRegisterActivity.this, "密码不能为空", Toast.LENGTH_SHORT)
+                            .show();
+                } else if (this.pwd.length() < 6) {
+                    Toast.makeText(UserRegisterActivity.this, "密码不得小于8位", Toast.LENGTH_SHORT)
+                            .show();
+                } else if (!(pwd.length() <= 20 && pwd.length() >= 6)) {
+                    Toast.makeText(UserRegisterActivity.this, "密码在8-20位之间", Toast.LENGTH_SHORT)
+                            .show();
+                } else {
+                    try {
+                        progress = new DialogProgress(UserRegisterActivity.this);
+                        progress.CreateProgress();
+                        new Thread() {
+                            public void run() {
+                                strUrl = URLConstants.REALM_NAME_LL
+                                        + "/user_register?site=mobile&code="
+                                        + yz + "&username=" + phone
+                                        + "&password=" + UserRegisterActivity.this.pwd + "&mobile="
+                                        + phone + "";
+                                System.out.println("注册" + strUrl);
 
-                    if (phone.equals("")) {
-                        Toast.makeText(UserRegisterActivity.this, "手机号码不能为空", Toast.LENGTH_SHORT)
-                                .show();
-                    } else if (phone.length() < 11) {
-                        Toast.makeText(UserRegisterActivity.this, "手机号码少于11位", Toast.LENGTH_SHORT)
-                                .show();
-                    } else if (yz.equals("")) {
-                        Toast.makeText(UserRegisterActivity.this, "请输入验证码", Toast.LENGTH_SHORT)
-                                .show();
-                    }
-                    // else if (yz.length() < 6 ) {
-                    // Toast.makeText(UserRegisterActivity.this, "验证码少于六位",
-                    // Toast.LENGTH_SHORT).show();
-                    // }
-                    else if (pwd.equals("")) {
-                        Toast.makeText(UserRegisterActivity.this, "密码不能为空", Toast.LENGTH_SHORT)
-                                .show();
-                    } else if (pwd.length() < 8) {
-                        Toast.makeText(UserRegisterActivity.this, "密码不得小于8位", Toast.LENGTH_SHORT)
-                                .show();
-                    } else if (!(userpwd.getText().toString().length() < 20 && userpwd
-                            .getText().toString().length() >= 8)) {
-                        Toast.makeText(UserRegisterActivity.this, "密码在8-20位之间", Toast.LENGTH_SHORT)
-                                .show();
-                    } else {
-                        try {
-                            progress = new DialogProgress(UserRegisterActivity.this);
-                            progress.CreateProgress();
-                            new Thread() {
-                                public void run() {
-                                    try {
-                                        String sn = "";
-
-                                        strUrl = URLConstants.REALM_NAME_LL
-                                                + "/user_register?site=mobile&code="
-                                                + yz + "&username=" + phone
-                                                + "&password=" + pwd + "&mobile="
-                                                + phone + "";
-                                        System.out.println("注册" + strUrl);
-
-                                        AsyncHttp.get(strUrl, new AsyncHttpResponseHandler() {
-                                            @Override
-                                            public void onSuccess(int arg0,
-                                                                  String arg1) {
-
-                                                // method stub
-                                                super.onSuccess(arg0, arg1);
-                                                try {
-                                                    JSONObject jsonObject = new JSONObject(
-                                                            arg1);
-                                                    System.out
-                                                            .println("=================1=="
-                                                                    + arg1);
-                                                    String status = jsonObject
-                                                            .getString("status");
-                                                    String info = jsonObject
-                                                            .getString("info");
-                                                    if (status.equals("n")) {
-                                                        System.out
-                                                                .println("=================2==");
-                                                        str = jsonObject
-                                                                .getString("info");
-                                                        progress.CloseProgress();
-                                                        Message message = new Message();
-                                                        message.what = 1;
-                                                        message.obj = str;
-                                                        sendMessage(message);
-                                                    } else if (status
-                                                            .equals("y")) {
-                                                        try {
-                                                            System.out
-                                                                    .println("=================3=="
-                                                                            + info);
-                                                            hengyuName = jsonObject
-                                                                    .getString("info");
-                                                            SharedPreferences spPreferences = getSharedPreferences(
-                                                                    "longuserset_user",
-                                                                    MODE_PRIVATE);
-                                                            Editor editor = spPreferences
-                                                                    .edit();
-                                                            editor.putBoolean(
-                                                                    "save",
-                                                                    true);
-                                                            editor.putString(
-                                                                    "user_name",
-                                                                    userphone
-                                                                            .getText()
-                                                                            .toString());
-                                                            editor.putString(
-                                                                    "pwd",
-                                                                    userpwd.getText()
-                                                                            .toString());
-                                                            editor.commit();
-
-                                                            Log.v("data1",
-                                                                    hengyuName
-                                                                            + "");
-                                                            progress.CloseProgress();
-                                                            Message message = Message.obtain();
-                                                            message.what = 0;
-                                                            message.obj = hengyuName;
-                                                            sendMessage(message);
-                                                        } catch (Exception e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                    }
-                                                } catch (JSONException e) {
-                                                    e.printStackTrace();
-                                                }
+                                AsyncHttp.get(strUrl, new AsyncHttpResponseHandler() {
+                                    @Override
+                                    public void onSuccess(int arg0,
+                                                          String arg1) {
+                                        super.onSuccess(arg0, arg1);
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(arg1);
+                                            String status = jsonObject.getString("status");
+                                            String info = jsonObject.getString("info");
+                                            if (status.equals("n")) {
+                                                System.out.println("=================2==");
+                                                str = jsonObject.getString("info");
+                                                progress.CloseProgress();
+                                                Message message = Message.obtain();
+                                                message.what = 1;
+                                                message.obj = str;
+                                                sendMessage(message);
+                                            } else if (status.equals("y")) {
+                                                hengyuName = jsonObject.getString("info");
+                                                SharedPreferences spPreferences = getSharedPreferences("longuserset_user",
+                                                        MODE_PRIVATE);
+                                                Editor editor = spPreferences.edit();
+                                                editor.putBoolean("save", true);
+                                                editor.putString("user_name", userphone.getText().toString());
+                                                editor.putString("pwd", pwd);
+                                                editor.commit();
+                                                progress.CloseProgress();
+                                                Message message = Message.obtain();
+                                                message.what = 0;
+                                                message.obj = hengyuName;
+                                                sendMessage(message);
                                             }
-                                        }, getApplicationContext());
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
-                                }
-                            }.start();
+                                }, getApplicationContext());
+                            }
+                        }.start();
 
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-
-                    break;
-
-                default:
-                    break;
-            }
-        } catch (Exception e) {
-
-            e.printStackTrace();
+                }
+                break;
+            default:
+                break;
         }
     }
 
@@ -489,7 +358,6 @@ public class UserRegisterActivity extends AppCompatActivity implements
      * @File filepath 查找的目录
      */
     ArrayList<Register_Va> bookList = new ArrayList<Register_Va>();
-    ;
 
     private void searchFile(String keyword, File filepath) {
 
@@ -528,7 +396,6 @@ public class UserRegisterActivity extends AppCompatActivity implements
                                 va.setTime(Float.parseFloat(file.lastModified()
                                         + "f"));
                                 bookList.add(va);
-                                index++;
                             }
                         } catch (Exception e) {
                             Toast.makeText(this, "查找发生错误", Toast.LENGTH_SHORT)

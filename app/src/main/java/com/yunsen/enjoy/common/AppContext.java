@@ -8,6 +8,7 @@ import com.orhanobut.logger.DiskLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
+import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.utils.WebUitls;
 
 
@@ -30,7 +31,7 @@ public class AppContext extends Application {
     public void onCreate() {
         super.onCreate();
 //        LeakCanary.install(this);
-
+        ToastUtils.init(this);
         WebUitls.init(this);
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
                 .showThreadInfo(false)  // (Optional) Whether to show thread info or not. Default true

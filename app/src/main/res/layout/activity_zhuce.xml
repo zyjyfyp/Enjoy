@@ -164,7 +164,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="fill_parent"
                     android:background="@null"
-                    android:hint="请输入密码(6-16位数字的密码)"
+                    android:hint="@string/pwd_hint_info"
                     android:imeOptions="actionNext"
                     android:maxLength="20"
                     android:password="true"

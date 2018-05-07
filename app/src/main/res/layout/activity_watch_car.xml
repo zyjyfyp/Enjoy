@@ -65,7 +65,7 @@
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@mipmap/guarantee" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -87,7 +87,7 @@
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@mipmap/retreat_car" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -109,7 +109,7 @@
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@mipmap/testing_car" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -131,7 +131,7 @@
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@mipmap/personal_car" />
 
                     <TextView
                         android:layout_width="wrap_content"
