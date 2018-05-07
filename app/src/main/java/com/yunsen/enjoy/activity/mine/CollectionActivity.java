@@ -98,7 +98,6 @@ public class CollectionActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-
                 finish();
             }
         });
@@ -123,7 +122,7 @@ public class CollectionActivity extends AppCompatActivity {
                         System.out.println("id====================" + id);
 
                         String user_id = spPreferences.getString("user_id", "");
-                        String str = URLConstants.REALM_URL + "/user_favorite_delete?user_id=" + user_id + "&id=" + id + "";
+                        String str = URLConstants.REALM_ACCOUNT_URL + "/user_favorite_delete?user_id=" + user_id + "&id=" + id + "";
                         //				progress.CreateProgress();
                         System.out.println("1111====================" + str);
 
@@ -180,10 +179,9 @@ public class CollectionActivity extends AppCompatActivity {
     private void loadWeather() {
         progress.CreateProgress();
         String id = spPreferences.getString("user_id", "");
-        strUrl = URLConstants.REALM_URL + "/get_user_favorite_list?user_id=" + id + "&page_size=10&page_index=1" +
+        strUrl = URLConstants.REALM_ACCOUNT_URL + "/get_user_favorite_list?user_id=" + id + "&page_size=10&page_index=1" +
                 "&strwhere=&orderby=";
 
-        System.out.println("收藏" + strUrl);
         AsyncHttp.get(strUrl, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int arg0, String arg1) {
@@ -226,9 +224,6 @@ public class CollectionActivity extends AppCompatActivity {
                 //			mListView.setAdapter(adapter);
                 madapter = new MyCollectWareAdapter(CollectionActivity.this, list, my_list.getRightViewWidth(), handler);
                 my_list.setAdapter(madapter);
-                if (list.size() > 0) {
-                    MyCollectWareAdapter.aQuery.clear();//清除内存
-                }
                 data = null;
             }
         } catch (Exception e) {

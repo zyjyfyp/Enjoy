@@ -1,6 +1,8 @@
 package com.yunsen.enjoy.http;
 
 
+import android.util.Log;
+
 import com.yunsen.enjoy.model.AdvertList;
 import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.BrandResponse;
@@ -18,6 +20,8 @@ import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.response.CarBrandResponese;
 import com.yunsen.enjoy.model.response.CarDetailsResponse;
 import com.yunsen.enjoy.model.response.UserInfoResponse;
+import com.yunsen.enjoy.utils.SharedPreference;
+import com.yunsen.enjoy.utils.ToastUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -409,4 +413,27 @@ public class HttpProxy {
             }
         });
     }
+
+    public static void getAddCollect(String userId, String userName, String goodsId, final HttpCallBack<String> callBack) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("article_id", goodsId);
+        param.put("user_name", userName);
+        param.put("user_id", userId);
+        param.put("tags", "");
+        HttpClient.get(URLConstants.ADD_COLLECT_URL , param, new HttpResponseHandler<RestApiResponse>() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getInfo());
+
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request,e);
+            }
+        });
+    }
+
 }

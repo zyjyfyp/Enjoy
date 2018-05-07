@@ -79,21 +79,17 @@ public class HttpResponseHandler<T> {
     // 后台线程调用方法，通过Handler sendMessage把结果转到UI主线程
     //
 
-    protected void sendSuccessMessage(String jsonString) {
-        try {
+    protected void sendSuccessMessage(String jsonString)  throws DataException{
             T response = getRestApiResponse(jsonString);
             sendMessage(obtainMessage(SUCCESS_MESSAGE, response));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
-    private T getRestApiResponse(String responseBody) throws Exception {
+    private T getRestApiResponse(String responseBody) throws DataException {
         Class<? super T> rawType;
         rawType = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         RestApiResponse apiResponse = (RestApiResponse) JSON.parseObject(responseBody, rawType);
-        if (apiResponse == null && !"y".equalsIgnoreCase(apiResponse.getStatus())) {
-            throw new Exception("server error (response = " + responseBody + ")");
+        if (apiResponse == null || !"y".equalsIgnoreCase(apiResponse.getStatus())) {
+            throw new DataException("server error (response = " + responseBody + ")");
         }
         return (T) apiResponse;
     }

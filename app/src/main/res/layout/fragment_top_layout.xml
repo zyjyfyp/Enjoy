@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/layout_ent_gallery"
         android:layout_width="fill_parent"
-        android:layout_height="170dp"
+        android:layout_height="180dp"
         android:background="@color/white">
 
         <com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager

@@ -1,6 +1,7 @@
 package com.yunsen.enjoy.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -16,16 +17,20 @@ import android.widget.Toast;
 
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.adapter.CarTopBannerAdapter;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.model.AlbumsBean;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.DatatypeBean;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.utils.DeviceUtil;
+import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.FlowLayout;
 import com.yunsen.enjoy.widget.NoticeView;
 import com.yunsen.enjoy.widget.drag.DragLayout;
@@ -89,16 +94,11 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
     NoticeView noticeView;
     @Bind(R.id.data_layout)
     LinearLayout dataLayout;
-
-    private GalleryPagerAdapter galleryAdapter;
-    private int[] imageViewIds;
-    private List<String> imageList = new ArrayList<String>(Arrays.asList(
-            "http://pic.nipic.com/2008-07-11/20087119630716_2.jpg",
-            "http://pic.nipic.com/2008-07-11/20087119630716_2.jpg",
-            "http://pic.nipic.com/2008-07-11/20087119630716_2.jpg"));
-    private ArrayList<DatatypeBean> datas = new ArrayList<>();
     private String mCarId;
     private CarDetails mData;
+    private SharedPreferences mSp;
+    private String mUserName;
+    private String mUserId;
 
     @Override
     public int getLayout() {
@@ -110,11 +110,6 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
         ButterKnife.bind(this);
         detailsOldCarMoney.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); //中划线
         actionBarTitle.setText("汽车详情");
-        imageViewIds = new int[]{R.drawable.house_background, R.drawable.house_background_1, R.drawable.house_background_2};
-        galleryAdapter = new GalleryPagerAdapter();
-        pager.setAdapter(galleryAdapter);
-        indicator.setViewPager(pager);
-        indicator.setPadding(5, 5, 10, 5);
     }
 
 
@@ -125,6 +120,9 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
             mCarId = intent.getStringExtra(Constants.CAR_DETAILS_ID);
         }
         dragLayout.setCanDrag(false);
+        mSp = getSharedPreferences("longuserset", MODE_PRIVATE);
+        mUserName = mSp.getString(SpConstants.USER_NAME, "");
+        mUserId = mSp.getString(SpConstants.USER_ID, "");
     }
 
     @Override
@@ -147,6 +145,7 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
             public void onSuccess(CarDetails responseData) {
                 mData = responseData;
                 upView(responseData);
+                upBanner(responseData.getAlbums());
                 noticeView.closeNoticeView();
                 dataLayout.setVisibility(View.VISIBLE);
             }
@@ -159,12 +158,22 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
         }, mCarId);
     }
 
+    private void upBanner(List<AlbumsBean> albums) {
+        CarTopBannerAdapter adapter = new CarTopBannerAdapter(albums, CarDetailsActivity.this);
+        pager.setAdapter(adapter);
+        indicator.setViewPager(pager);
+        indicator.setPadding(5, 5, 10, 5);
+    }
+
     /**
      * 更加数据跟新View
      *
      * @param responseData
      */
     private void upView(CarDetails responseData) {
+        if (responseData == null) {
+            return;
+        }
         detailsTitle.setText(responseData.getTitle());
         flowLayout.setDatas(responseData.getDatatype());//超值
         CarDetails.DefaultSpecItemBean defaultSpecItem = responseData.getDefault_spec_item();
@@ -194,7 +203,9 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
                 UIHelper.showCarServiceActivity(this);
                 break;
             case R.id.collect_layout:
-                Toast.makeText(this, "添加收藏", Toast.LENGTH_SHORT).show();
+                if (mData != null) {
+                    getAddCollect(mData);
+                }
                 break;
             case R.id.ask_layout:
                 requestPermission(Permission.CALL_PHONE, Constants.CALL_PHONE);
@@ -216,48 +227,21 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
         requestData();
     }
 
+    public void getAddCollect(CarDetails data) {
+        HttpProxy.getAddCollect(mUserId, mUserName, String.valueOf(data.getId()), new HttpCallBack<String>() {
+            @Override
+            public void onSuccess(String responseData) {
+                ToastUtils.makeTextShort("关注成功");
+            }
 
-    //轮播图适配器
-    public class GalleryPagerAdapter extends PagerAdapter {
+            @Override
+            public void onError(Request request, Exception e) {
+                ToastUtils.makeTextShort("此商品已被关注");
 
-        @Override
-        public int getCount() {
-            return imageViewIds.length;
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            ImageView item = new ImageView(CarDetailsActivity.this);
-            item.setImageResource(imageViewIds[position]);
-            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(-1, -1);
-            item.setLayoutParams(params);
-            item.setScaleType(ImageView.ScaleType.FIT_XY);
-            container.addView(item);
-
-            final int pos = position;
-            item.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(CarDetailsActivity.this, ImageGalleryActivity.class);
-                    intent.putStringArrayListExtra("images", (ArrayList<String>) imageList);
-                    intent.putExtra("position", pos);
-                    startActivity(intent);
-                }
-            });
-
-            return item;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup collection, int position, Object view) {
-            collection.removeView((View) view);
-        }
+            }
+        });
     }
+
 
     @Override
     protected void onResume() {
@@ -281,4 +265,45 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
         super.onDestroy();
         ButterKnife.unbind(this);
     }
+//    //轮播图适配器
+//    public class GalleryPagerAdapter extends PagerAdapter {
+//
+//        @Override
+//        public int getCount() {
+//            return imageViewIds.length;
+//        }
+//
+//        @Override
+//        public boolean isViewFromObject(View view, Object object) {
+//            return view == object;
+//        }
+//
+//        @Override
+//        public Object instantiateItem(ViewGroup container, int position) {
+//            ImageView item = new ImageView(CarDetailsActivity.this);
+//            item.setImageResource(imageViewIds[position]);
+//            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(-1, -1);
+//            item.setLayoutParams(params);
+//            item.setScaleType(ImageView.ScaleType.FIT_XY);
+//            container.addView(item);
+//
+//            final int pos = position;
+//            item.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent = new Intent(CarDetailsActivity.this, ImageGalleryActivity.class);
+//                    intent.putStringArrayListExtra("images", (ArrayList<String>) imageList);
+//                    intent.putExtra("position", pos);
+//                    startActivity(intent);
+//                }
+//            });
+//
+//            return item;
+//        }
+//
+//        @Override
+//        public void destroyItem(ViewGroup collection, int position, Object view) {
+//            collection.removeView((View) view);
+//        }
+//    }
 }

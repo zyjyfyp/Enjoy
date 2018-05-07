@@ -92,7 +92,7 @@ public class HttpClient {
         if (param != null && param.size() > 0) {
             url = url + "?" + mapToQueryString(param);
         }
-        Logger.d(TAG+"zyjy get: ="+url );
+        Logger.d(TAG + "zyjy get: =" + url);
         Request request = new Request.Builder().url(url).build();
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -102,7 +102,11 @@ public class HttpClient {
                     if (!isJsonString(responseBody)) {
                         throw new Exception("server response not json string (response = " + responseBody + ")");
                     }
-                    handler.sendSuccessMessage(responseBody);
+                    try {
+                        handler.sendSuccessMessage(responseBody);
+                    } catch (DataException e) {
+                        handler.sendFailureMessage(call.request(), e);
+                    }
                 } catch (Exception e) {
                     handler.sendFailureMessage(call.request(), e);
                 }
@@ -136,7 +140,11 @@ public class HttpClient {
                     if (!isJsonString(responseBody)) {
                         throw new Exception("server response not json string (response = " + responseBody + ")");
                     }
-                    handler.sendSuccessMessage(responseBody);
+                    try {
+                        handler.sendSuccessMessage(responseBody);
+                    } catch (DataException e) {
+                        handler.sendFailureMessage(call.request(), e);
+                    }
                 } catch (Exception e) {
                     handler.sendFailureMessage(call.request(), e);
                 }
@@ -179,7 +187,7 @@ public class HttpClient {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        Log.e(TAG, "mapToQueryString: "+string.toString() );
+        Log.e(TAG, "mapToQueryString: " + string.toString());
         return string.toString();
     }
 

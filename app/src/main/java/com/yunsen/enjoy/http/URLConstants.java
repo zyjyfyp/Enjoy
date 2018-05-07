@@ -69,7 +69,11 @@ public class URLConstants {
     /***
      * 用户信息
      */
-    public static  String PHONE_USER_INFO_URL = URLConstants.REALM_NAME_LL + "/get_user_model?username=";
+    public static String PHONE_USER_INFO_URL = URLConstants.REALM_NAME_LL + "/get_user_model?username=";
+    /**
+     * 添加收藏
+     */
+    public static final String ADD_COLLECT_URL =  URLConstants.REALM_NAME_LL + "/user_favorite";
 
 
     //

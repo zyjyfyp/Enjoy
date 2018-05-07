@@ -1,10 +1,12 @@
 package com.yunsen.enjoy.model;
 
+import com.yunsen.enjoy.http.URLConstants;
+
 /**
  * Created by Administrator on 2018/4/23.
  */
 
-public  class AlbumsBean {
+public class AlbumsBean {
     /**
      * id : 43910
      * article_id : 10284
@@ -22,6 +24,7 @@ public  class AlbumsBean {
     private String remark;
     private String add_time;
     private String update_time;
+    private int resId;
 
     public int getId() {
         return id;
@@ -40,7 +43,11 @@ public  class AlbumsBean {
     }
 
     public String getThumb_path() {
-        return thumb_path;
+        if (thumb_path != null && thumb_path.startsWith("http")) {
+            return thumb_path;
+        } else {
+            return URLConstants.REALM_URL + thumb_path;
+        }
     }
 
     public void setThumb_path(String thumb_path) {
@@ -77,5 +84,13 @@ public  class AlbumsBean {
 
     public void setUpdate_time(String update_time) {
         this.update_time = update_time;
+    }
+
+    public int getResId() {
+        return resId;
+    }
+
+    public void setResId(int resId) {
+        this.resId = resId;
     }
 }

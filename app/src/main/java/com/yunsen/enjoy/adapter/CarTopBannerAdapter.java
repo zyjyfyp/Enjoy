@@ -1,4 +1,4 @@
-package com.yunsen.enjoy.fragment.home;
+package com.yunsen.enjoy.adapter;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
@@ -9,21 +9,21 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 import com.yunsen.enjoy.R;
-import com.yunsen.enjoy.model.AdvertModel;
-import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.model.AlbumsBean;
 
 import java.util.List;
 
 /**
- * Created by yunsenA on 2018/4/18.
+ * Created by Administrator on 2018/5/7.
  */
 
-public class BannerAdapter extends PagerAdapter {
+public class CarTopBannerAdapter extends PagerAdapter {
+
     private static final String TAG = "BannerAdapter";
-    private List<AdvertModel> mDatas;
+    private List<AlbumsBean> mDatas;
     private Context mContext;
 
-    public BannerAdapter(List<AdvertModel> datas, Context context) {
+    public CarTopBannerAdapter(List<AlbumsBean> datas, Context context) {
         this.mDatas = datas;
         this.mContext = context;
     }
@@ -41,23 +41,19 @@ public class BannerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
         ImageView item = new ImageView(mContext);
-        AdvertModel data = mDatas.get(position);
-        if (data.getAd_url() == null) {
-            item.setImageResource(data.getRseImg());
+        AlbumsBean data = mDatas.get(position);
+        if (data.getThumb_path() == null) {
+            item.setImageResource(data.getResId());
         } else {
-            Picasso.with(mContext).load(data.getAd_url()).placeholder(R.mipmap.car_1).into(item);
+            Picasso.with(mContext)
+                    .load(data.getThumb_path())
+                    .placeholder(R.mipmap.banner4)
+                    .into(item);
         }
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(-1, -1);
         item.setLayoutParams(params);
-        item.setScaleType(ImageView.ScaleType.FIT_XY);
+        item.setScaleType(ImageView.ScaleType.CENTER_CROP);
         container.addView(item);
-        final int pos = position;
-        item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UIHelper.showAdvertActivity(mContext);
-            }
-        });
         return item;
     }
 
@@ -66,17 +62,11 @@ public class BannerAdapter extends PagerAdapter {
         collection.removeView((View) view);
     }
 
-    public void upData(List<AdvertModel> datas) {
+    public void upData(List<AlbumsBean> datas) {
         if (datas != null) {
             mDatas.clear();
             mDatas.addAll(datas);
             notifyDataSetChanged();
         }
-    }
-
-    @Override
-    public CharSequence getPageTitle(int position) {
-        Log.e(TAG, "getPageTitle: p= " + position);
-        return "标题" + position;
     }
 }
