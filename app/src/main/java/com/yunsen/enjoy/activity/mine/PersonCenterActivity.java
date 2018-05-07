@@ -18,6 +18,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,7 @@ import com.yunsen.enjoy.http.down.UpdateApkThread;
 import com.yunsen.enjoy.model.UserRegisterllData;
 import com.yunsen.enjoy.model.UserSenJiBean;
 import com.yunsen.enjoy.ui.photoview.RoundImageView;
+import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.utils.Utils;
 import com.yunsen.enjoy.widget.DialogProgress;
 import com.yunsen.enjoy.widget.MyAlertDialog;
@@ -83,14 +85,14 @@ public class PersonCenterActivity extends AppCompatActivity implements OnClickLi
     UserSenJiBean bean;
     private ImageView iv_personal_icon, iv_personal_icon1;
     private TextView tv_name, tv_shenfenzheng, tv_jxdizhi, tv_xqdizhi, tv_banbenhao, tv_city, tv_ka_name;
-    private String strUr2 = URLConstants.REALM_URL + "/get_apk_version?browser=android";
+    private String strUr2 = URLConstants.REALM_ACCOUNT_URL + "/get_apk_version?browser=android";
     private String URL;
     private String content;
     private LinearLayout ll_gender, ll_diqu, ll_shenji;
     String dizhi = "选择地区";
     private String cityTxt, cityTxt1, cityTxt2, cityTxt3;
-    String login_sign, amount, sex, nick_name, mobile;
-    String user_name, user_id, nichen, order_no;
+    String login_sign, sex, nick_name, mobile;
+    String user_name, user_id;
     private DialogProgress progress;
     private SharedPreferences spPreferences;
     UserRegisterllData data;
@@ -116,76 +118,70 @@ public class PersonCenterActivity extends AppCompatActivity implements OnClickLi
 
     @Override
     protected void onResume() {
-
         super.onResume();
         userloginqm();
     }
 
     private void init() {
-        try {
-            networkImage = (RoundImageView) findViewById(R.id.roundImage_network);
-            v2 = (TextView) findViewById(R.id.v2);
-            tv_city = (TextView) findViewById(R.id.tv_city);
-            tv_ka_name = (TextView) findViewById(R.id.tv_ka_name);
-            tv_nicheng = (TextView) findViewById(R.id.tv_nicheng);
-            tv_nick_name = (TextView) findViewById(R.id.edt_xingbie);
-            v7 = (TextView) findViewById(R.id.v7);
-            mm = (RelativeLayout) findViewById(R.id.mm);
-            iv_personal_icon = (ImageView) findViewById(R.id.iv_personal_icon);
-            iv_personal_icon1 = (ImageView) findViewById(R.id.iv_personal_icon1);
-            tv_name = (TextView) findViewById(R.id.tv_name);
-            tv_banbenhao = (TextView) findViewById(R.id.tv_banbenhao);
-            tv_shenfenzheng = (TextView) findViewById(R.id.tv_shenfenzheng);
-            tv_jxdizhi = (TextView) findViewById(R.id.tv_jxdizhi);
-            tv_xqdizhi = (TextView) findViewById(R.id.tv_xqdizhi);
-            ll_update = (RelativeLayout) findViewById(R.id.ll_update);
-            rl_nichen = (RelativeLayout) findViewById(R.id.rl_nichen); //昵称
-            ll_gender = (LinearLayout) findViewById(R.id.ll_gender);
-            ll_diqu = (LinearLayout) findViewById(R.id.ll_diqu);
-            ll_shenji = (LinearLayout) findViewById(R.id.ll_shenji);
-            vi_shenji = findViewById(R.id.vi_shenji);
-            ll_update.setOnClickListener(this);
-            rl_nichen.setOnClickListener(this);
-            ll_gender.setOnClickListener(this);
-            ll_diqu.setOnClickListener(this);
-            mm.setOnClickListener(this);
+        networkImage = (RoundImageView) findViewById(R.id.roundImage_network);
+        v2 = (TextView) findViewById(R.id.v2);
+        tv_city = (TextView) findViewById(R.id.tv_city);
+        tv_ka_name = (TextView) findViewById(R.id.tv_ka_name);
+        tv_nicheng = (TextView) findViewById(R.id.tv_nicheng);
+        tv_nick_name = (TextView) findViewById(R.id.edt_xingbie);
+        v7 = (TextView) findViewById(R.id.v7);
+        mm = (RelativeLayout) findViewById(R.id.mm);
+        iv_personal_icon = (ImageView) findViewById(R.id.iv_personal_icon);
+        iv_personal_icon1 = (ImageView) findViewById(R.id.iv_personal_icon1);
+        tv_name = (TextView) findViewById(R.id.tv_name);
+        tv_banbenhao = (TextView) findViewById(R.id.tv_banbenhao);
+        tv_shenfenzheng = (TextView) findViewById(R.id.tv_shenfenzheng);
+        tv_jxdizhi = (TextView) findViewById(R.id.tv_jxdizhi);
+        tv_xqdizhi = (TextView) findViewById(R.id.tv_xqdizhi);
+        ll_update = (RelativeLayout) findViewById(R.id.ll_update);
+        rl_nichen = (RelativeLayout) findViewById(R.id.rl_nichen); //昵称
+        ll_gender = (LinearLayout) findViewById(R.id.ll_gender);
+        ll_diqu = (LinearLayout) findViewById(R.id.ll_diqu);
+        ll_shenji = (LinearLayout) findViewById(R.id.ll_shenji);
+        vi_shenji = findViewById(R.id.vi_shenji);
+        ll_update.setOnClickListener(this);
+        rl_nichen.setOnClickListener(this);
+        ll_gender.setOnClickListener(this);
+        ll_diqu.setOnClickListener(this);
+        mm.setOnClickListener(this);
 
-            String version = getAppVersionName(PersonCenterActivity.this);
-            System.out.println("c_version==============" + version);
-            tv_banbenhao.setText(version);
-            tv_banbenhao.setOnClickListener(new OnClickListener() {
+        String version = getAppVersionName(PersonCenterActivity.this);
+        System.out.println("c_version==============" + version);
+        tv_banbenhao.setText(version);
+        tv_banbenhao.setOnClickListener(new OnClickListener() {
 
-                @Override
-                public void onClick(View arg0) {
+            @Override
+            public void onClick(View arg0) {
 
-                }
-            });
+            }
+        });
 
-            ImageView iv_fanhui = (ImageView) findViewById(R.id.iv_fanhui);
-            iv_fanhui.setOnClickListener(new OnClickListener() {
+        ImageView iv_fanhui = (ImageView) findViewById(R.id.iv_fanhui);
+        iv_fanhui.setOnClickListener(new OnClickListener() {
 
-                @Override
-                public void onClick(View arg0) {
+            @Override
+            public void onClick(View arg0) {
 
-                    finish();
-                }
-            });
+                finish();
+            }
+        });
 
 
-            v6 = (RelativeLayout) findViewById(R.id.v6);
-            v6.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View arg0) {
-                    Intent intent = new Intent(PersonCenterActivity.this, AddressManagerGlActivity.class);
-                    intent.putExtra("order_confrim", "order_confrim");// 标示
-                    startActivity(intent);
-                }
-            });
+        v6 = (RelativeLayout) findViewById(R.id.v6);
+        v6.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Intent intent = new Intent(PersonCenterActivity.this, AddressManagerGlActivity.class);
+                intent.putExtra("order_confrim", "order_confrim");// 标示
+                startActivity(intent);
+            }
+        });
 
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -196,12 +192,9 @@ public class PersonCenterActivity extends AppCompatActivity implements OnClickLi
 
     private void userloginqm() {
         try {
-
             spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
             String user_name = spPreferences.getString("user", "");
-
-            //    private String strUr2 = "http://mobile.zams.cn/tools/mobile_ajax.asmx/get_apk_version?browser=android";
-            String strUrlone = URLConstants.REALM_URL + "/get_user_model?username=" + user_name + "";
+            String strUrlone = URLConstants.REALM_ACCOUNT_URL + "/get_user_model?username=" + user_name + "";
             System.out.println("======11=============" + strUrlone);
             AsyncHttp.get(strUrlone, new AsyncHttpResponseHandler() {
                 public void onSuccess(int arg0, String arg1) {
@@ -260,17 +253,8 @@ public class PersonCenterActivity extends AppCompatActivity implements OnClickLi
                                         tv_nicheng.setTextColor(getResources().getColor(R.color.black));
                                     }
                                 }
-
                                 tv_nick_name.setText(sex);
-                                //						v2.setText(data.user_code);//聚卡
-                                //						v3.setText(data.amount);//账户余额
-                                //						v4.setText(data.point);//聚币
                                 v7.setText(data.mobile);//手机号
-                                //						v8.setText(data.pension);//养老金
-                                //						v9.setText(data.packet);//红包
-                                //						v10.setText(data.exp);
-
-
                                 editor = spPreferences.edit();
                                 editor.putString("avatar", data.avatar);
                                 editor.commit();
@@ -376,49 +360,44 @@ public class PersonCenterActivity extends AppCompatActivity implements OnClickLi
 
         switch (arg0.getId()) {
             case R.id.ll_update:
-                new Thread() {
+                /**
+                 * 版本检查
+                 */
+                AsyncHttp.get(strUr2, new AsyncHttpResponseHandler() {
                     @Override
-                    public void run() {
-
-                        /**
-                         * 版本检查
-                         */
-                        AsyncHttp.get(strUr2, new AsyncHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int arg0, String arg1) {
-
-                                super.onSuccess(arg0, arg1);
-                                System.out.println("首页版本==============" + arg1);
-                                try {
-                                    JSONObject jsonObject = new JSONObject(arg1);
-                                    JSONObject jsob = jsonObject.getJSONObject("data");
-                                    String file_version = jsob.getString("file_version");
-                                    String file_path = jsob.getString("file_path");
-                                    URL = URLConstants.REALM_URL + file_path;
-                                    System.out.println("首页版本URL==============" + URL);
-                                    String version = getAppVersionName(PersonCenterActivity.this);
-                                    String c_version = getAppVersionName(PersonCenterActivity.this).trim().replaceAll("\\.", "");
-                                    float server_version = Float.parseFloat(file_version.replaceAll("\\.", ""));//服务器
-                                    float client_version = Float.parseFloat(c_version);//当前
-                                    content = "有最新版本了，服务器" + file_version + "是否替换当前版本" + version;
-                                    System.out.println("content==============" + content);
-                                    System.out.println("服务器:" + server_version + "/当前:" + client_version);
-                                    if (server_version > client_version) {
-                                        Message message = new Message();
-                                        message.what = 0;
-                                        handler.sendMessage(message);
-                                    } else if (server_version == client_version) {
-                                        Message message = new Message();
-                                        message.what = 1;
-                                        handler.sendMessage(message);
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
+                    public void onSuccess(int arg0, String arg1) {
+                        super.onSuccess(arg0, arg1);
+                        try {
+                            JSONObject jsonObject = new JSONObject(arg1);
+                            JSONObject jsob = jsonObject.getJSONObject("data");
+                            String file_version = jsob.getString("file_version");
+                            String file_path = jsob.getString("file_path");
+                            URL = URLConstants.REALM_URL + file_path;
+                            System.out.println("首页版本URL==============" + URL);
+                            String version = getAppVersionName(PersonCenterActivity.this);
+                            String c_version = getAppVersionName(PersonCenterActivity.this).trim().replaceAll("\\.", "");
+                            float server_version = Float.parseFloat(file_version.replaceAll("\\.", ""));//服务器
+                            float client_version = Float.parseFloat(c_version);//当前
+                            content = "有最新版本了，服务器" + file_version + "是否替换当前版本" + version;
+                            System.out.println("content==============" + content);
+                            System.out.println("服务器:" + server_version + "/当前:" + client_version);
+                            if (server_version > client_version) {
+                                Message message = new Message();
+                                message.what = 0;
+                                handler.sendMessage(message);
+                            } else if (server_version == client_version) {
+                                Message message = new Message();
+                                message.what = 1;
+                                handler.sendMessage(message);
+                            }else{
+                                ToastUtils.makeTextShort("当前为最新版本");
                             }
-                        }, PersonCenterActivity.this);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
-                }.start();
+                }, PersonCenterActivity.this);
+
                 break;
             case R.id.rl_nichen:
                 Intent intent = new Intent(PersonCenterActivity.this, TishiNicknameActivity.class);
@@ -436,8 +415,7 @@ public class PersonCenterActivity extends AppCompatActivity implements OnClickLi
                 break;
             case R.id.ll_diqu:
                 View view = dialogm();
-                final MyAlertDialog dialog1 = new MyAlertDialog(
-                        PersonCenterActivity.this).builder()
+                final MyAlertDialog dialog1 = new MyAlertDialog(PersonCenterActivity.this).builder()
                         .setTitle(dizhi.toString()).setView(view)
                         .setNegativeButton("取消", new OnClickListener() {
                             @Override
@@ -644,7 +622,7 @@ public class PersonCenterActivity extends AppCompatActivity implements OnClickLi
         Editor editor = spPreferences.edit();
         editor.putString("avatar", imgUrl);
         editor.commit();
-        String strUrl = URLConstants.REALM_URL
+        String strUrl = URLConstants.REALM_ACCOUNT_URL
                 + "/user_avatar_save?user_name=" + user_name + "&user_id=" + user_id + "&user_avatar=" + imgUrl + "&sign=" + login_sign + "";
         AsyncHttp.get(strUrl, new AsyncHttpResponseHandler() {
             public void onSuccess(int arg0, String arg1) {
@@ -914,9 +892,7 @@ public class PersonCenterActivity extends AppCompatActivity implements OnClickLi
                 } else if (UserLoginActivity.zhuangtai == true) {
                     Toast.makeText(PersonCenterActivity.this, "正在下载...", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
-                } else
-
-                if (PersonCenterActivity.zhuangtai == true) {
+                } else if (PersonCenterActivity.zhuangtai == true) {
                     Toast.makeText(PersonCenterActivity.this, "正在下载...", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 } else {
@@ -1016,7 +992,7 @@ public class PersonCenterActivity extends AppCompatActivity implements OnClickLi
      */
     private void loadusersex() {
         try {
-            AsyncHttp.get(URLConstants.REALM_URL
+            AsyncHttp.get(URLConstants.REALM_ACCOUNT_URL
                             + "/user_info_edit?user_id=" + user_id + "&user_name=" + user_name + "" +
                             "&nick_name=" + nick_name + "&mobile=" + mobile + "&sex=" + sex + "&birthday=string&email=string" +
                             "&telphone=string&qq=string&msn=string&province=" + cityTxt1 + "&city=" + cityTxt2 + "&area=" + cityTxt3 + "&address=string&sign=" + login_sign + "",
@@ -1030,7 +1006,6 @@ public class PersonCenterActivity extends AppCompatActivity implements OnClickLi
                                 String info = object.getString("info");
                                 if (status.equals("y")) {
                                     progress.CloseProgress();
-                                    //										Toast.makeText(PersonCenterActivity.this, info, 200).show();
                                     userloginqm();
                                 } else {
                                     progress.CloseProgress();

@@ -191,7 +191,7 @@
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
-            <com.hengyushop.demo.at.SlipButton
+            <com.yunsen.enjoy.widget.SlipButton
                 android:id="@+id/sli"
                 android:layout_width="80dp"
                 android:layout_height="27dp"

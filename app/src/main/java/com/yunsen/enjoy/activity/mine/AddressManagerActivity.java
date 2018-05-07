@@ -92,7 +92,7 @@ public class AddressManagerActivity extends AppCompatActivity {
                                            int arg2, long arg3) {
                 ID = list.get(arg2).id;
                 dialog(ID);
-                return false;
+                return true;
             }
         });
 

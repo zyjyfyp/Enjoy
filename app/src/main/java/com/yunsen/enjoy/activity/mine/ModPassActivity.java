@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -244,19 +245,19 @@ public class ModPassActivity extends AppCompatActivity implements OnClickListene
                 oldP = v1.getText().toString();
                 newP1 = v2.getText().toString();
                 newP2 = v3.getText().toString();
-                if (oldP.equals("")) {
+                if (TextUtils.isEmpty(oldP)) {
                     Toast.makeText(ModPassActivity.this, "旧密码不能为空", Toast.LENGTH_SHORT).show();
-                } else if (!(v2.getText().toString().length() < 20 && v2.getText()
-                        .toString().length() >= 8)) {
-                    Toast.makeText(ModPassActivity.this, "密码在8-20位之间", Toast.LENGTH_SHORT).show();
-                } else if (!(v3.getText().toString().length() < 20 && v3.getText()
-                        .toString().length() >= 8)) {
-                    Toast.makeText(ModPassActivity.this, "密码在8-20位之间", Toast.LENGTH_SHORT).show();
+                } else if (!(v2.getText().toString().length() <= 20 && v2.getText()
+                        .toString().length() >= 6)) {
+                    Toast.makeText(ModPassActivity.this, "密码在6-20位之间", Toast.LENGTH_SHORT).show();
+                } else if (!(v3.getText().toString().length() <= 20 && v3.getText()
+                        .toString().length() >= 6)) {
+                    Toast.makeText(ModPassActivity.this, "密码在6-20位之间", Toast.LENGTH_SHORT).show();
                 } else if (!newP1.equals(newP2)) {
                     Toast.makeText(ModPassActivity.this, "新密码不相同", Toast.LENGTH_SHORT).show();
                 } else {
                     System.out.println("===type==========" + type);
-                    String strUrl = URLConstants.REALM_URL
+                    String strUrl = URLConstants.REALM_ACCOUNT_URL
                             + "/user_update_password?user_name=" + user_name
                             + "&oldpassord=" + oldP + "&newpassword=" + newP1
                             + "&type=" + type + "";

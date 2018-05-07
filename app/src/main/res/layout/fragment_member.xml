@@ -68,6 +68,18 @@
                         android:text="超级会员"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/grade_base"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/user_name_tv"
+                        android:layout_marginTop="10dp"
+                        android:drawablePadding="5dp"
+                        android:text="普通会员"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
                 </RelativeLayout>
 
                 <View
@@ -79,8 +91,8 @@
                     android:id="@+id/grade_img"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:visibility="gone"
-                    android:src="@mipmap/more" />
+                    android:src="@mipmap/more"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout

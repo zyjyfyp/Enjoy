@@ -94,22 +94,6 @@ public class AddUserAddressActivity extends AppCompatActivity {
         progress = new DialogProgress(AddUserAddressActivity.this);
         spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
         innidade();
-
-        //			cityDao = new CityDao(AddUserAddressActivity.this);
-        //			ArrayList<CityData> shengs = cityDao.findSheng();
-        //			ArrayList<String> list = new ArrayList<String>();
-        //			for (int i = 0; i < shengs.size(); i++) {
-        //				list.add(shengs.get(i).name);
-        //			}
-        //			Log.v("data2", shengs.get(0).name + "     " + shengs.size());
-        //
-        //			Message message = new Message();
-        //			message.what = 2;
-        //			message.obj = list;
-        //			handler.sendMessage(message);
-
-        //			spinnerData();
-
     }
 
     Handler handler = new Handler() {
@@ -138,8 +122,6 @@ public class AddUserAddressActivity extends AppCompatActivity {
                     et_userphone.setText("");
                     et_address.setText("");
                     String strmsgll = (String) msg.obj;
-                    // Toast.makeText(getApplicationContext(), "添加失败,请重新添加。",
-                    // Toast.LENGTH_SHORT).show();
                     Toast.makeText(getApplicationContext(), strmsgll, Toast.LENGTH_SHORT).show();
                     break;
                 case 2:
@@ -180,9 +162,6 @@ public class AddUserAddressActivity extends AppCompatActivity {
         et_username = (EditText) findViewById(R.id.et_user_name);
         et_userphone = (EditText) findViewById(R.id.et_user_phone);
         et_address = (EditText) findViewById(R.id.et_user_address);
-        //		sp_sheng = (Spinner) findViewById(R.id.sp_sheng);
-        //		sp_shi = (Spinner) findViewById(R.id.sp_shi);
-        //		sp_xian = (Spinner) findViewById(R.id.sp_xian);
         btn_hold = (Button) findViewById(R.id.btn_holdr);
 
         /**
@@ -270,7 +249,7 @@ public class AddUserAddressActivity extends AppCompatActivity {
                     String user_name = spPreferences.getString("user", "");
 
                     //					String pingjiedizhi = sheng + "、" + shi + "、" + xian;
-                    strUrl = URLConstants.REALM_URL
+                    strUrl = URLConstants.REALM_ACCOUNT_URL
                             + "/add_user_shopping_address?user_id=" + id
                             + "&user_name=" + user_name + ""
                             + "&user_accept_name=" + name + "&user_province=" + cityTxt1 + "&user_city=" + cityTxt2 + "&user_area="

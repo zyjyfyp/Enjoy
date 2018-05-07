@@ -42,6 +42,7 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.activity.mine.UserForgotPasswordActivity;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserRegisterllData;
@@ -190,9 +191,9 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
                                         editor = spPreferences.edit();
                                         editor.putString("login_sign", data.login_sign);
                                         editor.putString("avatar", data.avatar);
-                                        editor.putString("mobile", data.mobile);
+                                        editor.putString(SpConstants.MOBILE, data.mobile);
                                         editor.putString("group_id", data.group_id);
-                                        editor.putString("user", data.user_name);
+                                        editor.putString(SpConstants.USER_NAME, data.user_name);
                                         editor.putString("user_id", data.id);
                                         editor.putString("point", data.point);
                                         editor.putString("real_name", data.real_name);
@@ -200,7 +201,7 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
                                         editor.putString("birthday", data.birthday);
                                         editor.putString("sex", data.sex);
                                         editor.putString("datetime", datetime);
-                                        editor.putString("group_name", data.group_name);
+                                        editor.putString(SpConstants.GROUP_NAME, data.group_name);
                                         editor.commit();
                                         EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));//登录成功通知mine更新页面
                                         setResult(RESULT_OK);

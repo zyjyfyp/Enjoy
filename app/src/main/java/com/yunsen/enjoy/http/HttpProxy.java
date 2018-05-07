@@ -14,8 +14,10 @@ import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.NoticeResponse;
 import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.model.ServiceProvideResponse;
+import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.response.CarBrandResponese;
 import com.yunsen.enjoy.model.response.CarDetailsResponse;
+import com.yunsen.enjoy.model.response.UserInfoResponse;
 
 import java.util.HashMap;
 import java.util.List;
@@ -354,6 +356,7 @@ public class HttpProxy {
 
     /**
      * 获取汽车详情
+     *
      * @param callBack
      * @param carId
      */
@@ -372,11 +375,32 @@ public class HttpProxy {
         });
     }
 
-    public static void getAppointementCarData(){
-        HttpClient.get(URLConstants.APPOINTEMENT_MANAGER,new HashMap<String, String>(),new HttpResponseHandler(){
+    public static void getAppointementCarData() {
+        HttpClient.get(URLConstants.APPOINTEMENT_MANAGER, new HashMap<String, String>(), new HttpResponseHandler() {
             @Override
             public void onSuccess(Object response) {
                 super.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+            }
+        });
+    }
+
+    /**
+     * 获取用户信息
+     *
+     * @param userId
+     * @param callBack
+     */
+    public static void getUserInfo(String userId, final HttpCallBack<UserInfo> callBack) {
+        HttpClient.get(URLConstants.PHONE_USER_INFO_URL + userId, new HashMap<String, String>(), new HttpResponseHandler<UserInfoResponse>() {
+            @Override
+            public void onSuccess(UserInfoResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
             }
 
             @Override

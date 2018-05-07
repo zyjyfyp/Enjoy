@@ -221,7 +221,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="《乐享汽车服务与用户协议》"
-                    android:textColor="@color/black" >
+                    android:textColor="@color/orange_color" >
                 </TextView>
             </LinearLayout>
         </LinearLayout>

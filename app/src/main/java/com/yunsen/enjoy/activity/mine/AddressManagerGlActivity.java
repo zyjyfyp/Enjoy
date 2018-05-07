@@ -121,7 +121,7 @@ public class AddressManagerGlActivity extends AppCompatActivity {
 
                 ID = list.get(arg2).id;
                 dialog(ID);
-                return false;
+                return true;
             }
         });
         getuseraddress();
@@ -139,7 +139,7 @@ public class AddressManagerGlActivity extends AppCompatActivity {
         progress.CreateProgress();
         String user_name = spPreferences.getString("user", "");
         Logger.i("结果呢1==============" + user_name);
-        AsyncHttp.get(URLConstants.REALM_URL
+        AsyncHttp.get(URLConstants.REALM_ACCOUNT_URL
                         + "/get_user_shopping_address?user_name=" + user_name + "",
                 new AsyncHttpResponseHandler() {
                     @Override

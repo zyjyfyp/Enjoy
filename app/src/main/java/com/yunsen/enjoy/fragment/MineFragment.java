@@ -23,10 +23,14 @@ import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
 import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
+import com.yunsen.enjoy.http.HttpCallBack;
+import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.MyOrderData;
+import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.UserRegisterllData;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
@@ -49,6 +53,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Request;
 
 public class MineFragment extends BaseFragment {
     private static final String TAG = "MineFragment";
@@ -143,7 +148,7 @@ public class MineFragment extends BaseFragment {
     private String headimgurl2;
     private String user_name;
     private String strUrlone;
-    private UserRegisterllData data;
+    private UserInfo data;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -180,18 +185,14 @@ public class MineFragment extends BaseFragment {
             loginIcon.setVisibility(View.VISIBLE);
             loginTv.setVisibility(View.VISIBLE);
         }
-        spPreferences = getActivity().getSharedPreferences(SpConstants.SP_USER_SET,
-                Context.MODE_PRIVATE);
+        spPreferences = getActivity().getSharedPreferences(SpConstants.SP_USER_SET, Context.MODE_PRIVATE);
         user_name_phone = spPreferences.getString(SpConstants.USER, "");
-        System.out.println("user_name_phone================="
-                + user_name_phone);
         if (!TextUtils.isEmpty(user_name_phone)) {
             user_id = spPreferences.getString(SpConstants.USER_ID, "");
             user_name_key = user_name_phone;
         }
 
-        spPreferences_login = getActivity().getSharedPreferences(
-                SpConstants.SP_LONG_USER_SET, Context.MODE_PRIVATE);
+        spPreferences_login = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_LOGIN, Context.MODE_PRIVATE);
         nickname = spPreferences_login.getString(SpConstants.NICK_NAME, "");
         headimgurl = spPreferences_login.getString(SpConstants.HEAD_IMG_URL, "");
         unionid = spPreferences_login.getString(SpConstants.UNION_ID, "");
@@ -261,7 +262,6 @@ public class MineFragment extends BaseFragment {
 
     @OnClick(R.id.account_manager_layout) //账户管理
     public void onAccountManagerLayoutClicked() {
-        //        UIHelper.showPersonCenterActivity(getActivity());
         goLoginOrOtherActivity(PersonCenterActivity.class);
     }
 
@@ -299,7 +299,6 @@ public class MineFragment extends BaseFragment {
 
     @OnClick(R.id.finance_layout)
     public void onFinanceLayoutClicked() {
-        //        UIHelper.showAssetsActivity(getActivity());
         goLoginOrOtherActivity(MyAssetsActivity.class);
     }
 
@@ -310,13 +309,11 @@ public class MineFragment extends BaseFragment {
 
     @OnClick(R.id.apply_service_layout) //申请服务商（我是服务商）
     public void onApplyServiceLayoutClicked() {
-        //        UIHelper.showApplyServiceActivity(getActivity());
         goLoginOrOtherActivity(ApplyServiceActivity.class);
     }
 
     @OnClick(R.id.appointment_layout) //预约管理
     public void onAppointmentLayoutClicked() {
-        //        UIHelper.showAppointmentActivity(getActivity());
         goLoginOrOtherActivity(AppointmentActivity.class);
     }
 
@@ -422,8 +419,6 @@ public class MineFragment extends BaseFragment {
                                     if (payment_status.equals("1")) {
                                         System.out.println("待付款=============");
                                         list_1.add(payment_status);
-                                        //									} else if (status.equals("4")) {
-                                        //										list_2.add(status)
                                     } else if (payment_status.equals("2") && express_status.equals("1") && status.equals("2")) {
                                         System.out.println("待发货=============");
                                         list_2.add(payment_status);
@@ -464,44 +459,28 @@ public class MineFragment extends BaseFragment {
 
     private void getUserInfo() {
         try {
-
-            spPreferences_login = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET, Context.MODE_PRIVATE);
+            spPreferences_login = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_LOGIN, Context.MODE_PRIVATE);
             nickname = spPreferences_login.getString(SpConstants.NICK_NAME, "");
             headimgurl = spPreferences_login.getString(SpConstants.HEAD_IMG_URL, "");
             headimgurl2 = spPreferences_login.getString(SpConstants.HEAD_IMG_URL_2, "");
-
             spPreferences = getActivity().getSharedPreferences(SpConstants.SP_USER_SET, Context.MODE_PRIVATE);
             user_name_phone = spPreferences.getString(SpConstants.USER, "");
-            System.out.println("user_name_phone=================" + user_name_phone);
-
             if (!TextUtils.isEmpty(user_name_phone)) {
                 user_id = spPreferences.getString(SpConstants.USER_ID, "");
                 user_name_key = user_name_phone;
             }
-            System.out.println("user_id=================" + user_id);
-            System.out.println("user_name_key=================" + user_name_key);
 
-            if (!TextUtils.isEmpty(nickname)) {
-                System.out.println("==11==user_name_phone==" + user_name_phone);
-                if (!TextUtils.isEmpty(user_name_phone)) {
-                    System.out.println("==11====");
+            if (!TextUtils.isEmpty(nickname)) {//是微信登录
+                if (!TextUtils.isEmpty(user_name_phone)) {//有绑定手机
                     getLeXiangUserInfo();//获取乐享用户信息
                     load_list();
                 } else {
-                    try {
-                        System.out.println("==22====");
-                        // TODO: 2018/4/26 清空用户数据
-                        //                        setinten();// 数据清空
-                        setUserIconAndName(nickname, headimgurl2, headimgurl);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    // TODO: 2018/4/26 清空用户数据
+                    //                        setinten();// 数据清空
+                    setUserIconAndName(nickname, headimgurl2, headimgurl);
                 }
             } else {
-                System.out.println("==33======================="
-                        + user_name_phone);
-                if (!TextUtils.isEmpty(user_name_phone)) {
-                    //                    handler.sendEmptyMessage(-11);
+                if (!TextUtils.isEmpty(user_name_phone)) {//手机登录
                     getLeXiangUserInfo();//获取乐享用户信息
                     load_list();
                 } else {
@@ -548,144 +527,76 @@ public class MineFragment extends BaseFragment {
      * 获取乐享用户信息
      */
     public void getLeXiangUserInfo() {
-        try {
-            System.out.println("======user_name======1=======" + user_name);
-            System.out.println("======user_name_key======2=======" + user_name_key);
-            strUrlone = URLConstants.REALM_NAME_LL
-                    + "/get_user_model?username=" + user_name_key + "";
-            System.out.println("======11=============" + strUrlone);
-            AsyncHttp.get(strUrlone, new AsyncHttpResponseHandler() {
-                public void onSuccess(int arg0, String arg1) {
-                    JSONObject obj;
-                    try {
-                        System.out.println("======输出用户资料============="
-                                + arg1);
-                        JSONObject object = new JSONObject(arg1);
-                        String status = object.getString("status");
-                        if (status.equals("y")) {
-                            try {
-                                obj = object.getJSONObject("data");
-                                data = new UserRegisterllData();
-                                data.user_name = obj.getString("user_name");
-                                data.user_code = obj.getString("user_code");
-                                data.agency_id = obj.getInt("agency_id");
-                                data.amount = obj.getString("amount");
-                                data.pension = obj.getString("pension");
-                                data.packet = obj.getString("packet");
-                                data.point = obj.getString("point");
-                                data.group_id = obj.getString("group_id");
+        strUrlone = URLConstants.REALM_NAME_LL + "/get_user_model?username=" + user_name_key + "";
 
-                                data.login_sign = obj
-                                        .getString("login_sign");
-                                data.agency_name = obj
-                                        .getString("agency_name");
-                                data.group_name = obj
-                                        .getString("group_name");
-                                data.avatar = obj.getString("avatar");
-                                data.mobile = obj.getString("mobile");
-                                data.vip_card = obj.getString("vip_card");
-                                //									exp+exp_weal+exp_invest+exp_action+exp_time
 
-                                double exp = obj.getDouble("exp");
-                                double exp_weal = obj.getDouble("exp_weal");
-                                double exp_invest = obj.getDouble("exp_invest");
-                                double exp_action = obj.getDouble("exp_action");
-                                double exp_time = obj.getDouble("exp_time");
-
-                                double dzongjia = exp + exp_weal + exp_invest + exp_action + exp_time;
-                                BigDecimal w = new BigDecimal(dzongjia);
-                                double zong_jz = w.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue(); //价值
-                                System.out.println("zong_jz===价值============" + zong_jz);
-
-                                System.out.println("avatar===============" + data.avatar);
-
-                                spPreferences = getActivity().getSharedPreferences("longuserset", Context.MODE_PRIVATE);
-                                SharedPreferences.Editor editor = spPreferences.edit();
-                                editor.putString("mobile", data.mobile);
-                                editor.putString("avatar", data.avatar);
-                                editor.putString("group_id", data.group_id);
-                                editor.putString("group_name", data.group_name);
-                                editor.commit();
-
-                                //                                if (!data.vip_card.equals("")) {
-                                //                                    tv_usertag.setText("服务金卡:" + data.vip_card);
-                                //                                } else {
-                                //                                    tv_usertag.setText("健康卡号:" + data.user_code);
-                                //                                }
-                                System.out.println("group_name=======企业职员========" + data.group_name);
-                                //                                if (data.group_name.contains("企业职员")) {
-                                //                                    iv_buju.setVisibility(View.VISIBLE);
-                                //                                    ll_saoyisao_qd.setVisibility(View.VISIBLE);
-                                //                                } else {
-                                //                                    iv_buju_dzc.setVisibility(View.VISIBLE);
-                                //                                    img_btn_daizhuce.setVisibility(View.VISIBLE);
-                                //                                }
-
-                                data.exp = obj.getString("exp");
-
-                                yth = data.user_code;
-                                balanceTv.setText(data.amount); //钱包
-                                freezeTv.setText(data.pension);//养老金
-                                commissionTv.setText(data.packet);//钱包
-                                readyMoneyTv.setText(data.point);// 福利
-                                // point
-                                //                                System.out.println("tp_type===============" + tp_type);
-                                System.out.println("data.avatar===============" + data.avatar);
-                                //                                if (tp_type == false) { todo ??
-                                //                                    tp_type = false;
-                                //                                    mImageLoader = initImageLoader(getActivity(), mImageLoader, "test");
-                                //                                    if (!data.avatar.equals("")) {
-                                //                                        mImageLoader.displayImage(RealmName.REALM_NAME_FTP + data.avatar, networkImage);
-                                //                                    } else {
-                                //                                        if (data.avatar.equals("")) {
-                                //                                            bitMap = BitmapFactory.decodeResource(getResources(), R.drawable.app_zams);
-                                //                                            networkImage.setImageBitmap(bitMap);
-                                //                                        } else {
-                                //                                            if (!headimgurl.equals("")) {
-                                //                                                img_head.setVisibility(View.GONE);
-                                //                                                networkImage.setVisibility(View.VISIBLE);
-                                //                                                mImageLoader = initImageLoader(getActivity(), mImageLoader, "test");
-                                //                                                mImageLoader.displayImage(headimgurl, networkImage);
-                                //                                            } else {
-                                //                                                if (!headimgurl2.equals("")) {
-                                //                                                    img_head.setVisibility(View.VISIBLE);
-                                //                                                    networkImage.setVisibility(View.GONE);
-                                //                                                    bitmap = BitUtil.stringtoBitmap(headimgurl2);
-                                //                                                    bitmap = Utils.toRoundBitmap(bitmap, null); // 这个时候的图片已经被处理成圆形的了
-                                //                                                    img_head.setImageBitmap(bitmap);
-                                //                                                }
-                                //                                            }
-                                //                                        }
-                                //                                    }
-                                //                                }
-                                //                                userpanduan(data.login_sign); 判断是否升级 todo??
-
-                            } catch (Exception e) {
-
-                                e.printStackTrace();
-                            }
-                            data = null;
-                            obj = null;
-                        } else {
-
-                        }
-                    } catch (JSONException e) {
-
-                        e.printStackTrace();
-                    }
+        HttpProxy.getUserInfo(user_name_key, new HttpCallBack<UserInfo>() {
+            @Override
+            public void onSuccess(UserInfo responseData) {
+                data = responseData;
+                // TODO: 2018/5/7 zyjy what?
+//                            double dzongjia = data.getExp() + data.getExp_weal() + data.getExp_invest() + data.getExp_action() + data.getExp_time();
+//                            BigDecimal w = new BigDecimal(dzongjia);
+//                            double zong_jz = w.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue(); //价值
+                spPreferences = getActivity().getSharedPreferences("longuserset", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = spPreferences.edit();
+                editor.putString("mobile", data.getMobile());
+                editor.putString("avatar", data.getAvatar());
+                editor.putString("group_id", "" + data.getGroup_id());
+                editor.putString("group_name", data.getGroup_name());
+                yth = data.getUser_code();
+                balanceTv.setText("" + data.getAmount()); //钱包
+                freezeTv.setText("" + data.getPension());//养老金
+                commissionTv.setText("" + data.getPacket());//钱包
+                readyMoneyTv.setText("" + data.getPoint());// 福利
+                String nickName = data.getNick_name();
+                if (TextUtils.isEmpty(nickName)) {
+                    userNameTv.setText(data.getUser_name());
+                } else {
+                    userNameTv.setText(nickName);
+                    editor.putString(SpConstants.NICK_NAME, nickName);
                 }
+                gradeTv.setText(data.getGroup_name());
+                phoneNumTv.setText("(" + data.getMobile() + ")");
+                // point
+                //                                System.out.println("tp_type===============" + tp_type);
+                //                                if (tp_type == false) { todo ??
+                //                                    tp_type = false;
+                //                                    mImageLoader = initImageLoader(getActivity(), mImageLoader, "test");
+                //                                    if (!data.avatar.equals("")) {
+                //                                        mImageLoader.displayImage(RealmName.REALM_NAME_FTP + data.avatar, networkImage);
+                //                                    } else {
+                //                                        if (data.avatar.equals("")) {
+                //                                            bitMap = BitmapFactory.decodeResource(getResources(), R.drawable.app_zams);
+                //                                            networkImage.setImageBitmap(bitMap);
+                //                                        } else {
+                //                                            if (!headimgurl.equals("")) {
+                //                                                img_head.setVisibility(View.GONE);
+                //                                                networkImage.setVisibility(View.VISIBLE);
+                //                                                mImageLoader = initImageLoader(getActivity(), mImageLoader, "test");
+                //                                                mImageLoader.displayImage(headimgurl, networkImage);
+                //                                            } else {
+                //                                                if (!headimgurl2.equals("")) {
+                //                                                    img_head.setVisibility(View.VISIBLE);
+                //                                                    networkImage.setVisibility(View.GONE);
+                //                                                    bitmap = BitUtil.stringtoBitmap(headimgurl2);
+                //                                                    bitmap = Utils.toRoundBitmap(bitmap, null); // 这个时候的图片已经被处理成圆形的了
+                //                                                    img_head.setImageBitmap(bitmap);
+                //                                                }
+                //                                            }
+                //                                        }
+                //                                    }
+                //                                }
+                //                                userpanduan(data.login_sign); 判断是否升级 todo??
+                editor.commit();
+            }
 
-                @Override
-                public void onFailure(Throwable arg0, String arg1) {
-                    super.onFailure(arg0, arg1);
-                    Toast.makeText(context, "连接超时", Toast.LENGTH_SHORT).show();
-                }
-            }, context);
+            @Override
+            public void onError(Request request, Exception e) {
+                Toast.makeText(context, "连接超时", Toast.LENGTH_SHORT).show();
 
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
+            }
+        });
     }
 
 

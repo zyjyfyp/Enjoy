@@ -124,7 +124,7 @@ public class EditUserAddressActivity extends AppCompatActivity {
                     String strmsg = (String) msg.obj;
                     progress.CloseProgress();
                     Toast.makeText(getApplicationContext(), strmsg, Toast.LENGTH_SHORT).show();
-                    AppManager.getAppManager().finishActivity();
+                    finish();
                 /*
                  * if (index == 1) { Intent intent = new
 				 * Intent(AddUserAddressActivity.this,

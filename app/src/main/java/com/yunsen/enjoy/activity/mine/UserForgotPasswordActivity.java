@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +23,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.utils.Validator;
 import com.yunsen.enjoy.widget.DialogProgress;
 
@@ -177,253 +179,142 @@ public class UserForgotPasswordActivity extends AppCompatActivity implements
 
     @Override
     public void onClick(View v) {
-        try {
+        switch (v.getId()) {
+            case R.id.regise_tip:
+                Intent intent4 = new Intent(UserForgotPasswordActivity.this, Webview1.class);
+                intent4.putExtra("userxy", "5997");
+                startActivity(intent4);
+                break;
+            case R.id.get_yz:
+                phone = userphone.getText().toString().trim();
+                if ("".equals(phone)) {
+                    Toast.makeText(UserForgotPasswordActivity.this, "手机号码不能为空",
+                            Toast.LENGTH_SHORT).show();
+                } else if (phone.length() < 11) {
+                    Toast.makeText(UserForgotPasswordActivity.this, "手机号码少于11位", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (Validator.isMobile(phone)) {
+                        strUrl = URLConstants.REALM_ACCOUNT_URL + "/user_passmis_smscode?mobile=" + phone + "";
 
-
-            switch (v.getId()) {
-                case R.id.regise_tip:
-                    Intent intent4 = new Intent(UserForgotPasswordActivity.this,
-                            Webview1.class);
-                    intent4.putExtra("userxy", "5997");
-                    startActivity(intent4);
-                    break;
-                case R.id.get_yz:
-                    phone = userphone.getText().toString().trim();
-                    if (phone.equals("")) {
-                        Toast.makeText(UserForgotPasswordActivity.this, "手机号码不能为空",
-                                Toast.LENGTH_SHORT).show();
-                    } else if (phone.length() < 11) {
-                        Toast.makeText(UserForgotPasswordActivity.this,
-                                "手机号码少于11位", Toast.LENGTH_SHORT).show();
+                        AsyncHttp.get(strUrl, new AsyncHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int arg0, String arg1) {
+                                super.onSuccess(arg0, arg1);
+                                try {
+                                    JSONObject object = new JSONObject(arg1);
+                                    String result = object.getString("status");//
+                                    String info = object.getString("info");// info
+                                    if ("y".equals(result)) {
+                                        yanzhengma = object.getString("data");
+                                        handler.sendEmptyMessage(2);
+                                    } else {
+                                        Toast.makeText(UserForgotPasswordActivity.this, info, Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, UserForgotPasswordActivity.this);
                     } else {
-                        // phone = userphone.getText().toString().trim();
-                        if (Validator.isMobile(phone)) {
+                        ToastUtils.makeTextShort("手机号码不正确");
+                    }
+                }
 
-                            strUrl = URLConstants.REALM_URL
-                                    + "/user_passmis_smscode?mobile=" + phone + "";
+                break;
 
-                            AsyncHttp.get(strUrl, new AsyncHttpResponseHandler() {
-                                @Override
-                                public void onSuccess(int arg0, String arg1) {
-                                    super.onSuccess(arg0, arg1);
-                                    System.out.println("=============" + arg1);
-                                    try {
-                                        JSONObject object = new JSONObject(arg1);
-                                        String result = object.getString("status");//
-                                        String info = object.getString("info");// info
-                                        if (result.equals("y")) {
-                                            yanzhengma = object.getString("data");
-                                            handler.sendEmptyMessage(2);
-                                        } else {
-                                            Toast.makeText(
-                                                    UserForgotPasswordActivity.this,
-                                                    info, Toast.LENGTH_SHORT).show();
-                                            // handler.sendEmptyMessage(3);
+            case R.id.btn_register:
+                yz = et_user_yz.getText().toString().trim();
+                phone = userphone.getText().toString().trim();
+                pwd = userpwd.getText().toString().trim();
+                if (phone.equals("")) {
+                    Toast.makeText(UserForgotPasswordActivity.this, "手机号码不能为空",
+                            Toast.LENGTH_SHORT).show();
+                } else if (phone.length() < 11) {
+                    Toast.makeText(UserForgotPasswordActivity.this,
+                            "手机号码少于11位", Toast.LENGTH_SHORT).show();
+                } else if (TextUtils.isEmpty(yz)) {
+                    Toast.makeText(UserForgotPasswordActivity.this, "验证码不能为空",
+                            Toast.LENGTH_SHORT).show();
+                } else if (TextUtils.isEmpty(pwd)) {
+                    Toast.makeText(UserForgotPasswordActivity.this, "密码不能为空",
+                            Toast.LENGTH_SHORT).show();
+                } else if (pwd.length() < 6) {
+                    Toast.makeText(UserForgotPasswordActivity.this, "密码不得小于6位",
+                            Toast.LENGTH_SHORT).show();
+                } else if (!(pwd.length() <= 20 && pwd.length() >= 6)) {
+                    ToastUtils.makeTextShort("密码在6-20位之间");
+                } else {
+                    try {
+                        progress = new DialogProgress(UserForgotPasswordActivity.this);
+                        progress.CreateProgress();
+                        new Thread() {
+                            public void run() {
+                                strUrl = URLConstants.REALM_ACCOUNT_URL
+                                        + "/mobile_update_password?user_name="
+                                        + phone + "&mobile=" + phone
+                                        + "&code=" + yz + "&newpassword="
+                                        + pwd + "&type=" + type + "";
+                                System.out.println("找回密码" + strUrl);
+                                AsyncHttp.get(strUrl, new AsyncHttpResponseHandler() {
+                                    @Override
+                                    public void onSuccess(int arg0, String arg1) {
+                                        // method stub
+                                        super.onSuccess(arg0, arg1);
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(arg1);
+                                            String status = jsonObject.getString("status");
+                                            String info = jsonObject.getString("info");
+                                            if ("n".equals(status)) {
+                                                str = jsonObject.getString("info");
+                                                String no = jsonObject.getString("info");
+                                                progress.CloseProgress();
+                                                Message message = new Message();
+                                                message.what = 1;
+                                                message.obj = str;
+                                                handler.sendMessage(message);
+
+                                            } else if ("y".equals(status)) {
+                                                hengyuName = jsonObject.getString("info");
+                                                SharedPreferences spPreferences = getSharedPreferences("longuserset_user", MODE_PRIVATE);
+                                                Editor editor = spPreferences.edit();
+                                                editor.putBoolean("save", true);
+                                                editor.putString("user_name", userphone.getText().toString());
+                                                editor.putString("pwd", userpwd.getText().toString());
+                                                editor.commit();
+                                                progress.CloseProgress();
+                                                Message message = new Message();
+                                                message.what = 0;
+                                                message.obj = hengyuName;
+                                                handler.sendMessage(message);
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
                                         }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
                                     }
-                                }
-                            }, getApplicationContext());
-                        } else {
-                            Toast.makeText(UserForgotPasswordActivity.this,
-                                    "手机号码不正确", Toast.LENGTH_SHORT).show();
-                        }
-                    }
 
-                    break;
-//                case R.id.img_title_login:
-//                    int index = 0;
-//					Intent intent = new Intent(UserForgotPasswordActivity.this,
-//							UserLoginActivity.class);
-//					intent.putExtra("login", index);
-//					startActivity(intent);
-//					finish();
-//                    break;
-                case R.id.btn_register:
-                    yz = et_user_yz.getText().toString().trim();
-                    // name = username.getText().toString().trim();
-                    phone = userphone.getText().toString().trim();
-                    // postbox = userpostbox.getText().toString().trim();
-                    pwd = userpwd.getText().toString().trim();
-                    // pwdagain = userpwdagain.getText().toString().trim();
-                    // SimpleDateFormat formatter = new SimpleDateFormat(
-                    // "yyyy年MM月dd日   HH:mm:ss");
-                    // Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
-                    // insertdata = formatter.format(curDate);
-
-                    System.out.println("1==================" + yz);
-                    System.out.println("2==================" + yanzhengma);
-                    if (phone.equals("")) {
-                        Toast.makeText(UserForgotPasswordActivity.this, "手机号码不能为空",
-                                Toast.LENGTH_SHORT).show();
-                    } else if (phone.length() < 11) {
-                        Toast.makeText(UserForgotPasswordActivity.this,
-                                "手机号码少于11位", Toast.LENGTH_SHORT).show();
-                    } else if (yz.equals("")) {
-                        Toast.makeText(UserForgotPasswordActivity.this, "验证码不能为空",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                    // else if (!yz.equals(yanzhengma)) {
-                    // Toast.makeText(UserRegisterActivity.this, "验证码不正确",
-                    // 200).show();
-                    // }
-                    // else if (yz.length() < 6 ) {
-                    // Toast.makeText(UserForgotPasswordActivity.this, "验证码少于六位",
-                    // 200).show();
-                    // }
-                    else if (pwd.equals("")) {
-                        Toast.makeText(UserForgotPasswordActivity.this, "密码不能为空",
-                                Toast.LENGTH_SHORT).show();
-                    } else if (pwd.length() < 8) {
-                        Toast.makeText(UserForgotPasswordActivity.this, "密码不得小于8位",
-                                Toast.LENGTH_SHORT).show();
-                    } else if (!(userpwd.getText().toString().length() < 20 && userpwd
-                            .getText().toString().length() >= 8)) {
-                        Toast.makeText(UserForgotPasswordActivity.this,
-                                "密码在8-20位之间", Toast.LENGTH_SHORT).show();
-                    } else {
-                        try {
-                            progress = new DialogProgress(
-                                    UserForgotPasswordActivity.this);
-                            progress.CreateProgress();
-                            new Thread() {
-                                public void run() {
-                                    try {
-                                        // System.out.println("=================11=="
-                                        // + phone);
-                                        // System.out.println("=================12=="
-                                        // + pwd);
-                                        // System.out.println("=================13=="
-                                        // + postbox);
-                                        // String type =
-                                        // getIntent().getStringExtra("type");
-                                        // System.out.println("=================13=="
-                                        // + type);
-                                        strUrl = URLConstants.REALM_URL
-                                                + "/mobile_update_password?user_name="
-                                                + phone + "&mobile=" + phone
-                                                + "&code=" + yz + "&newpassword="
-                                                + pwd + "&type=" + type + "";
-                                        System.out.println("注册" + strUrl);
-
-                                        AsyncHttp.get(strUrl,
-                                                new AsyncHttpResponseHandler() {
-                                                    @Override
-                                                    public void onSuccess(int arg0,
-                                                                          String arg1) {
-
-                                                        // method stub
-                                                        super.onSuccess(arg0, arg1);
-                                                        try {
-                                                            JSONObject jsonObject = new JSONObject(
-                                                                    arg1);
-                                                            System.out
-                                                                    .println("=================1=="
-                                                                            + arg1);
-                                                            String status = jsonObject
-                                                                    .getString("status");
-                                                            String info = jsonObject
-                                                                    .getString("info");
-                                                            if (status.equals("n")) {
-                                                                System.out
-                                                                        .println("=================2==");
-                                                                str = jsonObject
-                                                                        .getString("info");
-                                                                String no = jsonObject
-                                                                        .getString("info");
-                                                                progress.CloseProgress();
-                                                                Message message = new Message();
-                                                                message.what = 1;
-                                                                message.obj = str;
-                                                                handler.sendMessage(message);
-                                                            } else if (status
-                                                                    .equals("y")) {
-                                                                try {
-                                                                    System.out
-                                                                            .println("=================3=="
-                                                                                    + info);
-                                                                    hengyuName = jsonObject
-                                                                            .getString("info");
-                                                                    // NewDataToast.makeText(getApplicationContext(),
-                                                                    // info,false,
-                                                                    // 0).show();
-                                                                    System.out
-                                                                            .println("=================4==");
-                                                                    Log.v("data1",
-                                                                            hengyuName
-                                                                                    + "");
-
-                                                                    SharedPreferences spPreferences = getSharedPreferences(
-                                                                            "longuserset_user",
-                                                                            MODE_PRIVATE);
-                                                                    Editor editor = spPreferences
-                                                                            .edit();
-                                                                    editor.putBoolean("save", true);
-                                                                    editor.putString("user_name", userphone.getText().toString());
-                                                                    editor.putString("pwd", userpwd.getText().toString());
-                                                                    editor.commit();
-
-                                                                    progress.CloseProgress();
-                                                                    Message message = new Message();
-                                                                    message.what = 0;
-                                                                    message.obj = hengyuName;
-                                                                    handler.sendMessage(message);
-                                                                    // Intent intent
-                                                                    // = new
-                                                                    // Intent(UserRegisterActivity.this,
-                                                                    // HomeActivity.class);
-                                                                    // startActivity(intent);
-                                                                    // finish();
-                                                                } catch (Exception e) {
-                                                                    e.printStackTrace();
-                                                                }
-                                                            }
-                                                        } catch (JSONException e) {
-
-                                                            // catch block
-                                                            e.printStackTrace();
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onFailure(
-                                                            Throwable arg0,
-                                                            String arg1) {
-
-                                                        // method stub
-                                                        super.onFailure(arg0, arg1);
-                                                        System.out
-                                                                .println("=================arg0=="
-                                                                        + arg0);
-                                                        System.out
-                                                                .println("=================arg1=="
-                                                                        + arg1);
-                                                    }
-                                                }, getApplicationContext());
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
+                                    @Override
+                                    public void onFailure(Throwable arg0, String arg1) {
+                                        super.onFailure(arg0, arg1);
+                                        progress.CloseProgress();
                                     }
-                                }
+                                }, getApplicationContext());
 
-                                ;
-                            }.start();
+                            }
 
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+
+                        }.start();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+                }
 
-                    break;
+                break;
 
-                default:
-                    break;
-            }
-        } catch (Exception e) {
-
-            e.printStackTrace();
+            default:
+                break;
         }
+
     }
 
 }

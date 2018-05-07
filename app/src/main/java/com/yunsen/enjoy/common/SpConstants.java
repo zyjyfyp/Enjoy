@@ -13,11 +13,13 @@ public class SpConstants {
     public static final String SP_USER_SET = "longuserset";
     public static final String USER = "user";
     public static final String USER_ID = "user_id";
+
+
     /**
      * 用户信息 sp file
      */
 
-    public static final String SP_LONG_USER_SET = "longuserset_login";
+//    public static final String SP_LONG_USER_SET_LOGIN = "longuserset_login";
 
     public static final String NICK_NAME = "nickname";
     public static final String HEAD_IMG_URL = "headimgurl";
@@ -45,6 +47,17 @@ public class SpConstants {
      *
      */
     public static final String SP_LONG_USER_SET_TISHI = "longuserset_tishi";
+
+    /**
+     * 手机账号
+     */
+    public static final String SP_LONG_USER_SET_USER = "longuserset_user";
+    public static final String GROUP_NAME = "group_name";
+    public static final String USER_NAME = "user";
+    public static final String MOBILE = "mobile";
+
+
+
 
     public static final String SP_GUIDE = "guide";
 

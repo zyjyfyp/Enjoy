@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.orhanobut.logger.Logger;
 import com.tencent.connect.auth.QQAuth;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -410,7 +411,7 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
                         float server_version = Float.parseFloat(file_version.replaceAll("\\.", ""));//服务器
                         float client_version = Float.parseFloat(c_version);//当前
 
-                        System.out.println("服务器:" + server_version + "/当前:" + client_version);
+                       Logger.e("服务器:" + server_version + "/当前:" + client_version);
                         if (server_version > client_version) {
                             //						Toast.makeText(UserLoginActivity.this, "提示更新", Toast.LENGTH_SHORT).show();
                             Message message = new Message();

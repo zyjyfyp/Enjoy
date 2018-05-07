@@ -37,18 +37,6 @@ public class Webview1 extends AppCompatActivity implements OnClickListener {
             webview.getSettings().setJavaScriptEnabled(true);
             webview.addJavascriptInterface(new JavascriptHandler(), "handler");
 
-            //			//支持javascript
-            //			webview.getSettings().setJavaScriptEnabled(true);
-            //			// 设置可以支持缩放
-            //			webview.getSettings().setSupportZoom(true);
-            //			// 设置出现缩放工具
-            //			webview.getSettings().setBuiltInZoomControls(true);
-            //			//扩大比例的缩放
-            //			webview.getSettings().setUseWideViewPort(true);
-            //			//自适应屏幕
-            //			webview.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
-            //			webview.getSettings().setLoadWithOverviewMode(true);
-
             try {
                 // 首页广告
                 String link_url = getIntent().getStringExtra("link_url");

@@ -28,9 +28,11 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.mine.Webview1;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.Register_Va;
+import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.utils.Validator;
 import com.yunsen.enjoy.widget.DialogProgress;
 import com.yunsen.enjoy.widget.MyPopupWindowMenu;
@@ -56,7 +58,8 @@ public class UserRegisterActivity extends AppCompatActivity implements OnClickLi
     private String strUrl;
     private MyPopupWindowMenu popupWindowMenu;
     private TextView regise_tip;
-    public final Handler mHandler = new MyHandler(this);
+    public Handler mHandler = new MyHandler(this);
+    private int time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,31 +104,14 @@ public class UserRegisterActivity extends AppCompatActivity implements OnClickLi
                         Toast.makeText(activity, strmsg, Toast.LENGTH_SHORT).show();
                         break;
                     case 2:
-                        Toast.makeText(activity, "验证码已发送",
-                                Toast.LENGTH_SHORT).show();
-                        for (int i = 120; i >= 0; i--) {
-                            if (i == 0) {
-                                sendEmptyMessage(4);
-                            } else {
-                                Message message = Message.obtain();
-                                message.arg1 = i;
-                                message.what = 5;
-                                sendMessageDelayed(message, 1000);
-                            }
+                        if (activity.time > 0) {
+                            sendEmptyMessageDelayed(2, 1000);
+                            activity.get_yz.setText(activity.time + "s");
+                            activity.time--;
+                        } else {
+                            activity.get_yz.setEnabled(true);
+                            activity.get_yz.setText("获取验证码");
                         }
-
-                        break;
-                    case 3:
-                        Toast.makeText(activity, "验证码已发送",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    case 4:
-                        activity.get_yz.setEnabled(true);
-                        activity.get_yz.setText("获取验证码");
-                        break;
-                    case 5:
-                        activity.get_yz.setEnabled(false);
-                        activity.get_yz.setText(msg.arg1 + "s");
                         break;
                     default:
                         break;
@@ -224,7 +210,7 @@ public class UserRegisterActivity extends AppCompatActivity implements OnClickLi
         switch (v.getId()) {
             case R.id.regise_tip:
                 Intent intent4 = new Intent(UserRegisterActivity.this, Webview1.class);
-                intent4.putExtra("zhuce_id", "5997");
+                intent4.putExtra("zhuce_id", "16933");
                 startActivity(intent4);
                 break;
             case R.id.get_yz:
@@ -246,8 +232,11 @@ public class UserRegisterActivity extends AppCompatActivity implements OnClickLi
                                     JSONObject object = new JSONObject(arg1);
                                     String result = object.getString("status");//
                                     String info = object.getString("info");// info
-                                    if (result.equals("y")) {
-                                        mHandler.sendEmptyMessage(2);
+                                    if ("y".equals(result)) {
+                                        ToastUtils.makeTextShort("验证码已发送");
+                                        time = 59;
+                                        get_yz.setEnabled(false);
+                                        mHandler.sendEmptyMessageDelayed(2, 1000);
                                     } else {
                                         Toast.makeText(UserRegisterActivity.this, info, Toast.LENGTH_SHORT).show();
                                     }
@@ -255,11 +244,10 @@ public class UserRegisterActivity extends AppCompatActivity implements OnClickLi
                                     e.printStackTrace();
                                 }
                             }
-                        }, getApplicationContext());
+                        }, UserRegisterActivity.this);
 
                     } else {
-                        Toast.makeText(UserRegisterActivity.this, "手机号码不正确",
-                                Toast.LENGTH_SHORT).show();
+                        ToastUtils.makeTextShort("手机号码不正确");
                     }
                 }
 
@@ -282,10 +270,10 @@ public class UserRegisterActivity extends AppCompatActivity implements OnClickLi
                     Toast.makeText(UserRegisterActivity.this, "密码不能为空", Toast.LENGTH_SHORT)
                             .show();
                 } else if (pwd.length() < 6) {
-                    Toast.makeText(UserRegisterActivity.this, "密码不得小于8位", Toast.LENGTH_SHORT)
+                    Toast.makeText(UserRegisterActivity.this, "密码不得小于6位", Toast.LENGTH_SHORT)
                             .show();
                 } else if (!(pwd.length() <= 20 && pwd.length() >= 6)) {
-                    Toast.makeText(UserRegisterActivity.this, "密码在8-20位之间", Toast.LENGTH_SHORT)
+                    Toast.makeText(UserRegisterActivity.this, "密码在6-20位之间", Toast.LENGTH_SHORT)
                             .show();
                 } else {
                     try {
@@ -319,13 +307,14 @@ public class UserRegisterActivity extends AppCompatActivity implements OnClickLi
                                                 sendMessage(message);
                                             } else if (status.equals("y")) {
                                                 hengyuName = jsonObject.getString("info");
-                                                SharedPreferences spPreferences = getSharedPreferences("longuserset_user",
-                                                        MODE_PRIVATE);
+                                                // TODO: 2018/5/7  zyjy what?
+                                                SharedPreferences spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
                                                 Editor editor = spPreferences.edit();
                                                 editor.putBoolean("save", true);
                                                 editor.putString("user_name", userphone.getText().toString());
                                                 editor.putString("pwd", pwd);
                                                 editor.commit();
+
                                                 progress.CloseProgress();
                                                 Message message = Message.obtain();
                                                 message.what = 0;

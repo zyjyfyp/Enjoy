@@ -66,8 +66,13 @@ public class URLConstants {
      * 预约看车
      */
     public static String APPOINTEMENT_MANAGER = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_order_bespeak";
+    /***
+     * 用户信息
+     */
+    public static  String PHONE_USER_INFO_URL = URLConstants.REALM_NAME_LL + "/get_user_model?username=";
 
-//
+
+    //
 //    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";
 //    public static final String REALM_NAME_HTTP = "http://mobile.zams.cn";
 //    public static final String REALM_NAME_LL = "http://mobile.zams.cn/tools/mobile_ajax.asmx";

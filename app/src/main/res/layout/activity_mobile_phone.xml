@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/rl_title"
@@ -12,7 +12,7 @@
         android:layout_height="45dp"
         android:layout_alignParentTop="true"
         android:layout_gravity="center_horizontal"
-        android:background="@color/ybs" >
+        android:background="@color/ybs">
 
         <TextView
             android:id="@+id/textView1"
@@ -30,8 +30,8 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-             android:textColor="@color/juhongse"
-             android:text="返回"
+            android:text="返回"
+            android:textColor="@color/juhongse"
             android:textSize="16dip" />
 
         <TextView
@@ -49,20 +49,21 @@
         android:layout_height="1dp"
         android:layout_marginBottom="0dp"
         android:background="@color/gray" />
- <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
-            android:gravity="center"
-             android:textColor="@color/juhongse"
-            android:text="绑定手机号，领取红包和奖金呦！"
-            android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="绑定手机号，领取红包和奖金呦！"
+        android:textColor="@color/juhongse"
+        android:textSize="18sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/white" >
+        android:background="@color/white">
 
         <ImageView
             android:layout_width="25dp"
@@ -72,11 +73,11 @@
             android:layout_marginRight="10dp"
             android:src="@drawable/zams_user_tp" />
 
-<EditText
+        <EditText
             android:id="@+id/et_user_phone"
-      android:layout_width="0dp"
+            android:layout_width="0dp"
             android:layout_height="fill_parent"
-                     android:layout_weight="1"
+            android:layout_weight="1"
             android:background="@null"
             android:hint="此处写下您的手机号"
             android:inputType="number"
@@ -85,30 +86,32 @@
             android:textColor="@color/all_wenzi"
             android:textColorHint="@color/all_c1c1c1"
             android:textSize="16sp" />
+
         <Button
             android:id="@+id/get_yz"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:layout_marginRight="20dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
             android:background="@drawable/bg_red_3_5_yzm"
             android:ems="6"
             android:gravity="center"
             android:text="获取验证码"
-            android:textSize="16sp"
             android:textColor="@color/zams_ys"
-             />
+            android:textSize="16sp" />
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginLeft="20dp"
-         android:layout_marginRight="20dp"
+        android:layout_marginRight="20dp"
         android:background="@color/gray" />
-<LinearLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/white" >
+        android:background="@color/white">
 
         <ImageView
             android:layout_width="25dp"
@@ -132,45 +135,49 @@
             android:textColorHint="@color/all_c1c1c1"
             android:textSize="16sp" />
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginLeft="20dp"
-         android:layout_marginRight="20dp"
+        android:layout_marginRight="20dp"
         android:background="@color/gray" />
-<LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white" >
 
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/zams_pass_tp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white">
 
-                <EditText
-                    android:id="@+id/et_user_pwd"
-                    android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                    android:background="@null"
-                    android:hint="请输入您的密码"
-                     android:imeOptions="actionNext"
-                     android:password="true"
-                    android:maxLength="20"
-                    android:singleLine="true"
-                    android:textColor="@color/all_wenzi"
-                    android:textColorHint="@color/all_c1c1c1"
-                    android:textSize="16sp" />
-            </LinearLayout>
-            <View
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/zams_pass_tp" />
+
+        <EditText
+            android:id="@+id/et_user_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:background="@null"
+            android:hint="请输入您的密码"
+            android:imeOptions="actionNext"
+            android:maxLength="20"
+            android:password="true"
+            android:singleLine="true"
+            android:textColor="@color/all_wenzi"
+            android:textColorHint="@color/all_c1c1c1"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginLeft="20dp"
-         android:layout_marginRight="20dp"
+        android:layout_marginRight="20dp"
         android:background="@color/gray" />
+
     <Button
         android:id="@+id/btn_register"
         android:layout_width="match_parent"
