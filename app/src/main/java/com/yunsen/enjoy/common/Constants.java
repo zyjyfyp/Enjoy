@@ -76,5 +76,6 @@ public class Constants {
      * 汽车详情
      */
     public static final String CAR_DETAILS_ID = "car_details_id";
+    public static final String SERVICE_SHOP_KEY = "service_shop_key";
 
 }

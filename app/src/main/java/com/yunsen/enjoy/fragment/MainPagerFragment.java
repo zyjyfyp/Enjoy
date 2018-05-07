@@ -126,13 +126,6 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         recyclerView.setLayoutManager(layoutmanager);
 
         ArrayList<SProviderModel> storeModes = new ArrayList<>();
-        storeModes.add(new SProviderModel(null, "上海大众汽车广东省深圳市宝安区4S店"));
-        storeModes.add(new SProviderModel(null, "上海大众汽车广东省深圳市宝安区4S店上海大众汽车广东省深圳市宝安区4S店"));
-        storeModes.add(new SProviderModel(null, "上海大众汽车广东省深圳市宝安区4S店"));
-        storeModes.add(new SProviderModel(null, "上海大众汽车广东省深圳市宝安区4S店"));
-        storeModes.add(new SProviderModel(null, "上海大众汽车广东省深圳市宝安区4S店"));
-        storeModes.add(new SProviderModel(null, "上海大众汽车广东省深圳市宝安区4S店"));
-
         mAdapter = new StoreRecyclerAdapter(getActivity(), R.layout.shop_item, storeModes);
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         recyclerView.setAdapter(recyclerViewAdapter);
@@ -392,10 +385,11 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     @Override
     public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         List<SProviderModel> datas = mAdapter.getDatas();
-
         if (datas != null && position > 0 && datas.size() > position - 1) {
-            Log.e(TAG, "onItemClick: " + datas.get(position - 1).getTitle());
-            UIHelper.showCarDetailsActivity(getActivity(), "14837");
+            int id = datas.get(position - 1).getId();
+            Log.e(TAG, "onItemClick: " + id);
+            UIHelper.showServiceShopInfoActivity(getActivity(), String.valueOf(id));
+
         }
     }
 

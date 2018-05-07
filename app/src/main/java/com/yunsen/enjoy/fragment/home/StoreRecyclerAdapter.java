@@ -22,10 +22,12 @@ public class StoreRecyclerAdapter extends CommonAdapter<SProviderModel> {
 
     @Override
     protected void convert(ViewHolder holder, SProviderModel carStoreMode, int position) {
-        holder.setText(R.id.shop_item_title, carStoreMode.getTitle());
-        if (carStoreMode.getImgUrl() != null) {
+        holder.setText(R.id.shop_item_title, carStoreMode.getName());
+        holder.setText(R.id.shop_item_sub_t1, carStoreMode.getName());
+        holder.setText(R.id.shop_item_address, carStoreMode.getAddress());
+        if (carStoreMode.getImg_url() != null) {
             Glide.with(mContext)
-                    .load(carStoreMode.getImgUrl())
+                    .load(carStoreMode.getImg_url())
                     .placeholder(R.mipmap.car_4)
                     .centerCrop()
                     .into((ImageView) holder.getView(R.id.shop_item_img));

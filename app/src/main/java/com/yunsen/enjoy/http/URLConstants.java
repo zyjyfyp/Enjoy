@@ -73,8 +73,11 @@ public class URLConstants {
     /**
      * 添加收藏
      */
-    public static final String ADD_COLLECT_URL =  URLConstants.REALM_NAME_LL + "/user_favorite";
-
+    public static final String ADD_COLLECT_URL = URLConstants.REALM_NAME_LL + "/user_favorite";
+    /**
+     * 详情服务商
+     */
+    public static final String SERVICE_SHOP_INFO_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_commpany_content?id=";
 
     //
 //    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";

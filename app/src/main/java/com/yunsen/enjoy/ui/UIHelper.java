@@ -14,6 +14,7 @@ import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.activity.MoveActivity;
 import com.yunsen.enjoy.activity.SearchActivity;
 import com.yunsen.enjoy.activity.SelectCityActivity;
+import com.yunsen.enjoy.activity.ServiceShopInfoActivity;
 import com.yunsen.enjoy.activity.WebActivity;
 import com.yunsen.enjoy.activity.buy.ApplyBuyFirstActivity;
 import com.yunsen.enjoy.activity.buy.ApplyBuyThreeActivity;
@@ -388,10 +389,24 @@ public class UIHelper {
         act.startActivity(intent);
     }
 
-
+    /**
+     * 预约页面
+     *
+     * @param act
+     */
     public static void showMeetAddressActivity(Activity act) {
         Intent intent = new Intent(act, SeniorFilterActivity.class);
-        act.startActivityForResult(intent,Constants.MEET_ADDRESS_REQUEST);
+        act.startActivityForResult(intent, Constants.MEET_ADDRESS_REQUEST);
+    }
 
+    /**
+     * 服务商页面
+     *
+     * @param ctx
+     * @param id
+     */
+    public static void showServiceShopInfoActivity(Context ctx, String id) {
+        Intent intent = new Intent(ctx, ServiceShopInfoActivity.class);
+        ctx.startActivity(intent);
     }
 }

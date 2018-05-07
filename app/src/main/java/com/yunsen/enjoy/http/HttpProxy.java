@@ -19,6 +19,7 @@ import com.yunsen.enjoy.model.ServiceProvideResponse;
 import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.response.CarBrandResponese;
 import com.yunsen.enjoy.model.response.CarDetailsResponse;
+import com.yunsen.enjoy.model.response.ServiceShopInfoResponse;
 import com.yunsen.enjoy.model.response.UserInfoResponse;
 import com.yunsen.enjoy.utils.SharedPreference;
 import com.yunsen.enjoy.utils.ToastUtils;
@@ -414,13 +415,21 @@ public class HttpProxy {
         });
     }
 
+    /**
+     * 添加收藏
+     *
+     * @param userId
+     * @param userName
+     * @param goodsId
+     * @param callBack
+     */
     public static void getAddCollect(String userId, String userName, String goodsId, final HttpCallBack<String> callBack) {
         HashMap<String, String> param = new HashMap<>();
         param.put("article_id", goodsId);
         param.put("user_name", userName);
         param.put("user_id", userId);
         param.put("tags", "");
-        HttpClient.get(URLConstants.ADD_COLLECT_URL , param, new HttpResponseHandler<RestApiResponse>() {
+        HttpClient.get(URLConstants.ADD_COLLECT_URL, param, new HttpResponseHandler<RestApiResponse>() {
             @Override
             public void onSuccess(RestApiResponse response) {
                 super.onSuccess(response);
@@ -431,7 +440,28 @@ public class HttpProxy {
             @Override
             public void onFailure(Request request, Exception e) {
                 super.onFailure(request, e);
-                callBack.onError(request,e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 获取服务商的详细信息
+     *
+     * @param serviceId
+     * @param callBack
+     */
+    public static void getServiceShopInfo(String serviceId, final HttpCallBack<SProviderModel> callBack) {
+        HttpClient.get(URLConstants.SERVICE_SHOP_INFO_URL + serviceId, new HashMap<String, String>(), new HttpResponseHandler<ServiceShopInfoResponse>() {
+            @Override
+            public void onSuccess(ServiceShopInfoResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
             }
         });
     }
