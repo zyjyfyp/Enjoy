@@ -15,7 +15,7 @@ import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.fragment.BuyFragment;
 import com.yunsen.enjoy.fragment.DiscoverFragment;
 import com.yunsen.enjoy.fragment.MainPagerFragment;
-import com.yunsen.enjoy.fragment.MemberFragment;
+import com.yunsen.enjoy.fragment.MineFragment;
 import com.yunsen.enjoy.ui.UIHelper;
 
 import java.util.ArrayList;
@@ -69,7 +69,7 @@ public class MainActivity extends BaseFragmentActivity {
     }
 
     private void initMainData(Bundle savedInstanceState) {
-        fragmentTags = new ArrayList<>(Arrays.asList("HomeFragment", "ImFragment", "InterestFragment", "MemberFragment"));
+        fragmentTags = new ArrayList<>(Arrays.asList("HomeFragment", "ImFragment", "InterestFragment", "MineFragment"));
         currIndex = 0;
         if (savedInstanceState != null) {
             currIndex = savedInstanceState.getInt(CURR_INDEX);
@@ -142,7 +142,7 @@ public class MainActivity extends BaseFragmentActivity {
             case 2:
                 return new DiscoverFragment();
             case 3:
-                return new MemberFragment();
+                return new MineFragment();
             default:
                 return null;
         }

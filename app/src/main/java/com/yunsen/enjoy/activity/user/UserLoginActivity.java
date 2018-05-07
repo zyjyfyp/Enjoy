@@ -55,6 +55,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class UserLoginActivity extends AppCompatActivity implements OnClickListener {
+    private static final int PHONE_LOGIN_REQUEST = 1;
     private Button btn_login;
     private DialogProgress progress;
     public static String kahao;
@@ -322,23 +323,27 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
                 Intent intent = new Intent(UserLoginActivity.this, UserLoginWayActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.tv_denglu://
-                try {
-                    System.out.println("0-------1----------");
-                    //			Intent intent3 = new Intent(UserLoginActivity.this,UserLoginWayActivity.class);
-                    Intent intent3 = new Intent(UserLoginActivity.this, PhoneLoginActivity.class);
-                    startActivity(intent3);
-                    System.out.println("0---------2--------");
-                } catch (Exception e) {
-
-                    e.printStackTrace();
-                }
+            case R.id.tv_denglu://手机登录
+                Intent intent3 = new Intent(UserLoginActivity.this, PhoneLoginActivity.class);
+                startActivityForResult(intent3, PHONE_LOGIN_REQUEST);
                 break;
             default:
                 break;
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PHONE_LOGIN_REQUEST:
+                    finish();
+                    break;
+            }
+
+        }
+    }
 
     //	private class BaseUiListener implements IUiListener {
     //

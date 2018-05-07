@@ -42,7 +42,7 @@ import com.squareup.picasso.Picasso;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
-import com.yunsen.enjoy.fragment.MemberFragment;
+import com.yunsen.enjoy.fragment.MineFragment;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.http.down.UpdateApkThread;
@@ -585,7 +585,7 @@ public class PersonCenterActivity extends AppCompatActivity implements OnClickLi
                             client.login("zams", "zams1230.");
                             SimpleDateFormat f = new SimpleDateFormat("yyyyMMddHHmmssSSS");
                             time = f.format(new Date());
-                            yth = MemberFragment.yth;   // TODO: 2018/4/24 yth 是什么值
+                            yth = MineFragment.yth;   // TODO: 2018/4/24 yth 是什么值
 
                             String remotePathTmp = "phone/" + "" + yth + "";//路径
                             System.out.println("========================" + remotePathTmp);

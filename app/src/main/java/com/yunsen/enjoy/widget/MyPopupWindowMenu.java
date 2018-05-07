@@ -41,7 +41,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.AppManager;
 import com.yunsen.enjoy.common.Constants;
-import com.yunsen.enjoy.fragment.MemberFragment;
+import com.yunsen.enjoy.fragment.MineFragment;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.utils.Utils;
@@ -182,7 +182,7 @@ public class MyPopupWindowMenu extends PopupWindow implements OnClickListener,
         switch (arg0.getId()) {
             case R.id.ll_backhome:
                 dismiss();
-                Intent intent1 = new Intent(context, MemberFragment.class);
+                Intent intent1 = new Intent(context, MineFragment.class);
                 context.startActivity(intent1);
                 break;
             case R.id.ll_account:

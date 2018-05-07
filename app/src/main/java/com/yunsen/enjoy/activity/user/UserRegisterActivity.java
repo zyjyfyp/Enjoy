@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -91,8 +92,7 @@ public class UserRegisterActivity extends AppCompatActivity implements OnClickLi
                 switch (msg.what) {
                     case 0:
                         String strhengyuname = (String) msg.obj;
-                        Toast.makeText(activity, strhengyuname,
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, strhengyuname, Toast.LENGTH_SHORT).show();
                         activity.progress.CloseProgress();
                         activity.finish();
                         break;
@@ -236,7 +236,7 @@ public class UserRegisterActivity extends AppCompatActivity implements OnClickLi
                     Toast.makeText(UserRegisterActivity.this, "手机号少于11位", Toast.LENGTH_SHORT).show();
                 } else {
                     if (Validator.isMobile(phone)) {
-                        strUrl = URLConstants.REALM_NAME_LL + "/user_verify_smscode?mobile=" + phone + "";
+                        strUrl = URLConstants.REALM_ACCOUNT_URL + "/user_verify_smscode?mobile=" + phone + "";
                         AsyncHttp.get(strUrl, new AsyncHttpResponseHandler() {
                             @Override
                             public void onSuccess(int arg0, String arg1) {
@@ -275,13 +275,13 @@ public class UserRegisterActivity extends AppCompatActivity implements OnClickLi
                 } else if (phone.length() < 11) {
                     Toast.makeText(UserRegisterActivity.this, "手机号码少于11位", Toast.LENGTH_SHORT)
                             .show();
-                } else if (yz.equals("")) {
+                } else if (TextUtils.isEmpty(yz)) {
                     Toast.makeText(UserRegisterActivity.this, "请输入验证码", Toast.LENGTH_SHORT)
                             .show();
-                } else if (this.pwd.equals("")) {
+                } else if ((TextUtils.isEmpty(this.pwd))) {
                     Toast.makeText(UserRegisterActivity.this, "密码不能为空", Toast.LENGTH_SHORT)
                             .show();
-                } else if (this.pwd.length() < 6) {
+                } else if (pwd.length() < 6) {
                     Toast.makeText(UserRegisterActivity.this, "密码不得小于8位", Toast.LENGTH_SHORT)
                             .show();
                 } else if (!(pwd.length() <= 20 && pwd.length() >= 6)) {
@@ -293,7 +293,7 @@ public class UserRegisterActivity extends AppCompatActivity implements OnClickLi
                         progress.CreateProgress();
                         new Thread() {
                             public void run() {
-                                strUrl = URLConstants.REALM_NAME_LL
+                                strUrl = URLConstants.REALM_ACCOUNT_URL
                                         + "/user_register?site=mobile&code="
                                         + yz + "&username=" + phone
                                         + "&password=" + UserRegisterActivity.this.pwd + "&mobile="
@@ -330,7 +330,7 @@ public class UserRegisterActivity extends AppCompatActivity implements OnClickLi
                                                 Message message = Message.obtain();
                                                 message.what = 0;
                                                 message.obj = hengyuName;
-                                                sendMessage(message);
+                                                mHandler.sendMessage(message);
                                             }
                                         } catch (JSONException e) {
                                             e.printStackTrace();

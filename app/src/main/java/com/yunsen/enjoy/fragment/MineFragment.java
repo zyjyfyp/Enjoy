@@ -23,7 +23,6 @@ import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
 import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
-import com.yunsen.enjoy.activity.mine.TeamActivity;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
@@ -51,8 +50,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MemberFragment extends BaseFragment {
-    private static final String TAG = "MemberFragment";
+public class MineFragment extends BaseFragment {
+    private static final String TAG = "MineFragment";
     public static String yth;
     @Bind(R.id.login_icon)
     ImageView loginIcon;

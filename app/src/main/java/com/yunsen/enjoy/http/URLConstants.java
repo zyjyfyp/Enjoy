@@ -11,6 +11,10 @@ public class URLConstants {
      * 域名
      */
     public static final String REALM_URL = BuildConfig.ROOT_URL;
+
+    public static final String REALM_ACCOUNT_URL = "http://szlxkg.com/tools/mobile_ajax.asmx";
+
+
     /**
      * 头部广告
      */
@@ -63,9 +67,13 @@ public class URLConstants {
      */
     public static String APPOINTEMENT_MANAGER = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_order_bespeak";
 
-
-    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";
-    public static final String REALM_NAME_HTTP = "http://mobile.zams.cn";
-    public static final String REALM_NAME_LL = "http://mobile.zams.cn/tools/mobile_ajax.asmx";
-    public static final String REALM_NAME_FX = "http://mobile.zams.cn";
+//
+//    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";
+//    public static final String REALM_NAME_HTTP = "http://mobile.zams.cn";
+//    public static final String REALM_NAME_LL = "http://mobile.zams.cn/tools/mobile_ajax.asmx";
+//    public static final String REALM_NAME_FX = "http://mobile.zams.cn";
+    public static final String REALM_NAME_WEB = "http://szlxkg.com";
+    public static final String REALM_NAME_HTTP = "http://szlxkg.com";
+    public static final String REALM_NAME_LL = "http://szlxkg.com/tools/mobile_ajax.asmx";
+    public static final String REALM_NAME_FX = "http://szlxkg.com";
 }
