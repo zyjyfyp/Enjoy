@@ -24,10 +24,8 @@ import android.os.Message;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 
 import okhttp3.Request;
 
@@ -62,6 +60,7 @@ public class HttpResponseHandler<T> {
      * @param response the body of the HTTP RESTApi response from the server
      */
     public void onSuccess(T response) {
+
     }
 
     /**

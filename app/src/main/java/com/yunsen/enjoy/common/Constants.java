@@ -1,5 +1,7 @@
 package com.yunsen.enjoy.common;
 
+import com.yunsen.enjoy.BuildConfig;
+
 import java.util.HashMap;
 import java.util.Map;
 

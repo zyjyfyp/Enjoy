@@ -4,10 +4,10 @@ package com.yunsen.enjoy.http;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.orhanobut.logger.Logger;
 import com.yunsen.enjoy.common.SpConstants;
+import com.yunsen.enjoy.model.AccountBalanceModel;
 import com.yunsen.enjoy.model.AdvertList;
 import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.BrandResponse;
@@ -22,12 +22,11 @@ import com.yunsen.enjoy.model.NoticeResponse;
 import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.model.ServiceProvideResponse;
 import com.yunsen.enjoy.model.UserInfo;
+import com.yunsen.enjoy.model.response.AccountBalanceResponse;
 import com.yunsen.enjoy.model.response.CarBrandResponese;
 import com.yunsen.enjoy.model.response.CarDetailsResponse;
 import com.yunsen.enjoy.model.response.ServiceShopInfoResponse;
 import com.yunsen.enjoy.model.response.UserInfoResponse;
-import com.yunsen.enjoy.utils.SharedPreference;
-import com.yunsen.enjoy.utils.ToastUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -471,6 +470,13 @@ public class HttpProxy {
         });
     }
 
+    /**
+     * 上传用户图片
+     *
+     * @param act
+     * @param userAvatar
+     * @param callBack
+     */
     public static void putUserIcon(Activity act, String userAvatar, final HttpCallBack<String> callBack) {
         HashMap<String, String> param = new HashMap<>();
         SharedPreferences sp = act.getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
@@ -496,4 +502,323 @@ public class HttpProxy {
             }
         });
     }
+
+    /**
+     * 获取订单信息
+     *
+     * @param userId
+     * @param fundId
+     * @param callBack
+     */
+    public static void getAccountBalance(String userId, String fundId, final HttpCallBack<AccountBalanceModel> callBack) {
+        //                //我的余额统计信息
+        //                fund_id: 1,
+        //                //冻结资金统计信息
+        //                fund_id: 6,
+        //                //佣金统计信息
+        //                fund_id: 3,
+        //                //提现统计信息
+        //                fund_id: 11,
+        final String typeId = fundId;
+        HashMap<String, String> param = new HashMap<>();
+        param.put("to_user_id", userId);
+        param.put("fund_id", fundId);
+        param.put("expenses_id", "0");
+        HttpClient.get(URLConstants.ACCOUNT_BALANCE_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
+            @Override
+            public void onSuccess(AccountBalanceResponse response) {
+                super.onSuccess(response);
+                AccountBalanceModel data = response.getData();
+                if (data != null) {
+                    data.setType(typeId);
+                    callBack.onSuccess(data);
+                } else {
+                    callBack.onError(null, new Exception("data is null!"));
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                Logger.e(TAG, "onFailure: " + e.getMessage());
+            }
+        });
+    }
+
+    /**
+     * 预约看车
+     */
+    public static void requestMeetingCar() {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("user_id", "");
+        param.put("user_name", "");
+        param.put("article_id", "");
+        param.put("goods_id", "");
+        param.put("payment_id", " 5");
+        param.put("express_id", "7");
+        param.put("is_invoice", "0");
+        param.put("accept_name", "");
+        param.put("province", "");
+        param.put("city", "");
+        param.put("area", "");
+        param.put("address", "");
+        param.put("telphone", "");
+        param.put("mobile", "");
+        param.put("email", "");
+        param.put("post_code", "");
+        param.put("message", "");
+        param.put("invoice_title", "");
+        HttpClient.get(URLConstants.MEET_CAR_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
+            @Override
+            public void onSuccess(AccountBalanceResponse response) {
+                super.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                Logger.e(TAG, "onFailure: " + e.getMessage());
+            }
+        });
+    }
+
+
+    /**
+     * 提现接口
+     */
+    public static void getWithDrawCash() {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("user_id", "");
+        param.put("fund_id", "1");
+        param.put("expenses_id", "0");
+        param.put("page_size", "8");
+        param.put("page_index", "1");
+        HttpClient.get(URLConstants.WITH_DRAW_CASH_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
+            @Override
+            public void onSuccess(AccountBalanceResponse response) {
+                super.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                Logger.e(TAG, "onFailure: " + e.getMessage());
+            }
+        });
+    }
+
+
+    /**
+     * 铁杆圈
+     */
+    public static void getGavelockRing() {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("user_id", "");
+        param.put("page_size", "5");
+        param.put("strwhere", "");
+        param.put("orderby", "id desc");
+        param.put("page_index", "1");
+        HttpClient.get(URLConstants.GAVELOCK_RING_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
+            @Override
+            public void onSuccess(AccountBalanceResponse response) {
+                super.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                Logger.e(TAG, "onFailure: " + e.getMessage());
+            }
+        });
+    }
+
+
+    /**
+     * 朋友圈
+     */
+    public static void getFriendRing() {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("user_id", "");
+        param.put("page_size", "5");
+        param.put("page_index", "1");
+        param.put("strwhere", "");
+        param.put("orderby", "id desc");
+        HttpClient.get(URLConstants.FRIEND_RING_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
+            @Override
+            public void onSuccess(AccountBalanceResponse response) {
+                super.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                Logger.e(TAG, "onFailure: " + e.getMessage());
+            }
+        });
+    }
+
+    /**
+     * 粉丝圈Vermicelli
+     */
+    public static void getVermicelliRing() {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("user_id", "");
+        param.put("page_size", "5");
+        param.put("page_index", "1");
+        param.put("strwhere", "");
+        param.put("orderby", "id desc");
+        HttpClient.get(URLConstants.VERMICELLI_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
+            @Override
+            public void onSuccess(AccountBalanceResponse response) {
+                super.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                Logger.e(TAG, "onFailure: " + e.getMessage());
+            }
+        });
+    }
+
+    /**
+     * 申请服务商-
+     * 服务商订单统计数量
+     */
+    public static void getServiceOrderCount() {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("commpany_id", "");//: 用户id,
+        param.put("start_time", "");
+        param.put("end_time", "");
+
+        HttpClient.get(URLConstants.SERVICE_ODER_NUM_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
+            @Override
+            public void onSuccess(AccountBalanceResponse response) {
+                super.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                Logger.e(TAG, "onFailure: " + e.getMessage());
+            }
+        });
+    }
+
+    /**
+     * 获取企业信息
+     */
+    public static void getEnterpicseInfo() {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("id", "");//: 用户id,id: 用户id
+        HttpClient.get(URLConstants.ENTERPISE_INFO_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
+            @Override
+            public void onSuccess(AccountBalanceResponse response) {
+                super.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                Logger.e(TAG, "onFailure: " + e.getMessage());
+            }
+        });
+    }
+
+    /**
+     * 预约管理
+     */
+    public static void getMeetManagement() {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("id", "");//: 用户id,id: 用户id
+        param.put("page_size", "10");
+        param.put("page_index", "1");
+        param.put("strwhere", "status=2 and datatype=11");
+        param.put("orderby", "");
+
+        HttpClient.get(URLConstants.MEET_MANAGEMENT_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
+            @Override
+            public void onSuccess(AccountBalanceResponse response) {
+                super.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                Logger.e(TAG, "onFailure: " + e.getMessage());
+            }
+        });
+    }
+
+    /**
+     * 预约管理
+     */
+    public static void getObtainIndustry() {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("parent_id", "273");//: 用户id,id: 用户id
+
+        HttpClient.get(URLConstants.OBTAIN_INDUSTRY_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
+            @Override
+            public void onSuccess(AccountBalanceResponse response) {
+                super.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                Logger.e(TAG, "onFailure: " + e.getMessage());
+            }
+        });
+    }
+
+    /**
+     * 服务商申请提交表单数据
+     */
+    public static void getApplyServiceForm() {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("id", "");   //  user_id: userInfo.id,//用户id
+        param.put("user_name", ""); //       user_name: userInfo.user_name,//用户名字
+        param.put("trade_id", "");        //trade_id: trade_id,//行业ID
+        param.put("name", "");   //      name: name,//企业名称
+        param.put("content", "");    //     content: content,//企业介绍
+        param.put("artperson", "");     //    artperson: '',//法人
+        param.put("contact", "");      //   contact: contact,//联系人
+        param.put("mobile", "");      //  mobile: mobile,//联系人电话
+        param.put("tel", "");      //   tel: '',//企业电话
+        param.put("nature", "");     //   nature: '',//企业性质
+        param.put("post_code", "");     //   post_code: '',//邮编
+        param.put("email", "");      //  email: '',//电子邮件
+        param.put("address", "");      //  address: address,//地址
+        param.put("sort_id", "");     // sort_id: 99,//排序
+        param.put("logo_url", "");     //  logo_url: logo_url,//企业logo
+        param.put("img_url", "");     //  img_url: '',//企业图片
+        param.put("seo_title", "");     //  seo_title: '',//seo标题
+        param.put("seo_keywords", "");     //   seo_keywords: '',//seo关键字
+        param.put("seo_description", "");      //  seo_description: '',//seo描述
+        param.put("province", "");    //   province: province,//省份
+        param.put("city", "");    //  city: city,//城市
+        param.put("area", "");    //    area: area,//区县
+        param.put("regtime", "");    //    regtime: utili.formatTime2(new Date()),//注册时间
+        param.put("lng", "");    //     lng: lng,//经度
+        param.put("lat", "");    //       lat: lat,//纬度
+        param.put("advantage", "");    //       advantage: advantage,//企业优势
+        param.put("idcard_a", "");    //       idcard_a: '',//法人身份证(正面)
+        param.put("idcard_b", "");    //       idcard_b: '',//法人身份证(反面)
+        param.put("license", "");    //       license: license,//工商营业执照
+        param.put("accredit", "");    //       accredit: '',//厂家授权或者厂家合同
+        param.put("aptitude", "");    //        aptitude: '',//企业资质
+        param.put("revenue_card", "");    //        revenue_card: revenue_card,//税务
+        param.put("organi_card", "");    //        organi_card: organi_card,//组织机构代码证
+        param.put("brand_card", "");    //        brand_card: '',//品牌注册证
+        param.put("licence_card", "");    //        licence_card: '',//开户行许许可证
+        param.put("trade_aptitude", "");    //        trade_aptitude: '',//行业资质证明文件
+        param.put("account_name", "");    //        account_name: '',//企业开户名称
+        param.put("bank_name", "");    //        bank_name: '',//企业开户银行
+        param.put("bank_account", "");    //       bank_account: '',//企业银行账号
+        param.put("registeredid", "");    //        registeredid: registeredid,//工商执照注册号
+        param.put("service_time", "");    //        service_time: service_time,//企业服务时间
+        param.put("service_ids", "");    //        service_ids: ''
+        HttpClient.get(URLConstants.APPLY_SERVICE_FORM_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
+            @Override
+            public void onSuccess(AccountBalanceResponse response) {
+                super.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                Logger.e(TAG, "onFailure: " + e.getMessage());
+            }
+        });
+    }
+
 }

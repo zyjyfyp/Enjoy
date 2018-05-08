@@ -83,6 +83,61 @@ public class URLConstants {
      * 详情服务商
      */
     public static final String SERVICE_SHOP_INFO_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_commpany_content?id=";
+    /**
+     * 用户余额
+     */
+    public static final String ACCOUNT_BALANCE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_payrecord_expenses_sum";
+    /**
+     * 提现接口withdraw cash
+     */
+    public static final String WITH_DRAW_CASH_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_expense_list";
+    /**
+     * 铁杆圈gavelock ring
+     * https://szlxkg.com/tools/mobile_ajax.asmx/get_user_hardcore_list
+     */
+    public static final String GAVELOCK_RING_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_hardcore_list";
+    /**
+     * 朋友圈friend
+     * https://szlxkg.com/tools/mobile_ajax.asmx/get_user_friend_list
+     */
+    public static final String FRIEND_RING_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_friend_list";
+    /**
+     * 粉丝圈Vermicelli
+     * https://szlxkg.com/tools/mobile_ajax.asmx/get_user_fans_list
+     */
+    public static final String VERMICELLI_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_fans_list";
+    /**
+     * 申请服务商-
+     * 服务商订单统计数量
+     * https://szlxkg.com/tools/mobile_ajax.asmx/get_commpany_orders_total
+     */
+    public static final String SERVICE_ODER_NUM_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_commpany_orders_total";
+    /**
+     * 服务商申请提交表单数据
+     * https://szlxkg.com/tools/mobile_ajax.asmx/add_user_commpany_2017
+     */
+    public static final String APPLY_SERVICE_FORM_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_user_commpany_2017";
+    /**
+     * 预约管理Booking Management
+     * https://szlxkg.com/tools/mobile_ajax.asmx/get_order_page_size_list
+     */
+    public static final String MEET_MANAGEMENT_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_order_page_size_list";
+    /**
+     * 预约看车
+     * https://szlxkg.com/tools/mobile_ajax.asmx/add_order_bespeak
+     */
+    public static final String MEET_CAR_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_order_bespeak";
+    /**
+     * 获取企业信息
+     https://szlxkg.com/tools/mobile_ajax.asmx/get_user_commpany_content
+     id: 用户id Enterprise information
+     */
+    public static final String ENTERPISE_INFO_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_commpany_content";
+    /**
+     * 取得行业类别Obtain industry
+     https://szlxkg.com/tools/mobile_ajax.asmx/getTrade
+     */
+    public static final String OBTAIN_INDUSTRY_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/getTrade";
 
     //
 //    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";
