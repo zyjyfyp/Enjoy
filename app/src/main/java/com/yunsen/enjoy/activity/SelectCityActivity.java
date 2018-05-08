@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +47,7 @@ import butterknife.OnClick;
 public class SelectCityActivity extends BaseFragmentActivity implements AdapterView.OnItemClickListener, AMapLocationListener {
     private static final int TYPE_TITLE = 0;
     private static final int TYPE_CITY = 1;
+    private static final int TYPE_LOCATION = 2;
     @Bind(R.id.action_back)
     ImageView actionBack;
     @Bind(R.id.action_bar_title)
@@ -53,7 +55,7 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
     @Bind(R.id.current_city_tv)
     TextView currentCityTv;
 
-    private BaseAdapter adapter;
+    private ListAdapter adapter;
     private ListView mCityLit;
     private MyLetterListView letterListView;
     private HashMap<String, Integer> alphaIndexer;
@@ -100,13 +102,13 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
     protected void onRequestPermissionSuccess(int requestCode) {
         super.onRequestPermissionSuccess(requestCode);
         //得到系统的位置服务，判断GPS是否激活
-        mLm=(LocationManager) getSystemService(LOCATION_SERVICE);
-        boolean ok=mLm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        if(ok) {
+        mLm = (LocationManager) getSystemService(LOCATION_SERVICE);
+        boolean ok = mLm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if (ok) {
             initAddress();
-        }else {
+        } else {
             Toast.makeText(this, "系统检测到未开启GPS定位服务", Toast.LENGTH_SHORT).show();
-            Intent intent=new Intent();
+            Intent intent = new Intent();
             intent.setAction(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(intent);
         }
@@ -123,6 +125,7 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
         mLocationOption = new AMapLocationClientOption();
         //设置定位监听
         mlocationClient.setLocationListener(this);
+        mLocationOption.setOnceLocation(true);
         //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         //设置定位间隔,单位毫秒,默认为2000ms
@@ -135,7 +138,6 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
         // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
         //启动定位
         mlocationClient.startLocation();
-
     }
 
     @Override
@@ -150,6 +152,7 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
      */
     private void setAdapter(List<CityModel> list) {
         if (list != null) {
+            list.add(0, new CityModel("-1", "正在定位中请稍后。。。", true));
             adapter = new ListAdapter(this, list);
             mCityLit.setAdapter(adapter);
         }
@@ -157,14 +160,16 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
     }
 
     @Override
-    public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
-                            long arg3) {
-        CityModel cityModel = (CityModel) mCityLit.getAdapter()
-                .getItem(pos);
-        if (cityModel != null && TextUtils.isEmpty(cityModel.getFirstLetter())) {
+    public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+        CityModel cityModel = (CityModel) mCityLit.getAdapter().getItem(pos);
+        if (pos == 0 && cityModel != null && "-1".equals(cityModel.getId())) {
+            mlocationClient.startLocation();
+
+        } else if (cityModel != null && TextUtils.isEmpty(cityModel.getFirstLetter())) {
             SharedPreference.getInstance().putString(SpConstants.CITY_KEY, cityModel.getName());
             finish();
         }
+
     }
 
 
@@ -188,9 +193,9 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
                 Date date = new Date(amapLocation.getTime());
                 df.format(date);//定位时间
                 String city = amapLocation.getCity();
-                Log.e(TAG, "onLocationChanged: " +city);
+                CityModel cityModel = new CityModel(amapLocation.getCityCode(), amapLocation.getCity(), true);
+                adapter.upLoctionCity(cityModel);
             } else {
-                //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
                 Log.e("AmapError", "location Error, ErrCode:"
                         + amapLocation.getErrorCode() + ", errInfo:"
                         + amapLocation.getErrorInfo());
@@ -242,7 +247,11 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
 
         @Override
         public int getItemViewType(int position) {
-            String letter = list.get(position).getFirstLetter();
+            CityModel model = list.get(position);
+            String letter = model.getFirstLetter();
+            if (model.isLocation()) {
+                return TYPE_LOCATION;
+            }
             if (TextUtils.isEmpty(letter)) {
                 return TYPE_CITY;
             } else {
@@ -252,7 +261,7 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
 
         @Override
         public int getViewTypeCount() {
-            return 2;
+            return 3;
         }
 
 
@@ -260,6 +269,7 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder;
 
+            CityModel cityModel = list.get(position);
             switch (getItemViewType(position)) {
                 case TYPE_TITLE:
                     if (convertView == null) {
@@ -270,7 +280,7 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
                     } else {
                         holder = (ViewHolder) convertView.getTag();
                     }
-                    holder.alpha.setText(list.get(position).getFirstLetter());
+                    holder.alpha.setText(cityModel.getFirstLetter());
                     break;
                 case TYPE_CITY:
                     if (convertView == null) {
@@ -281,18 +291,46 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
                     } else {
                         holder = (ViewHolder) convertView.getTag();
                     }
-                    holder.name.setText(list.get(position).getName());
+                    holder.name.setText(cityModel.getName());
+                    break;
+                case TYPE_LOCATION:
+                    if (convertView == null) {
+                        convertView = inflater.inflate(R.layout.public_location_item, null);
+                        holder = new ViewHolder();
+                        holder.location = (TextView) convertView.findViewById(R.id.location_tv);
+                        holder.bar = ((ProgressBar) convertView.findViewById(R.id.loading_pb));
+                        convertView.setTag(holder);
+                    } else {
+                        holder = (ViewHolder) convertView.getTag();
+                    }
+                    if ("-1".equals(cityModel.getId())) {
+                        holder.location.setText("正在定位中请稍后。。。");
+                        holder.bar.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.location.setText(cityModel.getName());
+                        holder.bar.setVisibility(View.INVISIBLE);
+                    }
+
                     break;
             }
 
             return convertView;
         }
 
+
         private class ViewHolder {
             TextView alpha;
             TextView name;
+            TextView location;
+            ProgressBar bar;
         }
 
+        public void upLoctionCity(CityModel cityModel) {
+            CityModel model = list.get(0);
+            model.setId(cityModel.getId());
+            model.setName(cityModel.getName());
+            this.notifyDataSetChanged();
+        }
     }
 
 
@@ -325,6 +363,8 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
                 handler.removeCallbacks(overlayThread);
                 // Уoverlay
                 handler.postDelayed(overlayThread, 1500);
+            } else {
+                mCityLit.setSelection(0);
             }
         }
 
