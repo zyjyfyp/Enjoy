@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserRegisterllData;
@@ -117,7 +118,7 @@ public class TishiWxBangDingActivity extends AppCompatActivity implements OnClic
     public void userlogin() {
         try {
             spPreferences_login = getSharedPreferences("longuserset_login", MODE_PRIVATE);
-            nickname = spPreferences_login.getString("nickname", "");
+            nickname = spPreferences_login.getString(SpConstants.NICK_NAME, "");
             headimgurl = spPreferences_login.getString("headimgurl", "");
             unionid = spPreferences_login.getString("unionid", "");
             access_token = spPreferences_login.getString("access_token", "");

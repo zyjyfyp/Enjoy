@@ -4,6 +4,7 @@ import android.content.*;
 import android.text.TextUtils;
 
 import com.yunsen.enjoy.common.AppContext;
+import com.yunsen.enjoy.common.SpConstants;
 
 /**
  * Created by Administrator on 2018/4/26.
@@ -29,7 +30,7 @@ public class AccountUtils {
      */
     public static boolean hasLogin() {
         SharedPreferences sp2 = AppContext.getInstance().getSharedPreferences(ACCOUNT_SP_NAME2, Context.MODE_PRIVATE);
-        nickname = sp2.getString("nickname", "");
+        nickname = sp2.getString(SpConstants.NICK_NAME, "");
         headimgurl = sp2.getString("headimgurl", "");
         unionid = sp2.getString("unionid", "");
         access_token = sp2.getString("access_token", "");

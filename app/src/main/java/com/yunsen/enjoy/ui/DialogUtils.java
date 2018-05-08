@@ -15,6 +15,7 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.user.PhoneLoginActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.activity.user.UserLoginWayActivity;
+import com.yunsen.enjoy.common.SpConstants;
 
 /**
  * Created by Administrator on 2018/4/23.
@@ -81,7 +82,7 @@ public class DialogUtils {
                     spPreferences_login.edit().clear().commit();
                     spPreferences.edit().clear().commit();
                     jdh_spPreferences.edit().clear().commit();// 积兑换保存福利清除
-                    String nickname = spPreferences_login.getString("nickname", "");
+                    String nickname = spPreferences_login.getString(SpConstants.NICK_NAME, "");
                     System.out.println("1======" + nickname);
                     // Toast.makeText(getActivity(), "微信名/"+nickname,
                     UserLoginActivity.panduan = false;
@@ -90,31 +91,23 @@ public class DialogUtils {
 
                 } else if (UserLoginWayActivity.panduan == true) {
 
-                    // if (!user_name_qq.equals("")) {
                     spPreferences_login.edit().clear().commit();
                     spPreferences.edit().clear().commit();
                     jdh_spPreferences.edit().clear().commit();// 积兑换保存福利清除
-                    String nickname = spPreferences_login.getString("nickname",
+                    String nickname = spPreferences_login.getString(SpConstants.NICK_NAME,
                             "");
-                    // Toast.makeText(getActivity(), "QQ名/"+nickname,
-                    // 200).show();
                     System.out.println("1======" + nickname);
                     UserLoginWayActivity.panduan = false;
                     Intent intent4 = new Intent(fAct, UserLoginActivity.class);
                     fAct.startActivity(intent4);
                 } else if (PhoneLoginActivity.panduan == true) {
 
-                    // if (!user_name.equals("")) {
                     spPreferences.edit().clear().commit();
                     spPreferences_login.edit().clear().commit();
                     jdh_spPreferences.edit().clear().commit();// 积兑换保存福利清除
                     String user_name = spPreferences.getString("user", "");
                     System.out.println("2======" + user_name);
-                    // Toast.makeText(getActivity(), "用户名/"+user_name,
-                    // 200).show();
-                    Intent intent4 = new Intent(fAct,
-                            UserLoginActivity.class);
-                    // intent4.putExtra("login", index);
+                    Intent intent4 = new Intent(fAct, UserLoginActivity.class);
                     PhoneLoginActivity.panduan = false;
                     fAct.startActivity(intent4);
                 } else {

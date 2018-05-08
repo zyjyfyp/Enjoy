@@ -82,7 +82,7 @@ public class JuTuanGouXq2Activity extends AppCompatActivity implements OnClickLi
     JuTuanAdapter arrayadapter;
     private WebView webview;
     private String item_id, goumai_id, tuangoujia;
-    String user_id, login_sign, nickname, choujiang, sp_id, ct_id, groupon_no;
+    String user_id, login_sign,  choujiang, sp_id, ct_id, groupon_no;
     String province, city, area, user_address, user_mobile, name, shopping_address_id;
     private InScrollListView list_shop_cart;
     String zhuangtai = "100";

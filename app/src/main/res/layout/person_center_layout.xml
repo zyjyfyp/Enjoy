@@ -77,7 +77,7 @@
                             android:textSize="15sp" />
 
 
-                        <com.yunsen.enjoy.ui.photoview.RoundImageView
+                        <ImageView
                             android:id="@+id/roundImage_network"
                             android:layout_width="60dp"
                             android:layout_height="60dp"

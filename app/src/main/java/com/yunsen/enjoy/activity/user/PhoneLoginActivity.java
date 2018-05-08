@@ -89,7 +89,6 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
 
     public static String user_name;
     private MyPopupWindowMenu popupWindowMenu;
-    Editor editor;
     private SharedPreferences spPreferences;
     private String strUr2 = URLConstants.REALM_NAME_LL + "/get_apk_version?browser=android";
     private String URL;
@@ -138,7 +137,6 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
     @Override
     protected void onResume() {
         super.onResume();
-        spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
         user_name = spPreferences.getString("user", "");
     }
 
@@ -187,8 +185,7 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
                                         data.sex = obj.getString("sex");
 
                                         login_sign = data.login_sign;
-                                        spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-                                        editor = spPreferences.edit();
+                                        Editor editor = spPreferences.edit();
                                         editor.putString("login_sign", data.login_sign);
                                         editor.putString("avatar", data.avatar);
                                         editor.putString(SpConstants.MOBILE, data.mobile);
@@ -203,6 +200,10 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
                                         editor.putString("datetime", datetime);
                                         editor.putString(SpConstants.GROUP_NAME, data.group_name);
                                         editor.commit();
+                                        /**
+                                         * 新增手机登录后保存用户信息
+                                         */
+                                        saveUserInfo(datetime);
                                         EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));//登录成功通知mine更新页面
                                         setResult(RESULT_OK);
                                         finish();
@@ -216,14 +217,11 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
                                 }
                             }
 
-                            ;
-
                             @Override
                             public void onFailure(Throwable arg0, String arg1) {
 
                                 super.onFailure(arg0, arg1);
-                                Toast.makeText(PhoneLoginActivity.this,
-                                        "连接超时", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PhoneLoginActivity.this, "连接超时", Toast.LENGTH_SHORT).show();
                             }
                         }, PhoneLoginActivity.this);
 
@@ -233,15 +231,13 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
                     }
                     break;
                 case 10:
-
                     break;
                 case 1:
                     String str = (String) msg.obj;
                     Toast.makeText(PhoneLoginActivity.this, str, Toast.LENGTH_SHORT).show();
                     break;
                 case 2:
-                    Toast.makeText(PhoneLoginActivity.this, "用户名错误",
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PhoneLoginActivity.this, "用户名错误", Toast.LENGTH_SHORT).show();
                     break;
                 case 5:
                     try {
@@ -300,6 +296,40 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
         ;
 
     };
+
+    /**
+     * 保存用户信息
+     *
+     * @param datetime
+     */
+    private void saveUserInfo(String datetime) {
+        SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+        Editor edit = sp.edit();
+        edit.putString("login_sign", data.login_sign);
+        edit.putString("avatar", data.avatar);
+        edit.putString(SpConstants.MOBILE, data.mobile);
+        edit.putString("group_id", data.group_id);
+        edit.putString(SpConstants.USER_NAME, data.user_name);
+        edit.putString("user_id", data.id);
+        edit.putString("point", data.point);
+        edit.putString("real_name", data.real_name);
+        edit.putString("company_id", data.company_id);
+        edit.putString("birthday", data.birthday);
+        edit.putString("sex", data.sex);
+        edit.putString("datetime", datetime);
+        edit.putString(SpConstants.GROUP_NAME, data.group_name);
+        edit.commit();
+    }
+
+    private void saveUserInfo2(String user, String pwd, String user_id) {
+        SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+        Editor edit = sp.edit();
+        edit.putBoolean("save", true);
+        edit.putString("user", user);
+        edit.putString("pwd", pwd);
+        edit.putString("user_id", user_id);
+        edit.commit();
+    }
 
     // 获取当前程序的版本信息
     public static String getAppVersionName(Context context) {
@@ -577,12 +607,16 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
                                     setInStr(mm + myrnd);
                                     init();
                                     mi = compute();
-                                    editor = spPreferences.edit();
+                                    Editor editor = spPreferences.edit();
                                     editor.putBoolean("save", true);
                                     editor.putString("user", userphone.getText().toString());
                                     editor.putString("pwd", et_pwd.getText().toString());
                                     editor.putString("user_id", user_id);
                                     editor.commit();
+                                    /**
+                                     * 新增保存手机用户信息
+                                     */
+                                    saveUserInfo2(userphone.getText().toString(), et_pwd.getText().toString(), user_id);
                                     panduan = true;
                                     ToastUtils.makeTextShort(info);
                                     progress.CloseProgress();
@@ -619,6 +653,7 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
                 break;
         }
     }
+
 
     private static final String TAG = "PhoneLoginActivity";
 

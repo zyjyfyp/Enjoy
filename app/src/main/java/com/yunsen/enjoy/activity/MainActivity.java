@@ -1,7 +1,11 @@
 
 package com.yunsen.enjoy.activity;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -33,6 +37,7 @@ public class MainActivity extends BaseFragmentActivity {
     private ArrayList<String> fragmentTags;
     private FragmentManager fragmentManager;
     private long mFirstPressedTime;
+    private MineFragment mMineFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +147,8 @@ public class MainActivity extends BaseFragmentActivity {
             case 2:
                 return new DiscoverFragment();
             case 3:
-                return new MineFragment();
+                mMineFragment = new MineFragment();
+                return mMineFragment;
             default:
                 return null;
         }
@@ -186,11 +192,28 @@ public class MainActivity extends BaseFragmentActivity {
         }
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == Constants.PHOTO_ACTIVITY_REQUEST) {
+                Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
+                if (mMineFragment != null) {
+                    mMineFragment.loadUserIcon(selectedImage);
+                }
+
+            }
+        }
+    }
+
     @Override
     protected void onRequestPermissionSuccess(int requestCode) {
         super.onRequestPermissionSuccess(requestCode);
         if (requestCode == Constants.CALL_PHONE) {
             UIHelper.showPhoneNumberActivity(this, "400****120");
+        } else if (requestCode == Constants.WRITE_EXTERNAL_STORAGE) {
+            UIHelper.showPhotoActivity(this, Constants.PHOTO_ACTIVITY_REQUEST);
         }
     }
 }

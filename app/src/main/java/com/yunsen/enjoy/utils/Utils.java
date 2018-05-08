@@ -228,10 +228,10 @@ public class Utils {
      *
      * @param bitmap
      *            传入Bitmap对象
-     * @param tempUri
+     * @param
      * @return
      */
-    public static Bitmap toRoundBitmap(Bitmap bitmap, Uri tempUri) {
+    public static Bitmap toRoundBitmap(Bitmap bitmap) {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         float roundPx;

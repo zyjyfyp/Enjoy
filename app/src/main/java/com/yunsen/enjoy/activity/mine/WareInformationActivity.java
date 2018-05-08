@@ -52,6 +52,7 @@ import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.activity.user.UserLoginWayActivity;
 import com.yunsen.enjoy.common.AppManager;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.GuigeBean;
@@ -170,7 +171,7 @@ public class WareInformationActivity extends AppCompatActivity implements
         JuTuanGouXqActivity.spec_text_list = 0;//销售套餐判断为0
 
         SharedPreferences spPreferences_login = getSharedPreferences("longuserset_login", MODE_PRIVATE);
-        nickname = spPreferences_login.getString("nickname", "");
+        nickname = spPreferences_login.getString(SpConstants.NICK_NAME, "");
 
         System.out.println("nickname=================" + nickname);
         if (!nickname.equals("")) {
@@ -202,7 +203,7 @@ public class WareInformationActivity extends AppCompatActivity implements
     private void getjianche() {
 
         SharedPreferences spPreferences_login = getSharedPreferences("longuserset_login", MODE_PRIVATE);
-        nickname = spPreferences_login.getString("nickname", "");
+        nickname = spPreferences_login.getString(SpConstants.NICK_NAME, "");
         String headimgurl = spPreferences_login.getString("headimgurl", "");
         String unionid = spPreferences_login.getString("unionid", "");
         String access_token = spPreferences_login.getString("access_token", "");

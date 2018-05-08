@@ -926,7 +926,6 @@ public class JuJingCaiXqActivity extends AppCompatActivity implements OnClickLis
 //			String user_name = spPreferences.getString("user", "");
 //			String user_id = spPreferences.getString("user_id", "");
                 System.out.println("user_name_phone=======收藏=========" + user_name_phone);
-                System.out.println("nickname========" + nickname);
                 if (!nickname.equals("")) {
                     if (!user_name_phone.equals("")) {
                         System.out.println("2================" + user_name_phone);

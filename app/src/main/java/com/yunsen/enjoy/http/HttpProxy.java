@@ -1,8 +1,13 @@
 package com.yunsen.enjoy.http;
 
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.orhanobut.logger.Logger;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.model.AdvertList;
 import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.BrandResponse;
@@ -466,4 +471,29 @@ public class HttpProxy {
         });
     }
 
+    public static void putUserIcon(Activity act, String userAvatar, final HttpCallBack<String> callBack) {
+        HashMap<String, String> param = new HashMap<>();
+        SharedPreferences sp = act.getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+        String userName = sp.getString(SpConstants.USER_NAME, "");
+        String userId = sp.getString(SpConstants.USER_ID, "");
+        String sign = sp.getString(SpConstants.LOGIN_SIGN, "");
+        param.put("user_name", userName);
+        param.put("user_id", userId);
+        param.put("user_avatar", userAvatar);
+        param.put("sign", sign);
+
+        HttpClient.get(URLConstants.SAVE_USER_ICON_URL, param, new HttpResponseHandler<RestApiResponse>() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getInfo());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                Logger.e(TAG, "onFailure: " + e.getMessage());
+                super.onFailure(request, e);
+            }
+        });
+    }
 }

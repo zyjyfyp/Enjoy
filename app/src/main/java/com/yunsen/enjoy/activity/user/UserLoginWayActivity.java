@@ -26,6 +26,7 @@ import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.utils.GetImgUtil;
@@ -313,7 +314,7 @@ public class UserLoginWayActivity extends AppCompatActivity implements
                                                 bitmap = GetImgUtil.getImage(json.getString("figureurl_qq_2"));
                                                 String headimgurl2 = Utils.bitmaptoString(bitmap);
                                                 Editor editor = spPreferences_login.edit();
-                                                editor.putString("nickname", nickname);
+                                                editor.putString(SpConstants.NICK_NAME, nickname);
                                                 editor.putString("headimgurl2", headimgurl2);
                                                 editor.putString("sex", sex);
                                                 editor.putString("province", province);

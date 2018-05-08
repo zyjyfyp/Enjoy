@@ -12,7 +12,6 @@ public class SpConstants {
      */
     public static final String SP_USER_SET = "longuserset";
     public static final String USER = "user";
-    public static final String USER_ID = "user_id";
 
 
     /**
@@ -21,12 +20,10 @@ public class SpConstants {
 
 //    public static final String SP_LONG_USER_SET_LOGIN = "longuserset_login";
 
-    public static final String NICK_NAME = "nickname";
     public static final String HEAD_IMG_URL = "headimgurl";
     public static final String HEAD_IMG_URL_2 = "headimgurl2";
     public static final String UNION_ID = "unionid";
     public static final String ACCESS_TOKEN = "access_token";
-    public static final String SEX = "sex";
     public static final String OAUTH_OPEN_ID = "oauth_openid";
     public static final String PROVINCE = "province";
     public static final String CITY = "city";
@@ -49,16 +46,25 @@ public class SpConstants {
     public static final String SP_LONG_USER_SET_TISHI = "longuserset_tishi";
 
     /**
-     * 手机账号
+     * 手机账号用户信息
      */
     public static final String SP_LONG_USER_SET_USER = "longuserset_user";
     public static final String GROUP_NAME = "group_name";
     public static final String USER_NAME = "user";
     public static final String MOBILE = "mobile";
-
-
-
-
+    public static final String LOGIN_SIGN = "login_sign";
+    public static final String USER_ID = "user_id";
+    public static final String AVATAR = "avatar";
+    public static final String GROUP_ID = "group_id";
+    public static final String POINT = "point";
+    public static final String REAL_NAME = "real_name";
+    public static final String COMPANY_ID = "company_id";
+    public static final String BIRTHDAY = "birthday";
+    public static final String SEX = "sex";
+    public static final String DATE_TIEM = "datetime";
     public static final String SP_GUIDE = "guide";
+    public static final String NICK_NAME = "nick_name";
+    public static final String USER_IMG = "user_img";
+    public static final String OK = "ok";//图片保存OK
 
 }

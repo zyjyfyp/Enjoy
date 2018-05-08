@@ -71,6 +71,11 @@ public class URLConstants {
      */
     public static String PHONE_USER_INFO_URL = URLConstants.REALM_NAME_LL + "/get_user_model?username=";
     /**
+     * 保存用户头像
+     */
+    public static final String SAVE_USER_ICON_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_avatar_save";
+
+    /**
      * 添加收藏
      */
     public static final String ADD_COLLECT_URL = URLConstants.REALM_NAME_LL + "/user_favorite";

@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -14,9 +17,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.squareup.picasso.Picasso;
+import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.activity.mine.ApplyServiceActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
@@ -31,24 +37,25 @@ import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.MyOrderData;
 import com.yunsen.enjoy.model.UserInfo;
-import com.yunsen.enjoy.model.UserRegisterllData;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.ui.DialogUtils;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.AccountUtils;
+import com.yunsen.enjoy.utils.GetImgUtil;
+import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.utils.Utils;
+import com.yunsen.enjoy.widget.GlideCircleTransform;
 import com.yunsen.enjoy.widget.PicassoRoundTransform;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -170,7 +177,6 @@ public class MineFragment extends BaseFragment {
     @Override
     protected void initView() {
         ButterKnife.bind(this, rootView);
-
     }
 
     @Override
@@ -356,7 +362,9 @@ public class MineFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.user_icon_img:
-                UIHelper.showPersonCenterActivity(getActivity());
+                if (getActivity() instanceof MainActivity) {
+                    ((MainActivity) getActivity()).requestPermission(Permission.WRITE_EXTERNAL_STORAGE, Constants.WRITE_EXTERNAL_STORAGE);
+                }
                 break;
             case R.id.balance_layout:
                 assetsClick("1");
@@ -509,7 +517,7 @@ public class MineFragment extends BaseFragment {
             userNameTv.setVisibility(View.VISIBLE);
             Bitmap bitmap = Utils.stringtoBitmap(imgString);
             // Bitmap bitmap = UserLoginActivity.bitmap;
-            bitmap = Utils.toRoundBitmap(bitmap, null); // 这个时候的图片已经被处理成圆形的了
+            bitmap = Utils.toRoundBitmap(bitmap); // 这个时候的图片已经被处理成圆形的了
             userIconImg.setImageBitmap(bitmap);
             userNameTv.setText(name);
         } else {
@@ -544,6 +552,7 @@ public class MineFragment extends BaseFragment {
                 editor.putString("avatar", data.getAvatar());
                 editor.putString("group_id", "" + data.getGroup_id());
                 editor.putString("group_name", data.getGroup_name());
+                editor.commit();
                 yth = data.getUser_code();
                 balanceTv.setText("" + data.getAmount()); //钱包
                 freezeTv.setText("" + data.getPension());//养老金
@@ -558,6 +567,16 @@ public class MineFragment extends BaseFragment {
                 }
                 gradeTv.setText(data.getGroup_name());
                 phoneNumTv.setText("(" + data.getMobile() + ")");
+                String avatar = data.getAvatar();
+
+                if (!TextUtils.isEmpty(avatar) && avatar.startsWith("http")) {
+                    Glide.with(MineFragment.this)
+                            .load(avatar)
+                            .transform(new GlideCircleTransform(getActivity()))
+                            .into(userIconImg);
+                } else if (SpConstants.OK.equals(avatar)) {
+                    GetImgUtil.loadLocationImg(getActivity(), userIconImg);
+                }
                 // point
                 //                                System.out.println("tp_type===============" + tp_type);
                 //                                if (tp_type == false) { todo ??
@@ -588,7 +607,6 @@ public class MineFragment extends BaseFragment {
                 //                                    }
                 //                                }
                 //                                userpanduan(data.login_sign); 判断是否升级 todo??
-                editor.commit();
             }
 
             @Override
@@ -615,6 +633,7 @@ public class MineFragment extends BaseFragment {
                 loginIcon.setVisibility(View.VISIBLE);
                 loginTv.setVisibility(View.VISIBLE);
                 Log.e(TAG, "onEvent: 注销更新");
+
                 balanceTv.setText("");
                 freezeTv.setText("");
                 commissionTv.setText("");
@@ -639,6 +658,16 @@ public class MineFragment extends BaseFragment {
         super.onDestroyView();
         ButterKnife.unbind(this);
         DialogUtils.closeLoginDialog();
+    }
+
+
+    public void loadUserIcon(Uri selectedImage) {
+        Glide.with(this)
+                .load(selectedImage)
+                .transform(new GlideCircleTransform(getActivity()))
+                .into(userIconImg);
+        //上传图片
+        GetImgUtil.pullUserIcon(getActivity(), selectedImage);
     }
 
 

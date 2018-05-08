@@ -33,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
 import com.gghl.view.wheelcity.AddressData;
 import com.gghl.view.wheelcity.OnWheelChangedListener;
 import com.gghl.view.wheelcity.WheelView;
@@ -40,19 +41,26 @@ import com.gghl.view.wheelcity.adapters.AbstractWheelTextAdapter;
 import com.gghl.view.wheelcity.adapters.ArrayWheelAdapter;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.squareup.picasso.Picasso;
+import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
+import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.fragment.MineFragment;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.http.down.UpdateApkThread;
 import com.yunsen.enjoy.model.UserRegisterllData;
 import com.yunsen.enjoy.model.UserSenJiBean;
+import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.photoview.RoundImageView;
+import com.yunsen.enjoy.utils.GetImgUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.utils.Utils;
 import com.yunsen.enjoy.widget.DialogProgress;
+import com.yunsen.enjoy.widget.GlideCircleTransform;
 import com.yunsen.enjoy.widget.MyAlertDialog;
 
 import org.json.JSONException;
@@ -77,11 +85,11 @@ import it.sauronsoftware.ftp4j.FTPException;
 import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 
 
-public class PersonCenterActivity extends AppCompatActivity implements OnClickListener {
+public class PersonCenterActivity extends BaseFragmentActivity implements OnClickListener {
     private String yth;
     private TextView v2, v7, tv_nicheng, tv_nick_name;
     private RelativeLayout v6, mm, ll_update, rl_nichen;
-    RoundImageView networkImage;
+    ImageView networkImage;
     UserSenJiBean bean;
     private ImageView iv_personal_icon, iv_personal_icon1;
     private TextView tv_name, tv_shenfenzheng, tv_jxdizhi, tv_xqdizhi, tv_banbenhao, tv_city, tv_ka_name;
@@ -105,15 +113,28 @@ public class PersonCenterActivity extends AppCompatActivity implements OnClickLi
     public static boolean zhuangtai = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public int getLayout() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.person_center_layout);
+        return R.layout.person_center_layout;
+    }
+
+    @Override
+    protected void initView() {
         spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
         user_name = spPreferences.getString("user", "");
         user_id = spPreferences.getString("user_id", "");
         progress = new DialogProgress(PersonCenterActivity.this);
         init();
+    }
+
+    @Override
+    protected void initData(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    protected void initListener() {
+
     }
 
     @Override
@@ -123,7 +144,7 @@ public class PersonCenterActivity extends AppCompatActivity implements OnClickLi
     }
 
     private void init() {
-        networkImage = (RoundImageView) findViewById(R.id.roundImage_network);
+        networkImage = (ImageView) findViewById(R.id.roundImage_network);
         v2 = (TextView) findViewById(R.id.v2);
         tv_city = (TextView) findViewById(R.id.tv_city);
         tv_ka_name = (TextView) findViewById(R.id.tv_ka_name);
@@ -149,12 +170,12 @@ public class PersonCenterActivity extends AppCompatActivity implements OnClickLi
         ll_gender.setOnClickListener(this);
         ll_diqu.setOnClickListener(this);
         mm.setOnClickListener(this);
+        networkImage.setOnClickListener(this);
 
         String version = getAppVersionName(PersonCenterActivity.this);
         System.out.println("c_version==============" + version);
         tv_banbenhao.setText(version);
         tv_banbenhao.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View arg0) {
 
@@ -239,7 +260,7 @@ public class PersonCenterActivity extends AppCompatActivity implements OnClickLi
                                 }
 
                                 spPreferences_login = getSharedPreferences("longuserset_login", MODE_PRIVATE);
-                                String nickname = spPreferences_login.getString("nickname", "");
+                                String nickname = spPreferences_login.getString(SpConstants.NICK_NAME, "");
                                 System.out.println("=============nickname======" + nickname);
                                 if (!nickname.equals("")) {
                                     tv_nicheng.setText(nickname);
@@ -266,10 +287,10 @@ public class PersonCenterActivity extends AppCompatActivity implements OnClickLi
                                 }
 
                                 System.out.println("data.avatar===============" + data.avatar);
-                                if (!data.avatar.equals("")) {
-                                    Picasso.with(PersonCenterActivity.this)
-                                            .load(URLConstants.REALM_URL + data.avatar)
-                                            .into(networkImage);
+                                if (SpConstants.OK.equals(data.avatar)) {
+                                    GetImgUtil.loadLocationImg(PersonCenterActivity.this, networkImage);
+                                } else {
+                                    ToastUtils.makeTextShort("需要默认图片");
                                 }
 
 
@@ -389,7 +410,7 @@ public class PersonCenterActivity extends AppCompatActivity implements OnClickLi
                                 Message message = new Message();
                                 message.what = 1;
                                 handler.sendMessage(message);
-                            }else{
+                            } else {
                                 ToastUtils.makeTextShort("当前为最新版本");
                             }
                         } catch (Exception e) {
@@ -452,20 +473,16 @@ public class PersonCenterActivity extends AppCompatActivity implements OnClickLi
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case CHOOSE_PICTURE: // 选择本地照片
-                        Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                        System.out.println("本地照片-----------------" + openAlbumIntent);
-                        openAlbumIntent.setType("image/*");
-                        startActivityForResult(openAlbumIntent, CHOOSE_PICTURE);
+                        requestPermission(Permission.WRITE_EXTERNAL_STORAGE, Constants.WRITE_EXTERNAL_STORAGE);
                         break;
                     case TAKE_PICTURE: // 拍照
-                        Intent openCameraIntent = new Intent(
-                                MediaStore.ACTION_IMAGE_CAPTURE);
+//                        requestPermission(Permission.CAMERA, Constants.CAMERA);
+                        Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         tempUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "image.jpg"));
-                        System.out.println("拍照================" + tempUri);
                         // 指定照片保存路径（SD卡），image.jpg为一个临时文件，每次拍照后这个图片都会被替换
+                        openCameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
                         startActivityForResult(openCameraIntent, TAKE_PICTURE);
-
                         break;
                 }
             }
@@ -475,17 +492,40 @@ public class PersonCenterActivity extends AppCompatActivity implements OnClickLi
     }
 
     @Override
+    protected void onRequestPermissionSuccess(int requestCode) {
+        switch (requestCode) {
+            case Constants.WRITE_EXTERNAL_STORAGE:
+                UIHelper.showPhotoActivity(this, Constants.PHOTO_ACTIVITY_REQUEST);
+                break;
+            case Constants.CAMERA:
+
+                break;
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) { // 如果返回码是可以用的
             switch (requestCode) {
                 //拍照
                 case TAKE_PICTURE:
-                    startPhotoZoom(tempUri); // 开始对图片进行裁剪处理
+                    Glide.with(this)
+                            .load(tempUri)
+                            .transform(new GlideCircleTransform(this))
+                            .into(networkImage);
+                    //上传图片
+                    GetImgUtil.pullUserIcon(this, tempUri);
                     break;
                 //上传图片
-                case CHOOSE_PICTURE:
-                    startPhotoZoom(data.getData()); // 开始对图片进行裁剪处理
+                case Constants.PHOTO_ACTIVITY_REQUEST:
+                    Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
+                    Glide.with(this)
+                            .load(selectedImage)
+                            .transform(new GlideCircleTransform(this))
+                            .into(networkImage);
+                    //上传图片
+                    GetImgUtil.pullUserIcon(this, selectedImage);
                     break;
                 case CROP_SMALL_PICTURE:
                     if (data != null) {

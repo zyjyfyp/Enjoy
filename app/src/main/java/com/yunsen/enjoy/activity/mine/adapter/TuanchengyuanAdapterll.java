@@ -194,7 +194,7 @@ public class TuanchengyuanAdapterll extends BaseAdapter {
 						+ (String) datadz2.get(num);
 				System.out.println("img_url2=====1=========" + img_url2);
 				Bitmap bmp = GetImgUtil.getImage(img_url);// BitmapFactory：图片工厂！
-				bitMap_tx = Utils.toRoundBitmap(bmp, null);// 这个时候的图片已经被处理成圆形的了
+				bitMap_tx = Utils.toRoundBitmap(bmp);// 这个时候的图片已经被处理成圆形的了
 				System.out.println("bitMap1==============" + bitMap_tx);
 				// image.setImageBitmap(bitMap_tx);
 			} catch (Exception e) {

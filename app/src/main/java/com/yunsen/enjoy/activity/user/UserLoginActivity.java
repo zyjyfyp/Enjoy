@@ -37,6 +37,7 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.http.down.UpdateApkThread;
@@ -214,7 +215,7 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
                     System.out.println("======输出2=============" + arg1);
                     try {
                         JSONObject object = new JSONObject(arg1);
-                        nickname = object.getString("nickname");
+                        nickname = object.getString(SpConstants.NICK_NAME);
                         headimgurl = object.getString("headimgurl");
                         unionid = object.getString("unionid");
                         sex = object.getString("sex");
@@ -224,7 +225,7 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
                         oauth_openid = object.getString("openid");
 
                         editor = spPreferences_login.edit();
-                        editor.putString("nickname", nickname);
+                        editor.putString(SpConstants.NICK_NAME, nickname);
                         editor.putString("headimgurl", headimgurl);
                         editor.putString("access_token", access_token);
                         editor.putString("unionid", unionid);
