@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.http.HttpCallBack;
@@ -34,8 +35,8 @@ public class ServiceShopInfoActivity extends BaseFragmentActivity {
     ImageView serviceImg;
     @Bind(R.id.service_name_tv)
     TextView serviceNameTv;
-    @Bind(R.id.shop_phone_tv)
-    TextView shopPhoneTv;
+    @Bind(R.id.shop_phone_img)
+    ImageView shopPhoneImg;
     @Bind(R.id.address_info)
     TextView addressInfo;
     @Bind(R.id.shop_time)
@@ -66,12 +67,13 @@ public class ServiceShopInfoActivity extends BaseFragmentActivity {
 
     private void upData(SProviderModel responseData) {
         serviceNameTv.setText(responseData.getArtperson());
-        String addr = responseData.getProvince() + responseData.getCity() + responseData.getArea()
+        String addr = "详细地址：" + responseData.getProvince() + responseData.getCity() + responseData.getArea()
                 + responseData.getAddress();
         addressInfo.setText(addr);
 
         Glide.with(this)
                 .load(responseData.getImg_url())
+                .placeholder(R.mipmap.bindingbg)
                 .into(serviceImg);
     }
 
@@ -101,17 +103,31 @@ public class ServiceShopInfoActivity extends BaseFragmentActivity {
     }
 
 
-    @OnClick({R.id.action_back, R.id.shop_phone_tv})
+    @OnClick({R.id.action_back, R.id.shop_phone_img})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.action_back:
                 finish();
                 break;
-            case R.id.shop_phone_tv:
-                if (mData != null) {
-                    UIHelper.showPhoneNumberActivity(this, mData.getMobile());
-                }
+            case R.id.shop_phone_img:
+                requestPermission(Permission.CALL_PHONE, Constants.CALL_PHONE);
                 break;
         }
+    }
+
+    @Override
+    protected void onRequestPermissionSuccess(int requestCode) {
+        super.onRequestPermissionSuccess(requestCode);
+        if (requestCode == Constants.CALL_PHONE) {
+            if (mData != null) {
+                UIHelper.showPhoneNumberActivity(this, mData.getMobile());
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ButterKnife.unbind(this);
     }
 }

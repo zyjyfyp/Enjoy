@@ -44,17 +44,29 @@
                     android:layout_height="1dp"
                     android:layout_weight="1" />
 
-                <TextView
-                    android:id="@+id/shop_phone_tv"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_gravity="right"
-                    android:drawablePadding="5dp"
-                    android:drawableRight="@mipmap/phone_call"
-                    android:gravity="center_vertical"
-                    android:text="电话："
-                    android:textColor="@color/title_color"
-                    android:textSize="15sp" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/shop_phone_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="right"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:text="电话："
+                        android:textColor="@color/title_color"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:id="@+id/shop_phone_img"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@mipmap/phone_call" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -73,6 +85,7 @@
                 android:layout_marginTop="5dp"
                 android:ellipsize="end"
                 android:lines="2"
+                android:gravity="center_vertical"
                 android:text="详细地址："
                 android:textColor="@color/title_color"
                 android:textSize="15sp" />
@@ -89,7 +102,7 @@
                 android:layout_marginLeft="@dimen/app_margin"
                 android:layout_marginRight="@dimen/app_margin"
                 android:gravity="center_vertical"
-                android:text="营业时间："
+                android:text="营业时间：09:00 - 18:00"
                 android:textColor="@color/title_color"
                 android:textSize="15sp" />
 

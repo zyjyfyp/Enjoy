@@ -407,6 +407,7 @@ public class UIHelper {
      */
     public static void showServiceShopInfoActivity(Context ctx, String id) {
         Intent intent = new Intent(ctx, ServiceShopInfoActivity.class);
+        intent.putExtra(Constants.SERVICE_SHOP_KEY,id);
         ctx.startActivity(intent);
     }
 }

@@ -386,7 +386,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         List<SProviderModel> datas = mAdapter.getDatas();
         if (datas != null && position > 0 && datas.size() > position - 1) {
-            int id = datas.get(position - 1).getId();
+            int id = datas.get(position - 1).getUser_id();
             Log.e(TAG, "onItemClick: " + id);
             UIHelper.showServiceShopInfoActivity(getActivity(), String.valueOf(id));
 
