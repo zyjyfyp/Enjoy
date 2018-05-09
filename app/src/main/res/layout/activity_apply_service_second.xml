@@ -178,7 +178,7 @@
 
                 <TextView
                     style="@style/ApplyService2Tv"
-                    android:text="服务商名称" />
+                    android:text="详细地址" />
 
                 <View
                     android:layout_width="0dp"

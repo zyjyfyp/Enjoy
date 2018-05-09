@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.TextUtils;
+import android.util.Base64;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -12,6 +14,9 @@ import com.yunsen.enjoy.http.URLConstants;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by tiansj on 15/11/16.
@@ -111,5 +116,39 @@ public class BitmapUtil {
         ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中
         Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
         return bitmap;
+    }
+    /**
+     * bitmap转为base64
+     * @param bitmap
+     * @return
+     */
+    public static String bitmapToBase64(Bitmap bitmap) {
+
+        String result = null;
+        ByteArrayOutputStream baos = null;
+        try {
+            if (bitmap != null) {
+                baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+                baos.flush();
+                baos.close();
+
+                byte[] bitmapBytes = baos.toByteArray();
+                result = Base64.encodeToString(bitmapBytes, Base64.DEFAULT);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (baos != null) {
+                    baos.flush();
+                    baos.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
     }
 }

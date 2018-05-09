@@ -1,6 +1,8 @@
 package com.yunsen.enjoy.activity.dealer;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -10,7 +12,12 @@ import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
+import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.SpConstants;
+import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.utils.SharedPreference;
+import com.yunsen.enjoy.utils.ToastUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -46,6 +53,7 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
     TextView facilitatorEndTv;
     @Bind(R.id.next_btn)
     Button nextBtn;
+    private ApplyFacilitatorModel mRequstData;
 
     @Override
     public int getLayout() {
@@ -61,7 +69,12 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
+        SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+        String userName = sp.getString(SpConstants.USER_NAME, "");
+        String userId = sp.getString(SpConstants.USER_ID, "");
+        mRequstData = new ApplyFacilitatorModel();
+        mRequstData.setUser_name(userName);
+        mRequstData.setUser_id(userId);
     }
 
     @Override
@@ -83,10 +96,48 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
             case R.id.facilitator_end_tv:
                 break;
             case R.id.next_btn:
-                UIHelper.showApplyServiceThreeActivity(this);
+                intSMap();
+                UIHelper.showApplyServiceThreeActivity(this, mRequstData);
                 break;
         }
     }
+
+    private void intSMap() {
+        String name = facilitatorNameEdt.getText().toString();
+//        Integer tag = (Integer) facilitatorTagTv.getTag();
+        Integer tag = 0;
+//        Integer projectTag = (Integer) facilitatorProjectEdt.getTag();
+        Integer projectTag = (Integer) facilitatorProjectEdt.getTag();
+        String phoneNum = facilitatorPhoneEdt.getText().toString();
+        String address = facilitatorAddressEdt.getText().toString();
+        String gpsAddress = facilitatorGpsEdt.getText().toString();
+        String startTime = facilitatorStartTv.getText().toString();
+        String endTime = facilitatorEndTv.getText().toString();
+        if (TextUtils.isEmpty(name)) {
+            ToastUtils.makeTextShort("服务商名称不能为空");
+        } else if (TextUtils.isEmpty(phoneNum)) {
+            ToastUtils.makeTextShort("联系电话不能为空");
+        } else if (TextUtils.isEmpty(address)) {
+            ToastUtils.makeTextShort("服务商城市不能为空");
+        } else if (TextUtils.isEmpty(gpsAddress)) {
+            ToastUtils.makeTextShort("详细地址不能为空");
+        } else if (TextUtils.isEmpty(startTime)) {
+
+        } else if (TextUtils.isEmpty(endTime)) {
+
+        } else {
+            mRequstData.setName(name);
+            mRequstData.setSeo_title(String.valueOf(tag));
+            mRequstData.setService_ids(String.valueOf(projectTag));
+            mRequstData.setMobile(phoneNum);
+            mRequstData.setProvince(address);
+            mRequstData.setAddress(gpsAddress);
+            mRequstData.setService_time(startTime + "-" + endTime);
+        }
+
+    }
+
+    private static final String TAG = "ApplyServiceSecondActiv";
 
     @Override
     protected void onDestroy() {

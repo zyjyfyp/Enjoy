@@ -149,7 +149,19 @@ public class URLConstants {
      * + "&page_size=1000&page_index=1&strwhere=datatype=1&orderby="
      * 订单列表
      */
-    public static final String ORDER_LIST_URL = BuildConfig.ROOT_URL + "/get_order_page_size_list";
+    public static final String ORDER_LIST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_order_page_size_list";
+    /**
+     * 上传图片 post方法 base64=**
+     */
+    public static final String PULL_IMG_URL = BuildConfig.ROOT_URL + "/tools/upload_ajax.ashx?action=Base64File";
+    /**
+     * 服务项目列表
+     */
+    public static final String SERVICE_PROJECT_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_service_child_list?parent_id=0&strwhere=";
+    /**
+     * 行业列表
+     */
+    public static final String TRADE_LIST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_trade_list?parent_id=0";
 
 
     //

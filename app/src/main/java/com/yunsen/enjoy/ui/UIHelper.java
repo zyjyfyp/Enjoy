@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -38,6 +39,8 @@ import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.fragment.buy.SelectBrandActivity;
 import com.yunsen.enjoy.fragment.buy.SeniorFilterActivity;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
+import com.yunsen.enjoy.model.request.SerializableMap;
 
 /**
  * 应用程序UI工具包：封装UI相关的一些操作
@@ -424,8 +427,17 @@ public class UIHelper {
         ctx.startActivity(intent);
     }
 
-    public static void showApplyServiceThreeActivity(Context ctx) {
+    /**
+     * 申请服务商3
+     *
+     * @param ctx
+     * @param mSMap
+     */
+    public static void showApplyServiceThreeActivity(Context ctx, ApplyFacilitatorModel mSMap) {
         Intent intent = new Intent(ctx, ApplyServiceThreeActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constants.APPLY_FACILITATOR_KEY, mSMap);
+        intent.putExtras(bundle);
         ctx.startActivity(intent);
     }
 }

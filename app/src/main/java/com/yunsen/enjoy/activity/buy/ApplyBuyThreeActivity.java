@@ -23,6 +23,8 @@ import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.widget.BuyCarStepLayout;
 
 
+import java.io.Serializable;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -59,6 +61,7 @@ public class ApplyBuyThreeActivity extends BaseFragmentActivity {
     TextView addBannerImageTv;
 
     private int mRequestActivityCode;
+    private Serializable mRequsetData;
 
     @Override
     public int getLayout() {
@@ -92,6 +95,7 @@ public class ApplyBuyThreeActivity extends BaseFragmentActivity {
 
     @OnClick({R.id.ic_card_img, R.id.ic_card_img_bg, R.id.add_banner_image_tv, R.id.action_back})
     public void onViewClicked(View view) {
+
         switch (view.getId()) {
             case R.id.action_back:
                 finish();

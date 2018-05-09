@@ -92,6 +92,11 @@ public class Constants {
      * 资金详情
      */
     public static final String MY_ASSETS_INDEX_KEY = "status";
+    /**
+     * 注册成为服务商
+     */
+    public static final String APPLY_FACILITATOR_KEY = "apply_facilitator_key";
+    public static final String BUNDLE ="bundle" ;
 
 
 }

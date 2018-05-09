@@ -1,5 +1,6 @@
 package com.yunsen.enjoy.activity.dealer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -11,6 +12,10 @@ import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
+import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
+
+import java.io.Serializable;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,6 +59,7 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
     EditText facilitatorRefereeNumEdt;
     @Bind(R.id.submit_btn)
     Button submitBtn;
+    private ApplyFacilitatorModel mRequsetData;
 
     @Override
     public int getLayout() {
@@ -69,7 +75,14 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        Intent intent = getIntent();
+        if (intent != null) {
+            Bundle extras = intent.getExtras();
+            mRequsetData = extras.getParcelable(Constants.APPLY_FACILITATOR_KEY);
+        }
+        if (mRequsetData != null) {
 
+        }
     }
 
     @Override
@@ -96,8 +109,19 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
             case R.id.join_protocol_tv:
                 break;
             case R.id.submit_btn:
+                initRequestData();
                 break;
         }
+    }
+
+    private void initRequestData() {
+        String category = facilitatorCategoryTv.getText().toString();
+        String synonsis = facilitatorSynopsisEdt.getText().toString();
+        String advatage = facilitatorAdvantageEdt.getText().toString();
+        String businessLicence = facilitatorBusinessLicenceEdt.getText().toString();//营业执照注册号
+        String refereeNum = facilitatorRefereeNumEdt.getText().toString();//推荐人号码
+        String workNumber = facilitatorWorkNumberEdt.getText().toString();//服务工号
+
     }
 
     @Override
