@@ -4,31 +4,27 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
 import com.orhanobut.logger.Logger;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.AppContext;
-import com.yunsen.enjoy.model.SearchParam;
-
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -42,7 +38,7 @@ public class HttpClient {
     private static final int MAX_REQUESTS_PER_HOST = 10;
     private static final String TAG = HttpClient.class.getSimpleName();
     private static final String UTF_8 = "UTF-8";
-    private static final MediaType MEDIA_TYPE = MediaType.parse("text/plain;");
+    private static final MediaType MEDIA_TYPE = MediaType.parse("text/html;");
     private static OkHttpClient client;
 
     static {
@@ -119,24 +115,29 @@ public class HttpClient {
         });
     }
 
-    public static void post(String url, Map<String, String> param, final HttpResponseHandler handler) {
+    public static void post(String url, Map<String, String> params, final HttpResponseHandler handler) {
         if (!isNetworkAvailable()) {
             Toast.makeText(AppContext.getInstance(), R.string.no_network_connection_toast, Toast.LENGTH_SHORT).show();
             return;
         }
-        String paramStr = "";
-        if (param != null && param.size() > 0) {
-            paramStr = url += mapToQueryString(param);
-            ;
-            url = url + "?" + paramStr;
+        FormBody.Builder formBodyBuilder = new FormBody.Builder();
+        Set<String> keySet = params.keySet();
+        for(String key:keySet) {
+            String value = params.get(key);
+            formBodyBuilder.add(key,value);
         }
-        RequestBody body = RequestBody.create(MEDIA_TYPE, paramStr);
-        Request request = new Request.Builder().url(url).post(body).build();
+        FormBody formBody = formBodyBuilder.build();
+
+
+        Request request = new Request.Builder().post(formBody).url(url).build();
+
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
                 try {
-                    String responseBody = response.body().toString();
+                    String responseBody = response.body().string();
+                    Log.e(TAG, "onResponse: "+responseBody );
+
                     if (!isJsonString(responseBody)) {
                         throw new Exception("server response not json string (response = " + responseBody + ")");
                     }

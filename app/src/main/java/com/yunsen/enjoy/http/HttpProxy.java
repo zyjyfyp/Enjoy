@@ -4,9 +4,9 @@ package com.yunsen.enjoy.http;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.orhanobut.logger.Logger;
-import com.yunsen.enjoy.BuildConfig;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.model.AccountBalanceModel;
 import com.yunsen.enjoy.model.AdvertList;
@@ -20,19 +20,33 @@ import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.GoogsListResponse;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.NoticeResponse;
+import com.yunsen.enjoy.model.PullImageResult;
 import com.yunsen.enjoy.model.SProviderModel;
+import com.yunsen.enjoy.model.ServiceProject;
 import com.yunsen.enjoy.model.ServiceProvideResponse;
+import com.yunsen.enjoy.model.TradeData;
 import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.response.AccountBalanceResponse;
 import com.yunsen.enjoy.model.response.CarBrandResponese;
 import com.yunsen.enjoy.model.response.CarDetailsResponse;
+import com.yunsen.enjoy.model.response.PullImageResponse;
+import com.yunsen.enjoy.model.response.ServiceProjectListResponse;
 import com.yunsen.enjoy.model.response.ServiceShopInfoResponse;
+import com.yunsen.enjoy.model.response.TradeListResponse;
 import com.yunsen.enjoy.model.response.UserInfoResponse;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by Administrator on 2018/4/20.
@@ -868,4 +882,102 @@ public class HttpProxy {
         });
     }
 
+    /**
+     * 获取服务生列表
+     *
+     * @param callBack
+     */
+    public static void getServiceProjectList(final HttpCallBack<List<ServiceProject>> callBack) {
+        HttpClient.get(URLConstants.SERVICE_PROJECT_URL, new HashMap<String, String>(),
+                new HttpResponseHandler<ServiceProjectListResponse>() {
+                    @Override
+                    public void onSuccess(ServiceProjectListResponse response) {
+                        List<ServiceProject> data = response.getData();
+                        if (data != null) {
+                            callBack.onSuccess(data);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Request request, Exception e) {
+                        super.onFailure(request, e);
+                    }
+                });
+    }
+
+    /**
+     * 行业类别
+     *
+     * @param callBack
+     */
+    public static void getTradeList(final HttpCallBack<List<TradeData>> callBack) {
+        HttpClient.get(URLConstants.TRADE_LIST_URL, new HashMap<String, String>(),
+                new HttpResponseHandler<TradeListResponse>() {
+                    @Override
+                    public void onSuccess(TradeListResponse response) {
+                        List<TradeData> data = response.getData();
+                        if (data != null) {
+                            callBack.onSuccess(data);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Request request, Exception e) {
+                        super.onFailure(request, e);
+                    }
+                });
+    }
+
+    public static void getPullImageBase64(String imgBase64, final HttpCallBack<PullImageResult> callBack) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("base64", imgBase64);
+        HttpClient.post(URLConstants.PULL_IMG_URL, param,
+                new HttpResponseHandler<PullImageResponse>() {
+                    @Override
+                    public void onSuccess(PullImageResponse response) {
+                        PullImageResult data = response.getData();
+                        if (data != null) {
+                            callBack.onSuccess(data);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Request request, Exception e) {
+                        super.onFailure(request, e);
+                    }
+                });
+    }
+
+    public static void httpPost(String url, Map<String,String> params) {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        if (params == null) throw new NullPointerException("params is null");
+
+        FormBody.Builder formBodyBuilder = new FormBody.Builder();
+        Set<String> keySet = params.keySet();
+        for(String key:keySet) {
+            String value = params.get(key);
+            formBodyBuilder.add(key,value);
+        }
+        FormBody formBody = formBodyBuilder.build();
+
+        Request request = new Request
+                .Builder()
+                .post(formBody)
+                .url(url)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+                Log.e(TAG, "onFailure: " );
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String result = response.body().string();
+                Log.e(TAG, "onResponse: "+result );
+                response.body().close();
+            }
+        });
+    }
 }
+

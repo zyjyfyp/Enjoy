@@ -9,17 +9,21 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.model.PullImageResult;
+import com.yunsen.enjoy.model.event.PullImageEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 import okhttp3.Request;
@@ -126,4 +130,47 @@ public class GetImgUtil {
         }.execute();
     }
 
+    public static void pullImageBase4(final Activity activity, Uri selectedImage, int type) {
+        final Uri imgUri = selectedImage;
+        new AsyncTask<Integer, Nullable, String>() {
+            int mType;
+
+            @Override
+            protected String doInBackground(Integer... type) {
+                mType = type[0];
+                Bitmap bitmap = null;
+                try {
+                    bitmap = Glide.with(activity)
+                            .load(imgUri)
+                            .asBitmap()
+                            .into(200, 200)
+                            .get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                String imgStr = BitmapUtil.bitmapToBase64(bitmap);
+                return imgStr;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                HashMap<String, String> params = new HashMap<>();
+                params.put("base64",s);
+                HttpProxy.getPullImageBase64(s, new HttpCallBack<PullImageResult>() {
+                    @Override
+                    public void onSuccess(PullImageResult responseData) {
+                        String img_url = responseData.getImg_url();
+                        EventBus.getDefault().post(new PullImageEvent(mType, img_url));
+                    }
+
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        ToastUtils.makeTextShort("上传失败");
+                    }
+                });
+            }
+        }.execute(type);
+    }
 }

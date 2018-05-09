@@ -17,13 +17,10 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,12 +29,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.bumptech.glide.Glide;
 import com.gghl.view.wheelcity.AddressData;
 import com.gghl.view.wheelcity.OnWheelChangedListener;
 import com.gghl.view.wheelcity.WheelView;
-import com.gghl.view.wheelcity.adapters.AbstractWheelTextAdapter;
 import com.gghl.view.wheelcity.adapters.ArrayWheelAdapter;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.squareup.picasso.Picasso;
@@ -46,6 +41,7 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
+import com.yunsen.enjoy.adapter.CountryAdapter;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.fragment.MineFragment;
@@ -55,7 +51,6 @@ import com.yunsen.enjoy.http.down.UpdateApkThread;
 import com.yunsen.enjoy.model.UserRegisterllData;
 import com.yunsen.enjoy.model.UserSenJiBean;
 import com.yunsen.enjoy.ui.UIHelper;
-import com.yunsen.enjoy.ui.photoview.RoundImageView;
 import com.yunsen.enjoy.utils.GetImgUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.utils.Utils;
@@ -786,37 +781,6 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
         city.setCurrentItem(0);
     }
 
-    /**
-     * Adapter for countries
-     */
-    private class CountryAdapter extends AbstractWheelTextAdapter {
-        // Countries names
-        private String countries[] = AddressData.PROVINCES;
-
-        /**
-         * Constructor
-         */
-        protected CountryAdapter(Context context) {
-            super(context, R.layout.wheelcity_country_layout, NO_RESOURCE);
-            setItemTextResource(R.id.wheelcity_country_name);
-        }
-
-        @Override
-        public View getItem(int index, View cachedView, ViewGroup parent) {
-            View view = super.getItem(index, cachedView, parent);
-            return view;
-        }
-
-        @Override
-        public int getItemsCount() {
-            return countries.length;
-        }
-
-        @Override
-        protected CharSequence getItemText(int index) {
-            return countries[index];
-        }
-    }
 
 
     // 获取当前程序的版本信息

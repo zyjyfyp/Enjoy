@@ -1,7 +1,5 @@
 package com.yunsen.enjoy.common;
 
-import com.yunsen.enjoy.BuildConfig;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -96,7 +94,11 @@ public class Constants {
      * 注册成为服务商
      */
     public static final String APPLY_FACILITATOR_KEY = "apply_facilitator_key";
-    public static final String BUNDLE ="bundle" ;
+    public static final String BUNDLE = "bundle";
+    public static final int APPLY_SERVICE_REQUEST_1 = 1;
+    public static final int APPLY_SERVICE_REQUEST_2 = 2;
+    public static final int APPLY_SERVICE_REQUEST_3 = 3;
+    public static final int APPLY_SERVICE_REQUEST_4 = 4;
 
 
 }
