@@ -43,7 +43,7 @@ import com.yunsen.enjoy.ui.DialogUtils;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.GetImgUtil;
-import com.yunsen.enjoy.utils.ToastUtils;
+import com.yunsen.enjoy.utils.SpUtils;
 import com.yunsen.enjoy.utils.Utils;
 import com.yunsen.enjoy.widget.GlideCircleTransform;
 import com.yunsen.enjoy.widget.PicassoRoundTransform;
@@ -553,6 +553,7 @@ public class MineFragment extends BaseFragment {
                 editor.putString("group_id", "" + data.getGroup_id());
                 editor.putString("group_name", data.getGroup_name());
                 editor.commit();
+                SpUtils.saveUserInfo(responseData);
                 yth = data.getUser_code();
                 balanceTv.setText("" + data.getAmount()); //钱包
                 freezeTv.setText("" + data.getPension());//养老金

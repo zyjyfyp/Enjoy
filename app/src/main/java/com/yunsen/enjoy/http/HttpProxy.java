@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.orhanobut.logger.Logger;
+import com.yunsen.enjoy.BuildConfig;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.model.AccountBalanceModel;
 import com.yunsen.enjoy.model.AdvertList;
@@ -749,6 +750,28 @@ public class HttpProxy {
         param.put("parent_id", "273");//: 用户id,id: 用户id
 
         HttpClient.get(URLConstants.OBTAIN_INDUSTRY_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
+            @Override
+            public void onSuccess(AccountBalanceResponse response) {
+                super.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                Logger.e(TAG, "onFailure: " + e.getMessage());
+            }
+        });
+    }
+
+    /**
+     * 预约管理
+     */
+    public static void getUserOrderCount() {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("user_id", "");//: 用户id,id: 用户id
+        param.put("sign", "");
+        param.put("where", "");
+
+        HttpClient.get(URLConstants.USER_ORDER_COUNT_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
             @Override
             public void onSuccess(AccountBalanceResponse response) {
                 super.onSuccess(response);

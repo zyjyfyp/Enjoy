@@ -129,15 +129,21 @@ public class URLConstants {
     public static final String MEET_CAR_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_order_bespeak";
     /**
      * 获取企业信息
-     https://szlxkg.com/tools/mobile_ajax.asmx/get_user_commpany_content
-     id: 用户id Enterprise information
+     * https://szlxkg.com/tools/mobile_ajax.asmx/get_user_commpany_content
+     * id: 用户id Enterprise information
      */
     public static final String ENTERPISE_INFO_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_commpany_content";
     /**
      * 取得行业类别Obtain industry
-     https://szlxkg.com/tools/mobile_ajax.asmx/getTrade
+     * https://szlxkg.com/tools/mobile_ajax.asmx/getTrade
      */
     public static final String OBTAIN_INDUSTRY_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/getTrade";
+    /**
+     * 订单统计
+     * https://szlxkg.com/tools/mobile_ajax.asmx/get_user_order_count
+     */
+    public static final String USER_ORDER_COUNT_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_order_count";
+
 
     //
 //    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";

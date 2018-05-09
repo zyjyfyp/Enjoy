@@ -55,6 +55,15 @@ public class Constants {
     public static final int PHOTO_IC_CARD_BG = 2;
     public static final int PHOTO_BANK = 3;
 
+    /**
+     * 订单统计take over
+     */
+    public static final String NO_PAYMENT = "status=1 and payment_status=1";    //待付款订单统计
+    public static final String NO_DELIVERY = "status=2 and payment_status=2 and express_status=1";    //待发货订单统计
+    public static final String NO_TAKE_OVER = "status=3 and payment_status=2 and express_status=2";    //待收货订单统计
+    public static final String APPLY_AFTER_SALE = "status=4 and payment_status=3";    //申请售后订单统计
+
+
     /*******************************************************************
      *                          startActivityResult                   *
      *****************************************************************/
