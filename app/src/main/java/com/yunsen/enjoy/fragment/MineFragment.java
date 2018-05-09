@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +21,7 @@ import com.squareup.picasso.Picasso;
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.MainActivity;
-import com.yunsen.enjoy.activity.mine.ApplyServiceActivity;
+import com.yunsen.enjoy.activity.dealer.ApplyServiceActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
@@ -35,7 +33,6 @@ import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
-import com.yunsen.enjoy.model.MyOrderData;
 import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
@@ -55,7 +52,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -389,10 +385,9 @@ public class MineFragment extends BaseFragment {
     ArrayList<String> list_2;
     ArrayList<String> list_3;
     ArrayList<String> list_4;
-    private ArrayList<MyOrderData> list1; //我的余额
 
     /**
-     * //加载订单信息
+     * 加载订单信息
      */
     private void load_list() {
         list_0 = new ArrayList<String>();
@@ -400,7 +395,6 @@ public class MineFragment extends BaseFragment {
         list_2 = new ArrayList<String>();
         list_3 = new ArrayList<String>();
         list_4 = new ArrayList<String>();
-        list1 = new ArrayList<MyOrderData>();
         System.out.println("=========user_id============" + user_id);
         AsyncHttp.get(URLConstants.REALM_NAME_LL
                         + "/get_order_page_size_list?user_id=" + user_id + ""
@@ -413,33 +407,28 @@ public class MineFragment extends BaseFragment {
                         try {
                             JSONObject object = new JSONObject(arg1);
                             String status_1 = object.getString("status");
-                            if (status_1.equals("y")) {
-                                //								ArrayList<MyOrderData> list1 = new ArrayList<MyOrderData>();
+                            if ("y".equals(status_1)) {
                                 JSONArray jsonArray = object.getJSONArray("data");
                                 for (int i = 0; i < jsonArray.length(); i++) {
-                                    //									MyOrderData md = new MyOrderData();
                                     JSONObject obj = jsonArray.getJSONObject(i);
-                                    //									md.setPayment_status(obj.getString("payment_status"));
                                     String payment_status = obj.getString("payment_status");
                                     String express_status = obj.getString("express_status");
                                     String status = obj.getString("status");
                                     // 订单状态
-                                    if (payment_status.equals("1")) {
+                                    if ("1".equals(payment_status)) {
                                         System.out.println("待付款=============");
                                         list_1.add(payment_status);
-                                    } else if (payment_status.equals("2") && express_status.equals("1") && status.equals("2")) {
+                                    } else if ("2".equals(payment_status) && "1".equals(express_status) && "2".equals(status)) {
                                         System.out.println("待发货=============");
                                         list_2.add(payment_status);
-                                    } else if (payment_status.equals("2") && express_status.equals("2") && status.equals("2")) {
+                                    } else if ("2".equals(payment_status) && "2".equals(express_status) && "2".equals(status)) {
                                         System.out.println("待收货=============");
                                         list_3.add(payment_status);
-                                    } else if (payment_status.equals("2") && express_status.equals("2") && status.equals("3")) {
+                                    } else if ("2".equals(payment_status) && "2".equals(express_status) && "3".equals(status)) {
                                         System.out.println("已完成=============");
                                         list_4.add(payment_status);
                                     }
-
                                     list_0.add(payment_status);
-                                    // tv_unpay,tv_delivered,tv_received,tv_payed
                                 }
                                 System.out.println("========list_0.size()======1=====" + list_0.size());
                                 String num = String.valueOf(list_0.size());
@@ -540,8 +529,7 @@ public class MineFragment extends BaseFragment {
 
         HttpProxy.getUserInfo(user_name_key, new HttpCallBack<UserInfo>() {
             @Override
-            public void onSuccess(UserInfo responseData) {
-                data = responseData;
+            public void onSuccess(UserInfo data) {
                 // TODO: 2018/5/7 zyjy what?
 //                            double dzongjia = data.getExp() + data.getExp_weal() + data.getExp_invest() + data.getExp_action() + data.getExp_time();
 //                            BigDecimal w = new BigDecimal(dzongjia);
@@ -553,12 +541,12 @@ public class MineFragment extends BaseFragment {
                 editor.putString("group_id", "" + data.getGroup_id());
                 editor.putString("group_name", data.getGroup_name());
                 editor.commit();
-                SpUtils.saveUserInfo(responseData);
+                SpUtils.saveUserInfo(data);
                 yth = data.getUser_code();
                 balanceTv.setText("" + data.getAmount()); //钱包
-                freezeTv.setText("" + data.getPension());//养老金
-                commissionTv.setText("" + data.getPacket());//钱包
-                readyMoneyTv.setText("" + data.getPoint());// 福利
+                freezeTv.setText("" + data.getReserve());//冻结基金
+                commissionTv.setText("0");//佣金
+                readyMoneyTv.setText("0");// 提现
                 String nickName = data.getNick_name();
                 if (TextUtils.isEmpty(nickName)) {
                     userNameTv.setText(data.getUser_name());

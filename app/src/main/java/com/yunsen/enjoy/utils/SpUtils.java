@@ -28,7 +28,9 @@ public class SpUtils {
         edit.putString("company_id", "" + userInfo.getCompany_id());
         edit.putString("birthday", userInfo.getBirthday());
         edit.putString("sex", userInfo.getSex());
+        edit.putString(SpConstants.AMOUNT, "" + userInfo.getAmount());
         edit.putString(SpConstants.GROUP_NAME, userInfo.getGroup_name());
+        edit.putString(SpConstants.RESERVE, "" + userInfo.getReserve());
         edit.commit();
 
     }

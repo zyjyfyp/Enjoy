@@ -21,7 +21,9 @@ import com.yunsen.enjoy.activity.buy.ApplyBuyThreeActivity;
 import com.yunsen.enjoy.activity.buy.ApplyBuyTwoActivity;
 import com.yunsen.enjoy.activity.buy.CarServiceActivity;
 import com.yunsen.enjoy.activity.buy.WatchCarActivity;
-import com.yunsen.enjoy.activity.mine.ApplyServiceActivity;
+import com.yunsen.enjoy.activity.dealer.ApplyServiceActivity;
+import com.yunsen.enjoy.activity.dealer.ApplyServiceSecondActivity;
+import com.yunsen.enjoy.activity.dealer.ApplyServiceThreeActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
@@ -174,6 +176,7 @@ public class UIHelper {
      */
     public static void showAssetsActivity(Context ctx, String type) {
         Intent intent = new Intent(ctx, MyAssetsActivity.class);
+        intent.putExtra(Constants.MY_ASSETS_INDEX_KEY, type);
         ctx.startActivity(intent);
     }
 
@@ -407,7 +410,22 @@ public class UIHelper {
      */
     public static void showServiceShopInfoActivity(Context ctx, String id) {
         Intent intent = new Intent(ctx, ServiceShopInfoActivity.class);
-        intent.putExtra(Constants.SERVICE_SHOP_KEY,id);
+        intent.putExtra(Constants.SERVICE_SHOP_KEY, id);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 申请服务商2
+     *
+     * @param ctx
+     */
+    public static void showApplyServiceSecondActivity(Context ctx) {
+        Intent intent = new Intent(ctx, ApplyServiceSecondActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    public static void showApplyServiceThreeActivity(Context ctx) {
+        Intent intent = new Intent(ctx, ApplyServiceThreeActivity.class);
         ctx.startActivity(intent);
     }
 }

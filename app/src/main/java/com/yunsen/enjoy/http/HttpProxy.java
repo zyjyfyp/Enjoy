@@ -785,6 +785,30 @@ public class HttpProxy {
     }
 
     /**
+     * 订单列表
+     */
+    public static void getOrderList() {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("user_id", "");//: 用户id,id: 用户id
+        param.put("page_size", "1000");
+        param.put("page_index", "1");
+        param.put("strwhere", "datatype=1");
+        param.put("orderby=", "");
+
+        HttpClient.get(URLConstants.USER_ORDER_COUNT_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
+            @Override
+            public void onSuccess(AccountBalanceResponse response) {
+                super.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                Logger.e(TAG, "onFailure: " + e.getMessage());
+            }
+        });
+    }
+
+    /**
      * 服务商申请提交表单数据
      */
     public static void getApplyServiceForm() {

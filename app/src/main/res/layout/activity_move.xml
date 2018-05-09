@@ -8,4 +8,5 @@
     tools:context="com.yunsen.enjoy.activity.MoveActivity">
 
     <include layout="@layout/back_action_bar" />
+
 </LinearLayout>

@@ -66,5 +66,8 @@ public class SpConstants {
     public static final String NICK_NAME = "nick_name";
     public static final String USER_IMG = "user_img";
     public static final String OK = "ok";//图片保存OK
+    public static final String AMOUNT = "amount";//账户余额
+    public static final String RESERVE = "reserve";//冻结资金
+
 
 }

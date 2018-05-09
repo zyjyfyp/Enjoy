@@ -8,4 +8,125 @@
     tools:context="com.yunsen.enjoy.activity.MoveActivity">
 
     <include layout="@layout/back_action_bar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="370dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/settled" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/gray_light" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:src="@mipmap/technological_process" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginLeft="@dimen/app_margin"
+                android:layout_marginRight="@dimen/app_margin"
+                android:gravity="center_vertical"
+                android:weightSum="11">
+
+                <ImageView
+                    style="@style/ApplyServiceImg"
+                    android:src="@mipmap/red_apply" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@mipmap/red_rrow" />
+
+                <ImageView
+                    style="@style/ApplyServiceImg"
+                    android:src="@mipmap/ash_examine" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@mipmap/ash_arrow" />
+
+                <ImageView
+                    style="@style/ApplyServiceImg"
+                    android:src="@mipmap/ash_business_hall" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/app_margin"
+                android:layout_marginRight="@dimen/app_margin"
+                android:gravity="center_vertical"
+                android:weightSum="11">
+
+                <TextView
+                    style="@style/ApplyServiceTv"
+                    android:src="@mipmap/red_apply"
+                    android:text="1.提交申请"
+                    android:textColor="@color/orange_color" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    style="@style/ApplyServiceTv"
+                    android:src="@mipmap/ash_examine"
+                    android:text="2.通过审核（1~3个工作日）"
+                    android:textColor="@color/color_888" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    style="@style/ApplyServiceTv"
+                    android:src="@mipmap/ash_business_hall"
+                    android:text="上线营业"
+                    android:textColor="@color/color_888" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/next_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="@dimen/app_margin"
+                android:background="@drawable/button_bg"
+                android:text="完善服务商信息，开启营销大门"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+
+    </ScrollView>
 </LinearLayout>

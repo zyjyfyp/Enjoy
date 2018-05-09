@@ -143,6 +143,13 @@ public class URLConstants {
      * https://szlxkg.com/tools/mobile_ajax.asmx/get_user_order_count
      */
     public static final String USER_ORDER_COUNT_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_order_count";
+    /**
+     * RealmName.REALM_NAME_LL
+     * + "/get_order_page_size_list?user_id=" + user_id + ""
+     * + "&page_size=1000&page_index=1&strwhere=datatype=1&orderby="
+     * 订单列表
+     */
+    public static final String ORDER_LIST_URL = BuildConfig.ROOT_URL + "/get_order_page_size_list";
 
 
     //

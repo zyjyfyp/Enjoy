@@ -196,5 +196,40 @@
         <item name="android:drawablePadding">5dp</item>
     </style>
 
+    <style name="ApplyServiceImg">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">70dp</item>
+        <item name="android:layout_weight">3</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
+
+    <style name="ApplyServiceTv">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">3</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="ApplyService2Tv">
+        <item name="android:maxLines">1</item>
+        <item name="android:layout_marginRight">@dimen/app_margin</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/title_color</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="ApplyService2Edt">
+        <item name="android:maxLines">1</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/title_color</item>
+        <item name="android:gravity">center_vertical|right</item>
+        <item name="android:background">@null</item>
+    </style>
+
 
 </resources>
