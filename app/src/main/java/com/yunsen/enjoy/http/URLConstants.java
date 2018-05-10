@@ -84,6 +84,12 @@ public class URLConstants {
      */
     public static final String SERVICE_SHOP_INFO_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_commpany_content?id=";
     /**
+     * id: 用户id
+     * 是否是服务商facilitator
+     */
+    public static final String IS_FACILITATOR_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_commpany_content?id=";
+
+    /**
      * 用户余额
      */
     public static final String ACCOUNT_BALANCE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_payrecord_expenses_sum";
@@ -117,6 +123,7 @@ public class URLConstants {
      * https://szlxkg.com/tools/mobile_ajax.asmx/add_user_commpany_2017
      */
     public static final String APPLY_SERVICE_FORM_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_user_commpany_2017";
+
     /**
      * 预约管理Booking Management
      * https://szlxkg.com/tools/mobile_ajax.asmx/get_order_page_size_list
@@ -162,12 +169,6 @@ public class URLConstants {
      * 行业列表
      */
     public static final String TRADE_LIST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_trade_list?parent_id=0";
-    /**
-     * id: 用户id
-     * 是否是服务商facilitator
-     */
-    public static final String IS_FACILITATOR_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_commpany_content?id=";
-
 
     //
 //    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";

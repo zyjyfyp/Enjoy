@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.orhanobut.logger.Logger;
+import com.yunsen.enjoy.common.AppContext;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.model.AccountBalanceModel;
@@ -468,7 +469,7 @@ public class HttpProxy {
     }
 
     /**
-     * 获取服务商的详细信息
+     * 获取服务商的详细信息 and 判断是否是服务商
      *
      * @param serviceId
      * @param callBack
@@ -697,7 +698,7 @@ public class HttpProxy {
      * 申请服务商-
      * 服务商订单统计数量
      */
-    public static void getServiceOrderCount(Activity act,ApplyFacilitatorModel data, HttpCallBack<RestApiResponse> callBack) {
+    public static void getServiceOrderCount(Activity act, ApplyFacilitatorModel data, HttpCallBack<RestApiResponse> callBack) {
 
         HashMap<String, String> param = new HashMap<>();
         param.put("commpany_id", "");//: 用户id,
@@ -888,8 +889,8 @@ public class HttpProxy {
 
             @Override
             public void onFailure(Request request, Exception e) {
-                Logger.e( "onFailure: " + e.getMessage());
-                callBack.onError(request,e);
+                Logger.e("onFailure: " + e.getMessage());
+                callBack.onError(request, e);
             }
         });
     }
@@ -940,6 +941,32 @@ public class HttpProxy {
                 });
     }
 
+    /**
+     * 是否是服务商
+     *
+     * @param callBack
+     */
+    public static void getIsFacilitator(String userId, final HttpCallBack<Boolean> callBack) {
+        HttpClient.get(URLConstants.IS_FACILITATOR_URL + userId, new HashMap<String, String>(), new HttpResponseHandler<ServiceShopInfoResponse>() {
+            @Override
+            public void onSuccess(ServiceShopInfoResponse response) {
+                super.onSuccess(response);
+                SProviderModel data = response.getData();
+                if (data != null) {
+                    callBack.onSuccess(true);
+                } else {
+                    callBack.onSuccess(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onSuccess(false);
+                super.onFailure(request, e);
+            }
+        });
+    }
+
     public static void getPullImageBase64(String imgBase64, final HttpCallBack<PullImageResult> callBack) {
         HashMap<String, String> param = new HashMap<>();
         param.put("base64", imgBase64);
@@ -960,36 +987,6 @@ public class HttpProxy {
                 });
     }
 
-    public static void httpPost(String url, Map<String, String> params) {
-        OkHttpClient okHttpClient = new OkHttpClient();
-        if (params == null) throw new NullPointerException("params is null");
 
-        FormBody.Builder formBodyBuilder = new FormBody.Builder();
-        Set<String> keySet = params.keySet();
-        for (String key : keySet) {
-            String value = params.get(key);
-            formBodyBuilder.add(key, value);
-        }
-        FormBody formBody = formBodyBuilder.build();
-
-        Request request = new Request
-                .Builder()
-                .post(formBody)
-                .url(url)
-                .build();
-        okHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, final IOException e) {
-                Log.e(TAG, "onFailure: ");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final String result = response.body().string();
-                Log.e(TAG, "onResponse: " + result);
-                response.body().close();
-            }
-        });
-    }
 }
 

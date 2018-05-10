@@ -21,7 +21,9 @@ import com.squareup.picasso.Picasso;
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.MainActivity;
+import com.yunsen.enjoy.activity.WebActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceActivity;
+import com.yunsen.enjoy.activity.dealer.MyFacilitatorActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
@@ -33,6 +35,7 @@ import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
@@ -152,6 +155,9 @@ public class MineFragment extends BaseFragment {
     private String user_name;
     private String strUrlone;
     private UserInfo data;
+
+    private String mUserId;
+    private Boolean mIsFacilitator;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -289,6 +295,31 @@ public class MineFragment extends BaseFragment {
         }
     }
 
+    /**
+     * 我是服务商的判断跳转
+     */
+    private void goLoginOrIsFacilitator() {
+        Intent intent = null;
+        if (mIsFacilitator) {
+            intent = new Intent(getActivity(), ApplyServiceActivity.class);
+        } else {
+            intent = new Intent(getActivity(), MyFacilitatorActivity.class);
+        }
+        if (AccountUtils.hasLogin()) {
+            if (AccountUtils.hasBoundPhone()) {
+                getActivity().startActivity(intent);
+            } else {
+                UIHelper.showBundPhoneActivity(getActivity());
+            }
+        } else {
+            if (AccountUtils.hasBoundPhone()) {
+                getActivity().startActivity(intent);
+            } else {
+                UIHelper.showUserLoginActivity(getActivity());
+            }
+        }
+    }
+
     @OnClick(R.id.collection_layout) //收藏
     public void onCollectionLayoutClicked() {
         goLoginOrOtherActivity(CollectionActivity.class);
@@ -311,7 +342,7 @@ public class MineFragment extends BaseFragment {
 
     @OnClick(R.id.apply_service_layout) //申请服务商（我是服务商）
     public void onApplyServiceLayoutClicked() {
-        goLoginOrOtherActivity(ApplyServiceActivity.class);
+        goLoginOrIsFacilitator();
     }
 
     @OnClick(R.id.appointment_layout) //预约管理
@@ -471,6 +502,7 @@ public class MineFragment extends BaseFragment {
                 if (!TextUtils.isEmpty(user_name_phone)) {//有绑定手机
                     getLeXiangUserInfo();//获取乐享用户信息
                     load_list();
+                    requestIsFacilitator();//判断是否是服务商
                 } else {
                     // TODO: 2018/4/26 清空用户数据
                     //                        setinten();// 数据清空
@@ -491,6 +523,22 @@ public class MineFragment extends BaseFragment {
 
             e.printStackTrace();
         }
+    }
+
+    private void requestIsFacilitator() {
+        //facilitator
+        HttpProxy.getIsFacilitator(user_id, new HttpCallBack<Boolean>() {
+
+            @Override
+            public void onSuccess(Boolean isFacilitator) {
+                mIsFacilitator = isFacilitator;
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
     }
 
     /**
@@ -622,7 +670,6 @@ public class MineFragment extends BaseFragment {
                 loginIcon.setVisibility(View.VISIBLE);
                 loginTv.setVisibility(View.VISIBLE);
                 Log.e(TAG, "onEvent: 注销更新");
-
                 balanceTv.setText("");
                 freezeTv.setText("");
                 commissionTv.setText("");

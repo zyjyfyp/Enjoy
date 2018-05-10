@@ -287,6 +287,10 @@
         <activity
             android:name=".activity.dealer.ApplyServiceThreeActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.dealer.MyFacilitatorActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>
