@@ -28,7 +28,9 @@ import com.yunsen.enjoy.model.ServiceProject;
 import com.yunsen.enjoy.model.ServiceProvideResponse;
 import com.yunsen.enjoy.model.TradeData;
 import com.yunsen.enjoy.model.UserInfo;
+import com.yunsen.enjoy.model.WatchCarBean;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
+import com.yunsen.enjoy.model.request.WatchCarModel;
 import com.yunsen.enjoy.model.response.AccountBalanceResponse;
 import com.yunsen.enjoy.model.response.CarBrandResponese;
 import com.yunsen.enjoy.model.response.CarDetailsResponse;
@@ -37,6 +39,7 @@ import com.yunsen.enjoy.model.response.ServiceProjectListResponse;
 import com.yunsen.enjoy.model.response.ServiceShopInfoResponse;
 import com.yunsen.enjoy.model.response.TradeListResponse;
 import com.yunsen.enjoy.model.response.UserInfoResponse;
+import com.yunsen.enjoy.model.response.WatchCarResponse;
 import com.yunsen.enjoy.utils.EntityToMap;
 
 import java.io.IOException;
@@ -566,35 +569,24 @@ public class HttpProxy {
     /**
      * 预约看车
      */
-    public static void requestMeetingCar() {
-        HashMap<String, String> param = new HashMap<>();
-        param.put("user_id", "");
-        param.put("user_name", "");
-        param.put("article_id", "");
-        param.put("goods_id", "");
-        param.put("payment_id", " 5");
-        param.put("express_id", "7");
-        param.put("is_invoice", "0");
-        param.put("accept_name", "");
-        param.put("province", "");
-        param.put("city", "");
-        param.put("area", "");
-        param.put("address", "");
-        param.put("telphone", "");
-        param.put("mobile", "");
-        param.put("email", "");
-        param.put("post_code", "");
-        param.put("message", "");
-        param.put("invoice_title", "");
-        HttpClient.get(URLConstants.MEET_CAR_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
+    public static void requestMeetingCar(WatchCarModel model, final HttpCallBack<WatchCarBean> callBack) {
+        model.setPayment_id("5");
+        model.setExpress_id("7");
+        model.setIs_invoice("0");
+        Map<String, Object> param = EntityToMap.ConvertObjToMap(model);
+        HttpClient.get(URLConstants.MEET_CAR_URL, param, new HttpResponseHandler<WatchCarResponse>() {
             @Override
-            public void onSuccess(AccountBalanceResponse response) {
-                super.onSuccess(response);
+            public void onSuccess(WatchCarResponse response) {
+                WatchCarBean data = response.getData();
+                if (data != null) {
+                    callBack.onSuccess(data);
+                }
             }
 
             @Override
             public void onFailure(Request request, Exception e) {
-                Logger.e(TAG, "onFailure: " + e.getMessage());
+                Logger.e("onFailure: " + e.getMessage());
+                callBack.onError(request, e);
             }
         });
     }

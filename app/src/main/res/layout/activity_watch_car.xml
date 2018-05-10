@@ -10,11 +10,11 @@
     <include layout="@layout/back_action_bar" />
 
     <ScrollView
-        android:fillViewport="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="100dp"
-        android:layout_marginTop="45dp">
+        android:layout_marginTop="45dp"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -165,14 +165,15 @@
                     android:text="看车地点"
                     android:textColor="@color/color_888" />
 
-                <TextView
+                <EditText
                     android:id="@+id/watch_address_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@null"
                     android:drawableLeft="@mipmap/address_icon"
                     android:drawablePadding="5dp"
+                    android:hint="请输入预约后详细地点"
                     android:maxLines="1"
-                    android:text="请输入预约后详细地点"
                     android:textColor="@color/color_888" />
             </LinearLayout>
 
@@ -199,11 +200,11 @@
 
                 <TextView
                     android:id="@+id/watch_time_tv"
-                    android:paddingRight="@dimen/app_margin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
                     android:maxLines="1"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="@dimen/app_margin"
                     android:text="2018-04-27"
                     android:textColor="@color/color_3c434c" />
             </LinearLayout>
@@ -223,19 +224,20 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_marginTop="@dimen/app_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/app_margin"
             android:gravity="center"
             android:maxLines="1"
             android:text="已有10人关注此车辆，明天开始抢先预约" />
 
         <TextView
-            android:background="@drawable/orange_button"
+            android:id="@+id/submit_tv"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_margin="@dimen/app_margin"
+            android:background="@drawable/orange_button"
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"

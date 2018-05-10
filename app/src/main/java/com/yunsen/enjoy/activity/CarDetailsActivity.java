@@ -206,7 +206,7 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
                 requestPermission(Permission.CALL_PHONE, Constants.CALL_PHONE);
                 break;
             case R.id.add_shop_btn:
-                UIHelper.showWatchCarActivity(this);
+                UIHelper.showWatchCarActivity(this,mCarId);
                 break;
             case R.id.order_buy_layout:
                 UIHelper.showApplyBuyFirstActivity(this);

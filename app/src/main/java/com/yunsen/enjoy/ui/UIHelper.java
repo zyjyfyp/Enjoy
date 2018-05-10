@@ -21,6 +21,7 @@ import com.yunsen.enjoy.activity.buy.ApplyBuyFirstActivity;
 import com.yunsen.enjoy.activity.buy.ApplyBuyThreeActivity;
 import com.yunsen.enjoy.activity.buy.ApplyBuyTwoActivity;
 import com.yunsen.enjoy.activity.buy.CarServiceActivity;
+import com.yunsen.enjoy.activity.buy.MeetAddressActivity;
 import com.yunsen.enjoy.activity.buy.WatchCarActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceSecondActivity;
@@ -323,8 +324,9 @@ public class UIHelper {
      *
      * @param ctx
      */
-    public static void showWatchCarActivity(Context ctx) {
+    public static void showWatchCarActivity(Context ctx, String carId) {
         Intent intent = new Intent(ctx, WatchCarActivity.class);
+        intent.putExtra(Constants.WATCH_CAR_ID, carId);
         ctx.startActivity(intent);
     }
 
@@ -401,7 +403,7 @@ public class UIHelper {
      * @param act
      */
     public static void showMeetAddressActivity(Activity act) {
-        Intent intent = new Intent(act, SeniorFilterActivity.class);
+        Intent intent = new Intent(act, MeetAddressActivity.class);
         act.startActivityForResult(intent, Constants.MEET_ADDRESS_REQUEST);
     }
 
@@ -442,7 +444,6 @@ public class UIHelper {
     }
 
     /**
-     *
      * @param ctx
      */
     public static void showMainActivity(Context ctx) {

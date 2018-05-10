@@ -1,5 +1,7 @@
 package com.yunsen.enjoy.model;
 
+import com.yunsen.enjoy.http.URLConstants;
+
 import java.util.List;
 
 /**
@@ -7,7 +9,7 @@ import java.util.List;
  */
 
 
-public  class CarDetails {
+public class CarDetails {
     private int id;
     private int channel_id;
     private String channel_ids;
@@ -63,7 +65,7 @@ public  class CarDetails {
     private int game_rank;
     private int game_wheel;
     private int game_let;
-    private Object address;
+    private String address;
     private int express_id;
     private int min_quantity;
     private Object unit;
@@ -330,7 +332,11 @@ public  class CarDetails {
     }
 
     public String getImg_url() {
-        return img_url;
+        if (img_url != null && img_url.startsWith("http")) {
+            return img_url;
+        } else {
+            return URLConstants.REALM_URL + img_url;
+        }
     }
 
     public void setImg_url(String img_url) {
@@ -665,11 +671,11 @@ public  class CarDetails {
         this.game_let = game_let;
     }
 
-    public Object getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(Object address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
@@ -1202,16 +1208,7 @@ public  class CarDetails {
         }
 
 
-
     }
-
-
-
-
-
-
-
-
 
 
 }

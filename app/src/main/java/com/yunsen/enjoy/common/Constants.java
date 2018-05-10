@@ -87,6 +87,11 @@ public class Constants {
     public static final String CAR_DETAILS_ID = "car_details_id";
     public static final String SERVICE_SHOP_KEY = "service_shop_key";
     /**
+     * 看车 汽车id key
+     */
+    public static final String WATCH_CAR_ID = "watch_car_id";
+
+    /**
      * 资金详情
      */
     public static final String MY_ASSETS_INDEX_KEY = "status";
