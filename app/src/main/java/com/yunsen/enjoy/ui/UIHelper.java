@@ -335,8 +335,9 @@ public class UIHelper {
      *
      * @param ctx
      */
-    public static void showApplyBuyFirstActivity(Context ctx) {
+    public static void showApplyBuyFirstActivity(Context ctx, String carId) {
         Intent intent = new Intent(ctx, ApplyBuyFirstActivity.class);
+        intent.putExtra(Constants.APPLY_BUY_CAR_ID, carId);
         ctx.startActivity(intent);
     }
 

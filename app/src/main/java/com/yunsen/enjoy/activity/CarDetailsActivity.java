@@ -172,7 +172,7 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
         detailsTitle.setText(responseData.getTitle());
         flowLayout.setDatas(responseData.getDatatype());//超值
         CarDetails.DefaultSpecItemBean defaultSpecItem = responseData.getDefault_spec_item();
-        double rebatePrice = defaultSpecItem.getRebate_price();
+        double rebatePrice = defaultSpecItem.getSell_price();
         detailsCarMoney.setText(rebatePrice + "万");
         double market_price = defaultSpecItem.getMarket_price();
         detailsOldCarMoney.setText("新车含税" + market_price + "万");
@@ -206,13 +206,13 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
                 requestPermission(Permission.CALL_PHONE, Constants.CALL_PHONE);
                 break;
             case R.id.add_shop_btn:
-                UIHelper.showWatchCarActivity(this,mCarId);
+                UIHelper.showWatchCarActivity(this, mCarId);
                 break;
             case R.id.order_buy_layout:
-                UIHelper.showApplyBuyFirstActivity(this);
+                UIHelper.showApplyBuyFirstActivity(this, mCarId);
                 break;
             case R.id.apply_buy_tv:
-                UIHelper.showApplyBuyFirstActivity(this);
+                UIHelper.showApplyBuyFirstActivity(this, mCarId);
                 break;
         }
     }

@@ -90,6 +90,10 @@ public class Constants {
      * 看车 汽车id key
      */
     public static final String WATCH_CAR_ID = "watch_car_id";
+    /**
+     * 买车 汽车id
+     */
+    public static final String APPLY_BUY_CAR_ID = "apply_buy_car_id";
 
     /**
      * 资金详情
