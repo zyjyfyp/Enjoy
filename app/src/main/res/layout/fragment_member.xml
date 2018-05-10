@@ -70,7 +70,6 @@
                         android:textSize="15sp" />
 
                     <TextView
-                        android:visibility="gone"
                         android:id="@+id/grade_base"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -79,7 +78,8 @@
                         android:drawablePadding="5dp"
                         android:text="普通会员"
                         android:textColor="@color/white"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        android:visibility="gone" />
                 </RelativeLayout>
 
                 <View
@@ -789,7 +789,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="16dp"
@@ -813,7 +814,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
-                            android:text="帮助"
+                            android:text="客服帮助"
                             android:textColor="@color/color_5e6570"
                             android:textSize="12sp" />
 

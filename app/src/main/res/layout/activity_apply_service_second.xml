@@ -98,10 +98,10 @@
                     android:layout_height="1dp"
                     android:layout_weight="1" />
 
-                <EditText
-                    android:id="@+id/facilitator_project_edt"
+                <TextView
+                    android:id="@+id/facilitator_project_tv"
                     style="@style/ApplyService2Edt"
-                    android:hint="已选择" />
+                    android:hint="未选择" />
             </LinearLayout>
 
 

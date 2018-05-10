@@ -3,6 +3,7 @@ package com.yunsen.enjoy.activity.dealer;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -18,11 +19,13 @@ import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.http.RestApiResponse;
 import com.yunsen.enjoy.model.TradeData;
 import com.yunsen.enjoy.model.event.PullImageEvent;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.GetImgUtil;
+import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.NumberPickerDialog;
 import com.yunsen.enjoy.widget.interfaces.onLeftOnclickListener;
 import com.yunsen.enjoy.widget.interfaces.onRightOnclickListener;
@@ -78,6 +81,15 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
     Button submitBtn;
     private ApplyFacilitatorModel mRequsetData;
     private String[] mTradeDatas;
+    private String[] mImageUrls = new String[4];
+    private static final int ONE_IMG = 0x0001;
+    private static final int TWO_IMG = 0x0010;
+    private static final int THREE_IMG = 0x0100;
+    private static final int FOUR_IMG = 0x1000;
+    private static final int PULL_FINSH = 0x1111;
+
+    private int mImgPullFinish = 0x0000;
+    private List<TradeData> mTradeListDatas;
 
     @Override
     public int getLayout() {
@@ -111,6 +123,7 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
             public void onSuccess(List<TradeData> responseData) {
                 int size = responseData.size();
                 mTradeDatas = new String[size];
+                mTradeListDatas = responseData;
                 for (int i = 0; i < size; i++) {
                     mTradeDatas[i] = responseData.get(i).getTitle();
                 }
@@ -163,13 +176,62 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
     }
 
     private void initRequestData() {
-        String category = facilitatorCategoryTv.getText().toString();
-        String synonsis = facilitatorSynopsisEdt.getText().toString();
-        String advatage = facilitatorAdvantageEdt.getText().toString();
+        String category = facilitatorCategoryTv.getText().toString();//行业类别
+        Integer tradeId = (Integer) facilitatorCategoryTv.getTag();
+        String synonsis = facilitatorSynopsisEdt.getText().toString();//简介
+        String advatage = facilitatorAdvantageEdt.getText().toString();//优势
+        String workNumber = facilitatorWorkNumberEdt.getText().toString();//服务工号
         String businessLicence = facilitatorBusinessLicenceEdt.getText().toString();//营业执照注册号
         String refereeNum = facilitatorRefereeNumEdt.getText().toString();//推荐人号码
-        String workNumber = facilitatorWorkNumberEdt.getText().toString();//服务工号
 
+        mRequsetData.setTrade_id("" + tradeId);
+        mRequsetData.setContact(synonsis);
+        mRequsetData.setAdvantage(advatage);
+        mRequsetData.setLicense(businessLicence);
+
+        if (TextUtils.isEmpty(category)) {
+            ToastUtils.makeTextShort("请选择行业类别");
+        } else if (TextUtils.isEmpty(synonsis)) {
+            ToastUtils.makeTextShort("请填写服务商简介");
+        } else if (TextUtils.isEmpty(advatage)) {
+            ToastUtils.makeTextShort("请填写特色优势");
+        } else if (TextUtils.isEmpty(workNumber)) {
+            ToastUtils.makeTextShort("请填写服务工号");
+        } else if (TextUtils.isEmpty(businessLicence)) {
+            ToastUtils.makeTextShort("请填写营业执照号码");
+        } else if (TextUtils.isEmpty(refereeNum)) {
+            ToastUtils.makeTextShort("请填写推荐人号码");
+        } else if ((mImgPullFinish & ONE_IMG) != ONE_IMG) {
+            ToastUtils.makeTextShort("请上传服务商Logo");
+        } else if ((mImgPullFinish & TWO_IMG) != TWO_IMG) {
+            ToastUtils.makeTextShort("请上传营业执照");
+        } else if ((mImgPullFinish & TWO_IMG) != TWO_IMG) {
+            ToastUtils.makeTextShort("请上传税务登记证明");
+        } else if ((mImgPullFinish & TWO_IMG) != TWO_IMG) {
+            ToastUtils.makeTextShort("请上传组织机构代码证明");
+        } else if (!protocolSelectionCb.isChecked()) {
+            ToastUtils.makeTextShort("请同意协议");
+        } else {
+            submitData();
+        }
+
+
+    }
+
+    private void submitData() {
+        HttpProxy.getApplyServiceForm(this, mRequsetData, new HttpCallBack<RestApiResponse>() {
+            @Override
+            public void onSuccess(RestApiResponse responseData) {
+                Log.e(TAG, "onSuccess: " + responseData.getInfo());
+                UIHelper.showMainActivity(ApplyServiceThreeActivity.this);
+                finish();
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+                Log.e(TAG, "onError: " + e.getMessage());
+            }
+        });
     }
 
     private void showPickerDialog(String[] datas) {
@@ -191,6 +253,7 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
             public void onRightClick(int[] index) {
                 if (picker != null && picker.isShowing()) {
                     facilitatorCategoryTv.setText(mTradeDatas[index[0]]);
+                    facilitatorCategoryTv.setTag(mTradeListDatas.get(index[0]).getId());
                     requestData();
                     picker.dismiss();
                 }
@@ -229,20 +292,20 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
         switch (index) {
             case Constants.APPLY_SERVICE_REQUEST_1:
                 imageView = facilitatorLogoImg;
-                type = 1;
+                type = 0;
 
                 break;
             case Constants.APPLY_SERVICE_REQUEST_2:
                 imageView = facilitatorAptitudeImg;
-                type = 2;
+                type = 1;
                 break;
             case Constants.APPLY_SERVICE_REQUEST_3:
                 imageView = facilitatorRevenueImg;
-                type = 3;
+                type = 2;
                 break;
             case Constants.APPLY_SERVICE_REQUEST_4:
                 imageView = facilitatorMechanismImg;
-                type = 4;
+                type = 3;
                 break;
         }
         if (imageView != null) {
@@ -256,14 +319,20 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(PullImageEvent event) {
-        switch (event.getEvenId()) {
+        int evenId = event.getEvenId();
+        mImageUrls[evenId] = event.getImgUrl();
+        switch (evenId) {
+            case 0:
+                mImgPullFinish = mImgPullFinish | ONE_IMG;
+                break;
             case 1:
+                mImgPullFinish = mImgPullFinish | TWO_IMG;
                 break;
             case 2:
+                mImgPullFinish = mImgPullFinish | THREE_IMG;
                 break;
             case 3:
-                break;
-            case 4:
+                mImgPullFinish = mImgPullFinish | FOUR_IMG;
                 break;
         }
         Log.e(TAG, "onEvent:上传成功 " + event.getImgUrl());

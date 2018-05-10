@@ -162,6 +162,11 @@ public class URLConstants {
      * 行业列表
      */
     public static final String TRADE_LIST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_trade_list?parent_id=0";
+    /**
+     * id: 用户id
+     * 是否是服务商facilitator
+     */
+    public static final String IS_FACILITATOR_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_commpany_content?id=";
 
 
     //

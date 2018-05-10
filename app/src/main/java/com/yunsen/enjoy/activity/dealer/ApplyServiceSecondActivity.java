@@ -54,8 +54,8 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
     EditText facilitatorNameEdt;
     @Bind(R.id.facilitator_tag_tv)
     TextView facilitatorTagTv;
-    @Bind(R.id.facilitator_project_edt)
-    EditText facilitatorProjectEdt;
+    @Bind(R.id.facilitator_project_tv)
+    TextView facilitatorProjectTv;
     @Bind(R.id.facilitator_phone_edt)
     EditText facilitatorPhoneEdt;
     @Bind(R.id.facilitator_address_edt)
@@ -95,6 +95,7 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
         mRequstData = new ApplyFacilitatorModel();
         mRequstData.setUser_name(userName);
         mRequstData.setUser_id(userId);
+        facilitatorGpsEdt.setText("深圳市南山区科技园");
     }
 
     @Override
@@ -167,6 +168,8 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
             public void onRightClick(int[] index) {
                 if (picker != null && picker.isShowing()) {
                     facilitatorTagTv.setText(mServiceProjectDatas[index[0]]);
+                    facilitatorProjectTv.setTag(index[0]);
+                    facilitatorProjectTv.setText("已选择");
                     requestData();
                     picker.dismiss();
                 }
@@ -196,10 +199,8 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
 
     private void intSMap() {
         String name = facilitatorNameEdt.getText().toString();
-        //        Integer tag = (Integer) facilitatorTagTv.getTag();
-        Integer tag = 0;
-        //        Integer projectTag = (Integer) facilitatorProjectEdt.getTag();
-        Integer projectTag = (Integer) facilitatorProjectEdt.getTag();
+        String serviceFlag = facilitatorTagTv.getText().toString();
+        Integer projectTag = (Integer) facilitatorProjectTv.getTag();
         String phoneNum = facilitatorPhoneEdt.getText().toString();
         String address = facilitatorAddressEdt.getText().toString();
         String gpsAddress = facilitatorGpsEdt.getText().toString();
@@ -219,7 +220,7 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
 
         } else {
             mRequstData.setName(name);
-            mRequstData.setSeo_title(String.valueOf(tag));
+            mRequstData.setSeo_title(serviceFlag);
             mRequstData.setService_ids(String.valueOf(projectTag));
             mRequstData.setMobile(phoneNum);
             mRequstData.setProvince(address);

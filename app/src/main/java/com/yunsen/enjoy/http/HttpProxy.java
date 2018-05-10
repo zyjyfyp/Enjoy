@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.orhanobut.logger.Logger;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.model.AccountBalanceModel;
 import com.yunsen.enjoy.model.AdvertList;
@@ -26,6 +27,7 @@ import com.yunsen.enjoy.model.ServiceProject;
 import com.yunsen.enjoy.model.ServiceProvideResponse;
 import com.yunsen.enjoy.model.TradeData;
 import com.yunsen.enjoy.model.UserInfo;
+import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.model.response.AccountBalanceResponse;
 import com.yunsen.enjoy.model.response.CarBrandResponese;
 import com.yunsen.enjoy.model.response.CarDetailsResponse;
@@ -34,6 +36,7 @@ import com.yunsen.enjoy.model.response.ServiceProjectListResponse;
 import com.yunsen.enjoy.model.response.ServiceShopInfoResponse;
 import com.yunsen.enjoy.model.response.TradeListResponse;
 import com.yunsen.enjoy.model.response.UserInfoResponse;
+import com.yunsen.enjoy.utils.EntityToMap;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -694,16 +697,17 @@ public class HttpProxy {
      * 申请服务商-
      * 服务商订单统计数量
      */
-    public static void getServiceOrderCount() {
+    public static void getServiceOrderCount(Activity act,ApplyFacilitatorModel data, HttpCallBack<RestApiResponse> callBack) {
+
         HashMap<String, String> param = new HashMap<>();
         param.put("commpany_id", "");//: 用户id,
         param.put("start_time", "");
         param.put("end_time", "");
 
-        HttpClient.get(URLConstants.SERVICE_ODER_NUM_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
+        HttpClient.get(URLConstants.SERVICE_ODER_NUM_URL, param, new HttpResponseHandler<RestApiResponse>() {
             @Override
-            public void onSuccess(AccountBalanceResponse response) {
-                super.onSuccess(response);
+            public void onSuccess(RestApiResponse response) {
+                Log.e(TAG, "onSuccess: " + response.getInfo());
             }
 
             @Override
@@ -825,59 +829,67 @@ public class HttpProxy {
     /**
      * 服务商申请提交表单数据
      */
-    public static void getApplyServiceForm() {
-        HashMap<String, String> param = new HashMap<>();
-        param.put("id", "");   //  user_id: userInfo.id,//用户id
-        param.put("user_name", ""); //       user_name: userInfo.user_name,//用户名字
-        param.put("trade_id", "");        //trade_id: trade_id,//行业ID
-        param.put("name", "");   //      name: name,//企业名称
-        param.put("content", "");    //     content: content,//企业介绍
-        param.put("artperson", "");     //    artperson: '',//法人
-        param.put("contact", "");      //   contact: contact,//联系人
-        param.put("mobile", "");      //  mobile: mobile,//联系人电话
-        param.put("tel", "");      //   tel: '',//企业电话
-        param.put("nature", "");     //   nature: '',//企业性质
-        param.put("post_code", "");     //   post_code: '',//邮编
-        param.put("email", "");      //  email: '',//电子邮件
-        param.put("address", "");      //  address: address,//地址
-        param.put("sort_id", "");     // sort_id: 99,//排序
-        param.put("logo_url", "");     //  logo_url: logo_url,//企业logo
-        param.put("img_url", "");     //  img_url: '',//企业图片
-        param.put("seo_title", "");     //  seo_title: '',//seo标题
-        param.put("seo_keywords", "");     //   seo_keywords: '',//seo关键字
-        param.put("seo_description", "");      //  seo_description: '',//seo描述
-        param.put("province", "");    //   province: province,//省份
-        param.put("city", "");    //  city: city,//城市
-        param.put("area", "");    //    area: area,//区县
-        param.put("regtime", "");    //    regtime: utili.formatTime2(new Date()),//注册时间
-        param.put("lng", "");    //     lng: lng,//经度
-        param.put("lat", "");    //       lat: lat,//纬度
-        param.put("advantage", "");    //       advantage: advantage,//企业优势
-        param.put("idcard_a", "");    //       idcard_a: '',//法人身份证(正面)
-        param.put("idcard_b", "");    //       idcard_b: '',//法人身份证(反面)
-        param.put("license", "");    //       license: license,//工商营业执照
-        param.put("accredit", "");    //       accredit: '',//厂家授权或者厂家合同
-        param.put("aptitude", "");    //        aptitude: '',//企业资质
-        param.put("revenue_card", "");    //        revenue_card: revenue_card,//税务
-        param.put("organi_card", "");    //        organi_card: organi_card,//组织机构代码证
-        param.put("brand_card", "");    //        brand_card: '',//品牌注册证
-        param.put("licence_card", "");    //        licence_card: '',//开户行许许可证
-        param.put("trade_aptitude", "");    //        trade_aptitude: '',//行业资质证明文件
-        param.put("account_name", "");    //        account_name: '',//企业开户名称
-        param.put("bank_name", "");    //        bank_name: '',//企业开户银行
-        param.put("bank_account", "");    //       bank_account: '',//企业银行账号
-        param.put("registeredid", "");    //        registeredid: registeredid,//工商执照注册号
-        param.put("service_time", "");    //        service_time: service_time,//企业服务时间
-        param.put("service_ids", "");    //        service_ids: ''
-        HttpClient.get(URLConstants.APPLY_SERVICE_FORM_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
+    public static void getApplyServiceForm(Activity act, ApplyFacilitatorModel data, final HttpCallBack<RestApiResponse> callBack) {
+//        param.put("id", "");   //  user_id: userInfo.id,//用户id
+//        param.put("user_name", ""); //       user_name: userInfo.user_name,//用户名字
+//        param.put("trade_id", "");        //trade_id: trade_id,//行业ID
+//        param.put("name", "");   //      name: name,//企业名称
+//        param.put("content", "");    //     content: content,//企业介绍
+//        param.put("artperson", "");     //    artperson: '',//法人
+//        param.put("contact", "");      //   contact: contact,//联系人
+//        param.put("mobile", "");      //  mobile: mobile,//联系人电话
+//        param.put("tel", "");      //   tel: '',//企业电话
+//        param.put("nature", "");     //   nature: '',//企业性质
+//        param.put("post_code", "");     //   post_code: '',//邮编
+//        param.put("email", "");      //  email: '',//电子邮件
+//        param.put("address", "");      //  address: address,//地址
+//        param.put("sort_id", "");     // sort_id: 99,//排序
+//        param.put("logo_url", "");     //  logo_url: logo_url,//企业logo
+//        param.put("img_url", "");     //  img_url: '',//企业图片
+//        param.put("seo_title", "");     //  seo_title: '',//seo标题
+//        param.put("seo_keywords", "");     //   seo_keywords: '',//seo关键字
+//        param.put("seo_description", "");      //  seo_description: '',//seo描述
+//        param.put("province", "");    //   province: province,//省份
+//        param.put("city", "");    //  city: city,//城市
+//        param.put("area", "");    //    area: area,//区县
+//        param.put("regtime", "");    //    regtime: utili.formatTime2(new Date()),//注册时间
+//        param.put("lng", "");    //     lng: lng,//经度
+//        param.put("lat", "");    //       lat: lat,//纬度
+//        param.put("advantage", "");    //       advantage: advantage,//企业优势
+//        param.put("idcard_a", "");    //       idcard_a: '',//法人身份证(正面)
+//        param.put("idcard_b", "");    //       idcard_b: '',//法人身份证(反面)
+//        param.put("license", "");    //       license: license,//工商营业执照
+//        param.put("accredit", "");    //       accredit: '',//厂家授权或者厂家合同
+//        param.put("aptitude", "");    //        aptitude: '',//企业资质
+//        param.put("revenue_card", "");    //        revenue_card: revenue_card,//税务
+//        param.put("organi_card", "");    //        organi_card: organi_card,//组织机构代码证
+//        param.put("brand_card", "");    //        brand_card: '',//品牌注册证
+//        param.put("licence_card", "");    //        licence_card: '',//开户行许许可证
+//        param.put("trade_aptitude", "");    //        trade_aptitude: '',//行业资质证明文件
+//        param.put("account_name", "");    //        account_name: '',//企业开户名称
+//        param.put("bank_name", "");    //        bank_name: '',//企业开户银行
+//        param.put("bank_account", "");    //       bank_account: '',//企业银行账号
+//        param.put("registeredid", "");    //        registeredid: registeredid,//工商执照注册号
+//        param.put("service_time", "");    //        service_time: service_time,//企业服务时间
+//        param.put("service_ids", "");    //        service_ids: ''
+        SharedPreferences sp = act.getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+        String userId = sp.getString(SpConstants.USER_ID, "");
+        String userName = sp.getString(SpConstants.USER_NAME, "");
+        data.setUser_id(userId);
+        data.setUser_name(userName);
+        data.setSort_id("0");
+        Map<String, Object> param = EntityToMap.ConvertObjToMap(data);
+        HttpClient.get(URLConstants.APPLY_SERVICE_FORM_URL, param, new HttpResponseHandler<RestApiResponse>() {
             @Override
-            public void onSuccess(AccountBalanceResponse response) {
+            public void onSuccess(RestApiResponse response) {
+                callBack.onSuccess(response);
                 super.onSuccess(response);
             }
 
             @Override
             public void onFailure(Request request, Exception e) {
-                Logger.e(TAG, "onFailure: " + e.getMessage());
+                Logger.e( "onFailure: " + e.getMessage());
+                callBack.onError(request,e);
             }
         });
     }
@@ -948,15 +960,15 @@ public class HttpProxy {
                 });
     }
 
-    public static void httpPost(String url, Map<String,String> params) {
+    public static void httpPost(String url, Map<String, String> params) {
         OkHttpClient okHttpClient = new OkHttpClient();
         if (params == null) throw new NullPointerException("params is null");
 
         FormBody.Builder formBodyBuilder = new FormBody.Builder();
         Set<String> keySet = params.keySet();
-        for(String key:keySet) {
+        for (String key : keySet) {
             String value = params.get(key);
-            formBodyBuilder.add(key,value);
+            formBodyBuilder.add(key, value);
         }
         FormBody formBody = formBodyBuilder.build();
 
@@ -968,13 +980,13 @@ public class HttpProxy {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
-                Log.e(TAG, "onFailure: " );
+                Log.e(TAG, "onFailure: ");
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String result = response.body().string();
-                Log.e(TAG, "onResponse: "+result );
+                Log.e(TAG, "onResponse: " + result);
                 response.body().close();
             }
         });

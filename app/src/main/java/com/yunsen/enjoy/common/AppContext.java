@@ -56,12 +56,12 @@ public class AppContext extends Application {
                 return true;
             }
         });
-        Logger.addLogAdapter(new DiskLogAdapter(formatStrategy) {
-            @Override
-            public boolean isLoggable(int priority, @Nullable String tag) {
-                return true;
-            }
-        });
+//        Logger.addLogAdapter(new DiskLogAdapter(formatStrategy) {
+//            @Override
+//            public boolean isLoggable(int priority, @Nullable String tag) {
+//                return true;
+//            }
+//        });
 //        registerUncaughtExceptionHandler();
     }
 

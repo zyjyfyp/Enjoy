@@ -440,4 +440,13 @@ public class UIHelper {
         intent.putExtras(bundle);
         ctx.startActivity(intent);
     }
+
+    /**
+     *
+     * @param ctx
+     */
+    public static void showMainActivity(Context ctx) {
+        Intent intent = new Intent(ctx, ApplyServiceSecondActivity.class);
+        ctx.startActivity(intent);
+    }
 }

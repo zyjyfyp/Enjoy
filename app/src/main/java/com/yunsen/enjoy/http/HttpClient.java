@@ -80,7 +80,7 @@ public class HttpClient {
         return false;
     }
 
-    public static void get(String url, Map<String, String> param, final HttpResponseHandler handler) {
+    public static void get(String url, Map<String, ? extends Object> param, final HttpResponseHandler handler) {
         if (!isNetworkAvailable()) {
             Toast.makeText(AppContext.getInstance(), R.string.no_network_connection_toast, Toast.LENGTH_SHORT).show();
             return;
@@ -122,9 +122,9 @@ public class HttpClient {
         }
         FormBody.Builder formBodyBuilder = new FormBody.Builder();
         Set<String> keySet = params.keySet();
-        for(String key:keySet) {
+        for (String key : keySet) {
             String value = params.get(key);
-            formBodyBuilder.add(key,value);
+            formBodyBuilder.add(key, value);
         }
         FormBody formBody = formBodyBuilder.build();
 
@@ -136,7 +136,7 @@ public class HttpClient {
             public void onResponse(Call call, Response response) {
                 try {
                     String responseBody = response.body().string();
-                    Log.e(TAG, "onResponse: "+responseBody );
+                    Log.e(TAG, "onResponse: " + responseBody);
 
                     if (!isJsonString(responseBody)) {
                         throw new Exception("server response not json string (response = " + responseBody + ")");
@@ -176,13 +176,17 @@ public class HttpClient {
         return !TextUtils.isEmpty(responseBody) && (responseBody.startsWith("{") && responseBody.endsWith("}"));
     }
 
-    public static String mapToQueryString(Map<String, String> map) {
+    public static String mapToQueryString(Map<String, ? extends Object> map) {
         StringBuilder string = new StringBuilder();
         try {
-            for (Map.Entry<String, String> entry : map.entrySet()) {
+            for (Map.Entry<String, ? extends Object> entry : map.entrySet()) {
                 string.append(entry.getKey());
                 string.append("=");
-                string.append(URLEncoder.encode(entry.getValue(), UTF_8));
+                Object value = entry.getValue();
+                if (value == null) {
+                    value = "";
+                }
+                string.append(URLEncoder.encode((String) value, UTF_8));
                 string.append("&");
             }
         } catch (UnsupportedEncodingException e) {

@@ -326,7 +326,7 @@
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/shoucang" />
+                    android:src="@mipmap/submit_collect" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -350,7 +350,7 @@
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/pinglun" />
+                    android:src="@mipmap/floor_price" />
 
                 <TextView
                     android:layout_width="wrap_content"

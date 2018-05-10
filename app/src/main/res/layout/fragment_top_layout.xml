@@ -64,7 +64,7 @@
                     android:maxLines="1"
                     android:paddingTop="2dp"
                     android:paddingBottom="2dp"
-                    android:text="解密二手车"
+                    android:text="优惠活动"
                     android:textColor="@color/color_fff"
                     android:textSize="11sp" />
 
@@ -95,7 +95,7 @@
                     android:background="@drawable/orange_oval_bg"
                     android:gravity="center"
                     android:minLines="1"
-                    android:text="车主有话说"
+                    android:text="商品评测"
                     android:textColor="@color/color_fff"
                     android:textSize="11sp" />
 
