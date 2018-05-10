@@ -21,7 +21,6 @@ import com.squareup.picasso.Picasso;
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.MainActivity;
-import com.yunsen.enjoy.activity.WebActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceActivity;
 import com.yunsen.enjoy.activity.dealer.MyFacilitatorActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
@@ -35,7 +34,6 @@ import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
-import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
@@ -157,7 +155,7 @@ public class MineFragment extends BaseFragment {
     private UserInfo data;
 
     private String mUserId;
-    private Boolean mIsFacilitator;
+    private Boolean mIsFacilitator = false;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -579,9 +577,9 @@ public class MineFragment extends BaseFragment {
             @Override
             public void onSuccess(UserInfo data) {
                 // TODO: 2018/5/7 zyjy what?
-//                            double dzongjia = data.getExp() + data.getExp_weal() + data.getExp_invest() + data.getExp_action() + data.getExp_time();
-//                            BigDecimal w = new BigDecimal(dzongjia);
-//                            double zong_jz = w.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue(); //价值
+                //                            double dzongjia = data.getExp() + data.getExp_weal() + data.getExp_invest() + data.getExp_action() + data.getExp_time();
+                //                            BigDecimal w = new BigDecimal(dzongjia);
+                //                            double zong_jz = w.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue(); //价值
                 spPreferences = getActivity().getSharedPreferences("longuserset", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = spPreferences.edit();
                 editor.putString("mobile", data.getMobile());

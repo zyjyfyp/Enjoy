@@ -100,6 +100,10 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TeamTabLayoutStyle">
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <!-- 自定义Dialog主题 -->
     <style name="BottomDialogStyle" parent="@android:style/Theme.Holo.Light.Dialog">
         <item name="android:windowNoTitle">true</item>
@@ -229,6 +233,16 @@
         <item name="android:textColor">@color/title_color</item>
         <item name="android:gravity">center_vertical|right</item>
         <item name="android:background">@null</item>
+    </style>
+
+    <style name="MyFacilitatorItemTv">
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/title_color</item>
+        <item name="android:layout_marginRight">@dimen/app_margin</item>
+        <item name="android:layout_marginLeft">@dimen/app_margin</item>
     </style>
 
 
