@@ -119,6 +119,10 @@ public class ApplyCarModel implements Parcelable {
         this.identity_card_b = identity_card_b;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
     public void setBank_flow(String bank_flow) {
         this.bank_flow = bank_flow;
     }

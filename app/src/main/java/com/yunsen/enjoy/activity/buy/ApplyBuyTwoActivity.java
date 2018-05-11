@@ -1,6 +1,9 @@
 package com.yunsen.enjoy.activity.buy;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -11,7 +14,10 @@ import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.utils.ToastUtils;
+import com.yunsen.enjoy.utils.Validator;
 import com.yunsen.enjoy.widget.BuyCarStepLayout;
 
 
@@ -42,6 +48,7 @@ public class ApplyBuyTwoActivity extends BaseFragmentActivity {
     TextView applyTwoBottomBtn;
     @Bind(R.id.buy_step_layout)
     BuyCarStepLayout buyStepLayout;
+    private ApplyCarModel mApplyCarRequest;
 
     @Override
     public int getLayout() {
@@ -59,7 +66,15 @@ public class ApplyBuyTwoActivity extends BaseFragmentActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
+        Intent intent = getIntent();
+        if (intent != null) {
+            Bundle extras = intent.getExtras();
+            mApplyCarRequest = extras.getParcelable(Constants.APPLY_BUY_CAR_KEY);
+            String title = mApplyCarRequest.getTitle();
+            if (!TextUtils.isEmpty(title)) {
+                buyStepCarName.setText(title);
+            }
+        }
     }
 
     @Override
@@ -94,7 +109,15 @@ public class ApplyBuyTwoActivity extends BaseFragmentActivity {
                 requestPermission(Permission.CALL_PHONE, Constants.CALL_PHONE);
                 break;
             case R.id.apply_two_bottom_btn:
-                UIHelper.showApplyThreeActivity(this);
+                String phone = phoneInputEdt.getText().toString();
+                if (TextUtils.isEmpty(phone)) {
+                    ToastUtils.makeTextShort("请输入电话号码");
+                } else if (Validator.isMobile(phone)) {
+                    ToastUtils.makeTextShort("请输入正确的电话号码");
+                } else {
+                    mApplyCarRequest.setMobile(phone);
+                    UIHelper.showApplyThreeActivity(this, mApplyCarRequest);
+                }
                 break;
         }
     }

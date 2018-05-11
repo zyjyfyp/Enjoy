@@ -94,6 +94,7 @@ public class Constants {
      * 买车 汽车id
      */
     public static final String APPLY_BUY_CAR_ID = "apply_buy_car_id";
+    public static final String APPLY_BUY_CAR_KEY = "apply_buy_car_key";
 
     /**
      * 资金详情

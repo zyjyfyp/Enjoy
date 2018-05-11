@@ -49,7 +49,7 @@ public class SplashActivity extends AppCompatActivity {
                     findViewById(R.id.guideImage).startAnimation(fadeOut);
                     initGuideGallery();
                 } else {
-                    UIHelper.showHome(SplashActivity.this);
+                    UIHelper.showHomeActivity(SplashActivity.this);
                 }
             }
         }, 2000);
@@ -62,7 +62,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 SharedPreference.getInstance().putBoolean("first-time-use", false);
-                UIHelper.showHome(SplashActivity.this);
+                UIHelper.showHomeActivity(SplashActivity.this);
             }
         });
 

@@ -80,8 +80,12 @@ public class ApplyBuyFirstActivity extends BaseFragmentActivity {
         }
         mApplyCar = new ApplyCarModel();
         UserInfo userInfo = SpUtils.getUserInfo();
-        int id = userInfo.getId();
+        int userId = userInfo.getId();
+        String userName = userInfo.getUser_name();
         //todo 初始化请求参数
+        mApplyCar.setUser_id("" + userId);
+        mApplyCar.setUser_name("" + userName);
+
 
     }
 
@@ -110,16 +114,26 @@ public class ApplyBuyFirstActivity extends BaseFragmentActivity {
 
     private void upView(CarDetails data) {
         String title = data.getTitle();
-        buyStepCarName.setText(title);
         CarDetails.DefaultSpecItemBean specItemBean = data.getDefault_spec_item();
         double sellPrice = specItemBean.getSell_price();
         double firstPayment = specItemBean.getFirst_payment();
         int term = specItemBean.getTerm();//几期
         int monthlySupply = specItemBean.getMonthly_supply();//月供
+        int ctypeId = data.getBrand_id();
+        buyStepCarName.setText(title);
         firstPayTv.setText("" + firstPayment);
         firstPayAll.setText("全款" + sellPrice + "万");
         monthPayTvData.setText("月供(" + term + "期)");
         monthPayTvMoney.setText(monthlySupply + "元");
+
+        int articleId = data.getId();
+        mApplyCar.setArticle_id("" + articleId);
+        mApplyCar.setFirst_payment("" + firstPayment);
+        mApplyCar.setAll_payment("" + sellPrice);
+        mApplyCar.setMonthly_supply("" + monthlySupply);
+        mApplyCar.setCtype_id("" + ctypeId);
+        mApplyCar.setTitle(title);
+        mApplyCar.setTerm("" + term);
     }
 
     @Override
@@ -136,7 +150,7 @@ public class ApplyBuyFirstActivity extends BaseFragmentActivity {
                 finish();
                 break;
             case R.id.apply_first_bottom_btn:
-                UIHelper.showApplyTwoActivity(this);
+                UIHelper.showApplyTwoActivity(this, mApplyCar);
                 break;
         }
     }

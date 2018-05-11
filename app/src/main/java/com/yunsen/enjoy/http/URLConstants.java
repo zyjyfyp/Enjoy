@@ -169,6 +169,10 @@ public class URLConstants {
      * 行业列表
      */
     public static final String TRADE_LIST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_trade_list?parent_id=0";
+    /**
+     * 申请买车
+     */
+    public static final String APPLY_BUY_CAR_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/submit_user_apply_purchase";
 
     //
 //    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";

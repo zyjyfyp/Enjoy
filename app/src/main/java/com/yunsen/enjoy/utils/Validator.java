@@ -23,7 +23,8 @@ public class Validator {
 	 */
 	// public static final String REGEX_MOBILE =
 	// "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
-	public static final String REGEX_MOBILE = "^((13[0-9])|(15[^4])|(18[0,1,2,3,5-9])|(17[0-9])|(147))\\d{8}$";
+//	public static final String REGEX_MOBILE = "^((13[0-9])|(15[^4])|(18[0,1,2,3,5-9])|(17[0-9])|(147))\\d{8}$";
+	public static final String REGEX_MOBILE = "^1[34578]\\\\d{9}$";
 	// String regExp = "^(5|6|8|9)\\d{7}$";//香港手机号码8位数，5|6|8|9开头+7位任意数
 	// http://blog.csdn.net/centralperk/article/details/7360590
 

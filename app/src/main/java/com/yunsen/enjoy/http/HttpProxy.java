@@ -29,6 +29,7 @@ import com.yunsen.enjoy.model.ServiceProvideResponse;
 import com.yunsen.enjoy.model.TradeData;
 import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.WatchCarBean;
+import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.model.request.WatchCarModel;
 import com.yunsen.enjoy.model.response.AccountBalanceResponse;
@@ -37,6 +38,7 @@ import com.yunsen.enjoy.model.response.CarDetailsResponse;
 import com.yunsen.enjoy.model.response.PullImageResponse;
 import com.yunsen.enjoy.model.response.ServiceProjectListResponse;
 import com.yunsen.enjoy.model.response.ServiceShopInfoResponse;
+import com.yunsen.enjoy.model.response.StringResponse;
 import com.yunsen.enjoy.model.response.TradeListResponse;
 import com.yunsen.enjoy.model.response.UserInfoResponse;
 import com.yunsen.enjoy.model.response.WatchCarResponse;
@@ -959,6 +961,36 @@ public class HttpProxy {
         });
     }
 
+    /**
+     * 申请买车
+     *
+     * @param callBack
+     */
+    public static void getApplyBuyCar(ApplyCarModel model, final HttpCallBack<Boolean> callBack) {
+        Map<String, Object> map = EntityToMap.ConvertObjToMap(model);
+
+        HttpClient.get(URLConstants.APPLY_BUY_CAR_URL, map, new HttpResponseHandler<StringResponse>() {
+            @Override
+            public void onSuccess(StringResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(true);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onSuccess(false);
+                super.onFailure(request, e);
+            }
+        });
+    }
+
+
+    /**
+     * 上传base64图片
+     *
+     * @param imgBase64
+     * @param callBack
+     */
     public static void getPullImageBase64(String imgBase64, final HttpCallBack<PullImageResult> callBack) {
         HashMap<String, String> param = new HashMap<>();
         param.put("base64", imgBase64);

@@ -293,7 +293,6 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
             case Constants.APPLY_SERVICE_REQUEST_1:
                 imageView = facilitatorLogoImg;
                 type = 0;
-
                 break;
             case Constants.APPLY_SERVICE_REQUEST_2:
                 imageView = facilitatorAptitudeImg;

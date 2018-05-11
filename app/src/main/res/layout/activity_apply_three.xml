@@ -208,7 +208,7 @@
     </ScrollView>
 
     <TextView
-        android:id="@+id/apply_first_bottom_btn"
+        android:id="@+id/next_tv"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="bottom"

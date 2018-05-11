@@ -60,6 +60,7 @@
                 android:layout_marginTop="@dimen/app_margin"
                 android:background="@drawable/edittext"
                 android:gravity="center_vertical"
+                android:inputType="phone"
                 android:hint="请输入您的手机号码"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
