@@ -173,6 +173,11 @@ public class URLConstants {
      * 申请买车
      */
     public static final String APPLY_BUY_CAR_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/submit_user_apply_purchase";
+    /**
+     * 搜索
+     */
+    public static final String SEARCH_KEY_WORK_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_page_search_list";
+
 
     //
 //    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";

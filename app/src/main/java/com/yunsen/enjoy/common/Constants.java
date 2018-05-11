@@ -82,6 +82,11 @@ public class Constants {
      *****************************************************************/
     public static final String FRAGMENT_TYPE_KEY = "fragment_type";
     /**
+     * 搜索的key
+     */
+    public static final String SEARCH_KEY = "search_key";
+
+    /**
      * 汽车详情
      */
     public static final String CAR_DETAILS_ID = "car_details_id";

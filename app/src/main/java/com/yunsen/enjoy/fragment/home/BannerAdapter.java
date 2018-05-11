@@ -2,6 +2,7 @@ package com.yunsen.enjoy.fragment.home;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,7 @@ public class BannerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
         ImageView item = new ImageView(mContext);
-        AdvertModel data = mDatas.get(position);
+        final AdvertModel data = mDatas.get(position);
         if (data.getAd_url() == null) {
             item.setImageResource(data.getRseImg());
         } else {
@@ -55,7 +56,10 @@ public class BannerAdapter extends PagerAdapter {
         item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UIHelper.showAdvertActivity(mContext);
+                String linkUrl = data.getLink_url();
+                if (!TextUtils.isEmpty(linkUrl)) {
+                    UIHelper.showWebActivity(mContext, linkUrl);
+                }
             }
         });
         return item;

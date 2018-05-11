@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.yunsen.enjoy.activity.SearchActivity">
 
@@ -12,9 +12,23 @@
     <android.support.v7.widget.SearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:queryHint="请输入汽车名称"
-        app:showAsAction="always"
-        android:layout_height="50dp">
+        app:showAsAction="always" />
 
-    </android.support.v7.widget.SearchView>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/no_car_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:paddingTop="30dp"
+        android:text="没有搜索到任何内容"
+        android:textColor="@color/color_888"
+        android:textSize="15sp" />
+
 </LinearLayout>

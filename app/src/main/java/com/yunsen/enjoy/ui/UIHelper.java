@@ -105,6 +105,7 @@ public class UIHelper {
      */
     public static void showSearchActivity(Activity act) {
         Intent intent = new Intent(act, SearchActivity.class);
+//        intent.putExtra(Constants.SEARCH_KEY, keyWork);
         act.startActivity(intent);
     }
 

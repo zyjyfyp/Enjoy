@@ -36,6 +36,7 @@ import com.yunsen.enjoy.model.response.AccountBalanceResponse;
 import com.yunsen.enjoy.model.response.CarBrandResponese;
 import com.yunsen.enjoy.model.response.CarDetailsResponse;
 import com.yunsen.enjoy.model.response.PullImageResponse;
+import com.yunsen.enjoy.model.response.SearchListResponse;
 import com.yunsen.enjoy.model.response.ServiceProjectListResponse;
 import com.yunsen.enjoy.model.response.ServiceShopInfoResponse;
 import com.yunsen.enjoy.model.response.StringResponse;
@@ -979,6 +980,40 @@ public class HttpProxy {
             @Override
             public void onFailure(Request request, Exception e) {
                 callBack.onSuccess(false);
+                super.onFailure(request, e);
+            }
+        });
+    }
+
+    /**
+     * 获取搜索列表
+     *
+     * @param searchKey
+     * @param callBack
+     */
+    public static void getSearchList(String searchKey, final HttpCallBack<List<CarDetails>> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("channel_name", "goods");
+        map.put("category_id", "0");
+        map.put("page_size", "10");
+        map.put("page_index", "1");
+        map.put("keyword", searchKey);
+        map.put("orderby", "id desc");
+        HttpClient.get(URLConstants.SEARCH_KEY_WORK_URL, map, new HttpResponseHandler<SearchListResponse>() {
+            @Override
+            public void onSuccess(SearchListResponse response) {
+                super.onSuccess(response);
+                List<CarDetails> data = response.getData();
+                if (data != null) {
+                    callBack.onSuccess(data);
+                } else {
+                    callBack.onError(null, new Exception("data is empty!"));
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
                 super.onFailure(request, e);
             }
         });

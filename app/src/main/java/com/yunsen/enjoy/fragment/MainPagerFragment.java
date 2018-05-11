@@ -70,7 +70,6 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     private HorizontalLayout2 twoHLayout;
     private RecyclerView recyclerView;
     private View topView;
-    private HeaderAndFooterWrapper mHeaderWrapper;
     private StoreRecyclerAdapter mAdapter;
     private ImageView allCars;
     private View moreCar;

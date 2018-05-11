@@ -163,9 +163,10 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
     public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
         CityModel cityModel = (CityModel) mCityLit.getAdapter().getItem(pos);
         if (pos == 0 && cityModel != null && "-1".equals(cityModel.getId())) {
-            mlocationClient.startLocation();
-
-        } else if (cityModel != null && TextUtils.isEmpty(cityModel.getFirstLetter())) {
+            if (mlocationClient != null) {
+                mlocationClient.startLocation();
+            }
+        } else if (pos != 0 && cityModel != null && TextUtils.isEmpty(cityModel.getFirstLetter())) {
             SharedPreference.getInstance().putString(SpConstants.CITY_KEY, cityModel.getName());
             finish();
         }
