@@ -18,4 +18,5 @@ public class EventConstants {
      */
     public static final int USER_ICON = 10;
 
+    public static final int UP_CITY = 4;
 }

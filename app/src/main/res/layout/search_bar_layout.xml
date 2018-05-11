@@ -20,7 +20,7 @@
         android:layout_width="9dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="5dp"
         android:src="@mipmap/down_more" />
 
     <View

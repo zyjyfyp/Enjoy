@@ -7,6 +7,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.yanzhenjie.permission.Permission;
@@ -21,6 +23,7 @@ import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpCityEvent;
 import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
@@ -78,9 +81,6 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
     protected void initView() {
         ButterKnife.bind(this, rootView);
         searchBar.setLeftText("深圳");
-        layoutEntGallery.setFocusable(true);
-        layoutEntGallery.setFocusableInTouchMode(true);
-        layoutEntGallery.requestFocus();
     }
 
     @Override

@@ -26,8 +26,12 @@ import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.CarModel;
+import com.yunsen.enjoy.model.HomeCarModel;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.SProviderModel;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpCityEvent;
+import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
@@ -41,6 +45,10 @@ import com.yunsen.enjoy.widget.HorizontalLayout2;
 import com.yunsen.enjoy.widget.SearchActionBar;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 import com.yunsen.enjoy.widget.recyclerview.wrapper.HeaderAndFooterWrapper;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +83,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     private View moreCar;
     private HomeFootView footView;
     private List<AdvertModel> mAdverModels = new ArrayList<>();
+    private int mPageIndex = 0;
 
 
     @Override
@@ -136,18 +145,19 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         banner.setAdapter(bannerAdapter);
         indicatorLayout.setViewPager(banner);
         indicatorLayout.setPadding(5, 5, 10, 5);
-        searchBar.setLeftText("深圳");
+        String currentCity = SharedPreference.getInstance().getString(SpConstants.CITY_KEY, "深圳市");
+        searchBar.setLeftText(currentCity);
         searchBar.setSearchText("请输入车名搜索");
 
         //最新动态
 
 
         //两行汽车类型
-        ArrayList<String> data = new ArrayList<>();
-        data.add("5万元以下");
-        data.add("5-10万元");
-        data.add("10-15万元");
-        data.add("15万元以上");
+        ArrayList<HomeCarModel> data = new ArrayList<>();
+        data.add(new HomeCarModel("5万元以下", "SUV"));
+        data.add(new HomeCarModel("5-10万元", "保买车"));
+        data.add(new HomeCarModel("10-15万元", "准新车"));
+        data.add(new HomeCarModel("15万元以上", "急售"));
         oneHLayout.setData(data);
 
         ArrayList<CarModel> data1 = new ArrayList<>();
@@ -236,7 +246,41 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
             }
         });
 
+        requestServiceProvider(false);
+    }
 
+    private void requestServiceProvider(boolean isLoadMore) {
+        final boolean isMore = isLoadMore;
+        if (isMore) {
+            mPageIndex++;
+        } else {
+            mPageIndex = 1;
+        }
+        /**
+         * 服务商
+         */
+        HttpProxy.getServiceProvider(mPageIndex, searchBar.getLeftText(), new HttpCallBack<List<SProviderModel>>() {
+            @Override
+            public void onSuccess(List<SProviderModel> responseData) {
+                if (isMore) {
+                    if (!mAdapter.addDatas(responseData)) {
+                        footView.changeState(true);
+                    } else {
+                        footView.changeState(false);
+                    }
+                } else {
+                    mAdapter.upDatas(responseData);
+                    footView.changeState(false);
+                }
+
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+                footView.changeState(true);
+                mAdapter.clearData();
+            }
+        });
     }
 
     @Override
@@ -288,7 +332,6 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         return null;
     }
 
-    ;
 
     @Override
     public void onClick(View v) {
@@ -327,27 +370,20 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                 UIHelper.showCarDetailsActivity(getActivity(), getAdverModelUrl(5));
                 break;
             case R.id.load_more_btn:
-                /**
-                 * 服务商
-                 */
-                HttpProxy.getServiceProvider(new HttpCallBack<List<SProviderModel>>() {
-                    @Override
-                    public void onSuccess(List<SProviderModel> responseData) {
-                        mAdapter.upDatas(responseData);
-                    }
-
-                    @Override
-                    public void onError(Request request, Exception e) {
-
-                    }
-                });
-                footView.changeState();
+                requestServiceProvider(true);
                 break;
         }
 
     }
 
+    /**
+     * 去买车界面
+     */
     private void toBuyCarFragment() {
+        ((MainActivity) getActivity()).setCurrIndex(1);
+    }
+
+    private void toBuyCarFragment(String data) {
         ((MainActivity) getActivity()).setCurrIndex(1);
     }
 
@@ -355,20 +391,29 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     public void onResume() {
         super.onResume();
         banner.startAutoScroll();
-        String currentCity = SharedPreference.getInstance().getString(SpConstants.CITY_KEY, "深圳");
-        searchBar.setLeftText(currentCity);
-        //        adtTv1.onStartAuto(1);
-        //        adtTv2.onStopAuto(2);
+        adtTv1.onStartAuto(1);
+        adtTv2.onStopAuto(2);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         banner.stopAutoScroll();
-        //        adtTv1.onStopAuto(1);
-        //        adtTv2.onStopAuto(2);
+        adtTv1.onStopAuto(1);
+        adtTv2.onStopAuto(2);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
 
     @Override
     public void onDestroyView() {
@@ -378,7 +423,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
     @Override
     public void onItemClick(String data) {
-        toBuyCarFragment();
+        toBuyCarFragment(data);
     }
 
     @Override
@@ -388,7 +433,6 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
             int id = datas.get(position - 1).getUser_id();
             Log.e(TAG, "onItemClick: " + id);
             UIHelper.showServiceShopInfoActivity(getActivity(), String.valueOf(id));
-
         }
     }
 
@@ -396,4 +440,13 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         return false;
     }
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onEvent(UpCityEvent event) {
+        if (event.getEventId() == EventConstants.UP_CITY) {
+            searchBar.setLeftText(event.getCity());
+            requestServiceProvider(false);
+        }
+    }
+
 }

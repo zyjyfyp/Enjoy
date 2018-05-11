@@ -38,11 +38,26 @@ public class StoreRecyclerAdapter extends CommonAdapter<SProviderModel> {
 
 
     public void upDatas(List<SProviderModel> datas) {
+        this.mDatas.clear();
         if (datas != null) {
-            this.mDatas.clear();
             this.mDatas.addAll(datas);
             this.notifyDataSetChanged();
         }
 
+    }
+
+    public boolean addDatas(List<SProviderModel> datas) {
+        if (datas != null) {
+            this.mDatas.addAll(datas);
+            this.notifyDataSetChanged();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void clearData() {
+        this.mDatas.clear();
+        this.notifyDataSetChanged();
     }
 }

@@ -28,11 +28,15 @@ import com.amap.api.location.AMapLocationListener;
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.SpConstants;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpCityEvent;
 import com.yunsen.enjoy.utils.SharedPreference;
 import com.yunsen.enjoy.utils.StringUtils;
 import com.yunsen.enjoy.widget.city.CityList;
 import com.yunsen.enjoy.widget.city.CityModel;
 import com.yunsen.enjoy.widget.city.MyLetterListView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -166,8 +170,9 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
             if (mlocationClient != null) {
                 mlocationClient.startLocation();
             }
-        } else if (pos != 0 && cityModel != null && TextUtils.isEmpty(cityModel.getFirstLetter())) {
+        } else if (cityModel != null && TextUtils.isEmpty(cityModel.getFirstLetter())) {
             SharedPreference.getInstance().putString(SpConstants.CITY_KEY, cityModel.getName());
+            EventBus.getDefault().postSticky(new UpCityEvent(EventConstants.UP_CITY, cityModel.getName()));
             finish();
         }
 
@@ -194,7 +199,7 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
                 Date date = new Date(amapLocation.getTime());
                 df.format(date);//定位时间
                 String city = amapLocation.getCity();
-                CityModel cityModel = new CityModel(amapLocation.getCityCode(), amapLocation.getCity(), true);
+                CityModel cityModel = new CityModel(amapLocation.getCityCode(), city, true);
                 adapter.upLoctionCity(cityModel);
             } else {
                 Log.e("AmapError", "location Error, ErrCode:"

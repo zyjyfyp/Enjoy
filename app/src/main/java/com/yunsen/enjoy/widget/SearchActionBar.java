@@ -57,6 +57,9 @@ public class SearchActionBar extends LinearLayout implements View.OnClickListene
         leftTv.setText(text);
     }
 
+    public String getLeftText() {
+        return leftTv.getText().toString();
+    }
     /**
      * 右边小红点的文字
      *

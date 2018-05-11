@@ -46,8 +46,13 @@ public class HomeFootView extends LinearLayout {
     /**
      * 显示没有更多内容
      */
-    public void changeState() {
-        noMoreTv.setVisibility(VISIBLE);
-        loadMoreBtn.setVisibility(GONE);
+    public void changeState(boolean flag) {
+        if (flag) {
+            noMoreTv.setVisibility(VISIBLE);
+            loadMoreBtn.setVisibility(GONE);
+        } else {
+            noMoreTv.setVisibility(GONE);
+            loadMoreBtn.setVisibility(VISIBLE);
+        }
     }
 }

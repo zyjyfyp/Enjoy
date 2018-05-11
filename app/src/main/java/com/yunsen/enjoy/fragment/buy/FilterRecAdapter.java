@@ -47,6 +47,10 @@ public class FilterRecAdapter extends CommonAdapter<GoodsData> {
             mDatas.addAll(responseData);
             notifyDataSetChanged();
             EventBus.getDefault().post(new UpUiEvent(EventConstants.UP_VIEW_PAGER_HEIGHT));
+        } else {
+            mDatas.clear();
+            notifyDataSetChanged();
+            EventBus.getDefault().post(new UpUiEvent(EventConstants.UP_VIEW_PAGER_HEIGHT));
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.yunsen.enjoy.fragment.buy;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -9,16 +10,19 @@ import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.fragment.BaseFragment;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.event.ActivityResultEvent;
 import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpCityEvent;
 import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
+import com.yunsen.enjoy.utils.SharedPreference;
 import com.yunsen.enjoy.widget.FilterHorLayout;
 import com.yunsen.enjoy.widget.MoreCarView;
 import com.yunsen.enjoy.widget.NumberPickerDialog;
@@ -105,6 +109,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
 
     @Override
     protected void requestData() {
+        String city = SharedPreference.getInstance().getString(SpConstants.CITY_KEY, "");
         HttpProxy.getFilterBuyCarDatas(new HttpCallBack<List<GoodsData>>() {
             @Override
             public void onSuccess(List<GoodsData> responseData) {
@@ -115,7 +120,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
             public void onError(Request request, Exception e) {
 
             }
-        }, mChannel, mStrwhere, mOrderby);
+        }, mChannel, mStrwhere, mOrderby, city);
     }
 
     @Override
@@ -201,28 +206,6 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
     }
 
 
-    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-    public void onActivityEvent(ActivityResultEvent event) {
-        switch (event.getEventId()) {
-            case EventConstants.CAR_BRAND_ID_KEY:
-            case EventConstants.SENIOR_FILTER_ID:
-                if (!TextUtils.isEmpty(mChannel) && mChannel.equals(event.getFragmentType())) {
-                    int dataId = event.getDataId();
-                    if (!mBrands.containsKey(String.valueOf(dataId))) {
-                        mBrands.put(String.valueOf(dataId), event.getName());
-                        mStrwhere = mStrwhere + " and brand_id like \'%" + dataId + "%\'";
-                        filterLayout.addItemView(event.getName(), dataId);
-                    }
-                    filterLayout.setVisibility(View.VISIBLE);
-                }
-                requestData();
-                break;
-        }
-
-
-    }
-
-
     @Override
     public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         List<GoodsData> datas = mAdapter.getDatas();
@@ -277,6 +260,32 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
             filterLayout.setVisibility(View.GONE);
         }
         requestData();
+    }
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onEvent(UpCityEvent event) {
+        if (event.getEventId() == EventConstants.UP_CITY) {
+            requestData();
+        }
+    }
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onActivityEvent(ActivityResultEvent event) {
+        switch (event.getEventId()) {
+            case EventConstants.CAR_BRAND_ID_KEY:
+            case EventConstants.SENIOR_FILTER_ID:
+                if (!TextUtils.isEmpty(mChannel) && mChannel.equals(event.getFragmentType())) {
+                    int dataId = event.getDataId();
+                    if (!mBrands.containsKey(String.valueOf(dataId))) {
+                        mBrands.put(String.valueOf(dataId), event.getName());
+                        mStrwhere = mStrwhere + " and brand_id like \'%" + dataId + "%\'";
+                        filterLayout.addItemView(event.getName(), dataId);
+                    }
+                    filterLayout.setVisibility(View.VISIBLE);
+                }
+                requestData();
+                break;
+        }
     }
 }
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 
+import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.widget.recyclerview.base.ItemViewDelegate;
 import com.yunsen.enjoy.widget.recyclerview.base.ViewHolder;
 

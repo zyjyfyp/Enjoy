@@ -104,6 +104,9 @@ public class ADTextView extends TextSwitcher implements ViewSwitcher.ViewFactory
     }
 
     public void onStartAuto(int eventId) {
+        if (resources == null) {
+            return;
+        }
         if (mHandler != null && !mHandler.hasMessages(eventId)) {
             mHandler.sendEmptyMessageDelayed(eventId, mTime);
         }

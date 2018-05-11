@@ -88,7 +88,7 @@ public class HttpClient {
         if (param != null && param.size() > 0) {
             url = url + "?" + mapToQueryString(param);
         }
-        Logger.d("zyjy get: =" + url);
+        Log.e("HTTPClient ", "zyjy get: =" + url);
         Request request = new Request.Builder().url(url).build();
         client.newCall(request).enqueue(new Callback() {
             @Override

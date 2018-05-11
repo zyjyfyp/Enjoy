@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.model.HomeCarModel;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class HorizontalLayout extends LinearLayout {
     private int mColumn = 4;
     private Context mContext;
     private LayoutInflater mInflater;
-    private List<String> mData;
+    private List<HomeCarModel> mData;
     private onHorizontalItemClick mListener;
 
     public HorizontalLayout(Context context) {
@@ -45,7 +46,7 @@ public class HorizontalLayout extends LinearLayout {
         mInflater = ((LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
     }
 
-    public void setData(List<String> data) {
+    public void setData(List<HomeCarModel> data) {
         if (data != null) {
             this.mData = data;
             for (int i = 0; i < data.size(); i++) {
@@ -54,7 +55,7 @@ public class HorizontalLayout extends LinearLayout {
         }
     }
 
-    public void upData(List<String> data) {
+    public void upData(List<HomeCarModel> data) {
         if (data != null && mData != null && data.size() == mData.size()) {
             this.mData.clear();
             this.mData.addAll(data);
@@ -63,15 +64,15 @@ public class HorizontalLayout extends LinearLayout {
                 View view = this.getChildAt(0);
                 TextView topTv = view.findViewById(R.id.top_tv);
                 TextView bottomTv = (TextView) view.findViewById(R.id.bottom_tv);
-                topTv.setText(mData.get(i));
-                bottomTv.setText("修改的汽车名");
+                topTv.setText(mData.get(i).getMoney());
+                bottomTv.setText(mData.get(i).getName());
             }
         }
     }
 
 
-    private LinearLayout createChild(String data) {
-        final  String fData=data;
+    private LinearLayout createChild(final HomeCarModel data) {
+        final HomeCarModel fData = data;
         LinearLayout layout = new LinearLayout(mContext);
         LayoutParams lp = new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
         lp.weight = 1;
@@ -79,14 +80,14 @@ public class HorizontalLayout extends LinearLayout {
         View view = mInflater.inflate(R.layout.double_text_layout, layout, false);
         TextView topTv = view.findViewById(R.id.top_tv);
         TextView bottomTv = (TextView) view.findViewById(R.id.bottom_tv);
-        topTv.setText(data);
-        bottomTv.setText("汽车名");
+        topTv.setText(data.getMoney());
+        bottomTv.setText(data.getName());
         layout.addView(view);
         layout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mListener !=null) {
-                    mListener.onItemClick(fData);
+                if (mListener != null) {
+                    mListener.onItemClick(data.getMoney());
                 }
             }
         });

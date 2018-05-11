@@ -194,14 +194,15 @@ public class HttpProxy {
     /**
      * 首页底部的服务商
      *
+     * @param pageIndex
      * @param callBack
      */
-    public static void getServiceProvider(final HttpCallBack<List<SProviderModel>> callBack) {
+    public static void getServiceProvider(int pageIndex, String city, final HttpCallBack<List<SProviderModel>> callBack) {
         HashMap<String, String> param = new HashMap<>();
         param.put("trade_id", "0");
         param.put("page_size", "5");
-        param.put("page_index", "1");
-        param.put("strwhere", "status=0 and datatype='Supply'");
+        param.put("page_index", "" + pageIndex);
+        param.put("strwhere", "status=0 and datatype='Supply'and city = \'" + city + "\'");
         param.put("orderby", "");
 
 
@@ -260,13 +261,13 @@ public class HttpProxy {
      * 价格最高：sell_price desc
      */
 
-    public static void getFilterBuyCarDatas(final HttpCallBack<List<GoodsData>> callBack, String channel, String strwhere, String orderby) {
+    public static void getFilterBuyCarDatas(final HttpCallBack<List<GoodsData>> callBack, String channel, String strwhere, String orderby, String city) {
         HashMap<String, String> param = new HashMap<>();
         param.put("channel_name", channel);
         param.put("category_id", "0");
         param.put("page_size", "8");
         param.put("page_index", "1");
-        param.put("strwhere", strwhere);
+        param.put("strwhere", strwhere + " and city=\'" + city + "\'");
         param.put("orderby", orderby);
 
         HttpClient.get(URLConstants.BUY_CAR_URL, param, new HttpResponseHandler<GoogsListResponse>() {
@@ -276,7 +277,7 @@ public class HttpProxy {
                     List<GoodsData> list = response.getData();
                     callBack.onSuccess(list);
                 } else {
-                    callBack.onError(null, new Exception("date is empty!"));
+                    callBack.onSuccess(null);
                 }
             }
 
