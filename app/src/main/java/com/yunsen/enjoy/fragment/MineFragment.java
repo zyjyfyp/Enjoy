@@ -36,12 +36,14 @@ import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.PullImageEvent;
 import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.ui.DialogUtils;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.GetImgUtil;
 import com.yunsen.enjoy.utils.SpUtils;
+import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.utils.Utils;
 import com.yunsen.enjoy.widget.GlideCircleTransform;
 import com.yunsen.enjoy.widget.PicassoRoundTransform;
@@ -185,6 +187,16 @@ public class MineFragment extends BaseFragment {
             hasLoginLayout.setVisibility(View.VISIBLE);
             loginIcon.setVisibility(View.GONE);
             loginTv.setVisibility(View.GONE);
+            SharedPreferences sp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+            String imgUrl = sp.getString(SpConstants.USER_IMG, "");
+            if (!TextUtils.isEmpty(imgUrl)) {
+                Glide.with(MineFragment.this)
+                        .load(URLConstants.REALM_URL + imgUrl)
+                        .error(R.mipmap.ic_launcher_round)
+                        .transform(new GlideCircleTransform(getActivity()))
+                        .into(userIconImg);
+
+            }
             getUserInfo();
         } else {
             hasLoginLayout.setVisibility(View.GONE);
@@ -607,10 +619,16 @@ public class MineFragment extends BaseFragment {
                 if (!TextUtils.isEmpty(avatar) && avatar.startsWith("http")) {
                     Glide.with(MineFragment.this)
                             .load(avatar)
+                            .placeholder(R.mipmap.ic_launcher_round)
                             .transform(new GlideCircleTransform(getActivity()))
                             .into(userIconImg);
-                } else if (SpConstants.OK.equals(avatar)) {
-                    GetImgUtil.loadLocationImg(getActivity(), userIconImg);
+                } else {
+//                    GetImgUtil.loadLocationImg(getActivity(), userIconImg);
+                    Glide.with(MineFragment.this)
+                            .load(URLConstants.REALM_URL + avatar)
+                            .placeholder(R.mipmap.ic_launcher_round)
+                            .transform(new GlideCircleTransform(getActivity()))
+                            .into(userIconImg);
                 }
                 // point
                 //                                System.out.println("tp_type===============" + tp_type);
@@ -680,6 +698,32 @@ public class MineFragment extends BaseFragment {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUserIconEvent(PullImageEvent event) {
+        if (event.getEvenId() == EventConstants.USER_ICON) {
+            final String imgUrl = event.getImgUrl();
+            HttpProxy.putUserIcon(getActivity(), imgUrl, new HttpCallBack<String>() {
+                @Override
+                public void onSuccess(String responseData) {
+                    SharedPreferences sp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor edit = sp.edit();
+                    edit.putString(SpConstants.USER_IMG, imgUrl);
+                    edit.commit();
+                }
+
+                @Override
+                public void onError(Request request, Exception e) {
+                    ToastUtils.makeTextShort("上传失败");
+                }
+            });
+            Glide.with(this)
+                    .load(URLConstants.REALM_URL + imgUrl)
+                    .placeholder(R.mipmap.ic_launcher_round)
+                    .transform(new GlideCircleTransform(getActivity()))
+                    .into(userIconImg);
+        }
+    }
+
 
     @Override
     public void onStop() {
@@ -696,12 +740,10 @@ public class MineFragment extends BaseFragment {
 
 
     public void loadUserIcon(Uri selectedImage) {
-        Glide.with(this)
-                .load(selectedImage)
-                .transform(new GlideCircleTransform(getActivity()))
-                .into(userIconImg);
+
         //上传图片
-        GetImgUtil.pullUserIcon(getActivity(), selectedImage);
+//        GetImgUtil.pullUserIcon(getActivity(), selectedImage);
+        GetImgUtil.pullImageBase4(getActivity(), selectedImage, EventConstants.USER_ICON);
     }
 
 

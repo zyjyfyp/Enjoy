@@ -78,6 +78,9 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
     protected void initView() {
         ButterKnife.bind(this, rootView);
         searchBar.setLeftText("深圳");
+        layoutEntGallery.setFocusable(true);
+        layoutEntGallery.setFocusableInTouchMode(true);
+        layoutEntGallery.requestFocus();
     }
 
     @Override

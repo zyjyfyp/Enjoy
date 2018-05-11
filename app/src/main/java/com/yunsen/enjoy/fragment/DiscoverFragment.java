@@ -12,6 +12,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.adapter.DiscoverBannerAdapter;
 import com.yunsen.enjoy.fragment.discover.GoodsAdapter;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
 import com.yunsen.enjoy.http.HttpCallBack;
@@ -51,7 +52,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     ZyViewPager dataPager;
     @Bind(R.id.srcoll)
     ScrollView srcollView;
-    private BannerAdapter bannerAdapter;
+    private DiscoverBannerAdapter bannerAdapter;
     private ListPagerAdapter mListPagerAdapter;
 
     private GoodsAdapter mAdapter1;
@@ -75,6 +76,9 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         ButterKnife.bind(this, rootView);
         dataPager.setParent(srcollView);
         tabLayout.addOnTabSelectedListener(this);
+        indicator.setFocusable(true);
+        indicator.setFocusableInTouchMode(true);
+        indicator.requestFocus();
     }
 
     /**
@@ -117,7 +121,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
 
     @Override
     protected void initData() {
-        bannerAdapter = new BannerAdapter(getData(), getActivity());
+        bannerAdapter = new DiscoverBannerAdapter(getData(), getActivity());
         loopPager.setAdapter(bannerAdapter);
         indicator.setViewPager(loopPager);
         indicator.setPadding(5, 5, 10, 5);
@@ -128,12 +132,12 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         dataPager.setOffscreenPageLimit(4);
     }
 
-    public List<AdvertModel> getData() {
-        ArrayList<AdvertModel> data = new ArrayList<>();
-        data.add(new AdvertModel(R.mipmap.adv_home, null));
-        data.add(new AdvertModel(R.mipmap.adv_home, "http://pic71.nipic.com/file/20150610/13549908_104823135000_2.jpg"));
-        data.add(new AdvertModel(R.mipmap.adv_home, "http://img07.tooopen.com/images/20170316/tooopen_sy_201956178977.jpg"));
-        data.add(new AdvertModel(R.mipmap.adv_home, "http://img.zcool.cn/community/010a1b554c01d1000001bf72a68b37.jpg@1280w_1l_2o_100sh.png"));
+    public List<GoodsData> getData() {
+        ArrayList<GoodsData> data = new ArrayList<>();
+        data.add(new GoodsData("http://pic71.nipic.com/file/20150610/13549908_104823135000_2.jpg", null));
+//        data.add(new AdvertModel(R.mipmap.adv_home, "http://pic71.nipic.com/file/20150610/13549908_104823135000_2.jpg"));
+//        data.add(new AdvertModel(R.mipmap.adv_home, "http://img07.tooopen.com/images/20170316/tooopen_sy_201956178977.jpg"));
+//        data.add(new AdvertModel(R.mipmap.adv_home, "http://img.zcool.cn/community/010a1b554c01d1000001bf72a68b37.jpg@1280w_1l_2o_100sh.png"));
         return data;
     }
 
@@ -141,10 +145,28 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
 
     @Override
     protected void requestData() {
+        requestBanner();
         requestOne();
         requestTwo();
         requestThree();
         requestFour();
+    }
+
+    private void requestBanner() {
+        HttpProxy.getDiscoverBannerList(new HttpCallBack<List<GoodsData>>() {
+            @Override
+            public void onSuccess(List<GoodsData> responseData) {
+                bannerAdapter = new DiscoverBannerAdapter(responseData, getActivity());
+                loopPager.setAdapter(bannerAdapter);
+                indicator.setViewPager(loopPager);
+                indicator.setPadding(5, 5, 10, 5);
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
     }
 
 
@@ -191,7 +213,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
 
             }
 
-        }, "3");//2778
+        }, "2778");//2778
 
     }
 

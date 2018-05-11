@@ -31,6 +31,7 @@ import com.orhanobut.logger.Logger;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.mine.adapter.MyAddressManagerAdapter;
 import com.yunsen.enjoy.activity.user.EditUserAddressActivity;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserAddressData;
@@ -74,17 +75,8 @@ public class AddressManagerGlActivity extends AppCompatActivity {
             wareDao = new WareDao(getApplicationContext());
             progress = new DialogProgress(AddressManagerGlActivity.this);
             list_address = (ListView) findViewById(R.id.list_address);
-            // list_address.setCacheColorHint(0);
             btn_add_address = (Button) findViewById(R.id.btn_add_address);
             spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-            // registerData = wareDao.findIsLoginHengyuCode();
-            // if (wareDao != null) {
-            // yth = registerData.getHengyuCode().toString();
-            // key = registerData.getUserkey().toString();
-            // }
-            // DOparse();
-
-            // getuseraddress();
 
         } catch (Exception e) {
 
@@ -207,8 +199,7 @@ public class AddressManagerGlActivity extends AppCompatActivity {
                     try {
 
                         list = (ArrayList<UserAddressData>) msg.obj;
-                        adapter = new MyAddressManagerAdapter(
-                                AddressManagerGlActivity.this, list);
+                        adapter = new MyAddressManagerAdapter(AddressManagerGlActivity.this, list);
                         list_address.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
 
@@ -222,15 +213,15 @@ public class AddressManagerGlActivity extends AppCompatActivity {
                                         if (getIntent().hasExtra("order_confrim")) {
                                             // 表示是来自订单确认
 
-											Intent intent = new Intent(
-													AddressManagerGlActivity.this,
-													EditUserAddressActivity.class);
+                                            Intent intent = new Intent(
+                                                    AddressManagerGlActivity.this,
+                                                    EditUserAddressActivity.class);
 
-											UserAddressData bean = list.get(arg2);
-											Bundle bundle = new Bundle();
-											bundle.putSerializable("bean", bean);
-											intent.putExtras(bundle);
-											startActivity(intent);
+                                            UserAddressData bean = list.get(arg2);
+                                            Bundle bundle = new Bundle();
+                                            bundle.putSerializable("bean", bean);
+                                            intent.putExtras(bundle);
+                                            startActivity(intent);
 
                                         }
 
@@ -310,6 +301,15 @@ public class AddressManagerGlActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add("menu");
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == Constants.ADD_ADDRESS_REQUEST) {
+            getuseraddress();
+        }
+
     }
 
     @Override

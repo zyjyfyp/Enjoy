@@ -106,15 +106,7 @@ public class AddUserAddressActivity extends AppCompatActivity {
                     et_address.setText("");
                     String strmsg = (String) msg.obj;
                     Toast.makeText(getApplicationContext(), strmsg, Toast.LENGTH_SHORT).show();
-                    AppManager.getAppManager().finishActivity();
-                /*
-                 * if (index == 1) { Intent intent = new
-				 * Intent(AddUserAddressActivity.this,
-				 * AddressManagerActivity.class); startActivity(intent); } else
-				 * if (index == 0) { Intent intent = new
-				 * Intent(AddUserAddressActivity.this,
-				 * OrderConfrimActivity.class); startActivity(intent); }
-				 */
+                    setResult(RESULT_OK);
                     finish();
                     break;
                 case 1:
@@ -132,15 +124,13 @@ public class AddUserAddressActivity extends AppCompatActivity {
                     break;
                 case 3:
                     al_shi = (ArrayList<String>) msg.obj;
-                    aa_shi = new ArrayAdapter(AddUserAddressActivity.this,
-                            android.R.layout.simple_spinner_item, al_shi);
+                    aa_shi = new ArrayAdapter(AddUserAddressActivity.this, android.R.layout.simple_spinner_item, al_shi);
                     aa_shi.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     sp_shi.setAdapter(aa_shi);
                     break;
                 case 4:
                     al_xian = (ArrayList<String>) msg.obj;
-                    aa_area = new ArrayAdapter(AddUserAddressActivity.this,
-                            android.R.layout.simple_spinner_item, al_xian);
+                    aa_area = new ArrayAdapter(AddUserAddressActivity.this, android.R.layout.simple_spinner_item, al_xian);
                     aa_area.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     sp_xian.setAdapter(aa_area);
                     break;

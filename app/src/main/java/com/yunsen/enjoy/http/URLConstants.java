@@ -177,6 +177,10 @@ public class URLConstants {
      * 搜索
      */
     public static final String SEARCH_KEY_WORK_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_page_search_list";
+    /**
+     * 发现页面的广告图
+     */
+    public static final String DISCOVER_BANNER_URL = BuildConfig.ROOT_URL + "/toolS/mobile_ajax.asmx/get_article_top_list";
 
 
     //

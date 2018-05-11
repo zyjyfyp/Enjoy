@@ -1019,6 +1019,37 @@ public class HttpProxy {
         });
     }
 
+    /**
+     * 获取搜索列表
+     *
+     * @param
+     * @param callBack
+     */
+    public static void getDiscoverBannerList(final HttpCallBack<List<GoodsData>> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("channel_name", "news");
+        map.put("top", "5");
+        map.put("strwhere", "is_slide=1");
+        HttpClient.get(URLConstants.DISCOVER_BANNER_URL, map, new HttpResponseHandler<GoogsListResponse>() {
+            @Override
+            public void onSuccess(GoogsListResponse response) {
+                super.onSuccess(response);
+                List<GoodsData> data = response.getData();
+                if (data != null) {
+                    callBack.onSuccess(data);
+                } else {
+                    callBack.onError(null, new Exception("data is empty!"));
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
+                super.onFailure(request, e);
+            }
+        });
+    }
+
 
     /**
      * 上传base64图片

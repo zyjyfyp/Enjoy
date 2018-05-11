@@ -17,6 +17,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,10 +47,15 @@ import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.fragment.MineFragment;
 import com.yunsen.enjoy.http.AsyncHttp;
+import com.yunsen.enjoy.http.HttpCallBack;
+import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.http.down.UpdateApkThread;
 import com.yunsen.enjoy.model.UserRegisterllData;
 import com.yunsen.enjoy.model.UserSenJiBean;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.PullImageEvent;
+import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.GetImgUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
@@ -58,6 +64,9 @@ import com.yunsen.enjoy.widget.DialogProgress;
 import com.yunsen.enjoy.widget.GlideCircleTransform;
 import com.yunsen.enjoy.widget.MyAlertDialog;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -78,6 +87,7 @@ import it.sauronsoftware.ftp4j.FTPClient;
 import it.sauronsoftware.ftp4j.FTPDataTransferException;
 import it.sauronsoftware.ftp4j.FTPException;
 import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
+import okhttp3.Request;
 
 
 public class PersonCenterActivity extends BaseFragmentActivity implements OnClickListener {
@@ -130,6 +140,18 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
     @Override
     protected void initListener() {
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -281,12 +303,26 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                                     tv_city.setText(data.province + "、" + data.city + "、" + data.area);
                                 }
 
-                                System.out.println("data.avatar===============" + data.avatar);
-                                if (SpConstants.OK.equals(data.avatar)) {
-                                    GetImgUtil.loadLocationImg(PersonCenterActivity.this, networkImage);
+                                String avatar = data.avatar;
+
+                                if (!TextUtils.isEmpty(avatar) && avatar.startsWith("http")) {
+                                    Glide.with(PersonCenterActivity.this)
+                                            .load(avatar)
+                                            .placeholder(R.mipmap.ic_launcher_round)
+                                            .transform(new GlideCircleTransform(PersonCenterActivity.this))
+                                            .into(networkImage);
                                 } else {
-                                    ToastUtils.makeTextShort("需要默认图片");
+                                    Glide.with(PersonCenterActivity.this)
+                                            .load(URLConstants.REALM_URL + avatar)
+                                            .placeholder(R.mipmap.ic_launcher_round)
+                                            .transform(new GlideCircleTransform(PersonCenterActivity.this))
+                                            .into(networkImage);
                                 }
+//                                if (SpConstants.OK.equals(data.avatar)) {
+//                                    GetImgUtil.loadLocationImg(PersonCenterActivity.this, networkImage);
+//                                } else {
+//                                    ToastUtils.makeTextShort("需要默认图片");
+//                                }
 
 
                             } catch (Exception e) {
@@ -471,13 +507,8 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                         requestPermission(Permission.WRITE_EXTERNAL_STORAGE, Constants.WRITE_EXTERNAL_STORAGE);
                         break;
                     case TAKE_PICTURE: // 拍照
-//                        requestPermission(Permission.CAMERA, Constants.CAMERA);
-                        Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        tempUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "image.jpg"));
-                        // 指定照片保存路径（SD卡），image.jpg为一个临时文件，每次拍照后这个图片都会被替换
-                        openCameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
-                        startActivityForResult(openCameraIntent, TAKE_PICTURE);
+                        requestPermission(Permission.CAMERA, Constants.CAMERA);
+
                         break;
                 }
             }
@@ -493,7 +524,12 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                 UIHelper.showPhotoActivity(this, Constants.PHOTO_ACTIVITY_REQUEST);
                 break;
             case Constants.CAMERA:
-
+                Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                tempUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "image.jpg"));
+                // 指定照片保存路径（SD卡），image.jpg为一个临时文件，每次拍照后这个图片都会被替换
+                openCameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
+                startActivityForResult(openCameraIntent, TAKE_PICTURE);
                 break;
         }
     }
@@ -505,22 +541,25 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
             switch (requestCode) {
                 //拍照
                 case TAKE_PICTURE:
-                    Glide.with(this)
-                            .load(tempUri)
-                            .transform(new GlideCircleTransform(this))
-                            .into(networkImage);
-                    //上传图片
-                    GetImgUtil.pullUserIcon(this, tempUri);
+//                    Glide.with(this)
+//                            .load(tempUri)
+//                            .transform(new GlideCircleTransform(this))
+//                            .into(networkImage);
+//                    //上传图片
+//                    GetImgUtil.pullUserIcon(this, tempUri);
+                    GetImgUtil.pullImageBase4(this, tempUri, EventConstants.USER_ICON);
                     break;
                 //上传图片
                 case Constants.PHOTO_ACTIVITY_REQUEST:
                     Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
-                    Glide.with(this)
-                            .load(selectedImage)
-                            .transform(new GlideCircleTransform(this))
-                            .into(networkImage);
+                    GetImgUtil.pullImageBase4(this, selectedImage, EventConstants.USER_ICON);
+
+//                    Glide.with(this)
+//                            .load(selectedImage)
+//                            .transform(new GlideCircleTransform(this))
+//                            .into(networkImage);
                     //上传图片
-                    GetImgUtil.pullUserIcon(this, selectedImage);
+//                    GetImgUtil.pullUserIcon(this, selectedImage);
                     break;
                 case CROP_SMALL_PICTURE:
                     if (data != null) {
@@ -782,7 +821,6 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
     }
 
 
-
     // 获取当前程序的版本信息
     public static String getAppVersionName(Context context) {
         String versionName = "";
@@ -1025,6 +1063,33 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
         } catch (Exception e) {
 
             e.printStackTrace();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUserIconEvent(PullImageEvent event) {
+        if (event.getEvenId() == EventConstants.USER_ICON) {
+            final String imgUrl = event.getImgUrl();
+            HttpProxy.putUserIcon(this, imgUrl, new HttpCallBack<String>() {
+                @Override
+                public void onSuccess(String responseData) {
+                    SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor edit = sp.edit();
+                    edit.putString(SpConstants.USER_IMG, imgUrl);
+                    edit.commit();
+                    EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
+                }
+
+                @Override
+                public void onError(Request request, Exception e) {
+                    ToastUtils.makeTextShort("上传失败");
+                }
+            });
+            Glide.with(this)
+                    .load(URLConstants.REALM_URL + imgUrl)
+                    .placeholder(R.mipmap.ic_launcher_round)
+                    .transform(new GlideCircleTransform(this))
+                    .into(networkImage);
         }
     }
 

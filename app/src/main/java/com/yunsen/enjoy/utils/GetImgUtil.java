@@ -151,6 +151,7 @@ public class GetImgUtil {
                     e.printStackTrace();
                 }
                 String imgStr = BitmapUtil.bitmapToBase64(bitmap);
+
                 return imgStr;
             }
 

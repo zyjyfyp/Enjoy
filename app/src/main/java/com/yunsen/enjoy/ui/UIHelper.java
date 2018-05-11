@@ -146,12 +146,16 @@ public class UIHelper {
             id = linkUrl;
         } else {
             id = url.substring(index);
-            Log.e(TAG, "showCarDetailsActivity: url=" + url);
-            Log.e(TAG, "showCarDetailsActivity: id=" + id);
         }
 
         Intent intent = new Intent(act, CarDetailsActivity.class);
         intent.putExtra(Constants.CAR_DETAILS_ID, id);
+        act.startActivity(intent);
+    }
+
+    public static void showCarDetailsActivity(Context act, int id) {
+        Intent intent = new Intent(act, CarDetailsActivity.class);
+        intent.putExtra(Constants.CAR_DETAILS_ID, String.valueOf(id));
         act.startActivity(intent);
     }
 
