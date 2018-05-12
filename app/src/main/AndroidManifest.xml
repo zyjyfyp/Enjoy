@@ -72,14 +72,15 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="tencent2222223" /> // todo
+                <data android:scheme="tencent2222223" />
+                // todo
                 <!-- 100380359 100381104 222222 -->
             </intent-filter>
         </activity>
         //高德地图 todo zyjy
         <!--<meta-data-->
-            <!--android:name="com.amap.api.v2.apikey"-->
-            <!--android:value="ba972155375ade032175041398457297" />-->
+        <!--android:name="com.amap.api.v2.apikey"-->
+        <!--android:value="ba972155375ade032175041398457297" />-->
         <!--<service android:name="com.amap.api.location.APSService"></service>-->
 
 
@@ -290,7 +291,9 @@
         <activity
             android:name=".activity.dealer.MyFacilitatorActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".activity.buy.GoodsDescriptionActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
