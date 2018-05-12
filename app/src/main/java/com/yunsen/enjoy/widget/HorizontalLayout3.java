@@ -6,11 +6,12 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
-import com.yunsen.enjoy.model.HomeCarModel;
+import com.yunsen.enjoy.model.ImgAndTextModel;
 
 import java.util.List;
 
@@ -18,25 +19,24 @@ import java.util.List;
  * Created by Administrator on 2018/4/19.
  */
 
-public class HorizontalLayout extends LinearLayout {
-    private int mColumn = 4;
+public class HorizontalLayout3 extends LinearLayout {
     private Context mContext;
     private LayoutInflater mInflater;
-    private List<HomeCarModel> mData;
+    private List<ImgAndTextModel> mData;
     private onHorizontalItemClick mListener;
 
-    public HorizontalLayout(Context context) {
+    public HorizontalLayout3(Context context) {
         super(context);
         initView(context);
     }
 
 
-    public HorizontalLayout(Context context, @Nullable AttributeSet attrs) {
+    public HorizontalLayout3(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initView(context);
     }
 
-    public HorizontalLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public HorizontalLayout3(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context);
     }
@@ -46,7 +46,7 @@ public class HorizontalLayout extends LinearLayout {
         mInflater = ((LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
     }
 
-    public void setData(List<HomeCarModel> data) {
+    public void setData(List<ImgAndTextModel> data) {
         if (data != null) {
             this.mData = data;
             for (int i = 0; i < data.size(); i++) {
@@ -55,39 +55,39 @@ public class HorizontalLayout extends LinearLayout {
         }
     }
 
-    public void upData(List<HomeCarModel> data) {
+    public void upData(List<ImgAndTextModel> data) {
         if (data != null && mData != null && data.size() == mData.size()) {
             this.mData.clear();
             this.mData.addAll(data);
             int size = this.getChildCount();
             for (int i = 0; i < size; i++) {
                 View view = this.getChildAt(0);
-                TextView topTv = view.findViewById(R.id.top_tv);
+                ImageView topImg = view.findViewById(R.id.top_img);
                 TextView bottomTv = (TextView) view.findViewById(R.id.bottom_tv);
-                topTv.setText(mData.get(i).getMoney());
-                bottomTv.setText(mData.get(i).getName());
+                topImg.setImageResource(mData.get(i).getResId());
+                bottomTv.setText(mData.get(i).getText());
             }
         }
     }
 
 
-    private LinearLayout createChild(final HomeCarModel data) {
-        final HomeCarModel fData = data;
+    private LinearLayout createChild( ImgAndTextModel data) {
+        final ImgAndTextModel fData = data;
         LinearLayout layout = new LinearLayout(mContext);
         LayoutParams lp = new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
         lp.weight = 1;
         layout.setLayoutParams(lp);
         View view = mInflater.inflate(R.layout.img_text_layout, layout, false);
-        TextView topTv = view.findViewById(R.id.top_tv);
+        ImageView topImg = view.findViewById(R.id.top_img);
         TextView bottomTv = (TextView) view.findViewById(R.id.bottom_tv);
-        topTv.setText(data.getMoney());
-        bottomTv.setText(data.getName());
+        topImg.setImageResource(fData.getResId());
+        bottomTv.setText(fData.getText());
         layout.addView(view);
         layout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mListener != null) {
-                    mListener.onItemClick(data.getMoney());
+                    mListener.onItemClick(fData.getId());
                 }
             }
         });
@@ -99,7 +99,7 @@ public class HorizontalLayout extends LinearLayout {
     }
 
     public interface onHorizontalItemClick {
-        public void onItemClick(String data);
+        public void onItemClick(int index);
     }
 
 }

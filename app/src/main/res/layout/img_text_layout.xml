@@ -6,35 +6,24 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/top_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:maxLines="1"
-        android:text="11"
-        android:textColor="@color/color_3c434c"
-        android:textSize="12sp" />
-
-    <View
-        android:layout_width="1dp"
-        android:layout_height="10dp" />
+   <ImageView
+       android:id="@+id/top_img"
+       android:src="@mipmap/repertory"
+       android:layout_width="50dp"
+       android:layout_height="50dp" />
 
     <TextView
+        android:layout_marginTop="5dp"
         android:id="@+id/bottom_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="2dp"
         android:layout_gravity="center"
-        android:background="@drawable/orange_bg_no_select"
         android:gravity="center"
         android:maxEms="8"
         android:maxLines="1"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:textColor="@color/color_fff"
+        android:text="企业清仓"
+        android:textColor="@color/color_888"
         android:textSize="11sp" />
 
 

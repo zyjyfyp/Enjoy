@@ -2,53 +2,31 @@ package com.yunsen.enjoy.fragment;
 
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
-import com.squareup.picasso.Picasso;
-import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
-import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.activity.MainActivity;
-import com.yunsen.enjoy.common.Constants;
-import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
-import com.yunsen.enjoy.fragment.home.StoreRecyclerAdapter;
+import com.yunsen.enjoy.fragment.home.HomeGoodsAdapter;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.AdvertModel;
-import com.yunsen.enjoy.model.CarModel;
-import com.yunsen.enjoy.model.HomeCarModel;
+import com.yunsen.enjoy.model.ImgAndTextModel;
 import com.yunsen.enjoy.model.NoticeModel;
-import com.yunsen.enjoy.model.SProviderModel;
-import com.yunsen.enjoy.model.event.EventConstants;
-import com.yunsen.enjoy.model.event.UpCityEvent;
-import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
-import com.yunsen.enjoy.utils.SharedPreference;
+import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.ADTextView;
-import com.yunsen.enjoy.widget.HomeFootView;
-import com.yunsen.enjoy.widget.HorizontalLayout;
-import com.yunsen.enjoy.widget.HorizontalLayout2;
-import com.yunsen.enjoy.widget.SearchActionBar;
+import com.yunsen.enjoy.widget.HorizontalLayout3;
+import com.yunsen.enjoy.widget.HorizontalLayout4;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
-import com.yunsen.enjoy.widget.recyclerview.wrapper.HeaderAndFooterWrapper;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,31 +37,22 @@ import okhttp3.Request;
 /**
  * 首页
  */
-public class MainPagerFragment extends BaseFragment implements SearchActionBar.SearchClickListener, View.OnClickListener, HorizontalLayout.onHorizontalItemClick, MultiItemTypeAdapter.OnItemClickListener {
-
-    LinearLayout buttonLayout;
-    LinearLayout newCarLayout;
-
-    private ImageView[] mCarImgArray
-            = new ImageView[6];
-    LinearLayout shopLayout;
+public class MainPagerFragment extends BaseFragment implements View.OnClickListener, MultiItemTypeAdapter.OnItemClickListener {
 
     private AutoLoopViewPager banner;
     private CirclePageIndicator indicatorLayout;
     private BannerAdapter bannerAdapter;
-    private SearchActionBar searchBar;
     private ADTextView adtTv1;
-    private ADTextView adtTv2;
-    private HorizontalLayout oneHLayout;
-    private HorizontalLayout2 twoHLayout;
     private RecyclerView recyclerView;
     private View topView;
-    private StoreRecyclerAdapter mAdapter;
-    private ImageView allCars;
-    private View moreCar;
-    private HomeFootView footView;
+    private HomeGoodsAdapter mAdapter;
+
     private List<AdvertModel> mAdverModels = new ArrayList<>();
-    private int mPageIndex = 0;
+    private HorizontalLayout3 oneHLayout;
+    private HorizontalLayout4 twoHLayout;
+    private List<ImgAndTextModel> mBottomDatas;
+    private View leftSearchImg;
+    private View rightMenu;
 
 
     @Override
@@ -93,80 +62,58 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
     @Override
     protected void initView() {
-        searchBar = ((SearchActionBar) rootView.findViewById(R.id.search_bar));
+        leftSearchImg = rootView.findViewById(R.id.left_search_img);
+        rightMenu = rootView.findViewById(R.id.right_menu);
         recyclerView = rootView.findViewById(R.id.recyclerView);
-
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         topView = inflater.inflate(R.layout.fragment_top_layout, null);
-
         banner = (AutoLoopViewPager) topView.findViewById(R.id.pager);
         indicatorLayout = ((CirclePageIndicator) topView.findViewById(R.id.indicator));
-
         adtTv1 = (ADTextView) topView.findViewById(R.id.adt_text1);
-        adtTv2 = (ADTextView) topView.findViewById(R.id.adt_text2);
-
-        oneHLayout = (HorizontalLayout) topView.findViewById(R.id.one_horizontal_layout);
-        twoHLayout = (HorizontalLayout2) topView.findViewById(R.id.two_horizontal_layout);
-
-        allCars = topView.findViewById(R.id.button_layout);
-        moreCar = topView.findViewById(R.id.more_tv);
-
-        mCarImgArray[0] = topView.findViewById(R.id.car_img_big);
-        mCarImgArray[1] = topView.findViewById(R.id.car_img_1);
-        mCarImgArray[2] = topView.findViewById(R.id.car_img_2);
-        mCarImgArray[3] = topView.findViewById(R.id.car_img_3);
-        mCarImgArray[4] = topView.findViewById(R.id.car_img_4);
-        mCarImgArray[5] = topView.findViewById(R.id.car_img_5);
-
-
+        oneHLayout = topView.findViewById(R.id.one_horizontal_layout_3);
+        twoHLayout = topView.findViewById(R.id.two_horizontal_layout_4);
     }
 
     @Override
     protected void initData() {
-        Glide.with(getActivity())
-                .load(R.mipmap.home_img)
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .into(new GlideDrawableImageViewTarget(allCars, 1));
-        LinearLayoutManager layoutmanager = new LinearLayoutManager(getActivity());
+
+        GridLayoutManager layoutmanager = new GridLayoutManager(getActivity(), 2);
         //设置RecyclerView 布局
         layoutmanager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutmanager);
 
-        ArrayList<SProviderModel> storeModes = new ArrayList<>();
-        mAdapter = new StoreRecyclerAdapter(getActivity(), R.layout.shop_item, storeModes);
+        mBottomDatas = getOneHLayoutData();
+        mAdapter = new HomeGoodsAdapter(getActivity(), R.layout.home_goods_item, mBottomDatas);
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         recyclerView.setAdapter(recyclerViewAdapter);
         RecyclerViewUtils.setHeaderView(recyclerView, topView);
-        footView = new HomeFootView(getActivity());
-        RecyclerViewUtils.setFooterView(recyclerView, footView);
-
         bannerAdapter = new BannerAdapter(getData(), getActivity());
         banner.setAdapter(bannerAdapter);
         indicatorLayout.setViewPager(banner);
         indicatorLayout.setPadding(5, 5, 10, 5);
-        String currentCity = SharedPreference.getInstance().getString(SpConstants.CITY_KEY, "深圳市");
-        searchBar.setLeftText(currentCity);
-        searchBar.setSearchText("请输入车名搜索");
-
-        //最新动态
+        oneHLayout.setData(getOneHLayoutData());
+        twoHLayout.setData(getTwoHLayoutData());
+    }
 
 
-        //两行汽车类型
-        ArrayList<HomeCarModel> data = new ArrayList<>();
-        data.add(new HomeCarModel("5万元以下", "SUV"));
-        data.add(new HomeCarModel("5-10万元", "保买车"));
-        data.add(new HomeCarModel("10-15万元", "准新车"));
-        data.add(new HomeCarModel("15万元以上", "急售"));
-        oneHLayout.setData(data);
-
-        ArrayList<CarModel> data1 = new ArrayList<>();
-        data1.add(new CarModel("奔驰", ""));
-        data1.add(new CarModel("宝马", ""));
-        data1.add(new CarModel("奥迪", ""));
-        data1.add(new CarModel("大众", ""));
-        twoHLayout.setData(data1);
-
+    @Override
+    protected void initListener() {
+        leftSearchImg.setOnClickListener(this);
+        rightMenu.setOnClickListener(this);
+        adtTv1.setOnClickListener(this);
+        mAdapter.setOnItemClickListener(this);
+        oneHLayout.setmListener(new HorizontalLayout3.onHorizontalItemClick() {
+            @Override
+            public void onItemClick(int index) {
+                ToastUtils.makeTextShort("" + index);
+            }
+        });
+        twoHLayout.setmListener(new HorizontalLayout4.onHorizontalItemClick() {
+            @Override
+            public void onItemClick(int index) {
+                ToastUtils.makeTextShort("" + index);
+            }
+        });
     }
 
     private static final String TAG = "MainPagerFragment";
@@ -186,25 +133,6 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
             }
         });
 
-        HttpProxy.getCarList(new HttpCallBack<List<AdvertModel>>() {
-            @Override
-            public void onSuccess(List<AdvertModel> responseData) {
-                mAdverModels.clear();
-                for (int i = 0; i < responseData.size() && i < mCarImgArray.length; i++) {
-                    AdvertModel model = responseData.get(i);
-                    String ad_url = model.getAd_url();
-                    Log.e(TAG, "model.getAd_url: " + model.getLink_url());
-                    mAdverModels.add(model);
-                    Picasso.with(getActivity()).load(ad_url)
-                            .placeholder(R.mipmap.car_1).into(mCarImgArray[i]);
-                }
-            }
-
-            @Override
-            public void onError(Request request, Exception e) {
-
-            }
-        });
         //公告1
         HttpProxy.getNoticeData1(new HttpCallBack<List<NoticeModel>>() {
             @Override
@@ -218,88 +146,8 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
             }
         });
-        //公告2
-        HttpProxy.getNoticeData2(new HttpCallBack<List<NoticeModel>>() {
-            @Override
-            public void onSuccess(List<NoticeModel> responseData) {
-                adtTv2.setResources(responseData);
-                adtTv2.setTextStillTime(5000, 2);
-            }
-
-            @Override
-            public void onError(Request request, Exception e) {
-
-            }
-        });
-        /**
-         * 推荐汽车
-         */
-        HttpProxy.getBrandData(new HttpCallBack<List<CarModel>>() {
-            @Override
-            public void onSuccess(List<CarModel> responseData) {
-                twoHLayout.upData(responseData);
-            }
-
-            @Override
-            public void onError(Request request, Exception e) {
-
-            }
-        });
-
-        requestServiceProvider(false);
     }
 
-    private void requestServiceProvider(boolean isLoadMore) {
-        final boolean isMore = isLoadMore;
-        if (isMore) {
-            mPageIndex++;
-        } else {
-            mPageIndex = 1;
-        }
-        /**
-         * 服务商
-         */
-        HttpProxy.getServiceProvider(mPageIndex, searchBar.getLeftText(), new HttpCallBack<List<SProviderModel>>() {
-            @Override
-            public void onSuccess(List<SProviderModel> responseData) {
-                if (isMore) {
-                    if (!mAdapter.addDatas(responseData)) {
-                        footView.changeState(true);
-                    } else {
-                        footView.changeState(false);
-                    }
-                } else {
-                    mAdapter.upDatas(responseData);
-                    footView.changeState(false);
-                }
-
-            }
-
-            @Override
-            public void onError(Request request, Exception e) {
-                footView.changeState(true);
-                mAdapter.clearData();
-            }
-        });
-    }
-
-    @Override
-    protected void initListener() {
-        searchBar.setSearchClick(this);
-        allCars.setOnClickListener(this);
-        moreCar.setOnClickListener(this);
-        adtTv1.setOnClickListener(this);
-        adtTv2.setOnClickListener(this);
-        oneHLayout.setmListener(this);
-        mCarImgArray[0].setOnClickListener(this);
-        mCarImgArray[1].setOnClickListener(this);
-        mCarImgArray[2].setOnClickListener(this);
-        mCarImgArray[3].setOnClickListener(this);
-        mCarImgArray[4].setOnClickListener(this);
-        mCarImgArray[5].setOnClickListener(this);
-        mAdapter.setOnItemClickListener(this);
-        footView.getLoadMoreBtn().setOnClickListener(this);
-    }
 
     public List<AdvertModel> getData() {
         ArrayList<AdvertModel> data = new ArrayList<>();
@@ -310,21 +158,6 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         return data;
     }
 
-    @Override
-    public void onSearchClick(SearchActionBar.ViewType type) {
-        switch (type) {
-            case LEFT_IMG:
-                UIHelper.showSelectCityActivity(getActivity());
-                break;
-            case CENTER_LAYOUT:
-                UIHelper.showSearchActivity(getActivity());
-                break;
-            case RIGHT_IMG:
-                ((BaseFragmentActivity) getActivity()).requestPermission(Permission.CALL_PHONE, Constants.CALL_PHONE);
-                break;
-        }
-    }
-
     private String getAdverModelUrl(int index) {
         if (mAdverModels.size() > index) {
             return mAdverModels.get(index).getLink_url();
@@ -332,46 +165,19 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         return null;
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.button_layout:
-            case R.id.more_tv:
-                toBuyCarFragment();
+            case R.id.left_search_img:
+                UIHelper.showSearchActivity(getActivity());
+                break;
+            case R.id.right_menu:
                 break;
             case R.id.adt_text1:
                 NoticeModel data = adtTv1.getCurrentData();
                 UIHelper.showNoticeWebActivity(getActivity(), data.getId());
                 break;
-            case R.id.adt_text2:
-                NoticeModel data2 = adtTv2.getCurrentData();
-                UIHelper.showNoticeWebActivity(getActivity(), data2.getId());
-                break;
-            case R.id.car_img_big:
-                if (mAdverModels != null && mAdverModels.size() > 0) {
-                    AdvertModel advertModel = mAdverModels.get(0);
-                    UIHelper.showCarDetailsActivity(getActivity(), getAdverModelUrl(0));
-                }
-                break;
-            case R.id.car_img_1:
-                UIHelper.showCarDetailsActivity(getActivity(), getAdverModelUrl(1));
-                break;
-            case R.id.car_img_2:
-                UIHelper.showCarDetailsActivity(getActivity(), getAdverModelUrl(2));
-                break;
-            case R.id.car_img_3:
-                UIHelper.showCarDetailsActivity(getActivity(), getAdverModelUrl(3));
-                break;
-            case R.id.car_img_4:
-                UIHelper.showCarDetailsActivity(getActivity(), getAdverModelUrl(4));
-                break;
-            case R.id.car_img_5:
-                UIHelper.showCarDetailsActivity(getActivity(), getAdverModelUrl(5));
-                break;
-            case R.id.load_more_btn:
-                requestServiceProvider(true);
-                break;
+
         }
 
     }
@@ -392,7 +198,6 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         super.onResume();
         banner.startAutoScroll();
         adtTv1.onStartAuto(1);
-        adtTv2.onStopAuto(2);
     }
 
     @Override
@@ -400,19 +205,6 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         super.onPause();
         banner.stopAutoScroll();
         adtTv1.onStopAuto(1);
-        adtTv2.onStopAuto(2);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -422,17 +214,11 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
 
     @Override
-    public void onItemClick(String data) {
-        toBuyCarFragment(data);
-    }
-
-    @Override
     public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
-        List<SProviderModel> datas = mAdapter.getDatas();
-        if (datas != null && position > 0 && datas.size() > position - 1) {
-            int id = datas.get(position - 1).getUser_id();
-            Log.e(TAG, "onItemClick: " + id);
-            UIHelper.showServiceShopInfoActivity(getActivity(), String.valueOf(id));
+        List<ImgAndTextModel> datas = mAdapter.getDatas();
+        int pp = position - 1;
+        if (datas != null && position > 0 && datas.size() > pp) {
+            ToastUtils.makeTextShort(datas.get(pp).getText() + pp);
         }
     }
 
@@ -441,12 +227,22 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         return false;
     }
 
-    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-    public void onEvent(UpCityEvent event) {
-        if (event.getEventId() == EventConstants.UP_CITY) {
-            searchBar.setLeftText(event.getCity());
-            requestServiceProvider(false);
-        }
+    private List<ImgAndTextModel> getOneHLayoutData() {
+        ArrayList<ImgAndTextModel> models = new ArrayList<>();
+        models.add(new ImgAndTextModel(R.mipmap.repertory, "企业清仓", 0));
+        models.add(new ImgAndTextModel(R.mipmap.change_product, "换产品", 1));
+        models.add(new ImgAndTextModel(R.mipmap.change_service, "换服务", 2));
+        models.add(new ImgAndTextModel(R.mipmap.change_card, "换卡卷", 3));
+        return models;
+
+    }
+
+    private List<ImgAndTextModel> getTwoHLayoutData() {
+        ArrayList<ImgAndTextModel> models = new ArrayList<>();
+        models.add(new ImgAndTextModel(R.mipmap.apply_agent, "申请代理", 0));
+        models.add(new ImgAndTextModel(R.mipmap.what_operate, "如何经营", 1));
+        models.add(new ImgAndTextModel(R.mipmap.what_profit, "如何收益", 2));
+        return models;
     }
 
 }

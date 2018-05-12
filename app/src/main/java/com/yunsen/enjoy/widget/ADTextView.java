@@ -99,6 +99,7 @@ public class ADTextView extends TextSwitcher implements ViewSwitcher.ViewFactory
         FrameLayout.LayoutParams lp = new
                 FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.CENTER_VERTICAL;
+        tv.setTextColor(context.getResources().getColor(R.color.color_theme));
         tv.setLayoutParams(lp);
         return tv;
     }
