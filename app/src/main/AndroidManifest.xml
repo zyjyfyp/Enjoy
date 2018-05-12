@@ -72,20 +72,20 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="tencent222222" />
+                <data android:scheme="tencent2222223" /> // todo
                 <!-- 100380359 100381104 222222 -->
             </intent-filter>
         </activity>
-        //高德地图
-        <meta-data
-            android:name="com.amap.api.v2.apikey"
-            android:value="ba972155375ade032175041398457297" />
-        <service android:name="com.amap.api.location.APSService"></service>
+        //高德地图 todo zyjy
+        <!--<meta-data-->
+            <!--android:name="com.amap.api.v2.apikey"-->
+            <!--android:value="ba972155375ade032175041398457297" />-->
+        <!--<service android:name="com.amap.api.location.APSService"></service>-->
 
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.zz.fileprovider"
+            android:authorities="com.yunsen.yike.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
