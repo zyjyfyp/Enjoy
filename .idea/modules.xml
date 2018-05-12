@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Enjoy.iml" filepath="$PROJECT_DIR$/Enjoy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BigYike.iml" filepath="$PROJECT_DIR$/BigYike.iml" />
+      <module fileurl="file://D:\AndroidWork\BigYike\Enjoy.iml" filepath="D:\AndroidWork\BigYike\Enjoy.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
