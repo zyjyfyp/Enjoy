@@ -180,7 +180,6 @@
                                 android:visibility="gone">
 
                                 <TextView
-                                    android:id="@+id/tv_subtitle"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -210,7 +209,6 @@
                                 android:orientation="horizontal">
 
                                 <LinearLayout
-                                    android:id="@+id/ll_money"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="8dp"
@@ -429,7 +427,6 @@
                             android:background="@color/list_diver" />
 
                         <LinearLayout
-                            android:id="@+id/market_information_appraise"
                             android:layout_width="match_parent"
                             android:layout_height="50dp">
 
@@ -445,7 +442,6 @@
                                     android:layout_marginLeft="10dp" />
 
                                 <TextView
-                                    android:id="@+id/market_information_count"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
@@ -503,7 +499,6 @@
                                         android:textSize="14sp" />
 
                                     <ProgressBar
-                                        android:id="@+id/market_information_tip0"
                                         style="?android:attr/progressBarStyleHorizontal"
                                         android:layout_width="match_parent"
                                         android:layout_height="8dp"
@@ -532,7 +527,6 @@
                                         android:textSize="14sp" />
 
                                     <ProgressBar
-                                        android:id="@+id/market_information_tip1"
                                         style="?android:attr/progressBarStyleHorizontal"
                                         android:layout_width="match_parent"
                                         android:layout_height="8dp"
@@ -555,7 +549,6 @@
                                         android:textSize="14sp" />
 
                                     <ProgressBar
-                                        android:id="@+id/market_information_tip2"
                                         style="?android:attr/progressBarStyleHorizontal"
                                         android:layout_width="match_parent"
                                         android:layout_height="8dp"
@@ -647,7 +640,6 @@
                             android:textColor="@color/all_wenzi" />
 
                         <TextView
-                            android:id="@+id/bt_cart_stock"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -679,7 +671,6 @@
                             android:background="@color/all_c1c1c1" />
 
                         <TextView
-                            android:id="@+id/show_cart_stock"
                             android:layout_width="0dp"
                             android:layout_height="2dp"
                             android:layout_weight="1"
@@ -725,7 +716,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/ll_guigecanshu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/huise"
@@ -777,7 +767,6 @@
                             android:textColor="@color/black" />
 
                         <TextView
-                            android:id="@+id/tv_ggcs_2"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -805,7 +794,6 @@
                             android:textColor="@color/black" />
 
                         <TextView
-                            android:id="@+id/tv_ggcs_3"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -833,7 +821,6 @@
                             android:textColor="@color/black" />
 
                         <TextView
-                            android:id="@+id/tv_ggcs_4"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"

@@ -125,7 +125,6 @@
         android:orientation="horizontal" >
 
         <Spinner
-            android:id="@+id/sp_sheng"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dip"
@@ -134,7 +133,6 @@
             android:paddingLeft="10dip" />
 
         <Spinner
-            android:id="@+id/sp_shi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dip"
@@ -143,7 +141,6 @@
             android:paddingLeft="10dip" />
 
         <Spinner
-            android:id="@+id/sp_xian"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dip"

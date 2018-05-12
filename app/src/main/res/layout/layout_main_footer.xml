@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layoutFooter"
     android:layout_width="match_parent"
     android:layout_height="51dp"
     android:background="@color/main_footer_bg">
     <!--android:background="@color/main_footer_bg"-->
 
     <View
-        android:id="@+id/viewSplit"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#EDEDED" />
@@ -79,7 +77,6 @@
                 android:background="@null" />
 
             <TextView
-                android:id="@+id/textUnreadLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"

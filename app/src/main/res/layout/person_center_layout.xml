@@ -1,5 +1,4 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ScrollView01"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="#e2e1e1"
@@ -403,7 +402,6 @@
                     android:visibility="gone">
 
                     <LinearLayout
-                        android:id="@+id/img_btn_order"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:background="@color/white">
@@ -674,7 +672,6 @@
                             android:textSize="15sp" />
 
                         <TextView
-                            android:id="@+id/tv_banbenjc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"

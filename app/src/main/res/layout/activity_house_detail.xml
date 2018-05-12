@@ -75,7 +75,6 @@
                     android:textSize="@dimen/text_size_18" />
 
                 <TextView
-                    android:id="@+id/priceUnit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -86,7 +85,6 @@
                     android:textSize="@dimen/text_size_12" />
 
                 <TextView
-                    android:id="@+id/houseTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -182,7 +180,6 @@
                     android:layout_weight="1">
 
                     <TextView
-                        android:id="@+id/textView7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_above="@+id/view2"
@@ -199,7 +196,6 @@
                         android:background="@drawable/common_circle_orange" />
 
                     <TextView
-                        android:id="@+id/textView8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/view2"
@@ -230,7 +226,6 @@
                     android:layout_weight="1">
 
                     <TextView
-                        android:id="@+id/textView9"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_above="@+id/view3"
@@ -279,7 +274,6 @@
                     android:textColor="@color/gray" />
 
                 <TextView
-                    android:id="@+id/textView11"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -308,7 +302,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -334,7 +327,6 @@
                         android:textColor="@color/gray" />
 
                     <TextView
-                        android:id="@+id/textView14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/textView13"
@@ -358,7 +350,6 @@
                         android:textColor="@color/gray" />
 
                     <TextView
-                        android:id="@+id/textView15"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -383,7 +374,6 @@
                         android:textColor="@color/gray" />
 
                     <TextView
-                        android:id="@+id/textView18"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/textView17"
@@ -407,7 +397,6 @@
                         android:textColor="@color/gray" />
 
                     <TextView
-                        android:id="@+id/textView20"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -433,7 +422,6 @@
                         android:textColor="@color/gray" />
 
                     <TextView
-                        android:id="@+id/textView22"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/textView21"
@@ -457,7 +445,6 @@
                         android:textColor="@color/gray" />
 
                     <TextView
-                        android:id="@+id/textView24"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -483,7 +470,6 @@
                         android:textColor="@color/gray" />
 
                     <TextView
-                        android:id="@+id/textView26"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/textView25"
@@ -507,7 +493,6 @@
                         android:textColor="@color/gray" />
 
                     <TextView
-                        android:id="@+id/textView28"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -533,7 +518,6 @@
                         android:textColor="@color/gray" />
 
                     <TextView
-                        android:id="@+id/textView30"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/textView29"
@@ -557,7 +541,6 @@
                         android:textColor="@color/gray" />
 
                     <TextView
-                        android:id="@+id/textView32"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -582,7 +565,6 @@
                         android:textColor="@color/gray" />
 
                     <TextView
-                        android:id="@+id/textView34"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/textView33"
@@ -630,7 +612,6 @@
                     android:textSize="@dimen/text_size_18" />
 
                 <TextView
-                    android:id="@+id/textView36"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/yezhuSplit"
@@ -652,7 +633,6 @@
                     android:textColor="@color/gray" />
 
                 <TextView
-                    android:id="@+id/textView38"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignStart="@+id/textView37"

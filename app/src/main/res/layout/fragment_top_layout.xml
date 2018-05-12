@@ -151,7 +151,6 @@
         android:background="@color/color_f5f7fa" />
 
     <LinearLayout
-        android:id="@+id/new_car_layout"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="10dp"
@@ -259,7 +258,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/shop_layout"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="10dp"

@@ -25,22 +25,6 @@
          -->
     </style>
 
-    <style name="Widget.TabPageIndicator.Custom" parent="Widget">
-        <item name="android:gravity">center</item>
-        <item name="android:background">@drawable/vpi__tab_indicator</item>
-        <item name="android:paddingLeft">22dip</item>
-        <item name="android:paddingRight">22dip</item>
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingBottom">10dp</item>
-        <item name="android:textAppearance">@style/TextAppearance.TabPageIndicator.Custom</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:maxLines">1</item>
-    </style>
-
-    <style name="TextAppearance.TabPageIndicator.Custom" parent="Widget">
-        <item name="android:textColor">@color/vpi__background_holo_dark</item>
-    </style>
-
     <style name="footer_bar">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">fill_parent</item>
@@ -72,14 +56,6 @@
         <item name="android:textColor">@color/text_color_gray</item>
     </style>
 
-    <style name="title_button" parent="title_base_button">
-        <item name="android:paddingLeft">12dp</item>
-        <item name="android:paddingRight">12dp</item>
-        <item name="android:paddingTop">5dp</item>
-        <item name="android:paddingBottom">5dp</item>
-        <item name="android:layout_marginLeft">15dp</item>
-    </style>
-
     <style name="CommonListViewStyle">
         <item name="android:divider">@drawable/list_view_divider</item>
         <item name="android:listSelector">@drawable/list_item_selector</item>
@@ -88,11 +64,6 @@
         <item name="android:fastScrollEnabled">false</item>
         <item name="android:scrollingCache">true</item>
         <item name="android:smoothScrollbar">true</item>
-    </style>
-
-    <style name="PopupAnimation" parent="android:Animation">
-        <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
-        <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
     </style>
 
     <style name="TabLayoutStyle">
@@ -186,11 +157,6 @@
     <style name="wrap">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-    </style>
-
-    <style name="match">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
     </style>
 
     <style name="apply_first_super" parent="wrap">

@@ -188,7 +188,6 @@
             android:layout_marginRight="15dp"
             android:background="@color/gray" />
         <TextView
-            android:id="@+id/tv_zbf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"

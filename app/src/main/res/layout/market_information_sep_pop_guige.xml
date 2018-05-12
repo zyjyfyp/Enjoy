@@ -175,14 +175,12 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/pop_bottom0"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:visibility="gone" >
 
                     <Button
-                        android:id="@+id/market_information_pop_sure"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="4dp"
@@ -219,14 +217,12 @@
         android:padding="0dp" >
 
         <LinearLayout
-            android:id="@+id/pop_bottom1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
                     android:layout_marginTop="50dp"
             android:orientation="horizontal" >
 
             <LinearLayout
-                android:id="@+id/other_view"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="0dp"

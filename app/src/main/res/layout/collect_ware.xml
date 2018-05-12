@@ -51,7 +51,6 @@
 
 
     <ListView
-        android:id="@+id/list_ware_collect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@drawable/list_div"

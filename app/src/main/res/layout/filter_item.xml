@@ -3,7 +3,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/app_margin"
-    android:id="@+id/filter_item_layout"
     android:layout_marginRight="@dimen/app_margin"
     android:background="@drawable/gray_frame_bg"
     android:orientation="horizontal">
