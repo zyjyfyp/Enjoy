@@ -307,11 +307,11 @@ public class DBFengXiangActivity extends AppCompatActivity implements OnClickLis
 		String img_url = getIntent().getStringExtra("img_url");
 		System.out.println("img_url==========" + img_url);
 		if (img_url.equals("")) {
-			Bitmap thumb = BitmapFactory.decodeResource(getResources(),R.drawable.app_zams);
+			Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.app_icon);
 			msg.thumbData = Utils.bmpToByteArray(thumb, true);// 设置缩略图
 		}else if (thumb == null) {
 //			msg.thumbData = Util.bmpToByteArray(thumb, true);// 设置缩略图
-			Bitmap thumb = BitmapFactory.decodeResource(DBFengXiangActivity.this.getResources(),R.drawable.app_zams);
+			Bitmap thumb = BitmapFactory.decodeResource(DBFengXiangActivity.this.getResources(), R.mipmap.app_icon);
 			msg.thumbData = Utils.bmpToByteArray(thumb, true);// 设置缩略图
 		}else{
 			Bitmap thumb_ll = BitmapUtil.comp(thumb);
@@ -328,7 +328,7 @@ public class DBFengXiangActivity extends AppCompatActivity implements OnClickLis
 //			WXMediaMessage msg1 = new WXMediaMessage(webpage);
 //			msg1.title = title;
 //			msg1.description = temp[0];//Bitmap
-			Bitmap thumb1 = BitmapFactory.decodeResource(DBFengXiangActivity.this.getResources(),R.drawable.app_zams);
+			Bitmap thumb1 = BitmapFactory.decodeResource(DBFengXiangActivity.this.getResources(), R.mipmap.app_icon);
 			msg.thumbData = Utils.bmpToByteArray(thumb1, true);// 设置缩略图
 			SendMessageToWX.Req req1 = new SendMessageToWX.Req();
 			req1.transaction = buildTransaction("webpage");
@@ -358,11 +358,11 @@ public class DBFengXiangActivity extends AppCompatActivity implements OnClickLis
 		String img_url = getIntent().getStringExtra("img_url");
 		System.out.println("img_url==========" + img_url);
 		if (img_url.equals("")) {
-			Bitmap thumb = BitmapFactory.decodeResource(DBFengXiangActivity.this.getResources(),R.drawable.app_zams);
+			Bitmap thumb = BitmapFactory.decodeResource(DBFengXiangActivity.this.getResources(), R.mipmap.app_icon);
 			msg.thumbData = Utils.bmpToByteArray(thumb, true);// 设置缩略图
 		}else if (thumb == null) {
 //			msg.thumbData = Util.bmpToByteArray(thumb, true);// 设置缩略图
-			Bitmap thumb = BitmapFactory.decodeResource(DBFengXiangActivity.this.getResources(),R.drawable.app_zams);
+			Bitmap thumb = BitmapFactory.decodeResource(DBFengXiangActivity.this.getResources(), R.mipmap.app_icon);
 			msg.thumbData = Utils.bmpToByteArray(thumb, true);// 设置缩略图
 		}else {
 			Bitmap thumb_ll = BitmapUtil.comp(thumb);
@@ -377,7 +377,7 @@ public class DBFengXiangActivity extends AppCompatActivity implements OnClickLis
 //		System.out.println(flag + "----->" + msg.thumbData);
 		System.out.println("微信分享朋友圈----->" + flag);
 		if (flag == false) {
-			Bitmap thumb = BitmapFactory.decodeResource(DBFengXiangActivity.this.getResources(),R.drawable.app_zams);
+			Bitmap thumb = BitmapFactory.decodeResource(DBFengXiangActivity.this.getResources(), R.mipmap.app_icon);
 			msg.thumbData = Utils.bmpToByteArray(thumb, true);// 设置缩略图
 			SendMessageToWX.Req req1 = new SendMessageToWX.Req();
 			req1.transaction = buildTransaction("webpage");

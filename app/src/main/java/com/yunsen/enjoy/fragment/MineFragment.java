@@ -639,7 +639,7 @@ public class MineFragment extends BaseFragment {
                 //                                        mImageLoader.displayImage(RealmName.REALM_NAME_FTP + data.avatar, networkImage);
                 //                                    } else {
                 //                                        if (data.avatar.equals("")) {
-                //                                            bitMap = BitmapFactory.decodeResource(getResources(), R.drawable.app_zams);
+                //                                            bitMap = BitmapFactory.decodeResource(getResources(), R.mipmap.app_icon);
                 //                                            networkImage.setImageBitmap(bitMap);
                 //                                        } else {
                 //                                            if (!headimgurl.equals("")) {

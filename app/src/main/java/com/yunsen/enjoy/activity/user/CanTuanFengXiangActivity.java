@@ -278,7 +278,7 @@ public class CanTuanFengXiangActivity extends AppCompatActivity implements
 		if (img_url.equals("")) {
 			Bitmap thumb = BitmapFactory.decodeResource(
 					CanTuanFengXiangActivity.this.getResources(),
-					R.drawable.app_zams);
+					R.mipmap.app_icon);
 			msg.thumbData = Utils.bmpToByteArray(thumb, true);// 设置缩略图
 		} else {
 			msg.thumbData = bitmap2Bytes(thumb, 32);
@@ -320,7 +320,7 @@ public class CanTuanFengXiangActivity extends AppCompatActivity implements
 		if (img_url.equals("")) {
 			Bitmap thumb = BitmapFactory.decodeResource(
 					CanTuanFengXiangActivity.this.getResources(),
-					R.drawable.app_zams);
+					R.mipmap.app_icon);
 			msg.thumbData = Utils.bmpToByteArray(thumb, true);// 设置缩略图
 		} else {
 			msg.thumbData = bitmap2Bytes(thumb, 32);
