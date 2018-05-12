@@ -66,7 +66,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
 
     private FilterRecAdapter mAdapter;
     private String mChannel; //新车还是二手车
-    private String mOrderby = "click desc";//排序条件
+    private String mOrderby = "click desc";//排序条件 智能排序
     private String mPrice = "sell_price>=0";//价格范围
     private Map<String, String> mBrands = new HashMap<>(); //车型：
     private String mCarTitle;
@@ -220,25 +220,9 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
         return false;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
-
-
+    /**
+     * 品牌筛选被关闭
+     */
     @Override
     public void onFilterReset() {
         filterLayout.setVisibility(View.GONE);
@@ -287,5 +271,24 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
                 break;
         }
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
 }
 

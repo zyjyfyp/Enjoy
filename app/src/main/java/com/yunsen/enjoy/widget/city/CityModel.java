@@ -19,7 +19,12 @@ public class CityModel {
     public CityModel() {
     }
 
-    public CityModel(String id, String name,  boolean isLocation) {
+    public CityModel(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public CityModel(String id, String name, boolean isLocation) {
         this.id = id;
         this.name = name;
         this.isLocation = isLocation;

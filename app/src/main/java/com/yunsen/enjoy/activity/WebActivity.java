@@ -72,13 +72,18 @@ public class WebActivity extends BaseFragmentActivity {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
                 webProgress.setVisibility(View.VISIBLE);
-                webView.getSettings().setBlockNetworkImage(true);
+                if (webView != null) {
+                    webView.getSettings().setBlockNetworkImage(true);
+                }
             }
 
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                if (webView == null) {
+                    return;
+                }
                 webView.getSettings().setBlockNetworkImage(false);
                 if (!webView.getSettings().getLoadsImagesAutomatically()) {
                     //设置wenView加载图片资源
@@ -136,7 +141,7 @@ public class WebActivity extends BaseFragmentActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && webView != null && webView.canGoBack()) {
             webView.goBack();
             return true;
         }

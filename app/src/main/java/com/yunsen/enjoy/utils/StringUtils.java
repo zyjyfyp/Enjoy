@@ -5,6 +5,8 @@ import android.content.res.AssetManager;
 
 import com.yunsen.enjoy.widget.city.CityList;
 import com.yunsen.enjoy.widget.city.CityModel;
+import com.yunsen.enjoy.widget.city.YsCity;
+import com.yunsen.enjoy.widget.city.YsCityList;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -498,6 +500,152 @@ public class StringUtils {
         datas.addAll(list.getY());
         datas.add(new CityModel("Z"));
         datas.addAll(list.getZ());
+        return datas;
+    }
+
+    public static ArrayList<CityModel> getCityModel2(List<YsCity> cityList) {
+        ArrayList<CityModel> datas = new ArrayList<>();
+        ArrayList<CityModel> listA = new ArrayList<>();
+        ArrayList<CityModel> listB = new ArrayList<>();
+        ArrayList<CityModel> listC = new ArrayList<>();
+        ArrayList<CityModel> listD = new ArrayList<>();
+        ArrayList<CityModel> listE = new ArrayList<>();
+        ArrayList<CityModel> listF = new ArrayList<>();
+        ArrayList<CityModel> listG = new ArrayList<>();
+        ArrayList<CityModel> listH = new ArrayList<>();
+        ArrayList<CityModel> listJ = new ArrayList<>();
+        ArrayList<CityModel> listK = new ArrayList<>();
+        ArrayList<CityModel> listL = new ArrayList<>();
+        ArrayList<CityModel> listM = new ArrayList<>();
+        ArrayList<CityModel> listN = new ArrayList<>();
+        ArrayList<CityModel> listP = new ArrayList<>();
+        ArrayList<CityModel> listQ = new ArrayList<>();
+        ArrayList<CityModel> listR = new ArrayList<>();
+        ArrayList<CityModel> listS = new ArrayList<>();
+        ArrayList<CityModel> listT = new ArrayList<>();
+        ArrayList<CityModel> listW = new ArrayList<>();
+        ArrayList<CityModel> listX = new ArrayList<>();
+        ArrayList<CityModel> listY = new ArrayList<>();
+        ArrayList<CityModel> listZ = new ArrayList<>();
+
+        int size = cityList.size();
+        for (int i = 0; i < size; i++) {
+            YsCity city = cityList.get(i);
+            String spell = city.getSpell();
+            switch (spell) {
+                case "A":
+                    listA.add(new CityModel(city.getId(), city.getName()));
+                    break;
+                case "B":
+                    listB.add(new CityModel(city.getId(), city.getName()));
+                    break;
+                case "C":
+                    listC.add(new CityModel(city.getId(), city.getName()));
+                    break;
+                case "D":
+                    listD.add(new CityModel(city.getId(), city.getName()));
+                    break;
+                case "E":
+                    listE.add(new CityModel(city.getId(), city.getName()));
+                    break;
+                case "F":
+                    listF.add(new CityModel(city.getId(), city.getName()));
+                    break;
+                case "G":
+                    listG.add(new CityModel(city.getId(), city.getName()));
+                    break;
+                case "H":
+                    listH.add(new CityModel(city.getId(), city.getName()));
+                    break;
+                case "J":
+                    listJ.add(new CityModel(city.getId(), city.getName()));
+                    break;
+                case "K":
+                    listK.add(new CityModel(city.getId(), city.getName()));
+                    break;
+                case "L":
+                    listL.add(new CityModel(city.getId(), city.getName()));
+                    break;
+                case "M":
+                    listM.add(new CityModel(city.getId(), city.getName()));
+                    break;
+                case "N":
+                    listN.add(new CityModel(city.getId(), city.getName()));
+                    break;
+                case "P":
+                    listP.add(new CityModel(city.getId(), city.getName()));
+                    break;
+                case "Q":
+                    listQ.add(new CityModel(city.getId(), city.getName()));
+                    break;
+                case "R":
+                    listR.add(new CityModel(city.getId(), city.getName()));
+                    break;
+                case "S":
+                    listS.add(new CityModel(city.getId(), city.getName()));
+                    break;
+                case "T":
+                    listT.add(new CityModel(city.getId(), city.getName()));
+                    break;
+                case "W":
+                    listW.add(new CityModel(city.getId(), city.getName()));
+                    break;
+                case "X":
+                    listX.add(new CityModel(city.getId(), city.getName()));
+                    break;
+                case "Y":
+                    listY.add(new CityModel(city.getId(), city.getName()));
+                    break;
+                case "Z":
+                    listZ.add(new CityModel(city.getId(), city.getName()));
+                    break;
+            }
+        }
+
+        datas.add(new CityModel("A"));
+        datas.addAll(listA);
+        datas.add(new CityModel("B"));
+        datas.addAll(listB);
+        datas.add(new CityModel("C"));
+        datas.addAll(listC);
+        datas.add(new CityModel("D"));
+        datas.addAll(listD);
+        datas.add(new CityModel("E"));
+        datas.addAll(listE);
+        datas.add(new CityModel("F"));
+        datas.addAll(listF);
+        datas.add(new CityModel("G"));
+        datas.addAll(listG);
+        datas.add(new CityModel("H"));
+        datas.addAll(listH);
+        datas.add(new CityModel("J"));
+        datas.addAll(listJ);
+        datas.add(new CityModel("K"));
+        datas.addAll(listK);
+        datas.add(new CityModel("L"));
+        datas.addAll(listL);
+        datas.add(new CityModel("M"));
+        datas.addAll(listM);
+        datas.add(new CityModel("N"));
+        datas.addAll(listN);
+        datas.add(new CityModel("P"));
+        datas.addAll(listP);
+        datas.add(new CityModel("Q"));
+        datas.addAll(listQ);
+        datas.add(new CityModel("R"));
+        datas.addAll(listR);
+        datas.add(new CityModel("S"));
+        datas.addAll(listS);
+        datas.add(new CityModel("T"));
+        datas.addAll(listT);
+        datas.add(new CityModel("W"));
+        datas.addAll(listW);
+        datas.add(new CityModel("X"));
+        datas.addAll(listX);
+        datas.add(new CityModel("Y"));
+        datas.addAll(listY);
+        datas.add(new CityModel("Z"));
+        datas.addAll(listZ);
         return datas;
     }
 }

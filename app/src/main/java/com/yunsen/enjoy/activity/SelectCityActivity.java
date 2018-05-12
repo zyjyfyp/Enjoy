@@ -32,9 +32,9 @@ import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpCityEvent;
 import com.yunsen.enjoy.utils.SharedPreference;
 import com.yunsen.enjoy.utils.StringUtils;
-import com.yunsen.enjoy.widget.city.CityList;
 import com.yunsen.enjoy.widget.city.CityModel;
 import com.yunsen.enjoy.widget.city.MyLetterListView;
+import com.yunsen.enjoy.widget.city.YsCityList;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -83,15 +83,18 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
         mCityLit = (ListView) findViewById(R.id.public_allcity_list);
         letterListView = (MyLetterListView) findViewById(R.id.cityLetterListView);
         actionBarTitle.setText("选择城市");
-        String currentCity = SharedPreference.getInstance().getString(SpConstants.CITY_KEY, "深圳");
+        String currentCity = SharedPreference.getInstance().getString(SpConstants.CITY_KEY, "深圳市");
         currentCityTv.setText("当前的选择的城市：" + currentCity);
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
         String json = StringUtils.getJson(this, "china-city-data.json");
-        CityList cityList = JSON.parseObject(json, CityList.class);
-        mCityNames = StringUtils.getCityModel(cityList);
+
+//        CityList cityList = JSON.parseObject(json, CityList.class);
+        YsCityList cityList = JSON.parseObject(json, YsCityList.class);
+        mCityNames = StringUtils.getCityModel2(cityList.getData());
+//        mCityNames = StringUtils.getCityModel(cityList);
         setAdapter(mCityNames);
         letterListView.setOnTouchingLetterChangedListener(new LetterListViewListener());
         handler = new Handler();
@@ -170,7 +173,8 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
             if (mlocationClient != null) {
                 mlocationClient.startLocation();
             }
-        } else if (cityModel != null && TextUtils.isEmpty(cityModel.getFirstLetter())) {
+        } else if (cityModel != null && TextUtils.isEmpty(cityModel.getFirstLetter())
+                && !TextUtils.isEmpty(cityModel.getName())) {
             SharedPreference.getInstance().putString(SpConstants.CITY_KEY, cityModel.getName());
             EventBus.getDefault().postSticky(new UpCityEvent(EventConstants.UP_CITY, cityModel.getName()));
             finish();
