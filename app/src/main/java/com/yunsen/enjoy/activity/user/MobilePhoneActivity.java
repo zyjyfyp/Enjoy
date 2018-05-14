@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -20,14 +21,13 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserRegisterllData;
-import com.yunsen.enjoy.utils.GetImgUtil;
 import com.yunsen.enjoy.utils.Utils;
 import com.yunsen.enjoy.utils.Validator;
 import com.yunsen.enjoy.widget.DialogProgress;
-
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,15 +45,14 @@ public class MobilePhoneActivity extends AppCompatActivity implements
     private TextView regise_tip;
     private String yanzhengma;
     private LinearLayout ll_zhuchexieyi;
-    private SharedPreferences spPreferences;
     String headimgurl2 = "";
     public static String oauth_name = "";
     String user_name, user_id, headimgurl, access_token, sex, unionid;
     String province = "";
     String city = "";
     String country = "";
-    private SharedPreferences spPreferences_login;
     String nickname = "";
+    private SharedPreferences mSp;
 
 
     @Override
@@ -61,10 +60,9 @@ public class MobilePhoneActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_mobile_phone);
-        getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         initdata();
-
+        mSp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         TextView img_menu = (TextView) findViewById(R.id.iv_fanhui);
         img_menu.setOnClickListener(new OnClickListener() {
 
@@ -145,21 +143,17 @@ public class MobilePhoneActivity extends AppCompatActivity implements
         ;
 
     };
+    private static final String TAG = "MobilePhoneActivity";
 
     private void initdata() {
-        try {
-            et_user_yz = (EditText) findViewById(R.id.et_user_yz);
-            userpwd = (EditText) findViewById(R.id.et_user_pwd);
-            get_yz = (Button) findViewById(R.id.get_yz);
-            userphone = (EditText) findViewById(R.id.et_user_phone);
-            btn_register = (Button) findViewById(R.id.btn_register);
-            btn_register.setOnClickListener(this);
-            get_yz.setOnClickListener(this);
 
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
+        et_user_yz = (EditText) findViewById(R.id.et_user_yz);
+        userpwd = (EditText) findViewById(R.id.et_user_pwd);
+        get_yz = (Button) findViewById(R.id.get_yz);
+        userphone = (EditText) findViewById(R.id.et_user_phone);
+        btn_register = (Button) findViewById(R.id.btn_register);
+        btn_register.setOnClickListener(this);
+        get_yz.setOnClickListener(this);
     }
 
     @Override
@@ -233,23 +227,12 @@ public class MobilePhoneActivity extends AppCompatActivity implements
                             new Thread() {
                                 public void run() {
                                     try {
-
-                                        SharedPreferences spPreferences_tishi = getSharedPreferences(
-                                                "longuserset_tishi", MODE_PRIVATE);
-                                        spPreferences_tishi.edit().clear().commit();
-                                        String weixin = spPreferences_tishi
-                                                .getString("weixin", "");
-                                        String qq = spPreferences_tishi.getString("qq", "");
-
-                                        spPreferences_login = getSharedPreferences("longuserset_login", MODE_PRIVATE);
-                                        headimgurl2 = spPreferences_login.getString("headimgurl2", "");
-                                        nickname = spPreferences_login.getString("nickname", "");
-                                        unionid = spPreferences_login.getString("unionid", "");
-                                        access_token = spPreferences_login.getString("access_token", "");
-                                        sex = spPreferences_login.getString("sex", "");
-                                        String oauth_openid = spPreferences_login.getString("oauth_openid", "");
-
-
+                                        headimgurl2 = mSp.getString("headimgurl2", "");
+                                        nickname = mSp.getString("nickname", "");
+                                        unionid = mSp.getString("unionid", "");
+                                        access_token = mSp.getString("access_token", "");
+                                        sex = mSp.getString("sex", "");
+                                        String oauth_openid = mSp.getString("oauth_openid", "");
                                         province = getIntent().getStringExtra("province");
                                         city = getIntent().getStringExtra("city");
                                         country = getIntent().getStringExtra("area");
@@ -265,22 +248,16 @@ public class MobilePhoneActivity extends AppCompatActivity implements
                                         }
 
                                         if (!headimgurl2.equals("")) {
-                                            Bitmap bitmap = Utils
-                                                    .stringtoBitmap(headimgurl2);
-                                            headimgurl = Utils
-                                                    .savePhoto(
-                                                            bitmap,
-                                                            Environment
-                                                                    .getExternalStorageDirectory()
-                                                                    .getAbsolutePath(),
-                                                            String.valueOf(System
-                                                                    .currentTimeMillis()));
-                                            // headimgurl = headimgurl2;
+                                            if (headimgurl2.startsWith("http")) {
+                                                Log.e(TAG, "run: headimgurl2=" + headimgurl2);
+                                            } else {
+                                                Bitmap bitmap = Utils.stringtoBitmap(headimgurl2);
+                                                headimgurl = Utils.savePhoto(bitmap, Environment
+                                                        .getExternalStorageDirectory()
+                                                        .getAbsolutePath(), String.valueOf(System.currentTimeMillis()));
+                                            }
                                         } else {
-                                            // headimgurl =
-                                            // getIntent().getStringExtra("headimgurl");
-                                            headimgurl = spPreferences_login
-                                                    .getString("headimgurl", "");
+                                            headimgurl = mSp.getString("headimgurl", "");
                                         }
 
                                         if (sex.equals("1")) {
@@ -288,29 +265,7 @@ public class MobilePhoneActivity extends AppCompatActivity implements
                                         } else {
                                             sex = "女";
                                         }
-
-                                        SharedPreferences spPreferences_ptye = getSharedPreferences(
-                                                "longuserset_ptye", MODE_PRIVATE);
-                                        oauth_name = spPreferences_ptye.getString(
-                                                "ptye", "");
-
-                                        System.out
-                                                .println("=================oauth_name=="
-                                                        + oauth_name);
-
-                                        SharedPreferences spPreferences = getSharedPreferences(
-                                                "longuserset_tishi", MODE_PRIVATE);
-
-                                        if (oauth_name.equals("weixin")) {
-                                            Editor editor = spPreferences.edit();
-                                            editor.putString("weixin", oauth_name);
-                                            editor.commit();
-                                        } else if (oauth_name.equals("qq")) {
-                                            Editor editor = spPreferences.edit();
-                                            editor.putString("qq", oauth_name);
-                                            editor.commit();
-                                        }
-
+                                        oauth_name = mSp.getString(SpConstants.OAUTH_NAME, "");
 
                                         String strUrl = URLConstants.REALM_NAME_LL
                                                 + "/user_oauth_bind_0217?mobile="
@@ -330,8 +285,7 @@ public class MobilePhoneActivity extends AppCompatActivity implements
                                         AsyncHttp.get(strUrl,
                                                 new AsyncHttpResponseHandler() {
                                                     @Override
-                                                    public void onSuccess(int arg0,
-                                                                          String arg1) {
+                                                    public void onSuccess(int arg0, String arg1) {
 
                                                         // method stub
                                                         super.onSuccess(arg0, arg1);
@@ -361,8 +315,7 @@ public class MobilePhoneActivity extends AppCompatActivity implements
                                                                 message.what = 1;
                                                                 message.obj = str;
                                                                 handler.sendMessage(message);
-                                                            } else if (status
-                                                                    .equals("y")) {
+                                                            } else if (status.equals("y")) {
                                                                 try {
                                                                     System.out
                                                                             .println("=================3==");
@@ -405,34 +358,11 @@ public class MobilePhoneActivity extends AppCompatActivity implements
                                                                             .getString("mobile");
                                                                     data.exp = obj
                                                                             .getString("exp");
-                                                                    // String
-                                                                    // reg_site =
-                                                                    // obj.getString("reg_site");
 
-                                                                    SharedPreferences spPreferences_ptye = getSharedPreferences(
-                                                                            "longuserset_ptye",
-                                                                            MODE_PRIVATE);
-                                                                    spPreferences_ptye
-                                                                            .edit()
-                                                                            .clear()
-                                                                            .commit();
-
-
-                                                                    SharedPreferences spPreferences = getSharedPreferences(
-                                                                            "longuserset",
-                                                                            MODE_PRIVATE);
-                                                                    Editor editor = spPreferences
-                                                                            .edit();
-                                                                    editor.putString(
-                                                                            "user",
-                                                                            data.user_name);
-                                                                    editor.putString(
-                                                                            "user_id",
-                                                                            data.id);
-                                                                    // editor.putString("user_code",
-                                                                    // data.user_code);
-                                                                    // editor.putString("exp",
-                                                                    // data.exp);
+                                                                    Editor editor = mSp.edit();
+                                                                    editor.putString("user", data.user_name);
+                                                                    editor.putString("user_name", data.user_name);
+                                                                    editor.putString("user_id", data.id);
                                                                     editor.commit();
 
                                                                     progress.CloseProgress();

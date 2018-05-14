@@ -5,19 +5,15 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import com.tencent.connect.auth.QQAuth;
-import com.tencent.tauth.Tencent;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.user.PhoneLoginActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.activity.user.UserLoginWayActivity;
-import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
@@ -83,7 +79,7 @@ public class DialogUtils {
                 SharedPreferences spPreferences_login = fAct.getSharedPreferences(
                         "longuserset_login", Context.MODE_PRIVATE);
 
-                if (UserLoginActivity.panduan == true) {
+                if (UserLoginActivity.panduan ) {
                     // if (!user_name_weixin.equals("")) {
                     spPreferences_login.edit().clear().commit();
                     spPreferences.edit().clear().commit();
@@ -92,10 +88,8 @@ public class DialogUtils {
                     System.out.println("1======" + nickname);
                     // Toast.makeText(getActivity(), "微信名/"+nickname,
                     UserLoginActivity.panduan = false;
-                    Intent intent4 = new Intent(fAct, UserLoginActivity.class);
-                    fAct.startActivity(intent4);
-
-                } else if (UserLoginWayActivity.panduan == true) {
+                    UIHelper.showUserLoginActivity(fAct);
+                } else if (UserLoginWayActivity.panduan ) {
 
                     spPreferences_login.edit().clear().commit();
                     spPreferences.edit().clear().commit();
@@ -104,24 +98,22 @@ public class DialogUtils {
                             "");
                     System.out.println("1======" + nickname);
                     UserLoginWayActivity.panduan = false;
-                    Intent intent4 = new Intent(fAct, UserLoginActivity.class);
-                    fAct.startActivity(intent4);
-                } else if (PhoneLoginActivity.panduan == true) {
+                    UIHelper.showUserLoginActivity(fAct);
+
+                } else if (PhoneLoginActivity.panduan ) {
 
                     spPreferences.edit().clear().commit();
                     spPreferences_login.edit().clear().commit();
                     jdh_spPreferences.edit().clear().commit();// 积兑换保存福利清除
                     String user_name = spPreferences.getString("user", "");
                     System.out.println("2======" + user_name);
-                    Intent intent4 = new Intent(fAct, UserLoginActivity.class);
+                    UIHelper.showUserLoginActivity(fAct);
                     PhoneLoginActivity.panduan = false;
-                    fAct.startActivity(intent4);
                 } else {
                     spPreferences.edit().clear().commit();
                     spPreferences_login.edit().clear().commit();
                     jdh_spPreferences.edit().clear().commit();// 积兑换保存福利清除
-                    Intent intent4 = new Intent(fAct, UserLoginActivity.class);
-                    fAct.startActivity(intent4);
+                    UIHelper.showUserLoginActivity(fAct);
                 }
                 SharedPreferences spPreferences_tishi = fAct.getSharedPreferences("longuserset_tishi", Context.MODE_PRIVATE);
                 spPreferences_tishi.edit().clear().commit();// 第三方授权登录提示绑定手机号信息清空

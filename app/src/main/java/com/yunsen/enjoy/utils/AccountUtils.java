@@ -1,10 +1,10 @@
 package com.yunsen.enjoy.utils;
 
-import android.content.*;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.yunsen.enjoy.common.AppContext;
-import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 
 /**
@@ -42,17 +42,13 @@ public class AccountUtils {
      * @return
      */
     public static boolean hasBoundPhone() {
-//        SharedPreferences sp = AppContext.getInstance().getSharedPreferences(ACCOUNT_SP_NAME, Context.MODE_PRIVATE);
-//        user_name_phone = sp.getString("user", "");
-//        System.out.println("user_name_phone=================" + user_name_phone);
-//        if (!TextUtils.isEmpty(user_name_phone)) {
-//            user_id = sp.getString("user_id", "");
-//            user_name_key = user_name_phone;
-//        }
         SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
         String userId = sp.getString(SpConstants.USER_ID, "");
-        return !TextUtils.isEmpty(userId);
-
+        if (TextUtils.isEmpty(userId) || "0".equals(userId)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**

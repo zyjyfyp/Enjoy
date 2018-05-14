@@ -13,7 +13,6 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.TextView;
 
-
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.SpConstants;
@@ -22,7 +21,6 @@ import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserRegisterllData;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
-import com.yunsen.enjoy.widget.DialogProgress;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -93,7 +91,7 @@ public class TishiWxBangDingActivity extends AppCompatActivity implements OnClic
 
     public void userlogin() {
         try {
-            spPreferences_login = getSharedPreferences("longuserset_login", MODE_PRIVATE);
+            spPreferences_login = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
             nickname = spPreferences_login.getString(SpConstants.NICK_NAME, "");
             headimgurl = spPreferences_login.getString("headimgurl", "");
             unionid = spPreferences_login.getString("unionid", "");
@@ -102,7 +100,7 @@ public class TishiWxBangDingActivity extends AppCompatActivity implements OnClic
             String oauth_openid = spPreferences_login.getString("oauth_openid", "");
             province = getIntent().getStringExtra("province");
             city = getIntent().getStringExtra("city");
-
+            String loginFlag = spPreferences_login.getString(SpConstants.LOGIN_FLAG, "");
             if (province == null) {
                 province = "";
             }
@@ -115,13 +113,13 @@ public class TishiWxBangDingActivity extends AppCompatActivity implements OnClic
             System.out.println("UserLoginActivity=====================" + UserLoginActivity.oauth_name);
             System.out.println("UserLoginWayActivity=====================" + UserLoginWayActivity.oauth_name);
 
-            if (UserLoginActivity.oauth_name.equals("weixin")) {
+
+            if (SpConstants.WEI_XIN.equals(loginFlag)) {
                 oauth_name = "weixin";
-            } else if (UserLoginWayActivity.oauth_name.equals("weixin")) {
+            } else if (SpConstants.QQ_LOGIN.equals(loginFlag)) {
                 oauth_name = "qq";
             }
 
-            //				}
             System.out.println("nickname-----1-----" + nickname);
             String nick_name = nickname.replaceAll("\\s*", "");
             System.out.println("nick_name-----2-----" + nick_name);
@@ -154,7 +152,7 @@ public class TishiWxBangDingActivity extends AppCompatActivity implements OnClic
                             data.id = obj.getString("id");
                             data.user_name = obj.getString("user_name");
                             user_id = data.id;
-                            SharedPreferences spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
+                            SharedPreferences spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
                             String user = spPreferences.getString("user", "");
                             System.out.println("---1-------------------" + user);
                             Editor editor = spPreferences.edit();

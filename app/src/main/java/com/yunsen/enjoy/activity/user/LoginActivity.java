@@ -9,13 +9,11 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -30,7 +28,6 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.orhanobut.logger.Logger;
 import com.tencent.connect.auth.QQAuth;
-import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.IUiListener;
@@ -40,28 +37,25 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
-import com.yunsen.enjoy.common.AppContext;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.model.AuthorizationModel;
 import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.DeviceUtil;
-import com.yunsen.enjoy.utils.GetImgUtil;
 import com.yunsen.enjoy.utils.SpUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
-import com.yunsen.enjoy.utils.Utils;
 import com.yunsen.enjoy.utils.Validator;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -146,7 +140,7 @@ public class LoginActivity extends BaseFragmentActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-//        mQQAuth = QQAuth.createInstance(Constants.APP_QQ_ID, AppContext.getInstance());
+        //        mQQAuth = QQAuth.createInstance(Constants.APP_QQ_ID, AppContext.getInstance());
         mTencent = Tencent.createInstance(Constants.APP_QQ_ID, this);
     }
 
@@ -175,11 +169,11 @@ public class LoginActivity extends BaseFragmentActivity {
                 qqLogin();
                 break;
             case R.id.weixin_loing_img:
-//                mIsWXLogin = true;
-//                SendAuth.Req req = new SendAuth.Req();
-//                req.scope = "snsapi_userinfo";
-//                req.state = "wechat_sdk_demo";
-//                mWxApi.sendReq(req);
+                //                mIsWXLogin = true;
+                //                SendAuth.Req req = new SendAuth.Req();
+                //                req.scope = "snsapi_userinfo";
+                //                req.state = "wechat_sdk_demo";
+                //                mWxApi.sendReq(req);
                 mTencent.logout(this);
                 break;
         }
@@ -193,19 +187,16 @@ public class LoginActivity extends BaseFragmentActivity {
         if (!mTencent.isSessionValid()) {
             mTencent.login(this, "all", loginListener);
             isServerSideLogin = false;
+        } else {
+            if (isServerSideLogin) { // Server-Side 模式的登陆, 先退出，再进行SSO登陆
+                mTencent.logout(this);
+                mTencent.login(this, "all", loginListener);
+                isServerSideLogin = false;
+                return;
+            }
+            mTencent.logout(this);
+            updateUserInfo();
         }
-//
-//
-//        else {
-//            if (isServerSideLogin) { // Server-Side 模式的登陆, 先退出，再进行SSO登陆
-//                mTencent.logout(this);
-//                mTencent.login(this, "all", loginListener);
-//                isServerSideLogin = false;
-//                return;
-//            }
-//            mTencent.logout(this);
-//            updateUserInfo();
-//        }
     }
 
 
@@ -251,6 +242,7 @@ public class LoginActivity extends BaseFragmentActivity {
                 editor.putString("unionid", openid);
                 editor.putString("sex", ret);
                 editor.putString("oauth_openid", oauth_openid);
+                editor.putString(SpConstants.OAUTH_UNIONID, oauth_openid);
                 editor.commit();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -309,11 +301,13 @@ public class LoginActivity extends BaseFragmentActivity {
                                     editor.putString(SpConstants.COUNTRY, country);
                                     editor.putString(SpConstants.LOGIN_FLAG, SpConstants.QQ_LOGIN);
                                     editor.commit();
-                                    EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
+                                    /**
+                                     * 第三方授权
+                                     */
+                                    requestBundlePhone();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                                finish();
                             }
                         }
                     }.start();
@@ -369,8 +363,23 @@ public class LoginActivity extends BaseFragmentActivity {
         });
     }
 
+    /**
+     * QQ第三方登录
+     */
     private void requestBundlePhone() {
-//        HttpProxy.getUserLogin();
+        HttpProxy.requestBindPhone(new HttpCallBack<AuthorizationModel>() {
+            @Override
+            public void onSuccess(AuthorizationModel responseData) {
+                SpUtils.saveUserInfo(responseData, SpConstants.QQ_LOGIN);
+                EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
+                finish();
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
     }
 
 

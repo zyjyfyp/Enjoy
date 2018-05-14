@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -17,8 +16,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.squareup.picasso.Picasso;
-import com.tencent.connect.auth.QQAuth;
 import com.tencent.tauth.Tencent;
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
@@ -30,7 +27,7 @@ import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
 import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
-import com.yunsen.enjoy.common.AppContext;
+import com.yunsen.enjoy.activity.mine.TeamActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
@@ -47,9 +44,7 @@ import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.GetImgUtil;
 import com.yunsen.enjoy.utils.SpUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
-import com.yunsen.enjoy.utils.Utils;
 import com.yunsen.enjoy.widget.GlideCircleTransform;
-import com.yunsen.enjoy.widget.PicassoRoundTransform;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -146,10 +141,9 @@ public class MineFragment extends BaseFragment {
 
     private String nickname;
     private String user_name_phone;
-    private SharedPreferences spPreferences;
     private String user_id;
     private String user_name_key;
-    private SharedPreferences spPreferences_login;
+    private SharedPreferences mSp;
     private String headimgurl;
     private String unionid;
     private String access_token;
@@ -161,6 +155,7 @@ public class MineFragment extends BaseFragment {
 
     private String mUserId;
     private Boolean mIsFacilitator = false;
+    private String mUserName;//用户名
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -186,41 +181,50 @@ public class MineFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        mSp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
         if (AccountUtils.hasLogin()) {
             hasLoginLayout.setVisibility(View.VISIBLE);
             loginIcon.setVisibility(View.GONE);
             loginTv.setVisibility(View.GONE);
             SharedPreferences sp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
-            String imgUrl = sp.getString(SpConstants.USER_IMG, "");
-            if (!TextUtils.isEmpty(imgUrl)) {
-                Glide.with(MineFragment.this)
-                        .load(URLConstants.REALM_URL + imgUrl)
-                        .error(R.mipmap.ic_launcher_round)
-                        .transform(new GlideCircleTransform(getActivity()))
-                        .into(userIconImg);
+            nickname = mSp.getString(SpConstants.NICK_NAME, "");
+            headimgurl = mSp.getString(SpConstants.HEAD_IMG_URL, "");
+            unionid = mSp.getString(SpConstants.UNION_ID, "");
+            access_token = mSp.getString(SpConstants.ACCESS_TOKEN, "");
+            sex = mSp.getString(SpConstants.SEX, "");
 
+            String imgUrl = sp.getString(SpConstants.USER_IMG, "");
+            String imgUrl2 = sp.getString(SpConstants.AVATAR, "");
+            String imgUrl3 = sp.getString(SpConstants.HEAD_IMG_URL_2, "");
+
+            String iUrl = null;
+
+            if (!TextUtils.isEmpty(imgUrl2)) {
+                iUrl = URLConstants.REALM_URL + imgUrl2;
+            } else if (!TextUtils.isEmpty(imgUrl)) {
+                iUrl = URLConstants.REALM_URL + imgUrl;
+            } else if (!TextUtils.isEmpty(imgUrl3)) {
+                iUrl = URLConstants.REALM_URL + imgUrl3;
             }
+
+            Glide.with(MineFragment.this)
+                    .load(iUrl)
+                    .error(R.mipmap.ic_launcher_round)
+                    .transform(new GlideCircleTransform(getActivity()))
+                    .into(userIconImg);
             getUserInfo();
+
         } else {
             hasLoginLayout.setVisibility(View.GONE);
             loginIcon.setVisibility(View.VISIBLE);
             loginTv.setVisibility(View.VISIBLE);
         }
-        spPreferences = getActivity().getSharedPreferences(SpConstants.SP_USER_SET, Context.MODE_PRIVATE);
-        user_name_phone = spPreferences.getString(SpConstants.USER, "");
-        if (!TextUtils.isEmpty(user_name_phone)) {
-            user_id = spPreferences.getString(SpConstants.USER_ID, "");
-            user_name_key = user_name_phone;
-        }
-
-        spPreferences_login = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_LOGIN, Context.MODE_PRIVATE);
-        nickname = spPreferences_login.getString(SpConstants.NICK_NAME, "");
-        headimgurl = spPreferences_login.getString(SpConstants.HEAD_IMG_URL, "");
-        unionid = spPreferences_login.getString(SpConstants.UNION_ID, "");
-        access_token = spPreferences_login.getString(SpConstants.ACCESS_TOKEN, "");
-        sex = spPreferences_login.getString(SpConstants.SEX, "");
-        String oauth_openid = spPreferences_login.getString(SpConstants.OAUTH_OPEN_ID, "");
-
+        //        spPreferences = getActivity().getSharedPreferences(SpConstants.SP_USER_SET, Context.MODE_PRIVATE);
+        //        user_name_phone = spPreferences.getString(SpConstants.USER, "");
+        //        if (!TextUtils.isEmpty(user_name_phone)) {
+        //            user_id = spPreferences.getString(SpConstants.USER_ID, "");
+        //            user_name_key = user_name_phone;
+        //        }
     }
 
 
@@ -340,7 +344,7 @@ public class MineFragment extends BaseFragment {
 
     @OnClick(R.id.team_layout) //团队信息
     public void onTeamLayoutClicked() {
-        UIHelper.showTeamActivity(getActivity());
+        goLoginOrOtherActivity(TeamActivity.class);
     }
 
     @OnClick(R.id.finance_layout)
@@ -498,44 +502,68 @@ public class MineFragment extends BaseFragment {
                 }, getActivity());
     }
 
+    /**
+     * 获取用户信息
+     */
     private void getUserInfo() {
-        try {
-            spPreferences_login = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_LOGIN, Context.MODE_PRIVATE);
-            nickname = spPreferences_login.getString(SpConstants.NICK_NAME, "");
-            headimgurl = spPreferences_login.getString(SpConstants.HEAD_IMG_URL, "");
-            headimgurl2 = spPreferences_login.getString(SpConstants.HEAD_IMG_URL_2, "");
-            spPreferences = getActivity().getSharedPreferences(SpConstants.SP_USER_SET, Context.MODE_PRIVATE);
-            user_name_phone = spPreferences.getString(SpConstants.USER, "");
-            if (!TextUtils.isEmpty(user_name_phone)) {
-                user_id = spPreferences.getString(SpConstants.USER_ID, "");
-                user_name_key = user_name_phone;
-            }
-
-            if (!TextUtils.isEmpty(nickname)) {//是微信登录
-                if (!TextUtils.isEmpty(user_name_phone)) {//有绑定手机
-                    getLeXiangUserInfo();//获取乐享用户信息
-                    load_list();
-                    requestIsFacilitator();//判断是否是服务商
-                } else {
-                    // TODO: 2018/4/26 清空用户数据
-                    //                        setinten();// 数据清空
-                    setUserIconAndName(nickname, headimgurl2, headimgurl);
-                }
-            } else {
-                if (!TextUtils.isEmpty(user_name_phone)) {//手机登录
-                    getLeXiangUserInfo();//获取乐享用户信息
-                    load_list();
-                } else {
-                    hasLoginLayout.setVisibility(View.GONE);
-                    loginIcon.setVisibility(View.VISIBLE);
-                    loginTv.setVisibility(View.VISIBLE);
-                }
-            }
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
+        nickname = mSp.getString(SpConstants.NICK_NAME, "");
+        headimgurl = mSp.getString(SpConstants.HEAD_IMG_URL, "");
+        headimgurl2 = mSp.getString(SpConstants.HEAD_IMG_URL_2, "");
+        user_name_phone = mSp.getString(SpConstants.USER_NAME, "");
+        if (!TextUtils.isEmpty(user_name_phone)) {
+            user_id = mSp.getString(SpConstants.USER_ID, "");
+            user_name_key = user_name_phone;
         }
+        String loginFlag = mSp.getString(SpConstants.LOGIN_FLAG, "");
+        mUserName = mSp.getString(SpConstants.USER_NAME, "");
+        if (TextUtils.isEmpty(mUserName)) {
+            mUserName = mSp.getString(SpConstants.NICK_NAME, "");
+        }
+
+
+        if (SpConstants.WEI_XIN.equals(loginFlag) || SpConstants.QQ_LOGIN.equals(loginFlag)) {//微信登录
+            if (AccountUtils.hasBoundPhone()) {
+                getLeXiangUserInfo();//获取乐享用户信息
+                load_list();
+                requestIsFacilitator();//判断是否是服务商
+            } else {
+                // TODO: 2018/4/26 清空用户数据
+                //                        setinten();// 数据清空
+                setUserIconAndName(mUserName, headimgurl2, headimgurl);
+            }
+        } else {
+            if (!TextUtils.isEmpty(user_name_phone)) {//手机登录
+                getLeXiangUserInfo();//获取乐享用户信息
+                load_list();
+
+            } else {
+                hasLoginLayout.setVisibility(View.GONE);
+                loginIcon.setVisibility(View.VISIBLE);
+                loginTv.setVisibility(View.VISIBLE);
+            }
+        }
+
+        //        if (!TextUtils.isEmpty(nickname)) {//是微信登录
+        //            if (!TextUtils.isEmpty(user_name_phone)) {//有绑定手机
+        //                getLeXiangUserInfo();//获取乐享用户信息
+        //                load_list();
+        //                requestIsFacilitator();//判断是否是服务商
+        //            } else {
+        //                // TODO: 2018/4/26 清空用户数据
+        //                //                        setinten();// 数据清空
+        //                setUserIconAndName(nickname, headimgurl2, headimgurl);
+        //            }
+        //        } else {
+        //            if (!TextUtils.isEmpty(user_name_phone)) {//手机登录
+        //                getLeXiangUserInfo();//获取乐享用户信息
+        //                load_list();
+        //            } else {
+        //                hasLoginLayout.setVisibility(View.GONE);
+        //                loginIcon.setVisibility(View.VISIBLE);
+        //                loginTv.setVisibility(View.VISIBLE);
+        //            }
+        //        }
+
     }
 
     private void requestIsFacilitator() {
@@ -562,21 +590,25 @@ public class MineFragment extends BaseFragment {
      * @param imgUrl
      */
     private void setUserIconAndName(String name, String imgString, String imgUrl) {
+        userNameTv.setText(name);
         if (!TextUtils.isEmpty(imgString)) {
-            userIconImg.setVisibility(View.VISIBLE);
-            userNameTv.setVisibility(View.VISIBLE);
-            Bitmap bitmap = Utils.stringtoBitmap(imgString);
-            // Bitmap bitmap = UserLoginActivity.bitmap;
-            bitmap = Utils.toRoundBitmap(bitmap); // 这个时候的图片已经被处理成圆形的了
-            userIconImg.setImageBitmap(bitmap);
-            userNameTv.setText(name);
+
+            Glide.with(MineFragment.this)
+                    .load(imgString)
+                    .error(R.mipmap.login_icon)
+                    .transform(new GlideCircleTransform(getActivity()))
+                    .into(userIconImg);
+            //            Bitmap bitmap = Utils.stringtoBitmap(imgString);
+            //            if (bitmap != null) {
+            //                bitmap = Utils.toRoundBitmap(bitmap); // 这个时候的图片已经被处理成圆形的了
+            //                userIconImg.setImageBitmap(bitmap);
+            //            }
         } else {
-            Picasso.with(getActivity())
+            Glide.with(MineFragment.this)
                     .load(imgUrl)
                     .error(R.mipmap.login_icon)
-                    .transform(new PicassoRoundTransform())
+                    .transform(new GlideCircleTransform(getActivity()))
                     .into(userIconImg);
-            userNameTv.setText(name);
         }
 
     }
@@ -585,7 +617,7 @@ public class MineFragment extends BaseFragment {
      * 获取乐享用户信息
      */
     public void getLeXiangUserInfo() {
-        strUrlone = URLConstants.REALM_NAME_LL + "/get_user_model?username=" + user_name_key + "";
+        strUrlone = URLConstants.REALM_NAME_LL + "/get_user_model?username=" + user_name_phone + "";
 
 
         HttpProxy.getUserInfo(user_name_key, new HttpCallBack<UserInfo>() {
@@ -595,8 +627,7 @@ public class MineFragment extends BaseFragment {
                 //                            double dzongjia = data.getExp() + data.getExp_weal() + data.getExp_invest() + data.getExp_action() + data.getExp_time();
                 //                            BigDecimal w = new BigDecimal(dzongjia);
                 //                            double zong_jz = w.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue(); //价值
-                spPreferences = getActivity().getSharedPreferences("longuserset", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = spPreferences.edit();
+                SharedPreferences.Editor editor = mSp.edit();
                 editor.putString("mobile", data.getMobile());
                 editor.putString("avatar", data.getAvatar());
                 editor.putString("group_id", "" + data.getGroup_id());
@@ -626,7 +657,7 @@ public class MineFragment extends BaseFragment {
                             .transform(new GlideCircleTransform(getActivity()))
                             .into(userIconImg);
                 } else {
-//                    GetImgUtil.loadLocationImg(getActivity(), userIconImg);
+                    //                    GetImgUtil.loadLocationImg(getActivity(), userIconImg);
                     Glide.with(MineFragment.this)
                             .load(URLConstants.REALM_URL + avatar)
                             .placeholder(R.mipmap.ic_launcher_round)
@@ -699,7 +730,7 @@ public class MineFragment extends BaseFragment {
                 orderNumber4.setText("0");
                 SharedPreferences sp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
                 sp.edit().clear().commit();
-//                Constants.QQauth = QQAuth.createInstance(Constants.APP_QQ_ID, AppContext.getInstance());
+                //                Constants.QQauth = QQAuth.createInstance(Constants.APP_QQ_ID, AppContext.getInstance());
                 Tencent tencent = Tencent.createInstance(Constants.APP_QQ_ID, getActivity());
                 tencent.logout(getActivity());
                 break;
@@ -750,7 +781,7 @@ public class MineFragment extends BaseFragment {
     public void loadUserIcon(Uri selectedImage) {
 
         //上传图片
-//        GetImgUtil.pullUserIcon(getActivity(), selectedImage);
+        //        GetImgUtil.pullUserIcon(getActivity(), selectedImage);
         GetImgUtil.pullImageBase4(getActivity(), selectedImage, EventConstants.USER_ICON);
     }
 

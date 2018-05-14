@@ -8,7 +8,6 @@ import android.util.Log;
 
 import com.orhanobut.logger.Logger;
 import com.yunsen.enjoy.common.AppContext;
-import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.model.AccountBalanceModel;
 import com.yunsen.enjoy.model.AdvertList;
@@ -47,19 +46,11 @@ import com.yunsen.enjoy.model.response.UserInfoResponse;
 import com.yunsen.enjoy.model.response.WatchCarResponse;
 import com.yunsen.enjoy.utils.EntityToMap;
 
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Created by Administrator on 2018/4/20.
@@ -1114,7 +1105,7 @@ public class HttpProxy {
      *
      * @param callBack
      */
-    public static void requestBoudlePhone(final HttpCallBack<AuthorizationModel> callBack) {
+    public static void requestBindPhone(final HttpCallBack<AuthorizationModel> callBack) {
         SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
         String nickName = sp.getString(SpConstants.NICK_NAME, "");
         String avatar = sp.getString(SpConstants.HEAD_IMG_URL_2, "");
@@ -1128,7 +1119,7 @@ public class HttpProxy {
 
         HashMap<String, String> param = new HashMap<>();
         param.put(SpConstants.NICK_NAME, nickName);
-        param.put(SpConstants.HEAD_IMG_URL_2, avatar);
+        param.put(SpConstants.AVATAR, avatar);
         param.put(SpConstants.SEX, sex);
         param.put(SpConstants.PROVINCE, province);
         param.put(SpConstants.CITY, city);

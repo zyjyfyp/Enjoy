@@ -554,12 +554,7 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                     Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
                     GetImgUtil.pullImageBase4(this, selectedImage, EventConstants.USER_ICON);
 
-//                    Glide.with(this)
-//                            .load(selectedImage)
-//                            .transform(new GlideCircleTransform(this))
-//                            .into(networkImage);
-                    //上传图片
-//                    GetImgUtil.pullUserIcon(this, selectedImage);
+
                     break;
                 case CROP_SMALL_PICTURE:
                     if (data != null) {
@@ -641,7 +636,6 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
 
                             String remotePathTmp = "phone/" + "" + yth + "";//路径
                             System.out.println("========================" + remotePathTmp);
-
                             try {
                                 client.createDirectory(remotePathTmp);//客户端创建目录
                             } catch (Exception e) {
