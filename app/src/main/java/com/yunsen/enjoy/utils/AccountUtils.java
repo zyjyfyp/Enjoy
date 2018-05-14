@@ -4,6 +4,7 @@ import android.content.*;
 import android.text.TextUtils;
 
 import com.yunsen.enjoy.common.AppContext;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 
 /**
@@ -29,14 +30,10 @@ public class AccountUtils {
      * @return
      */
     public static boolean hasLogin() {
-        SharedPreferences sp2 = AppContext.getInstance().getSharedPreferences(ACCOUNT_SP_NAME2, Context.MODE_PRIVATE);
-        nickname = sp2.getString(SpConstants.NICK_NAME, "");
-        headimgurl = sp2.getString("headimgurl", "");
-        unionid = sp2.getString("unionid", "");
-        access_token = sp2.getString("access_token", "");
-        sex = sp2.getString("sex", "");
-        String oauth_openid = sp2.getString("oauth_openid", "");
-        return !TextUtils.isEmpty(nickname)|| hasBoundPhone();
+        SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+        String userId = sp.getString(SpConstants.USER_ID, "");
+        String loginFlag = sp.getString(SpConstants.LOGIN_FLAG, "");
+        return !TextUtils.isEmpty(userId) || !TextUtils.isEmpty(loginFlag);
     }
 
     /**
@@ -45,14 +42,16 @@ public class AccountUtils {
      * @return
      */
     public static boolean hasBoundPhone() {
-        SharedPreferences sp = AppContext.getInstance().getSharedPreferences(ACCOUNT_SP_NAME, Context.MODE_PRIVATE);
-        user_name_phone = sp.getString("user", "");
-        System.out.println("user_name_phone=================" + user_name_phone);
-        if (!TextUtils.isEmpty(user_name_phone)) {
-            user_id = sp.getString("user_id", "");
-            user_name_key = user_name_phone;
-        }
-        return !TextUtils.isEmpty(user_name_phone);
+//        SharedPreferences sp = AppContext.getInstance().getSharedPreferences(ACCOUNT_SP_NAME, Context.MODE_PRIVATE);
+//        user_name_phone = sp.getString("user", "");
+//        System.out.println("user_name_phone=================" + user_name_phone);
+//        if (!TextUtils.isEmpty(user_name_phone)) {
+//            user_id = sp.getString("user_id", "");
+//            user_name_key = user_name_phone;
+//        }
+        SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+        String userId = sp.getString(SpConstants.USER_ID, "");
+        return !TextUtils.isEmpty(userId);
 
     }
 

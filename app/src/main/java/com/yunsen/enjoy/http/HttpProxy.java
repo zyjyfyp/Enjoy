@@ -13,6 +13,7 @@ import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.model.AccountBalanceModel;
 import com.yunsen.enjoy.model.AdvertList;
 import com.yunsen.enjoy.model.AdvertModel;
+import com.yunsen.enjoy.model.AuthorizationModel;
 import com.yunsen.enjoy.model.BrandResponse;
 import com.yunsen.enjoy.model.CarBrand;
 import com.yunsen.enjoy.model.CarBrandList;
@@ -33,6 +34,7 @@ import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.model.request.WatchCarModel;
 import com.yunsen.enjoy.model.response.AccountBalanceResponse;
+import com.yunsen.enjoy.model.response.AuthorizationResponse;
 import com.yunsen.enjoy.model.response.CarBrandResponese;
 import com.yunsen.enjoy.model.response.CarDetailsResponse;
 import com.yunsen.enjoy.model.response.PullImageResponse;
@@ -47,6 +49,7 @@ import com.yunsen.enjoy.utils.EntityToMap;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -441,6 +444,34 @@ public class HttpProxy {
             @Override
             public void onFailure(Request request, Exception e) {
                 super.onFailure(request, e);
+            }
+        });
+    }
+
+    /**
+     * 电话用户登录
+     *
+     * @param phone
+     * @param pwd
+     * @param callBack
+     */
+    public static void getUserLogin(String phone, String pwd, final HttpCallBack<UserInfo> callBack) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("username", phone);
+        param.put("password", pwd);
+        param.put("site", "mobile");
+        param.put("terminal", "true");
+        HttpClient.get(URLConstants.USER_LOGIN_URL, param, new HttpResponseHandler<UserInfoResponse>() {
+            @Override
+            public void onSuccess(UserInfoResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
             }
         });
     }
@@ -1078,6 +1109,49 @@ public class HttpProxy {
                 });
     }
 
+    /**
+     * 第三方授权
+     *
+     * @param callBack
+     */
+    public static void requestBoudlePhone(final HttpCallBack<AuthorizationModel> callBack) {
+        SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+        String nickName = sp.getString(SpConstants.NICK_NAME, "");
+        String avatar = sp.getString(SpConstants.HEAD_IMG_URL_2, "");
+        String sex = sp.getString(SpConstants.SEX, "");
+        String province = sp.getString(SpConstants.PROVINCE, "");
+        String city = sp.getString(SpConstants.CITY, "");
+        String country = sp.getString(SpConstants.COUNTRY, "");
+        String oauthOpenId = sp.getString(SpConstants.OAUTH_OPEN_ID, "");
+        String oauthName = sp.getString(SpConstants.OAUTH_NAME, null);
+        String oauthUnionId = sp.getString(SpConstants.OAUTH_UNIONID, "");
+
+        HashMap<String, String> param = new HashMap<>();
+        param.put(SpConstants.NICK_NAME, nickName);
+        param.put(SpConstants.HEAD_IMG_URL_2, avatar);
+        param.put(SpConstants.SEX, sex);
+        param.put(SpConstants.PROVINCE, province);
+        param.put(SpConstants.CITY, city);
+        param.put(SpConstants.COUNTRY, country);
+        param.put(SpConstants.OAUTH_OPEN_ID, oauthOpenId);
+        param.put(SpConstants.OAUTH_NAME, oauthName);
+        param.put(SpConstants.OAUTH_UNIONID, oauthUnionId);
+
+        HttpClient.get(URLConstants.BOUDLE_PHONE_URL, param, new HttpResponseHandler<AuthorizationResponse>() {
+            @Override
+            public void onSuccess(AuthorizationResponse response) {
+                super.onSuccess(response);
+                AuthorizationModel data = response.getData();
+                callBack.onSuccess(data);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
 
 }
 

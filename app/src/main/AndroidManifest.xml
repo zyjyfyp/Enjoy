@@ -62,6 +62,7 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!--QQ登录-->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
@@ -76,7 +77,7 @@
                 <!-- 100380359 100381104 222222 -->
             </intent-filter>
         </activity>
-        //高德地图
+        <!--//高德地图-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="ba972155375ade032175041398457297" />
@@ -290,7 +291,11 @@
         <activity
             android:name=".activity.dealer.MyFacilitatorActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".activity.user.LoginActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity android:name=".wxapi.WXEntryActivity" />
     </application>
 
 </manifest>

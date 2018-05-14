@@ -11,11 +11,18 @@ import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import com.tencent.connect.auth.QQAuth;
+import com.tencent.tauth.Tencent;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.user.PhoneLoginActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.activity.user.UserLoginWayActivity;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpUiEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by Administrator on 2018/4/23.
@@ -70,8 +77,7 @@ public class DialogUtils {
                 // TODO: 2018/4/26   更新我的界面
 
                 // 清空SharedPreferences保存数据
-                SharedPreferences jdh_spPreferences = fAct.getSharedPreferences(
-                        "user_juduihuan", Context.MODE_PRIVATE);
+                SharedPreferences jdh_spPreferences = fAct.getSharedPreferences("user_juduihuan", Context.MODE_PRIVATE);
                 SharedPreferences spPreferences = fAct.getSharedPreferences(
                         "longuserset", Context.MODE_PRIVATE);
                 SharedPreferences spPreferences_login = fAct.getSharedPreferences(
@@ -119,6 +125,8 @@ public class DialogUtils {
                 }
                 SharedPreferences spPreferences_tishi = fAct.getSharedPreferences("longuserset_tishi", Context.MODE_PRIVATE);
                 spPreferences_tishi.edit().clear().commit();// 第三方授权登录提示绑定手机号信息清空
+                EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGOUT));
+
             }
         });
 

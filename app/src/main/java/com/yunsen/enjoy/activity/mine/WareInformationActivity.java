@@ -61,6 +61,7 @@ import com.yunsen.enjoy.model.JuTuanGouData;
 import com.yunsen.enjoy.model.UserRegisterData;
 import com.yunsen.enjoy.model.UserRegisterllData;
 import com.yunsen.enjoy.model.XiangqingData;
+import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.Utils;
 import com.yunsen.enjoy.widget.DialogProgress;
 import com.yunsen.enjoy.widget.MyPosterOnClick;
@@ -1842,8 +1843,7 @@ public class WareInformationActivity extends AppCompatActivity implements
 //                        startActivity(intent);
                         progress.CloseProgress();
                     } else {
-                        Intent intent = new Intent(WareInformationActivity.this, UserLoginActivity.class);
-                        startActivity(intent);
+                        UIHelper.showUserLoginActivity(this);
                         progress.CloseProgress();
                     }
                 }

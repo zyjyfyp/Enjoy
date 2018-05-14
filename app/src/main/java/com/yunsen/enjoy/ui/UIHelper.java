@@ -33,10 +33,14 @@ import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
 import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.activity.mine.TeamActivity;
+import com.yunsen.enjoy.activity.mine.UserForgotPasswordActivity;
 import com.yunsen.enjoy.activity.mine.Webview1;
 import com.yunsen.enjoy.activity.order.MyOrderActivity;
+import com.yunsen.enjoy.activity.user.LoginActivity;
+import com.yunsen.enjoy.activity.user.PhoneLoginActivity;
 import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
+import com.yunsen.enjoy.activity.user.UserRegisterActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.fragment.buy.SelectBrandActivity;
 import com.yunsen.enjoy.fragment.buy.SeniorFilterActivity;
@@ -260,7 +264,7 @@ public class UIHelper {
      * @param ctx
      */
     public static void showUserLoginActivity(Context ctx) {
-        Intent intent = new Intent(ctx, UserLoginActivity.class);
+        Intent intent = new Intent(ctx, LoginActivity.class);
         ctx.startActivity(intent);
     }
 
@@ -460,10 +464,34 @@ public class UIHelper {
     }
 
     /**
+     * 主页面
+     *
      * @param ctx
      */
     public static void showMainActivity(Context ctx) {
         Intent intent = new Intent(ctx, ApplyServiceSecondActivity.class);
         ctx.startActivity(intent);
     }
+
+    /**
+     * 用户注册的页面
+     *
+     * @param ctx
+     */
+    public static void showUserRegisterActivity(Context ctx) {
+        Intent intent = new Intent(ctx, UserRegisterActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 跳转忘记密码的页面
+     *
+     * @param ctx
+     */
+    public static void showForgetPwdActivity(Context ctx) {
+        Intent intent = new Intent(ctx, UserForgotPasswordActivity.class);
+        intent.putExtra("type", "1");
+        ctx.startActivity(intent);
+    }
+
 }

@@ -47,6 +47,15 @@ public class URLConstants {
      * 头条
      */
     public static final String DISCOVER_FIRST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_page_size_list";
+    /**
+     * y用户登录
+     */
+    public static final String USER_LOGIN_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_login";
+
+    /**
+     * 绑定手机号码
+     */
+    public static final String BOUDLE_PHONE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_oauth_register_0217";
 
     /**
      * 消息通知

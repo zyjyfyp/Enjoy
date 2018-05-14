@@ -48,7 +48,6 @@ public class UserLoginWayActivity extends AppCompatActivity implements
     public static IWXAPI mWxApi;
     public static String WX_CODE = "";
     public static String mAppid;
-    public static QQAuth mQQAuth;
     private UserInfo mInfo;
     private Tencent mTencent;
     //        private final String APP_ID = "1105738127";
@@ -118,7 +117,7 @@ public class UserLoginWayActivity extends AppCompatActivity implements
         final Context context = UserLoginWayActivity.this;
         final Context ctxContext = context.getApplicationContext();
         mAppid = APP_ID;
-        mQQAuth = QQAuth.createInstance(mAppid, ctxContext);
+        Constants.QQauth = QQAuth.createInstance(mAppid, ctxContext);
         mTencent = Tencent.createInstance(mAppid, UserLoginWayActivity.this);
         super.onStart();
     }
@@ -188,38 +187,34 @@ public class UserLoginWayActivity extends AppCompatActivity implements
     }
 
     private void onClickLogin() {
-        try {
-            SharedPreferences spPreferences_tishi = getSharedPreferences("longuserset_tishi", MODE_PRIVATE);
-            String weixin = spPreferences_tishi.getString("weixin", "");
-            if (!weixin.equals("")) {
-                spPreferences_tishi.edit().clear().commit();
-                UserLoginActivity.panduan_tishi = false;
-            }
-            System.out.println("=================weixin==" + weixin);
-            oauth_name = "qq";
-            if (!mQQAuth.isSessionValid()) {
-                try {
-
-                    IUiListener listener = new BaseUiListener() {
-                        @Override
-                        protected void doComplete(JSONObject values) {
-                            updateUserInfo();
-                        }
-                    };
-                    mQQAuth.login(this, "all", listener);
-                    mTencent.login(this, "all", listener);
-                } catch (Exception e) {
-
-                    e.printStackTrace();
-                }
-            } else {
-                mQQAuth.logout(this);
-                updateUserInfo();
-            }
-        } catch (Exception e) {
-
-            e.printStackTrace();
+        SharedPreferences spPreferences_tishi = getSharedPreferences("longuserset_tishi", MODE_PRIVATE);
+        String weixin = spPreferences_tishi.getString("weixin", "");
+        if (!weixin.equals("")) {
+            spPreferences_tishi.edit().clear().commit();
+            UserLoginActivity.panduan_tishi = false;
         }
+        System.out.println("=================weixin==" + weixin);
+        oauth_name = "qq";
+        if (!Constants.QQauth.isSessionValid()) {
+            try {
+
+                IUiListener listener = new BaseUiListener() {
+                    @Override
+                    protected void doComplete(JSONObject values) {
+                        updateUserInfo();
+                    }
+                };
+                Constants.QQauth.login(this, "all", listener);
+                mTencent.login(this, "all", listener);
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+        } else {
+            Constants.QQauth.logout(this);
+            updateUserInfo();
+        }
+
     }
 
     private class BaseUiListener implements IUiListener {
@@ -235,10 +230,10 @@ public class UserLoginWayActivity extends AppCompatActivity implements
                 String oauth_openid = ((JSONObject) response).getString("openid");
                 // System.out.println("access_token==============="+access_token);
                 Editor editor = spPreferences_login.edit();
-                editor.putString("access_token", access_token);
-                editor.putString("unionid", openid);
-                editor.putString("sex", ret);
-                editor.putString("oauth_openid", oauth_openid);
+                editor.putString(SpConstants.ACCESS_TOKEN, access_token);
+                editor.putString(SpConstants.UNION_ID, openid);
+                editor.putString(SpConstants.SEX, ret);
+                editor.putString(SpConstants.OAUTH_OPEN_ID, oauth_openid);
                 editor.commit();
             } catch (JSONException e) {
 
@@ -278,7 +273,7 @@ public class UserLoginWayActivity extends AppCompatActivity implements
             panduan = true;
             panduan_tishi = true;
 
-            if (mQQAuth != null && mQQAuth.isSessionValid()) {
+            if (Constants.QQauth != null && Constants.QQauth.isSessionValid()) {
                 try {
                     IUiListener listener = new IUiListener() {
                         @Override
@@ -301,15 +296,11 @@ public class UserLoginWayActivity extends AppCompatActivity implements
                                         if (json.has("figureurl")) {
                                             bitmap = null;
                                             try {
-                                                nickname = json
-                                                        .getString("nickname");
+                                                nickname = json.getString("nickname");
                                                 sex = json.getString("gender");
-                                                province = json
-                                                        .getString("province");
+                                                province = json.getString("province");
                                                 city = json.getString("city");
-                                                System.out
-                                                        .println("nickname==========1====="
-                                                                + nickname);
+                                                System.out.println("nickname==========1=====" + nickname);
 
                                                 bitmap = GetImgUtil.getImage(json.getString("figureurl_qq_2"));
                                                 String headimgurl2 = Utils.bitmaptoString(bitmap);
@@ -321,23 +312,19 @@ public class UserLoginWayActivity extends AppCompatActivity implements
                                                 editor.putString("city", city);
                                                 editor.putString("country", country);
                                                 editor.commit();
-                                                System.out
-                                                        .println("bitmap==============="
-                                                                + bitmap);
+                                                System.out.println("bitmap===============" + bitmap);
                                                 EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
                                             }
-                                            if (nickname != null
-                                                    && bitmap != null) {
+                                            if (nickname != null && bitmap != null) {
                                                 // SharedPreference
                                                 // spPreferences_3_wx =
                                                 // getSharedPreferences("longuserset_3_wx",
                                                 // MODE_PRIVATE);
                                                 // spPreferences_3_wx.edit().clear().commit();
                                                 finish();
-                                                UserLoginActivity.handler1
-                                                        .sendEmptyMessage(1);
+                                                UserLoginActivity.handler1.sendEmptyMessage(1);
                                             } else {
 
                                                 // SharedPreference
@@ -368,7 +355,7 @@ public class UserLoginWayActivity extends AppCompatActivity implements
                         }
                     };
                     System.out.println("2===============");
-                    mInfo = new UserInfo(this, mQQAuth.getQQToken());
+                    mInfo = new UserInfo(this, Constants.QQauth.getQQToken());
                     mInfo.getUserInfo(listener);
 
                 } catch (Exception e) {
@@ -376,10 +363,6 @@ public class UserLoginWayActivity extends AppCompatActivity implements
                     e.printStackTrace();
                 }
 
-            } else {
-                // mUserInfo.setText("");
-                // mUserInfo.setVisibility(android.view.View.GONE);
-                // mUserLogo.setVisibility(android.view.View.GONE);
             }
 
         } catch (Exception e) {

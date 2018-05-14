@@ -68,6 +68,17 @@ public class SpConstants {
     public static final String OK = "ok";//图片保存OK
     public static final String AMOUNT = "amount";//账户余额
     public static final String RESERVE = "reserve";//冻结资金
+    public static final String LOGIN_FLAG = "login_flag";
+    public static final String WEI_XIN = "wei_xin";
+    public static final String QQ_LOGIN = "qq";
+    public static final String PAN_DUAN = "panduan";
+    public static final String PAN_DUAN_TI_SHI = "panduantishi";
 
+    /**
+     * qq登录的信息
+     */
+    public static final String SP_LONG_USER_QQ = "QQSp";
 
+    public static final String OAUTH_NAME = "oauth_name";
+    public static final String OAUTH_UNIONID = "oauth_unionid";
 }
