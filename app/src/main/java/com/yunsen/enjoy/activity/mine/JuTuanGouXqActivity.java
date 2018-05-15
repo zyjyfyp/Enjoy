@@ -38,6 +38,7 @@ import com.yunsen.enjoy.activity.mine.adapter.MyJutuanMxAdapter;
 import com.yunsen.enjoy.activity.mine.adapter.ZhongAnYlAdapter;
 import com.yunsen.enjoy.activity.user.DBFengXiangActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.JuTuanGouData;
@@ -148,8 +149,8 @@ public class JuTuanGouXqActivity extends AppCompatActivity implements OnClickLis
 	public void onResume() {
 
 		super.onResume();
-		spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-		user_name_phone = spPreferences.getString("user", "");
+		spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+		user_name_phone = spPreferences.getString(SpConstants.USER_NAME, "");
 		user_id = spPreferences.getString("user_id", "");
 		JuJingCaiXqActivity.type_xq = false;//聚团详情销售属性不显示
 		JuJingCaiXqActivity.type_spec_item = false;//聚团详情销售属性不显示

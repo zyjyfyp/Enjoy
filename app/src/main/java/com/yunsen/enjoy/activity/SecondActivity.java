@@ -155,8 +155,7 @@ public class SecondActivity extends AppCompatActivity {
         public void dispatchMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-                    preferences = getSharedPreferences("guide",
-                            Activity.MODE_PRIVATE);
+                    preferences = getSharedPreferences("guide", Activity.MODE_PRIVATE);
                     // 如果程序已经进入
                     if (preferences.getString("flow", "").equals("yes")) {
 

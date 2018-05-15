@@ -290,8 +290,8 @@ public class WareInformationActivity extends AppCompatActivity implements
                             Intent intent1 = new Intent(WareInformationActivity.this, TishiWxBangDingActivity.class);
                             startActivity(intent1);
                         } else {
-                            SharedPreferences spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-                            String user = spPreferences.getString("user", "");
+                            SharedPreferences spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+                            String user = spPreferences.getString(SpConstants.USER_NAME, "");
                             System.out.println("---1-------------------" + user);
                             data.login_sign = obj.getString("login_sign");
 
@@ -319,8 +319,8 @@ public class WareInformationActivity extends AppCompatActivity implements
 
     private void getuserxinxi() {
 
-        spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-        user_name_phone = spPreferences.getString("user", "");
+        spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+        user_name_phone = spPreferences.getString(SpConstants.USER_NAME, "");
 
         if (!user_name_phone.equals("")) {
             user_name = user_name_phone;
@@ -978,7 +978,7 @@ public class WareInformationActivity extends AppCompatActivity implements
 
                         @Override
                         public void onClick(View arg0) {
-                            SharedPreferences spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
+                            SharedPreferences spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
                             user_point = spPreferences.getString("point", "");
                             System.out.println("user_point==================" + user_point);
                             System.out.println("exchange_point========1==========" + exchange_point);
@@ -1215,8 +1215,8 @@ public class WareInformationActivity extends AppCompatActivity implements
     private void loadgouwuche() {
         try {
             progress.CreateProgress();
-            spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-            String user_name = spPreferences.getString("user", "");
+            spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+            String user_name = spPreferences.getString(SpConstants.USER_NAME, "");
             String user_id = spPreferences.getString("user_id", "");
 
             System.out.println("=====user_id=====================" + article_id);

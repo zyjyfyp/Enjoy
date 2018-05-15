@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserRegisterllData;
@@ -49,10 +50,10 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tishi_carxing);
-		spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-		user_name = spPreferences.getString("user", "");
-		user_id = spPreferences.getString("user_id", "");
-		//		pwd = spPreferences.getString("pwd", "");
+        spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+        user_name = spPreferences.getString(SpConstants.USER_NAME, "");
+        user_id = spPreferences.getString("user_id", "");
+        //		pwd = spPreferences.getString("pwd", "");
 		progress = new DialogProgress(TishiCarArchivesActivity.this);
 		order_no = getIntent().getStringExtra("order_no");
 		System.out.println("order_no-------------"+order_no);

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserRegisterllData;
@@ -47,9 +48,9 @@ public class TishiNicknameActivity extends Activity implements OnClickListener {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tishi_gender);
-        spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-        user_name = spPreferences.getString("user", "");
-        user_id = spPreferences.getString("user_id", "");
+        spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+        user_name = spPreferences.getString(SpConstants.USER_NAME, "");
+        user_id = spPreferences.getString(SpConstants.USER_ID, "");
         progress = new DialogProgress(TishiNicknameActivity.this);
         initUI();
     }

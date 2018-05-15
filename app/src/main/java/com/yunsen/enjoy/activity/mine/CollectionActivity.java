@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.mine.adapter.MyCollectWareAdapter;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.CollectWareData;
@@ -51,7 +52,7 @@ public class CollectionActivity extends AppCompatActivity {
         setContentView(R.layout.collect_ware);
         progress = new DialogProgress(CollectionActivity.this);
 
-        spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
+        spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         my_list = (SwipeListView) findViewById(R.id.my_list);
         loadWeather();
 

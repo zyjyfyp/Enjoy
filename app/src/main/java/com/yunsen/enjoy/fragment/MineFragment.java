@@ -142,7 +142,6 @@ public class MineFragment extends BaseFragment {
     private String nickname;
     private String user_name_phone;
     private String user_id;
-    private String user_name_key;
     private SharedPreferences mSp;
     private String headimgurl;
     private String unionid;
@@ -182,6 +181,7 @@ public class MineFragment extends BaseFragment {
     @Override
     protected void initData() {
         mSp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+        mIsFacilitator = mSp.getBoolean(SpConstants.HAS_SERVICE_SHOP, false);
         if (AccountUtils.hasLogin()) {
             hasLoginLayout.setVisibility(View.VISIBLE);
             loginIcon.setVisibility(View.GONE);
@@ -317,7 +317,7 @@ public class MineFragment extends BaseFragment {
      */
     private void goLoginOrIsFacilitator() {
         Intent intent = null;
-        if (mIsFacilitator) {
+        if (!mIsFacilitator) {
             intent = new Intent(getActivity(), ApplyServiceActivity.class);
         } else {
             intent = new Intent(getActivity(), MyFacilitatorActivity.class);
@@ -510,10 +510,8 @@ public class MineFragment extends BaseFragment {
         headimgurl = mSp.getString(SpConstants.HEAD_IMG_URL, "");
         headimgurl2 = mSp.getString(SpConstants.HEAD_IMG_URL_2, "");
         user_name_phone = mSp.getString(SpConstants.USER_NAME, "");
-        if (!TextUtils.isEmpty(user_name_phone)) {
-            user_id = mSp.getString(SpConstants.USER_ID, "");
-            user_name_key = user_name_phone;
-        }
+        user_id = mSp.getString(SpConstants.USER_ID, "");
+
         String loginFlag = mSp.getString(SpConstants.LOGIN_FLAG, "");
         mUserName = mSp.getString(SpConstants.USER_NAME, "");
         if (TextUtils.isEmpty(mUserName)) {
@@ -569,10 +567,12 @@ public class MineFragment extends BaseFragment {
     private void requestIsFacilitator() {
         //facilitator
         HttpProxy.getIsFacilitator(user_id, new HttpCallBack<Boolean>() {
-
             @Override
             public void onSuccess(Boolean isFacilitator) {
                 mIsFacilitator = isFacilitator;
+                SharedPreferences.Editor edit = mSp.edit();
+                edit.putBoolean(SpConstants.HAS_SERVICE_SHOP, isFacilitator);
+                edit.commit();
             }
 
             @Override
@@ -620,7 +620,7 @@ public class MineFragment extends BaseFragment {
         strUrlone = URLConstants.REALM_NAME_LL + "/get_user_model?username=" + user_name_phone + "";
 
 
-        HttpProxy.getUserInfo(user_name_key, new HttpCallBack<UserInfo>() {
+        HttpProxy.getUserInfo(user_name_phone, new HttpCallBack<UserInfo>() {
             @Override
             public void onSuccess(UserInfo data) {
                 // TODO: 2018/5/7 zyjy what?
@@ -781,7 +781,6 @@ public class MineFragment extends BaseFragment {
     public void loadUserIcon(Uri selectedImage) {
 
         //上传图片
-        //        GetImgUtil.pullUserIcon(getActivity(), selectedImage);
         GetImgUtil.pullImageBase4(getActivity(), selectedImage, EventConstants.USER_ICON);
     }
 

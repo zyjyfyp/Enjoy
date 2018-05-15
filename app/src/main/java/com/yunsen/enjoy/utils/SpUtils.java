@@ -29,10 +29,12 @@ public class SpUtils {
         edit.putString("company_id", "" + userInfo.getCompany_id());
         edit.putString("birthday", userInfo.getBirthday());
         edit.putString("sex", userInfo.getSex());
+        edit.putString(SpConstants.LOGIN_SIGN, userInfo.getLogin_sign());
         edit.putString(SpConstants.NICK_NAME, userInfo.getNick_name());
         edit.putString(SpConstants.AMOUNT, "" + userInfo.getAmount());
         edit.putString(SpConstants.GROUP_NAME, userInfo.getGroup_name());
         edit.putString(SpConstants.RESERVE, "" + userInfo.getReserve());
+        edit.putString(SpConstants.REAL_NAME, "" + userInfo.getReal_name());
         edit.commit();
     }
 
@@ -59,9 +61,11 @@ public class SpUtils {
             edit.putString("company_id", "" + userInfo.getCompany_id());
             edit.putString("birthday", userInfo.getBirthday());
             edit.putString("sex", userInfo.getSex());
+            edit.putString(SpConstants.LOGIN_SIGN, userInfo.getLogin_sign());
             edit.putString(SpConstants.AMOUNT, "" + userInfo.getAmount());
             edit.putString(SpConstants.GROUP_NAME, userInfo.getGroup_name());
             edit.putString(SpConstants.RESERVE, "" + userInfo.getReserve());
+            edit.putString(SpConstants.REAL_NAME, "" + userInfo.getReal_name());
         }
         edit.commit();
     }
@@ -77,7 +81,7 @@ public class SpUtils {
         userInfo.setUser_name(sp.getString(SpConstants.USER_NAME, userInfo.getUser_name()));
         userInfo.setId(Integer.valueOf(sp.getString("user_id", "" + userInfo.getId())));
         userInfo.setPoint(Integer.valueOf(sp.getString("point", "" + userInfo.getPoint())));
-        userInfo.setReal_name(sp.getString("real_name", userInfo.getReal_name()));
+        userInfo.setReal_name(sp.getString(SpConstants.REAL_NAME, userInfo.getReal_name()));
         userInfo.setCompany_id(Integer.valueOf(sp.getString("company_id", "" + userInfo.getCompany_id())));
         userInfo.setBirthday(sp.getString("birthday", userInfo.getBirthday()));
         userInfo.setSex(sp.getString("sex", userInfo.getSex()));

@@ -43,6 +43,7 @@ import com.yunsen.enjoy.activity.mine.adapter.ShopingCartOrderAdapter;
 import com.yunsen.enjoy.activity.pay.TishiCarArchivesActivity;
 import com.yunsen.enjoy.activity.pay.ZhiFuFangShiActivity;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.JuTuanGouData;
@@ -154,8 +155,8 @@ public class MyOrderConfrimActivity extends AppCompatActivity {
         super.onResume();
         try {
 
-            spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-            user_name = spPreferences.getString("user", "");
+            spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+            user_name = spPreferences.getString(SpConstants.USER_NAME, "");
             dzongjia = 0;
             cashing_packet = 0;
             // System.out.println("dzongjiade值为零================"+dzongjia);
@@ -313,8 +314,8 @@ public class MyOrderConfrimActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.order_confrim);
             progress.CreateProgress();
-            spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-            user_name = spPreferences.getString("user", "");
+            spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+            user_name = spPreferences.getString(SpConstants.USER_NAME, "");
             user_id = spPreferences.getString("user_id", "");
             mAq = new AQuery(this);
             sb = (SlipButton) findViewById(R.id.splitbutton);
@@ -1373,7 +1374,7 @@ public class MyOrderConfrimActivity extends AppCompatActivity {
                 jiekou_type = "order_save";// 商品提交订单
                 is_cashing_point = "0";
             }
-            spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
+            spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
             login_sign = spPreferences.getString("login_sign", "");
             System.out.println("login_sign=====================" + login_sign);
             String buy_no = getIntent().getStringExtra("buy_no");

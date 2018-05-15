@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.widget.DialogProgress;
@@ -63,13 +64,12 @@ public class BaoMinTiShiActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_baomin_tishi);
         progress = new DialogProgress(BaoMinTiShiActivity.this);
-        spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-        user_name = spPreferences.getString("user", "");
-        user_id = spPreferences.getString("user_id", "");
-        //		login_sign = spPreferences.getString("login_sign", "");
-        mobile = spPreferences.getString("mobile", "");
-        real_name = spPreferences.getString("real_name", "");
-        user_real_name = spPreferences.getString("real_name", "");
+        spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+        user_name = spPreferences.getString(SpConstants.USER_NAME, "");
+        user_id = spPreferences.getString(SpConstants.USER_ID, "");
+        mobile = spPreferences.getString(SpConstants.MOBILE, "");
+        real_name = spPreferences.getString(SpConstants.REAL_NAME, "");
+        user_real_name = spPreferences.getString(SpConstants.REAL_NAME, "");
         user_mobile = getIntent().getStringExtra("user_mobile");
         getUserxinxi(user_name);
         initUI();
@@ -105,16 +105,7 @@ public class BaoMinTiShiActivity extends Activity implements OnClickListener {
         }
         retailPrice = getIntent().getStringExtra("sell_price");
         et_user_name.setText(real_name);
-        //		et_user_shoujihao.setText(mobile);
 
-        //		handler = new Handler() {
-        //			public void handleMessage(Message msg) {
-        //				switch (msg.what) {
-        //				case 8:
-        //
-        //				}
-        //			}
-        //		};
     }
 
     private void getUserxinxi(String user_name) {

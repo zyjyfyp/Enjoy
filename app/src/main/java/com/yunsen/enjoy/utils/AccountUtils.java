@@ -12,9 +12,6 @@ import com.yunsen.enjoy.common.SpConstants;
  */
 
 public class AccountUtils {
-    //    private static String ACCOUNT_SP_NAME = "account_info";
-    private static String ACCOUNT_SP_NAME = "longuserset";
-    private static String ACCOUNT_SP_NAME2 = "longuserset_login";
     private static String user_name_phone;
     private static String user_name_key;
     private static String user_id;

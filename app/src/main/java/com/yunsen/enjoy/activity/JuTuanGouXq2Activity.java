@@ -38,6 +38,7 @@ import com.yunsen.enjoy.activity.mine.adapter.ZhongAnYlAdapter;
 import com.yunsen.enjoy.activity.user.CanTuanFengXiangActivity;
 import com.yunsen.enjoy.activity.user.DBFengXiangActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.JuTuanGouData;
@@ -153,18 +154,10 @@ public class JuTuanGouXq2Activity extends AppCompatActivity implements OnClickLi
         }
         System.out.println("=======fx_cs================================" + fx_cs);
 
-        spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
+        spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         user_name = spPreferences.getString("user", "");
         user_id = spPreferences.getString("user_id", "");
-        login_sign = spPreferences.getString("login_sign", "");
-        //		System.out.println("=======fx_cs================================"+fx_cs);
-        //		System.out.println("=======fx_cs================================"+fx_cs);
-        //		if (!JuJingCaiXqActivity.fx_canshu.equals("")) {
-        //			fx_cs = JuJingCaiXqActivity.fx_canshu;
-        //		}else {
-        //			fx_cs = JuTuanGouXqActivity.fx_canshu;
-        //		}
-        //		System.out.println("=======fx_cs================================"+fx_cs);
+        login_sign = spPreferences.getString(SpConstants.LOGIN_SIGN, "");
 
         fanhui_type = true;
         try {

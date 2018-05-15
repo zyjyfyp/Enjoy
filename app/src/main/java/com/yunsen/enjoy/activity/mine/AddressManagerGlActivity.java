@@ -32,6 +32,7 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.mine.adapter.MyAddressManagerAdapter;
 import com.yunsen.enjoy.activity.user.EditUserAddressActivity;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserAddressData;
@@ -76,7 +77,7 @@ public class AddressManagerGlActivity extends AppCompatActivity {
             progress = new DialogProgress(AddressManagerGlActivity.this);
             list_address = (ListView) findViewById(R.id.list_address);
             btn_add_address = (Button) findViewById(R.id.btn_add_address);
-            spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
+            spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
 
         } catch (Exception e) {
 
@@ -129,7 +130,7 @@ public class AddressManagerGlActivity extends AppCompatActivity {
      */
     private void getuseraddress() {
         progress.CreateProgress();
-        String user_name = spPreferences.getString("user", "");
+        String user_name = spPreferences.getString(SpConstants.USER_NAME, "");
         Logger.i("结果呢1==============" + user_name);
         AsyncHttp.get(URLConstants.REALM_ACCOUNT_URL
                         + "/get_user_shopping_address?user_name=" + user_name + "",
@@ -257,7 +258,7 @@ public class AddressManagerGlActivity extends AppCompatActivity {
                 String user_id = spPreferences.getString("user_id", "");
                 System.out.println("1111====================" + user_id);
                 String strUrl = URLConstants.REALM_URL
-                        + "/delete_user_shopping_address?user_id=" + user_id
+                        + "/tools/mobile_ajax.asmx/delete_user_shopping_address?user_id=" + user_id
                         + "&id=" + ID + "";
                 Log.v("data1", "删除:" + strUrl);
                 progress.CreateProgress();

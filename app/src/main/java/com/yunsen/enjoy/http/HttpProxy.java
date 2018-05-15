@@ -849,48 +849,6 @@ public class HttpProxy {
      * 服务商申请提交表单数据
      */
     public static void getApplyServiceForm(Activity act, ApplyFacilitatorModel data, final HttpCallBack<RestApiResponse> callBack) {
-//        param.put("id", "");   //  user_id: userInfo.id,//用户id
-//        param.put("user_name", ""); //       user_name: userInfo.user_name,//用户名字
-//        param.put("trade_id", "");        //trade_id: trade_id,//行业ID
-//        param.put("name", "");   //      name: name,//企业名称
-//        param.put("content", "");    //     content: content,//企业介绍
-//        param.put("artperson", "");     //    artperson: '',//法人
-//        param.put("contact", "");      //   contact: contact,//联系人
-//        param.put("mobile", "");      //  mobile: mobile,//联系人电话
-//        param.put("tel", "");      //   tel: '',//企业电话
-//        param.put("nature", "");     //   nature: '',//企业性质
-//        param.put("post_code", "");     //   post_code: '',//邮编
-//        param.put("email", "");      //  email: '',//电子邮件
-//        param.put("address", "");      //  address: address,//地址
-//        param.put("sort_id", "");     // sort_id: 99,//排序
-//        param.put("logo_url", "");     //  logo_url: logo_url,//企业logo
-//        param.put("img_url", "");     //  img_url: '',//企业图片
-//        param.put("seo_title", "");     //  seo_title: '',//seo标题
-//        param.put("seo_keywords", "");     //   seo_keywords: '',//seo关键字
-//        param.put("seo_description", "");      //  seo_description: '',//seo描述
-//        param.put("province", "");    //   province: province,//省份
-//        param.put("city", "");    //  city: city,//城市
-//        param.put("area", "");    //    area: area,//区县
-//        param.put("regtime", "");    //    regtime: utili.formatTime2(new Date()),//注册时间
-//        param.put("lng", "");    //     lng: lng,//经度
-//        param.put("lat", "");    //       lat: lat,//纬度
-//        param.put("advantage", "");    //       advantage: advantage,//企业优势
-//        param.put("idcard_a", "");    //       idcard_a: '',//法人身份证(正面)
-//        param.put("idcard_b", "");    //       idcard_b: '',//法人身份证(反面)
-//        param.put("license", "");    //       license: license,//工商营业执照
-//        param.put("accredit", "");    //       accredit: '',//厂家授权或者厂家合同
-//        param.put("aptitude", "");    //        aptitude: '',//企业资质
-//        param.put("revenue_card", "");    //        revenue_card: revenue_card,//税务
-//        param.put("organi_card", "");    //        organi_card: organi_card,//组织机构代码证
-//        param.put("brand_card", "");    //        brand_card: '',//品牌注册证
-//        param.put("licence_card", "");    //        licence_card: '',//开户行许许可证
-//        param.put("trade_aptitude", "");    //        trade_aptitude: '',//行业资质证明文件
-//        param.put("account_name", "");    //        account_name: '',//企业开户名称
-//        param.put("bank_name", "");    //        bank_name: '',//企业开户银行
-//        param.put("bank_account", "");    //       bank_account: '',//企业银行账号
-//        param.put("registeredid", "");    //        registeredid: registeredid,//工商执照注册号
-//        param.put("service_time", "");    //        service_time: service_time,//企业服务时间
-//        param.put("service_ids", "");    //        service_ids: ''
         SharedPreferences sp = act.getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
         String userId = sp.getString(SpConstants.USER_ID, "");
         String userName = sp.getString(SpConstants.USER_NAME, "");

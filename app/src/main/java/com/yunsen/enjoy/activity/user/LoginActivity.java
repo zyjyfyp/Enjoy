@@ -425,7 +425,7 @@ public class LoginActivity extends BaseFragmentActivity {
                     city = object.getString("city");
                     country = object.getString("country");
                     oauth_openid = object.getString("openid");
-                    SharedPreferences spPreferences_login = getSharedPreferences("longuserset_login", MODE_PRIVATE);
+                    SharedPreferences spPreferences_login = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
                     SharedPreferences.Editor editor = spPreferences_login.edit();
                     editor.putString(SpConstants.NICK_NAME, nickname);
                     editor.putString("headimgurl", headimgurl);

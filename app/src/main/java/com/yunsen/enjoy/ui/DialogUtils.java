@@ -74,12 +74,10 @@ public class DialogUtils {
 
                 // 清空SharedPreferences保存数据
                 SharedPreferences jdh_spPreferences = fAct.getSharedPreferences("user_juduihuan", Context.MODE_PRIVATE);
-                SharedPreferences spPreferences = fAct.getSharedPreferences(
-                        "longuserset", Context.MODE_PRIVATE);
-                SharedPreferences spPreferences_login = fAct.getSharedPreferences(
-                        "longuserset_login", Context.MODE_PRIVATE);
+                SharedPreferences spPreferences = fAct.getSharedPreferences("longuserset", Context.MODE_PRIVATE);
+                SharedPreferences spPreferences_login = fAct.getSharedPreferences("longuserset_login", Context.MODE_PRIVATE);
 
-                if (UserLoginActivity.panduan ) {
+                if (UserLoginActivity.panduan) {
                     // if (!user_name_weixin.equals("")) {
                     spPreferences_login.edit().clear().commit();
                     spPreferences.edit().clear().commit();
@@ -89,7 +87,7 @@ public class DialogUtils {
                     // Toast.makeText(getActivity(), "微信名/"+nickname,
                     UserLoginActivity.panduan = false;
                     UIHelper.showUserLoginActivity(fAct);
-                } else if (UserLoginWayActivity.panduan ) {
+                } else if (UserLoginWayActivity.panduan) {
 
                     spPreferences_login.edit().clear().commit();
                     spPreferences.edit().clear().commit();
@@ -100,7 +98,7 @@ public class DialogUtils {
                     UserLoginWayActivity.panduan = false;
                     UIHelper.showUserLoginActivity(fAct);
 
-                } else if (PhoneLoginActivity.panduan ) {
+                } else if (PhoneLoginActivity.panduan) {
 
                     spPreferences.edit().clear().commit();
                     spPreferences_login.edit().clear().commit();

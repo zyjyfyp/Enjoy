@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.http.DataException;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.RestApiResponse;
@@ -230,6 +231,9 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
             @Override
             public void onError(Request request, Exception e) {
                 Log.e(TAG, "onError: " + e.getMessage());
+                if (e instanceof DataException) {
+                    ToastUtils.makeTextShort(e.getMessage());
+                }
             }
         });
     }
