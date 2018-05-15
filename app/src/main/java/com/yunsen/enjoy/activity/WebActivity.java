@@ -71,7 +71,9 @@ public class WebActivity extends BaseFragmentActivity {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
+            if(webProgress!=null)  {
                 webProgress.setVisibility(View.VISIBLE);
+            }
                 if (webView != null) {
                     webView.getSettings().setBlockNetworkImage(true);
                 }

@@ -19,6 +19,7 @@ public class URLConstants {
      * 头部广告
      */
     public static final String HOME_ADV_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_adbanner_list?advert_id=";
+
     /**
      * 小汽车广告
      */
@@ -202,15 +203,21 @@ public class URLConstants {
      * 发现页面的广告图
      */
     public static final String DISCOVER_BANNER_URL = BuildConfig.ROOT_URL + "/toolS/mobile_ajax.asmx/get_article_top_list";
+    /**
+     * 大道易客的首页底部商品
+     */
+    public static final String HOME_GOODS_LIST = BuildConfig.ROOT_URL + "/toolS/mobile_ajax.asmx/get_article_top_list";
+    /**
+     * 交换产品的接口
+     */
+    public static final String CHANGE_GOODS_LIST = BuildConfig.ROOT_URL + "/toolS/mobile_ajax.asmx/get_article_page_size_list_2018";
 
-
-    //
-    //    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";
-    //    public static final String REALM_NAME_HTTP = "http://mobile.zams.cn";
-    //    public static final String REALM_NAME_LL = "http://mobile.zams.cn/tools/mobile_ajax.asmx";
-    //    public static final String REALM_NAME_FX = "http://mobile.zams.cn";
-    public static final String REALM_NAME_WEB = "http://szlxkg.com";
-    public static final String REALM_NAME_HTTP = "http://szlxkg.com";
-    public static final String REALM_NAME_LL = "http://szlxkg.com/tools/mobile_ajax.asmx";
-    public static final String REALM_NAME_FX = "http://szlxkg.com";
+    //    public static final String REALM_NAME_WEB = "http://szlxkg.com";
+//    public static final String REALM_NAME_HTTP = "http://szlxkg.com";
+//    public static final String REALM_NAME_LL = "http://szlxkg.com/tools/mobile_ajax.asmx";
+//    public static final String REALM_NAME_FX = "http://szlxkg.com";
+    public static final String REALM_NAME_WEB = "http://183.62.138.31:1066";
+    public static final String REALM_NAME_HTTP = "http://183.62.138.31:1066";
+    public static final String REALM_NAME_LL = "http://183.62.138.31:1066/tools/mobile_ajax.asmx";
+    public static final String REALM_NAME_FX = "http://183.62.138.31:1066";
 }

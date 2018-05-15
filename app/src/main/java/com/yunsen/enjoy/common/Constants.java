@@ -111,6 +111,15 @@ public class Constants {
     public static final String APPLY_BUY_CAR_ID = "apply_buy_car_id";
     public static final String APPLY_BUY_CAR_KEY = "apply_buy_car_key";
 
+
+    public static final String CHANNEL_NAME_KEY = "changeName";
+    public static final String CATEGORY_ID_KEY = "categoryIdKey";
+    public static final String ACT_NAME_KEY = "activity_name";
+    public static final String GOODS_ID_KEY = "goods_id";
+
+
+
+
     /**
      * 资金详情
      */

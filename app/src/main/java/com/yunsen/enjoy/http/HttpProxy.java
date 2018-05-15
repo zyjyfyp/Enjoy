@@ -60,7 +60,7 @@ public class HttpProxy {
     private static final String TAG = "HttpProxy";
 
     /**
-     * 获取首页广告 ；买车页面广告
+     * 获取首页广告  买车页面广告
      */
     public static void getHomeAdvertList(int id, final HttpCallBack<List<AdvertModel>> callBack) {
         HttpClient.get(URLConstants.HOME_ADV_URL + id, null, new HttpResponseHandler<AdvertList>() {
@@ -1188,5 +1188,67 @@ public class HttpProxy {
         });
     }
 
+    /**
+     * 大道
+     * 首页底部的商品
+     *
+     * @param callBack
+     */
+    public static void getHomeGoodsList(final HttpCallBack<List<GoodsData>> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("channel_name", "goods");
+        map.put("top", "4");
+        map.put("strwhere", "is_red=1");
+        HttpClient.get(URLConstants.HOME_GOODS_LIST, map, new HttpResponseHandler<GoogsListResponse>() {
+            @Override
+            public void onSuccess(GoogsListResponse response) {
+                super.onSuccess(response);
+                List<GoodsData> data = response.getData();
+                if (data != null) {
+                    callBack.onSuccess(data);
+                } else {
+                    callBack.onError(null, new Exception("data is empty!"));
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
+                super.onFailure(request, e);
+            }
+        });
+    }
+
+    /**
+     * 换产品的接口
+     */
+    public static void getChangeGoodsList(String channelName, String categoryId, String pageIdx, final HttpCallBack<List<GoodsData>> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("channel_name", channelName);
+        map.put("category_id", categoryId);
+        map.put("page_size", "10");
+        map.put("page_index", pageIdx);
+        map.put("strwhere", "");
+        map.put("orderby", "");
+
+        HttpClient.get(URLConstants.CHANGE_GOODS_LIST, map, new HttpResponseHandler<GoogsListResponse>() {
+            @Override
+            public void onSuccess(GoogsListResponse response) {
+                super.onSuccess(response);
+                List<GoodsData> data = response.getData();
+                if (data != null) {
+                    callBack.onSuccess(data);
+                } else {
+                    callBack.onError(null, new Exception("data is empty!"));
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
+                super.onFailure(request, e);
+            }
+        });
+    }
 }
 

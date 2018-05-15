@@ -4,6 +4,8 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -23,7 +25,7 @@
             android:layout_marginLeft="@dimen/app_margin"
             android:layout_marginRight="@dimen/app_margin"
             android:ellipsize="end"
-            android:maxLines="1"
+            android:lines="2"
             android:textColor="@color/title_color"
             android:textSize="15sp" />
 

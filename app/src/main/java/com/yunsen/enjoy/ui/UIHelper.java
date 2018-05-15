@@ -22,11 +22,13 @@ import com.yunsen.enjoy.activity.buy.ApplyBuyFirstActivity;
 import com.yunsen.enjoy.activity.buy.ApplyBuyThreeActivity;
 import com.yunsen.enjoy.activity.buy.ApplyBuyTwoActivity;
 import com.yunsen.enjoy.activity.buy.CarServiceActivity;
+import com.yunsen.enjoy.activity.buy.GoodsDescriptionActivity;
 import com.yunsen.enjoy.activity.buy.MeetAddressActivity;
 import com.yunsen.enjoy.activity.buy.WatchCarActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceSecondActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceThreeActivity;
+import com.yunsen.enjoy.activity.goods.ChangeGoodsActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
@@ -37,9 +39,7 @@ import com.yunsen.enjoy.activity.mine.UserForgotPasswordActivity;
 import com.yunsen.enjoy.activity.mine.Webview1;
 import com.yunsen.enjoy.activity.order.MyOrderActivity;
 import com.yunsen.enjoy.activity.user.LoginActivity;
-import com.yunsen.enjoy.activity.user.PhoneLoginActivity;
 import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
-import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.activity.user.UserRegisterActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.fragment.buy.SelectBrandActivity;
@@ -47,7 +47,6 @@ import com.yunsen.enjoy.fragment.buy.SeniorFilterActivity;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
-import com.yunsen.enjoy.model.request.SerializableMap;
 
 /**
  * 应用程序UI工具包：封装UI相关的一些操作
@@ -491,6 +490,33 @@ public class UIHelper {
     public static void showForgetPwdActivity(Context ctx) {
         Intent intent = new Intent(ctx, UserForgotPasswordActivity.class);
         intent.putExtra("type", "1");
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 显示物品交换界面
+     *
+     * @param ctx
+     */
+    public static void showChangeGoodsActivity(Context ctx, String channelName, String categoryId, String actName) {
+        Intent intent = new Intent(ctx, ChangeGoodsActivity.class);
+        intent.putExtra(Constants.CHANNEL_NAME_KEY, channelName);
+        intent.putExtra(Constants.CATEGORY_ID_KEY, categoryId);
+        intent.putExtra(Constants.ACT_NAME_KEY, actName);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 显示物品购买界面
+     *
+     * @param ctx
+     * @param goodsId
+     * @param actName
+     */
+    public static void showGoodsDescriptionActivity(Context ctx, String goodsId, String actName) {
+        Intent intent = new Intent(ctx, GoodsDescriptionActivity.class);
+        intent.putExtra(Constants.GOODS_ID_KEY, goodsId);
+        intent.putExtra(Constants.ACT_NAME_KEY, actName);
         ctx.startActivity(intent);
     }
 

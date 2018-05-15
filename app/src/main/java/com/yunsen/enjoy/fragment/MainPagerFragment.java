@@ -15,11 +15,13 @@ import com.yunsen.enjoy.fragment.home.HomeGoodsAdapter;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.AdvertModel;
+import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.ImgAndTextModel;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
+import com.yunsen.enjoy.ui.recyclerview.RecycleViewDivider;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.utils.ToastUtils;
@@ -50,7 +52,7 @@ public class MainPagerFragment extends BaseFragment implements View.OnClickListe
     private List<AdvertModel> mAdverModels = new ArrayList<>();
     private HorizontalLayout3 oneHLayout;
     private HorizontalLayout4 twoHLayout;
-    private List<ImgAndTextModel> mBottomDatas;
+    private List<GoodsData> mBottomDatas;
     private View leftSearchImg;
     private View rightMenu;
 
@@ -81,8 +83,7 @@ public class MainPagerFragment extends BaseFragment implements View.OnClickListe
         //设置RecyclerView 布局
         layoutmanager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutmanager);
-
-        mBottomDatas = getOneHLayoutData();
+        mBottomDatas = new ArrayList<>();
         mAdapter = new HomeGoodsAdapter(getActivity(), R.layout.home_goods_item, mBottomDatas);
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         recyclerView.setAdapter(recyclerViewAdapter);
@@ -105,13 +106,25 @@ public class MainPagerFragment extends BaseFragment implements View.OnClickListe
         oneHLayout.setmListener(new HorizontalLayout3.onHorizontalItemClick() {
             @Override
             public void onItemClick(int index) {
-                ToastUtils.makeTextShort("" + index);
+                switch (index) {
+                    case 0:
+                    case 3:
+                        ToastUtils.makeTextShort("功能暂未开放。");
+                        break;
+                    case 1:
+                        UIHelper.showChangeGoodsActivity(getActivity(), "goods", "1698", "换产品");
+                        break;
+                    case 2:
+                        UIHelper.showChangeGoodsActivity(getActivity(), "goods", "609", "换服务");
+                        break;
+
+                }
             }
         });
         twoHLayout.setmListener(new HorizontalLayout4.onHorizontalItemClick() {
             @Override
             public void onItemClick(int index) {
-                ToastUtils.makeTextShort("" + index);
+                ToastUtils.makeTextShort("功能暂未开放。");
             }
         });
     }
@@ -146,15 +159,26 @@ public class MainPagerFragment extends BaseFragment implements View.OnClickListe
 
             }
         });
+        HttpProxy.getHomeGoodsList(new HttpCallBack<List<GoodsData>>() {
+            @Override
+            public void onSuccess(List<GoodsData> responseData) {
+                mAdapter.upDatas(responseData);
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
     }
 
 
     public List<AdvertModel> getData() {
         ArrayList<AdvertModel> data = new ArrayList<>();
         data.add(new AdvertModel(R.mipmap.adv_home, null));
-        data.add(new AdvertModel(R.mipmap.adv_home, "http://pic71.nipic.com/file/20150610/13549908_104823135000_2.jpg"));
-        data.add(new AdvertModel(R.mipmap.adv_home, "http://img07.tooopen.com/images/20170316/tooopen_sy_201956178977.jpg"));
-        data.add(new AdvertModel(R.mipmap.adv_home, "http://img.zcool.cn/community/010a1b554c01d1000001bf72a68b37.jpg@1280w_1l_2o_100sh.png"));
+//        data.add(new AdvertModel(R.mipmap.adv_home, "http://pic71.nipic.com/file/20150610/13549908_104823135000_2.jpg"));
+//        data.add(new AdvertModel(R.mipmap.adv_home, "http://img07.tooopen.com/images/20170316/tooopen_sy_201956178977.jpg"));
+//        data.add(new AdvertModel(R.mipmap.adv_home, "http://img.zcool.cn/community/010a1b554c01d1000001bf72a68b37.jpg@1280w_1l_2o_100sh.png"));
         return data;
     }
 
@@ -215,10 +239,11 @@ public class MainPagerFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
-        List<ImgAndTextModel> datas = mAdapter.getDatas();
+        List<GoodsData> datas = mAdapter.getDatas();
         int pp = position - 1;
         if (datas != null && position > 0 && datas.size() > pp) {
-            ToastUtils.makeTextShort(datas.get(pp).getText() + pp);
+            GoodsData data = datas.get(pp);
+            UIHelper.showGoodsDescriptionActivity(getActivity(), String.valueOf(data.getId()), data.getTitle());
         }
     }
 
