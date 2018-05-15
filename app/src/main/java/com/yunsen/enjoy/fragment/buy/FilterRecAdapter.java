@@ -42,15 +42,18 @@ public class FilterRecAdapter extends CommonAdapter<GoodsData> {
 
 
     public void upData(List<GoodsData> responseData) {
+        mDatas.clear();
         if (responseData != null) {
-            mDatas.clear();
             mDatas.addAll(responseData);
-            notifyDataSetChanged();
-            EventBus.getDefault().post(new UpUiEvent(EventConstants.UP_VIEW_PAGER_HEIGHT));
-        } else {
-            mDatas.clear();
-            notifyDataSetChanged();
-            EventBus.getDefault().post(new UpUiEvent(EventConstants.UP_VIEW_PAGER_HEIGHT));
+        }
+        notifyDataSetChanged();
+        EventBus.getDefault().post(new UpUiEvent(EventConstants.UP_VIEW_PAGER_HEIGHT));
+    }
+
+    public void removePosition(int position) {
+        if (position >= 0 && position < mDatas.size()) {
+            mDatas.remove(position);
+            this.notifyItemRemoved(position);
         }
     }
 }

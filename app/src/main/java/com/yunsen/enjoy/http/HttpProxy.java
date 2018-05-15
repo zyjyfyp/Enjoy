@@ -498,6 +498,92 @@ public class HttpProxy {
     }
 
     /**
+     * 删除收藏
+     *
+     * @param userId
+     * @param goodsId
+     * @param callBack
+     */
+    public static void getDeleteCollect(String userId, String goodsId, final HttpCallBack<String> callBack) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("user_id", userId);
+        param.put("id", goodsId);
+        HttpClient.get(URLConstants.DELECT_COLLECT_URL, param, new HttpResponseHandler<RestApiResponse>() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getInfo());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 我的收藏
+     *
+     * @param userId
+     * @param pageIndex
+     * @param callBack
+     */
+    public static void getCollectList(String userId, String pageIndex, final HttpCallBack<List<GoodsData>> callBack) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("user_id", userId);
+        param.put("page_size", "10");
+        param.put("page_index", pageIndex);
+        param.put("strwhere", "");
+        param.put("orderby", "");
+        HttpClient.get(URLConstants.COLLECT_LIST_URL, param, new HttpResponseHandler<GoogsListResponse>() {
+            @Override
+            public void onSuccess(GoogsListResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 商店收藏列表
+     *
+     * @param userId
+     * @param pageIndex
+     * @param callBack
+     */
+    public static void getShopCollectList(String userId, String pageIndex, final HttpCallBack<List<SProviderModel>> callBack) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("user_id", userId);
+        param.put("page_size", "10");
+        param.put("page_index", pageIndex);
+        param.put("strwhere", "");
+        param.put("orderby", "");
+        HttpClient.get(URLConstants.SHOP_COLLECT_LIST_URL, param, new HttpResponseHandler<ServiceProvideResponse>() {
+            @Override
+            public void onSuccess(ServiceProvideResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
      * 获取服务商的详细信息 and 判断是否是服务商
      *
      * @param serviceId

@@ -278,7 +278,9 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
             @Override
             public void onError(Request request, Exception e) {
                 footView.changeState(true);
-                mAdapter.clearData();
+                if (!isMore) {
+                    mAdapter.clearData();
+                }
             }
         });
     }

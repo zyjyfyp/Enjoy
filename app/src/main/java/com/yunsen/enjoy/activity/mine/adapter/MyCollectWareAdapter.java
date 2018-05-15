@@ -106,18 +106,7 @@ public class MyCollectWareAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     System.out.println("id============1========");
-//                    if (list.get(position).datatype.equals("0")) {
-//                        System.out.println("web_id======1========"
-//                                + list.get(position).article_id);
-//                        Intent intent = new Intent(context, Webview1.class);
-//                        intent.putExtra("web_id", list.get(position).article_id);
-//                        context.startActivity(intent);
-//                    } else {
-////                        Intent intent = new Intent(context, WareInformationActivity.class);
-////                        intent.putExtra("id", list.get(position).article_id);
-////                        context.startActivity(intent);
-//
-//                    }
+
                     UIHelper.showCarDetailsActivity(context, String.valueOf(list.get(position).article_id));
                 }
             });
@@ -130,9 +119,7 @@ public class MyCollectWareAdapter extends BaseAdapter {
             }
 
             tv_name.setText(list.get(position).title);
-            // tv_price.setText(list.get(position).add_time);
-            // loader.displayImage(RealmName.REALM_NAME_HTTP +
-            // list.get(position).img_url, image);
+
             Glide.with(context)
                     .load(URLConstants.REALM_URL + list.get(position).img_url)
                     .centerCrop()

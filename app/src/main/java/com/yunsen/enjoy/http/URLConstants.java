@@ -89,6 +89,18 @@ public class URLConstants {
      */
     public static final String ADD_COLLECT_URL = URLConstants.REALM_NAME_LL + "/user_favorite";
     /**
+     * 删除用户关注
+     */
+    public static final String DELECT_COLLECT_URL = URLConstants.REALM_NAME_LL + "/user_favorite_delete";
+    /**
+     * 我的收藏
+     */
+    public static final String COLLECT_LIST_URL = URLConstants.REALM_NAME_LL + "/get_user_favorite_list";
+    /**
+     * 商店收藏https://szlxkg.com
+     */
+    public static final String SHOP_COLLECT_LIST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_company_collection";
+    /**
      * 详情服务商
      */
     public static final String SERVICE_SHOP_INFO_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_commpany_content?id=";

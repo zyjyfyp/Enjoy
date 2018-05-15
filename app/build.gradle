@@ -58,6 +58,7 @@ android {
             buildConfigField "String", "ROOT_URL", "\"https://szlxkg.com\""
         }
         debug {
+            debuggable true
             signingConfig signingConfigs.debug
             minifyEnabled false//是否混淆
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
