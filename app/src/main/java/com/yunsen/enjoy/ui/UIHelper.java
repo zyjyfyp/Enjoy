@@ -35,11 +35,10 @@ import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.activity.mine.TeamActivity;
 import com.yunsen.enjoy.activity.mine.UserForgotPasswordActivity;
 import com.yunsen.enjoy.activity.mine.Webview1;
+import com.yunsen.enjoy.activity.mine.WithdrawCashActivity;
 import com.yunsen.enjoy.activity.order.MyOrderActivity;
 import com.yunsen.enjoy.activity.user.LoginActivity;
-import com.yunsen.enjoy.activity.user.PhoneLoginActivity;
 import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
-import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.activity.user.UserRegisterActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.fragment.buy.SelectBrandActivity;
@@ -47,7 +46,6 @@ import com.yunsen.enjoy.fragment.buy.SeniorFilterActivity;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
-import com.yunsen.enjoy.model.request.SerializableMap;
 
 /**
  * 应用程序UI工具包：封装UI相关的一些操作
@@ -109,7 +107,7 @@ public class UIHelper {
      */
     public static void showSearchActivity(Activity act) {
         Intent intent = new Intent(act, SearchActivity.class);
-//        intent.putExtra(Constants.SEARCH_KEY, keyWork);
+        //        intent.putExtra(Constants.SEARCH_KEY, keyWork);
         act.startActivity(intent);
     }
 
@@ -491,6 +489,16 @@ public class UIHelper {
     public static void showForgetPwdActivity(Context ctx) {
         Intent intent = new Intent(ctx, UserForgotPasswordActivity.class);
         intent.putExtra("type", "1");
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 提现页面
+     *
+     * @param ctx
+     */
+    public static void showWithdrawCashActivity(Context ctx) {
+        Intent intent = new Intent(ctx, WithdrawCashActivity.class);
         ctx.startActivity(intent);
     }
 
