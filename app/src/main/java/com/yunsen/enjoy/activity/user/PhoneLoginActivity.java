@@ -30,13 +30,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hengyushop.dao.WareDao;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.tencent.connect.UserInfo;
-import com.tencent.connect.auth.QQAuth;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.tauth.Tencent;
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
@@ -110,7 +106,7 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
     @Override
     protected void initView() {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
+        spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         progress = new DialogProgress(PhoneLoginActivity.this);
         popupWindowMenu = new MyPopupWindowMenu(this);
         initdata();
@@ -137,7 +133,7 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
     @Override
     protected void onResume() {
         super.onResume();
-        user_name = spPreferences.getString("user", "");
+        user_name = spPreferences.getString(SpConstants.USER_NAME, "");
     }
 
     Handler handler = new Handler() {
@@ -153,8 +149,7 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
                     break;
                 case 6:
                     try {
-                        strUrlone = URLConstants.REALM_NAME_LL
-                                + "/get_user_model?username=" + name + "";
+                        strUrlone = URLConstants.REALM_NAME_LL + "/get_user_model?username=" + name + "";
                         System.out.println("======11=============" + strUrlone);
                         AsyncHttp.get(strUrlone, new AsyncHttpResponseHandler() {
                             public void onSuccess(int arg0, String arg1) {
@@ -622,7 +617,7 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
                                     progress.CloseProgress();
                                     handler.sendEmptyMessage(6);
                                     // TODO: 2018/5/7  关闭某个页面
-//                                    UserLoginActivity.handler1.sendEmptyMessage(1);
+                                    //                                    UserLoginActivity.handler1.sendEmptyMessage(1);
                                 } else if ("n".equals(status)) {
                                     ToastUtils.makeTextShort(info);
                                     progress.CloseProgress();

@@ -107,7 +107,6 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
     String login_sign, sex, nick_name, mobile;
     String user_name, user_id;
     private DialogProgress progress;
-    private SharedPreferences spPreferences;
     UserRegisterllData data;
     protected static final int CHOOSE_PICTURE = 0;
     protected static final int TAKE_PICTURE = 1;
@@ -116,6 +115,7 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
     public static String path, time, province, city, area, lng, lat, imagePath, tupian;
     View vi_shenji;
     public static boolean zhuangtai = false;
+    private SharedPreferences mSp;
 
     @Override
     public int getLayout() {
@@ -125,9 +125,9 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
 
     @Override
     protected void initView() {
-        spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-        user_name = spPreferences.getString("user", "");
-        user_id = spPreferences.getString("user_id", "");
+        mSp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+        user_name = mSp.getString(SpConstants.USER_NAME, "");
+        user_id = mSp.getString(SpConstants.USER_ID, "");
         progress = new DialogProgress(PersonCenterActivity.this);
         init();
     }
@@ -204,7 +204,6 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
 
             @Override
             public void onClick(View arg0) {
-
                 finish();
             }
         });
@@ -225,13 +224,10 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
     /**
      * 获取用户资料
      */
-    SharedPreferences spPreferences_login;
-    Editor editor;
 
     private void userloginqm() {
         try {
-            spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-            String user_name = spPreferences.getString("user", "");
+            String user_name = mSp.getString(SpConstants.USER_NAME, "");
             String strUrlone = URLConstants.REALM_ACCOUNT_URL + "/get_user_model?username=" + user_name + "";
             System.out.println("======11=============" + strUrlone);
             AsyncHttp.get(strUrlone, new AsyncHttpResponseHandler() {
@@ -276,8 +272,7 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                                     v2.setText(data.user_code);
                                 }
 
-                                spPreferences_login = getSharedPreferences("longuserset_login", MODE_PRIVATE);
-                                String nickname = spPreferences_login.getString(SpConstants.NICK_NAME, "");
+                                String nickname = mSp.getString(SpConstants.NICK_NAME, "");
                                 System.out.println("=============nickname======" + nickname);
                                 if (!nickname.equals("")) {
                                     tv_nicheng.setText(nickname);
@@ -293,8 +288,8 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                                 }
                                 tv_nick_name.setText(sex);
                                 v7.setText(data.mobile);//手机号
-                                editor = spPreferences.edit();
-                                editor.putString("avatar", data.avatar);
+                                Editor editor = mSp.edit();
+                                editor.putString(SpConstants.AVATAR, data.avatar);
                                 editor.commit();
 
                                 if (data.province.equals("")) {
@@ -693,8 +688,8 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
 
         String imgUrl = "/upload/phone/" + yth + "/" + time + ".jpg";
         System.out.println("imgUrl--------------------------" + imgUrl);
-        Editor editor = spPreferences.edit();
-        editor.putString("avatar", imgUrl);
+        Editor editor = mSp.edit();
+        editor.putString(SpConstants.AVATAR, imgUrl);
         editor.commit();
         String strUrl = URLConstants.REALM_ACCOUNT_URL
                 + "/user_avatar_save?user_name=" + user_name + "&user_id=" + user_id + "&user_avatar=" + imgUrl + "&sign=" + login_sign + "";

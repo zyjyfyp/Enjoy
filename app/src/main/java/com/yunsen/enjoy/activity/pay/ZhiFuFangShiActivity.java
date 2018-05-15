@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.pay.adapter.ZhiFufangshiAdapter;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.JuTuanGouData;
@@ -45,10 +46,10 @@ public class ZhiFuFangShiActivity extends AppCompatActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_zhifu_fangshi);
-		spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-		user_name = spPreferences.getString("user", "");
-		user_id = spPreferences.getString("user_id", "");
-		progress = new DialogProgress(ZhiFuFangShiActivity.this);
+        spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+        user_name = spPreferences.getString(SpConstants.USER_NAME, "");
+        user_id = spPreferences.getString("user_id", "");
+        progress = new DialogProgress(ZhiFuFangShiActivity.this);
 		setUpViews();
 		loadWeather();
 	}

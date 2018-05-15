@@ -8,11 +8,11 @@ import android.util.Log;
 
 import com.orhanobut.logger.Logger;
 import com.yunsen.enjoy.common.AppContext;
-import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.model.AccountBalanceModel;
 import com.yunsen.enjoy.model.AdvertList;
 import com.yunsen.enjoy.model.AdvertModel;
+import com.yunsen.enjoy.model.AuthorizationModel;
 import com.yunsen.enjoy.model.BrandResponse;
 import com.yunsen.enjoy.model.CarBrand;
 import com.yunsen.enjoy.model.CarBrandList;
@@ -33,6 +33,7 @@ import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.model.request.WatchCarModel;
 import com.yunsen.enjoy.model.response.AccountBalanceResponse;
+import com.yunsen.enjoy.model.response.AuthorizationResponse;
 import com.yunsen.enjoy.model.response.CarBrandResponese;
 import com.yunsen.enjoy.model.response.CarDetailsResponse;
 import com.yunsen.enjoy.model.response.PullImageResponse;
@@ -45,18 +46,11 @@ import com.yunsen.enjoy.model.response.UserInfoResponse;
 import com.yunsen.enjoy.model.response.WatchCarResponse;
 import com.yunsen.enjoy.utils.EntityToMap;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Created by Administrator on 2018/4/20.
@@ -446,6 +440,34 @@ public class HttpProxy {
     }
 
     /**
+     * 电话用户登录
+     *
+     * @param phone
+     * @param pwd
+     * @param callBack
+     */
+    public static void getUserLogin(String phone, String pwd, final HttpCallBack<UserInfo> callBack) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("username", phone);
+        param.put("password", pwd);
+        param.put("site", "mobile");
+        param.put("terminal", "true");
+        HttpClient.get(URLConstants.USER_LOGIN_URL, param, new HttpResponseHandler<UserInfoResponse>() {
+            @Override
+            public void onSuccess(UserInfoResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
      * 添加收藏
      *
      * @param userId
@@ -464,6 +486,92 @@ public class HttpProxy {
             public void onSuccess(RestApiResponse response) {
                 super.onSuccess(response);
                 callBack.onSuccess(response.getInfo());
+
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 删除收藏
+     *
+     * @param userId
+     * @param goodsId
+     * @param callBack
+     */
+    public static void getDeleteCollect(String userId, String goodsId, final HttpCallBack<String> callBack) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("user_id", userId);
+        param.put("id", goodsId);
+        HttpClient.get(URLConstants.DELECT_COLLECT_URL, param, new HttpResponseHandler<RestApiResponse>() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getInfo());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 我的收藏
+     *
+     * @param userId
+     * @param pageIndex
+     * @param callBack
+     */
+    public static void getCollectList(String userId, String pageIndex, final HttpCallBack<List<GoodsData>> callBack) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("user_id", userId);
+        param.put("page_size", "10");
+        param.put("page_index", pageIndex);
+        param.put("strwhere", "");
+        param.put("orderby", "");
+        HttpClient.get(URLConstants.COLLECT_LIST_URL, param, new HttpResponseHandler<GoogsListResponse>() {
+            @Override
+            public void onSuccess(GoogsListResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 商店收藏列表
+     *
+     * @param userId
+     * @param pageIndex
+     * @param callBack
+     */
+    public static void getShopCollectList(String userId, String pageIndex, final HttpCallBack<List<SProviderModel>> callBack) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("user_id", userId);
+        param.put("page_size", "10");
+        param.put("page_index", pageIndex);
+        param.put("strwhere", "");
+        param.put("orderby", "");
+        HttpClient.get(URLConstants.SHOP_COLLECT_LIST_URL, param, new HttpResponseHandler<ServiceProvideResponse>() {
+            @Override
+            public void onSuccess(ServiceProvideResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
 
             }
 
@@ -827,48 +935,6 @@ public class HttpProxy {
      * 服务商申请提交表单数据
      */
     public static void getApplyServiceForm(Activity act, ApplyFacilitatorModel data, final HttpCallBack<RestApiResponse> callBack) {
-//        param.put("id", "");   //  user_id: userInfo.id,//用户id
-//        param.put("user_name", ""); //       user_name: userInfo.user_name,//用户名字
-//        param.put("trade_id", "");        //trade_id: trade_id,//行业ID
-//        param.put("name", "");   //      name: name,//企业名称
-//        param.put("content", "");    //     content: content,//企业介绍
-//        param.put("artperson", "");     //    artperson: '',//法人
-//        param.put("contact", "");      //   contact: contact,//联系人
-//        param.put("mobile", "");      //  mobile: mobile,//联系人电话
-//        param.put("tel", "");      //   tel: '',//企业电话
-//        param.put("nature", "");     //   nature: '',//企业性质
-//        param.put("post_code", "");     //   post_code: '',//邮编
-//        param.put("email", "");      //  email: '',//电子邮件
-//        param.put("address", "");      //  address: address,//地址
-//        param.put("sort_id", "");     // sort_id: 99,//排序
-//        param.put("logo_url", "");     //  logo_url: logo_url,//企业logo
-//        param.put("img_url", "");     //  img_url: '',//企业图片
-//        param.put("seo_title", "");     //  seo_title: '',//seo标题
-//        param.put("seo_keywords", "");     //   seo_keywords: '',//seo关键字
-//        param.put("seo_description", "");      //  seo_description: '',//seo描述
-//        param.put("province", "");    //   province: province,//省份
-//        param.put("city", "");    //  city: city,//城市
-//        param.put("area", "");    //    area: area,//区县
-//        param.put("regtime", "");    //    regtime: utili.formatTime2(new Date()),//注册时间
-//        param.put("lng", "");    //     lng: lng,//经度
-//        param.put("lat", "");    //       lat: lat,//纬度
-//        param.put("advantage", "");    //       advantage: advantage,//企业优势
-//        param.put("idcard_a", "");    //       idcard_a: '',//法人身份证(正面)
-//        param.put("idcard_b", "");    //       idcard_b: '',//法人身份证(反面)
-//        param.put("license", "");    //       license: license,//工商营业执照
-//        param.put("accredit", "");    //       accredit: '',//厂家授权或者厂家合同
-//        param.put("aptitude", "");    //        aptitude: '',//企业资质
-//        param.put("revenue_card", "");    //        revenue_card: revenue_card,//税务
-//        param.put("organi_card", "");    //        organi_card: organi_card,//组织机构代码证
-//        param.put("brand_card", "");    //        brand_card: '',//品牌注册证
-//        param.put("licence_card", "");    //        licence_card: '',//开户行许许可证
-//        param.put("trade_aptitude", "");    //        trade_aptitude: '',//行业资质证明文件
-//        param.put("account_name", "");    //        account_name: '',//企业开户名称
-//        param.put("bank_name", "");    //        bank_name: '',//企业开户银行
-//        param.put("bank_account", "");    //       bank_account: '',//企业银行账号
-//        param.put("registeredid", "");    //        registeredid: registeredid,//工商执照注册号
-//        param.put("service_time", "");    //        service_time: service_time,//企业服务时间
-//        param.put("service_ids", "");    //        service_ids: ''
         SharedPreferences sp = act.getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
         String userId = sp.getString(SpConstants.USER_ID, "");
         String userName = sp.getString(SpConstants.USER_NAME, "");
@@ -1078,6 +1144,49 @@ public class HttpProxy {
                 });
     }
 
+    /**
+     * 第三方授权
+     *
+     * @param callBack
+     */
+    public static void requestBindPhone(final HttpCallBack<AuthorizationModel> callBack) {
+        SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+        String nickName = sp.getString(SpConstants.NICK_NAME, "");
+        String avatar = sp.getString(SpConstants.HEAD_IMG_URL_2, "");
+        String sex = sp.getString(SpConstants.SEX, "");
+        String province = sp.getString(SpConstants.PROVINCE, "");
+        String city = sp.getString(SpConstants.CITY, "");
+        String country = sp.getString(SpConstants.COUNTRY, "");
+        String oauthOpenId = sp.getString(SpConstants.OAUTH_OPEN_ID, "");
+        String oauthName = sp.getString(SpConstants.OAUTH_NAME, null);
+        String oauthUnionId = sp.getString(SpConstants.OAUTH_UNIONID, "");
+
+        HashMap<String, String> param = new HashMap<>();
+        param.put(SpConstants.NICK_NAME, nickName);
+        param.put(SpConstants.AVATAR, avatar);
+        param.put(SpConstants.SEX, sex);
+        param.put(SpConstants.PROVINCE, province);
+        param.put(SpConstants.CITY, city);
+        param.put(SpConstants.COUNTRY, country);
+        param.put(SpConstants.OAUTH_OPEN_ID, oauthOpenId);
+        param.put(SpConstants.OAUTH_NAME, oauthName);
+        param.put(SpConstants.OAUTH_UNIONID, oauthUnionId);
+
+        HttpClient.get(URLConstants.BOUDLE_PHONE_URL, param, new HttpResponseHandler<AuthorizationResponse>() {
+            @Override
+            public void onSuccess(AuthorizationResponse response) {
+                super.onSuccess(response);
+                AuthorizationModel data = response.getData();
+                callBack.onSuccess(data);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
 
 }
 

@@ -41,6 +41,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.AppManager;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.fragment.MineFragment;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
@@ -469,9 +470,9 @@ public class MyPopupWindowMenu extends PopupWindow implements OnClickListener,
             //			pop.setBackgroundDrawable(new BitmapDrawable());
             //			pop.setOutsideTouchable(true);
 
-            spPreferences = context.getSharedPreferences("longuserset", context.MODE_PRIVATE);
-            user_name = spPreferences.getString("user", "");
-            user_id = spPreferences.getString("user_id", "");
+            spPreferences = context.getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, context.MODE_PRIVATE);
+            user_name = spPreferences.getString(SpConstants.USER_NAME, "");
+            user_id = spPreferences.getString(SpConstants.USER_ID, "");
 
             inflater = LayoutInflater.from(context);
             view = inflater.inflate(R.layout.ware_infromation_share, null);
@@ -544,8 +545,8 @@ public class MyPopupWindowMenu extends PopupWindow implements OnClickListener,
     private void con(final int index, int type) {
         try {
 
-            String user_name = spPreferences.getString("user", "");
-            String user_id = spPreferences.getString("user_id", "");
+            String user_name = spPreferences.getString(SpConstants.USER_NAME, "");
+            String user_id = spPreferences.getString(SpConstants.USER_ID, "");
             //							String data = "http://183.62.138.31:8088/appshare/"+id+".html";
             String data = "http://183.62.138.31:1011/appshare/" + user_id + ".html";
             System.out.println("分享11======================" + data);

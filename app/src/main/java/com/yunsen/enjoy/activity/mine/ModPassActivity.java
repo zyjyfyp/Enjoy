@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.hengyushop.dao.WareDao;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 
@@ -46,7 +47,6 @@ public class ModPassActivity extends AppCompatActivity implements OnClickListene
     private SharedPreferences spPreferences;
     String user_name;
     String type, type_num;
-    String value;
 
     // private Handler handler = new Handler() {
     // public void dispatchMessage(android.os.Message msg) {
@@ -92,8 +92,8 @@ public class ModPassActivity extends AppCompatActivity implements OnClickListene
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.modpass_layout);
-        spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-        user_name = spPreferences.getString("user", "");
+        spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+        user_name = spPreferences.getString(SpConstants.USER_NAME, "");
         tv1 = (TextView) findViewById(R.id.tv1);
         try {
             type_num = getIntent().getStringExtra("value");

@@ -69,7 +69,7 @@ public class MyAssetsActivity extends BaseFragmentActivity implements OnClickLis
 
     @Override
     protected void initView() {
-        spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
+        spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         progress = new DialogProgress(this);
         Initialize();
         list = new ArrayList<MyAssetsBean>();
@@ -305,8 +305,8 @@ public class MyAssetsActivity extends BaseFragmentActivity implements OnClickLis
             CURRENT_NUM = 1;
             list = new ArrayList<MyAssetsBean>();
         }
-        String user_name = spPreferences.getString("user", "");
-        String user_id = spPreferences.getString("user_id", "");
+        String user_name = spPreferences.getString(SpConstants.USER_NAME, "");
+        String user_id = spPreferences.getString(SpConstants.USER_ID, "");
         System.out.println("=====================fund_id--" + fund_id);
         AsyncHttp.get(URLConstants.REALM_NAME_LL + "/get_payrecord_list?user_id="
                         + user_id + "&user_name=" + user_name + "&fund_id=" + fund_id

@@ -98,12 +98,6 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
         spPreferences_login = getSharedPreferences("longuserset_login", MODE_PRIVATE);
         try {
             progress = new DialogProgress(UserLoginActivity.this);
-            //弹出框返回true关闭
-            //			if (UserLoginWayActivity.jiemian == true) {
-            //				UserLoginWayActivity.jiemian = false;
-            //				finish();
-            //			}
-
             initdata();
 
             handler1 = new Handler() {
@@ -128,19 +122,10 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
 
     @Override
     protected void onResume() {
-
         super.onResume();
-        //			SharedPreference spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-        //			user_name = spPreferences.getString("user_name", "");
-
-        //			SharedPreference spPreferences_weixin = getSharedPreferences("longuserset_weixin", MODE_PRIVATE);
-        //			spPreferences_weixin.edit().clear().commit();
-        //			SharedPreference spPreferences_qq = getSharedPreferences("longuserset_qq", MODE_PRIVATE);
-        //			spPreferences_qq.edit().clear().commit();
-
         wx_fanhui = true;//分享微信返回APP
 
-        if (zhuangtai == false) {
+        if (!zhuangtai) {
             updata();
         }
 
@@ -178,12 +163,9 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
             String accessTokenUrl = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="
                     + Constants.APP_ID + "&secret=" + Constants.APP_SECRET + "&code=" + WX_CODE +
                     "&grant_type=authorization_code";
-            //				Toast.makeText(MainUserLoginActivity.this, accessTokenUrl, 100000).show();
             System.out.println("======11=============" + accessTokenUrl);
             AsyncHttp.get(accessTokenUrl, new AsyncHttpResponseHandler() {
                 public void onSuccess(int arg0, String arg1) {
-                    System.out.println("======输出1=============" + arg1);
-                    //						Toast.makeText(MainUserLoginActivity.this, "数据为+"+arg1, 400).show();
                     try {
                         JSONObject object = new JSONObject(arg1);
                         String access_token = object.getString("access_token");
@@ -412,7 +394,7 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
                         float server_version = Float.parseFloat(file_version.replaceAll("\\.", ""));//服务器
                         float client_version = Float.parseFloat(c_version);//当前
 
-                       Logger.e("服务器:" + server_version + "/当前:" + client_version);
+                        Logger.e("服务器:" + server_version + "/当前:" + client_version);
                         if (server_version > client_version) {
                             //						Toast.makeText(UserLoginActivity.this, "提示更新", Toast.LENGTH_SHORT).show();
                             Message message = new Message();

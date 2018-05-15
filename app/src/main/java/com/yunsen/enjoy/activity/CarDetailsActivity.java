@@ -113,7 +113,7 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
             mCarId = intent.getStringExtra(Constants.CAR_DETAILS_ID);
         }
         dragLayout.setCanDrag(false);
-        mSp = getSharedPreferences("longuserset", MODE_PRIVATE);
+        mSp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         mUserName = mSp.getString(SpConstants.USER_NAME, "");
         mUserId = mSp.getString(SpConstants.USER_ID, "");
     }

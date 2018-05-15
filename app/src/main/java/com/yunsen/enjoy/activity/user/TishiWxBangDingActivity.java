@@ -13,7 +13,6 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.TextView;
 
-
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.SpConstants;
@@ -22,7 +21,6 @@ import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserRegisterllData;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
-import com.yunsen.enjoy.widget.DialogProgress;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -39,20 +37,12 @@ public class TishiWxBangDingActivity extends AppCompatActivity implements OnClic
     private Intent intent;
     public Activity mContext;
     public static Handler handler;
-    private DialogProgress progress;
     private SharedPreferences spPreferences_login;
-    private SharedPreferences spPreferences_weixin;
-    private SharedPreferences spPreferences_qq;
-    String login_sign, amount;
-    public static String yue_zhuangtai;
     String user_name, user_id, headimgurl, access_token, sex, unionid, area, real_name;
     String province = "";
     String city = "";
     String country = "";
     String nickname = "";
-    String user_name_weixin = "";
-    String user_name_qq = "";
-    //	private String nickname, headimgurl, access_token, sex, unionid,province,city,country;
     String oauth_name;
 
     @Override
@@ -60,19 +50,6 @@ public class TishiWxBangDingActivity extends AppCompatActivity implements OnClic
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tishi_weixin);
-        //		spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-        //		user_name = spPreferences.getString("user", "");
-        //		user_id = spPreferences.getString("user_id", "");
-
-        //		nickname = spPreferences.getString("nickname", "");
-        //		headimgurl = spPreferences.getString("headimgurl", "");
-        //		unionid = spPreferences.getString("unionid", "");
-        //		access_token = spPreferences.getString("access_token", "");
-        //		sex = spPreferences.getString("sex", "");
-        //		province = getIntent().getStringExtra("province");
-        //		city = getIntent().getStringExtra("city");
-        //		country = getIntent().getStringExtra("country");
-        //		progress = new DialogProgress(TishiWxBangDingActivity.this);
         initUI();
     }
 
@@ -99,8 +76,6 @@ public class TishiWxBangDingActivity extends AppCompatActivity implements OnClic
      */
     @Override
     public void onClick(View v) {
-
-
         intent = new Intent();
         switch (v.getId()) {
             case R.id.btnConfirm://取消
@@ -109,7 +84,6 @@ public class TishiWxBangDingActivity extends AppCompatActivity implements OnClic
             case R.id.btnCancle://
                 userlogin();
                 break;
-
             default:
                 break;
         }
@@ -117,39 +91,16 @@ public class TishiWxBangDingActivity extends AppCompatActivity implements OnClic
 
     public void userlogin() {
         try {
-            spPreferences_login = getSharedPreferences("longuserset_login", MODE_PRIVATE);
+            spPreferences_login = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
             nickname = spPreferences_login.getString(SpConstants.NICK_NAME, "");
             headimgurl = spPreferences_login.getString("headimgurl", "");
             unionid = spPreferences_login.getString("unionid", "");
             access_token = spPreferences_login.getString("access_token", "");
             sex = spPreferences_login.getString("sex", "");
             String oauth_openid = spPreferences_login.getString("oauth_openid", "");
-
-            //				spPreferences_weixin = getSharedPreferences("longuserset_weixin", Context.MODE_PRIVATE);
-            //				user_name_weixin = spPreferences_weixin.getString("nickname", "");
-            //
-            //                spPreferences_qq = getSharedPreferences("longuserset_qq", Context.MODE_PRIVATE);
-            //                user_name_qq = spPreferences_qq.getString("nickname", "");
-            //
-            //				System.out.println("user_name_weixin================"+user_name_weixin);
-            //				System.out.println("user_name_qq================"+user_name_qq);
-            //
-            //				if (!user_name_weixin.equals("")) {
-            //					nickname = user_name_weixin;
-            //					headimgurl = spPreferences_weixin.getString("headimgurl", "");
-            //					unionid = spPreferences_weixin.getString("unionid", "");
-            //					access_token = spPreferences_weixin.getString("access_token", "");
-            //					sex = spPreferences_weixin.getString("sex", "");
-            //				}else {
-            //					nickname = user_name_qq;
-            //					headimgurl = "";
-            //					unionid = spPreferences_qq.getString("unionid", "");
-            //					access_token = spPreferences_qq.getString("access_token", "");
-            //					sex = spPreferences_qq.getString("sex", "");
-            //				}
             province = getIntent().getStringExtra("province");
             city = getIntent().getStringExtra("city");
-
+            String loginFlag = spPreferences_login.getString(SpConstants.LOGIN_FLAG, "");
             if (province == null) {
                 province = "";
             }
@@ -162,20 +113,16 @@ public class TishiWxBangDingActivity extends AppCompatActivity implements OnClic
             System.out.println("UserLoginActivity=====================" + UserLoginActivity.oauth_name);
             System.out.println("UserLoginWayActivity=====================" + UserLoginWayActivity.oauth_name);
 
-            if (UserLoginActivity.oauth_name.equals("weixin")) {
+
+            if (SpConstants.WEI_XIN.equals(loginFlag)) {
                 oauth_name = "weixin";
-            } else if (UserLoginWayActivity.oauth_name.equals("weixin")) {
+            } else if (SpConstants.QQ_LOGIN.equals(loginFlag)) {
                 oauth_name = "qq";
             }
 
-            //				}
             System.out.println("nickname-----1-----" + nickname);
             String nick_name = nickname.replaceAll("\\s*", "");
             System.out.println("nick_name-----2-----" + nick_name);
-
-            //				String strUrlone = URLConstants.REALM_NAME_LL + "/user_oauth_register_0215?nick_name="+nick_name+"&sex="+sex+"&avatar="+headimgurl+"" +
-            //				"&province="+province+"&city="+city+"&country="+country+"&oauth_name="+oauth_name+"&oauth_access_token="+access_token+"" +
-            //						"&oauth_unionid="+unionid+"";
             String strUrlone = URLConstants.REALM_NAME_LL + "/user_oauth_register_0217?nick_name=" + nick_name + "&sex=" + sex + "&avatar=" + headimgurl + "" +
                     "&province=" + province + "&city=" + city + "&country=" + country + "&oauth_name=" + oauth_name + "&oauth_unionid=" + unionid + "" +
                     "&oauth_openid=" + oauth_openid + "";
@@ -188,14 +135,7 @@ public class TishiWxBangDingActivity extends AppCompatActivity implements OnClic
                         JSONObject object = new JSONObject(arg1);
                         String status = object.getString("status");
                         String info = object.getString("info");
-                        //							if (status.equals("y")) {
                         String datall = object.getString("data");
-                        //								data.id = obj.getString("id");
-                        //								data.user_name = obj.getString("user_name");
-                        //								province = obj.getString("province");
-                        //								city = obj.getString("city");
-                        //								area = obj.getString("area");
-
                         if (datall.equals("null")) {
                             Intent intent = new Intent(TishiWxBangDingActivity.this, MobilePhoneActivity.class);
                             intent.putExtra("nickname", nickname);
@@ -212,18 +152,21 @@ public class TishiWxBangDingActivity extends AppCompatActivity implements OnClic
                             data.id = obj.getString("id");
                             data.user_name = obj.getString("user_name");
                             user_id = data.id;
-                            System.out.println("---data.user_name-------------------" + data.user_name);
-                            System.out.println("---user_id-------------------" + user_id);
-
-                            SharedPreferences spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
+                            SharedPreferences spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
                             String user = spPreferences.getString("user", "");
                             System.out.println("---1-------------------" + user);
-
                             Editor editor = spPreferences.edit();
                             editor.putString("user", data.user_name);
                             editor.putString("user_id", data.id);
                             editor.commit();
-
+                            /**
+                             * 乐享保存绑定用户的信息
+                             */
+                            SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+                            Editor edit = sp.edit();
+                            edit.putString("user", data.user_name);
+                            edit.putString("user_id", data.id);
+                            edit.commit();
                             String user_name = spPreferences.getString("user", "");
                             System.out.println("---2-------------------" + user_name);
                             EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));

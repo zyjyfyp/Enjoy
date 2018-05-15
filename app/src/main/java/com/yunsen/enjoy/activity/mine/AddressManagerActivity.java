@@ -28,6 +28,7 @@ import com.hengyushop.dao.WareDao;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.mine.adapter.MyAddressManagerAdapter;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserAddressData;
@@ -73,7 +74,7 @@ public class AddressManagerActivity extends AppCompatActivity {
         list_address = (ListView) findViewById(R.id.list_address);
         list_address.setCacheColorHint(0);
         tv_guanli = (TextView) findViewById(R.id.tv_guanli);
-        spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
+        spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
 
 
         ImageView iv_fanhui = (ImageView) findViewById(R.id.iv_fanhui);
@@ -214,7 +215,7 @@ public class AddressManagerActivity extends AppCompatActivity {
      */
     private void getuseraddress() {
         progress.CreateProgress();
-        String user_name = spPreferences.getString("user", "");
+        String user_name = spPreferences.getString(SpConstants.USER_NAME, "");
         System.out.println("结果呢1==============" + user_name);
         AsyncHttp.get(URLConstants.REALM_URL + "/get_user_shopping_address?user_name=" + user_name + ""
                 , new AsyncHttpResponseHandler() {

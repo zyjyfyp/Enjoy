@@ -39,6 +39,7 @@ import com.yunsen.enjoy.activity.mine.adapter.ShopingCartOrderAdapter;
 import com.yunsen.enjoy.activity.pay.TishiCarArchivesActivity;
 import com.yunsen.enjoy.activity.pay.ZhiFuOKActivity;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.JuTuanGouData;
@@ -156,10 +157,10 @@ public class JuTuanConfrimActivity extends AppCompatActivity {
 			}
 
 			// fanhui_type = true;
-			spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-			user_name = spPreferences.getString("user", "");
-			login_sign = spPreferences.getString("login_sign", "");
-			dzongjia = 0;
+            spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+            user_name = spPreferences.getString(SpConstants.USER_NAME, "");
+            login_sign = spPreferences.getString("login_sign", "");
+            dzongjia = 0;
 			// System.out.println("dzongjiade值为零================"+dzongjia);
 
 			// String type_wx = getIntent().getStringExtra("type_wx");
@@ -257,9 +258,9 @@ public class JuTuanConfrimActivity extends AppCompatActivity {
 		setContentView(R.layout.jutuan_confrim);
 		mAq = new AQuery(this);
 		// progress.CreateProgress();
-		spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-		user_name = spPreferences.getString("user", "");
-		user_id = spPreferences.getString("user_id", "");
+        spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+        user_name = spPreferences.getString(SpConstants.USER_NAME, "");
+        user_id = spPreferences.getString("user_id", "");
 
 		handlerll = new Handler() {
 			public void handleMessage(Message msg) {

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">大道易客</string>
+    <string name="app_name">乐享商城</string>
 
     <string name="no_network_connection_toast">No network connection found</string>
 
     <!-- 页面名称 -->
     <string name="main_navigation_home">首页</string>
-    <string name="main_navigation_im">消息</string>
-    <string name="main_navigation_interest">易购车</string>
+    <string name="main_navigation_im">买车</string>
+    <string name="main_navigation_interest">发现</string>
     <string name="main_navigation_user">我的</string>
 
     <string name="progress_loading">加载中，请稍候</string>
@@ -49,6 +49,15 @@
     <string name="message_permission_always_failed">我们需要以下权限，请在设置中为我们开启：\n\n%1$s</string>
 
     <string name="pwd_hint_info">请输入密码(6&#8211;20位数字的密码)</string>
+    <string name="errcode_success">发送成功</string>
+
+    <string name="errcode_cancel">发送取消</string>
+
+    <string name="errcode_deny">发送被拒绝</string>
+
+    <string name="errcode_unsupported">不支持错误</string>
+
+    <string name="errcode_unknown">发送返回</string>
 
 
 </resources>

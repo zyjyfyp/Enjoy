@@ -88,7 +88,7 @@ public class HttpResponseHandler<T> {
         rawType = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         RestApiResponse apiResponse = (RestApiResponse) JSON.parseObject(responseBody, rawType);
         if (apiResponse == null || !"y".equalsIgnoreCase(apiResponse.getStatus())) {
-            throw new DataException("server error (response = " + responseBody + ")");
+            throw new DataException(apiResponse.getInfo());
         }
         return (T) apiResponse;
     }

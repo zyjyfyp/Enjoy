@@ -1,5 +1,8 @@
 package com.yunsen.enjoy.common;
 
+
+import com.tencent.connect.auth.QQAuth;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +15,12 @@ public class Constants {
     public static final String APP_ID = "wx88beb35a2752bade";
     public static final String MCH_ID = "1394459302";
     public static final String APP_SECRET = "e94e0ca414b307f026334dbbc124426c";
+
+    public static String WX_Code = "";
+    public static QQAuth QQauth;
+    public static final String APP_QQ_ID = "222222";// 测试时使用，真正发布的时候要换成自己的APP_ID
+
+
 
 
     /**

@@ -21,6 +21,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserRegisterllData;
@@ -63,9 +64,9 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_common_delete_pop);
-        spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-        user_name = spPreferences.getString("user", "");
-        user_id = spPreferences.getString("user_id", "");
+        spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+        user_name = spPreferences.getString(SpConstants.USER_NAME, "");
+        user_id = spPreferences.getString(SpConstants.USER_ID, "");
         progress = new DialogProgress(MyOrderZFActivity.this);
         api = WXAPIFactory.createWXAPI(MyOrderZFActivity.this, null);
         api.registerApp(Constants.APP_ID);
@@ -426,9 +427,8 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
      */
     private void userloginqm() {
         try {
-            SharedPreferences spPreferences = getSharedPreferences(
-                    "longuserset", MODE_PRIVATE);
-            String user_name = spPreferences.getString("user", "");
+            SharedPreferences spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+            String user_name = spPreferences.getString(SpConstants.USER_NAME, "");
             String strUrlone = URLConstants.REALM_NAME_LL
                     + "/get_user_model?username=" + user_name + "";
             System.out.println("======11=============" + strUrlone);
@@ -623,7 +623,7 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
                     // 构造PayTask 对象
                     PayTask alipay = new PayTask(MyOrderZFActivity.this);
                     // 调用支付接口，获取支付结果
-                    String result = alipay.pay(payInfo,true);
+                    String result = alipay.pay(payInfo, true);
                     Message msg = new Message();
                     msg.what = 5;
                     msg.obj = result;
@@ -648,7 +648,7 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
      * @param content 待签名订单信息
      */
     public String sign(String content) {
-        return SignUtils.sign(content, Common.RSA_PRIVATE,false);
+        return SignUtils.sign(content, Common.RSA_PRIVATE, false);
     }
 
     /**

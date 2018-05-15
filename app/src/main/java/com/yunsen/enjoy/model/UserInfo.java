@@ -130,7 +130,7 @@ public class UserInfo {
     private String update_time;
     private Object authen_time;
     private Object audit_time;
-    private Object company;
+    private CompanyModel company;
 
     public int getId() {
         return id;
@@ -604,11 +604,11 @@ public class UserInfo {
         this.audit_time = audit_time;
     }
 
-    public Object getCompany() {
+    public CompanyModel getCompany() {
         return company;
     }
 
-    public void setCompany(Object company) {
+    public void setCompany(CompanyModel company) {
         this.company = company;
     }
 }

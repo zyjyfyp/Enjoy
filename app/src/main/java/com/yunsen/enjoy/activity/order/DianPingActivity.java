@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.widget.DialogProgress;
@@ -37,16 +38,17 @@ public class DianPingActivity extends AppCompatActivity implements OnClickListen
 	EditText ra4;
 	String check = "";
 	private DialogProgress progress;
-	private SharedPreferences spPreferences;
+    private SharedPreferences mSp;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.detail_dianping);
-		spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-		progress = new DialogProgress(DianPingActivity.this);
-		intren();
+        mSp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+        progress = new DialogProgress(DianPingActivity.this);
+        intren();
 
 	}
 
@@ -100,10 +102,10 @@ public class DianPingActivity extends AppCompatActivity implements OnClickListen
 
 	private void loadWeather() {
 		String article_id = getIntent().getStringExtra("article_id");
-		String user_name = spPreferences.getString("user", "");
-		String id = spPreferences.getString("user_id", "");
-		String content = ra4.getText().toString();
-		if (check.equals("")) {
+        String user_name = mSp.getString(SpConstants.USER_NAME, "");
+        String id = mSp.getString("user_id", "");
+        String content = ra4.getText().toString();
+        if (check.equals("")) {
 			Toast.makeText(DianPingActivity.this, "请选择评论", Toast.LENGTH_SHORT).show();
 		}else {
 			progress.CreateProgress();

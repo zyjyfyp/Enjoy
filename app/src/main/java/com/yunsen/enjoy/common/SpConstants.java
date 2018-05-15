@@ -11,14 +11,13 @@ public class SpConstants {
      * 第三方用户信息
      */
     public static final String SP_USER_SET = "longuserset";
-    public static final String USER = "user";
 
 
     /**
      * 用户信息 sp file
      */
 
-//    public static final String SP_LONG_USER_SET_LOGIN = "longuserset_login";
+    //    public static final String SP_LONG_USER_SET_LOGIN = "longuserset_login";
 
     public static final String HEAD_IMG_URL = "headimgurl";
     public static final String HEAD_IMG_URL_2 = "headimgurl2";
@@ -50,7 +49,7 @@ public class SpConstants {
      */
     public static final String SP_LONG_USER_SET_USER = "longuserset_user";
     public static final String GROUP_NAME = "group_name";
-    public static final String USER_NAME = "user";
+    public static final String USER_NAME = "user_name";
     public static final String MOBILE = "mobile";
     public static final String LOGIN_SIGN = "login_sign";
     public static final String USER_ID = "user_id";
@@ -68,6 +67,18 @@ public class SpConstants {
     public static final String OK = "ok";//图片保存OK
     public static final String AMOUNT = "amount";//账户余额
     public static final String RESERVE = "reserve";//冻结资金
+    public static final String LOGIN_FLAG = "login_flag";
+    public static final String WEI_XIN = "wei_xin";
+    public static final String QQ_LOGIN = "qq";
+    public static final String PAN_DUAN = "panduan";
+    public static final String PAN_DUAN_TI_SHI = "panduantishi";
+    public static final String HAS_SERVICE_SHOP = "has_service_shop";//是否是服务商
 
+    /**
+     * qq登录的信息
+     */
+    public static final String SP_LONG_USER_QQ = "QQSp";
 
+    public static final String OAUTH_NAME = "oauth_name";
+    public static final String OAUTH_UNIONID = "oauth_unionid";
 }

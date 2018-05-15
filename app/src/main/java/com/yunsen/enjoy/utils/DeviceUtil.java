@@ -2,10 +2,21 @@ package com.yunsen.enjoy.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
+
+import com.yunsen.enjoy.activity.MainActivity;
+import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
+import com.yunsen.enjoy.activity.user.UserLoginActivity;
+
+import java.io.File;
 
 /**
  * Created by tiansj on 14/12/30.
@@ -140,5 +151,29 @@ public class DeviceUtil {
         }
 
         return true;
+    }
+
+
+    /**
+     * 获取当前程序的版本信息
+     *
+     * @param context
+     * @return
+     */
+    public static String getAppVersionName(Context context) {
+        String versionName = "";
+        try {
+            PackageManager pm = context.getPackageManager();
+            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
+            versionName = pi.versionName;
+            if (versionName == null || versionName.length() <= 0) {
+                return "";
+            }
+        } catch (Exception e) {
+
+            Log.e("VersionInfo", "Exception", e);
+        }
+        return versionName;
+
     }
 }

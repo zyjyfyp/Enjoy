@@ -38,6 +38,7 @@ import com.hengyushop.db.DBManager;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.AppManager;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserAddressData;
@@ -85,7 +86,7 @@ public class EditUserAddressActivity extends AppCompatActivity {
         setContentView(R.layout.edit_user_address);
         popupWindowMenu = new MyPopupWindowMenu(this);
         progress = new DialogProgress(EditUserAddressActivity.this);
-        spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
+        spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         innidade();
 
     }
@@ -268,7 +269,7 @@ public class EditUserAddressActivity extends AppCompatActivity {
                         progress.CreateProgress();
 
                         String id = spPreferences.getString("user_id", "");
-                        String user_name = spPreferences.getString("user", "");
+                        String user_name = spPreferences.getString(SpConstants.USER_NAME, "");
 
                         // String pingjiedizhi = sheng + "、" + shi + "、" + xian;
 

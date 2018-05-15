@@ -26,6 +26,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.utils.BitmapUtil;
 import com.yunsen.enjoy.utils.GetImgUtil;
@@ -69,8 +70,8 @@ public class DBFengXiangActivity extends AppCompatActivity implements OnClickLis
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fenxiang_time);
-		spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-		progress = new DialogProgress(DBFengXiangActivity.this);
+        spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+        progress = new DialogProgress(DBFengXiangActivity.this);
 		fanhui_type = true;
 //		if (JuTuanGouXq2Activity.fanhui_type == true) {
 //			fanhui_type = true;
@@ -147,9 +148,9 @@ public class DBFengXiangActivity extends AppCompatActivity implements OnClickLis
 
 	private void con(final int index, int type) {
 		try {
-			spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-			String user_name = spPreferences.getString("user", "");
-			String user_id = spPreferences.getString("user_id", "");
+            spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+            String user_name = spPreferences.getString(SpConstants.USER_NAME, "");
+            String user_id = spPreferences.getString("user_id", "");
 			System.out.println("user_id==========" + user_id);
 
 			SharedPreferences spPreferences_login = getSharedPreferences("longuserset_login", MODE_PRIVATE);

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.mine.MyOrderConfrimActivity;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.widget.DialogProgress;
 
 
@@ -27,7 +28,6 @@ public class ZhiFuOKActivity extends AppCompatActivity implements OnClickListene
     private TextView textView1, textView2, textView3, textView4, textView5,
             textView6;
     private DialogProgress progress;
-    private SharedPreferences spPreferences;
     public static String province, city, area, user_address, accept_name,
             user_mobile;
     public static String recharge_no, order_no, datetime, sell_price,
@@ -40,7 +40,6 @@ public class ZhiFuOKActivity extends AppCompatActivity implements OnClickListene
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zhifu_ok);
-        spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
         progress = new DialogProgress(ZhiFuOKActivity.this);
         huodong_type = "1";// 活动支付成功之后设置不能继续报名
         intren();

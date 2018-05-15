@@ -47,7 +47,16 @@ public class URLConstants {
      * 头条
      */
     public static final String DISCOVER_FIRST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_page_size_list";
+    /**
+     * y用户登录
+     */
+    public static final String USER_LOGIN_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_login";
 
+    /**
+     * 绑定手机号码
+     */
+    public static final String BOUDLE_PHONE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_oauth_register_0217";
+    //    http://mobile.zams.cn/tools/mobile_ajax.asmx/user_oauth_register_0217
     /**
      * 消息通知
      */
@@ -79,6 +88,18 @@ public class URLConstants {
      * 添加收藏
      */
     public static final String ADD_COLLECT_URL = URLConstants.REALM_NAME_LL + "/user_favorite";
+    /**
+     * 删除用户关注
+     */
+    public static final String DELECT_COLLECT_URL = URLConstants.REALM_NAME_LL + "/user_favorite_delete";
+    /**
+     * 我的收藏
+     */
+    public static final String COLLECT_LIST_URL = URLConstants.REALM_NAME_LL + "/get_user_favorite_list";
+    /**
+     * 商店收藏https://szlxkg.com
+     */
+    public static final String SHOP_COLLECT_LIST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_company_collection";
     /**
      * 详情服务商
      */
@@ -184,10 +205,10 @@ public class URLConstants {
 
 
     //
-//    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";
-//    public static final String REALM_NAME_HTTP = "http://mobile.zams.cn";
-//    public static final String REALM_NAME_LL = "http://mobile.zams.cn/tools/mobile_ajax.asmx";
-//    public static final String REALM_NAME_FX = "http://mobile.zams.cn";
+    //    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";
+    //    public static final String REALM_NAME_HTTP = "http://mobile.zams.cn";
+    //    public static final String REALM_NAME_LL = "http://mobile.zams.cn/tools/mobile_ajax.asmx";
+    //    public static final String REALM_NAME_FX = "http://mobile.zams.cn";
     public static final String REALM_NAME_WEB = "http://szlxkg.com";
     public static final String REALM_NAME_HTTP = "http://szlxkg.com";
     public static final String REALM_NAME_LL = "http://szlxkg.com/tools/mobile_ajax.asmx";

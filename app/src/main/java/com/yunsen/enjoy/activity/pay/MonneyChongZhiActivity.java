@@ -31,6 +31,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserRegisterllData;
@@ -58,10 +59,7 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
 	private LinearLayout yu_pay0,yu_pay1,yu_pay2;
 	private CheckBox yu_pay_c0,yu_pay_c1,yu_pay_c2;
 	private IWXAPI api;
-	private SharedUtils in ;
 	private WareDao wareDao;
-	private String yth;
-	private String key;
 	private SharedPreferences spPreferences;
 	String user_name,user_id,pwd;
 	String payment_id;
@@ -69,8 +67,8 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
 	private ImageView iv_fanhui;
 	private String partner_id,prepayid,noncestr,timestamp,package_,sign;
 	private DialogProgress progress;
-	String login_sign,pety;
-	public static Handler handlerll;
+    String pety;
+    public static Handler handlerll;
 	boolean flag = false;
 
 	@Override
@@ -114,9 +112,9 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
 			//		yth = registerData.getHengyuCode();
 			//		key = registerData.getUserkey();
 
-			spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-			user_name = spPreferences.getString("user", "");
-			user_id = spPreferences.getString("user_id", "");
+            spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+            user_name = spPreferences.getString(SpConstants.USER_NAME, "");
+            user_id = spPreferences.getString("user_id", "");
 			pwd = spPreferences.getString("pwd", "");
 			iv_fanhui = (ImageView) findViewById(R.id.iv_fanhui);
 			iv_fanhui.setOnClickListener(this);
@@ -297,9 +295,9 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
 	 */
 	private void userloginqm() {
 		try{
-			SharedPreferences spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
-			String user_name = spPreferences.getString("user", "");
-			String strUrlone = URLConstants.REALM_NAME_LL + "/get_user_model?username="+user_name+"";
+            SharedPreferences spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+            String user_name = spPreferences.getString(SpConstants.USER_NAME, "");
+            String strUrlone = URLConstants.REALM_NAME_LL + "/get_user_model?username="+user_name+"";
 			System.out.println("======11============="+strUrlone);
 			AsyncHttp.get(strUrlone, new AsyncHttpResponseHandler() {
 				public void onSuccess(int arg0, String arg1) {

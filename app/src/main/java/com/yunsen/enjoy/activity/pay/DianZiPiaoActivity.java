@@ -19,6 +19,7 @@ import com.androidquery.AQuery;
 import com.google.zxing.WriterException;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.OrderBean;
@@ -55,7 +56,7 @@ public class DianZiPiaoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dianzipiao);
         progress = new DialogProgress(DianZiPiaoActivity.this);
         mAq = new AQuery(DianZiPiaoActivity.this);
-        spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
+        spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         //		user_name = spPreferences.getString("user", "");
         //		user_id = spPreferences.getString("user_id", "");
         //		real_name = spPreferences.getString("real_name", "");

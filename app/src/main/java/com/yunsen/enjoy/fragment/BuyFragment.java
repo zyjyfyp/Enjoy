@@ -80,7 +80,7 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
     @Override
     protected void initView() {
         ButterKnife.bind(this, rootView);
-        searchBar.setLeftText("深圳");
+        searchBar.setLeftText("深圳市");
     }
 
     @Override
@@ -148,7 +148,7 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
     @Override
     public void onResume() {
         super.onResume();
-        String currentCity = SharedPreference.getInstance().getString(SpConstants.CITY_KEY, "深圳");
+        String currentCity = SharedPreference.getInstance().getString(SpConstants.CITY_KEY, "深圳市");
         searchBar.setLeftText(currentCity);
     }
 

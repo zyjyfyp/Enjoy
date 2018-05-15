@@ -39,6 +39,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.orhanobut.logger.Logger;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.AppManager;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.CityData;
@@ -92,7 +93,7 @@ public class AddUserAddressActivity extends AppCompatActivity {
         popupWindowMenu = new MyPopupWindowMenu(this);
         wareDao = new WareDao(getApplicationContext());
         progress = new DialogProgress(AddUserAddressActivity.this);
-        spPreferences = getSharedPreferences("longuserset", MODE_PRIVATE);
+        spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         innidade();
     }
 
@@ -235,8 +236,8 @@ public class AddUserAddressActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "请填写详细收货地址", Toast.LENGTH_SHORT).show();
                 } else {
                     progress.CreateProgress();
-                    String id = spPreferences.getString("user_id", "");
-                    String user_name = spPreferences.getString("user", "");
+                    String id = spPreferences.getString(SpConstants.USER_ID, "");
+                    String user_name = spPreferences.getString(SpConstants.USER_NAME, "");
 
                     //					String pingjiedizhi = sheng + "、" + shi + "、" + xian;
                     strUrl = URLConstants.REALM_ACCOUNT_URL
