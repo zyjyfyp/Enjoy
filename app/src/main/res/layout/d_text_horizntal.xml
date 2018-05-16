@@ -11,36 +11,46 @@
         android:gravity="center">
 
         <CheckBox
-            android:button="@null"
             android:id="@+id/d_text_hor_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:button="@null"
             android:drawablePadding="5dp"
+            android:drawableRight="@drawable/down_more_selected"
             android:gravity="center"
             android:text="分类"
-            android:drawableRight="@drawable/down_more_selected"
-            android:textColor="@drawable/orange_text_select"
+            android:textColor="@drawable/orange_text_selected"
             android:textSize="14sp" />
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center">
+        android:layout_weight="1">
 
         <CheckBox
             android:id="@+id/d_text_hor_2"
-            android:button="@null"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:button="@null"
             android:drawablePadding="5dp"
-            android:gravity="center"
+            android:drawableRight="@mipmap/sort_no"
             android:text="价格"
-            android:drawableRight="@drawable/down_more_selected"
-            android:textColor="@drawable/orange_text_select"
+            android:textColor="@drawable/orange_text_selected"
             android:textSize="14sp" />
-    </LinearLayout>
+
+        <View
+            android:id="@+id/d_text_hor_2top"
+            android:layout_width="match_parent"
+            android:layout_height="22dp" />
+
+        <View
+            android:id="@+id/d_text_hor_2bottom"
+            android:layout_width="match_parent"
+            android:layout_height="22dp"
+            android:layout_below="@+id/d_text_hor_2top" />
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -52,9 +62,9 @@
             android:id="@+id/d_text_hor_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@drawable/orange_text_select"
             android:gravity="center"
             android:text="同城"
+            android:textColor="@drawable/orange_text_selected"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -65,15 +75,15 @@
         android:gravity="center">
 
         <CheckBox
-            android:button="@null"
             android:id="@+id/d_text_hor_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:button="@null"
             android:drawablePadding="5dp"
+            android:drawableRight="@mipmap/filter_img"
             android:gravity="center"
             android:text="筛选"
-            android:drawableRight="@drawable/down_more_selected"
-            android:textColor="@drawable/orange_text_select"
+            android:textColor="@color/color_888"
             android:textSize="14sp" />
     </LinearLayout>
 

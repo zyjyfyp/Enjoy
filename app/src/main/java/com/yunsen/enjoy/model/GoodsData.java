@@ -1,7 +1,6 @@
 package com.yunsen.enjoy.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.http.URLConstants;
 
 import java.util.List;
@@ -116,7 +115,94 @@ public class GoodsData {
     private int cashing_packet;
     private int cashing_point;
     private Object activity;
+
     private List<AlbumsBean> albums;
+    /**
+     * channel_ids : ,22,7,
+     * category_ids : ,2749,1698,595,
+     * brand_title : null
+     * imgh_url : https://ju918.com/upload/201608/18/thumb_201608181829333287.jpg
+     * imgs_url : /upload/201608/18/thumb_201608181829333287.jpg
+     * tags :
+     * content : null
+     * mcontent : null
+     * sort_id : 109
+     * is_post : 0
+     * lng : 0,0
+     * lat : 0,0
+     * value_type : 0
+     * allow_group :
+     * allow_sex :
+     * allow_min_level : 0
+     * allow_max_level : 0
+     * allow_min_age : 0
+     * allow_max_age : 0
+     * game_tmpl :
+     * game_online : 0
+     * game_rank : 0
+     * game_wheel : 0
+     * game_let : 0
+     * express_id : 0
+     * min_quantity : 0
+     * unit : 件
+     * packing : null
+     * weight : 0
+     * validity : 2018-05-16 17:38:00
+     * templet_id : 0
+     * start_time : null
+     * end_time : null
+     * start_sinup : null
+     * end_sinup : null
+     * fields : null
+     * albums : null
+     * attach : null
+     */
+
+    private String channel_ids;
+    private String category_ids;
+    @JSONField(name = "brand_title")
+    private Object brand_titleX;
+    private String imgh_url;
+    private String imgs_url;
+    private String tags;
+    @JSONField(name = "content")
+    private Object contentX;
+    @JSONField(name = "mcontent")
+    private Object mcontentX;
+    @JSONField(name = "sort_id")
+    private int sort_idX;
+    private int is_post;
+    private String lng;
+    private String lat;
+    private int value_type;
+    private String allow_group;
+    private String allow_sex;
+    private int allow_min_level;
+    private int allow_max_level;
+    private int allow_min_age;
+    private int allow_max_age;
+    private String game_tmpl;
+    private int game_online;
+    private int game_rank;
+    private int game_wheel;
+    private int game_let;
+    private int express_id;
+    private int min_quantity;
+    private String unit;
+    private Object packing;
+    private int weight;
+    private String validity;
+    private int templet_id;
+    @JSONField(name = "start_time")
+    private Object start_timeX;
+    @JSONField(name = "end_time")
+    private Object end_timeX;
+    private Object start_sinup;
+    private Object end_sinup;
+    private Object fields;
+    @JSONField(name = "albums")
+    private Object albumsX;
+    private Object attach;
 
     public GoodsData() {
     }
@@ -554,4 +640,307 @@ public class GoodsData {
         this.albums = albums;
     }
 
+    public String getChannel_ids() {
+        return channel_ids;
+    }
+
+    public void setChannel_ids(String channel_ids) {
+        this.channel_ids = channel_ids;
+    }
+
+    public String getCategory_ids() {
+        return category_ids;
+    }
+
+    public void setCategory_ids(String category_ids) {
+        this.category_ids = category_ids;
+    }
+
+    public Object getBrand_titleX() {
+        return brand_titleX;
+    }
+
+    public void setBrand_titleX(Object brand_titleX) {
+        this.brand_titleX = brand_titleX;
+    }
+
+    public String getImgh_url() {
+        return imgh_url;
+    }
+
+    public void setImgh_url(String imgh_url) {
+        this.imgh_url = imgh_url;
+    }
+
+    public String getImgs_url() {
+        return imgs_url;
+    }
+
+    public void setImgs_url(String imgs_url) {
+        this.imgs_url = imgs_url;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public Object getContentX() {
+        return contentX;
+    }
+
+    public void setContentX(Object contentX) {
+        this.contentX = contentX;
+    }
+
+    public Object getMcontentX() {
+        return mcontentX;
+    }
+
+    public void setMcontentX(Object mcontentX) {
+        this.mcontentX = mcontentX;
+    }
+
+    public int getSort_idX() {
+        return sort_idX;
+    }
+
+    public void setSort_idX(int sort_idX) {
+        this.sort_idX = sort_idX;
+    }
+
+    public int getIs_post() {
+        return is_post;
+    }
+
+    public void setIs_post(int is_post) {
+        this.is_post = is_post;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public int getValue_type() {
+        return value_type;
+    }
+
+    public void setValue_type(int value_type) {
+        this.value_type = value_type;
+    }
+
+    public String getAllow_group() {
+        return allow_group;
+    }
+
+    public void setAllow_group(String allow_group) {
+        this.allow_group = allow_group;
+    }
+
+    public String getAllow_sex() {
+        return allow_sex;
+    }
+
+    public void setAllow_sex(String allow_sex) {
+        this.allow_sex = allow_sex;
+    }
+
+    public int getAllow_min_level() {
+        return allow_min_level;
+    }
+
+    public void setAllow_min_level(int allow_min_level) {
+        this.allow_min_level = allow_min_level;
+    }
+
+    public int getAllow_max_level() {
+        return allow_max_level;
+    }
+
+    public void setAllow_max_level(int allow_max_level) {
+        this.allow_max_level = allow_max_level;
+    }
+
+    public int getAllow_min_age() {
+        return allow_min_age;
+    }
+
+    public void setAllow_min_age(int allow_min_age) {
+        this.allow_min_age = allow_min_age;
+    }
+
+    public int getAllow_max_age() {
+        return allow_max_age;
+    }
+
+    public void setAllow_max_age(int allow_max_age) {
+        this.allow_max_age = allow_max_age;
+    }
+
+    public String getGame_tmpl() {
+        return game_tmpl;
+    }
+
+    public void setGame_tmpl(String game_tmpl) {
+        this.game_tmpl = game_tmpl;
+    }
+
+    public int getGame_online() {
+        return game_online;
+    }
+
+    public void setGame_online(int game_online) {
+        this.game_online = game_online;
+    }
+
+    public int getGame_rank() {
+        return game_rank;
+    }
+
+    public void setGame_rank(int game_rank) {
+        this.game_rank = game_rank;
+    }
+
+    public int getGame_wheel() {
+        return game_wheel;
+    }
+
+    public void setGame_wheel(int game_wheel) {
+        this.game_wheel = game_wheel;
+    }
+
+    public int getGame_let() {
+        return game_let;
+    }
+
+    public void setGame_let(int game_let) {
+        this.game_let = game_let;
+    }
+
+    public int getExpress_id() {
+        return express_id;
+    }
+
+    public void setExpress_id(int express_id) {
+        this.express_id = express_id;
+    }
+
+    public int getMin_quantity() {
+        return min_quantity;
+    }
+
+    public void setMin_quantity(int min_quantity) {
+        this.min_quantity = min_quantity;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public Object getPacking() {
+        return packing;
+    }
+
+    public void setPacking(Object packing) {
+        this.packing = packing;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public String getValidity() {
+        return validity;
+    }
+
+    public void setValidity(String validity) {
+        this.validity = validity;
+    }
+
+    public int getTemplet_id() {
+        return templet_id;
+    }
+
+    public void setTemplet_id(int templet_id) {
+        this.templet_id = templet_id;
+    }
+
+    public Object getStart_timeX() {
+        return start_timeX;
+    }
+
+    public void setStart_timeX(Object start_timeX) {
+        this.start_timeX = start_timeX;
+    }
+
+    public Object getEnd_timeX() {
+        return end_timeX;
+    }
+
+    public void setEnd_timeX(Object end_timeX) {
+        this.end_timeX = end_timeX;
+    }
+
+    public Object getStart_sinup() {
+        return start_sinup;
+    }
+
+    public void setStart_sinup(Object start_sinup) {
+        this.start_sinup = start_sinup;
+    }
+
+    public Object getEnd_sinup() {
+        return end_sinup;
+    }
+
+    public void setEnd_sinup(Object end_sinup) {
+        this.end_sinup = end_sinup;
+    }
+
+    public Object getFields() {
+        return fields;
+    }
+
+    public void setFields(Object fields) {
+        this.fields = fields;
+    }
+
+    public Object getAlbumsX() {
+        return albumsX;
+    }
+
+    public void setAlbumsX(Object albumsX) {
+        this.albumsX = albumsX;
+    }
+
+    public Object getAttach() {
+        return attach;
+    }
+
+    public void setAttach(Object attach) {
+        this.attach = attach;
+    }
 }

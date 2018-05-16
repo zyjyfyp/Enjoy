@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="在线申请"
-                android:textColor="@drawable/orange_text_select"
+                android:textColor="@drawable/orange_text_checked"
                 android:textSize="11sp"/>
 
         </LinearLayout>
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="预约看车"
-                android:textColor="@drawable/orange_text_select"
+                android:textColor="@drawable/orange_text_checked"
                 android:textSize="11sp"/>
 
         </LinearLayout>
@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="资料审核"
-                android:textColor="@drawable/orange_text_select"
+                android:textColor="@drawable/orange_text_checked"
                 android:textSize="11sp"/>
 
         </LinearLayout>
@@ -125,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="放款过户"
-                android:textColor="@drawable/orange_text_select"
+                android:textColor="@drawable/orange_text_checked"
                 android:textSize="11sp"/>
         </LinearLayout>
     </LinearLayout>

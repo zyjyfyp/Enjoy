@@ -176,4 +176,9 @@ public class DeviceUtil {
         return versionName;
 
     }
+
+    public static double getStatusBarHeight(Context context) {
+        double statusBarHeight = Math.ceil(25 * context.getResources().getDisplayMetrics().density);
+        return statusBarHeight;
+    }
 }

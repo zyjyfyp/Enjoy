@@ -121,16 +121,21 @@ public class MainPagerFragment extends BaseFragment implements View.OnClickListe
             public void onItemClick(int index) {
                 switch (index) {
                     case 0:
-                    case 3:
-                        ToastUtils.makeTextShort("功能暂未开放。");
+                        UIHelper.showChangeGoodsActivity(getActivity(), "goods", "1697", "企业清仓");
                         break;
+
                     case 1:
                         UIHelper.showChangeGoodsActivity(getActivity(), "goods", "1698", "换产品");
                         break;
                     case 2:
+//                        UIHelper.showChangeGoodsActivity(getActivity(), "service", "609", "换服务");
                         UIHelper.showChangeGoodsActivity(getActivity(), "goods", "609", "换服务");
                         break;
+                    case 3:
+//                        UIHelper.showChangeGoodsActivity(getActivity(), "card", "1711", "换卡卷");
+                        UIHelper.showChangeGoodsActivity(getActivity(), "goods", "1711", "换卡卷");
 
+                        break;
                 }
             }
         });

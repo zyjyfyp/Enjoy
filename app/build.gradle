@@ -34,16 +34,16 @@ android {
     }
     signingConfigs {
         release {
-//            storeFile file("\\enjoy.jks")
-//            keyAlias "乐享汽车"
-//            keyPassword "yunsen1230."
-//            storePassword "yunsen1230."
+            storeFile file("\\yike.jks")
+            keyAlias "yk"
+            keyPassword "yk123456"
+            storePassword "yk123456"
         }
         debug {
-//            storeFile file("\\enjoy.jks")
-//            keyAlias "乐享汽车"
-//            keyPassword "yunsen1230."
-//            storePassword "yunsen1230."
+            storeFile file("\\yike.jks")
+            keyAlias "yk"
+            keyPassword "yk123456"
+            storePassword "yk123456"
         }
     }
     buildTypes {

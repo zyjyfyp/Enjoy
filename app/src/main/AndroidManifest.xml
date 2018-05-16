@@ -78,11 +78,12 @@
                 <!-- 100380359 100381104 222222 -->
             </intent-filter>
         </activity>
-        //高德地图 todo zyjy
-        <!--<meta-data-->
-        <!--android:name="com.amap.api.v2.apikey"-->
-        <!--android:value="ba972155375ade032175041398457297" />-->
-        <!--<service android:name="com.amap.api.location.APSService"></service>-->
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="f90320dd358c8b52d764de4b8954a720" />
+
+        <service android:name="com.amap.api.location.APSService"></service>
 
 
         <provider

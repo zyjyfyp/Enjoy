@@ -18,7 +18,7 @@
             android:gravity="center"
             android:text="智能排序"
             android:drawableRight="@drawable/down_more_selected"
-            android:textColor="@drawable/orange_text_select"
+            android:textColor="@drawable/orange_text_checked"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -36,7 +36,7 @@
             android:gravity="center"
             android:text="智能排序"
             android:drawableRight="@drawable/down_more_selected"
-            android:textColor="@drawable/orange_text_select"
+            android:textColor="@drawable/orange_text_checked"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:drawablePadding="5dp"
             android:drawableRight="@drawable/down_more_selected"
-            android:textColor="@drawable/orange_text_select"
+            android:textColor="@drawable/orange_text_checked"
             android:gravity="center"
             android:text="智能排序"
             android:textSize="14sp" />
@@ -72,7 +72,7 @@
             android:gravity="center"
             android:text="智能排序"
             android:drawableRight="@drawable/down_more_selected"
-            android:textColor="@drawable/orange_text_select"
+            android:textColor="@drawable/orange_text_checked"
             android:textSize="14sp" />
     </LinearLayout>
 
