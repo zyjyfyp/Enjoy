@@ -85,9 +85,6 @@ public class MobilePhoneActivity extends AppCompatActivity implements
                     Toast.makeText(getApplicationContext(), strhengyuname,
                             Toast.LENGTH_SHORT).show();
                     progress.CloseProgress();
-                    // Intent intent = new Intent(UserRegisterActivity.this,
-                    // UserLoginActivity.class);
-                    // startActivity(intent);
                     finish();
                     break;
                 case 1:

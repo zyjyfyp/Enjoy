@@ -24,7 +24,7 @@ android {
         renderscriptSupportModeEnabled true
         //添加如下配置就OK了
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
-        applicationId "com.yunsen.enjoy"
+        applicationId "com.yunsen.yike"
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 100
@@ -34,20 +34,16 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file("\\enjoy.jks")
-            keyAlias "乐享汽车"
-            keyPassword "yunsen1230."
-            storePassword "yunsen1230."
+//            storeFile file("\\enjoy.jks")
+//            keyAlias "乐享汽车"
+//            keyPassword "yunsen1230."
+//            storePassword "yunsen1230."
         }
         debug {
-            storeFile file("\\enjoy.jks")
-            keyAlias "乐享汽车"
-            keyPassword "yunsen1230."
-            storePassword "yunsen1230."
-//            storeFile file("\\yunshangju")
-//            keyAlias "yunshangju"
-//            keyPassword "yunshangju"
-//            storePassword "yunshangju"
+//            storeFile file("\\enjoy.jks")
+//            keyAlias "乐享汽车"
+//            keyPassword "yunsen1230."
+//            storePassword "yunsen1230."
         }
     }
     buildTypes {
@@ -55,14 +51,16 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "ROOT_URL", "\"https://szlxkg.com\""
+//            buildConfigField "String", "ROOT_URL", "\"https://szlxkg.com\""
+            buildConfigField "String", "ROOT_URL", "\"http://183.62.138.31:1066\""
         }
         debug {
             debuggable true
             signingConfig signingConfigs.debug
             minifyEnabled false//是否混淆
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "ROOT_URL", "\"http://szlxkg.com\""
+//            buildConfigField "String", "ROOT_URL", "\"http://szlxkg.com\""
+            buildConfigField "String", "ROOT_URL", "\"http://183.62.138.31:1066\""
         }
     }
 

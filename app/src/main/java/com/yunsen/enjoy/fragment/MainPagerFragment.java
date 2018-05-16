@@ -2,6 +2,7 @@ package com.yunsen.enjoy.fragment;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,7 @@ import android.view.View;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.MainActivity;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
 import com.yunsen.enjoy.fragment.home.HomeGoodsAdapter;
 import com.yunsen.enjoy.http.HttpCallBack;
@@ -55,6 +57,10 @@ public class MainPagerFragment extends BaseFragment implements View.OnClickListe
     private List<GoodsData> mBottomDatas;
     private View leftSearchImg;
     private View rightMenu;
+    private View btnImgLayout;
+    private boolean mIsFacilitator =false;
+    private SharedPreferences mSp;
+    private String mUserId;
 
 
     @Override
@@ -74,11 +80,13 @@ public class MainPagerFragment extends BaseFragment implements View.OnClickListe
         adtTv1 = (ADTextView) topView.findViewById(R.id.adt_text1);
         oneHLayout = topView.findViewById(R.id.one_horizontal_layout_3);
         twoHLayout = topView.findViewById(R.id.two_horizontal_layout_4);
+        btnImgLayout = topView.findViewById(R.id.button_layout);
     }
 
     @Override
     protected void initData() {
 
+        mSp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
         GridLayoutManager layoutmanager = new GridLayoutManager(getActivity(), 2);
         //设置RecyclerView 布局
         layoutmanager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -94,6 +102,10 @@ public class MainPagerFragment extends BaseFragment implements View.OnClickListe
         indicatorLayout.setPadding(5, 5, 10, 5);
         oneHLayout.setData(getOneHLayoutData());
         twoHLayout.setData(getTwoHLayoutData());
+        mIsFacilitator = mSp.getBoolean(SpConstants.HAS_SERVICE_SHOP, false);
+        mUserId = mSp.getString(SpConstants.USER_ID, "");
+
+
     }
 
 
@@ -103,6 +115,7 @@ public class MainPagerFragment extends BaseFragment implements View.OnClickListe
         rightMenu.setOnClickListener(this);
         adtTv1.setOnClickListener(this);
         mAdapter.setOnItemClickListener(this);
+        btnImgLayout.setOnClickListener(this);
         oneHLayout.setmListener(new HorizontalLayout3.onHorizontalItemClick() {
             @Override
             public void onItemClick(int index) {
@@ -170,6 +183,22 @@ public class MainPagerFragment extends BaseFragment implements View.OnClickListe
 
             }
         });
+
+        HttpProxy.getIsFacilitator(mUserId, new HttpCallBack<Boolean>() {
+            @Override
+            public void onSuccess(Boolean isFacilitator) {
+                mIsFacilitator = isFacilitator;
+                SharedPreferences.Editor edit = mSp.edit();
+                edit.putBoolean(SpConstants.HAS_SERVICE_SHOP, isFacilitator);
+                edit.commit();
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
+
     }
 
 
@@ -200,6 +229,9 @@ public class MainPagerFragment extends BaseFragment implements View.OnClickListe
             case R.id.adt_text1:
                 NoticeModel data = adtTv1.getCurrentData();
                 UIHelper.showNoticeWebActivity(getActivity(), data.getId());
+                break;
+            case R.id.button_layout:
+                UIHelper.goLoginOrIsFacilitator(getActivity(), mIsFacilitator);
                 break;
 
         }

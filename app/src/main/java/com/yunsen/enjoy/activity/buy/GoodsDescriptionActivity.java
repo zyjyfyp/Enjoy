@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,6 +20,7 @@ import com.yunsen.enjoy.adapter.CarTopBannerAdapter;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.AlbumsBean;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
@@ -36,12 +40,7 @@ import okhttp3.Request;
 
 public class GoodsDescriptionActivity extends BaseFragmentActivity {
 
-    @Bind(R.id.enter_shop)
-    Button enterShop;
-    @Bind(R.id.back_btn)
-    Button backBtn;
-    @Bind(R.id.rl_title)
-    RelativeLayout rlTitle;
+
     @Bind(R.id.goods_top_pager)
     AutoLoopViewPager goodsTopPager;
     @Bind(R.id.goods_top_indicator)
@@ -72,6 +71,20 @@ public class GoodsDescriptionActivity extends BaseFragmentActivity {
     ProgressBar warningPBar;
     @Bind(R.id.imagesLayout)
     LinearLayout imagesLayout;
+    @Bind(R.id.goods_description_rb)
+    RadioButton goodsDescriptionRb;
+    @Bind(R.id.goods_size_rb)
+    RadioButton goodsSizeRb;
+    @Bind(R.id.webview)
+    WebView webview;
+    @Bind(R.id.ll_shiyishicai1)
+    LinearLayout llShiyishicai1;
+    @Bind(R.id.enter_shop)
+    Button enterShop;
+    @Bind(R.id.back_btn)
+    Button backBtn;
+    @Bind(R.id.rl_title)
+    RelativeLayout rlTitle;
     @Bind(R.id.market_information_juduihuan)
     LinearLayout marketInformationJuduihuan;
     @Bind(R.id.btn_dianping)
@@ -84,6 +97,9 @@ public class GoodsDescriptionActivity extends BaseFragmentActivity {
     LinearLayout orderShopNow;
     @Bind(R.id.market_information_bottom)
     LinearLayout marketInformationBottom;
+    @Bind(R.id.goods_radio_group)
+    RadioGroup goodsRadioGroup;
+
     private String mGoodId;
 
     @Override
@@ -121,6 +137,8 @@ public class GoodsDescriptionActivity extends BaseFragmentActivity {
                 upBanner(albums);
                 upView(responseData);
 
+                webview.loadUrl(URLConstants.REALM_NAME_HTTP + "/mobile/goods/conent-" + albums.get(0).getArticle_id() + ".html");//商品介绍
+
             }
 
             @Override
@@ -145,7 +163,7 @@ public class GoodsDescriptionActivity extends BaseFragmentActivity {
         double rebatePrice = defaultSpecItem.getSell_price();
         goodsPriceTv.setText("￥" + rebatePrice);
         double market_price = defaultSpecItem.getMarket_price();
-        goodsMarketPriceTv.setText("￥" + market_price );
+        goodsMarketPriceTv.setText("￥" + market_price);
         double cashingPacket = defaultSpecItem.getCashing_packet();
         goodsPacketPriceTv.setText("￥" + cashingPacket);
 
@@ -194,10 +212,5 @@ public class GoodsDescriptionActivity extends BaseFragmentActivity {
         ButterKnife.unbind(this);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+
 }

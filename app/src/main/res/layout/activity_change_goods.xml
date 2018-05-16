@@ -5,10 +5,18 @@
     android:orientation="vertical">
 
     <include layout="@layout/back_action_bar" />
-    <include layout="@layout/d_text_horizntal"/>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/d_recycler_view"
+
+    <include layout="@layout/d_text_horizntal" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_widget"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/d_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

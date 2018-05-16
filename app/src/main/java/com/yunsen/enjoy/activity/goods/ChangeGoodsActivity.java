@@ -3,6 +3,7 @@ package com.yunsen.enjoy.activity.goods;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -39,7 +40,7 @@ import okhttp3.Request;
  * Created by Administrator on 2018/5/15.
  */
 
-public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiItemTypeAdapter.OnItemClickListener {
+public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiItemTypeAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
     @Bind(R.id.action_back)
     ImageView actionBack;
     @Bind(R.id.action_bar_title)
@@ -56,7 +57,9 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
     CheckBox dTextHor4;
     @Bind(R.id.d_recycler_view)
     RecyclerView dRecyclerView;
-    private ArrayList<GoodsData> mData;
+    @Bind(R.id.swipe_refresh_widget)
+    SwipeRefreshLayout swipeRefreshWidget;
+    private List<GoodsData> mData;
     private DGoodRecyclerAdapter mAdapter;
     private String mChannelName;
     private String mCategegoryId;
@@ -79,7 +82,7 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
         dRecyclerView.setLayoutManager(layout);
         loadMoreLayout = new LoadMoreLayout(this);
         dRecyclerView.addItemDecoration(new RecycleViewDivider(this, LinearLayoutManager.VERTICAL));
-
+        swipeRefreshWidget.setOnRefreshListener(this);
     }
 
     @Override
@@ -94,7 +97,6 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         dRecyclerView.setAdapter(recyclerViewAdapter);
         RecyclerViewUtils.setFooterView(dRecyclerView, loadMoreLayout);
-
     }
 
     @Override
@@ -142,6 +144,7 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
                     } else {
                         mAdapter.upData(responseData);
                     }
+                    swipeRefreshWidget.setRefreshing(false);
                 }
 
                 @Override
@@ -152,7 +155,7 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
                         mHasMore = false;
                         loadMoreLayout.showLoadNoMore();
                     }
-
+                    swipeRefreshWidget.setRefreshing(false);
                 }
 
             });
@@ -197,5 +200,14 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
     @Override
     public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         return false;
+    }
+
+    @Override
+    public void onRefresh() {
+        Log.e(TAG, "onRefresh: 刷新");
+        mHasMore = true;
+        mPageIndex = 1;
+        isLoadMore = false;
+        requestData();
     }
 }

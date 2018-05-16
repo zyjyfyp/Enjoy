@@ -28,6 +28,7 @@ import com.yunsen.enjoy.activity.buy.WatchCarActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceSecondActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceThreeActivity;
+import com.yunsen.enjoy.activity.dealer.MyFacilitatorActivity;
 import com.yunsen.enjoy.activity.goods.ChangeGoodsActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
@@ -47,6 +48,7 @@ import com.yunsen.enjoy.fragment.buy.SeniorFilterActivity;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
+import com.yunsen.enjoy.utils.AccountUtils;
 
 /**
  * 应用程序UI工具包：封装UI相关的一些操作
@@ -85,10 +87,32 @@ public class UIHelper {
         context.finish();
     }
 
-
-    public static void showHouseDetailActivity(Activity context) {
-        Intent intent = new Intent(context, HouseDetailActivity.class);
-        context.startActivity(intent);
+    /**
+     * 判断是否是服务商，并跳转 登录，我是服务商，申请服务商页面
+     *
+     * @param ctx
+     * @param isFacilitator
+     */
+    public static void goLoginOrIsFacilitator(Activity ctx, boolean isFacilitator) {
+        Intent intent = null;
+        if (!isFacilitator) {
+            intent = new Intent(ctx, ApplyServiceActivity.class);
+        } else {
+            intent = new Intent(ctx, MyFacilitatorActivity.class);
+        }
+        if (AccountUtils.hasLogin()) {
+            if (AccountUtils.hasBoundPhone()) {
+                ctx.startActivity(intent);
+            } else {
+                UIHelper.showBundPhoneActivity(ctx);
+            }
+        } else {
+            if (AccountUtils.hasBoundPhone()) {
+                ctx.startActivity(intent);
+            } else {
+                UIHelper.showUserLoginActivity(ctx);
+            }
+        }
     }
 
     /**

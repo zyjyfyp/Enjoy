@@ -226,8 +226,8 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
             mRequstData.setProvince(address);
             mRequstData.setAddress(gpsAddress);
             mRequstData.setService_time(startTime + "-" + endTime);
+            UIHelper.showApplyServiceThreeActivity(this, mRequstData);
         }
-        UIHelper.showApplyServiceThreeActivity(this, mRequstData);
 
     }
 
