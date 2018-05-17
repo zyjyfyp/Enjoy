@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,7 +15,9 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +31,7 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.activity.goods.adapter.CheckItemAdapter;
 import com.yunsen.enjoy.activity.goods.adapter.DGoodRecyclerAdapter;
+import com.yunsen.enjoy.activity.goods.adapter.GradeAdapter;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
@@ -39,13 +45,9 @@ import com.yunsen.enjoy.ui.recyclerview.RecycleViewDivider;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.GlobalStatic;
-import com.yunsen.enjoy.utils.ToastUtils;
-import com.yunsen.enjoy.widget.city.CityModel;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -80,6 +82,18 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
     RecyclerView dRecyclerView;
     @Bind(R.id.swipe_refresh_widget)
     SwipeRefreshLayout swipeRefreshWidget;
+    @Bind(R.id.select_city)
+    TextView selectCity;
+    @Bind(R.id.grade_recycler)
+    RecyclerView gradeRecycler;
+    @Bind(R.id.min_price_edt)
+    EditText minPriceEdt;
+    @Bind(R.id.max_price_edt)
+    EditText maxPriceEdt;
+    @Bind(R.id.filter_layout)
+    LinearLayout filterLayout;
+    @Bind(R.id.goods_draw_layout)
+    DrawerLayout goodsDrawLayout;
     private List<GoodsData> mData;
     private DGoodRecyclerAdapter mAdapter;
     private String mChannelName;
@@ -113,6 +127,15 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
         loadMoreLayout = new LoadMoreLayout(this);
         dRecyclerView.addItemDecoration(new RecycleViewDivider(this, LinearLayoutManager.VERTICAL));
         swipeRefreshWidget.setOnRefreshListener(this);
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+        gradeRecycler.setLayoutManager(gridLayoutManager);
+        ArrayList<String> datas = new ArrayList<>();
+        datas.add("普通会员");
+        datas.add("一星会员");
+        datas.add("二星会员");
+        datas.add("三星会员");
+        gradeRecycler.setAdapter(new GradeAdapter(this,R.layout.grade_itme, datas));
 
     }
 
@@ -243,7 +266,7 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
             } else {
                 Toast.makeText(this, "系统检测到未开启GPS定位服务", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
-                intent.setAction(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                intent.setAction(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(intent);
             }
         }
@@ -251,7 +274,7 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
 
     @OnClick({R.id.action_back, R.id.action_bar_right, R.id.d_text_hor_1,
             R.id.d_text_hor_2, R.id.d_text_hor_3, R.id.d_text_hor_4,
-            R.id.d_text_hor_2top, R.id.d_text_hor_2bottom
+            R.id.d_text_hor_2top, R.id.d_text_hor_2bottom, R.id.select_city
     })
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -284,6 +307,8 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
                 dTextHor2.setCompoundDrawables(null, null, mSortDown, null);
                 upDataInit();
                 requestData();
+                break;
+            case R.id.select_city:
                 break;
         }
     }
@@ -394,5 +419,6 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
         super.onDestroy();
         ButterKnife.unbind(this);
     }
+
 
 }
