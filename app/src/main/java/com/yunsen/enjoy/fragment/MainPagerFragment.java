@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.MainActivity;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
 import com.yunsen.enjoy.fragment.home.HomeGoodsAdapter;
@@ -121,19 +122,19 @@ public class MainPagerFragment extends BaseFragment implements View.OnClickListe
             public void onItemClick(int index) {
                 switch (index) {
                     case 0:
-                        UIHelper.showChangeGoodsActivity(getActivity(), "goods", "1697", "企业清仓");
+                        UIHelper.showChangeGoodsActivity(getActivity(), "goods", "1697", "企业清仓", Constants.REPERTORY_ACT);
                         break;
 
                     case 1:
-                        UIHelper.showChangeGoodsActivity(getActivity(), "goods", "1698", "换产品");
+                        UIHelper.showChangeGoodsActivity(getActivity(), "goods", "1698", "换产品",0);
                         break;
                     case 2:
 //                        UIHelper.showChangeGoodsActivity(getActivity(), "service", "609", "换服务");
-                        UIHelper.showChangeGoodsActivity(getActivity(), "goods", "609", "换服务");
+                        UIHelper.showChangeGoodsActivity(getActivity(), "goods", "609", "换服务",0);
                         break;
                     case 3:
 //                        UIHelper.showChangeGoodsActivity(getActivity(), "card", "1711", "换卡卷");
-                        UIHelper.showChangeGoodsActivity(getActivity(), "goods", "1711", "换卡卷");
+                        UIHelper.showChangeGoodsActivity(getActivity(), "goods", "1711", "换卡卷",0);
 
                         break;
                 }

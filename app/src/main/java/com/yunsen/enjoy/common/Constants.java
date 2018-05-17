@@ -21,8 +21,6 @@ public class Constants {
     public static final String APP_QQ_ID = "222222";// 测试时使用，真正发布的时候要换成自己的APP_ID
 
 
-
-
     /**
      * 买车界面
      */
@@ -116,8 +114,12 @@ public class Constants {
     public static final String CATEGORY_ID_KEY = "categoryIdKey";
     public static final String ACT_NAME_KEY = "activity_name";
     public static final String GOODS_ID_KEY = "goods_id";
+    public static final String ACT_TYPE_KEY = "act_type_key";
 
-
+    /***
+     * Activity type
+     */
+    public static final int REPERTORY_ACT = 1;
 
 
     /**

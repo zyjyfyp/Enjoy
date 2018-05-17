@@ -21,8 +21,18 @@ import java.util.List;
  */
 
 public class DGoodRecyclerAdapter extends CommonAdapter<GoodsData> {
+    private boolean mShowClear = false;
+
     public DGoodRecyclerAdapter(Context context, int layoutId, List<GoodsData> datas) {
         super(context, layoutId, datas);
+    }
+
+    public boolean isShowClear() {
+        return mShowClear;
+    }
+
+    public void setShowClear(boolean showClear) {
+        this.mShowClear = mShowClear;
     }
 
     @Override
@@ -47,6 +57,10 @@ public class DGoodRecyclerAdapter extends CommonAdapter<GoodsData> {
         } else {
             view.setVisibility(View.GONE);
         }
+        if(mShowClear){
+
+        }
+
     }
 
     private void getLatlon(String cityName) {

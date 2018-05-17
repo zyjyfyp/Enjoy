@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -37,6 +38,7 @@ import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.CheckedData;
 import com.yunsen.enjoy.model.GoodsData;
+import com.yunsen.enjoy.model.GradeFlagModel;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.recyclerview.EndlessRecyclerOnScrollListener;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
@@ -94,6 +96,8 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
     LinearLayout filterLayout;
     @Bind(R.id.goods_draw_layout)
     DrawerLayout goodsDrawLayout;
+    private int mActType = 0;
+
     private List<GoodsData> mData;
     private DGoodRecyclerAdapter mAdapter;
     private String mChannelName;
@@ -111,6 +115,8 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
     public AMapLocationClient mlocationClient;
     //声明mLocationOption对象
     public AMapLocationClientOption mLocationOption = null;
+    private GradeAdapter mGradeAdapter;
+    private SelectCityFragment mCityFragment;
 
     @Override
     public int getLayout() {
@@ -130,12 +136,13 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         gradeRecycler.setLayoutManager(gridLayoutManager);
-        ArrayList<String> datas = new ArrayList<>();
-        datas.add("普通会员");
-        datas.add("一星会员");
-        datas.add("二星会员");
-        datas.add("三星会员");
-        gradeRecycler.setAdapter(new GradeAdapter(this,R.layout.grade_itme, datas));
+        ArrayList<GradeFlagModel> datas = new ArrayList<>();
+        datas.add(new GradeFlagModel("普通会员", 0, false));
+        datas.add(new GradeFlagModel("一星会员", 1, false));
+        datas.add(new GradeFlagModel("二星会员", 2, false));
+        datas.add(new GradeFlagModel("三星会员", 3, false));
+        mGradeAdapter = new GradeAdapter(this, R.layout.grade_itme, datas);
+        gradeRecycler.setAdapter(mGradeAdapter);
 
     }
 
@@ -171,9 +178,13 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
         mChannelName = intent.getStringExtra(Constants.CHANNEL_NAME_KEY);
         mCategegoryId = intent.getStringExtra(Constants.CATEGORY_ID_KEY);
         String actName = intent.getStringExtra(Constants.ACT_NAME_KEY);
+        mActType = intent.getIntExtra(Constants.ACT_TYPE_KEY,0);
         actionBarTitle.setText(actName);
         mData = new ArrayList<>();
         mAdapter = new DGoodRecyclerAdapter(this, R.layout.d_goods_item, mData);
+        if (mActType == Constants.REPERTORY_ACT) {
+            mAdapter.setShowClear(true);
+        }
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         dRecyclerView.setAdapter(recyclerViewAdapter);
         RecyclerViewUtils.setFooterView(dRecyclerView, loadMoreLayout);
@@ -195,7 +206,17 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
     protected void initListener() {
         mAdapter.setOnItemClickListener(this);
         dRecyclerView.addOnScrollListener(mOnScrollListener);
+        mGradeAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
+                mGradeAdapter.setSelect(position);
+            }
 
+            @Override
+            public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
+                return false;
+            }
+        });
     }
 
     private static final String TAG = "ChangeGoodsActivity";
@@ -292,6 +313,7 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
                 dTextHor3.setSelected(true);
                 break;
             case R.id.d_text_hor_4:
+                openRightDrag();
                 break;
             case R.id.d_text_hor_2:
                 dTextHor2.setSelected(true);
@@ -309,9 +331,32 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
                 requestData();
                 break;
             case R.id.select_city:
+
+                openCityFragment();
                 break;
         }
     }
+
+    private void openCityFragment() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        if (mCityFragment == null) {
+            mCityFragment = new SelectCityFragment();
+            transaction.add(R.id.filter_layout, mCityFragment);
+        } else {
+            transaction.show(mCityFragment);
+        }
+        transaction.commit();
+    }
+
+    private void closeCityFragment() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (mCityFragment != null)
+            transaction.hide(mCityFragment);
+        transaction.commit();
+
+    }
+
 
     /**
      * 显示类型的列表
@@ -413,6 +458,11 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
         }
     }
 
+    public void openRightDrag() {
+        if (!goodsDrawLayout.isDrawerOpen(filterLayout)) {
+            goodsDrawLayout.openDrawer(filterLayout);
+        }
+    }
 
     @Override
     protected void onDestroy() {

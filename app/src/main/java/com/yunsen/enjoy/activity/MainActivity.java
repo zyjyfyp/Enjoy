@@ -15,8 +15,9 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.activity.car.CarFragment;
+import com.yunsen.enjoy.activity.notice.NoticeFragment;
 import com.yunsen.enjoy.common.Constants;
-import com.yunsen.enjoy.fragment.BuyFragment;
 import com.yunsen.enjoy.fragment.DiscoverFragment;
 import com.yunsen.enjoy.fragment.MainPagerFragment;
 import com.yunsen.enjoy.fragment.MineFragment;
@@ -143,9 +144,9 @@ public class MainActivity extends BaseFragmentActivity {
             case 0:
                 return new MainPagerFragment();
             case 1:
-                return new BuyFragment();
+                return new NoticeFragment();
             case 2:
-                return new DiscoverFragment();
+                return new  CarFragment();
             case 3:
                 mMineFragment = new MineFragment();
                 return mMineFragment;

@@ -11,8 +11,8 @@
         android:gravity="center"
         android:layout_marginLeft="@dimen/app_margin"
         android:layout_marginRight="@dimen/app_margin"
-        android:textColor="@color/title_color"
-        android:background="@drawable/grade_bg"
+        android:textColor="@color/grade_text_select"
+        android:background="@drawable/grade_bg_select"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </RelativeLayout>

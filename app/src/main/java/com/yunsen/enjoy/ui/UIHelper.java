@@ -522,11 +522,12 @@ public class UIHelper {
      *
      * @param ctx
      */
-    public static void showChangeGoodsActivity(Context ctx, String channelName, String categoryId, String actName) {
+    public static void showChangeGoodsActivity(Context ctx, String channelName, String categoryId, String actName,int actType) {
         Intent intent = new Intent(ctx, ChangeGoodsActivity.class);
         intent.putExtra(Constants.CHANNEL_NAME_KEY, channelName);
         intent.putExtra(Constants.CATEGORY_ID_KEY, categoryId);
         intent.putExtra(Constants.ACT_NAME_KEY, actName);
+        intent.putExtra(Constants.ACT_TYPE_KEY, actType);
         ctx.startActivity(intent);
     }
 
