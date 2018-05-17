@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,10 +14,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -39,6 +43,9 @@ import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.CheckedData;
 import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.GradeFlagModel;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpCityEvent;
+import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.recyclerview.EndlessRecyclerOnScrollListener;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
@@ -48,6 +55,10 @@ import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.GlobalStatic;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,10 +103,20 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
     EditText minPriceEdt;
     @Bind(R.id.max_price_edt)
     EditText maxPriceEdt;
-    @Bind(R.id.filter_layout)
-    LinearLayout filterLayout;
     @Bind(R.id.goods_draw_layout)
     DrawerLayout goodsDrawLayout;
+    @Bind(R.id.change_goods_right)
+    LinearLayout changeGoodsRight;
+    @Bind(R.id.change_goods_right_2)
+    LinearLayout changeGoodsRight2;
+    @Bind(R.id.filter_layout)
+    FrameLayout filterLayout;
+    @Bind(R.id.reset_btn)
+    Button resetBtn;
+    @Bind(R.id.submit_btn)
+    Button submitBtn;
+
+
     private int mActType = 0;
 
     private List<GoodsData> mData;
@@ -178,7 +199,7 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
         mChannelName = intent.getStringExtra(Constants.CHANNEL_NAME_KEY);
         mCategegoryId = intent.getStringExtra(Constants.CATEGORY_ID_KEY);
         String actName = intent.getStringExtra(Constants.ACT_NAME_KEY);
-        mActType = intent.getIntExtra(Constants.ACT_TYPE_KEY,0);
+        mActType = intent.getIntExtra(Constants.ACT_TYPE_KEY, 0);
         actionBarTitle.setText(actName);
         mData = new ArrayList<>();
         mAdapter = new DGoodRecyclerAdapter(this, R.layout.d_goods_item, mData);
@@ -217,6 +238,30 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
                 return false;
             }
         });
+        goodsDrawLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                Log.e(TAG, "onDrawerOpened: ");
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                Log.e(TAG, "onDrawerClosed: ");
+                closeCityFragment();
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+                Log.e(TAG, "onDrawerStateChanged: ");
+            }
+        });
+
+
     }
 
     private static final String TAG = "ChangeGoodsActivity";
@@ -295,7 +340,8 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
 
     @OnClick({R.id.action_back, R.id.action_bar_right, R.id.d_text_hor_1,
             R.id.d_text_hor_2, R.id.d_text_hor_3, R.id.d_text_hor_4,
-            R.id.d_text_hor_2top, R.id.d_text_hor_2bottom, R.id.select_city
+            R.id.d_text_hor_2top, R.id.d_text_hor_2bottom, R.id.select_city,
+            R.id.submit_btn, R.id.reset_btn
     })
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -331,30 +377,50 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
                 requestData();
                 break;
             case R.id.select_city:
-
                 openCityFragment();
+                break;
+            case R.id.submit_btn:
+                requestData();
+                closeRightDrag();
+                break;
+            case R.id.reset_btn:
+                resetData();
                 break;
         }
     }
 
-    private void openCityFragment() {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+    /**
+     * 重置筛选
+     */
+    private void resetData() {
+        selectCity.setText("所有区域");
+        mGradeAdapter.clearState();
+        maxPriceEdt.setText("");
+        minPriceEdt.setText("");
 
+    }
+
+    private void openCityFragment() {
+        changeGoodsRight.setVisibility(View.GONE);
+        changeGoodsRight2.setVisibility(View.VISIBLE);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (mCityFragment == null) {
             mCityFragment = new SelectCityFragment();
             transaction.add(R.id.filter_layout, mCityFragment);
-        } else {
-            transaction.show(mCityFragment);
         }
+        transaction.show(mCityFragment);
         transaction.commit();
     }
 
     private void closeCityFragment() {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (mCityFragment != null)
+        changeGoodsRight2.setVisibility(View.GONE);
+        changeGoodsRight.setVisibility(View.VISIBLE);
+        if (mCityFragment != null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.hide(mCityFragment);
-        transaction.commit();
-
+            transaction.commit();
+        }
     }
 
 
@@ -464,11 +530,45 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
         }
     }
 
+
+    public void closeRightDrag() {
+        if (goodsDrawLayout.isDrawerOpen(filterLayout)) {
+            goodsDrawLayout.closeDrawer(filterLayout);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(UpCityEvent event) {
+        if (event.getEventId() == EventConstants.CHANGE_CITY_EVENT) {
+            selectCity.setText(event.getCity());
+            closeCityFragment();
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
     }
 
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && goodsDrawLayout.isDrawerOpen(filterLayout)) {
+            closeRightDrag();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

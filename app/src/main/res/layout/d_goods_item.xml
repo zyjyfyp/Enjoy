@@ -76,6 +76,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/d_goods_clear_repertory"
                     android:background="@drawable/clear_tv_bg"
                     android:textColor="@color/white"
                     android:layout_width="40dp"

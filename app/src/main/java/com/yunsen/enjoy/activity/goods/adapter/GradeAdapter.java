@@ -39,4 +39,11 @@ public class GradeAdapter extends CommonAdapter<GradeFlagModel> {
         }
         this.notifyDataSetChanged();
     }
+
+    public void clearState() {
+        int size = mDatas.size();
+        for (int i = 0; i < size; i++) {
+            mDatas.get(i).setHasCheck(false);
+        }
+    }
 }

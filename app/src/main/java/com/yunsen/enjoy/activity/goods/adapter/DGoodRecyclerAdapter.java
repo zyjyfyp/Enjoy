@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.utils.GlobalStatic;
+import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.utils.Utils;
 import com.yunsen.enjoy.widget.recyclerview.CommonAdapter;
 import com.yunsen.enjoy.widget.recyclerview.base.ViewHolder;
@@ -32,7 +33,7 @@ public class DGoodRecyclerAdapter extends CommonAdapter<GoodsData> {
     }
 
     public void setShowClear(boolean showClear) {
-        this.mShowClear = mShowClear;
+        this.mShowClear = showClear;
     }
 
     @Override
@@ -57,8 +58,17 @@ public class DGoodRecyclerAdapter extends CommonAdapter<GoodsData> {
         } else {
             view.setVisibility(View.GONE);
         }
-        if(mShowClear){
-
+        View repertory = holder.getView(R.id.d_goods_clear_repertory);
+        if (mShowClear) {
+            repertory.setVisibility(View.VISIBLE);
+            repertory.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ToastUtils.makeTextShort("清仓功能暂无");
+                }
+            });
+        } else {
+            repertory.setVisibility(View.GONE);
         }
 
     }
