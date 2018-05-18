@@ -14,8 +14,8 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
-import com.yunsen.enjoy.widget.interfaces.onLeftOnclickListener;
-import com.yunsen.enjoy.widget.interfaces.onRightOnclickListener;
+import com.yunsen.enjoy.widget.interfaces.OnLeftOnclickListener;
+import com.yunsen.enjoy.widget.interfaces.OnRightOnclickListener;
 
 import java.lang.reflect.Field;
 
@@ -27,8 +27,8 @@ public class NumberPickerDialog extends Dialog {
 
     private TextView leftTv;
     private TextView rightTv;
-    private onLeftOnclickListener leftOnclickListener;
-    private onRightOnclickListener rightOnclickListener;
+    private OnLeftOnclickListener leftOnclickListener;
+    private OnRightOnclickListener rightOnclickListener;
     private String[] datas;
     private String leftStr;
     private String rightStr;
@@ -117,7 +117,7 @@ public class NumberPickerDialog extends Dialog {
      * @param str
      * @param onLeftOnclickListener
      */
-    public void setLeftOnclickListener(String str, onLeftOnclickListener onLeftOnclickListener) {
+    public void setLeftOnclickListener(String str, OnLeftOnclickListener onLeftOnclickListener) {
         if (str != null) {
             leftStr = str;
         }
@@ -130,7 +130,7 @@ public class NumberPickerDialog extends Dialog {
      * @param str
      * @param onRightOnclickListener
      */
-    public void setRightOnclickListener(String str, onRightOnclickListener onRightOnclickListener) {
+    public void setRightOnclickListener(String str, OnRightOnclickListener onRightOnclickListener) {
         if (str != null) {
             rightStr = str;
         }

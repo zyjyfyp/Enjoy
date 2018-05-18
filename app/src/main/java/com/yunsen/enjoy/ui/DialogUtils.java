@@ -6,7 +6,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -17,6 +19,8 @@ import com.yunsen.enjoy.activity.user.UserLoginWayActivity;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
+import com.yunsen.enjoy.widget.interfaces.OnLeftOnclickListener;
+import com.yunsen.enjoy.widget.interfaces.OnRightOnclickListener;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -142,4 +146,40 @@ public class DialogUtils {
 
     }
 
+    /**
+     * 目前拥有购物车删除产品
+     *
+     * @param ctx
+     * @param message
+     * @param leftText
+     * @param rightText
+     * @param leftListener
+     * @param rightListener
+     * @return
+     */
+    public static AlertDialog createYesAndNoDialog(Context ctx, String message, final String leftText, String rightText,
+                                                   final OnLeftOnclickListener leftListener, final OnRightOnclickListener rightListener) {
+        LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.delete_message_layout, null);
+        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 40));
+        AlertDialog dialog = new AlertDialog.Builder(ctx).setView(view)
+                .setPositiveButton(rightText, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (rightListener != null) {
+                            rightListener.onRightClick();
+                        }
+                    }
+                })
+                .setNegativeButton(leftText, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (leftListener != null) {
+                            leftListener.onLeftClick();
+                        }
+
+                    }
+                }).create();
+        return dialog;
+    }
 }

@@ -7,6 +7,6 @@ package com.yunsen.enjoy.widget.interfaces;
 /**
  * 设置确定按钮和取消被点击的接口
  */
-public interface onRightOnclickListener {
+public interface OnRightOnclickListener {
     public void onRightClick(int ...index);
 }

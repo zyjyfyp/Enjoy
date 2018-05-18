@@ -15,6 +15,7 @@ public class Constants {
     public static final String APP_ID = "wx88beb35a2752bade";
     public static final String MCH_ID = "1394459302";
     public static final String APP_SECRET = "e94e0ca414b307f026334dbbc124426c";
+    public static final String TEST_USER_ID = "44881"; // TODO: 2018/5/18  测试时用的UserId
 
     public static String WX_Code = "";
     public static QQAuth QQauth;

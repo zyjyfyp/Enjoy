@@ -6,7 +6,6 @@ import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -17,8 +16,8 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
-import com.yunsen.enjoy.widget.interfaces.onLeftOnclickListener;
-import com.yunsen.enjoy.widget.interfaces.onRightOnclickListener;
+import com.yunsen.enjoy.widget.interfaces.OnLeftOnclickListener;
+import com.yunsen.enjoy.widget.interfaces.OnRightOnclickListener;
 
 import java.lang.reflect.Field;
 
@@ -31,8 +30,8 @@ public class DatePickerViewDialog extends Dialog {
     private DatePicker datePicker;
     private TextView leftTv;
     private TextView rightTv;
-    private onLeftOnclickListener leftOnclickListener;
-    private onRightOnclickListener rightOnclickListener;
+    private OnLeftOnclickListener leftOnclickListener;
+    private OnRightOnclickListener rightOnclickListener;
     private String leftStr;
     private String rightStr;
 
@@ -110,7 +109,7 @@ public class DatePickerViewDialog extends Dialog {
      * @param str
      * @param onLeftOnclickListener
      */
-    public void setLeftOnclickListener(String str, onLeftOnclickListener onLeftOnclickListener) {
+    public void setLeftOnclickListener(String str, OnLeftOnclickListener onLeftOnclickListener) {
         if (str != null) {
             leftStr = str;
         }
@@ -123,7 +122,7 @@ public class DatePickerViewDialog extends Dialog {
      * @param str
      * @param onRightOnclickListener
      */
-    public void setRightOnclickListener(String str, onRightOnclickListener onRightOnclickListener) {
+    public void setRightOnclickListener(String str, OnRightOnclickListener onRightOnclickListener) {
         if (str != null) {
             rightStr = str;
         }

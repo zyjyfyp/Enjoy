@@ -28,8 +28,8 @@ import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.MyAlertDialog;
 import com.yunsen.enjoy.widget.NumberPickerDialog;
-import com.yunsen.enjoy.widget.interfaces.onLeftOnclickListener;
-import com.yunsen.enjoy.widget.interfaces.onRightOnclickListener;
+import com.yunsen.enjoy.widget.interfaces.OnLeftOnclickListener;
+import com.yunsen.enjoy.widget.interfaces.OnRightOnclickListener;
 
 import java.util.List;
 
@@ -155,7 +155,7 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
         }
         int length = datas.length;
         final NumberPickerDialog picker = new NumberPickerDialog(this, datas);
-        picker.setLeftOnclickListener("取消", new onLeftOnclickListener() {
+        picker.setLeftOnclickListener("取消", new OnLeftOnclickListener() {
             @Override
             public void onLeftClick() {
                 if (picker != null && picker.isShowing()) {
@@ -163,7 +163,7 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
                 }
             }
         });
-        picker.setRightOnclickListener("确定", new onRightOnclickListener() {
+        picker.setRightOnclickListener("确定", new OnRightOnclickListener() {
             @Override
             public void onRightClick(int[] index) {
                 if (picker != null && picker.isShowing()) {

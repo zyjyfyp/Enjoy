@@ -3,7 +3,6 @@ package com.yunsen.enjoy.activity.buy;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,8 +22,8 @@ import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.SpUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.DatePickerViewDialog;
-import com.yunsen.enjoy.widget.interfaces.onLeftOnclickListener;
-import com.yunsen.enjoy.widget.interfaces.onRightOnclickListener;
+import com.yunsen.enjoy.widget.interfaces.OnLeftOnclickListener;
+import com.yunsen.enjoy.widget.interfaces.OnRightOnclickListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -193,7 +192,7 @@ public class WatchCarActivity extends BaseFragmentActivity {
     private void showDateDialog() {
         if (pickerView == null) {
             pickerView = new DatePickerViewDialog(this);
-            pickerView.setLeftOnclickListener("取消", new onLeftOnclickListener() {
+            pickerView.setLeftOnclickListener("取消", new OnLeftOnclickListener() {
                 @Override
                 public void onLeftClick() {
                     if (pickerView.isShowing()) {
@@ -201,7 +200,7 @@ public class WatchCarActivity extends BaseFragmentActivity {
                     }
                 }
             });
-            pickerView.setRightOnclickListener("确定", new onRightOnclickListener() {
+            pickerView.setRightOnclickListener("确定", new OnRightOnclickListener() {
                 @Override
                 public void onRightClick(int... index) {
                     watchTimeTv.setText(pickerView.getDate(index[0], index[1], index[2]));

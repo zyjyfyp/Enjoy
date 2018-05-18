@@ -1,7 +1,6 @@
 package com.yunsen.enjoy.fragment.buy;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -26,8 +25,8 @@ import com.yunsen.enjoy.utils.SharedPreference;
 import com.yunsen.enjoy.widget.FilterHorLayout;
 import com.yunsen.enjoy.widget.MoreCarView;
 import com.yunsen.enjoy.widget.NumberPickerDialog;
-import com.yunsen.enjoy.widget.interfaces.onLeftOnclickListener;
-import com.yunsen.enjoy.widget.interfaces.onRightOnclickListener;
+import com.yunsen.enjoy.widget.interfaces.OnLeftOnclickListener;
+import com.yunsen.enjoy.widget.interfaces.OnRightOnclickListener;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -155,7 +154,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
      */
     private void showPickerDialog() {
         final NumberPickerDialog picker = new NumberPickerDialog(getActivity(), Constants.SORT_METHED);
-        picker.setLeftOnclickListener("取消", new onLeftOnclickListener() {
+        picker.setLeftOnclickListener("取消", new OnLeftOnclickListener() {
             @Override
             public void onLeftClick() {
                 if (picker != null && picker.isShowing()) {
@@ -163,7 +162,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
                 }
             }
         });
-        picker.setRightOnclickListener("确定", new onRightOnclickListener() {
+        picker.setRightOnclickListener("确定", new OnRightOnclickListener() {
             @Override
             public void onRightClick(int[] index) {
                 if (picker != null && picker.isShowing()) {
@@ -183,7 +182,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
     private void showPriceDialog() {
         final NumberPickerDialog picker = new NumberPickerDialog(getActivity(), Constants.SORT_PRICES);
 
-        picker.setLeftOnclickListener("取消", new onLeftOnclickListener() {
+        picker.setLeftOnclickListener("取消", new OnLeftOnclickListener() {
             @Override
             public void onLeftClick() {
                 if (picker != null && picker.isShowing()) {
@@ -191,7 +190,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
                 }
             }
         });
-        picker.setRightOnclickListener("确定", new onRightOnclickListener() {
+        picker.setRightOnclickListener("确定", new OnRightOnclickListener() {
             @Override
             public void onRightClick(int[] index) {
                 if (picker != null && picker.isShowing()) {

@@ -1,6 +1,7 @@
 package com.yunsen.enjoy.http;
 
 import com.yunsen.enjoy.BuildConfig;
+import com.yunsen.enjoy.common.Constants;
 
 /**
  * Created by Administrator on 2018/4/20.
@@ -211,6 +212,20 @@ public class URLConstants {
      * 交换产品的接口
      */
     public static final String CHANGE_GOODS_LIST = BuildConfig.ROOT_URL + "/toolS/mobile_ajax.asmx/get_article_page_size_list_2018";
+    /**
+     * 获取购物车列表
+     */
+    public static final String MY_SHOPPING_CART_LIST = "http://mobile.zams.cn/tools/mobile_ajax.asmx/get_shopping_cart?pageSize=50&pageIndex=1&user_id=" + Constants.TEST_USER_ID;
+    /**
+     * 删除物品
+     */
+    public static final String DELETE_SHOPPING_CART_GOODS = "http://mobile.zams.cn/tools/mobile_ajax.asmx/cart_goods_delete";
+    /**
+     * http://mobile.zams.cn/tools/mobile_ajax.asmx/cart_goods_update
+     * 更新物品数量
+     */
+    public static final String UP_SHOPPING_CART_GOODS = "http://mobile.zams.cn/tools/mobile_ajax.asmx/cart_goods_update";
+
 
     //    public static final String REALM_NAME_WEB = "http://szlxkg.com";
 //    public static final String REALM_NAME_HTTP = "http://szlxkg.com";

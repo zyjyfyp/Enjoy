@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="@drawable/add_adn_sub_bg"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/sub_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:text="-"
+        android:textColor="@color/title_color"
+        android:textSize="15sp" />
+
+    <EditText
+        android:inputType="number"
+        android:id="@+id/num_edt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/app_margin"
+        android:layout_marginRight="@dimen/app_margin"
+        android:layout_weight="1"
+        android:background="@null"
+        android:gravity="center"
+        android:textColor="@color/title_color"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/add_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:text="+"
+        android:textColor="@color/title_color"
+        android:textSize="15sp" />
+</LinearLayout>
