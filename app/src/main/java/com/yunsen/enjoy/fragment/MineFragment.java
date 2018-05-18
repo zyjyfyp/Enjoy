@@ -525,8 +525,6 @@ public class MineFragment extends BaseFragment {
                 load_list();
                 requestIsFacilitator();//判断是否是服务商
             } else {
-                // TODO: 2018/4/26 清空用户数据
-                //                        setinten();// 数据清空
                 setUserIconAndName(mUserName, headimgurl2, headimgurl);
             }
         } else {

@@ -302,6 +302,9 @@
             android:name=".activity.buy.GoodsDescriptionActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.buy.GoodsDescriptionActivityOld"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.goods.ChangeGoodsActivity"
             android:screenOrientation="portrait" />
 

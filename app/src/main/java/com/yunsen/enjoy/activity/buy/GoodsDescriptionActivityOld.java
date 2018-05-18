@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
@@ -33,10 +36,9 @@ import okhttp3.Request;
 
 /**
  * Created by Administrator on 2018/5/12.
- * 物品详情页面
  */
 
-public class GoodsDescriptionActivity extends BaseFragmentActivity {
+public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
 
 
     @Bind(R.id.goods_top_pager)
@@ -45,12 +47,34 @@ public class GoodsDescriptionActivity extends BaseFragmentActivity {
     CirclePageIndicator goodsTopIndicator;
     @Bind(R.id.goods_rLayout)
     RelativeLayout goodsRLayout;
+    @Bind(R.id.goods_title)
+    TextView goodsTitle;
+    @Bind(R.id.goods_share_img)
+    ImageView goodsShareImg;
+    @Bind(R.id.goods_price_tv)
+    TextView goodsPriceTv;
+    @Bind(R.id.goods_packet_price_tv)
+    TextView goodsPacketPriceTv;
+    @Bind(R.id.goods_all_money_layout)
+    LinearLayout goodsAllMoneyLayout;
+    @Bind(R.id.goods_market_price_tv)
+    TextView goodsMarketPriceTv;
+    @Bind(R.id.market_information_appraise)
+    LinearLayout marketInformationAppraise;
+    @Bind(R.id.good_p_tv)
+    TextView goodPTv;
+    @Bind(R.id.good_p_bar)
+    ProgressBar goodPBar;
+    @Bind(R.id.middle_p_bar)
+    ProgressBar middlePBar;
+    @Bind(R.id.warning_p_bar)
+    ProgressBar warningPBar;
+    @Bind(R.id.imagesLayout)
+    LinearLayout imagesLayout;
     @Bind(R.id.goods_description_rb)
     RadioButton goodsDescriptionRb;
     @Bind(R.id.goods_size_rb)
     RadioButton goodsSizeRb;
-    @Bind(R.id.goods_radio_group)
-    RadioGroup goodsRadioGroup;
     @Bind(R.id.webview)
     WebView webview;
     @Bind(R.id.ll_shiyishicai1)
@@ -61,6 +85,8 @@ public class GoodsDescriptionActivity extends BaseFragmentActivity {
     Button backBtn;
     @Bind(R.id.rl_title)
     RelativeLayout rlTitle;
+    @Bind(R.id.market_information_juduihuan)
+    LinearLayout marketInformationJuduihuan;
     @Bind(R.id.btn_dianping)
     LinearLayout btnDianping;
     @Bind(R.id.btn_collect)
@@ -71,16 +97,20 @@ public class GoodsDescriptionActivity extends BaseFragmentActivity {
     LinearLayout orderShopNow;
     @Bind(R.id.market_information_bottom)
     LinearLayout marketInformationBottom;
+    @Bind(R.id.goods_radio_group)
+    RadioGroup goodsRadioGroup;
+
     private String mGoodId;
 
     @Override
     public int getLayout() {
-        return R.layout.goods_description_layout;
+        return R.layout.goods_description_layout_old;
     }
 
     @Override
     protected void initView() {
         ButterKnife.bind(this);
+        goodsMarketPriceTv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); //中划线
     }
 
     @Override
@@ -106,7 +136,9 @@ public class GoodsDescriptionActivity extends BaseFragmentActivity {
                 List<AlbumsBean> albums = responseData.getAlbums();
                 upBanner(albums);
                 upView(responseData);
+
                 webview.loadUrl(URLConstants.REALM_NAME_HTTP + "/mobile/goods/conent-" + albums.get(0).getArticle_id() + ".html");//商品介绍
+
             }
 
             @Override
@@ -126,20 +158,20 @@ public class GoodsDescriptionActivity extends BaseFragmentActivity {
         if (responseData == null) {
             return;
         }
-//        goodsTitle.setText(responseData.getTitle());
+        goodsTitle.setText(responseData.getTitle());
         CarDetails.DefaultSpecItemBean defaultSpecItem = responseData.getDefault_spec_item();
         double rebatePrice = defaultSpecItem.getSell_price();
-//        goodsPriceTv.setText("￥" + rebatePrice);
+        goodsPriceTv.setText("￥" + rebatePrice);
         double market_price = defaultSpecItem.getMarket_price();
-//        goodsMarketPriceTv.setText("￥" + market_price);
+        goodsMarketPriceTv.setText("￥" + market_price);
         double cashingPacket = defaultSpecItem.getCashing_packet();
-//        goodsPacketPriceTv.setText("￥" + cashingPacket);
+        goodsPacketPriceTv.setText("￥" + cashingPacket);
 
     }
 
     private void upBanner(List<AlbumsBean> albums) {
         if (albums != null && albums.size() > 0) {
-            CarTopBannerAdapter adapter = new CarTopBannerAdapter(albums, GoodsDescriptionActivity.this);
+            CarTopBannerAdapter adapter = new CarTopBannerAdapter(albums, GoodsDescriptionActivityOld.this);
             goodsTopPager.setAdapter(adapter);
             goodsTopIndicator.setViewPager(goodsTopPager);
             goodsTopIndicator.setPadding(5, 5, 10, 5);
@@ -156,12 +188,14 @@ public class GoodsDescriptionActivity extends BaseFragmentActivity {
                 break;
             case R.id.goods_share_img:
                 ToastUtils.makeTextShort("分享");
+
                 break;
             case R.id.btn_dianping:
                 ToastUtils.makeTextShort("评论");
                 break;
             case R.id.btn_collect:
                 ToastUtils.makeTextShort("收藏");
+
                 break;
             case R.id.btn_add_shop_cart:
                 ToastUtils.makeTextShort("添加到购物车");

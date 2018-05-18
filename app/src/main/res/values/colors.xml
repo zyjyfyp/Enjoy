@@ -69,9 +69,9 @@
     <color name="no_color">#00000000</color>
     <color name="post_work_item">#CCCCCC</color>
     <!-- <color name="huise"> #E6E6FA</color> -->
-    <color name="huise"> #F7F7F7</color>
-    <color name="dihuise"> #EEEEEE</color>
-    <color name="heihuise"> #C9C9C9</color>
+    <color name="huise">#F7F7F7</color>
+    <color name="dihuise">#EEEEEE</color>
+    <color name="heihuise">#C9C9C9</color>
     <color name="juhongse">#FF6600</color>
     <color name="alertdialog_line">#c6c6c6</color>
     <color name="heise">#ECEEED</color>
@@ -102,4 +102,5 @@
     <color name="title_color">#1a1a1a</color>
     <color name="color_1fb5ad">#1fb5ad</color>
     <color name="green">#028e02</color>
+    <color name="orange_color_2">#ff572d</color>
 </resources>
