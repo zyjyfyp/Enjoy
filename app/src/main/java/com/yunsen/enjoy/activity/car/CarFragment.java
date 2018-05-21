@@ -1,12 +1,17 @@
 package com.yunsen.enjoy.activity.car;
 
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
@@ -15,7 +20,6 @@ import com.yunsen.enjoy.fragment.BaseFragment;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.GoodsCarInfo;
-import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.yunsen.enjoy.utils.StringUtils;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
@@ -48,6 +52,10 @@ public class CarFragment extends BaseFragment implements MultiItemTypeAdapter.On
     TextView goodsAllPrice;
     @Bind(R.id.change_goods_btn)
     Button changeGoodsBtn;
+    @Bind(R.id.no_goods_layout)
+    LinearLayout noGoodsLayout;
+    @Bind(R.id.has_goods_layout)
+    FrameLayout hasGoodsLayout;
     private ArrayList<GoodsCarInfo> mDatas;
     private DShoppingCarAdapter mAdapter;
     private CheckBox checkAllGoods;
@@ -81,6 +89,12 @@ public class CarFragment extends BaseFragment implements MultiItemTypeAdapter.On
         mAdapter.setOnItemClickListener(this);
         mAdapter.setGoodsSumCall(this);
         checkAllGoods.setOnCheckedChangeListener(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        isShowEmptyView(mDatas.size() == 0);
     }
 
     @Override
@@ -125,6 +139,7 @@ public class CarFragment extends BaseFragment implements MultiItemTypeAdapter.On
     public void GoodsSumCallBack(int goodsSum, double goodsPrices) {
         goodsAllSize.setText(goodsSum + "件");
         goodsAllPrice.setText("￥" + StringUtils.changeToMoney(goodsPrices));
+        isShowEmptyView(mDatas.size() == 0);
     }
 
     @Override
@@ -135,6 +150,16 @@ public class CarFragment extends BaseFragment implements MultiItemTypeAdapter.On
             int goodsCount = mAdapter.getmGoodsCount();
             goodsAllSize.setText(goodsCount + "件");
             goodsAllPrice.setText("￥" + StringUtils.changeToMoney(goodsSumPrice));
+        }
+    }
+
+    private void isShowEmptyView(boolean isEmptyData) {
+        if (isEmptyData) {
+            noGoodsLayout.setVisibility(View.VISIBLE);
+            hasGoodsLayout.setVisibility(View.GONE);
+        } else {
+            noGoodsLayout.setVisibility(View.GONE);
+            hasGoodsLayout.setVisibility(View.VISIBLE);
         }
     }
 }

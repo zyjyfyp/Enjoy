@@ -24,6 +24,7 @@ import com.yunsen.enjoy.widget.interfaces.OnRightOnclickListener;
 
 import org.greenrobot.eventbus.EventBus;
 
+
 /**
  * Created by Administrator on 2018/4/23.
  */
@@ -182,4 +183,8 @@ public class DialogUtils {
                 }).create();
         return dialog;
     }
+
+//    public static AlertDialog createAddGoodsDialog(Context ctx){
+//        final Dialog dlg = new Dialog(context, R.style.delete_pop_style);
+//    }
 }

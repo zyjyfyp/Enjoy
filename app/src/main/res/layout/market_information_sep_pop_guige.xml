@@ -2,27 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/market_information_pop_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="0dp" >
+        android:padding="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="75dp"
             android:layout_marginTop="35dp"
             android:background="@color/white"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="right"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/market_information_pop_buy"
@@ -50,19 +50,22 @@
                 android:text="选择套餐"
                 android:textSize="13sp" />
         </LinearLayout>
- <LinearLayout
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_red_3_5_normal_goods"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:orientation="vertical" >
-        <ImageView
-            android:id="@+id/market_information_sep_ico"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-             android:layout_margin="10dp"
-            android:scaleType="fitXY" />
+            android:background="@drawable/bg_red_3_5_normal_goods"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/market_information_sep_ico"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_margin="10dp"
+                android:src="@mipmap/ic_launcher_round"
+                android:scaleType="fitXY" />
         </LinearLayout>
     </FrameLayout>
 
@@ -77,18 +80,18 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@color/white"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/market_information_pop_bottom"
-            android:layout_below="@+id/market_information_pop_top" >
+            android:layout_below="@+id/market_information_pop_top">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <ListView
                     android:id="@+id/listview_01"
@@ -107,7 +110,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="0dp"
@@ -127,7 +130,7 @@
                         android:background="@drawable/shape_bg_round_shopcart_item"
                         android:gravity="right"
                         android:orientation="horizontal"
-                        android:padding="3dp" >
+                        android:padding="3dp">
 
                         <TextView
                             android:id="@+id/market_information_seps_del"
@@ -169,7 +172,7 @@
                     android:layout_height="fill_parent"
                     android:layout_marginTop="10dip"
                     android:orientation="vertical"
-                    android:visibility="gone" >
+                    android:visibility="gone">
 
                     <include layout="@layout/no_data" />
                 </LinearLayout>
@@ -178,7 +181,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:visibility="gone" >
+                    android:visibility="gone">
 
                     <Button
                         android:layout_width="wrap_content"
@@ -201,7 +204,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:background="@color/white"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <View
             android:layout_width="match_parent"
@@ -214,19 +217,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="0dp" >
+        android:padding="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-                    android:layout_marginTop="50dp"
-            android:orientation="horizontal" >
+            android:layout_marginTop="50dp"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="0dp"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <Button
                     android:layout_width="0dp"
@@ -234,10 +237,10 @@
                     android:layout_weight="1"
                     android:background="#ff9403"
                     android:gravity="center"
-                    android:visibility="gone"
                     android:text="取消"
                     android:textColor="@color/white"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/market_information_pop_shopcart"

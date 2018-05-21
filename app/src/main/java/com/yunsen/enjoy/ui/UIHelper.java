@@ -39,7 +39,9 @@ import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.activity.mine.TeamActivity;
 import com.yunsen.enjoy.activity.mine.UserForgotPasswordActivity;
 import com.yunsen.enjoy.activity.mine.Webview1;
+import com.yunsen.enjoy.activity.order.DianPingActivity;
 import com.yunsen.enjoy.activity.order.MyOrderActivity;
+import com.yunsen.enjoy.activity.user.DBFengXiangActivity;
 import com.yunsen.enjoy.activity.user.LoginActivity;
 import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
 import com.yunsen.enjoy.activity.user.UserRegisterActivity;
@@ -523,7 +525,7 @@ public class UIHelper {
      *
      * @param ctx
      */
-    public static void showChangeGoodsActivity(Context ctx, String channelName, String categoryId, String actName,int actType) {
+    public static void showChangeGoodsActivity(Context ctx, String channelName, String categoryId, String actName, int actType) {
         Intent intent = new Intent(ctx, ChangeGoodsActivity.class);
         intent.putExtra(Constants.CHANNEL_NAME_KEY, channelName);
         intent.putExtra(Constants.CATEGORY_ID_KEY, categoryId);
@@ -540,10 +542,51 @@ public class UIHelper {
      * @param actName
      */
     public static void showGoodsDescriptionActivity(Context ctx, String goodsId, String actName) {
-        Intent intent = new Intent(ctx, GoodsDescriptionActivity.class);
+        Intent intent = new Intent(ctx, GoodsDescriptionActivityOld.class);
         intent.putExtra(Constants.GOODS_ID_KEY, goodsId);
         intent.putExtra(Constants.ACT_NAME_KEY, actName);
         ctx.startActivity(intent);
     }
 
+    /**
+     * 点评页面
+     *
+     * @param ctx       上下文
+     * @param articleId
+     */
+    public static void showDianPingActivity(Context ctx, int articleId) {
+        Intent intent = new Intent(ctx, DianPingActivity.class);
+        intent.putExtra("article_id", String.valueOf(articleId));
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 分享页面
+     *
+     * @param ctx
+     * @param spId
+     * @param companyId
+     * @param title
+     * @param subTitle
+     * @param imgUrl
+     */
+    public static void showDBFengXiangActivity(Context ctx, String spId, String companyId, String title, String subTitle, String imgUrl) {
+        Intent intent = new Intent(ctx, DBFengXiangActivity.class);
+        intent.putExtra("sp_id", spId);
+        intent.putExtra("company_id", companyId);
+        intent.putExtra("title", title);
+        intent.putExtra("subtitle", subTitle);
+        intent.putExtra("img_url", imgUrl);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     *
+     * @param ctx
+     */
+    public static void showHomeShopCar(Context ctx) {
+        Intent intent = new Intent(ctx, MainActivity.class);
+        intent.putExtra(Constants.FRAGMENT_TYPE_KEY, 2);
+        ctx.startActivity(intent);
+    }
 }

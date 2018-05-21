@@ -90,6 +90,18 @@ public class MainActivity extends BaseFragmentActivity {
         }
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent != null) {
+            int index = intent.getIntExtra(Constants.FRAGMENT_TYPE_KEY, -1);
+            if (index != -1) {
+                currIndex = index;
+                group.check(R.id.foot_bar_interest);
+            }
+        }
+    }
+
     private void initMainView() {
         group = (RadioGroup) findViewById(R.id.group);
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -146,7 +158,7 @@ public class MainActivity extends BaseFragmentActivity {
             case 1:
                 return new NoticeFragment();
             case 2:
-                return new  CarFragment();
+                return new CarFragment();
             case 3:
                 mMineFragment = new MineFragment();
                 return mMineFragment;

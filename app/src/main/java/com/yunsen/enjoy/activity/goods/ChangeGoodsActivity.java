@@ -480,7 +480,7 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
     @Override
     public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         List<GoodsData> datas = mAdapter.getDatas();
-        if (datas != null && position > 0 && datas.size() > position) {
+        if (datas != null && position >= 0 && datas.size() > position) {
             GoodsData data = datas.get(position);
             UIHelper.showGoodsDescriptionActivity(this, String.valueOf(data.getId()), data.getTitle());
         }

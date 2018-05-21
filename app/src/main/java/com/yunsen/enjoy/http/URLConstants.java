@@ -71,6 +71,7 @@ public class URLConstants {
     /**
      * 汽车详情
      */
+//    public static String CAR_DETAILS_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_model?id=";
     public static String CAR_DETAILS_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_model?id=";
 
     /**
