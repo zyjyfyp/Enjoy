@@ -264,7 +264,7 @@ public class UIHelper {
      * @param ctx
      */
     public static void showUserLoginActivity(Context ctx) {
-        Intent intent = new Intent(ctx, LoginActivity.class);
+        Intent intent = new Intent(ctx, UserLoginActivity.class);
         ctx.startActivity(intent);
     }
 

@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.orhanobut.logger.Logger;
 import com.tencent.connect.auth.QQAuth;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.IUiListener;
@@ -117,7 +118,7 @@ public class LoginActivity extends BaseFragmentActivity {
     private String access_token;
     private String nickname, headimgurl, unionid, sex, province, city, country, oauth_openid;
     private boolean mIsWXLogin;
-    public static Tencent mTencent;
+    private static Tencent mTencent;
     private com.tencent.connect.UserInfo mInfo;
     private boolean isServerSideLogin;
     private QQAuth mQQAuth;
@@ -169,12 +170,11 @@ public class LoginActivity extends BaseFragmentActivity {
                 qqLogin();
                 break;
             case R.id.weixin_loing_img:
-                //                mIsWXLogin = true;
-                //                SendAuth.Req req = new SendAuth.Req();
-                //                req.scope = "snsapi_userinfo";
-                //                req.state = "wechat_sdk_demo";
-                //                mWxApi.sendReq(req);
-                mTencent.logout(this);
+                mIsWXLogin = true;
+                SendAuth.Req req = new SendAuth.Req();
+                req.scope = "snsapi_userinfo";
+                req.state = "wechat_sdk_demo";
+                mWxApi.sendReq(req);
                 break;
         }
     }
@@ -353,6 +353,7 @@ public class LoginActivity extends BaseFragmentActivity {
             public void onSuccess(UserInfo responseData) {
                 SpUtils.saveUserInfo(responseData);
                 EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
+                UIHelper.showHomeActivity(LoginActivity.this);
                 finish();
             }
 
