@@ -179,6 +179,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.pay.TishiCarArchivesActivity"
+            android:theme="@style/AlertDialogStyle"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.user.PhoneLoginActivity"

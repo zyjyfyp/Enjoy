@@ -9,6 +9,7 @@ import android.os.Parcelable;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.activity.AdvertActivity;
 import com.yunsen.enjoy.activity.CarDetailsActivity;
 import com.yunsen.enjoy.activity.HouseDetailActivity;
@@ -42,6 +43,7 @@ import com.yunsen.enjoy.activity.mine.UserForgotPasswordActivity;
 import com.yunsen.enjoy.activity.mine.Webview1;
 import com.yunsen.enjoy.activity.order.DianPingActivity;
 import com.yunsen.enjoy.activity.order.MyOrderActivity;
+import com.yunsen.enjoy.activity.order.MyOrderXqActivity;
 import com.yunsen.enjoy.activity.user.DBFengXiangActivity;
 import com.yunsen.enjoy.activity.user.LoginActivity;
 import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
@@ -49,12 +51,22 @@ import com.yunsen.enjoy.activity.user.UserRegisterActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.fragment.buy.SelectBrandActivity;
 import com.yunsen.enjoy.fragment.buy.SeniorFilterActivity;
+import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.model.MyOrderData;
+import com.yunsen.enjoy.model.OrderBean;
 import com.yunsen.enjoy.model.OrderInfo;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.utils.AccountUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 应用程序UI工具包：封装UI相关的一些操作
@@ -350,7 +362,7 @@ public class UIHelper {
     }
 
     /**
-     * 乐享汽车服务
+     * 大道易客服务
      *
      * @param ctx
      */
@@ -603,4 +615,90 @@ public class UIHelper {
         intent.putExtra("buy_no", buyNo);
         ctx.startActivity(intent);
     }
+
+    /**
+     * 显示订单详情页面
+     *
+     * @param ctx
+     * @param rechargeNo
+     */
+    public static void showMyOrderXqActivity(Context ctx, String rechargeNo) {
+        final Context fContext = ctx;
+        AsyncHttp.get(URLConstants.REALM_URL+"/tools/mobile_ajax.asmx/get_order_trade_list?trade_no=" + rechargeNo, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(String arg1) {
+                MyOrderData md = new MyOrderData();
+                try {
+                    JSONObject object = new JSONObject(arg1);
+                    String status = object.getString("status");
+                    String info = object.getString("info");
+                    if (status.equals("y")) {
+                        JSONArray jsonArray = object.getJSONArray("data");
+                        int len = jsonArray.length();
+                        for (int i = 0; i < len; i++) {
+                            JSONObject obj = jsonArray.getJSONObject(i);
+                            md.setId(obj.getString("id"));
+                            md.setOrder_no(obj.getString("order_no"));
+                            md.setTrade_no(obj.getString("trade_no"));
+                            md.setCompany_name(obj.getString("company_name"));
+                            md.setPayment_status(obj.getString("payment_status"));
+                            md.setAccept_name(obj.getString("accept_name"));
+                            md.setExpress_status(obj.getString("express_status"));
+                            md.setExpress_fee(obj.getString("express_fee"));
+                            md.setStatus(obj.getString("status"));
+                            md.setProvince(obj.getString("province"));
+                            md.setCashing_packet(obj.getString("cashing_packet_total"));
+                            md.setExchange_price_total(obj.getString("exchange_price_total"));
+                            md.setExchange_point_total(obj.getString("exchange_point_total"));
+                            md.setAddress(obj.getString("address"));
+                            md.setUser_name(obj.getString("user_name"));
+                            md.setPayment_time(obj.getString("payment_time"));
+                            md.setPayable_amount(obj.getString("payable_amount"));
+                            md.setAdd_time(obj.getString("add_time"));
+                            md.setComplete_time(obj.getString("complete_time"));
+                            md.setRebate_time(obj.getString("rebate_time"));
+                            md.setMobile(obj.getString("mobile"));
+                            md.setCity(obj.getString("city"));
+                            md.setArea(obj.getString("area"));
+
+                            String order_groupon = obj.getString("order_goods");
+
+                            md.setList(new ArrayList<OrderBean>());
+                            JSONArray ja = new JSONArray(order_groupon);
+                            List<OrderBean> lists = new ArrayList<OrderBean>();
+                            OrderBean mb;
+                            for (int j = 0; j < ja.length(); j++) {
+                                JSONObject jo = ja.getJSONObject(j);
+                                mb = new OrderBean();
+                                mb.setPoint_title(jo.getString("article_title"));
+                                mb.setPoint_price(jo.getString("exchange_price"));
+                                mb.setPoint_value(jo.getString("exchange_point"));
+                                mb.setImg_url(jo.getString("img_url"));
+                                mb.setArticle_id(jo.getString("article_id"));
+                                md.getList().add(mb);
+                                lists.add(mb);
+                            }
+                            md.setList(lists);
+                        }
+                        Intent intent = new Intent(fContext, MyOrderXqActivity.class);
+                        intent.putExtra("bean", md);
+                        fContext.startActivity(intent);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, fContext);
+
+
+    }
+
+    /**
+     * 订单详情
+     */
+    private void showMyJuDuiHuanActivity() {
+
+    }
+
 }

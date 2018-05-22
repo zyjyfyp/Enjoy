@@ -1324,7 +1324,7 @@ public class HttpProxy {
     public static void upShopCarGoods(String userId, String GoodsId, String quantity, final HttpCallBack<ShopCarCount> callBack) {
         HashMap<String, String> map = new HashMap<>();
         map.put("quantity", quantity);
-        map.put("user_id",userId);
+        map.put("user_id", userId);
         map.put("cart_id", GoodsId);
 
         HttpClient.get(URLConstants.UP_SHOPPING_CART_GOODS, map, new HttpResponseHandler<ShopCarAccountResponse>() {
@@ -1362,9 +1362,9 @@ public class HttpProxy {
         String userName = sp.getString(SpConstants.USER_NAME, "");
 
         HashMap<String, String> map = new HashMap<>();
-        map.put("user_id",userId);
+        map.put("user_id", userId);
         map.put("user_name", userName);
-        map.put("user_sign",loginSign);
+        map.put("user_sign", loginSign);
         map.put("article_id", articleIds);
         map.put("goods_id", goodsIds);
         map.put("quantity", quantities);
@@ -1379,6 +1379,42 @@ public class HttpProxy {
                 } else {
                     callBack.onError(null, new Exception("data is empty!"));
                 }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
+                super.onFailure(request, e);
+            }
+        });
+    }
+
+    /**
+     * 余额支付
+     *
+     * @param pwd
+     * @param tradeNo
+     * @param callBack
+     */
+    public static void getBalanceBuyGoods(String pwd, String tradeNo, final HttpCallBack<Boolean> callBack) {
+        SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+        String userId = sp.getString(SpConstants.USER_ID, "");
+        String loginSign = sp.getString(SpConstants.LOGIN_SIGN, "");
+        String userName = sp.getString(SpConstants.USER_NAME, "");
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("action", "payment");
+        map.put("user_id", userId);
+        map.put("user_name", userName);
+        map.put("paypassword", pwd);
+        map.put("trade_no", tradeNo);
+        map.put("user_sign", loginSign);
+
+        HttpClient.get(URLConstants.BALANCE_BAY_URL, map, new HttpResponseHandler<RestApiResponse>() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(true);
             }
 
             @Override

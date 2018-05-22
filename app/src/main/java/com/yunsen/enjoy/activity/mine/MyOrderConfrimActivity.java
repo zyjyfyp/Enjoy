@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -103,7 +104,6 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     int kou_hongbao;
     private IWXAPI api;
     private String partner_id, prepayid, noncestr, timestamp, package_, sign;
-    public static boolean teby = false;
     private int len;
     String url;
     String login_sign, dandu_goumai;
@@ -206,6 +206,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
             mReadyPay = new ArrayList<ShopCartData>();
             initdata();
         }
+        getuseraddress2();
     }
 
     @Override
@@ -237,13 +238,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
 //            tv_user_phone.setText(user_mobile);
 //        } else {
         //获取地址
-        getuseraddress2();
-        // 余额支付成功后更新订单
-        if (teby) {
-            teby = false;
-            finish();
-            return;
-        }
+
 
         // 微信支付成功后关闭此界面
         if (flag) {
@@ -251,12 +246,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
             return;
         }
 
-        // 余额支付取消关闭此界面
-        if (TishiCarArchivesActivity.yue_zhuangtai != null) {
-            TishiCarArchivesActivity.yue_zhuangtai = null;
-            finish();
-            return;
-        }
+
 
         // 立即购买
         img_ware = (ImageView) findViewById(R.id.img_ware);
@@ -494,9 +484,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // 在这里进行查询地址的操作
-        // Toast.makeText(getApplicationContext(), "查询地址联网操作",200).show();
-        // handler.sendEmptyMessage(4);
+
         if (resultCode == 100) {
             layout0.setVisibility(View.VISIBLE);
             layout1.setVisibility(View.GONE);
@@ -508,13 +496,22 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
             String user_area = dt.user_area;
             String user_mobile = dt.user_mobile;
             String user_address = dt.user_address;
-            System.out.println("checkedAddressId==================" + name);
-
             tv_user_name.setText("收货人:" + name);
             tv_user_address.setText(user_area + " " + user_address);
             tv_user_phone.setText(user_mobile);
-
         }
+
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case Constants.PAY_MONEY_ACT_REQUEST:
+                    finish();
+                    break;
+                case Constants.ADD_ADDRESS_ACT_REQUEST:
+                    getuseraddress2();
+                    break;
+            }
+        }
+        Log.e("zyjy", "onActivityResult:resultCode= " + resultCode + " requestCode= " + requestCode);
 
     }
 
@@ -573,6 +570,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MyOrderConfrimActivity.this, AddUserAddressActivity.class);
+                startActivityForResult(intent, Constants.ADD_ADDRESS_ACT_REQUEST);
                 startActivity(intent);
             }
         });
@@ -645,17 +643,6 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 type = "2";
             }
         });
-        yu_pay2.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                yu_pay_c0.setChecked(false);
-                yu_pay_c1.setChecked(false);
-                yu_pay_c2.setChecked(true);
-                // 余额支付
-                type = "2";
-            }
-        });
-
 
         /**
          * 结算方式
@@ -670,37 +657,6 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                     System.out.println("type======结算方式========" + type);
                     loadusertijiao(type, kou_hongbao);// 提交聚团订单
 
-                    //						CommomConfrim.showSheet(MyOrderConfrimActivity.this,new onDeleteSelect() {
-                    //
-                    //									@Override
-                    //									public void onClick(int resID) {
-                    //
-                    //										switch (resID) {
-                    //										case R.id.item0:
-                    //											// 余额支付
-                    //											type = "2";
-                    //											loadusertijiao(type, kou_hongbao);
-                    //											break;
-                    //										case R.id.item1:
-                    //											break;
-                    //										case R.id.item2:// 支付宝
-                    //											// 支付宝
-                    //											type = "3";
-                    //											loadusertijiao(type, kou_hongbao);
-                    //											break;
-                    //										case R.id.item3:// 微信
-                    //											// 微信
-                    //											type = "5";
-                    //											loadusertijiao(type, kou_hongbao);
-                    //											break;
-                    //										case R.id.item4:
-                    //											break;
-                    //										default:
-                    //											break;
-                    //										}
-                    //									}
-                    //
-                    //								}, cancelListener, null);
                 }
 
             }
@@ -1034,115 +990,70 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     String total_amount, is_cashing_point;
 
     private void loadusertijiao(String payment_id, int kou_hongbao) {
-        try {
-            jiekou_type_ysj = WareInformationActivity.jdh_type;
-            System.out.println("jiekou_type_ysj=====================" + jiekou_type_ysj);
-            if (jiekou_type_ysj.equals("1")) {
-                jiekou_type = "add_order_point";// 提交兑换订单
-                is_cashing_point = "1";
-            } else {
-                jiekou_type = "order_save";// 商品提交订单
-                is_cashing_point = "0";
-            }
-            login_sign = mSp.getString(SpConstants.LOGIN_SIGN, "");
-            System.out.println("login_sign=====================" + login_sign);
-            String buy_no = getIntent().getStringExtra("buy_no");
-            System.out.println("buy_no=====================" + buy_no);
-            url = URLConstants.REALM_NAME_LL + "/" + jiekou_type + "?user_id="
-                    + user_id + "&user_name=" + user_name + "&user_sign="
-                    + login_sign + "&is_cashing_packet=" + kou_hongbao + ""
-                    + "&is_cashing_point=" + is_cashing_point + "&buy_no=" + buy_no + "&payment_id="
-                    + payment_id + "&express_id=" + express_id
-                    + "&is_invoice=0&invoice_title=&address_id="
-                    + shopping_address_id + "" + "&accept_name="
-                    + user_accept_name + "&province=" + province + "&city="
-                    + city + "&area=" + area + "&address=" + user_address
-                    + "&telphone=" + "&mobile=" + user_mobile
-                    + "&email=&post_code=&message=";
+        jiekou_type_ysj = WareInformationActivity.jdh_type;
+        System.out.println("jiekou_type_ysj=====================" + jiekou_type_ysj);
+        if ("1".equals(jiekou_type_ysj)) {
+            jiekou_type = "add_order_point";// 提交兑换订单
+            is_cashing_point = "1";
+        } else {
+            jiekou_type = "order_save";// 商品提交订单
+            is_cashing_point = "0";
+        }
+        login_sign = mSp.getString(SpConstants.LOGIN_SIGN, "");
+        System.out.println("login_sign=====================" + login_sign);
+        String buy_no = getIntent().getStringExtra("buy_no");
+        System.out.println("buy_no=====================" + buy_no);
+        url = URLConstants.REALM_NAME_LL + "/" + jiekou_type + "?user_id="
+                + user_id + "&user_name=" + user_name + "&user_sign="
+                + login_sign + "&is_cashing_packet=" + kou_hongbao + ""
+                + "&is_cashing_point=" + is_cashing_point + "&buy_no=" + buy_no + "&payment_id="
+                + payment_id + "&express_id=" + express_id
+                + "&is_invoice=0&invoice_title=&address_id="
+                + shopping_address_id + "" + "&accept_name="
+                + user_accept_name + "&province=" + province + "&city="
+                + city + "&area=" + area + "&address=" + user_address
+                + "&telphone=" + "&mobile=" + user_mobile
+                + "&email=&post_code=&message=";
 
-            AsyncHttp.get(url, new AsyncHttpResponseHandler() {
-                @Override
-                public void onSuccess(int arg0, String arg1) {
-                    super.onSuccess(arg0, arg1);
-                    try {
-                        JSONObject object = new JSONObject(arg1);
-                        System.out
-                                .println("提交用户订单 ================================="
-                                        + arg1);
-                        try {
+        AsyncHttp.get(url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int arg0, String arg1) {
+                super.onSuccess(arg0, arg1);
+                try {
+                    JSONObject object = new JSONObject(arg1);
 
-                            String status = object.getString("status");
-                            String info = object.getString("info");
-                            if (status.equals("y")) {
-                                JSONObject jsonObject = object
-                                        .getJSONObject("data");
-                                recharge_no = jsonObject.getString("trade_no");
-                                // datetime = jsonObject.getString("datetime");
-                                // order_no = jsonObject.getString("order_no");
-                                // total_amount =
-                                // jsonObject.getString("payable_amount");
-                                System.out
-                                        .println("jiekou_type_ysj====================="
-                                                + jiekou_type_ysj);
-                                if (jiekou_type_ysj.equals("1")) {
-                                    WareInformationActivity.jdh_type = "";
-                                    total_amount = jsonObject
-                                            .getString("payable_amount");
-                                } else {
-                                    total_amount = jsonObject
-                                            .getString("total_amount");
-                                }
-                                // data = new ShopCartData();
-                                if (type.equals("3")) {
-                                    loadzhidu(recharge_no, total_amount);
-                                } else if (type.equals("5")) {
-                                    loadweixinzf2(recharge_no, total_amount);
-                                } else if (type.equals("2")) {
-                                    // loadYue(recharge_no);
-                                    // teby = true;
-                                    Intent intent = new Intent(
-                                            MyOrderConfrimActivity.this,
-                                            TishiCarArchivesActivity.class);
-                                    intent.putExtra("order_no", recharge_no);
-                                    intent.putExtra("yue", "yue");
-                                    startActivity(intent);
-                                    // finish();
-                                }
-                            } else {
-                                // progress.CloseProgress();
-                                Toast.makeText(MyOrderConfrimActivity.this,
-                                        info, Toast.LENGTH_SHORT).show();
-                            }
-
-                        } catch (Exception e) {
-
-                            e.printStackTrace();
+                    String status = object.getString("status");
+                    String info = object.getString("info");
+                    if ("y".equals(status)) {
+                        JSONObject jsonObject = object.getJSONObject("data");
+                        recharge_no = jsonObject.getString("trade_no");
+                        if ("1".equals(jiekou_type_ysj)) {
+                            WareInformationActivity.jdh_type = "";
+                            total_amount = jsonObject.getString("payable_amount");
+                        } else {
+                            total_amount = jsonObject.getString("total_amount");
                         }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        if ("3".equals(type)) {
+                            loadzhidu(recharge_no, total_amount);
+                        } else if ("5".equals(type)) {
+                            loadweixinzf2(recharge_no, total_amount);
+                        } else if ("2".equals(type)) {
+                            Intent intent = new Intent(MyOrderConfrimActivity.this, TishiCarArchivesActivity.class);
+                            intent.putExtra("order_no", recharge_no);
+                            intent.putExtra("yue", "yue");
+                            startActivityForResult(intent, Constants.PAY_MONEY_ACT_REQUEST);
+                        }
+                    } else {
+                        Toast.makeText(MyOrderConfrimActivity.this, info, Toast.LENGTH_SHORT).show();
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+            }
 
-            }, getApplicationContext());
+        }, MyOrderConfrimActivity.this);
 
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
     }
-
-    OnCancelListener cancelListener = new OnCancelListener() {
-        @Override
-        public void onCancel(DialogInterface dialog) {
-            /*
-             * http://www.ju918.com/mi/getdata.ashx?act=UserCartInfo&appkey=
-			 * 0762222540
-			 * &key=QUPgWi93j719&sign=AAE3474591B6B22950AD09A11082D4D751DDABC9
-			 * &yth=112967999
-			 */
-        }
-    };
 
     Handler handler = new Handler() {
         @SuppressWarnings("unchecked")
@@ -1241,90 +1152,44 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
      * @param
      */
     private void loadguanggaoll(String recharge_noll, String login_sign) {
-        try {
-            // recharge_no = recharge_noll;
-            AsyncHttp.get(URLConstants.REALM_NAME_LL
-                            + "/update_order_payment?user_id=" + user_id
-                            + "&user_name=" + user_name + "" + "&trade_no="
-                            + recharge_noll + "&sign=" + login_sign + "",
+        AsyncHttp.get(URLConstants.REALM_NAME_LL
+                        + "/update_order_payment?user_id=" + user_id
+                        + "&user_name=" + user_name + "" + "&trade_no="
+                        + recharge_noll + "&sign=" + login_sign + "",
 
-                    new AsyncHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(int arg0, String arg1) {
-                            super.onSuccess(arg0, arg1);
-                            try {
-                                JSONObject object = new JSONObject(arg1);
-                                System.out.println("更新订单=================================" + arg1);
-                                String status = object.getString("status");
-                                String info = object.getString("info");
-                                if (status.equals("y")) {
-                                    progress.CloseProgress();
-                                    list_shop_cart.setVisibility(View.GONE);
-                                    teby = false;
-
-                                    //get_order_trade_list //
-
-                                    // JSONObject jsonObject =
-                                    // object.getJSONObject("data");
-                                    // JSONArray jay =
-                                    // jsonObject.getJSONArray("orders");
-                                    // for (int j = 0; j < jay.length(); j++){
-                                    // JSONObject objc= jay.getJSONObject(j);
-                                    // accept_name1 = objc.getString("accept_name");
-                                    // province1 = objc.getString("province");
-                                    // city1 = objc.getString("city");
-                                    // area1 = objc.getString("area");
-                                    // user_mobile1 = objc.getString("mobile");
-                                    // user_address1 = objc.getString("address");
-                                    // recharge_no1 = objc.getString("order_no");
-                                    // datetime1 = objc.getString("add_time");
-                                    // sell_price1 = objc.getString("payable_amount");
-                                    // JSONArray jsonArray =
-                                    // objc.getJSONArray("order_goods");
-                                    // for (int i = 0; i < jsonArray.length(); i++) {
-                                    // JSONObject json = jsonArray.getJSONObject(i);
-                                    // article_id1 = json.getString("article_id");
-                                    // // sell_price1 = json.getString("sell_price");
-                                    // give_pension1 = json.getString("give_pension");
-                                    // }
-                                    // }
-
-                                    //							 Intent intent = new Intent(MyOrderConfrimActivity.this,MyOrderXqActivity.class);
-                                    //							 startActivity(intent);
-                                    //							Toast.makeText(MyOrderConfrimActivity.this, info,Toast.LENGTH_SHORT).show();
-                                    finish();
-                                    // Intent intent = new Intent(MyOrderConfrimActivity.this,ZhiFuOKActivity.class);
-                                    // startActivity(intent);
-                                } else {
-                                    progress.CloseProgress();
-                                    teby = false;
-                                    Toast.makeText(MyOrderConfrimActivity.this, info, Toast.LENGTH_SHORT).show();
-                                    finish();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int arg0, String arg1) {
+                        super.onSuccess(arg0, arg1);
+                        try {
+                            JSONObject object = new JSONObject(arg1);
+                            System.out.println("更新订单=================================" + arg1);
+                            String status = object.getString("status");
+                            String info = object.getString("info");
+                            if (status.equals("y")) {
+                                progress.CloseProgress();
+                                list_shop_cart.setVisibility(View.GONE);
+                                finish();
+                            } else {
+                                progress.CloseProgress();
+                                Toast.makeText(MyOrderConfrimActivity.this, info, Toast.LENGTH_SHORT).show();
+                                finish();
                             }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
+                    }
 
-                        @Override
-                        public void onFailure(Throwable arg0, String arg1) {
+                    @Override
+                    public void onFailure(Throwable arg0, String arg1) {
+                        super.onFailure(arg0, arg1);
+                        Toast.makeText(MyOrderConfrimActivity.this, "异常", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
 
-                            super.onFailure(arg0, arg1);
-                            System.out.println("11================================="
-                                    + arg0);
-                            System.out.println("22================================="
-                                    + arg1);
-                            Toast.makeText(MyOrderConfrimActivity.this, "异常", Toast.LENGTH_SHORT)
-                                    .show();
-                            finish();
-                        }
+                }, MyOrderConfrimActivity.this);
 
-                    }, null);
 
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -1334,47 +1199,37 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
      * @param
      */
     private void loadzhidu(String recharge_no3, String total_amount) {
-        try {
-            recharge_no = recharge_no3;
-            // total_fee = String.valueOf(Double.parseDouble(retailPrice) +
-            // Double.parseDouble(String.valueOf(express_fee)));
-            total_fee = total_amount;
-            System.out.println("22retailPrice================================="
-                    + total_fee);
-            AsyncHttp.get(URLConstants.REALM_NAME_LL + "/payment_sign?user_id="
-                    + user_id + "&user_name=" + user_name + "" + "&total_fee="
-                    + total_amount + "&out_trade_no=" + recharge_no
-                    + "&payment_type=alipay", new AsyncHttpResponseHandler() {
-                @Override
-                public void onSuccess(int arg0, String arg1) {
-                    super.onSuccess(arg0, arg1);
-                    try {
-                        JSONObject object = new JSONObject(arg1);
-                        System.out.println("2================================="
-                                + arg1);
-                        String status = object.getString("status");
-                        String info = object.getString("info");
-                        if (status.equals("y")) {
-                            JSONObject obj = object.getJSONObject("data");
-                            notify_url = obj.getString("notify_url");
-                            progress.CloseProgress();
-                            handler.sendEmptyMessage(1);
-                        } else {
-                            progress.CloseProgress();
-                            Toast.makeText(MyOrderConfrimActivity.this, info,
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+        recharge_no = recharge_no3;
+        total_fee = total_amount;
+        AsyncHttp.get(URLConstants.REALM_NAME_LL + "/payment_sign?user_id="
+                + user_id + "&user_name=" + user_name + "" + "&total_fee="
+                + total_amount + "&out_trade_no=" + recharge_no
+                + "&payment_type=alipay", new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int arg0, String arg1) {
+                super.onSuccess(arg0, arg1);
+                try {
+                    JSONObject object = new JSONObject(arg1);
+                    System.out.println("2================================="
+                            + arg1);
+                    String status = object.getString("status");
+                    String info = object.getString("info");
+                    if ("y".equals(status)) {
+                        JSONObject obj = object.getJSONObject("data");
+                        notify_url = obj.getString("notify_url");
+                        progress.CloseProgress();
+                        handler.sendEmptyMessage(1);
+                    } else {
+                        progress.CloseProgress();
+                        Toast.makeText(MyOrderConfrimActivity.this, info,
+                                Toast.LENGTH_SHORT).show();
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+            }
 
-            }, null);
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
+        }, null);
     }
 
     /**
@@ -1384,61 +1239,44 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
      * @param
      */
     private void loadweixinzf2(String recharge_no2, String total_amount) {
-        try {
-            recharge_no = recharge_no2;
-            System.out.println("总金额===================" + retailPrice);
-            // String monney =
-            // String.valueOf(Integer.parseInt(retailPrice)*100);
-            String monney = String
-                    .valueOf(Double.parseDouble(total_amount) * 100);
+        recharge_no = recharge_no2;
+        String monney = String.valueOf(Double.parseDouble(total_amount) * 100);
 
-            AsyncHttp.get(URLConstants.REALM_NAME_LL + "/payment_sign?user_id="
-                            + user_id + "&user_name=" + user_name + "" + "&total_fee="
-                            + monney + "&out_trade_no=" + recharge_no
-                            + "&payment_type=weixin",
+        AsyncHttp.get(URLConstants.REALM_NAME_LL + "/payment_sign?user_id="
+                        + user_id + "&user_name=" + user_name + "" + "&total_fee="
+                        + monney + "&out_trade_no=" + recharge_no
+                        + "&payment_type=weixin",
 
-                    new AsyncHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(int arg0, String arg1) {
-                            super.onSuccess(arg0, arg1);
-                            try {
-
-                                JSONObject object = new JSONObject(arg1);
-                                System.out
-                                        .println("weixin================================="
-                                                + arg1);
-                                String status = object.getString("status");
-                                String info = object.getString("info");
-                                if (status.equals("y")) {
-                                    JSONObject jsonObject = object
-                                            .getJSONObject("data");
-                                    partner_id = jsonObject.getString("mch_id");
-                                    prepayid = jsonObject.getString("prepay_id");
-                                    noncestr = jsonObject.getString("nonce_str");
-                                    timestamp = jsonObject.getString("timestamp");
-                                    package_ = "Sign=WXPay";
-                                    sign = jsonObject.getString("sign");
-                                    System.out
-                                            .println("weixin================================="
-                                                    + package_);
-                                    progress.CloseProgress();
-                                    handler.sendEmptyMessage(2);
-                                } else {
-                                    progress.CloseProgress();
-                                    Toast.makeText(MyOrderConfrimActivity.this, info,
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int arg0, String arg1) {
+                        super.onSuccess(arg0, arg1);
+                        try {
+                            JSONObject object = new JSONObject(arg1);
+                            String status = object.getString("status");
+                            String info = object.getString("info");
+                            if (status.equals("y")) {
+                                JSONObject jsonObject = object
+                                        .getJSONObject("data");
+                                partner_id = jsonObject.getString("mch_id");
+                                prepayid = jsonObject.getString("prepay_id");
+                                noncestr = jsonObject.getString("nonce_str");
+                                timestamp = jsonObject.getString("timestamp");
+                                package_ = "Sign=WXPay";
+                                sign = jsonObject.getString("sign");
+                                progress.CloseProgress();
+                                handler.sendEmptyMessage(2);
+                            } else {
+                                progress.CloseProgress();
+                                Toast.makeText(MyOrderConfrimActivity.this, info, Toast.LENGTH_SHORT).show();
                             }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
+                    }
 
-                    }, null);
+                }, MyOrderConfrimActivity.this);
 
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -1467,8 +1305,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                                     userloginqm();
                                 } else {
                                     progress.CloseProgress();
-                                    Toast.makeText(MyOrderConfrimActivity.this, info,
-                                            Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MyOrderConfrimActivity.this, info, Toast.LENGTH_SHORT).show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -1485,10 +1322,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
 
     private void ali_pay() {
         try {
-
-            //
-            String orderInfo = getOrderInfo("乐享汽车商品", "商品描述", recharge_no);
-
+            String orderInfo = getOrderInfo("大道易客商品", "商品描述", recharge_no);
             // 对订单做RSA 签名
             String sign = sign(orderInfo);
             try {

@@ -232,6 +232,10 @@ public class URLConstants {
      * 购物车低价订单
      */
     public static final String ADD_SHOPPING_BUYS = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_shopping_buys";
+    /**
+     * 余额支付
+     */
+    public static final String BALANCE_BAY_URL = BuildConfig.ROOT_URL + "/api/payment/balance/index.aspx";
 
 
     //    public static final String REALM_NAME_WEB = "http://szlxkg.com";

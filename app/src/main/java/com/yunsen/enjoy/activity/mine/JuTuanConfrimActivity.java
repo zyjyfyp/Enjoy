@@ -1013,8 +1013,6 @@ public class JuTuanConfrimActivity extends AppCompatActivity {
 						progress.CloseProgress();
 						try {
 
-							System.out.println("ct_tuanshu-------------"
-									+ TishiCarArchivesActivity.order_no);
 							Toast.makeText(JuTuanConfrimActivity.this, info,
 									Toast.LENGTH_SHORT).show();
 
@@ -1505,7 +1503,7 @@ public class JuTuanConfrimActivity extends AppCompatActivity {
 		try {
 
 			//
-			String orderInfo = getOrderInfo("乐享汽车商品", "商品描述", recharge_no);
+			String orderInfo = getOrderInfo("大道易客商品", "商品描述", recharge_no);
 
 			// 对订单做RSA 签名
 			String sign = sign(orderInfo);
