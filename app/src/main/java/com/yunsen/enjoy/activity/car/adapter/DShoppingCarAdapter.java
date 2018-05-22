@@ -32,9 +32,11 @@ import okhttp3.Request;
 
 public class DShoppingCarAdapter extends CommonAdapter<GoodsCarInfo> {
     private GoodsSumInterface mGoodsSumCall;
+    private String mUserId;
 
-    public DShoppingCarAdapter(Context context, int layoutId, List<GoodsCarInfo> datas) {
+    public DShoppingCarAdapter(Context context, int layoutId, List<GoodsCarInfo> datas,String mUserId) {
         super(context, layoutId, datas);
+        this.mUserId=mUserId;
     }
 
     private static final String TAG = "DShoppingCarAdapter";
@@ -73,7 +75,7 @@ public class DShoppingCarAdapter extends CommonAdapter<GoodsCarInfo> {
                 if (mGoodsSumCall != null) {
                     final int fIndex = index[0];
                     int id = goodsData.getId();
-                    HttpProxy.upShopCarGoods("", String.valueOf(id), String.valueOf(fIndex), new HttpCallBack<ShopCarCount>() {
+                    HttpProxy.upShopCarGoods(mUserId, String.valueOf(id), String.valueOf(fIndex), new HttpCallBack<ShopCarCount>() {
                         @Override
                         public void onSuccess(ShopCarCount responseData) {
                             goodsData.setQuantity(fIndex);
@@ -102,7 +104,7 @@ public class DShoppingCarAdapter extends CommonAdapter<GoodsCarInfo> {
                             public void onRightClick(int... index) {
                                 final GoodsCarInfo data = (GoodsCarInfo) fView.getTag();
 
-                                HttpProxy.deleteShopCarGoods("", "" + data.getId(), new HttpCallBack<ShopCarCount>() {
+                                HttpProxy.deleteShopCarGoods(mUserId, "" + data.getId(), new HttpCallBack<ShopCarCount>() {
                                     @Override
                                     public void onSuccess(ShopCarCount responseData) {
                                         if (mDatas.remove(data)) {
@@ -175,6 +177,45 @@ public class DShoppingCarAdapter extends CommonAdapter<GoodsCarInfo> {
             mDatas.get(i).setCheckGoods(isChecked);
         }
         this.notifyDataSetChanged();
+    }
+
+    /**
+     * 0 -> articleds
+     * 1 ->goodsIds
+     * 2 ->quantities
+     *
+     * @return
+     */
+    public String[] getSubmitRequestDatas() {
+        String datas[] = new String[3];
+        StringBuffer articleds = new StringBuffer();
+        StringBuffer goodsIds = new StringBuffer();
+        StringBuffer quantities = new StringBuffer();
+        int size = mDatas.size();
+        int j = 0;
+        for (int i = 0; i < size; i++) {
+            GoodsCarInfo goodsInfo = mDatas.get(i);
+            if (goodsInfo.isCheckGoods()) {
+                if (j == 0) {
+                    articleds.append(goodsInfo.getArticle_id());
+                    goodsIds.append(goodsInfo.getGoods_id());
+                    quantities.append(goodsInfo.getQuantity());
+                } else {
+                    articleds.append(",").append(goodsInfo.getArticle_id());
+                    goodsIds.append(",").append(goodsInfo.getGoods_id());
+                    quantities.append(",").append(goodsInfo.getQuantity());
+                }
+                j = 1;
+            }
+        }
+
+        datas[0] = articleds.toString();
+        datas[1] = goodsIds.toString();
+        datas[2] = quantities.toString();
+        Log.e(TAG, "getGoodsSumPrice: mArticleds= " + datas[0]);
+        Log.e(TAG, "getGoodsSumPrice: mGoodsIds=" + datas[1]);
+        Log.e(TAG, "getGoodsSumPrice: mQuantites=" + datas[2]);
+        return datas;
     }
 
     public interface GoodsSumInterface {

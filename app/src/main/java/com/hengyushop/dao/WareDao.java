@@ -610,7 +610,7 @@ public class WareDao {
 		return isInsert;
 	}
 
-	// 查询商品的信息 加入购物车
+	// 查询商品的信息 加入易购车
 	public List<ShopCartData> findShopCart() {
 		SQLiteDatabase db = helper.getReadableDatabase();
 		List<ShopCartData> allNames = new ArrayList<ShopCartData>();

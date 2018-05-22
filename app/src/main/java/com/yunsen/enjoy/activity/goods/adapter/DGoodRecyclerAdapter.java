@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.utils.GlobalStatic;
 import com.yunsen.enjoy.utils.ToastUtils;
@@ -21,10 +22,10 @@ import java.util.List;
  * Created by Administrator on 2018/5/15.
  */
 
-public class DGoodRecyclerAdapter extends CommonAdapter<GoodsData> {
+public class DGoodRecyclerAdapter extends CommonAdapter<CarDetails> {
     private boolean mShowClear = false;
 
-    public DGoodRecyclerAdapter(Context context, int layoutId, List<GoodsData> datas) {
+    public DGoodRecyclerAdapter(Context context, int layoutId, List<CarDetails> datas) {
         super(context, layoutId, datas);
     }
 
@@ -37,19 +38,19 @@ public class DGoodRecyclerAdapter extends CommonAdapter<GoodsData> {
     }
 
     @Override
-    protected void convert(ViewHolder holder, GoodsData goodsData, int position) {
+    protected void convert(ViewHolder holder, CarDetails goodsData, int position) {
         ImageView imgView = holder.getView(R.id.d_goods_left_img);
         View view = holder.getView(R.id.d_goods_item_distance);
         Glide.with(mContext)
                 .load(goodsData.getImg_url())
                 .into(imgView);
         holder.setText(R.id.d_goods_item_title, goodsData.getTitle());
-        holder.setText(R.id.d_goods_item_price, "￥" + goodsData.getSell_price());
+        holder.setText(R.id.d_goods_item_price, "￥" + goodsData.getDefault_spec_item().getSell_price());
         holder.setText(R.id.d_goods_item_like, "想要换：" + goodsData.getCategory_title());
         String lat = goodsData.getLat().trim();
         String lng = goodsData.getLng().trim();
 
-        if (GlobalStatic.latitude != 0.0 && GlobalStatic.longitude != 0.0 && !("0,0".equals(lat) || "0.0".equals(lng))) {
+        if (!TextUtils.isEmpty(lat) && !TextUtils.isEmpty(lng) && GlobalStatic.latitude != 0.0 && GlobalStatic.longitude != 0.0 && !("0,0".equals(lat) || "0.0".equals(lng))) {
             view.setVisibility(View.VISIBLE);
             double algorithm = Utils.algorithm(GlobalStatic.longitude, GlobalStatic.latitude, Double.valueOf(lng), Double.valueOf(lat)) / 1000;
             BigDecimal b = new BigDecimal(algorithm);
@@ -77,7 +78,7 @@ public class DGoodRecyclerAdapter extends CommonAdapter<GoodsData> {
 
     }
 
-    public void upData(List<GoodsData> datas) {
+    public void upData(List<CarDetails> datas) {
         mDatas.clear();
         if (datas != null) {
             mDatas.addAll(datas);
@@ -85,7 +86,7 @@ public class DGoodRecyclerAdapter extends CommonAdapter<GoodsData> {
         this.notifyDataSetChanged();
     }
 
-    public boolean addData(List<GoodsData> datas) {
+    public boolean addData(List<CarDetails> datas) {
         if (datas != null) {
             mDatas.addAll(datas);
             this.notifyDataSetChanged();

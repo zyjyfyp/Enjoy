@@ -307,7 +307,12 @@
         <activity
             android:name=".activity.goods.ChangeGoodsActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".activity.mine.MyOrderConfrimActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yunsen.enjoy.activity.pay.ZhiFuFangShiActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

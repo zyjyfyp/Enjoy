@@ -20,6 +20,7 @@ import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.AlbumsBean;
 import com.yunsen.enjoy.model.CarDetails;
+import com.yunsen.enjoy.model.DefaultSpecItemBean;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.utils.ToastUtils;
@@ -127,7 +128,7 @@ public class GoodsDescriptionActivity extends BaseFragmentActivity {
             return;
         }
 //        goodsTitle.setText(responseData.getTitle());
-        CarDetails.DefaultSpecItemBean defaultSpecItem = responseData.getDefault_spec_item();
+       DefaultSpecItemBean defaultSpecItem = responseData.getDefault_spec_item();
         double rebatePrice = defaultSpecItem.getSell_price();
 //        goodsPriceTv.setText("￥" + rebatePrice);
         double market_price = defaultSpecItem.getMarket_price();

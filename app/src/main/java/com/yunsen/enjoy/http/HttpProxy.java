@@ -24,6 +24,7 @@ import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.GoogsListResponse;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.NoticeResponse;
+import com.yunsen.enjoy.model.OrderInfo;
 import com.yunsen.enjoy.model.PullImageResult;
 import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.model.ServiceProject;
@@ -36,6 +37,7 @@ import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.model.request.WatchCarModel;
 import com.yunsen.enjoy.model.response.AccountBalanceResponse;
+import com.yunsen.enjoy.model.response.AddShoppingBuysResponse;
 import com.yunsen.enjoy.model.response.AuthorizationResponse;
 import com.yunsen.enjoy.model.response.CarBrandResponese;
 import com.yunsen.enjoy.model.response.CarDetailsResponse;
@@ -1227,7 +1229,7 @@ public class HttpProxy {
     /**
      * 换产品的接口
      */
-    public static void getChangeGoodsList(String channelName, String categoryId, String pageIdx, final HttpCallBack<List<GoodsData>> callBack) {
+    public static void getChangeGoodsList(String channelName, String categoryId, String pageIdx, final HttpCallBack<List<CarDetails>> callBack) {
         HashMap<String, String> map = new HashMap<>();
         map.put("channel_name", channelName);
         map.put("category_id", categoryId);
@@ -1236,11 +1238,11 @@ public class HttpProxy {
         map.put("strwhere", "");
         map.put("orderby", "");
 
-        HttpClient.get(URLConstants.CHANGE_GOODS_LIST, map, new HttpResponseHandler<GoogsListResponse>() {
+        HttpClient.get(URLConstants.CHANGE_GOODS_LIST, map, new HttpResponseHandler<SearchListResponse>() {
             @Override
-            public void onSuccess(GoogsListResponse response) {
+            public void onSuccess(SearchListResponse response) {
                 super.onSuccess(response);
-                List<GoodsData> data = response.getData();
+                List<CarDetails> data = response.getData();
                 if (data != null) {
                     callBack.onSuccess(data);
                 } else {
@@ -1261,6 +1263,9 @@ public class HttpProxy {
      */
     public static void getMyShoppingCart(String userId, String pageIdx, final HttpCallBack<List<GoodsCarInfo>> callBack) {
         HashMap<String, String> map = new HashMap<>();
+        map.put("pageSize", "50");
+        map.put("pageIndex", pageIdx);
+        map.put("user_id", userId);
         HttpClient.get(URLConstants.MY_SHOPPING_CART_LIST, map, new HttpResponseHandler<GoodsCarResponse>() {
             @Override
             public void onSuccess(GoodsCarResponse response) {
@@ -1287,7 +1292,7 @@ public class HttpProxy {
     public static void deleteShopCarGoods(String userId, String GoodsId, final HttpCallBack<ShopCarCount> callBack) {
         HashMap<String, String> map = new HashMap<>();
         map.put("clear", "0");
-        map.put("user_id", Constants.TEST_USER_ID); // TODO: 2018/5/18  用户id
+        map.put("user_id", userId);
         map.put("cart_id", GoodsId);
         HttpClient.get(URLConstants.DELETE_SHOPPING_CART_GOODS, map, new HttpResponseHandler<ShopCarAccountResponse>() {
             @Override
@@ -1316,10 +1321,10 @@ public class HttpProxy {
      * @param GoodsId
      * @param callBack
      */
-    public static void upShopCarGoods(String userId, String GoodsId,String quantity, final HttpCallBack<ShopCarCount> callBack) {
+    public static void upShopCarGoods(String userId, String GoodsId, String quantity, final HttpCallBack<ShopCarCount> callBack) {
         HashMap<String, String> map = new HashMap<>();
         map.put("quantity", quantity);
-        map.put("user_id", Constants.TEST_USER_ID); // TODO: 2018/5/18  用户id
+        map.put("user_id",userId);
         map.put("cart_id", GoodsId);
 
         HttpClient.get(URLConstants.UP_SHOPPING_CART_GOODS, map, new HttpResponseHandler<ShopCarAccountResponse>() {
@@ -1327,6 +1332,48 @@ public class HttpProxy {
             public void onSuccess(ShopCarAccountResponse response) {
                 super.onSuccess(response);
                 ShopCarCount data = response.getData();
+                if (data != null) {
+                    callBack.onSuccess(data);
+                } else {
+                    callBack.onError(null, new Exception("data is empty!"));
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
+                super.onFailure(request, e);
+            }
+        });
+    }
+
+    /**
+     * 从购物车购买物品
+     *
+     * @param articleIds
+     * @param goodsIds
+     * @param quantities
+     * @param callBack
+     */
+    public static void submitShoppingGoods(String articleIds, String goodsIds, String quantities, final HttpCallBack<OrderInfo> callBack) {
+        SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+        String userId = sp.getString(SpConstants.USER_ID, "");
+        String loginSign = sp.getString(SpConstants.LOGIN_SIGN, "");
+        String userName = sp.getString(SpConstants.USER_NAME, "");
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("user_id",userId);
+        map.put("user_name", userName);
+        map.put("user_sign",loginSign);
+        map.put("article_id", articleIds);
+        map.put("goods_id", goodsIds);
+        map.put("quantity", quantities);
+
+        HttpClient.get(URLConstants.ADD_SHOPPING_BUYS, map, new HttpResponseHandler<AddShoppingBuysResponse>() {
+            @Override
+            public void onSuccess(AddShoppingBuysResponse response) {
+                super.onSuccess(response);
+                OrderInfo data = response.getData();
                 if (data != null) {
                     callBack.onSuccess(data);
                 } else {

@@ -20,4 +20,5 @@ public class EventConstants {
 
     public static final int UP_CITY = 4;
     public static final int CHANGE_CITY_EVENT = 5;
+    public static final int UP_MINE_UI = 6;
 }

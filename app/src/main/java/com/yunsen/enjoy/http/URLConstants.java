@@ -13,7 +13,8 @@ public class URLConstants {
      */
     public static final String REALM_URL = BuildConfig.ROOT_URL;
 
-    public static final String REALM_ACCOUNT_URL = "http://szlxkg.com/tools/mobile_ajax.asmx";
+    //    public static final String REALM_ACCOUNT_URL = "http://szlxkg.com/tools/mobile_ajax.asmx";
+    public static final String REALM_ACCOUNT_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx";
 
 
     /**
@@ -216,16 +217,21 @@ public class URLConstants {
     /**
      * 获取购物车列表
      */
-    public static final String MY_SHOPPING_CART_LIST = "http://mobile.zams.cn/tools/mobile_ajax.asmx/get_shopping_cart?pageSize=50&pageIndex=1&user_id=" + Constants.TEST_USER_ID;
+//    public static final String MY_SHOPPING_CART_LIST = "http://mobile.zams.cn/tools/mobile_ajax.asmx/get_shopping_cart?pageSize=50&pageIndex=1&user_id=" + Constants.TEST_USER_ID;
+    public static final String MY_SHOPPING_CART_LIST = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_shopping_cart";
     /**
      * 删除物品
      */
-    public static final String DELETE_SHOPPING_CART_GOODS = "http://mobile.zams.cn/tools/mobile_ajax.asmx/cart_goods_delete";
+    public static final String DELETE_SHOPPING_CART_GOODS = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/cart_goods_delete";
     /**
      * http://mobile.zams.cn/tools/mobile_ajax.asmx/cart_goods_update
      * 更新物品数量
      */
-    public static final String UP_SHOPPING_CART_GOODS = "http://mobile.zams.cn/tools/mobile_ajax.asmx/cart_goods_update";
+    public static final String UP_SHOPPING_CART_GOODS = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/cart_goods_update";
+    /**
+     * 购物车低价订单
+     */
+    public static final String ADD_SHOPPING_BUYS = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_shopping_buys";
 
 
     //    public static final String REALM_NAME_WEB = "http://szlxkg.com";

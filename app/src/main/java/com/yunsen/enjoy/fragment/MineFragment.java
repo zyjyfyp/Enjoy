@@ -428,7 +428,6 @@ public class MineFragment extends BaseFragment {
     /**
      * 第0个列表数据解析
      */
-    ArrayList<String> list_0;
     ArrayList<String> list_1;
     ArrayList<String> list_2;
     ArrayList<String> list_3;
@@ -438,7 +437,6 @@ public class MineFragment extends BaseFragment {
      * 加载订单信息
      */
     private void load_list() {
-        list_0 = new ArrayList<String>();
         list_1 = new ArrayList<String>();
         list_2 = new ArrayList<String>();
         list_3 = new ArrayList<String>();
@@ -476,22 +474,20 @@ public class MineFragment extends BaseFragment {
                                         System.out.println("已完成=============");
                                         list_4.add(payment_status);
                                     }
-                                    list_0.add(payment_status);
                                 }
-                                System.out.println("========list_0.size()======1=====" + list_0.size());
-                                String num = String.valueOf(list_0.size());
+                                String num = String.valueOf(list_1.size());
                                 orderNumber1.setText(num);
-                                String num1 = String.valueOf(list_1.size());
+                                String num1 = String.valueOf(list_2.size());
                                 orderNumber2.setText(num1);
-                                String num2 = String.valueOf(list_2.size());
+                                String num2 = String.valueOf(list_3.size());
                                 orderNumber3.setText(num2);
-                                String num3 = String.valueOf(list_3.size());
+                                String num3 = String.valueOf(list_4.size());
                                 orderNumber4.setText(num3);
 
-                                list_0 = null;
                                 list_1 = null;
                                 list_2 = null;
                                 list_3 = null;
+                                list_4 = null;
                             }
                         } catch (Exception e) {
 
@@ -731,6 +727,9 @@ public class MineFragment extends BaseFragment {
                 //                Constants.QQauth = QQAuth.createInstance(Constants.APP_QQ_ID, AppContext.getInstance());
                 Tencent tencent = Tencent.createInstance(Constants.APP_QQ_ID, getActivity());
                 tencent.logout(getActivity());
+                break;
+            case EventConstants.UP_MINE_UI:
+                load_list();
                 break;
         }
     }

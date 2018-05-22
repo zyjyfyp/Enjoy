@@ -12,6 +12,7 @@ import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.CarDetails;
+import com.yunsen.enjoy.model.DefaultSpecItemBean;
 import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.ui.UIHelper;
@@ -114,7 +115,7 @@ public class ApplyBuyFirstActivity extends BaseFragmentActivity {
 
     private void upView(CarDetails data) {
         String title = data.getTitle();
-        CarDetails.DefaultSpecItemBean specItemBean = data.getDefault_spec_item();
+        DefaultSpecItemBean specItemBean = data.getDefault_spec_item();
         double sellPrice = specItemBean.getSell_price();
         double firstPayment = specItemBean.getFirst_payment();
         int term = specItemBean.getTerm();//几期

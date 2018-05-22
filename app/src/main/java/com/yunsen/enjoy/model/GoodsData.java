@@ -107,13 +107,13 @@ public class GoodsData {
     private String add_time;
     private String update_time;
     private int comment;
-    private int sell_price;
-    private int market_price;
-    private int first_payment;
-    private int monthly_supply;
+    private double sell_price;
+    private double market_price;
+    private double first_payment;
+    private double monthly_supply;
     private int term;
-    private int cashing_packet;
-    private int cashing_point;
+    private double cashing_packet;
+    private double cashing_point;
     private Object activity;
 
     private List<AlbumsBean> albums;
@@ -568,35 +568,35 @@ public class GoodsData {
         this.comment = comment;
     }
 
-    public int getSell_price() {
+    public double getSell_price() {
         return sell_price;
     }
 
-    public void setSell_price(int sell_price) {
+    public void setSell_price(double sell_price) {
         this.sell_price = sell_price;
     }
 
-    public int getMarket_price() {
+    public double getMarket_price() {
         return market_price;
     }
 
-    public void setMarket_price(int market_price) {
+    public void setMarket_price(double market_price) {
         this.market_price = market_price;
     }
 
-    public int getFirst_payment() {
+    public double getFirst_payment() {
         return first_payment;
     }
 
-    public void setFirst_payment(int first_payment) {
+    public void setFirst_payment(double first_payment) {
         this.first_payment = first_payment;
     }
 
-    public int getMonthly_supply() {
+    public double getMonthly_supply() {
         return monthly_supply;
     }
 
-    public void setMonthly_supply(int monthly_supply) {
+    public void setMonthly_supply(double monthly_supply) {
         this.monthly_supply = monthly_supply;
     }
 
@@ -608,19 +608,19 @@ public class GoodsData {
         this.term = term;
     }
 
-    public int getCashing_packet() {
+    public double getCashing_packet() {
         return cashing_packet;
     }
 
-    public void setCashing_packet(int cashing_packet) {
+    public void setCashing_packet(double cashing_packet) {
         this.cashing_packet = cashing_packet;
     }
 
-    public int getCashing_point() {
+    public double getCashing_point() {
         return cashing_point;
     }
 
-    public void setCashing_point(int cashing_point) {
+    public void setCashing_point(double cashing_point) {
         this.cashing_point = cashing_point;
     }
 

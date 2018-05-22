@@ -27,6 +27,7 @@ import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.AlbumsBean;
 import com.yunsen.enjoy.model.CarDetails;
+import com.yunsen.enjoy.model.DefaultSpecItemBean;
 import com.yunsen.enjoy.model.SpecItemBean;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
@@ -154,8 +155,9 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
                 upBanner(albums);
                 upView(responseData);
                 upData(responseData);
-                webview.loadUrl(URLConstants.REALM_NAME_HTTP + "/mobile/goods/conent-" + albums.get(0).getArticle_id() + ".html");//商品介绍
-
+                if (albums != null && albums.size() > 0) {
+                    webview.loadUrl(URLConstants.REALM_NAME_HTTP + "/mobile/goods/conent-" + albums.get(0).getArticle_id() + ".html");//商品介绍
+                }
             }
 
             @Override
@@ -208,7 +210,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
             return;
         }
         goodsTitle.setText(responseData.getTitle());
-        CarDetails.DefaultSpecItemBean defaultSpecItem = responseData.getDefault_spec_item();
+        DefaultSpecItemBean defaultSpecItem = responseData.getDefault_spec_item();
         double rebatePrice = defaultSpecItem.getSell_price();
         goodsPriceTv.setText("￥" + rebatePrice);
         double market_price = defaultSpecItem.getMarket_price();

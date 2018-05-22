@@ -81,4 +81,8 @@ public class SpConstants {
 
     public static final String OAUTH_NAME = "oauth_name";
     public static final String OAUTH_UNIONID = "oauth_unionid";
+    /**
+     * 用户地址
+     */
+    public static final String ADDRESS_SP = "user_dizhixinxi";
 }

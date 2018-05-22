@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.model.CarDetails;
+import com.yunsen.enjoy.model.DefaultSpecItemBean;
 import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
@@ -30,7 +31,7 @@ public class SearchListAdapter extends CommonAdapter<CarDetails> {
     protected void convert(ViewHolder holder, CarDetails goodsData, int position) {
         holder.setText(R.id.goods_title_2, goodsData.getTitle());
         holder.setText(R.id.goods_sub_title_2, goodsData.getSubtitle());
-        CarDetails.DefaultSpecItemBean defaultSpecItem = goodsData.getDefault_spec_item();
+        DefaultSpecItemBean defaultSpecItem = goodsData.getDefault_spec_item();
         holder.setText(R.id.goods_money, defaultSpecItem.getSell_price() + "万元");//sell_price
         holder.setText(R.id.goods_first_money, "首付" + defaultSpecItem.getFirst_payment() + "万元");
         holder.setText(R.id.goods_address, goodsData.getAddress());

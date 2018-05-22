@@ -33,12 +33,15 @@ import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.MyOrderData;
 import com.yunsen.enjoy.model.OrderBean;
 import com.yunsen.enjoy.model.UserRegisterllData;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.thirdparty.PayResult;
 import com.yunsen.enjoy.widget.DialogProgress;
 import com.yunsen.enjoy.widget.PullToRefreshView;
 import com.yunsen.enjoy.widget.PullToRefreshView.OnFooterRefreshListener;
 
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -765,6 +768,7 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
                                 Toast.makeText(MyOrderActivity.this, info, Toast.LENGTH_SHORT).show();
                                 load_list(true, strwhere);
                                 madapter.notifyDataSetChanged();
+                                EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.UP_MINE_UI));
                             } else {
                                 progress.CloseProgress();
                                 Toast.makeText(MyOrderActivity.this, info, Toast.LENGTH_SHORT).show();

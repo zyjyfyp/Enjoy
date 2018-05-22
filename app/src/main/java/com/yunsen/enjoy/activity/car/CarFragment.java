@@ -1,5 +1,8 @@
 package com.yunsen.enjoy.activity.car;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,15 +16,22 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.car.adapter.DShoppingCarAdapter;
+import com.yunsen.enjoy.activity.mine.MyOrderConfrimActivity;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.fragment.BaseFragment;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.GoodsCarInfo;
+import com.yunsen.enjoy.model.OrderInfo;
+import com.yunsen.enjoy.model.ShopCarCount;
+import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.yunsen.enjoy.utils.StringUtils;
+import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
 import java.util.ArrayList;
@@ -59,6 +69,9 @@ public class CarFragment extends BaseFragment implements MultiItemTypeAdapter.On
     private ArrayList<GoodsCarInfo> mDatas;
     private DShoppingCarAdapter mAdapter;
     private CheckBox checkAllGoods;
+    private int mPageIndex = 1;
+    private String mUserId;
+    private boolean mFlagLoad = true;//第一次打开不走onResumen 刷新界面
 
     @Override
     protected int getLayoutId() {
@@ -75,8 +88,10 @@ public class CarFragment extends BaseFragment implements MultiItemTypeAdapter.On
 
     @Override
     protected void initData() {
+        SharedPreferences sp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+        mUserId = sp.getString(SpConstants.USER_ID, "");
         mDatas = new ArrayList<>();
-        mAdapter = new DShoppingCarAdapter(getActivity(), R.layout.car_goods_item, mDatas);
+        mAdapter = new DShoppingCarAdapter(getActivity(), R.layout.car_goods_item, mDatas, mUserId);
         HeaderAndFooterRecyclerViewAdapter headerAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         shopCarRecycler.setAdapter(headerAndFooterRecyclerViewAdapter);
         View headView = getLayoutInflater().inflate(R.layout.shop_car_head_view, null);
@@ -94,15 +109,20 @@ public class CarFragment extends BaseFragment implements MultiItemTypeAdapter.On
     @Override
     public void onResume() {
         super.onResume();
-        isShowEmptyView(mDatas.size() == 0);
+        if (mFlagLoad) {
+            mFlagLoad = false;
+        } else {
+            requestData();
+        }
     }
 
     @Override
     protected void requestData() {
-        HttpProxy.getMyShoppingCart("", "", new HttpCallBack<List<GoodsCarInfo>>() {
+        HttpProxy.getMyShoppingCart(mUserId, String.valueOf(mPageIndex), new HttpCallBack<List<GoodsCarInfo>>() {
             @Override
             public void onSuccess(List<GoodsCarInfo> responseData) {
                 mAdapter.upData(responseData);
+                isShowEmptyView(mDatas.size() == 0);
             }
 
             @Override
@@ -115,6 +135,30 @@ public class CarFragment extends BaseFragment implements MultiItemTypeAdapter.On
 
     @OnClick(R.id.change_goods_btn)
     public void onViewClicked() {
+        if (mAdapter == null) {
+            return;
+        }
+        if (mAdapter.getmGoodsCount() == 0) {
+            Toast.makeText(getActivity(), "请选择要支付的商品", Toast.LENGTH_SHORT).show();
+        } else {
+            submitBuyGoods();
+        }
+    }
+
+    private void submitBuyGoods() {
+        String[] requestDatas = mAdapter.getSubmitRequestDatas();
+        HttpProxy.submitShoppingGoods(requestDatas[0], requestDatas[1], requestDatas[2], new HttpCallBack<OrderInfo>() {
+            @Override
+            public void onSuccess(OrderInfo responseData) {
+                String buyNo = responseData.getBuy_no();
+                UIHelper.showMyOrderConfrimActivity(getActivity(), buyNo);
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+                ToastUtils.makeTextShort(e.getMessage());
+            }
+        });
 
     }
 

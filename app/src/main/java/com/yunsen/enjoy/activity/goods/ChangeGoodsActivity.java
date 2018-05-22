@@ -40,6 +40,7 @@ import com.yunsen.enjoy.activity.goods.adapter.GradeAdapter;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.CheckedData;
 import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.GradeFlagModel;
@@ -119,7 +120,7 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
 
     private int mActType = 0;
 
-    private List<GoodsData> mData;
+    private List<CarDetails> mData;
     private DGoodRecyclerAdapter mAdapter;
     private String mChannelName;
     private String mCategegoryId;
@@ -273,15 +274,18 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
         @Override
         public void onLoadNextPage(View view) {
             super.onLoadNextPage(view);
-            Log.e(TAG, "onLoadNextPage: 加载更多");
-            if (mHasMore) {
-                mPageIndex++;
-                isLoadMore = true;
-                requestData();
-                loadMoreLayout.showLoading();
-            } else {
-                loadMoreLayout.showLoadNoMore();
+            if (mData.size() > 0) {
+                Log.e(TAG, "onLoadNextPage: 加载更多");
+                if (mHasMore) {
+                    mPageIndex++;
+                    isLoadMore = true;
+                    requestData();
+                    loadMoreLayout.showLoading();
+                } else {
+                    loadMoreLayout.showLoadNoMore();
+                }
             }
+
         }
     };
 
@@ -289,9 +293,9 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
     @Override
     public void requestData() {
         if (mHasMore)
-            HttpProxy.getChangeGoodsList(mChannelName, mCategegoryId, String.valueOf(mPageIndex), new HttpCallBack<List<GoodsData>>() {
+            HttpProxy.getChangeGoodsList(mChannelName, mCategegoryId, String.valueOf(mPageIndex), new HttpCallBack<List<CarDetails>>() {
                 @Override
-                public void onSuccess(List<GoodsData> responseData) {
+                public void onSuccess(List<CarDetails> responseData) {
                     if (isLoadMore) {
                         mHasMore = mAdapter.addData(responseData);
                         if (mHasMore) {
@@ -479,9 +483,9 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
      */
     @Override
     public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
-        List<GoodsData> datas = mAdapter.getDatas();
+        List<CarDetails> datas = mAdapter.getDatas();
         if (datas != null && position >= 0 && datas.size() > position) {
-            GoodsData data = datas.get(position);
+            CarDetails data = datas.get(position);
             UIHelper.showGoodsDescriptionActivity(this, String.valueOf(data.getId()), data.getTitle());
         }
     }

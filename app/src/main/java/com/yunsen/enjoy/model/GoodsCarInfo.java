@@ -1,5 +1,7 @@
 package com.yunsen.enjoy.model;
 
+import com.yunsen.enjoy.http.URLConstants;
+
 /**
  * Created by Administrator on 2018/5/18.
  */
@@ -54,17 +56,17 @@ public class GoodsCarInfo {
     private int goods_id;
     private String goods_no;
     private int stock_quantity;
-    private int market_price;
-    private int sell_price;
-    private int cost_price;
-    private int rebate_price;
-    private int cashing_packet;
-    private int cashing_point;
+    private double market_price;
+    private double sell_price;
+    private double cost_price;
+    private double rebate_price;
+    private double cashing_packet;
+    private double cashing_point;
     private int group_id;
-    private int group_price;
-    private int exchange_price;
+    private double group_price;
+    private double exchange_price;
     private int exchange_point;
-    private int give_packet;
+    private double give_packet;
     private int give_sinup_point;
     private int give_sinin_point;
     private int give_pension;
@@ -140,8 +142,15 @@ public class GoodsCarInfo {
     }
 
     public String getImg_url() {
-        // TODO: 2018/5/18
-        return "http://mobile.zams.cn"+img_url;
+        if (img_url != null && img_url.startsWith("http")) {
+            return img_url;
+        } else {
+            String trim = "";
+            if (img_url != null) {
+                trim = img_url.trim();
+            }
+            return URLConstants.REALM_URL + trim;
+        }
     }
 
     public void setImg_url(String img_url) {
@@ -180,51 +189,51 @@ public class GoodsCarInfo {
         this.stock_quantity = stock_quantity;
     }
 
-    public int getMarket_price() {
+    public double getMarket_price() {
         return market_price;
     }
 
-    public void setMarket_price(int market_price) {
+    public void setMarket_price(double market_price) {
         this.market_price = market_price;
     }
 
-    public int getSell_price() {
+    public double getSell_price() {
         return sell_price;
     }
 
-    public void setSell_price(int sell_price) {
+    public void setSell_price(double sell_price) {
         this.sell_price = sell_price;
     }
 
-    public int getCost_price() {
+    public double getCost_price() {
         return cost_price;
     }
 
-    public void setCost_price(int cost_price) {
+    public void setCost_price(double cost_price) {
         this.cost_price = cost_price;
     }
 
-    public int getRebate_price() {
+    public double getRebate_price() {
         return rebate_price;
     }
 
-    public void setRebate_price(int rebate_price) {
+    public void setRebate_price(double rebate_price) {
         this.rebate_price = rebate_price;
     }
 
-    public int getCashing_packet() {
+    public double getCashing_packet() {
         return cashing_packet;
     }
 
-    public void setCashing_packet(int cashing_packet) {
+    public void setCashing_packet(double cashing_packet) {
         this.cashing_packet = cashing_packet;
     }
 
-    public int getCashing_point() {
+    public double getCashing_point() {
         return cashing_point;
     }
 
-    public void setCashing_point(int cashing_point) {
+    public void setCashing_point(double cashing_point) {
         this.cashing_point = cashing_point;
     }
 
@@ -236,19 +245,19 @@ public class GoodsCarInfo {
         this.group_id = group_id;
     }
 
-    public int getGroup_price() {
+    public double getGroup_price() {
         return group_price;
     }
 
-    public void setGroup_price(int group_price) {
+    public void setGroup_price(double group_price) {
         this.group_price = group_price;
     }
 
-    public int getExchange_price() {
+    public double getExchange_price() {
         return exchange_price;
     }
 
-    public void setExchange_price(int exchange_price) {
+    public void setExchange_price(double exchange_price) {
         this.exchange_price = exchange_price;
     }
 
@@ -260,11 +269,11 @@ public class GoodsCarInfo {
         this.exchange_point = exchange_point;
     }
 
-    public int getGive_packet() {
+    public double getGive_packet() {
         return give_packet;
     }
 
-    public void setGive_packet(int give_packet) {
+    public void setGive_packet(double give_packet) {
         this.give_packet = give_packet;
     }
 

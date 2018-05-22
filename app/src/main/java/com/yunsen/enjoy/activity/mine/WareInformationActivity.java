@@ -1087,7 +1087,7 @@ public class WareInformationActivity extends AppCompatActivity implements
                     Toast.makeText(getApplicationContext(), "添加失败", Toast.LENGTH_SHORT).show();
                     break;
                 case 1:
-                    Toast.makeText(getApplicationContext(), "成功加入购物车", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "成功加入易购车", Toast.LENGTH_SHORT).show();
                     progress.CloseProgress();
                     // TODO: 2018/4/25  聚乐购
 //                    try {
@@ -1475,7 +1475,7 @@ public class WareInformationActivity extends AppCompatActivity implements
             }
         });
 
-        //加入购物车
+        //加入易购车
         btn_add_shop_cart.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -1597,7 +1597,7 @@ public class WareInformationActivity extends AppCompatActivity implements
                     }
                 } else {
                     if (!user_name.equals("")) {
-                        //				loadgouwuche();//立即购买加入购物车
+                        //				loadgouwuche();//立即购买加入易购车
                         fangshi = 1;//销售套餐购买判断为1
                         spec_text_list = 1;//销售套餐判断为1
                         taocan_type = false;//判断商品套餐价格

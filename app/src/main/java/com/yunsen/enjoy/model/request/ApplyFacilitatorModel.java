@@ -3,6 +3,8 @@ package com.yunsen.enjoy.model.request;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.yunsen.enjoy.http.URLConstants;
+
 /**
  * Created by Administrator on 2018/5/9.
  */
@@ -232,7 +234,15 @@ public class ApplyFacilitatorModel implements Parcelable{
     }
 
     public String getImg_url() {
-        return img_url;
+        if (img_url != null && img_url.startsWith("http")) {
+            return img_url;
+        } else {
+            String trim = "";
+            if (img_url != null) {
+                trim = img_url.trim();
+            }
+            return URLConstants.REALM_URL + trim;
+        }
     }
 
     public void setImg_url(String img_url) {

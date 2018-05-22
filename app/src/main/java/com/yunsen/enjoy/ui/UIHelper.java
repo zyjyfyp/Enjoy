@@ -34,6 +34,7 @@ import com.yunsen.enjoy.activity.goods.ChangeGoodsActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
+import com.yunsen.enjoy.activity.mine.MyOrderConfrimActivity;
 import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.activity.mine.TeamActivity;
@@ -48,7 +49,9 @@ import com.yunsen.enjoy.activity.user.UserRegisterActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.fragment.buy.SelectBrandActivity;
 import com.yunsen.enjoy.fragment.buy.SeniorFilterActivity;
+import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.model.OrderInfo;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.utils.AccountUtils;
@@ -528,7 +531,7 @@ public class UIHelper {
     public static void showChangeGoodsActivity(Context ctx, String channelName, String categoryId, String actName, int actType) {
         Intent intent = new Intent(ctx, ChangeGoodsActivity.class);
         intent.putExtra(Constants.CHANNEL_NAME_KEY, channelName);
-        intent.putExtra(Constants.CATEGORY_ID_KEY, categoryId);
+        intent.putExtra(Constants.CATEGORY_ID_KEY, "0");
         intent.putExtra(Constants.ACT_NAME_KEY, actName);
         intent.putExtra(Constants.ACT_TYPE_KEY, actType);
         ctx.startActivity(intent);
@@ -581,12 +584,23 @@ public class UIHelper {
     }
 
     /**
-     *
      * @param ctx
      */
     public static void showHomeShopCar(Context ctx) {
         Intent intent = new Intent(ctx, MainActivity.class);
         intent.putExtra(Constants.FRAGMENT_TYPE_KEY, 2);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 订单确认页面
+     *
+     * @param ctx
+     * @param buyNo
+     */
+    public static void showMyOrderConfrimActivity(Context ctx, String buyNo) {
+        Intent intent = new Intent(ctx, MyOrderConfrimActivity.class);
+        intent.putExtra("buy_no", buyNo);
         ctx.startActivity(intent);
     }
 }

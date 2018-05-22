@@ -214,22 +214,8 @@ public class MyOrderXqActivity extends AppCompatActivity implements OnClickListe
                         case 0:
                             break;
                         case 1:
-                            //						System.out.println("======dialog1===============");
-                            //						order_no = (String) msg.obj;
-                            //						dialog();
                             finish();
                             break;
-                        //					case 2:
-                        //						System.out.println("======dialog2===============");
-                        //						order_no = (String) msg.obj;
-                        //						dialog2();
-                        //			            break;
-                        //					case 3:
-                        //						System.out.println("======dialog3===============");
-                        //						order_no = (String) msg.obj;
-                        ////						dialog3();
-                        //						break;
-
                         default:
                             break;
                     }
@@ -350,10 +336,6 @@ public class MyOrderXqActivity extends AppCompatActivity implements OnClickListe
                             if (status.equals("y")) {
                                 progress.CloseProgress();
                                 Toast.makeText(MyOrderXqActivity.this, info, Toast.LENGTH_SHORT).show();
-                                //									  Intent intent = new Intent(getActivity(), MyOrderConfrimActivity.class);
-                                //									  intent.putExtra("order_no",order_no);
-                                //									  intent.putExtra("id","1");
-                                //									  startActivity(intent);
                             } else {
                                 progress.CloseProgress();
                                 Toast.makeText(MyOrderXqActivity.this, info, Toast.LENGTH_SHORT).show();
