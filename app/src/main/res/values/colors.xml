@@ -103,4 +103,5 @@
     <color name="color_1fb5ad">#1fb5ad</color>
     <color name="green">#028e02</color>
     <color name="orange_color_2">#ff572d</color>
+    <color name="login_in_edt_bg">#7affffff</color>
 </resources>

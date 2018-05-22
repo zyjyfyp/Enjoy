@@ -368,7 +368,7 @@
                         android:id="@+id/order_img_4"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:src="@mipmap/payment" />
+                        android:src="@mipmap/ylj" />
 
                     <TextView
                         android:id="@+id/order_title_4"

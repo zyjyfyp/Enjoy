@@ -61,7 +61,7 @@
             <RelativeLayout
                 android:id="@+id/layoutPhone"
                 android:layout_width="fill_parent"
-                android:layout_height="45.0dip"
+                android:layout_height="50.0dip"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:background="@drawable/login_edt_bg">
@@ -80,14 +80,14 @@
                     android:layout_height="fill_parent"
                     android:layout_toRightOf="@+id/imgPhone"
                     android:background="@null"
-                    android:hint="请输入手机号"
+                    android:hint="请输入账号"
                     android:inputType="number"
                     android:maxLength="11"
                     android:paddingLeft="15.0dip"
                     android:singleLine="true"
                     android:textColor="#ff111111"
-                    android:textColorHint="#ffaaaaaa"
-                    android:textSize="16.0sp" />
+                    android:textColorHint="#ffdddddd"
+                    android:textSize="17.0sp" />
 
                 <ImageView
                     android:id="@+id/imgCancel"
@@ -101,7 +101,7 @@
 
             <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="45.0dip"
+                android:layout_height="50.0dip"
                 android:layout_below="@+id/layoutPhone"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
@@ -123,20 +123,21 @@
                     android:layout_height="fill_parent"
                     android:layout_toRightOf="@id/imgCode"
                     android:background="@null"
-                    android:hint="请输入密码"
+                    android:hint="请输入登录密码（6-12位）"
                     android:inputType="textPassword"
                     android:maxLength="20"
                     android:paddingLeft="15.0dip"
                     android:singleLine="true"
                     android:textColor="#ff111111"
-                    android:textColorHint="#ffaaaaaa"
-                    android:textSize="16.0sp" />
+                    android:textColorHint="#ffdddddd"
+                    android:textSize="17.0sp" />
 
 
             </RelativeLayout>
         </RelativeLayout>
 
         <LinearLayout
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
@@ -168,7 +169,7 @@
         <Button
             android:id="@+id/login_btn"
             android:layout_width="fill_parent"
-            android:layout_height="45dip"
+            android:layout_height="50dip"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
@@ -176,10 +177,10 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/login_edt_bg"
-            android:text="登录"
-            android:textColor="@color/color_theme"
-            android:textSize="18.0sp" />
+            android:background="@drawable/login_btn_bg"
+            android:text="登 录"
+            android:textColor="@color/title_color"
+            android:textSize="20.0sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
