@@ -57,7 +57,8 @@ public class DGoodRecyclerAdapter extends CommonAdapter<CarDetails> {
             double df = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
             holder.setText(R.id.d_goods_item_distance, df + "千米");
         } else {
-            view.setVisibility(View.GONE);
+//            view.setVisibility(View.GONE);
+            holder.setText(R.id.d_goods_item_distance,  "0.0 千米");
         }
         View repertory = holder.getView(R.id.d_goods_clear_repertory);
         if (mShowClear) {

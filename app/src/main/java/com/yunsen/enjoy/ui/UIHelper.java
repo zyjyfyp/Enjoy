@@ -44,6 +44,7 @@ import com.yunsen.enjoy.activity.mine.Webview1;
 import com.yunsen.enjoy.activity.order.DianPingActivity;
 import com.yunsen.enjoy.activity.order.MyOrderActivity;
 import com.yunsen.enjoy.activity.order.MyOrderXqActivity;
+import com.yunsen.enjoy.activity.pay.TishiCarArchivesActivity;
 import com.yunsen.enjoy.activity.user.DBFengXiangActivity;
 import com.yunsen.enjoy.activity.user.LoginActivity;
 import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
@@ -624,7 +625,7 @@ public class UIHelper {
      */
     public static void showMyOrderXqActivity(Context ctx, String rechargeNo) {
         final Context fContext = ctx;
-        AsyncHttp.get(URLConstants.REALM_URL+"/tools/mobile_ajax.asmx/get_order_trade_list?trade_no=" + rechargeNo, new AsyncHttpResponseHandler() {
+        AsyncHttp.get(URLConstants.REALM_URL + "/tools/mobile_ajax.asmx/get_order_trade_list?trade_no=" + rechargeNo, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(String arg1) {
                 MyOrderData md = new MyOrderData();

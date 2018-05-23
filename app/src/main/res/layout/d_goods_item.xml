@@ -4,11 +4,13 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
+        android:id="@+id/data_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/d_goods_left_img"
@@ -77,16 +79,22 @@
 
                 <TextView
                     android:id="@+id/d_goods_clear_repertory"
-                    android:background="@drawable/clear_tv_bg"
-                    android:textColor="@color/white"
                     android:layout_width="40dp"
                     android:layout_height="20dp"
+                    android:background="@drawable/clear_tv_bg"
                     android:gravity="center"
                     android:text="清仓"
+                    android:textColor="@color/white"
                     android:textSize="12sp" />
             </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/data_layout"
+        android:background="@color/gray_light" />
 
 </RelativeLayout>

@@ -95,7 +95,7 @@ public class TishiCarArchivesActivity extends BaseFragmentActivity implements On
 
         switch (v.getId()) {
             case R.id.btnConfirm://取消
-                finishTishiActivity();
+                finishToOrderActivity();
                 break;
             case R.id.btnCancle://
                 pwd = zhidupess.getText().toString().trim();
@@ -215,13 +215,19 @@ public class TishiCarArchivesActivity extends BaseFragmentActivity implements On
             @Override
             public void onError(Request request, Exception e) {
                 ToastUtils.makeTextShort("支付失败");
-                finishTishiActivity();
+                finishToOrderActivity();
             }
         });
     }
 
     private void finishTishiActivity() {
         UIHelper.showMyOrderXqActivity(TishiCarArchivesActivity.this, mOrderNo);
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    private void finishToOrderActivity(){
+        UIHelper.showOrderActivity(this,"1");
         setResult(RESULT_OK);
         finish();
     }
@@ -273,7 +279,7 @@ public class TishiCarArchivesActivity extends BaseFragmentActivity implements On
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            UIHelper.showMyOrderXqActivity(TishiCarArchivesActivity.this, mOrderNo);
+            UIHelper.showOrderActivity(this,"1");
             setResult(RESULT_OK);
         }
         return super.onKeyDown(keyCode, event);
