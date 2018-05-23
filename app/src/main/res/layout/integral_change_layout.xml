@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="积分兑换"
+            android:textColor="@color/title_color"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/more_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
+            android:drawableRight="@mipmap/more"
+            android:text="@string/more" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="124dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
+
+                <ImageView
+                    android:id="@+id/hone_point_img_0"
+                    style="@style/HomePointImgStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/integral_change_0" />
+
+                <TextView
+                    android:id="@+id/home_point_old_price_0"
+                    style="@style/HomePointOldPrice"
+                    android:text="￥800" />
+
+                <TextView
+                    android:id="@+id/home_point_title_0"
+                    style="@style/HomePointTitleStyle"
+                    android:layout_above="@id/home_point_old_price_0"
+                    android:text="大众车轮" />
+
+
+                <TextView
+                    android:id="@+id/home_point_new_point_0"
+                    style="@style/HomePointNewPoint"
+                    android:layout_toRightOf="@id/home_point_old_price_0"
+                    android:text="8800积分" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/hone_point_img_1"
+                    style="@style/HomePointImgStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/integral_change_1" />
+
+                <TextView
+                    android:id="@+id/home_point_title_1"
+                    style="@style/HomePointTitleStyle" />
+
+                <TextView
+                    android:id="@+id/home_point_old_price_1"
+                    style="@style/HomePointOldPrice"
+                    android:layout_above="@id/home_point_old_price_1" />
+
+                <TextView
+                    android:id="@+id/home_point_new_point_1"
+                    style="@style/HomePointNewPoint"
+                    android:layout_toRightOf="@id/home_point_old_price_1" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="124dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/hone_point_img_2"
+                    style="@style/HomePointImgStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/integral_change_2" />
+
+                <TextView
+                    android:id="@+id/home_point_title_2"
+                    style="@style/HomePointTitleStyle" />
+
+                <TextView
+                    android:id="@+id/home_point_old_price_2"
+                    style="@style/HomePointOldPrice"
+                    android:layout_above="@id/home_point_old_price_2" />
+
+                <TextView
+                    android:id="@+id/home_point_new_point_2"
+                    style="@style/HomePointNewPoint"
+                    android:layout_toRightOf="@id/home_point_old_price_2" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/hone_point_img_3"
+                    style="@style/HomePointImgStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/integral_change_3" />
+
+                <TextView
+                    android:id="@+id/home_point_title_3"
+                    style="@style/HomePointTitleStyle" />
+
+                <TextView
+                    android:id="@+id/home_point_old_price_3"
+                    style="@style/HomePointOldPrice"
+                    android:layout_above="@id/home_point_old_price_3" />
+
+                <TextView
+                    android:id="@+id/home_point_new_point_3"
+                    style="@style/HomePointNewPoint"
+                    android:layout_toRightOf="@id/home_point_old_price_3" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/hone_point_img_4"
+                    style="@style/HomePointImgStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/integral_change_4" />
+
+                <TextView
+                    android:id="@+id/home_point_title_4"
+                    style="@style/HomePointTitleStyle" />
+
+                <TextView
+                    android:id="@+id/home_point_old_price_4"
+                    style="@style/HomePointOldPrice"
+                    android:layout_above="@id/home_point_old_price_4" />
+
+                <TextView
+                    android:id="@+id/home_point_new_point_4"
+                    style="@style/HomePointNewPoint"
+                    android:layout_toRightOf="@id/home_point_old_price_4" />
+            </RelativeLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

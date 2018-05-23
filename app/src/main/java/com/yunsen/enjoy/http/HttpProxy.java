@@ -196,7 +196,8 @@ public class HttpProxy {
         param.put("trade_id", "0");
         param.put("page_size", "5");
         param.put("page_index", "" + pageIndex);
-        param.put("strwhere", "status=0 and datatype='Supply'and city = \'" + city + "\'");
+        param.put("strwhere", "status=0 and datatype='Supply'");
+//        param.put("strwhere", "status=0 and datatype='Supply'and city = \'" + city + "\'");
         param.put("orderby", "");
 
 
@@ -1187,6 +1188,47 @@ public class HttpProxy {
             }
         });
     }
+
+    /**
+     * 获取获取积分商品
+     *
+     * @param callBack
+     */
+    public static void getIntegralChangeData(final HttpCallBack<List<CarDetails>> callBack) {
+        HttpClient.get(URLConstants.INTEGRAL_CHANGE_URL, new HashMap<String, Object>(), new HttpResponseHandler<SearchListResponse>() {
+            @Override
+            public void onSuccess(SearchListResponse response) {
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 商品部件
+     *
+     * @param callBack
+     */
+    public static void getGoodsPartsDatas(final HttpCallBack<List<GoodsData>> callBack) {
+        HttpClient.get(URLConstants.GOODS_PARTS_URL, new HashMap<String, Object>(), new HttpResponseHandler<GoogsListResponse>() {
+            @Override
+            public void onSuccess(GoogsListResponse response) {
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
 
 }
 

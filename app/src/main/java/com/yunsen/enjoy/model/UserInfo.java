@@ -109,14 +109,14 @@ public class UserInfo {
     private String weixin;
     private String login_sign;
     private String login_stamp;
-    private int amount;
-    private int promotion;
-    private int pension;
-    private int packet;
-    private int reserve;
-    private int reserveb;
-    private int reserves;
-    private int point;
+    private double amount;
+    private double promotion;
+    private double pension;
+    private double packet;
+    private double reserve;
+    private double reserveb;
+    private double reserves;
+    private double point;
     private int exp;
     private int exp_weal;
     private int exp_invest;
@@ -444,67 +444,67 @@ public class UserInfo {
         this.login_stamp = login_stamp;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
-    public int getPromotion() {
+    public double getPromotion() {
         return promotion;
     }
 
-    public void setPromotion(int promotion) {
+    public void setPromotion(double promotion) {
         this.promotion = promotion;
     }
 
-    public int getPension() {
+    public double getPension() {
         return pension;
     }
 
-    public void setPension(int pension) {
+    public void setPension(double pension) {
         this.pension = pension;
     }
 
-    public int getPacket() {
+    public double getPacket() {
         return packet;
     }
 
-    public void setPacket(int packet) {
+    public void setPacket(double packet) {
         this.packet = packet;
     }
 
-    public int getReserve() {
+    public double getReserve() {
         return reserve;
     }
 
-    public void setReserve(int reserve) {
+    public void setReserve(double reserve) {
         this.reserve = reserve;
     }
 
-    public int getReserveb() {
+    public double getReserveb() {
         return reserveb;
     }
 
-    public void setReserveb(int reserveb) {
+    public void setReserveb(double reserveb) {
         this.reserveb = reserveb;
     }
 
-    public int getReserves() {
+    public double getReserves() {
         return reserves;
     }
 
-    public void setReserves(int reserves) {
+    public void setReserves(double reserves) {
         this.reserves = reserves;
     }
 
-    public int getPoint() {
+    public double getPoint() {
         return point;
     }
 
-    public void setPoint(int point) {
+    public void setPoint(double point) {
         this.point = point;
     }
 

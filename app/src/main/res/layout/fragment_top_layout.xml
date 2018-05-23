@@ -57,13 +57,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
                     android:background="@drawable/orange_oval_bg"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:paddingTop="2dp"
                     android:paddingBottom="2dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="2dp"
                     android:text="优惠活动"
                     android:textColor="@color/color_fff"
                     android:textSize="11sp" />
@@ -86,15 +86,15 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:paddingRight="8dp"
-                    android:paddingLeft="8dp"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:background="@drawable/orange_oval_bg"
                     android:gravity="center"
                     android:minLines="1"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="2dp"
                     android:text="商品评测"
                     android:textColor="@color/color_fff"
                     android:textSize="11sp" />
@@ -152,7 +152,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/item_height"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:gravity="center_vertical"
@@ -161,7 +161,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="乐享新车" />
+            android:text="乐享新车"
+            android:textColor="@color/title_color"
+            android:textSize="15sp" />
 
         <View
             android:layout_width="0dp"
@@ -257,9 +259,44 @@
             android:src="@mipmap/car_5" />
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_margin"
+        android:background="@color/color_f5f7fa" />
+
+    <com.yunsen.enjoy.ui.layout.IntegralChangeLayout
+        android:id="@+id/integral_layout"
+        android:layout_width="match_parent"
+        android:layout_height="300dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_margin"
+        android:background="@color/color_f5f7fa" />
+
+    <com.yunsen.enjoy.ui.layout.SecondActivityLayout
+        android:id="@+id/home_activity_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_margin"
+        android:background="@color/color_f5f7fa" />
+
+    <com.yunsen.enjoy.ui.layout.GoodsPartsLayout
+        android:id="@+id/goods_parts_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_margin"
+        android:background="@color/color_f5f7fa" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/item_height"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:gravity="center_vertical"
@@ -268,7 +305,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="服务商" />
+            android:text="服务商"
+            android:textColor="@color/title_color"
+            android:textSize="15sp" />
 
         <View
             android:layout_width="0dp"
@@ -278,10 +317,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawablePadding="5dp"
-            android:gravity="center_vertical"
             android:layout_gravity="center_vertical"
+            android:drawablePadding="5dp"
             android:drawableRight="@mipmap/more"
+            android:gravity="center_vertical"
             android:text="@string/more" />
     </LinearLayout>
 

@@ -63,7 +63,10 @@ public class GuideActivity extends AppCompatActivity {
                         act.preferences = act.getSharedPreferences(SpConstants.SP_GUIDE, Activity.MODE_PRIVATE);
                         // 如果程序已经进入
                         if (act.preferences.getString("flow", "").equals("yes")) {
-                            act.getgaoguan();
+//                            act.getgaoguan(); //todo 跳过广告判断
+                            Intent intent = new Intent(act, MainActivity.class);
+                            act.startActivity(intent);
+                            act.finish();
                         } else {
                             act.i0.setVisibility(View.GONE);
                             Intent intent = new Intent(act, Guide2Activity.class);

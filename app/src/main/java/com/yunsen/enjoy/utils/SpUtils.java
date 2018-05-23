@@ -80,14 +80,14 @@ public class SpUtils {
         userInfo.setGroup_id(Integer.valueOf(sp.getString("group_id", "")));
         userInfo.setUser_name(sp.getString(SpConstants.USER_NAME, userInfo.getUser_name()));
         userInfo.setId(Integer.valueOf(sp.getString("user_id", "" + userInfo.getId())));
-        userInfo.setPoint(Integer.valueOf(sp.getString("point", "" + userInfo.getPoint())));
+        userInfo.setPoint(Double.valueOf(sp.getString("point", "" + userInfo.getPoint())));
         userInfo.setReal_name(sp.getString(SpConstants.REAL_NAME, userInfo.getReal_name()));
         userInfo.setCompany_id(Integer.valueOf(sp.getString("company_id", "" + userInfo.getCompany_id())));
         userInfo.setBirthday(sp.getString("birthday", userInfo.getBirthday()));
         userInfo.setSex(sp.getString("sex", userInfo.getSex()));
-        userInfo.setAmount(Integer.valueOf(sp.getString(SpConstants.AMOUNT, "" + userInfo.getAmount())));
+        userInfo.setAmount(Double.valueOf(sp.getString(SpConstants.AMOUNT, "" + userInfo.getAmount())));
         userInfo.setGroup_name(sp.getString(SpConstants.GROUP_NAME, userInfo.getGroup_name()));
-        userInfo.setReserve(Integer.valueOf(sp.getString(SpConstants.RESERVE, "" + userInfo.getReserve())));
+        userInfo.setReserve(Double.valueOf(sp.getString(SpConstants.RESERVE, "" + userInfo.getReserve())));
         return userInfo;
     }
 

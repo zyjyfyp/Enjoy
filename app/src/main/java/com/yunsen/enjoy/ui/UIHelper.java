@@ -39,6 +39,7 @@ import com.yunsen.enjoy.activity.mine.WithdrawCashActivity;
 import com.yunsen.enjoy.activity.order.MyOrderActivity;
 import com.yunsen.enjoy.activity.user.LoginActivity;
 import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
+import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.activity.user.UserRegisterActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.fragment.buy.SelectBrandActivity;

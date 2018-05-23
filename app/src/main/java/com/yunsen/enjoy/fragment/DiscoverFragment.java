@@ -22,6 +22,7 @@ import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
+import com.yunsen.enjoy.ui.recyclerview.NoScrollLinearLayoutManager;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.widget.LoadMoreView;
@@ -266,8 +267,9 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
 
         RecyclerView recyclerView = new RecyclerView(getActivity());
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
-        LinearLayoutManager layoutmanager = new LinearLayoutManager(getActivity());
+        NoScrollLinearLayoutManager layoutmanager = new NoScrollLinearLayoutManager(getActivity());
         //设置RecyclerView 布局
+        layoutmanager.setScrollEnabled(false);
         layoutmanager.setOrientation(LinearLayoutManager.VERTICAL);
 
         recyclerView.setLayoutManager(layoutmanager);
@@ -287,8 +289,9 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
 
 
         RecyclerView recyclerView2 = new RecyclerView(getActivity());
-        LinearLayoutManager layoutmanager2 = new LinearLayoutManager(getActivity());
+        NoScrollLinearLayoutManager layoutmanager2 = new NoScrollLinearLayoutManager(getActivity());
         //设置RecyclerView 布局
+        layoutmanager2.setScrollEnabled(false);
         layoutmanager2.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView2.setLayoutManager(layoutmanager2);
         ArrayList<GoodsData> datas = new ArrayList<>();
@@ -305,8 +308,9 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
 
 
         RecyclerView recyclerView3 = new RecyclerView(getActivity());
-        LinearLayoutManager layoutmanager3 = new LinearLayoutManager(getActivity());
+        NoScrollLinearLayoutManager layoutmanager3 = new NoScrollLinearLayoutManager(getActivity());
         //设置RecyclerView 布局
+        layoutmanager3.setScrollEnabled(false);
         layoutmanager3.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView3.setLayoutManager(layoutmanager3);
 
@@ -319,8 +323,9 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
 
 
         RecyclerView recyclerView4 = new RecyclerView(getActivity());
-        LinearLayoutManager layoutmanager4 = new LinearLayoutManager(getActivity());
+        NoScrollLinearLayoutManager layoutmanager4 = new NoScrollLinearLayoutManager(getActivity());
         //设置RecyclerView 布局
+        layoutmanager4.setScrollEnabled(false);
         layoutmanager4.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView4.setLayoutManager(layoutmanager4);
         mAdapter4 = new GoodsAdapter(getActivity(), R.layout.goods_item, new ArrayList<GoodsData>());

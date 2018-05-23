@@ -21,6 +21,7 @@ import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.AlbumsBean;
 import com.yunsen.enjoy.model.CarDetails;
+import com.yunsen.enjoy.model.DefaultSpecItemBean;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
@@ -171,7 +172,7 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
         }
         detailsTitle.setText(responseData.getTitle());
         flowLayout.setDatas(responseData.getDatatype());//超值
-        CarDetails.DefaultSpecItemBean defaultSpecItem = responseData.getDefault_spec_item();
+        DefaultSpecItemBean defaultSpecItem = responseData.getDefault_spec_item();
         double rebatePrice = defaultSpecItem.getSell_price();
         detailsCarMoney.setText(rebatePrice + "万");
         double market_price = defaultSpecItem.getMarket_price();

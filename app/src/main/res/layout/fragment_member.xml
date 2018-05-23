@@ -282,7 +282,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="代付款"
+                        android:text="待付款"
                         android:textColor="@color/color_3c434c"
                         android:textSize="13dp" />
 
@@ -313,7 +313,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="代发货"
+                        android:text="待发货"
                         android:textColor="@color/color_3c434c"
                         android:textSize="13dp" />
 
@@ -368,7 +368,7 @@
                         android:id="@+id/order_img_4"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:src="@mipmap/payment" />
+                        android:src="@mipmap/sqsh" />
 
                     <TextView
                         android:id="@+id/order_title_4"

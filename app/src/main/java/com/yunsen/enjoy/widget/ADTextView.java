@@ -119,8 +119,11 @@ public class ADTextView extends TextSwitcher implements ViewSwitcher.ViewFactory
     }
 
     public NoticeModel getCurrentData() {
-        return resources.get(index);
-
+        if (resources != null && resources.size() > index) {
+            return resources.get(index);
+        } else {
+            return null;
+        }
     }
 
 }

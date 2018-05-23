@@ -203,6 +203,16 @@ public class URLConstants {
      */
     public static final String DISCOVER_BANNER_URL = BuildConfig.ROOT_URL + "/toolS/mobile_ajax.asmx/get_article_top_list";
 
+    /**
+     * 兑换数据接口
+     */
+//    public static final String INTEGRAL_CHANGE_URL = BuildConfig.ROOT_URL + "/toolS/mobile_ajax.asmx/get_article_top_list_2017?channel_name=point&top=5&strwhere=";
+    public static final String INTEGRAL_CHANGE_URL = "http://mobile.zams.cn/tools/mobile_ajax.asmx/get_article_top_list_2017?channel_name=point&top=5&strwhere=";
+    /**
+     * 商品部件
+     */
+    public static final String GOODS_PARTS_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_page_size_list?channel_name=mall&category_id=0&page_size=4&page_index=1&strwhere=&orderby=";
+
 
     //
     //    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";

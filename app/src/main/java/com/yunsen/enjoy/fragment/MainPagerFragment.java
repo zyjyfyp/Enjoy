@@ -25,14 +25,18 @@ import com.yunsen.enjoy.fragment.home.StoreRecyclerAdapter;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.AdvertModel;
+import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.CarModel;
+import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.HomeCarModel;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpCityEvent;
-import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.ui.layout.GoodsPartsLayout;
+import com.yunsen.enjoy.ui.layout.IntegralChangeLayout;
+import com.yunsen.enjoy.ui.layout.SecondActivityLayout;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
@@ -44,7 +48,6 @@ import com.yunsen.enjoy.widget.HorizontalLayout;
 import com.yunsen.enjoy.widget.HorizontalLayout2;
 import com.yunsen.enjoy.widget.SearchActionBar;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
-import com.yunsen.enjoy.widget.recyclerview.wrapper.HeaderAndFooterWrapper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -84,6 +87,9 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     private HomeFootView footView;
     private List<AdvertModel> mAdverModels = new ArrayList<>();
     private int mPageIndex = 0;
+    private IntegralChangeLayout integralContral;
+    private SecondActivityLayout secondActivity;
+    private GoodsPartsLayout goodsPartsLayout;
 
 
     @Override
@@ -118,6 +124,9 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         mCarImgArray[4] = topView.findViewById(R.id.car_img_4);
         mCarImgArray[5] = topView.findViewById(R.id.car_img_5);
 
+        integralContral = (IntegralChangeLayout) topView.findViewById(R.id.integral_layout);
+        secondActivity = (SecondActivityLayout) topView.findViewById(R.id.home_activity_layout);
+        goodsPartsLayout = ((GoodsPartsLayout) topView.findViewById(R.id.goods_parts_layout));
 
     }
 
@@ -185,10 +194,13 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
             }
         });
-
+        /**
+         * 乐享新车
+         */
         HttpProxy.getCarList(new HttpCallBack<List<AdvertModel>>() {
             @Override
             public void onSuccess(List<AdvertModel> responseData) {
+                Log.e(TAG, "onSuccess: 乐享新车 ");
                 mAdverModels.clear();
                 for (int i = 0; i < responseData.size() && i < mCarImgArray.length; i++) {
                     AdvertModel model = responseData.get(i);
@@ -209,6 +221,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         HttpProxy.getNoticeData1(new HttpCallBack<List<NoticeModel>>() {
             @Override
             public void onSuccess(List<NoticeModel> responseData) {
+                Log.e(TAG, "onSuccess: 公告1");
                 adtTv1.setResources(responseData);
                 adtTv1.setTextStillTime(5000, 1);
             }
@@ -222,6 +235,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         HttpProxy.getNoticeData2(new HttpCallBack<List<NoticeModel>>() {
             @Override
             public void onSuccess(List<NoticeModel> responseData) {
+                Log.e(TAG, "onSuccess: 公告2");
                 adtTv2.setResources(responseData);
                 adtTv2.setTextStillTime(5000, 2);
             }
@@ -237,6 +251,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         HttpProxy.getBrandData(new HttpCallBack<List<CarModel>>() {
             @Override
             public void onSuccess(List<CarModel> responseData) {
+                Log.e(TAG, "onSuccess: 推荐汽车");
                 twoHLayout.upData(responseData);
             }
 
@@ -247,7 +262,40 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         });
 
         requestServiceProvider(false);
+        /**
+         * 积分兑换
+         */
+        HttpProxy.getIntegralChangeData(new HttpCallBack<List<CarDetails>>() {
+            @Override
+            public void onSuccess(List<CarDetails> responseData) {
+                Log.e(TAG, "onSuccess: 积分兑换");
+                integralContral.setData(responseData);
+                secondActivity.setData(responseData);
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
+        /**
+         * 配件商品
+         */
+        HttpProxy.getGoodsPartsDatas(new HttpCallBack<List<GoodsData>>() {
+            @Override
+            public void onSuccess(List<GoodsData> responseData) {
+                Log.e(TAG, "onSuccess: 配件商品");
+                goodsPartsLayout.setData(responseData);
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
+
     }
+
 
     private void requestServiceProvider(boolean isLoadMore) {
         final boolean isMore = isLoadMore;
@@ -262,6 +310,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         HttpProxy.getServiceProvider(mPageIndex, searchBar.getLeftText(), new HttpCallBack<List<SProviderModel>>() {
             @Override
             public void onSuccess(List<SProviderModel> responseData) {
+                Log.e(TAG, "onSuccess: 服务商");
                 if (isMore) {
                     if (!mAdapter.addDatas(responseData)) {
                         footView.changeState(true);

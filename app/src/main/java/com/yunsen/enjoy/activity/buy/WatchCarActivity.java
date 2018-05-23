@@ -16,6 +16,7 @@ import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.CarDetails;
+import com.yunsen.enjoy.model.DefaultSpecItemBean;
 import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.WatchCarBean;
 import com.yunsen.enjoy.model.request.WatchCarModel;
@@ -137,7 +138,7 @@ public class WatchCarActivity extends BaseFragmentActivity {
         String title = data.getTitle();
         goodsTitle2.setText(title);
         goodsSubTitle2.setText(data.getSubtitle());
-        CarDetails.DefaultSpecItemBean specItemBean = data.getDefault_spec_item();
+        DefaultSpecItemBean specItemBean = data.getDefault_spec_item();
         goodsFirstMoney.setText("" + specItemBean.getFirst_payment());
         goodsMoney.setText("" + specItemBean.getSell_price());
         goodsAddress.setText(data.getAddress());
