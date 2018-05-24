@@ -157,6 +157,9 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         HttpProxy.getDiscoverBannerList(new HttpCallBack<List<GoodsData>>() {
             @Override
             public void onSuccess(List<GoodsData> responseData) {
+                if (responseData == null || responseData.size() < 0) {
+                    return;
+                }
                 bannerAdapter = new DiscoverBannerAdapter(responseData, getActivity());
                 loopPager.setAdapter(bannerAdapter);
                 indicator.setViewPager(loopPager);

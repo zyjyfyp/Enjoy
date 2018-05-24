@@ -2,8 +2,10 @@ package com.yunsen.enjoy.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.fragment.MineFragment;
 import com.yunsen.enjoy.http.URLConstants;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -108,12 +110,12 @@ public class GoodsData {
     private String add_time;
     private String update_time;
     private int comment;
-    private int sell_price;
-    private int market_price;
-    private int first_payment;
+    private double sell_price;
+    private double market_price;
+    private double first_payment;
     private int monthly_supply;
     private int term;
-    private int cashing_packet;
+    private double cashing_packet;
     private int cashing_point;
     private Object activity;
     private List<AlbumsBean> albums;
@@ -482,50 +484,6 @@ public class GoodsData {
         this.comment = comment;
     }
 
-    public int getSell_price() {
-        return sell_price;
-    }
-
-    public void setSell_price(int sell_price) {
-        this.sell_price = sell_price;
-    }
-
-    public int getMarket_price() {
-        return market_price;
-    }
-
-    public void setMarket_price(int market_price) {
-        this.market_price = market_price;
-    }
-
-    public int getFirst_payment() {
-        return first_payment;
-    }
-
-    public void setFirst_payment(int first_payment) {
-        this.first_payment = first_payment;
-    }
-
-    public int getMonthly_supply() {
-        return monthly_supply;
-    }
-
-    public void setMonthly_supply(int monthly_supply) {
-        this.monthly_supply = monthly_supply;
-    }
-
-    public int getTerm() {
-        return term;
-    }
-
-    public void setTerm(int term) {
-        this.term = term;
-    }
-
-    public int getCashing_packet() {
-        return cashing_packet;
-    }
-
     public void setCashing_packet(int cashing_packet) {
         this.cashing_packet = cashing_packet;
     }
@@ -554,4 +512,58 @@ public class GoodsData {
         this.albums = albums;
     }
 
+    public double getSell_price() {
+        BigDecimal bg = new BigDecimal(sell_price);
+        sell_price = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        return sell_price;
+    }
+
+    public void setSell_price(double sell_price) {
+        this.sell_price = sell_price;
+
+    }
+
+    public double getMarket_price() {
+        BigDecimal bg = new BigDecimal(market_price);
+        market_price = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        return market_price;
+    }
+
+    public void setMarket_price(double market_price) {
+        this.market_price = market_price;
+    }
+
+    public double getFirst_payment() {
+        BigDecimal bg = new BigDecimal(first_payment);
+        first_payment = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        return first_payment;
+    }
+
+    public void setFirst_payment(double first_payment) {
+        this.first_payment = first_payment;
+    }
+
+    public int getMonthly_supply() {
+        return monthly_supply;
+    }
+
+    public void setMonthly_supply(int monthly_supply) {
+        this.monthly_supply = monthly_supply;
+    }
+
+    public int getTerm() {
+        return term;
+    }
+
+    public void setTerm(int term) {
+        this.term = term;
+    }
+
+    public double getCashing_packet() {
+        return cashing_packet;
+    }
+
+    public void setCashing_packet(double cashing_packet) {
+        this.cashing_packet = cashing_packet;
+    }
 }

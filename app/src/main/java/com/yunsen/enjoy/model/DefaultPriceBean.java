@@ -9,7 +9,7 @@ public  class DefaultPriceBean {
     private int goods_id;
     private int people;
     private int is_default;
-    private int price;
+    private double price;
 
     public int getArticle_id() {
         return article_id;
@@ -43,11 +43,11 @@ public  class DefaultPriceBean {
         this.is_default = is_default;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 }

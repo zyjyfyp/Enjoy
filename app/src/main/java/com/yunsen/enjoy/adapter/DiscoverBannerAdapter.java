@@ -73,8 +73,8 @@ public class DiscoverBannerAdapter extends PagerAdapter {
     }
 
     public void upData(List<GoodsData> datas) {
+        mDatas.clear();
         if (datas != null) {
-            mDatas.clear();
             mDatas.addAll(datas);
             notifyDataSetChanged();
         }

@@ -23,16 +23,19 @@ import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
 import com.yunsen.enjoy.fragment.home.StoreRecyclerAdapter;
 import com.yunsen.enjoy.http.HttpCallBack;
+import com.yunsen.enjoy.http.HttpCallBack2;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.CarModel;
+import com.yunsen.enjoy.model.DefaultSpecItemBean;
 import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.HomeCarModel;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpCityEvent;
+import com.yunsen.enjoy.model.event.UpHomeUiEvent;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.layout.GoodsPartsLayout;
 import com.yunsen.enjoy.ui.layout.IntegralChangeLayout;
@@ -85,7 +88,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     private ImageView allCars;
     private View moreCar;
     private HomeFootView footView;
-    private List<AdvertModel> mAdverModels = new ArrayList<>();
+    private List<CarDetails> mAdverModels = new ArrayList<>();
     private int mPageIndex = 0;
     private IntegralChangeLayout integralContral;
     private SecondActivityLayout secondActivity;
@@ -197,14 +200,14 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         /**
          * 乐享新车
          */
-        HttpProxy.getCarList(new HttpCallBack<List<AdvertModel>>() {
+        HttpProxy.getCarList(new HttpCallBack<List<CarDetails>>() {
             @Override
-            public void onSuccess(List<AdvertModel> responseData) {
+            public void onSuccess(List<CarDetails> responseData) {
                 Log.e(TAG, "onSuccess: 乐享新车 ");
                 mAdverModels.clear();
                 for (int i = 0; i < responseData.size() && i < mCarImgArray.length; i++) {
-                    AdvertModel model = responseData.get(i);
-                    String ad_url = model.getAd_url();
+                    CarDetails model = responseData.get(i);
+                    String ad_url = model.getImg_url();
                     Log.e(TAG, "model.getAd_url: " + model.getLink_url());
                     mAdverModels.add(model);
                     Picasso.with(getActivity()).load(ad_url)
@@ -270,7 +273,6 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
             public void onSuccess(List<CarDetails> responseData) {
                 Log.e(TAG, "onSuccess: 积分兑换");
                 integralContral.setData(responseData);
-                secondActivity.setData(responseData);
             }
 
             @Override
@@ -279,11 +281,34 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
             }
         });
         /**
+         * 秒杀活动
+         */
+        HttpProxy.getSecondActivityData(new HttpCallBack2<List<CarDetails>>() {
+
+            @Override
+            public void onSuccess(final List<CarDetails> responseData, Object otherData) {
+                Log.e(TAG, "onSuccess: 秒杀活动");
+                final String data = (String) otherData;
+                secondActivity.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        secondActivity.setData(responseData, Long.parseLong(data));
+                    }
+                });
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
+
+        /**
          * 配件商品
          */
-        HttpProxy.getGoodsPartsDatas(new HttpCallBack<List<GoodsData>>() {
+        HttpProxy.getGoodsPartsDatas(new HttpCallBack<List<CarDetails>>() {
             @Override
-            public void onSuccess(List<GoodsData> responseData) {
+            public void onSuccess(List<CarDetails> responseData) {
                 Log.e(TAG, "onSuccess: 配件商品");
                 goodsPartsLayout.setData(responseData);
             }
@@ -378,7 +403,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
     private String getAdverModelUrl(int index) {
         if (mAdverModels.size() > index) {
-            return mAdverModels.get(index).getLink_url();
+            return String.valueOf(mAdverModels.get(index).getId());
         }
         return null;
     }
@@ -393,15 +418,18 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                 break;
             case R.id.adt_text1:
                 NoticeModel data = adtTv1.getCurrentData();
-                UIHelper.showNoticeWebActivity(getActivity(), data.getId());
+                if (data != null) {
+                    UIHelper.showNoticeWebActivity(getActivity(), data.getId());
+                }
                 break;
             case R.id.adt_text2:
                 NoticeModel data2 = adtTv2.getCurrentData();
-                UIHelper.showNoticeWebActivity(getActivity(), data2.getId());
+                if (data2 != null) {
+                    UIHelper.showNoticeWebActivity(getActivity(), data2.getId());
+                }
                 break;
             case R.id.car_img_big:
                 if (mAdverModels != null && mAdverModels.size() > 0) {
-                    AdvertModel advertModel = mAdverModels.get(0);
                     UIHelper.showCarDetailsActivity(getActivity(), getAdverModelUrl(0));
                 }
                 break;
@@ -497,6 +525,13 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         if (event.getEventId() == EventConstants.UP_CITY) {
             searchBar.setLeftText(event.getCity());
             requestServiceProvider(false);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent2(UpHomeUiEvent event) {
+        if (event.getEventId() == EventConstants.HOME_UI_UP) {
+            secondActivity.upTimeUi(event.getCurrentTime());
         }
     }
 

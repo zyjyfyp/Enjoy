@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="5dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:text="距结束"
+        android:textColor="@color/color_888"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/home_activity_day"
+        style="@style/HomeTimeTextStyle"
+        android:text="10" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:text="天"
+        android:textColor="@color/color_3c434c"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/home_activity_hour"
+        style="@style/HomeTimeTextStyle"
+        android:text="10" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:text=":"
+        android:textColor="@color/color_3c434c"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/home_activity_minute"
+        style="@style/HomeTimeTextStyle"
+        android:text="36" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:text=":"
+        android:textColor="@color/color_3c434c"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/home_activity_second"
+        style="@style/HomeTimeTextStyle"
+        android:text="22" />
+
+</LinearLayout>

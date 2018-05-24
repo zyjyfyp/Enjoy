@@ -1,5 +1,6 @@
 package com.yunsen.enjoy.model;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -95,6 +96,8 @@ public class DefaultSpecItemBean {
     }
 
     public double getMarket_price() {
+        BigDecimal bg = new BigDecimal(market_price);
+        market_price = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return market_price;
     }
 
@@ -103,6 +106,8 @@ public class DefaultSpecItemBean {
     }
 
     public double getSell_price() {
+        BigDecimal bg = new BigDecimal(sell_price);
+        sell_price = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return sell_price;
     }
 

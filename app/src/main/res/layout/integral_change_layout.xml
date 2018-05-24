@@ -91,13 +91,14 @@
                     android:layout_height="match_parent"
                     android:src="@mipmap/integral_change_1" />
 
-                <TextView
-                    android:id="@+id/home_point_title_1"
-                    style="@style/HomePointTitleStyle" />
 
                 <TextView
                     android:id="@+id/home_point_old_price_1"
-                    style="@style/HomePointOldPrice"
+                    style="@style/HomePointOldPrice" />
+
+                <TextView
+                    android:id="@+id/home_point_title_1"
+                    style="@style/HomePointTitleStyle"
                     android:layout_above="@id/home_point_old_price_1" />
 
                 <TextView
@@ -129,13 +130,14 @@
                     android:layout_height="match_parent"
                     android:src="@mipmap/integral_change_2" />
 
-                <TextView
-                    android:id="@+id/home_point_title_2"
-                    style="@style/HomePointTitleStyle" />
 
                 <TextView
                     android:id="@+id/home_point_old_price_2"
-                    style="@style/HomePointOldPrice"
+                    style="@style/HomePointOldPrice" />
+
+                <TextView
+                    android:id="@+id/home_point_title_2"
+                    style="@style/HomePointTitleStyle"
                     android:layout_above="@id/home_point_old_price_2" />
 
                 <TextView
@@ -161,13 +163,14 @@
                     android:layout_height="match_parent"
                     android:src="@mipmap/integral_change_3" />
 
-                <TextView
-                    android:id="@+id/home_point_title_3"
-                    style="@style/HomePointTitleStyle" />
 
                 <TextView
                     android:id="@+id/home_point_old_price_3"
-                    style="@style/HomePointOldPrice"
+                    style="@style/HomePointOldPrice" />
+
+                <TextView
+                    android:id="@+id/home_point_title_3"
+                    style="@style/HomePointTitleStyle"
                     android:layout_above="@id/home_point_old_price_3" />
 
                 <TextView
@@ -193,13 +196,14 @@
                     android:layout_height="match_parent"
                     android:src="@mipmap/integral_change_4" />
 
-                <TextView
-                    android:id="@+id/home_point_title_4"
-                    style="@style/HomePointTitleStyle" />
 
                 <TextView
                     android:id="@+id/home_point_old_price_4"
-                    style="@style/HomePointOldPrice"
+                    style="@style/HomePointOldPrice" />
+
+                <TextView
+                    android:id="@+id/home_point_title_4"
+                    style="@style/HomePointTitleStyle"
                     android:layout_above="@id/home_point_old_price_4" />
 
                 <TextView

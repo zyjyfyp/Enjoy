@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/back_action_bar" />
+
+    <RelativeLayout
+        android:id="@+id/layout_ent_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/white">
+
+        <com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager
+            android:id="@+id/exchange_pager"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator
+            android:id="@+id/exchange_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+            android:padding="5dp" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/exchange_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

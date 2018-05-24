@@ -82,11 +82,15 @@ public class HttpProxy {
      *
      * @param callBack
      */
-    public static void getCarList(final HttpCallBack<List<AdvertModel>> callBack) {
-        HttpClient.get(URLConstants.CAR_ADV_URL, null, new HttpResponseHandler<AdvertList>() {
+    public static void getCarList(final HttpCallBack<List<CarDetails>> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("channel_name", "goods");
+        param.put("top", "6");
+        param.put("strwhere", "");
+        HttpClient.get(URLConstants.CAR_ADV_URL, param, new HttpResponseHandler<SearchListResponse>() {
             @Override
-            public void onSuccess(AdvertList response) {
-                List<AdvertModel> data = response.getData();
+            public void onSuccess(SearchListResponse response) {
+                List<CarDetails> data = response.getData();
                 callBack.onSuccess(data);
             }
 
@@ -104,13 +108,15 @@ public class HttpProxy {
      */
     public static void getNoticeData1(final HttpCallBack<List<NoticeModel>> callBack) {
         HashMap<String, String> param = new HashMap<>();
+//        param.put("channel_name", "news");
+//        param.put("category_id", "6");
+//        param.put("page_size", "8");
+//        param.put("page_index", "1");
+//        param.put("strwhere", "status=0");
+//        param.put("orderby", "");
         param.put("channel_name", "news");
-        param.put("category_id", "6");
-        param.put("page_size", "8");
-        param.put("page_index", "1");
-        param.put("strwhere", "status=0");
-        param.put("orderby", "");
-
+        param.put("top", "5");
+        param.put("strwhere", "");
 
         HttpClient.get(URLConstants.NOTICE_URL, param, new HttpResponseHandler<NoticeResponse>() {
             @Override
@@ -132,13 +138,15 @@ public class HttpProxy {
      */
     public static void getNoticeData2(final HttpCallBack<List<NoticeModel>> callBack) {
         HashMap<String, String> param = new HashMap<>();
+//        param.put("channel_name", "news");
+//        param.put("category_id", "7");
+//        param.put("page_size", "8");
+//        param.put("page_index", "1");
+//        param.put("strwhere", "status=0");
+//        param.put("orderby", "");
         param.put("channel_name", "news");
-        param.put("category_id", "7");
-        param.put("page_size", "8");
-        param.put("page_index", "1");
-        param.put("strwhere", "status=0");
-        param.put("orderby", "");
-
+        param.put("top", "5");
+        param.put("strwhere", "");
         HttpClient.get(URLConstants.NOTICE_URL, param, new HttpResponseHandler<NoticeResponse>() {
             @Override
             public void onSuccess(NoticeResponse response) {
@@ -1195,10 +1203,38 @@ public class HttpProxy {
      * @param callBack
      */
     public static void getIntegralChangeData(final HttpCallBack<List<CarDetails>> callBack) {
-        HttpClient.get(URLConstants.INTEGRAL_CHANGE_URL, new HashMap<String, Object>(), new HttpResponseHandler<SearchListResponse>() {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("channel_name", "point");
+        param.put("top", "5");
+        param.put("strwhere", "");
+        HttpClient.get(URLConstants.INTEGRAL_CHANGE_URL, param, new HttpResponseHandler<SearchListResponse>() {
             @Override
             public void onSuccess(SearchListResponse response) {
                 callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 秒杀活动
+     *
+     * @param callBack
+     */
+    public static void getSecondActivityData(final HttpCallBack2<List<CarDetails>> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("channel_name", "second");
+        param.put("top", "3");
+        param.put("strwhere", "");
+        HttpClient.get(URLConstants.INTEGRAL_CHANGE_URL, param, new HttpResponseHandler<SearchListResponse>() {
+            @Override
+            public void onSuccess(SearchListResponse response) {
+                callBack.onSuccess(response.getData(), response.getTimestamp());
             }
 
             @Override
@@ -1214,10 +1250,10 @@ public class HttpProxy {
      *
      * @param callBack
      */
-    public static void getGoodsPartsDatas(final HttpCallBack<List<GoodsData>> callBack) {
-        HttpClient.get(URLConstants.GOODS_PARTS_URL, new HashMap<String, Object>(), new HttpResponseHandler<GoogsListResponse>() {
+    public static void getGoodsPartsDatas(final HttpCallBack<List<CarDetails>> callBack) {
+        HttpClient.get(URLConstants.GOODS_PARTS_URL, new HashMap<String, Object>(), new HttpResponseHandler<SearchListResponse>() {
             @Override
-            public void onSuccess(GoogsListResponse response) {
+            public void onSuccess(SearchListResponse response) {
                 callBack.onSuccess(response.getData());
             }
 

@@ -73,8 +73,8 @@ public class CarDetails {
     private int weight;
     private String validity;
     private int templet_id;
-    private Object start_time;
-    private Object end_time;
+    private String start_time;
+    private String end_time;
     private Object start_sinup;
     private Object end_sinup;
     private String add_time;
@@ -735,19 +735,19 @@ public class CarDetails {
         this.templet_id = templet_id;
     }
 
-    public Object getStart_time() {
+    public String getStart_time() {
         return start_time;
     }
 
-    public void setStart_time(Object start_time) {
+    public void setStart_time(String start_time) {
         this.start_time = start_time;
     }
 
-    public Object getEnd_time() {
+    public String getEnd_time() {
         return end_time;
     }
 
-    public void setEnd_time(Object end_time) {
+    public void setEnd_time(String end_time) {
         this.end_time = end_time;
     }
 

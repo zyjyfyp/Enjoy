@@ -88,7 +88,9 @@ public class ADTextView extends TextSwitcher implements ViewSwitcher.ViewFactory
     }
 
     private void updateText() {
-        this.setText(resources.get(index).getTitle());
+        if (resources != null && resources.size() > index) {
+            this.setText(resources.get(index).getTitle());
+        }
     }
 
     @Override

@@ -19,7 +19,9 @@ import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
 import java.lang.ref.WeakReference;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class SecondActivityLayout extends LinearLayout implements MultiItemTypeA
     private FillActivityAdapter mAdapter;
     private static Handler sHandler;
     private static int TIME_FLAG = 1;
-    private long mRemainingtime;
+    private long mRemainingTime;
 
 
     public SecondActivityLayout(Context context) {
@@ -61,9 +63,7 @@ public class SecondActivityLayout extends LinearLayout implements MultiItemTypeA
         sHandler = new MyHandler(this);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         rootView = inflater.inflate(R.layout.second_activity_layout, this);
-        hourTv = (TextView) rootView.findViewById(R.id.home_activity_hour);
-        minuteTv = (TextView) rootView.findViewById(R.id.home_activity_minute);
-        secondTv = (TextView) rootView.findViewById(R.id.home_activity_second);
+
         recycler = (RecyclerView) rootView.findViewById(R.id.second_activity_recycler);
         recycler.setLayoutManager(new LinearLayoutManager(mContext));
         mDatas = new ArrayList<>();
@@ -73,9 +73,15 @@ public class SecondActivityLayout extends LinearLayout implements MultiItemTypeA
     }
 
 
-    public void setData(List<CarDetails> datas) {
+    public void setData(List<CarDetails> datas, long currentTime) {
         if (mAdapter != null) {
-            mAdapter.upData(datas);
+            mAdapter.upData(datas, currentTime);
+        }
+    }
+
+    public void upTimeUi(long currentTime) {
+        if (mAdapter != null) {
+            mAdapter.upTime(currentTime);
         }
     }
 
@@ -92,6 +98,16 @@ public class SecondActivityLayout extends LinearLayout implements MultiItemTypeA
         return false;
     }
 
+    /**
+     * @param time
+     */
+    public void sendRemaingingTime(long time) {
+        this.mRemainingTime = time;
+        if (!sHandler.hasMessages(TIME_FLAG)) {
+            sHandler.sendEmptyMessageDelayed(TIME_FLAG, 1000);
+        }
+    }
+
     private static class MyHandler extends Handler {
         private WeakReference<SecondActivityLayout> weakReference;
 
@@ -103,9 +119,15 @@ public class SecondActivityLayout extends LinearLayout implements MultiItemTypeA
         public void handleMessage(Message msg) {
             SecondActivityLayout layout = weakReference.get();
             if (layout != null) {
-                if (layout.mRemainingtime > 0) {
+                if (layout.mRemainingTime > 0) {
                     sHandler.sendEmptyMessageDelayed(TIME_FLAG, 1000);
-//                    layout.hourTv.setText();
+                    Time time = new Time(layout.mRemainingTime);
+                    int hours = time.getHours();
+                    int minutes = time.getMinutes();
+                    int seconds = time.getSeconds();
+                    layout.hourTv.setText("" + hours);
+                    layout.minuteTv.setText("" + minutes);
+                    layout.secondTv.setText("" + seconds);
                 }
             }
         }

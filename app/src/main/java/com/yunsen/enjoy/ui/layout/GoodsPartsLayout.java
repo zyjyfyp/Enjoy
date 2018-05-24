@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.fragment.home.GoodsPartsAdapter;
+import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
@@ -27,7 +28,7 @@ public class GoodsPartsLayout extends LinearLayout implements MultiItemTypeAdapt
     private LayoutInflater inflater;
     private View rootView;
     private RecyclerView recyclerView;
-    private ArrayList<GoodsData> mDatas;
+    private ArrayList<CarDetails> mDatas;
     private GoodsPartsAdapter mAdapter;
 
     public GoodsPartsLayout(Context context) {
@@ -57,7 +58,7 @@ public class GoodsPartsLayout extends LinearLayout implements MultiItemTypeAdapt
         mAdapter.setOnItemClickListener(this);
     }
 
-    public void setData(List<GoodsData> datas) {
+    public void setData(List<CarDetails> datas) {
         mAdapter.upData(datas);
     }
 

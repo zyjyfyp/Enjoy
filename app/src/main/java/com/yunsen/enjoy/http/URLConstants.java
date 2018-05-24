@@ -22,11 +22,14 @@ public class URLConstants {
     /**
      * 小汽车广告
      */
-    public static final String CAR_ADV_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_adbanner_list?advert_id=13";
+//    public static final String CAR_ADV_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_adbanner_list?advert_id=13";
+    public static final String CAR_ADV_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_top_list_2017";
     /**
      * 公告
      */
-    public static final String NOTICE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_page_size_list";
+//    public static final String NOTICE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_page_size_list";
+    public static final String NOTICE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_top_list_2017";
+
     /**
      * 推荐汽车,品牌筛选，高级筛选
      */
@@ -204,14 +207,14 @@ public class URLConstants {
     public static final String DISCOVER_BANNER_URL = BuildConfig.ROOT_URL + "/toolS/mobile_ajax.asmx/get_article_top_list";
 
     /**
-     * 兑换数据接口
+     * 积分兑换 数据接口
      */
 //    public static final String INTEGRAL_CHANGE_URL = BuildConfig.ROOT_URL + "/toolS/mobile_ajax.asmx/get_article_top_list_2017?channel_name=point&top=5&strwhere=";
-    public static final String INTEGRAL_CHANGE_URL = "http://mobile.zams.cn/tools/mobile_ajax.asmx/get_article_top_list_2017?channel_name=point&top=5&strwhere=";
+    public static final String INTEGRAL_CHANGE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_top_list_2017";
     /**
      * 商品部件
      */
-    public static final String GOODS_PARTS_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_page_size_list?channel_name=mall&category_id=0&page_size=4&page_index=1&strwhere=&orderby=";
+    public static final String GOODS_PARTS_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_top_list_2017?channel_name=mall&top=4&strwhere=";
 
 
     //
