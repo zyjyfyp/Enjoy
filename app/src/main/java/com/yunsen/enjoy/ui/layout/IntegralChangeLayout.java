@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.DefaultSpecItemBean;
+import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -48,7 +49,6 @@ public class IntegralChangeLayout extends LinearLayout implements View.OnClickLi
     public IntegralChangeLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context);
-        initListener();
     }
 
 
@@ -87,6 +87,7 @@ public class IntegralChangeLayout extends LinearLayout implements View.OnClickLi
         homePointNewPoints[2] = rootView.findViewById(R.id.home_point_new_point_2);
         homePointNewPoints[3] = rootView.findViewById(R.id.home_point_new_point_3);
         homePointNewPoints[4] = rootView.findViewById(R.id.home_point_new_point_4);
+        initListener();
     }
 
     private void initListener() {
@@ -102,7 +103,7 @@ public class IntegralChangeLayout extends LinearLayout implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.more_tv:
-                ToastUtils.makeTextShort("更多");
+                UIHelper.showExchangePointActivity(mContext);
                 break;
             case R.id.hone_point_img_0:
                 ToastUtils.makeTextShort("积分兑换 0");

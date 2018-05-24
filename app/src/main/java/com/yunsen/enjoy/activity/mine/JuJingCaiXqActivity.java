@@ -1012,13 +1012,7 @@ public class JuJingCaiXqActivity extends AppCompatActivity implements OnClickLis
                 spec_text_list = 2;//销售套餐判断为2
                 taocan_type = true;//判断商品套餐价格
 //			JuJingCaiXqActivity.type_spec_item = false;
-                CommomConfrim.showSheet(JuJingCaiXqActivity.this, new CommomConfrim.onDeleteSelect() {
-                    @Override
-                    public void onClick(String resID) {
-
-
-                    }
-                }, data.id);
+                CommomConfrim.showSheet(JuJingCaiXqActivity.this, data.id);
 //			Intent intent = new Intent(JuJingCaiXqActivity.this,XiaoShouShuXingActivity.class);
 //			intent.putExtra("id", data.id);
 //			intent.putExtra("type_xq", getIntent().getStringExtra("type_xq"));
@@ -1047,13 +1041,7 @@ public class JuJingCaiXqActivity extends AppCompatActivity implements OnClickLis
                 type_spec_item = true;//聚团详情销售属性显示
                 spec_text_list = 2;//销售套餐判断为2
                 taocan_type = false;//福利兑换判断套餐价格显示
-                CommomConfrim.showSheet(JuJingCaiXqActivity.this, new CommomConfrim.onDeleteSelect() {
-                    @Override
-                    public void onClick(String resID) {
-
-
-                    }
-                }, data.id);
+                CommomConfrim.showSheet(JuJingCaiXqActivity.this, data.id);
 
 //			Intent intent1 = new Intent(JuJingCaiXqActivity.this,XiaoShouShuXingActivity.class);
 //			intent1.putExtra("id", data.id);

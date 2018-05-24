@@ -188,8 +188,10 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         HttpProxy.getHomeAdvertList(11, new HttpCallBack<List<AdvertModel>>() {
             @Override
             public void onSuccess(List<AdvertModel> responseData) {
-                bannerAdapter = new BannerAdapter(responseData, getActivity());// TODO: 2018/4/20 need upData方法
-                banner.setAdapter(bannerAdapter);
+                if (responseData != null && responseData.size() > 0) {
+                    bannerAdapter = new BannerAdapter(responseData, getActivity());// TODO: 2018/4/20 need upData方法
+                    banner.setAdapter(bannerAdapter);
+                }
             }
 
             @Override

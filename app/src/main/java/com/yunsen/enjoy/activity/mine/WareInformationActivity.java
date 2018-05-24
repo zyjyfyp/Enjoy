@@ -999,12 +999,7 @@ public class WareInformationActivity extends AppCompatActivity implements
                                             spec_text_list = 1;//销售套餐判断为1
                                             jdh_type = getIntent().getStringExtra("jdh_type");//乐豆兑换调用接口
                                             System.out.println("jdh_type===================" + jdh_type);
-                                            CommomConfrim.showSheet(WareInformationActivity.this, new CommomConfrim.onDeleteSelect() {
-                                                @Override
-                                                public void onClick(String resID) {
-
-                                                }
-                                            }, article_id);
+                                            CommomConfrim.showSheet(WareInformationActivity.this, article_id);
                                             progress.CloseProgress();
                                             //								Intent intent=new Intent(WareInformationActivity.this, MyOrderConfrimActivity.class);
                                             //								intent.putExtra("Toast.LENGTH_SHORT", "Toast.LENGTH_SHORT");
@@ -1522,12 +1517,7 @@ public class WareInformationActivity extends AppCompatActivity implements
                             taocan_type = false;//判断商品套餐价格
                             spec_text_list = 1;//销售套餐判断为1
                             jdh_type = "";
-                            CommomConfrim.showSheet(WareInformationActivity.this, new CommomConfrim.onDeleteSelect() {
-                                @Override
-                                public void onClick(String resID) {
-
-                                }
-                            }, lists.get(0).id);
+                            CommomConfrim.showSheet(WareInformationActivity.this, lists.get(0).id);
                             progress.CloseProgress();
                         } else {
                             Intent intent2 = new Intent(WareInformationActivity.this, TishiWxBangDingActivity.class);
@@ -1540,12 +1530,7 @@ public class WareInformationActivity extends AppCompatActivity implements
                             taocan_type = false;//判断商品套餐价格
                             spec_text_list = 1;//销售套餐判断为1
                             jdh_type = "";
-                            CommomConfrim.showSheet(WareInformationActivity.this, new CommomConfrim.onDeleteSelect() {
-                                @Override
-                                public void onClick(String resID) {
-
-                                }
-                            }, lists.get(0).id);
+                            CommomConfrim.showSheet(WareInformationActivity.this, lists.get(0).id);
                             progress.CloseProgress();
                         } else {
                             Intent intent = new Intent(WareInformationActivity.this, UserLoginActivity.class);
@@ -1609,12 +1594,7 @@ public class WareInformationActivity extends AppCompatActivity implements
                         spec_text_list = 1;//销售套餐判断为1
                         taocan_type = false;//判断商品套餐价格
                         jdh_type = "";
-                        CommomConfrim.showSheet(WareInformationActivity.this, new CommomConfrim.onDeleteSelect() {
-                            @Override
-                            public void onClick(String resID) {
-
-                            }
-                        }, lists.get(0).id);
+                        CommomConfrim.showSheet(WareInformationActivity.this, lists.get(0).id);
                         progress.CloseProgress();
                     } else {
                         Intent intent2 = new Intent(WareInformationActivity.this, TishiWxBangDingActivity.class);
@@ -1628,12 +1608,7 @@ public class WareInformationActivity extends AppCompatActivity implements
                         spec_text_list = 1;//销售套餐判断为1
                         taocan_type = false;//判断商品套餐价格
                         jdh_type = "";
-                        CommomConfrim.showSheet(WareInformationActivity.this, new CommomConfrim.onDeleteSelect() {
-                            @Override
-                            public void onClick(String resID) {
-
-                            }
-                        }, lists.get(0).id);
+                        CommomConfrim.showSheet(WareInformationActivity.this, lists.get(0).id);
                         progress.CloseProgress();
                     } else {
                         Intent intent = new Intent(WareInformationActivity.this, UserLoginActivity.class);

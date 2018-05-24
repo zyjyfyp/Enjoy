@@ -216,6 +216,14 @@ public class URLConstants {
      */
     public static final String GOODS_PARTS_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_top_list_2017?channel_name=mall&top=4&strwhere=";
 
+    /**
+     * 获取分类列表
+     */
+    public static final String GOODS_CLASSIFY_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_category_child_list";
+    /**
+     * 获取更多的商品 带分页
+     */
+    public static final String GOODS_MORE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_page_size_list_2018";
 
     //
     //    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";

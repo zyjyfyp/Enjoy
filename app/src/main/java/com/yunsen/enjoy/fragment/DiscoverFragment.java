@@ -122,10 +122,10 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
 
     @Override
     protected void initData() {
-        bannerAdapter = new DiscoverBannerAdapter(getData(), getActivity());
-        loopPager.setAdapter(bannerAdapter);
-        indicator.setViewPager(loopPager);
-        indicator.setPadding(5, 5, 10, 5);
+//        bannerAdapter = new DiscoverBannerAdapter(getData(), getActivity());
+//        loopPager.setAdapter(bannerAdapter);
+//        indicator.setViewPager(loopPager);
+//        indicator.setPadding(5, 5, 10, 5);
 
         mListPagerAdapter = new ListPagerAdapter(getRecyclerView(), getActivity());
         dataPager.setAdapter(mListPagerAdapter);
@@ -157,13 +157,13 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         HttpProxy.getDiscoverBannerList(new HttpCallBack<List<GoodsData>>() {
             @Override
             public void onSuccess(List<GoodsData> responseData) {
-                if (responseData == null || responseData.size() < 0) {
-                    return;
+                if (responseData != null && responseData.size() > 0) {
+                    bannerAdapter = new DiscoverBannerAdapter(responseData, getActivity());
+                    loopPager.setAdapter(bannerAdapter);
+                    indicator.setViewPager(loopPager);
+                    indicator.setPadding(5, 5, 10, 5);
                 }
-                bannerAdapter = new DiscoverBannerAdapter(responseData, getActivity());
-                loopPager.setAdapter(bannerAdapter);
-                indicator.setViewPager(loopPager);
-                indicator.setPadding(5, 5, 10, 5);
+
             }
 
             @Override

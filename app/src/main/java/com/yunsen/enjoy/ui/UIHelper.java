@@ -9,6 +9,7 @@ import android.os.Parcelable;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.activity.AdvertActivity;
 import com.yunsen.enjoy.activity.CarDetailsActivity;
 import com.yunsen.enjoy.activity.HouseDetailActivity;
@@ -22,21 +23,29 @@ import com.yunsen.enjoy.activity.buy.ApplyBuyFirstActivity;
 import com.yunsen.enjoy.activity.buy.ApplyBuyThreeActivity;
 import com.yunsen.enjoy.activity.buy.ApplyBuyTwoActivity;
 import com.yunsen.enjoy.activity.buy.CarServiceActivity;
+import com.yunsen.enjoy.activity.buy.ExchangePointActivity;
+import com.yunsen.enjoy.activity.buy.GoodsDescriptionActivityOld;
 import com.yunsen.enjoy.activity.buy.MeetAddressActivity;
+import com.yunsen.enjoy.activity.buy.PartsShopActivity;
 import com.yunsen.enjoy.activity.buy.WatchCarActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceSecondActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceThreeActivity;
+import com.yunsen.enjoy.activity.dealer.MyFacilitatorActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
+import com.yunsen.enjoy.activity.mine.MyOrderConfrimActivity;
 import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.activity.mine.TeamActivity;
 import com.yunsen.enjoy.activity.mine.UserForgotPasswordActivity;
 import com.yunsen.enjoy.activity.mine.Webview1;
 import com.yunsen.enjoy.activity.mine.WithdrawCashActivity;
+import com.yunsen.enjoy.activity.order.DianPingActivity;
 import com.yunsen.enjoy.activity.order.MyOrderActivity;
+import com.yunsen.enjoy.activity.order.MyOrderXqActivity;
+import com.yunsen.enjoy.activity.user.DBFengXiangActivity;
 import com.yunsen.enjoy.activity.user.LoginActivity;
 import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
@@ -44,9 +53,20 @@ import com.yunsen.enjoy.activity.user.UserRegisterActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.fragment.buy.SelectBrandActivity;
 import com.yunsen.enjoy.fragment.buy.SeniorFilterActivity;
+import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.model.MyOrderData;
+import com.yunsen.enjoy.model.OrderBean;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
+import com.yunsen.enjoy.utils.AccountUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 应用程序UI工具包：封装UI相关的一些操作
@@ -89,6 +109,34 @@ public class UIHelper {
     public static void showHouseDetailActivity(Activity context) {
         Intent intent = new Intent(context, HouseDetailActivity.class);
         context.startActivity(intent);
+    }
+
+    /**
+     * 判断是否是服务商，并跳转 登录，我是服务商，申请服务商页面
+     *
+     * @param ctx
+     * @param isFacilitator
+     */
+    public static void goLoginOrIsFacilitator(Activity ctx, boolean isFacilitator) {
+        Intent intent = null;
+        if (!isFacilitator) {
+            intent = new Intent(ctx, ApplyServiceActivity.class);
+        } else {
+            intent = new Intent(ctx, MyFacilitatorActivity.class);
+        }
+        if (AccountUtils.hasLogin()) {
+            if (AccountUtils.hasBoundPhone()) {
+                ctx.startActivity(intent);
+            } else {
+                UIHelper.showBundPhoneActivity(ctx);
+            }
+        } else {
+            if (AccountUtils.hasBoundPhone()) {
+                ctx.startActivity(intent);
+            } else {
+                UIHelper.showUserLoginActivity(ctx);
+            }
+        }
     }
 
     /**
@@ -503,4 +551,167 @@ public class UIHelper {
         ctx.startActivity(intent);
     }
 
+    /**
+     * 配件商城页面
+     *
+     * @param ctx
+     */
+    public static void showPartsShopActivity(Context ctx) {
+        Intent intent = new Intent(ctx, PartsShopActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 显示物品购买界面
+     *
+     * @param ctx
+     * @param goodsId
+     * @param actName
+     */
+    public static void showGoodsDescriptionActivity(Context ctx, String goodsId, String actName) {
+        Intent intent = new Intent(ctx, GoodsDescriptionActivityOld.class);
+        intent.putExtra(Constants.GOODS_ID_KEY, goodsId);
+        intent.putExtra(Constants.ACT_NAME_KEY, actName);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * @param ctx
+     */
+    public static void showHomeShopCar(Context ctx) {
+        Intent intent = new Intent(ctx, MainActivity.class);
+        intent.putExtra(Constants.FRAGMENT_TYPE_KEY, 2);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 点评页面
+     *
+     * @param ctx       上下文
+     * @param articleId
+     */
+    public static void showDianPingActivity(Context ctx, int articleId) {
+        Intent intent = new Intent(ctx, DianPingActivity.class);
+        intent.putExtra("article_id", String.valueOf(articleId));
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 分享页面
+     *
+     * @param ctx
+     * @param spId
+     * @param companyId
+     * @param title
+     * @param subTitle
+     * @param imgUrl
+     */
+    public static void showDBFengXiangActivity(Context ctx, String spId, String companyId, String title, String subTitle, String imgUrl) {
+        Intent intent = new Intent(ctx, DBFengXiangActivity.class);
+        intent.putExtra("sp_id", spId);
+        intent.putExtra("company_id", companyId);
+        intent.putExtra("title", title);
+        intent.putExtra("subtitle", subTitle);
+        intent.putExtra("img_url", imgUrl);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 订单确认页面
+     *
+     * @param ctx
+     * @param buyNo
+     */
+    public static void showMyOrderConfrimActivity(Context ctx, String buyNo) {
+        Intent intent = new Intent(ctx, MyOrderConfrimActivity.class);
+        intent.putExtra("buy_no", buyNo);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 显示订单详情页面
+     *
+     * @param ctx
+     * @param rechargeNo
+     */
+    public static void showMyOrderXqActivity(Context ctx, String rechargeNo) {
+        final Context fContext = ctx;
+        AsyncHttp.get(URLConstants.REALM_URL + "/tools/mobile_ajax.asmx/get_order_trade_list?trade_no=" + rechargeNo, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(String arg1) {
+                MyOrderData md = new MyOrderData();
+                try {
+                    JSONObject object = new JSONObject(arg1);
+                    String status = object.getString("status");
+                    String info = object.getString("info");
+                    if (status.equals("y")) {
+                        JSONArray jsonArray = object.getJSONArray("data");
+                        int len = jsonArray.length();
+                        for (int i = 0; i < len; i++) {
+                            JSONObject obj = jsonArray.getJSONObject(i);
+                            md.setId(obj.getString("id"));
+                            md.setOrder_no(obj.getString("order_no"));
+                            md.setTrade_no(obj.getString("trade_no"));
+                            md.setCompany_name(obj.getString("company_name"));
+                            md.setPayment_status(obj.getString("payment_status"));
+                            md.setAccept_name(obj.getString("accept_name"));
+                            md.setExpress_status(obj.getString("express_status"));
+                            md.setExpress_fee(obj.getString("express_fee"));
+                            md.setStatus(obj.getString("status"));
+                            md.setProvince(obj.getString("province"));
+                            md.setCashing_packet(obj.getString("cashing_packet_total"));
+                            md.setExchange_price_total(obj.getString("exchange_price_total"));
+                            md.setExchange_point_total(obj.getString("exchange_point_total"));
+                            md.setAddress(obj.getString("address"));
+                            md.setUser_name(obj.getString("user_name"));
+                            md.setPayment_time(obj.getString("payment_time"));
+                            md.setPayable_amount(obj.getString("payable_amount"));
+                            md.setAdd_time(obj.getString("add_time"));
+                            md.setComplete_time(obj.getString("complete_time"));
+                            md.setRebate_time(obj.getString("rebate_time"));
+                            md.setMobile(obj.getString("mobile"));
+                            md.setCity(obj.getString("city"));
+                            md.setArea(obj.getString("area"));
+
+                            String order_groupon = obj.getString("order_goods");
+
+                            md.setList(new ArrayList<OrderBean>());
+                            JSONArray ja = new JSONArray(order_groupon);
+                            List<OrderBean> lists = new ArrayList<OrderBean>();
+                            OrderBean mb;
+                            for (int j = 0; j < ja.length(); j++) {
+                                JSONObject jo = ja.getJSONObject(j);
+                                mb = new OrderBean();
+                                mb.setPoint_title(jo.getString("article_title"));
+                                mb.setPoint_price(jo.getString("exchange_price"));
+                                mb.setPoint_value(jo.getString("exchange_point"));
+                                mb.setImg_url(jo.getString("img_url"));
+                                mb.setArticle_id(jo.getString("article_id"));
+                                md.getList().add(mb);
+                                lists.add(mb);
+                            }
+                            md.setList(lists);
+                        }
+                        Intent intent = new Intent(fContext, MyOrderXqActivity.class);
+                        intent.putExtra("bean", md);
+                        fContext.startActivity(intent);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, fContext);
+    }
+
+    /**
+     * 显示积分兑换更多页面
+     *
+     * @param ctx
+     */
+    public static void showExchangePointActivity(Context ctx) {
+        Intent intent = new Intent(ctx, ExchangePointActivity.class);
+        ctx.startActivity(intent);
+
+    }
 }

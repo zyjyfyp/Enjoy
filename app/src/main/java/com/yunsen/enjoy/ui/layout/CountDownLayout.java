@@ -37,6 +37,7 @@ public class CountDownLayout extends LinearLayout {
     private long mStartTime;
 
     private int hasStart = 0;
+    private TextView countDownInfo;
 
     public CountDownLayout(Context context) {
         super(context);
@@ -61,6 +62,7 @@ public class CountDownLayout extends LinearLayout {
         minuteTv = (TextView) rootView.findViewById(R.id.home_activity_minute);
         secondTv = (TextView) rootView.findViewById(R.id.home_activity_second);
         dayTv = (TextView) rootView.findViewById(R.id.home_activity_day);
+        countDownInfo = (TextView) rootView.findViewById(R.id.count_down_info_tv);
     }
 
     public void setData(long startTime, long endTime) {
@@ -91,11 +93,17 @@ public class CountDownLayout extends LinearLayout {
             time = mEndTime - mCurrentTime;
             hasStart++;
             if (hasStart == 1) {
+                //切换到开始
+                countDownInfo.setText("距结束");
                 EventBus.getDefault().post(new UpHomeUiEvent(EventConstants.HOME_UI_UP, mCurrentTime));
             }
             if (time < 0) {
+                //结束
+                EventBus.getDefault().post(new UpHomeUiEvent(EventConstants.HOME_UI_UP, mCurrentTime));
                 return false;
             }
+        } else {
+            countDownInfo.setText("距开始");
         }
         long second = time % 60;
         long minute = time / 60 % 60;

@@ -27,11 +27,10 @@ public class DiscoverBannerAdapter extends PagerAdapter {
 
     public DiscoverBannerAdapter(List<GoodsData> datas, Context context) {
         if (datas == null) {
-            mDatas = new ArrayList<>();
+            this.mDatas = new ArrayList<>();
         } else {
-            mDatas = datas;
+            this.mDatas = datas;
         }
-        this.mDatas = datas;
         this.mContext = context;
     }
 
@@ -46,7 +45,7 @@ public class DiscoverBannerAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, final int position) {
+    public Object instantiateItem(ViewGroup container, int position) {
         ImageView item = new ImageView(mContext);
         final GoodsData data = mDatas.get(position);
         Picasso.with(mContext).load(data.getImg_url()).placeholder(R.mipmap.car_1).into(item);

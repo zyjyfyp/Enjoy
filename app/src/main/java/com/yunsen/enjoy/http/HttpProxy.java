@@ -18,6 +18,7 @@ import com.yunsen.enjoy.model.CarBrand;
 import com.yunsen.enjoy.model.CarBrandList;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.CarModel;
+import com.yunsen.enjoy.model.ClassifyBean;
 import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.GoogsListResponse;
 import com.yunsen.enjoy.model.NoticeModel;
@@ -36,6 +37,7 @@ import com.yunsen.enjoy.model.response.AccountBalanceResponse;
 import com.yunsen.enjoy.model.response.AuthorizationResponse;
 import com.yunsen.enjoy.model.response.CarBrandResponese;
 import com.yunsen.enjoy.model.response.CarDetailsResponse;
+import com.yunsen.enjoy.model.response.ClassifyResponse;
 import com.yunsen.enjoy.model.response.PullImageResponse;
 import com.yunsen.enjoy.model.response.SearchListResponse;
 import com.yunsen.enjoy.model.response.ServiceProjectListResponse;
@@ -1222,6 +1224,35 @@ public class HttpProxy {
     }
 
     /**
+     * 获取更多积分商品
+     *
+     * @param callBack
+     */
+    public static void getIntegrallMoreDatas(int pageIndex, final HttpCallBack<List<CarDetails>> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("channel_name", "point");
+        param.put("category_id", "0");
+        param.put("page_size", "10");
+        param.put("page_index", "1");
+        param.put("strwhere", "");
+        param.put("orderby", "");
+
+        HttpClient.get(URLConstants.GOODS_MORE_URL, param, new HttpResponseHandler<SearchListResponse>() {
+            @Override
+            public void onSuccess(SearchListResponse response) {
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+
+    /**
      * 秒杀活动
      *
      * @param callBack
@@ -1254,6 +1285,59 @@ public class HttpProxy {
         HttpClient.get(URLConstants.GOODS_PARTS_URL, new HashMap<String, Object>(), new HttpResponseHandler<SearchListResponse>() {
             @Override
             public void onSuccess(SearchListResponse response) {
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 获得更多配件商品
+     *
+     * @param callBack
+     */
+    public static void getGoodsMoreDatas(final HttpCallBack<List<CarDetails>> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("channel_name", "mall");
+        param.put("category_id", "0");
+        param.put("page_size", "10");
+        param.put("page_index", "1");
+        param.put("strwhere", "");
+        param.put("orderby", "");
+
+        HttpClient.get(URLConstants.GOODS_MORE_URL, param, new HttpResponseHandler<SearchListResponse>() {
+            @Override
+            public void onSuccess(SearchListResponse response) {
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 获取分类类别
+     *
+     * @param callBack
+     */
+    public static void getGoodsClassifyDatas(final HttpCallBack<List<ClassifyBean>> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("channel_name", "goods");
+        param.put("parent_id", "0");
+
+
+        HttpClient.get(URLConstants.GOODS_CLASSIFY_URL, param, new HttpResponseHandler<ClassifyResponse>() {
+            @Override
+            public void onSuccess(ClassifyResponse response) {
                 callBack.onSuccess(response.getData());
             }
 
