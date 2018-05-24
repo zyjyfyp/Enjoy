@@ -15,6 +15,7 @@ import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.DefaultSpecItemBean;
 import com.yunsen.enjoy.ui.layout.CountDownLayout;
 import com.yunsen.enjoy.utils.StringUtils;
+import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.recyclerview.CommonAdapter;
 import com.yunsen.enjoy.widget.recyclerview.base.ViewHolder;
 
@@ -62,29 +63,47 @@ public class FillActivityAdapter extends CommonAdapter<CarDetails> {
 
         String startString = carDetails.getStart_time();
         String endString = carDetails.getEnd_time();
+        TextView fastTv = (TextView) holder.getView(R.id.fast_buy_tv);
+
         if (startString != null && endString != null) {
             long startTime = StringUtils.toDate(startString) != null ? StringUtils.toDate(startString).getTime() : 0;
             long endTime = StringUtils.toDate(endString) != null ? StringUtils.toDate(endString).getTime() : 0;
+            startTime = startTime / 1000;
+            endTime = endTime / 1000;
             if (mCurrentTime < startTime) {
                 countDownLayout.setVisibility(View.VISIBLE);
                 noActivityTv.setVisibility(View.GONE);
                 //活动未开始
-                holder.setText(R.id.fast_buy_tv, "即将开抢");
+                fastTv.setText("即将开抢");
                 countDownLayout.setData(startTime, endTime);
                 countDownLayout.startCountDown(position + 100, mCurrentTime);
+                fastTv.setBackground(mContext.getResources().getDrawable(R.drawable.btn_red_no));
+                fastTv.setClickable(false);
             } else if (mCurrentTime < endTime) {
                 //活动未结束 活动进行中
                 countDownLayout.setVisibility(View.VISIBLE);
                 noActivityTv.setVisibility(View.GONE);
-                holder.setText(R.id.fast_buy_tv, "马上抢购");
+                fastTv.setText("马上抢购");
+                fastTv.setClickable(true);
                 countDownLayout.setData(startTime, endTime);
                 countDownLayout.startCountDown(position + 100, mCurrentTime);
+                fastTv.setBackground(mContext.getResources().getDrawable(R.drawable.btn_red));
             } else {
                 //活动结束
                 countDownLayout.setVisibility(View.GONE);
                 noActivityTv.setVisibility(View.VISIBLE);
-                holder.setText(R.id.fast_buy_tv, "已结束");
+                noActivityTv.setText(startString + "-" + endString);
+                fastTv.setText("已结束");
+                fastTv.setClickable(false);
+                fastTv.setEnabled(false);
+                fastTv.setBackground(mContext.getResources().getDrawable(R.drawable.btn_red_no));
             }
+            fastTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ToastUtils.makeTextShort("开始抢购");
+                }
+            });
         }
 
 

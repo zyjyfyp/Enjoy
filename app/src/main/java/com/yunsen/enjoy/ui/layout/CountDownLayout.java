@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -65,9 +66,12 @@ public class CountDownLayout extends LinearLayout {
         countDownInfo = (TextView) rootView.findViewById(R.id.count_down_info_tv);
     }
 
+    private static final String TAG = "CountDownLayout";
+
     public void setData(long startTime, long endTime) {
         this.mStartTime = startTime;
         this.mEndTime = endTime;
+        Log.e(TAG, "setData: startTime =" + startTime + "  endTime=" + endTime);
     }
 
     /**
@@ -107,8 +111,8 @@ public class CountDownLayout extends LinearLayout {
         }
         long second = time % 60;
         long minute = time / 60 % 60;
-        long hour = time / 3600 % 60;
-        long day = time / 24 / 3600 % 60;
+        long hour = time / 3600 % 24;
+        long day = time / 24 / 3600 % 99;
         secondTv.setText(String.format("%02d", second));
         minuteTv.setText(String.format("%02d", minute));
         hourTv.setText(String.format("%02d", hour));
