@@ -27,6 +27,7 @@ import com.yunsen.enjoy.activity.buy.ExchangePointActivity;
 import com.yunsen.enjoy.activity.buy.GoodsDescriptionActivityOld;
 import com.yunsen.enjoy.activity.buy.MeetAddressActivity;
 import com.yunsen.enjoy.activity.buy.PartsShopActivity;
+import com.yunsen.enjoy.activity.buy.SecondActivityActivity;
 import com.yunsen.enjoy.activity.buy.WatchCarActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceSecondActivity;
@@ -38,6 +39,7 @@ import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
 import com.yunsen.enjoy.activity.mine.MyOrderConfrimActivity;
 import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
+import com.yunsen.enjoy.activity.mine.ShopCartActivity;
 import com.yunsen.enjoy.activity.mine.TeamActivity;
 import com.yunsen.enjoy.activity.mine.UserForgotPasswordActivity;
 import com.yunsen.enjoy.activity.mine.Webview1;
@@ -569,10 +571,22 @@ public class UIHelper {
      * @param actName
      */
     public static void showGoodsDescriptionActivity(Context ctx, String goodsId, String actName) {
-        Intent intent = new Intent(ctx, GoodsDescriptionActivityOld.class);
-        intent.putExtra(Constants.GOODS_ID_KEY, goodsId);
-        intent.putExtra(Constants.ACT_NAME_KEY, actName);
-        ctx.startActivity(intent);
+        showGoodsDescriptionActivity(ctx, goodsId, actName, Constants.DEFAULT_BUY);
+    }
+
+    public static void showGoodsDescriptionActivity(Context ctx, String goodsId, String actName, int buyType) {
+        if (!AccountUtils.hasLogin()) {
+            UIHelper.showUserLoginActivity(ctx);
+        } else if (!AccountUtils.hasBoundPhone()) {
+            UIHelper.showBundPhoneActivity(ctx);
+        } else {
+            Intent intent = new Intent(ctx, GoodsDescriptionActivityOld.class);
+            intent.putExtra(Constants.GOODS_ID_KEY, goodsId);
+            intent.putExtra(Constants.ACT_NAME_KEY, actName);
+            intent.putExtra(Constants.ACT_TYPE_KEY, buyType);
+            ctx.startActivity(intent);
+        }
+
     }
 
     /**
@@ -580,7 +594,7 @@ public class UIHelper {
      */
     public static void showHomeShopCar(Context ctx) {
         Intent intent = new Intent(ctx, MainActivity.class);
-        intent.putExtra(Constants.FRAGMENT_TYPE_KEY, 2);
+        intent.putExtra(Constants.FRAGMENT_TYPE_KEY, 0);
         ctx.startActivity(intent);
     }
 
@@ -713,5 +727,23 @@ public class UIHelper {
         Intent intent = new Intent(ctx, ExchangePointActivity.class);
         ctx.startActivity(intent);
 
+    }
+
+    /**
+     * 去更多
+     *
+     * @param ctx
+     */
+    public static void showSecondActivityActivity(Context ctx) {
+        Intent intent = new Intent(ctx, SecondActivityActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * @param ctx
+     */
+    public static void showShopCar(Context ctx) {
+        Intent intent = new Intent(ctx, ShopCartActivity.class);
+        ctx.startActivity(intent);
     }
 }

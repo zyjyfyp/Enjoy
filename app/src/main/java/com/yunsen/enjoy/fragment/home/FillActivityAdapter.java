@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Paint;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -58,8 +60,8 @@ public class FillActivityAdapter extends CommonAdapter<CarDetails> {
                 .into(imageView);
         holder.setText(R.id.fill_title, carDetails.getTitle());
         DefaultSpecItemBean defaultSpecItem = carDetails.getDefault_spec_item();
-        holder.setText(R.id.fill_market_price, "￥" + defaultSpecItem.getMarket_price());
-        holder.setText(R.id.fill_sell_price, "￥" + defaultSpecItem.getSell_price());
+        holder.setText(R.id.fill_market_price, "￥" + defaultSpecItem.getMarkePriceStr());
+        holder.setText(R.id.fill_sell_price, "￥" + defaultSpecItem.getSellPriceStr());
 
         String startString = carDetails.getStart_time();
         String endString = carDetails.getEnd_time();
@@ -125,9 +127,23 @@ public class FillActivityAdapter extends CommonAdapter<CarDetails> {
         this.notifyDataSetChanged();
     }
 
+    private static final String TAG = "FillActivityAdapter";
     @Override
     public void onViewDetachedFromWindow(ViewHolder holder) {
         super.onViewDetachedFromWindow(holder);
         ((CountDownLayout) holder.getView(R.id.count_down_layout)).stopMessage();
+        Log.e(TAG, "onViewDetachedFromWindow: ");
+    }
+
+    @Override
+    public void onViewRecycled(ViewHolder holder) {
+        super.onViewRecycled(holder);
+        Log.e(TAG, "onViewRecycled: ");
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        Log.e(TAG, "onDetachedFromRecyclerView: ");
     }
 }

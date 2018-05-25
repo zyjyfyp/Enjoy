@@ -344,7 +344,11 @@ public class CarDetails {
     }
 
     public String getImgh_url() {
-        return imgh_url;
+        if (imgh_url != null && imgh_url.startsWith("http")) {
+            return imgh_url;
+        } else {
+            return URLConstants.REALM_URL + imgh_url;
+        }
     }
 
     public void setImgh_url(String imgh_url) {

@@ -89,6 +89,32 @@ public class MainActivity extends BaseFragmentActivity {
         }
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent != null) {
+            int index = intent.getIntExtra(Constants.FRAGMENT_TYPE_KEY, -1);
+            int indexId = R.id.foot_bar_home;
+            if (index != -1) {
+                switch (index) {
+                    case 0:
+                        indexId = R.id.foot_bar_home;
+                        break;
+                    case 1:
+                        indexId = R.id.foot_bar_im;
+                        break;
+                    case 2:
+                        indexId = R.id.foot_bar_interest;
+                        break;
+                    case 3:
+                        indexId = R.id.main_footbar_user;
+                        break;
+                }
+                group.check(indexId);
+            }
+        }
+    }
+
     private void initMainView() {
         group = (RadioGroup) findViewById(R.id.group);
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

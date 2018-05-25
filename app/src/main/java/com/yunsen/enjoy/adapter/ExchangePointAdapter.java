@@ -37,7 +37,7 @@ public class ExchangePointAdapter extends CommonAdapter<CarDetails> {
         holder.setText(R.id.exchange_price_tv, "积分兑换：" + cashingPoint + "积分+" + sellPrice + "元");
         TextView marketTv = (TextView) holder.getView(R.id.exchange_market_tv);
         marketTv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        marketTv.setText("市场价：￥" + defaultSpecItem.getMarket_price());
+        marketTv.setText("市场价：￥" + defaultSpecItem.getMarkePriceStr());
     }
 
     public void upData(List<CarDetails> responseData) {

@@ -6,10 +6,10 @@
     tools:context="com.yunsen.enjoy.activity.buy.GoodsDescriptionActivityOld">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_marginBottom="50dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
+        android:orientation="vertical">
 
         <com.yunsen.enjoy.widget.ScrollViewContainer
             android:layout_width="match_parent"
@@ -90,6 +90,7 @@
 
 
                             <LinearLayout
+                                android:id="@+id/goods_all_money_layout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="10dp"
@@ -97,7 +98,6 @@
                                 android:orientation="horizontal">
 
                                 <LinearLayout
-                                    android:id="@+id/goods_all_money_layout"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="8dp"
@@ -177,6 +177,61 @@
                                 </LinearLayout>
 
                             </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/point_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:visibility="gone">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="4dp"
+                                    android:layout_marginLeft="8dp"
+                                    android:layout_marginRight="@dimen/app_margin"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="福利兑换："
+                                        android:textColor="#000000" />
+
+                                    <TextView
+                                        android:id="@+id/goods_point_tv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#FF0000"
+                                        android:textSize="15dp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="8dp"
+                                    android:layout_marginLeft="8dp"
+                                    android:gravity="left"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="right|bottom"
+                                        android:text="市场价:"
+                                        android:textColor="#000000" />
+
+                                    <TextView
+                                        android:id="@+id/goods_market_price_tv2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#666666"
+                                        android:textSize="15dp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
                         </LinearLayout>
 
                         <View
@@ -386,10 +441,10 @@
                     android:orientation="vertical">
 
                     <View
-                        android:background="@color/gray_light"
-                        android:layout_marginTop="20dp"
                         android:layout_width="match_parent"
-                        android:layout_height="1dp" />
+                        android:layout_height="1dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@color/gray_light" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -549,7 +604,7 @@
             android:gravity="center"
             android:text="加入购物车"
             android:textColor="@color/white"
-            android:textSize="16sp"></Button>
+            android:textSize="16sp" />
 
         <LinearLayout
             android:id="@+id/order_shop_now"

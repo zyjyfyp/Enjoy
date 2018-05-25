@@ -27,6 +27,7 @@ import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
 import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
+import com.yunsen.enjoy.activity.mine.ShopCartActivity;
 import com.yunsen.enjoy.activity.mine.TeamActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
@@ -136,6 +137,8 @@ public class MineFragment extends BaseFragment {
     LinearLayout readyMoneyLayout;
     @Bind(R.id.has_login_layout)
     LinearLayout hasLoginLayout;
+    @Bind(R.id.account_cart_layout)
+    LinearLayout cartLayout;
 
     private Activity context;
 
@@ -402,7 +405,8 @@ public class MineFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.user_icon_img, R.id.balance_layout, R.id.freeze_layout, R.id.commission_layout, R.id.ready_money_layout})
+    @OnClick({R.id.user_icon_img, R.id.balance_layout, R.id.freeze_layout,
+            R.id.commission_layout, R.id.ready_money_layout, R.id.account_cart_layout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.user_icon_img:
@@ -421,6 +425,9 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.ready_money_layout:
                 assetsClick("4");
+                break;
+            case R.id.account_cart_layout:
+                goLoginOrOtherActivity(ShopCartActivity.class);
                 break;
         }
     }
@@ -724,6 +731,7 @@ public class MineFragment extends BaseFragment {
                 orderNumber4.setText("0");
                 SharedPreferences sp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
                 sp.edit().clear().commit();
+                AccountUtils.clearData();
                 //                Constants.QQauth = QQAuth.createInstance(Constants.APP_QQ_ID, AppContext.getInstance());
                 Tencent tencent = Tencent.createInstance(Constants.APP_QQ_ID, getActivity());
                 tencent.logout(getActivity());

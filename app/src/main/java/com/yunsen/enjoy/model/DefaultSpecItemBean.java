@@ -1,6 +1,7 @@
 package com.yunsen.enjoy.model;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -101,14 +102,24 @@ public class DefaultSpecItemBean {
         return market_price;
     }
 
+    public String getMarkePriceStr() {
+        DecimalFormat df = new DecimalFormat("#0.00");
+        return df.format(market_price);
+    }
+
     public void setMarket_price(double market_price) {
         this.market_price = market_price;
     }
 
     public double getSell_price() {
         BigDecimal bg = new BigDecimal(sell_price);
-        sell_price = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        sell_price = bg.setScale(2, BigDecimal.ROUND_FLOOR).doubleValue();
         return sell_price;
+    }
+
+    public String getSellPriceStr() {
+        DecimalFormat df = new DecimalFormat("#0.00");
+        return df.format(sell_price);
     }
 
     public void setSell_price(double sell_price) {
@@ -173,6 +184,11 @@ public class DefaultSpecItemBean {
 
     public double getCashing_packet() {
         return cashing_packet;
+    }
+
+    public String getCashingPacketString() {
+        DecimalFormat df = new DecimalFormat("#0.00");
+        return df.format(cashing_packet);
     }
 
     public void setCashing_packet(double cashing_packet) {

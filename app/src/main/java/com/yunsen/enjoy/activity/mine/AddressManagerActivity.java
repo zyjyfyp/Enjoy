@@ -117,7 +117,8 @@ public class AddressManagerActivity extends AppCompatActivity {
                     JuTuanConfrimActivity.handlerll.sendEmptyMessage(2);
                 } else {
                     intent = new Intent(AddressManagerActivity.this, MyOrderConfrimActivity.class);
-                    MyOrderConfrimActivity.handlerll.sendEmptyMessage(2);
+//                    MyOrderConfrimActivity.handlerll.sendEmptyMessage(2);
+
                 }
 
                 String no = getIntent().getStringExtra("no");
@@ -155,8 +156,8 @@ public class AddressManagerActivity extends AppCompatActivity {
                 intent.putExtra("spec_text", getIntent().getStringExtra("spec_text"));
                 intent.putExtra("price", getIntent().getStringExtra("price"));
                 intent.putExtra("people", getIntent().getStringExtra("people"));
-                startActivity(intent);
 //				MyOrderConfrimActivity.handlerll.sendEmptyMessage(2);
+                setResult(RESULT_OK, intent);
                 finish();
 
             }
@@ -217,7 +218,7 @@ public class AddressManagerActivity extends AppCompatActivity {
         progress.CreateProgress();
         String user_name = spPreferences.getString(SpConstants.USER_NAME, "");
         System.out.println("结果呢1==============" + user_name);
-        AsyncHttp.get(URLConstants.REALM_URL + "/get_user_shopping_address?user_name=" + user_name + ""
+        AsyncHttp.get(URLConstants.REALM_URL + "/tools/mobile_ajax.asmx/get_user_shopping_address?user_name=" + user_name + ""
                 , new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int arg0, String arg1) {
@@ -276,7 +277,7 @@ public class AddressManagerActivity extends AppCompatActivity {
 //		builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
 //			@Override
 //			public void onClick(DialogInterface dialog, int which) {
-//				
+//
 //				String user_id = spPreferences.getString("user_id", "");
 //					strUrl = RealmName.REALM_NAME_LL + "/delete_user_shopping_address?&user_id=" + user_id+ "&cart_id=" + ID;
 //					AsyncHttp.get(strUrl, new AsyncHttpResponseHandler(), AddressManagerActivity.this);
@@ -285,7 +286,7 @@ public class AddressManagerActivity extends AppCompatActivity {
 //					dialog.dismiss();
 //					adapter.notifyDataSetChanged();
 //					getuseraddress();
-//					
+//
 //			}
 //		});
 //		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {

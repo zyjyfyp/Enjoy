@@ -140,5 +140,7 @@ public class Constants {
     public static final int APPLY_SERVICE_REQUEST_3 = 3;
     public static final int APPLY_SERVICE_REQUEST_4 = 4;
 
+    public static final int DEFAULT_BUY = 1;
+    public static final int POINT_BUY = 2;
 
 }

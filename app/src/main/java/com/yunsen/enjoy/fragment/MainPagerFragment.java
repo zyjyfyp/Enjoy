@@ -209,8 +209,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                 mAdverModels.clear();
                 for (int i = 0; i < responseData.size() && i < mCarImgArray.length; i++) {
                     CarDetails model = responseData.get(i);
-                    String ad_url = model.getImg_url();
-                    Log.e(TAG, "model.getAd_url: " + model.getLink_url());
+                    String ad_url = model.getImgh_url();
                     mAdverModels.add(model);
                     Picasso.with(getActivity()).load(ad_url)
                             .placeholder(R.mipmap.car_1).into(mCarImgArray[i]);
@@ -294,8 +293,8 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                 secondActivity.post(new Runnable() {
                     @Override
                     public void run() {
-//                        secondActivity.setData(responseData, Long.parseLong(data));
-                        secondActivity.setData(responseData, 1527316890L);
+                        secondActivity.setData(responseData, Long.parseLong(data));
+//                        secondActivity.setData(responseData, Long.parseLong(data) );
 
                     }
                 });

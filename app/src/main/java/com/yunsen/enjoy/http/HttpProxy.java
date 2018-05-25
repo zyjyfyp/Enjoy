@@ -1277,6 +1277,33 @@ public class HttpProxy {
     }
 
     /**
+     * 获取跟多的活动
+     *
+     * @param callBack
+     */
+    public static void getSecondActivityMoreData(int pageIndex, final HttpCallBack2<List<CarDetails>> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("channel_name", "second");
+        param.put("category_id", "0");
+        param.put("page_size", "10");
+        param.put("page_index", "" + pageIndex);
+        param.put("strwhere", "");
+        param.put("orderby", "");
+
+        HttpClient.get(URLConstants.GOODS_MORE_URL, param, new HttpResponseHandler<SearchListResponse>() {
+            @Override
+            public void onSuccess(SearchListResponse response) {
+                callBack.onSuccess(response.getData(), response.getTimestamp());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+    /**
      * 商品部件
      *
      * @param callBack

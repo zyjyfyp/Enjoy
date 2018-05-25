@@ -21,16 +21,23 @@ public class AccountUtils {
     private static String access_token;
     private static String sex;
 
+    private static boolean mHasLogin;
+    private static boolean mHasBound;
+
     /**
      * 是否已经登录
      *
      * @return
      */
     public static boolean hasLogin() {
+        if (mHasLogin) {
+            return true;
+        }
         SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
         String userId = sp.getString(SpConstants.USER_ID, "");
         String loginFlag = sp.getString(SpConstants.LOGIN_FLAG, "");
-        return !TextUtils.isEmpty(userId) || !TextUtils.isEmpty(loginFlag);
+        mHasLogin = !TextUtils.isEmpty(userId) || !TextUtils.isEmpty(loginFlag);
+        return mHasLogin;
     }
 
     /**
@@ -39,11 +46,16 @@ public class AccountUtils {
      * @return
      */
     public static boolean hasBoundPhone() {
+        if (mHasBound) {
+            return true;
+        }
         SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
         String userId = sp.getString(SpConstants.USER_ID, "");
         if (TextUtils.isEmpty(userId) || "0".equals(userId)) {
+            mHasBound = false;
             return false;
         } else {
+            mHasBound = true;
             return true;
         }
     }
@@ -60,6 +72,8 @@ public class AccountUtils {
         unionid = "";
         access_token = "";
         sex = "";
+        mHasBound = false;
+        mHasLogin = false;
     }
 
     public static String getUser_name_phone() {
@@ -93,4 +107,5 @@ public class AccountUtils {
     public static String getSex() {
         return sex;
     }
+
 }

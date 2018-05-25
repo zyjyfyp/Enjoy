@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.activity.mine.CommomConfrim;
+import com.yunsen.enjoy.activity.mine.WareInformationActivity;
 import com.yunsen.enjoy.adapter.CarTopBannerAdapter;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
@@ -48,7 +49,6 @@ import okhttp3.Request;
  */
 
 public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
-
 
     @Bind(R.id.goods_top_pager)
     AutoLoopViewPager goodsTopPager;
@@ -109,6 +109,12 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
     @Bind(R.id.goods_radio_group)
     RadioGroup goodsRadioGroup;
     public static int fangshi = 0;
+    @Bind(R.id.goods_point_tv)
+    TextView goodsPointTv;
+    @Bind(R.id.point_layout)
+    LinearLayout pointLayout;
+    @Bind(R.id.goods_market_price_tv2)
+    TextView goodsMarketPriceTv2;
     private String mGoodId;
     private CarDetails mCarDetail;
 
@@ -116,6 +122,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
             data_goods_id_1, data_price, data_spec_text, data_exchange_price, data_exchange_point;
     private String mUserName;
     private String mUserId;
+    private int mBuyType = 1;
 
     @Override
     public int getLayout() {
@@ -126,6 +133,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
     protected void initView() {
         ButterKnife.bind(this);
         goodsMarketPriceTv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); //中划线
+        goodsMarketPriceTv2.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
     }
 
     @Override
@@ -133,11 +141,28 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
         Intent intent = getIntent();
         if (intent != null) {
             mGoodId = intent.getStringExtra(Constants.GOODS_ID_KEY);
+            mBuyType = intent.getIntExtra(Constants.ACT_TYPE_KEY, Constants.DEFAULT_BUY);
 //            String actName = intent.getStringExtra(Constants.ACT_NAME_KEY);
         }
         SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         mUserId = sp.getString(SpConstants.USER_ID, "");
         mUserName = sp.getString(SpConstants.USER_NAME, "");
+
+        switch (mBuyType) {
+            case Constants.DEFAULT_BUY:
+                marketInformationJuduihuan.setVisibility(View.GONE);
+                marketInformationBottom.setVisibility(View.VISIBLE);
+                goodsAllMoneyLayout.setVisibility(View.VISIBLE);
+                pointLayout.setVisibility(View.GONE);
+                break;
+            case Constants.POINT_BUY:
+                marketInformationJuduihuan.setVisibility(View.VISIBLE);
+                marketInformationBottom.setVisibility(View.GONE);
+                goodsAllMoneyLayout.setVisibility(View.GONE);
+                pointLayout.setVisibility(View.VISIBLE);
+                break;
+        }
+
     }
 
 
@@ -212,12 +237,17 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
         goodsTitle.setText(responseData.getTitle());
         DefaultSpecItemBean defaultSpecItem = responseData.getDefault_spec_item();
         double rebatePrice = defaultSpecItem.getSell_price();
-        goodsPriceTv.setText("￥" + rebatePrice);
-        double market_price = defaultSpecItem.getMarket_price();
-        goodsMarketPriceTv.setText("￥" + market_price);
+        if (mBuyType == Constants.DEFAULT_BUY) {
+            goodsPriceTv.setText("￥" + rebatePrice);
+            goodsMarketPriceTv.setText("￥" + defaultSpecItem.getMarkePriceStr());
+        } else if (mBuyType == Constants.POINT_BUY) {
+            int exchangePoint = defaultSpecItem.getExchange_point();
+            goodsPointTv.setText(exchangePoint + "分+" + rebatePrice + "元");
+            goodsMarketPriceTv2.setText("￥" + defaultSpecItem.getMarkePriceStr());
+        }
+
         double cashingPacket = defaultSpecItem.getCashing_packet();
         goodsPacketPriceTv.setText("￥" + cashingPacket);
-
         this.mCarDetail = responseData;
 
     }
@@ -231,7 +261,9 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
         }
     }
 
-    @OnClick({R.id.enter_shop, R.id.back_btn, R.id.goods_share_img, R.id.btn_dianping, R.id.btn_collect, R.id.btn_add_shop_cart, R.id.order_shop_now})
+    @OnClick({R.id.enter_shop, R.id.back_btn, R.id.goods_share_img,
+            R.id.btn_dianping, R.id.btn_collect, R.id.btn_add_shop_cart,
+            R.id.order_shop_now, R.id.market_information_juduihuan})
     public void onViewClicked(View view) {
         if (mCarDetail == null) {
             return;
@@ -251,7 +283,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
 
         switch (view.getId()) {
             case R.id.enter_shop: //返回购物车
-                UIHelper.showHomeShopCar(this);
+                UIHelper.showShopCar(this);
                 finish();
                 break;
             case R.id.goods_share_img:
@@ -275,7 +307,6 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
                         ToastUtils.makeTextShort(e.getMessage());
                     }
                 });
-
                 break;
             case R.id.btn_add_shop_cart:
                 CommomConfrim.initData(mCarDetail.getDefault_spec_item().getSell_price(), mCarDetail.getImg_url(), 2, "" + mCarDetail.getDefault_spec_item().getGoods_id(), false);
@@ -284,6 +315,10 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
             case R.id.order_shop_now:
                 CommomConfrim.initData(mCarDetail.getDefault_spec_item().getSell_price(), mCarDetail.getImg_url(), 1, "" + mCarDetail.getDefault_spec_item().getGoods_id(), false);
                 CommomConfrim.showSheet(this, String.valueOf(mCarDetail.getId()));
+                break;
+            case R.id.market_information_juduihuan:
+                CommomConfrim.initData2(mCarDetail.getDefault_spec_item().getSell_price(), mCarDetail.getDefault_spec_item().getExchange_point(), mCarDetail.getImg_url(), 3, "" + mCarDetail.getDefault_spec_item().getGoods_id(), false);
+                CommomConfrim.showSheet(GoodsDescriptionActivityOld.this, String.valueOf(mCarDetail.getId()));
                 break;
         }
     }
@@ -295,4 +330,10 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
     }
 
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }

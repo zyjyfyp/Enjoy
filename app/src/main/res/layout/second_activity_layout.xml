@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/top_layout"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginLeft="10dp"
@@ -24,7 +25,13 @@
             android:layout_height="1dp"
             android:layout_weight="1" />
 
-
+        <TextView
+            android:id="@+id/more_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
+            android:drawableRight="@mipmap/more"
+            android:text="@string/more" />
 
 
     </LinearLayout>

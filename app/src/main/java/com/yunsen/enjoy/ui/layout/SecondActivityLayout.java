@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.fragment.home.FillActivityAdapter;
 import com.yunsen.enjoy.model.CarDetails;
+import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
@@ -29,7 +31,7 @@ import java.util.List;
  * Created by Administrator on 2018/5/23.
  */
 
-public class SecondActivityLayout extends LinearLayout implements MultiItemTypeAdapter.OnItemClickListener {
+public class SecondActivityLayout extends LinearLayout implements MultiItemTypeAdapter.OnItemClickListener, View.OnClickListener {
     private Context mContext;
     private View rootView;
     private TextView hourTv;
@@ -41,6 +43,8 @@ public class SecondActivityLayout extends LinearLayout implements MultiItemTypeA
     private static Handler sHandler;
     private static int TIME_FLAG = 1;
     private long mRemainingTime;
+    private View moreTv;
+    private LinearLayout topLayout;
 
 
     public SecondActivityLayout(Context context) {
@@ -63,15 +67,20 @@ public class SecondActivityLayout extends LinearLayout implements MultiItemTypeA
         sHandler = new MyHandler(this);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         rootView = inflater.inflate(R.layout.second_activity_layout, this);
-
+        topLayout = (LinearLayout) rootView.findViewById(R.id.top_layout);
         recycler = (RecyclerView) rootView.findViewById(R.id.second_activity_recycler);
+        moreTv = rootView.findViewById(R.id.more_tv);
         recycler.setLayoutManager(new LinearLayoutManager(mContext));
         mDatas = new ArrayList<>();
         mAdapter = new FillActivityAdapter(mContext, R.layout.fill_activity_item, mDatas);
         recycler.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this);
+        moreTv.setOnClickListener(this);
     }
 
+    public void setTopTitleVisibility(int visibility) {
+        topLayout.setVisibility(visibility);
+    }
 
     public void setData(List<CarDetails> datas, long currentTime) {
         if (mAdapter != null) {
@@ -89,7 +98,8 @@ public class SecondActivityLayout extends LinearLayout implements MultiItemTypeA
     @Override
     public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         if (mDatas != null && mDatas.size() > position) {
-            ToastUtils.makeTextShort(mDatas.get(position).getTitle());
+            CarDetails details = mDatas.get(position);
+            UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(details.getId()), details.getTitle());
         }
     }
 
@@ -106,6 +116,14 @@ public class SecondActivityLayout extends LinearLayout implements MultiItemTypeA
         if (!sHandler.hasMessages(TIME_FLAG)) {
             sHandler.sendEmptyMessageDelayed(TIME_FLAG, 1000);
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        UIHelper.showSecondActivityActivity(mContext);
+    }
+
+    public void removeMessage() {
     }
 
     private static class MyHandler extends Handler {

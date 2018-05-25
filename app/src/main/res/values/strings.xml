@@ -58,5 +58,8 @@
 
     <string name="errcode_unknown">发送返回</string>
 
-
+    <string name="menu_edit">编辑</string>
+    <string name="menu_enter">完成</string>
+    <string name="menu_del">删除</string>
+    <string name="menu_sett">结算</string>
 </resources>

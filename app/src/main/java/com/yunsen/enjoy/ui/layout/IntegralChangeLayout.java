@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.DefaultSpecItemBean;
 import com.yunsen.enjoy.ui.UIHelper;
@@ -101,24 +102,30 @@ public class IntegralChangeLayout extends LinearLayout implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
+        CarDetails carDetails = null;
         switch (view.getId()) {
             case R.id.more_tv:
                 UIHelper.showExchangePointActivity(mContext);
                 break;
             case R.id.hone_point_img_0:
-                ToastUtils.makeTextShort("积分兑换 0");
+                carDetails = mDatas.get(0);
+                UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(carDetails.getId()), carDetails.getTitle(), Constants.POINT_BUY);
                 break;
             case R.id.hone_point_img_1:
-                ToastUtils.makeTextShort("积分兑换 1");
+                carDetails = mDatas.get(1);
+                UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(carDetails.getId()), carDetails.getTitle(), Constants.POINT_BUY);
                 break;
             case R.id.hone_point_img_2:
-                ToastUtils.makeTextShort("积分兑换 2");
+                carDetails = mDatas.get(2);
+                UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(carDetails.getId()), carDetails.getTitle(), Constants.POINT_BUY);
                 break;
             case R.id.hone_point_img_3:
-                ToastUtils.makeTextShort("积分兑换 3");
+                carDetails = mDatas.get(3);
+                UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(carDetails.getId()), carDetails.getTitle(), Constants.POINT_BUY);
                 break;
             case R.id.hone_point_img_4:
-                ToastUtils.makeTextShort("积分兑换 4");
+                carDetails = mDatas.get(4);
+                UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(carDetails.getId()), carDetails.getTitle(), Constants.POINT_BUY);
                 break;
         }
     }
@@ -145,7 +152,7 @@ public class IntegralChangeLayout extends LinearLayout implements View.OnClickLi
                     .into(homeImgViews[i]);
             homePointTitles[i].setText(model.getTitle());
             DefaultSpecItemBean defaultSpecItem = model.getDefault_spec_item();
-            homePointOldPrices[i].setText("￥" + defaultSpecItem.getMarket_price());
+            homePointOldPrices[i].setText("￥" + defaultSpecItem.getMarkePriceStr());
             homePointNewPoints[i].setText(defaultSpecItem.getExchange_point() + "积分");
         }
     }
