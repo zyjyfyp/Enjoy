@@ -152,7 +152,7 @@ public class IntegralChangeLayout extends LinearLayout implements View.OnClickLi
                     .into(homeImgViews[i]);
             homePointTitles[i].setText(model.getTitle());
             DefaultSpecItemBean defaultSpecItem = model.getDefault_spec_item();
-            homePointOldPrices[i].setText("￥" + defaultSpecItem.getMarkePriceStr());
+            homePointOldPrices[i].setText("¥" + defaultSpecItem.getMarkePriceStr());
             homePointNewPoints[i].setText(defaultSpecItem.getExchange_point() + "积分");
         }
     }

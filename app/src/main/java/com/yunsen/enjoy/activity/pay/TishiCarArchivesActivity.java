@@ -70,7 +70,7 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
 		btnCancle =(TextView) findViewById(R.id.btnCancle);//
 		//		tv_yue =(TextView) findViewById(R.id.tv_yue);
 		//		System.out.println("amount-------------"+amount);
-		//		tv_yue.setText("你剩余的余额为￥"+amount);
+        //		tv_yue.setText("你剩余的余额为¥"+amount);
 
 		btnCancle.setOnClickListener(this);//
 
@@ -149,11 +149,11 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
 							tv_yue.setText("提示");
 						}else {
 							if (jubi != null) {
-								tv_yue.setText("您剩余的福利为￥"+point);
-								System.out.println("point-------------"+point);
+                                tv_yue.setText("您剩余的福利为¥" + point);
+                                System.out.println("point-------------"+point);
 							}else {
-								tv_yue.setText("您剩余的余额为￥"+amount);
-								System.out.println("amount-------------"+amount);
+                                tv_yue.setText("您剩余的余额为¥" + amount);
+                                System.out.println("amount-------------"+amount);
 							}
 						}
 					}else{

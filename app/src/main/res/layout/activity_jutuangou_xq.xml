@@ -550,7 +550,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="0dp"
                     android:gravity="center"
-                    android:text="￥70"
+                    android:text="¥70"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -587,7 +587,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="0dp"
                     android:gravity="center"
-                    android:text="￥60"
+                    android:text="¥60"
                     android:textColor="@color/white" />
 
                 <TextView

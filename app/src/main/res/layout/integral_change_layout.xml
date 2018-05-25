@@ -58,7 +58,7 @@
                 <TextView
                     android:id="@+id/home_point_old_price_0"
                     style="@style/HomePointOldPrice"
-                    android:text="￥800" />
+                    android:text="¥800" />
 
                 <TextView
                     android:id="@+id/home_point_title_0"

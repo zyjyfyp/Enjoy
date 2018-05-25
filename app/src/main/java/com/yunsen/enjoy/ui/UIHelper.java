@@ -28,6 +28,7 @@ import com.yunsen.enjoy.activity.buy.GoodsDescriptionActivityOld;
 import com.yunsen.enjoy.activity.buy.MeetAddressActivity;
 import com.yunsen.enjoy.activity.buy.PartsShopActivity;
 import com.yunsen.enjoy.activity.buy.SecondActivityActivity;
+import com.yunsen.enjoy.activity.buy.ServiceMoreActivity;
 import com.yunsen.enjoy.activity.buy.WatchCarActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceSecondActivity;
@@ -53,6 +54,7 @@ import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.activity.user.UserRegisterActivity;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.fragment.MainPagerFragment;
 import com.yunsen.enjoy.fragment.buy.SelectBrandActivity;
 import com.yunsen.enjoy.fragment.buy.SeniorFilterActivity;
 import com.yunsen.enjoy.http.AsyncHttp;
@@ -67,6 +69,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -574,6 +578,14 @@ public class UIHelper {
         showGoodsDescriptionActivity(ctx, goodsId, actName, Constants.DEFAULT_BUY);
     }
 
+    /**
+     * 显示物品购买界面
+     *
+     * @param ctx
+     * @param goodsId
+     * @param actName
+     * @param buyType {@link  com.yunsen.enjoy.common.Constants#DEFAULT_BUY} or {@link  com.yunsen.enjoy.common.Constants#POINT_BUY}
+     */
     public static void showGoodsDescriptionActivity(Context ctx, String goodsId, String actName, int buyType) {
         if (!AccountUtils.hasLogin()) {
             UIHelper.showUserLoginActivity(ctx);
@@ -740,10 +752,22 @@ public class UIHelper {
     }
 
     /**
+     * 去购物车
+     *
      * @param ctx
      */
     public static void showShopCar(Context ctx) {
         Intent intent = new Intent(ctx, ShopCartActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 服务商更多
+     *
+     * @param ctx
+     */
+    public static void showServiceMoreActivity(Context ctx) {
+        Intent intent = new Intent(ctx, ServiceMoreActivity.class);
         ctx.startActivity(intent);
     }
 }

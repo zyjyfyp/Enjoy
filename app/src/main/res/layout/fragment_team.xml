@@ -73,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="￥0"
+                android:text="¥0"
                 android:textColor="@color/orange_color"
                 android:textSize="15sp"/>
 

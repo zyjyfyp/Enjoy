@@ -224,6 +224,10 @@ public class URLConstants {
      * 获取更多的商品 带分页
      */
     public static final String GOODS_MORE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_page_size_list_2018";
+    /**
+     * 商品加入购物单
+     */
+    public static final String ADD_SHOPPING_BUY = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_shopping_buy ";
 
     //
     //    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";

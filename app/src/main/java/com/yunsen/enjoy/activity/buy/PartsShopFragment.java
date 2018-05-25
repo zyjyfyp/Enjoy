@@ -38,6 +38,7 @@ public class PartsShopFragment extends BaseFragment implements MultiItemTypeAdap
     private ArrayList<CarDetails> mDatas;
     private GoodsPartsAdapter mAdapter;
     private int mFragmentType = 0;
+    private int mChannelValue = 0;
 
 
     @Override
@@ -59,13 +60,15 @@ public class PartsShopFragment extends BaseFragment implements MultiItemTypeAdap
         Bundle arguments = getArguments();
         if (arguments != null) {
             mFragmentType = arguments.getInt(Constants.FRAGMENT_TYPE_KEY);
+            mChannelValue = arguments.getInt(Constants.CHANNEL_KEY);
+
         }
 
     }
 
     @Override
     protected void requestData() {
-        HttpProxy.getGoodsMoreDatas(new HttpCallBack<List<CarDetails>>() {
+        HttpProxy.getGoodsMoreDatas("1", String.valueOf(mFragmentType), new HttpCallBack<List<CarDetails>>() {
             @Override
             public void onSuccess(List<CarDetails> responseData) {
                 mAdapter.upData(responseData);

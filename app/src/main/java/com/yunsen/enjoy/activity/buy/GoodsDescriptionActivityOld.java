@@ -238,16 +238,16 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
         DefaultSpecItemBean defaultSpecItem = responseData.getDefault_spec_item();
         double rebatePrice = defaultSpecItem.getSell_price();
         if (mBuyType == Constants.DEFAULT_BUY) {
-            goodsPriceTv.setText("￥" + rebatePrice);
-            goodsMarketPriceTv.setText("￥" + defaultSpecItem.getMarkePriceStr());
+            goodsPriceTv.setText("¥" + rebatePrice);
+            goodsMarketPriceTv.setText("¥" + defaultSpecItem.getMarkePriceStr());
         } else if (mBuyType == Constants.POINT_BUY) {
             int exchangePoint = defaultSpecItem.getExchange_point();
             goodsPointTv.setText(exchangePoint + "分+" + rebatePrice + "元");
-            goodsMarketPriceTv2.setText("￥" + defaultSpecItem.getMarkePriceStr());
+            goodsMarketPriceTv2.setText("¥" + defaultSpecItem.getMarkePriceStr());
         }
 
         double cashingPacket = defaultSpecItem.getCashing_packet();
-        goodsPacketPriceTv.setText("￥" + cashingPacket);
+        goodsPacketPriceTv.setText("¥" + cashingPacket);
         this.mCarDetail = responseData;
 
     }
@@ -329,11 +329,4 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
         ButterKnife.unbind(this);
     }
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

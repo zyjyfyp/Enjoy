@@ -98,7 +98,7 @@ public class ZhiFuOKActivity extends AppCompatActivity implements OnClickListene
             textView3.setText(province + city + area + user_address);
             textView4.setText(recharge_no);
             textView5.setText(datetime);
-            textView6.setText("￥" + sell_price);
+            textView6.setText("¥" + sell_price);
 
             iv_fanhui = (ImageView) findViewById(R.id.iv_fanhui);
             iv_fanhui.setOnClickListener(this);

@@ -81,7 +81,7 @@ public class JuTuanAdapter extends BaseAdapter {
 
 		tv.setText(list.get(position).getPeople() + "人成团");
 		//
-		tv2.setText("聚团价￥" + list.get(position).getPrice());
+        tv2.setText("聚团价¥" + list.get(position).getPrice());
 
 		if (clickTemp == position) {
 			convertView.setBackgroundResource(R.drawable.bg_red_3_5_tuangoujia);// zangfutiaoli

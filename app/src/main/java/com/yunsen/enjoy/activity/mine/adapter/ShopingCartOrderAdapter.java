@@ -96,9 +96,9 @@ public class ShopingCartOrderAdapter extends BaseAdapter {
 			}
 
 			holder.tv_warename.setText(list.get(position).getTitle());
-			holder.tv_color.setText("￥" + list.get(position).getSell_price());
-			//		holder.tv_size.setText("￥" + list.get(position).getMarket_price());
-			int zhoull = list.get(position).getQuantity();
+            holder.tv_color.setText("¥" + list.get(position).getSell_price());
+            //		holder.tv_size.setText("¥" + list.get(position).getMarket_price());
+            int zhoull = list.get(position).getQuantity();
 			System.out.println("=============00="+zhoull);
 			holder.tv_quantity.setText("x"+ String.valueOf(list.get(position).getQuantity()));
 

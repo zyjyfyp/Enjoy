@@ -388,7 +388,7 @@ public class ShopCartActivity extends BaseFragmentActivity implements View.OnCli
                                 adv_pager.setVisibility(View.VISIBLE);
                                 subtitle.setVisibility(View.GONE);
                                 mListView.setVisibility(View.GONE);
-                                //								mPriceAll.setText("￥"+0.00);
+                                //								mPriceAll.setText("¥"+0.00);
                                 ll_xianshi.setVisibility(View.GONE);
                             }
                             //							refreshListView();
@@ -403,7 +403,7 @@ public class ShopCartActivity extends BaseFragmentActivity implements View.OnCli
                 }, null);
 
         totalPrice = 0;
-        mPriceAll.setText("￥" + totalPrice);
+        mPriceAll.setText("¥" + totalPrice);
         setQuantitySum();
         mCheckAll.setChecked(false);
         System.out.println("result22-------------" + result.size());
@@ -711,9 +711,9 @@ public class ShopCartActivity extends BaseFragmentActivity implements View.OnCli
 
             // holder.shopName.setText(data.getShopName());
             holder.content.setText(data.getTitle());
-            holder.price.setText("￥" + data.getSell_price());
+            holder.price.setText("¥" + data.getSell_price());
             holder.carNum.setText(data.getQuantity() + "");
-            holder.tv_size.setText("￥" + data.getMarket_price());
+            holder.tv_size.setText("¥" + data.getMarket_price());
             holder.tv_size.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
 
             Glide.with(ShopCartActivity.this)
@@ -752,7 +752,7 @@ public class ShopCartActivity extends BaseFragmentActivity implements View.OnCli
             }
             BigDecimal c = new BigDecimal(totalPrice);
             dzongjia = c.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-            mPriceAll.setText("￥" + dzongjia + "");
+            mPriceAll.setText("¥" + dzongjia + "");
             setQuantitySum();
             if (mSelectState.size() == mListData.size()) {
                 mCheckAll.setChecked(true);
@@ -796,7 +796,7 @@ public class ShopCartActivity extends BaseFragmentActivity implements View.OnCli
                     mFavorite.setVisibility(View.GONE);
                     BigDecimal c = new BigDecimal(totalPrice);
                     dzongjia = c.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                    mPriceAll.setText("￥" + dzongjia);
+                    mPriceAll.setText("¥" + dzongjia);
                     setQuantitySum();
                     zhuangtai = false;
                 } else {
@@ -807,7 +807,7 @@ public class ShopCartActivity extends BaseFragmentActivity implements View.OnCli
                     //				totalPrice=0;
                     BigDecimal c = new BigDecimal(totalPrice);
                     dzongjia = c.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                    mPriceAll.setText("￥" + dzongjia);
+                    mPriceAll.setText("¥" + dzongjia);
                     setQuantitySum();
                     zhuangtai = true;
                 }
@@ -831,7 +831,7 @@ public class ShopCartActivity extends BaseFragmentActivity implements View.OnCli
                     // 显示
                     BigDecimal c = new BigDecimal(totalPrice);
                     dzongjia = c.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                    mPriceAll.setText("￥" + dzongjia);
+                    mPriceAll.setText("¥" + dzongjia);
                     setQuantitySum();
                 } else {
                     for (int i = 0; i < mListData.size(); i++) {
@@ -842,7 +842,7 @@ public class ShopCartActivity extends BaseFragmentActivity implements View.OnCli
                     mListAdapter.notifyDataSetChanged();
                     BigDecimal c = new BigDecimal(totalPrice);
                     dzongjia = c.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                    mPriceAll.setText("￥" + dzongjia);
+                    mPriceAll.setText("¥" + dzongjia);
                     setQuantitySum();
                 }
                 break;
@@ -991,7 +991,7 @@ public class ShopCartActivity extends BaseFragmentActivity implements View.OnCli
             }
             BigDecimal c = new BigDecimal(totalPrice);
             dzongjia = c.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-            mPriceAll.setText("￥" + dzongjia);
+            mPriceAll.setText("¥" + dzongjia);
             setQuantitySum();
         }
     }

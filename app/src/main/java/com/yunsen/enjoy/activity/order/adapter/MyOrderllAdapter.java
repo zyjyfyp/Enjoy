@@ -174,7 +174,7 @@ public class MyOrderllAdapter extends BaseAdapter {
 			// Double.toString(c.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue());
 
 			sell_price = list.get(position).getPayable_amount();
-			holder.tv_heji.setText("￥" + list.get(position).getPayable_amount());
+            holder.tv_heji.setText("¥" + list.get(position).getPayable_amount());
 
 			holder.tv_company_name.setText(list.get(position).getCompany_name());
 			payment_status = list.get(position).getPayment_status();
@@ -193,23 +193,23 @@ public class MyOrderllAdapter extends BaseAdapter {
 				// if (yunfei == 0) {
 				holder.tv_yunfei.setVisibility(View.GONE);
 			} else {
-				holder.tv_yunfei.setText("(含运费￥" + list.get(position).getExpress_fee()+ ")");
-			}
+                holder.tv_yunfei.setText("(含运费¥" + list.get(position).getExpress_fee() + ")");
+            }
 			if (list.get(position).getCashing_packet().equals("0.0")) {
 				holder.ll_hongbao.setVisibility(View.GONE);
 				iv_hongbao.setVisibility(View.GONE);
 			}else {
 				holder.ll_hongbao.setVisibility(View.VISIBLE);
 				iv_hongbao.setVisibility(View.VISIBLE);
-				holder.tv_hongbao.setText("已抵红包:-￥"+list.get(position).getCashing_packet());
-			}
+                holder.tv_hongbao.setText("已抵红包:-¥" + list.get(position).getCashing_packet());
+            }
 			// String kedi_honbao = list.get(position).getCashing_packet();
 			// // System.out.println("kedi_honbao============="+kedi_honbao);
 			// if (kedi_honbao.equals("0.0")) {
 			// ll_hongbao.setVisibility(View.GONE);
 			// }else {
-			// tv_hongbao.setText("已抵红包:-￥"+kedi_honbao);
-			// }
+            // tv_hongbao.setText("已抵红包:-¥"+kedi_honbao);
+            // }
 
 			// 订单状态
 			if (payment_status.equals("1")) {
@@ -426,10 +426,10 @@ public class MyOrderllAdapter extends BaseAdapter {
 				holder.lv_dingdanxq = (LinearLayout) vi.findViewById(R.id.lv_dingdanxq);
 
 				holder.tv_goods_title.setText(list.get(position).getList().get(i).getArticle_title());
-				holder.tv_market_price.setText("￥"+ list.get(position).getList().get(i)
-						.getMarket_price());
-				// holder.sell_price.setText("￥"+list.get(position).getList().get(i).getSell_price());
-				holder.quantity.setText("x"
+                holder.tv_market_price.setText("¥" + list.get(position).getList().get(i)
+                        .getMarket_price());
+                // holder.sell_price.setText("¥"+list.get(position).getList().get(i).getSell_price());
+                holder.quantity.setText("x"
 						+ list.get(position).getList().get(i).getQuantity());
 				holder.tv_market_price.getPaint().setFlags(
 						Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); // 设置市场价文字的中划线
@@ -446,7 +446,7 @@ public class MyOrderllAdapter extends BaseAdapter {
 				double sell_price_zhi = c.setScale(2, BigDecimal.ROUND_HALF_UP)
 						.doubleValue();
 
-				holder.sell_price.setText("￥" + sell_price_zhi);// 价格
+                holder.sell_price.setText("¥" + sell_price_zhi);// 价格
 
 				System.out.println("getGoods_title============="+ list.get(position).getList().get(i).getArticle_title());
 

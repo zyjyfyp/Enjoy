@@ -79,8 +79,8 @@ public class GouWuCheAGoodsAdaper extends BaseAdapter {
                 holder = (ViewHolder) convertView.getTag();
             }
             holder.tv_biaoti.setText(list.get(position).title);
-            holder.tv_jifengduihuan.setText("￥" + list.get(position).sell_price);
-            //		holder.tv_shichangjia.setText("市场价:￥"+list.get(position).market_price);
+            holder.tv_jifengduihuan.setText("¥" + list.get(position).sell_price);
+            //		holder.tv_shichangjia.setText("市场价:¥"+list.get(position).market_price);
             //		holder.tv_shichangjia.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); // 设置市场价文字的中划线
             Glide.with(mContext)
                     .load(URLConstants.REALM_NAME_HTTP + list.get(position).img_url)

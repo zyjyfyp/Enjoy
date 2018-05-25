@@ -23,6 +23,7 @@ import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.GoogsListResponse;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.NoticeResponse;
+import com.yunsen.enjoy.model.OrderInfo;
 import com.yunsen.enjoy.model.PullImageResult;
 import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.model.ServiceProject;
@@ -34,6 +35,7 @@ import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.model.request.WatchCarModel;
 import com.yunsen.enjoy.model.response.AccountBalanceResponse;
+import com.yunsen.enjoy.model.response.AddShoppingBuysResponse;
 import com.yunsen.enjoy.model.response.AuthorizationResponse;
 import com.yunsen.enjoy.model.response.CarBrandResponese;
 import com.yunsen.enjoy.model.response.CarDetailsResponse;
@@ -205,6 +207,42 @@ public class HttpProxy {
         HashMap<String, String> param = new HashMap<>();
         param.put("trade_id", "0");
         param.put("page_size", "5");
+        param.put("page_index", "" + pageIndex);
+        param.put("strwhere", "status=0 and datatype='Supply'");
+//        param.put("strwhere", "status=0 and datatype='Supply'and city = \'" + city + "\'");
+        param.put("orderby", "");
+
+
+        HttpClient.get(URLConstants.SERVICE_PROVIDE, param, new HttpResponseHandler<ServiceProvideResponse>() {
+            @Override
+            public void onSuccess(ServiceProvideResponse response) {
+                if (response.getData() != null) {
+                    List<SProviderModel> list = response.getData();
+                    callBack.onSuccess(list);
+                } else {
+                    callBack.onError(null, new Exception("date is empty!"));
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 服务商
+     *
+     * @param pageIndex
+     * @param city
+     * @param callBack
+     */
+    public static void getServiceMoreProvider(int pageIndex, String city, final HttpCallBack<List<SProviderModel>> callBack) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("trade_id", "0");
+        param.put("page_size", "10");
         param.put("page_index", "" + pageIndex);
         param.put("strwhere", "status=0 and datatype='Supply'");
 //        param.put("strwhere", "status=0 and datatype='Supply'and city = \'" + city + "\'");
@@ -1303,6 +1341,7 @@ public class HttpProxy {
             }
         });
     }
+
     /**
      * 商品部件
      *
@@ -1324,16 +1363,48 @@ public class HttpProxy {
     }
 
     /**
+     * 商品加入购物单
+     *
+     * @param callBack
+     */
+    public static void getAddShoppingBuy(String articleId, String goodsId, final HttpCallBack<OrderInfo> callBack) {
+        SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+        String userId = sp.getString(SpConstants.USER_ID, "");
+        String userName = sp.getString(SpConstants.USER_NAME, "");
+        String user_sign = sp.getString(SpConstants.LOGIN_SIGN, "");
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("user_id", userId);
+        param.put("user_name", userName);
+        param.put("user_sign", user_sign);
+        param.put("article_id", articleId);
+        param.put("goods_id", goodsId);
+        param.put("quantity", "1");
+
+        HttpClient.get(URLConstants.ADD_SHOPPING_BUY, param, new HttpResponseHandler<AddShoppingBuysResponse>() {
+            @Override
+            public void onSuccess(AddShoppingBuysResponse response) {
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
      * 获得更多配件商品
      *
      * @param callBack
      */
-    public static void getGoodsMoreDatas(final HttpCallBack<List<CarDetails>> callBack) {
+    public static void getGoodsMoreDatas(String pageIndex, String categoryId, final HttpCallBack<List<CarDetails>> callBack) {
         HashMap<String, Object> param = new HashMap<>();
         param.put("channel_name", "mall");
-        param.put("category_id", "0");
+        param.put("category_id", categoryId);
         param.put("page_size", "10");
-        param.put("page_index", "1");
+        param.put("page_index", pageIndex);
         param.put("strwhere", "");
         param.put("orderby", "");
 
@@ -1356,9 +1427,9 @@ public class HttpProxy {
      *
      * @param callBack
      */
-    public static void getGoodsClassifyDatas(final HttpCallBack<List<ClassifyBean>> callBack) {
+    public static void getGoodsClassifyDatas(String chanelName, final HttpCallBack<List<ClassifyBean>> callBack) {
         HashMap<String, Object> param = new HashMap<>();
-        param.put("channel_name", "goods");
+        param.put("channel_name", chanelName);
         param.put("parent_id", "0");
 
 

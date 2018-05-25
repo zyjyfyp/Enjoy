@@ -960,7 +960,7 @@ public class WareInformationActivity extends AppCompatActivity implements
                     //				market_information_tip.setText(subtitle);
                     market_information_title.setText(title + "");
                     tv_hengyu_money.setText(exchange_point + "分");
-                    tv_ware_market_jifen.setText("￥" + price);
+                    tv_ware_market_jifen.setText("¥" + price);
                     tv_ware_market_jifen.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
                     ll_money_ju.setVisibility(View.GONE);
                     tv_spec_text.setText(spec_text);
@@ -1038,8 +1038,8 @@ public class WareInformationActivity extends AppCompatActivity implements
                             //					webview.loadUrl("http://183.62.138.31:1010/mobile/goods/conent-"+article_id+".html");//商品介绍
                             webview.loadUrl("http://mobile.zams.cn/goods/conent-" + article_id + ".html");
                         }
-                        tv_hengyu_money.setText("￥" + retailPrice);
-                        tv_market_money.setText("￥" + marketPrice);
+                        tv_hengyu_money.setText("¥" + retailPrice);
+                        tv_market_money.setText("¥" + marketPrice);
                         market_information_title.setText(title);
                         //				market_information_tip.setText(subtitle);//proTip
                         tv_spec_text.setText(spec_text);
@@ -1052,10 +1052,10 @@ public class WareInformationActivity extends AppCompatActivity implements
                         } else {
                             tv_ware_market_jifen.setVisibility(view.VISIBLE);
                             tv_wenzi2.setVisibility(view.VISIBLE);
-                            tv_ware_market_jifen.setText("￥" + xqdata.cashing_packet);
+                            tv_ware_market_jifen.setText("¥" + xqdata.cashing_packet);
                         }
-                        //				tv_ware_market_jifen.setText( "￥" + xqdata.cashing_packet);
-                        //				tv_integral.setText( "￥" + xqdata.give_pension);
+                        //				tv_ware_market_jifen.setText( "¥" + xqdata.cashing_packet);
+                        //				tv_integral.setText( "¥" + xqdata.give_pension);
 
 
                         //				ArrayList<String> images_ll = getDatall();

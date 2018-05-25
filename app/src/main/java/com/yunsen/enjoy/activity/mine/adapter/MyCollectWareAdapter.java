@@ -115,7 +115,7 @@ public class MyCollectWareAdapter extends BaseAdapter {
                 tv_price.setText(list.get(position).add_time);
                 tv_price.setTextColor(Color.BLACK);
             } else {
-                tv_price.setText("￥" + list.get(position).price);
+                tv_price.setText("¥" + list.get(position).price);
             }
 
             tv_name.setText(list.get(position).title);

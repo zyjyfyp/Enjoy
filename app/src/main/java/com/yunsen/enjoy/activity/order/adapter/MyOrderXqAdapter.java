@@ -173,7 +173,7 @@ public class MyOrderXqAdapter extends BaseAdapter {
                 if (yunfei.equals("0.0")) {
                     holder.tv_yunfei.setVisibility(View.GONE);
                 } else {
-                    holder.tv_yunfei.setText("(含运费￥"
+                    holder.tv_yunfei.setText("(含运费¥"
                             + list.get(position).getExpress_fee() + ")");
                 }
 
@@ -237,16 +237,16 @@ public class MyOrderXqAdapter extends BaseAdapter {
                             .findViewById(R.id.lv_dingdanxq);
                     holder.ll_kedihongbao = (LinearLayout) vi.findViewById(R.id.ll_kedihongbao);
                     holder.tv_goods_title.setText(list.get(position).getList().get(i).getArticle_title());
-                    holder.tv_market_price.setText("市场价:￥"
+                    holder.tv_market_price.setText("市场价:¥"
                             + list.get(position).getList().get(i)
                             .getMarket_price());
-                    // holder.real_price.setText("价格:￥"+list.get(position).getList().get(i).getReal_price());
+                    // holder.real_price.setText("价格:¥"+list.get(position).getList().get(i).getReal_price());
                     String kedi_honbao = list.get(position).getCashing_packet();
                     System.out.println("kedi_honbao=============" + kedi_honbao);
                     if (kedi_honbao.equals("0.0")) {
                         holder.ll_kedihongbao.setVisibility(View.GONE);
                     } else {
-                        holder.tv_hongbao.setText("-￥" + list.get(position).getList().get(i).getCashing_packet());
+                        holder.tv_hongbao.setText("-¥" + list.get(position).getList().get(i).getCashing_packet());
                     }
                     holder.quantity
                             .setText("x"
@@ -297,9 +297,9 @@ public class MyOrderXqAdapter extends BaseAdapter {
                         // //保留2位小数
                         double sell_price = c.setScale(2,
                                 BigDecimal.ROUND_HALF_UP).doubleValue();
-                        holder.real_price.setText("价格:￥" + sell_price);
+                        holder.real_price.setText("价格:¥" + sell_price);
 
-                        holder.tv_zongjia.setText("￥"
+                        holder.tv_zongjia.setText("¥"
                                 + list.get(position).getList().get(i)
                                 .getSell_price());//
 
@@ -330,7 +330,7 @@ public class MyOrderXqAdapter extends BaseAdapter {
                 System.out.println("heji_zongjia=============" + heji_zongjia);
                 holder.tv_heji = (TextView) convertView
                         .findViewById(R.id.tv_heji);
-                holder.tv_heji.setText("合计:￥" + heji_zongjia);
+                holder.tv_heji.setText("合计:¥" + heji_zongjia);
 
             } catch (Exception e) {
 

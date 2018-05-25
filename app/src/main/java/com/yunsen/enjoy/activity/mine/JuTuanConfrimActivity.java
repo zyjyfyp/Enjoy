@@ -224,12 +224,12 @@ public class JuTuanConfrimActivity extends AppCompatActivity {
 			// tv_2.setText("团数：");
 			// String activity_price =
 			// getIntent().getStringExtra("activity_price");
-			// tv_color.setText( "￥" + activity_price);//团购价
-			// String ct_tuanshu = getIntent().getStringExtra("ct_tuanshu");
-			// tv_size.setText( "￥" +ct_tuanshu);//团数
-			// heji.setText("合计:" + "￥" + activity_price);
-			// shi_fukuang.setText("￥" + activity_price);
-			// tv_warename.setText(title);
+            // tv_color.setText( "¥" + activity_price);//团购价
+            // String ct_tuanshu = getIntent().getStringExtra("ct_tuanshu");
+            // tv_size.setText( "¥" +ct_tuanshu);//团数
+            // heji.setText("合计:" + "¥" + activity_price);
+            // shi_fukuang.setText("¥" + activity_price);
+            // tv_warename.setText(title);
 			// System.out.println("2======================");
 			// String img_url = getIntent().getStringExtra("img_url");
 			// mAq.id(img_ware).image(RealmName.REALM_NAME_HTTP + img_url);
@@ -740,13 +740,13 @@ public class JuTuanConfrimActivity extends AppCompatActivity {
 									}
 									tv_1.setText("团购价：");
 									tv_2.setText("团数：");
-									tv_color.setText("￥" + dzongjia);// 团购价
-									tv_size.setText(getIntent().getStringExtra(
+                                    tv_color.setText("¥" + dzongjia);// 团购价
+                                    tv_size.setText(getIntent().getStringExtra(
 											"people")
 											+ "人");
-									heji.setText("合计:" + "￥" + dzongjia);
-									shi_fukuang.setText("￥" + dzongjia);
-								} else {
+                                    heji.setText("合计:" + "¥" + dzongjia);
+                                    shi_fukuang.setText("¥" + dzongjia);
+                                } else {
 									BigDecimal c = new BigDecimal(Double
 											.parseDouble(data.sell_price)
 											* data.quantity);
@@ -757,14 +757,14 @@ public class JuTuanConfrimActivity extends AppCompatActivity {
 									tv_guige.setText(data.spec_text);
 									tv_1.setText("价格：");
 									tv_2.setText("市场价：");
-									tv_color.setText("￥" + dzongjia);//
-									tv_size.setText("￥" + data.market_price);
-									tv_size.getPaint().setFlags(
+                                    tv_color.setText("¥" + dzongjia);//
+                                    tv_size.setText("¥" + data.market_price);
+                                    tv_size.getPaint().setFlags(
 											Paint.STRIKE_THRU_TEXT_FLAG
 													| Paint.ANTI_ALIAS_FLAG);
-									heji.setText("合计:" + "￥" + dzongjia);
-									shi_fukuang.setText("￥" + dzongjia);
-								}
+                                    heji.setText("合计:" + "¥" + dzongjia);
+                                    shi_fukuang.setText("¥" + dzongjia);
+                                }
 								tv_warename.setText(data.title);
 								tv_num.setText(String.valueOf(data.quantity));
 								mAq.id(img_ware).image(

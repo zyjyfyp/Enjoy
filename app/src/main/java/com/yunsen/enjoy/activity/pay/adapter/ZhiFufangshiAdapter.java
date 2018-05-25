@@ -84,8 +84,8 @@ public class ZhiFufangshiAdapter extends BaseAdapter {
 						+ ")");
 			} else {
 				String price = String.valueOf(monney);
-				holder.text.setText(List.get(position).getTitle() + "(" + "￥"
-						+ price + ")");
+                holder.text.setText(List.get(position).getTitle() + "(" + "¥"
+                        + price + ")");
 			}
 
 			// if (clickTemp == position) {

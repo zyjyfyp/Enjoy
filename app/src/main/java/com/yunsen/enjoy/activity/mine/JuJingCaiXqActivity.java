@@ -356,7 +356,7 @@ public class JuJingCaiXqActivity extends AppCompatActivity implements OnClickLis
                     tuangoujia = JuTuanAdapter.tuangoujia;
                     tuanshu = JuTuanAdapter.tuanshu;
 //				String tuangoujia = (String) msg.obj;
-                    tv_tuangoujia.setText("￥" + tuangoujia);
+                    tv_tuangoujia.setText("¥" + tuangoujia);
                     tv_tuanshu.setText(tuanshu + "人团");
                     break;
                 case 1:
@@ -718,8 +718,8 @@ public class JuJingCaiXqActivity extends AppCompatActivity implements OnClickLis
             tv_titel.setText(data.getTitle());
             tv_price.setText("原价：" + data.getSell_price());
 //		tv_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
-            tv_yuanjia.setText("￥" + data.getSell_price());
-            tv_tuangoujia.setText("￥" + data.getPrice());
+            tv_yuanjia.setText("¥" + data.getSell_price());
+            tv_tuangoujia.setText("¥" + data.getPrice());
             tv_tuanshu.setText(data.getPeople() + "人团");
 
             tv_price.getPaint().setFlags(

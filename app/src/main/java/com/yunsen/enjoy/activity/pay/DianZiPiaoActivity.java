@@ -111,7 +111,7 @@ public class DianZiPiaoActivity extends AppCompatActivity {
         //		if (ZhongAnMinShenXqActivity.retailPrice.equals("0.0")) {
         //			tv_feiyong.setText("费用："+"免费");
         //		}else {
-        //			tv_feiyong.setText("费用：￥"+ZhongAnMinShenXqActivity.retailPrice);
+        //			tv_feiyong.setText("费用：¥"+ZhongAnMinShenXqActivity.retailPrice);
         //		}
         ////		tv_name.setText(BaoMinTiShiActivity.real_name+"("+BaoMinTiShiActivity.user_name+")");
         //		tv_name.setText(real_name+"("+user_name+")");
@@ -269,7 +269,7 @@ public class DianZiPiaoActivity extends AppCompatActivity {
                             } else if (mb.getSell_price().equals("0.0")) {
                                 tv_feiyong.setText("费用：" + "免费");
                             } else {
-                                tv_feiyong.setText("费用：￥" + md.getSell_price());
+                                tv_feiyong.setText("费用：¥" + md.getSell_price());
                             }
                             String real_name = getIntent().getStringExtra("real_name");
                             String mobile = getIntent().getStringExtra("mobile");

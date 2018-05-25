@@ -13,10 +13,12 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.adapter.ExchangePointAdapter;
 import com.yunsen.enjoy.adapter.IntegralTopAdapter;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.CarDetails;
+import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
@@ -132,7 +134,8 @@ public class ExchangePointActivity extends BaseFragmentActivity implements Multi
     public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         int pos = position - 1;
         if (mDatas != null && pos < mDatas.size()) {
-            ToastUtils.makeTextShort(mDatas.get(pos).getTitle());
+            CarDetails details = mDatas.get(pos);
+            UIHelper.showGoodsDescriptionActivity(this, String.valueOf(details.getId()), details.getTitle(), Constants.POINT_BUY);
         }
     }
 

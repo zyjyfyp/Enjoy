@@ -34,8 +34,8 @@ public class GoodsPartsAdapter extends CommonAdapter<CarDetails> {
                 .into(imageView);
         holder.setText(R.id.goods_parts_title, goodsData.getTitle());
         DefaultSpecItemBean defaultSpecItem = goodsData.getDefault_spec_item();
-        holder.setText(R.id.goods_parts_sell_price, "￥" + defaultSpecItem.getSellPriceStr());
-        holder.setText(R.id.goods_parts_market_price, "￥" + defaultSpecItem.getMarkePriceStr());
+        holder.setText(R.id.goods_parts_sell_price, "¥" + defaultSpecItem.getSellPriceStr());
+        holder.setText(R.id.goods_parts_market_price, "¥" + defaultSpecItem.getMarkePriceStr());
     }
 
     public void upData(List<CarDetails> datas) {

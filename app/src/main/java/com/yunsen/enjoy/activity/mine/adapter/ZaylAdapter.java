@@ -70,8 +70,8 @@ public class ZaylAdapter extends BaseAdapter {
             ImageView img_ware = BaseViewHolder.get(convertView, R.id.img_ware);
             ;
             tv.setText(items.get(position).getTitle());
-            tv_market_price.setText("市场价￥" + items.get(position).getMarket_price());
-            tv_sell_price.setText("价格￥" + items.get(position).getSell_price());
+            tv_market_price.setText("市场价¥" + items.get(position).getMarket_price());
+            tv_sell_price.setText("价格¥" + items.get(position).getSell_price());
             tv_market_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); // 设置市场价文字的中划线
             aQuery.id(img_ware).image(URLConstants.REALM_NAME_HTTP + items.get(position).getImg_url());
             type = true;

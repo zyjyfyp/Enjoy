@@ -302,13 +302,13 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                             tv_hongbao.setText("无可抵红包");
                             kou_hongbao = 0;// 红包为0
                             rl_hongbao.setVisibility(View.GONE);
-                            tv_jiaguo.setText("￥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ￥" + 0 + "元");
+                            tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + 0 + "元");
                         } else if (cashing_packet == 0) {
                             heji.setVisibility(View.VISIBLE);
                             tv_hongbao.setText("无可抵红包");
                             kou_hongbao = 0;// 无可抵红包
                             rl_hongbao.setVisibility(View.GONE);
-                            tv_jiaguo.setText("￥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ￥" + 0 + "元");
+                            tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + 0 + "元");
                         } else if (dzongjia == cashing_packet) {
                             heji.setVisibility(View.GONE);
                             // dzongjia = 0.0;
@@ -316,7 +316,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                                     + cashing_packet + "元");
                             kou_hongbao = 1;// 已低红包
                             rl_hongbao.setVisibility(View.VISIBLE);
-                            tv_jiaguo.setText("￥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ￥" + cashing_packet + "元");
+                            tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + cashing_packet + "元");
                         } else if (mUserRedPacket >= cashing_packet) {
                             BigDecimal w = new BigDecimal(dzongjia - cashing_packet);
                             dzongjia = w.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
@@ -331,7 +331,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                             tv_hongbao.setText("可用" + cashing_packet + "元红包抵" + cashing_packet + "元");
                             kou_hongbao = 1;// 已低红包
                             rl_hongbao.setVisibility(View.VISIBLE);
-                            tv_jiaguo.setText("￥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ￥" + cashing_packet + "元");
+                            tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + cashing_packet + "元");
                         } else if (mUserRedPacket <= cashing_packet) {
                             BigDecimal w = new BigDecimal(dzongjia - mUserRedPacket);
                             dzongjia = w.setScale(2, BigDecimal.ROUND_HALF_UP)
@@ -346,7 +346,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                             // tv_hongbao.setText("可用"+hongbao+"元红包");
                             kou_hongbao = 1;// 已低红包
                             rl_hongbao.setVisibility(View.VISIBLE);
-                            tv_jiaguo.setText("￥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ￥" + mUserRedPacket + "元");
+                            tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + mUserRedPacket + "元");
                         }
                     } catch (Exception e) {
 
@@ -370,19 +370,19 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                         heji.setVisibility(View.VISIBLE);
                         tv_hongbao.setText("不可以使用红包");
                         rl_hongbao.setVisibility(View.GONE);
-                        tv_jiaguo.setText("￥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ￥" + 0 + "元");
+                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + 0 + "元");
                     } else if ("0.0".equals(kedi_hongbao)) {
                         heji.setVisibility(View.VISIBLE);
                         tv_hongbao.setText("不可以使用红包");
                         rl_hongbao.setVisibility(View.GONE);
-                        tv_jiaguo.setText("￥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ￥" + 0 + "元");
+                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + 0 + "元");
                     } else if (dzongjia == cashing_packet) {
                         heji.setVisibility(View.VISIBLE);
                         // dzongjia = 0.0;
                         tv_hongbao.setText("可用" + cashing_packet + "元红包抵"
                                 + cashing_packet + "元");
                         rl_hongbao.setVisibility(View.VISIBLE);
-                        tv_jiaguo.setText("￥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ￥" + 0 + "元");
+                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + 0 + "元");
                     } else if (mUserRedPacket >= cashing_packet) {
                         BigDecimal w = new BigDecimal(dzongjia + cashing_packet);
                         dzongjia = w.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
@@ -392,7 +392,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                         tv_hongbao.setText("可用" + cashing_packet + "元红包抵"
                                 + cashing_packet + "元");
                         rl_hongbao.setVisibility(View.VISIBLE);
-                        tv_jiaguo.setText("￥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ￥" + 0 + "元");
+                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + 0 + "元");
                     } else if (mUserRedPacket <= cashing_packet) {
                         BigDecimal w = new BigDecimal(dzongjia + mUserRedPacket);
                         dzongjia = w.setScale(2, BigDecimal.ROUND_HALF_UP)
@@ -404,7 +404,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                         tv_hongbao.setText("可用" + mUserRedPacket + "元红包抵" + mUserRedPacket
                                 + "元");
                         rl_hongbao.setVisibility(View.VISIBLE);
-                        tv_jiaguo.setText("￥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ￥" + 0 + "元");
+                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + 0 + "元");
                     }
 
                     hongbao_tety = isCheck;
@@ -413,7 +413,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
 
                 tv_hb_ye.setText(mUserhongbao);
                 tv_hb_ye_2.setText(mUserhongbao);
-                tv_hb_ye_3.setText("当前红包:￥" + mUserhongbao + "元");
+                tv_hb_ye_3.setText("当前红包:¥" + mUserhongbao + "元");
             }
         });
 
@@ -428,13 +428,13 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 heji.setVisibility(View.VISIBLE);
                 kou_hongbao = 0;// 红包为0
                 rl_hongbao.setVisibility(View.GONE);
-                tv_jiaguo.setText("￥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ￥" + 0 + "元");
+                tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + 0 + "元");
             } else if ("0.0".equals(kedi_hongbao)) {
                 tv_hongbao.setText("无可抵红包");
                 heji.setVisibility(View.VISIBLE);
                 kou_hongbao = 0;// 无可抵红包
                 rl_hongbao.setVisibility(View.GONE);
-                tv_jiaguo.setText("￥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ￥" + 0 + "元");
+                tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + 0 + "元");
             } else if (dzongjia == cashing_packet) {
                 heji.setVisibility(View.GONE);
                 // dzongjia = 0.0;
@@ -442,7 +442,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                         + cashing_packet + "元");
                 kou_hongbao = 1;// 已低红包
                 rl_hongbao.setVisibility(View.VISIBLE);
-                tv_jiaguo.setText("￥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ￥" + cashing_packet + "元");
+                tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + cashing_packet + "元");
             } else if (mUserRedPacket >= cashing_packet) {
                 BigDecimal w = new BigDecimal(dzongjia - cashing_packet);
                 dzongjia = w.setScale(2, BigDecimal.ROUND_HALF_UP)
@@ -456,7 +456,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                         + cashing_packet + "元");
                 kou_hongbao = 1;// 已低红包
                 rl_hongbao.setVisibility(View.VISIBLE);
-                tv_jiaguo.setText("￥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ￥" + cashing_packet + "元");
+                tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + cashing_packet + "元");
             } else if (mUserRedPacket <= cashing_packet) {
                 BigDecimal w = new BigDecimal(dzongjia - mUserRedPacket);
                 dzongjia = w.setScale(2, BigDecimal.ROUND_HALF_UP)
@@ -468,13 +468,13 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 // tv_hongbao.setText("可用"+hongbao+"元红包");
                 kou_hongbao = 1;// 已低红包
                 rl_hongbao.setVisibility(View.VISIBLE);
-                tv_jiaguo.setText("￥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ￥" + mUserRedPacket + "元");
+                tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + mUserRedPacket + "元");
             }
 
 
             tv_hb_ye.setText(String.valueOf(mUserRedPacket));
             tv_hb_ye_2.setText(String.valueOf(mUserRedPacket));
-            tv_hb_ye_3.setText("当前红包:￥" + mUserRedPacket + "元");
+            tv_hb_ye_3.setText("当前红包:¥" + mUserRedPacket + "元");
 
         }
 
@@ -915,22 +915,22 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                                         tv_zhifu.setText(ZhiFuFangShi + "(免邮)");
                                         if (jubi != null) {
                                             if (dzongjia > 0) {
-                                                heji.setText("实付款:" + " 福利" + jubi + " + " + "￥" + dzongjia);
+                                                heji.setText("实付款:" + " 福利" + jubi + " + " + "¥" + dzongjia);
                                             } else {
                                                 heji.setText("实付款:" + " 福利" + jubi);
                                             }
                                         } else {
-                                            heji.setText("实付款:" + " ￥" + dzongjia);
+                                            heji.setText("实付款:" + " ¥" + dzongjia);
                                         }
                                     } else {
                                         String price = String.valueOf(express_fee);
-                                        tv_zhifu.setText(ZhiFuFangShi + "(" + "￥" + price + ")");
+                                        tv_zhifu.setText(ZhiFuFangShi + "(" + "¥" + price + ")");
                                         BigDecimal c = new BigDecimal(dzongjia + express_fee);
                                         dzongjia = c.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                                         if (jubi != null) {
-                                            heji.setText("实付款:" + " 福利" + jubi + " + " + "￥" + dzongjia);
+                                            heji.setText("实付款:" + " 福利" + jubi + " + " + "¥" + dzongjia);
                                         } else {
-                                            heji.setText("实付款:" + " ￥" + dzongjia);
+                                            heji.setText("实付款:" + " ¥" + dzongjia);
                                         }
                                     }
                                 } else {
@@ -941,24 +941,24 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                                         tv_zhifu.setText(ZhiFuFangShi + "(免邮)");
                                         if (jubi != null) {
                                             if (dzongjia > 0) {
-                                                heji.setText("实付款:" + " 福利" + jubi + " + " + "￥" + dzongjia);
+                                                heji.setText("实付款:" + " 福利" + jubi + " + " + "¥" + dzongjia);
                                             } else {
                                                 heji.setText("实付款:" + " 福利"
                                                         + jubi);
                                             }
                                         } else {
-                                            heji.setText("实付款:" + " ￥" + dzongjia);
+                                            heji.setText("实付款:" + " ¥" + dzongjia);
                                         }
                                     } else {
                                         String price = String.valueOf(express_fee);
-                                        tv_zhifu.setText(ZhiFuFangShi + "(" + "￥" + price + ")");
+                                        tv_zhifu.setText(ZhiFuFangShi + "(" + "¥" + price + ")");
                                         BigDecimal c = new BigDecimal(dzongjia + express_fee);
 
                                         dzongjia = c.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                                         if (jubi != null) {
-                                            heji.setText("实付款:" + " 福利" + jubi + " + " + "￥" + dzongjia);
+                                            heji.setText("实付款:" + " 福利" + jubi + " + " + "¥" + dzongjia);
                                         } else {
-                                            heji.setText("实付款:" + " ￥" + dzongjia);
+                                            heji.setText("实付款:" + " ¥" + dzongjia);
                                         }
                                     }
                                 }

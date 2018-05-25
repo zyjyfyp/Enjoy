@@ -101,7 +101,7 @@ public class BaoMinTiShiActivity extends Activity implements OnClickListener {
                 || getIntent().getStringExtra("sell_price").equals("0.00")) {
             btnConfirm.setVisibility(View.GONE);
         } else {
-            btnConfirm.setText("合计：￥" + getIntent().getStringExtra("sell_price"));
+            btnConfirm.setText("合计：¥" + getIntent().getStringExtra("sell_price"));
         }
         retailPrice = getIntent().getStringExtra("sell_price");
         et_user_name.setText(real_name);

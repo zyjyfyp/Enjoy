@@ -72,7 +72,7 @@ public class PartsShopActivity extends BaseFragmentActivity {
     @Override
     public void requestData() {
         super.requestData();
-        HttpProxy.getGoodsClassifyDatas(new HttpCallBack<List<ClassifyBean>>() {
+        HttpProxy.getGoodsClassifyDatas("mall", new HttpCallBack<List<ClassifyBean>>() {
             @Override
             public void onSuccess(List<ClassifyBean> responseData) {
                 upTabLayout(responseData);
@@ -102,6 +102,7 @@ public class PartsShopActivity extends BaseFragmentActivity {
                 PartsShopFragment fragment = new PartsShopFragment();
                 Bundle args = new Bundle();
                 args.putInt(Constants.FRAGMENT_TYPE_KEY, bean.getId());
+                args.putInt(Constants.CHANNEL_KEY, bean.getChannel_id());
                 fragment.setArguments(args);
                 mPartsShopFragments.add(fragment);
             }

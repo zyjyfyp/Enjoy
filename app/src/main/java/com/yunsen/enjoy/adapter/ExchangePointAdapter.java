@@ -2,13 +2,16 @@ package com.yunsen.enjoy.adapter;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.DefaultSpecItemBean;
+import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.widget.recyclerview.CommonAdapter;
 import com.yunsen.enjoy.widget.recyclerview.base.ViewHolder;
 
@@ -37,7 +40,7 @@ public class ExchangePointAdapter extends CommonAdapter<CarDetails> {
         holder.setText(R.id.exchange_price_tv, "积分兑换：" + cashingPoint + "积分+" + sellPrice + "元");
         TextView marketTv = (TextView) holder.getView(R.id.exchange_market_tv);
         marketTv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        marketTv.setText("市场价：￥" + defaultSpecItem.getMarkePriceStr());
+        marketTv.setText("市场价：¥" + defaultSpecItem.getMarkePriceStr());
     }
 
     public void upData(List<CarDetails> responseData) {

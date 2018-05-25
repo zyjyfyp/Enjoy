@@ -87,12 +87,13 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     private StoreRecyclerAdapter mAdapter;
     private ImageView allCars;
     private View moreCar;
-    private HomeFootView footView;
+    //    private HomeFootView footView;
     private List<CarDetails> mAdverModels = new ArrayList<>();
     private int mPageIndex = 0;
     private IntegralChangeLayout integralContral;
     private SecondActivityLayout secondActivity;
     private GoodsPartsLayout goodsPartsLayout;
+    private View serviceMoreTv;
 
 
     @Override
@@ -130,6 +131,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         integralContral = (IntegralChangeLayout) topView.findViewById(R.id.integral_layout);
         secondActivity = (SecondActivityLayout) topView.findViewById(R.id.home_activity_layout);
         goodsPartsLayout = ((GoodsPartsLayout) topView.findViewById(R.id.goods_parts_layout));
+        serviceMoreTv = topView.findViewById(R.id.service_more_tv);
 
     }
 
@@ -150,8 +152,8 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         recyclerView.setAdapter(recyclerViewAdapter);
         RecyclerViewUtils.setHeaderView(recyclerView, topView);
-        footView = new HomeFootView(getActivity());
-        RecyclerViewUtils.setFooterView(recyclerView, footView);
+//        footView = new HomeFootView(getActivity());
+//        RecyclerViewUtils.setFooterView(recyclerView, footView);
 
         bannerAdapter = new BannerAdapter(getData(), getActivity());
         banner.setAdapter(bannerAdapter);
@@ -341,20 +343,20 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                 Log.e(TAG, "onSuccess: 服务商");
                 if (isMore) {
                     if (!mAdapter.addDatas(responseData)) {
-                        footView.changeState(true);
+                        //      footView.changeState(true);
                     } else {
-                        footView.changeState(false);
+                        //      footView.changeState(false);
                     }
                 } else {
                     mAdapter.upDatas(responseData);
-                    footView.changeState(false);
+                    //  footView.changeState(false);
                 }
 
             }
 
             @Override
             public void onError(Request request, Exception e) {
-                footView.changeState(true);
+                //footView.changeState(true);
                 if (!isMore) {
                     mAdapter.clearData();
                 }
@@ -377,7 +379,8 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         mCarImgArray[4].setOnClickListener(this);
         mCarImgArray[5].setOnClickListener(this);
         mAdapter.setOnItemClickListener(this);
-        footView.getLoadMoreBtn().setOnClickListener(this);
+        //footView.getLoadMoreBtn().setOnClickListener(this);
+        serviceMoreTv.setOnClickListener(this);
     }
 
     public List<AdvertModel> getData() {
@@ -453,6 +456,9 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                 break;
             case R.id.load_more_btn:
                 requestServiceProvider(true);
+                break;
+            case R.id.service_more_tv:
+                UIHelper.showServiceMoreActivity(getActivity());
                 break;
         }
 

@@ -321,8 +321,8 @@ public class JuTuanGouXqActivity extends AppCompatActivity implements OnClickLis
 					tuangoujia = JuTuanAdapter.tuangoujia;
 					tuanshu = JuTuanAdapter.tuanshu;
 					//				String tuangoujia = (String) msg.obj;
-					tv_tuangoujia.setText("￥"+tuangoujia);
-					tv_tuanshu.setText(tuanshu+"人团数");
+                    tv_tuangoujia.setText("¥" + tuangoujia);
+                    tv_tuanshu.setText(tuanshu+"人团数");
 					break;
 				case 1:
 					System.out.println("list个数是多少===================="+list.size());
@@ -836,9 +836,9 @@ public class JuTuanGouXqActivity extends AppCompatActivity implements OnClickLis
 			tv_titel.setText(data.getTitle());
 			tv_price.setText("原价："+data.getPrice());
 			//		tv_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
-			tv_yuanjia.setText("￥"+data.getPrice());
-			tv_tuangoujia.setText("￥"+list.get(0).getGroupon_price());
-			tv_tuanshu.setText(list.get(0).getPeople()+"人团数");
+            tv_yuanjia.setText("¥" + data.getPrice());
+            tv_tuangoujia.setText("¥" + list.get(0).getGroupon_price());
+            tv_tuanshu.setText(list.get(0).getPeople()+"人团数");
 			tv_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); // 设置市场价文字的中划线
 		} catch (Exception e) {
 

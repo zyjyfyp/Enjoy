@@ -13,15 +13,22 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.http.HttpCallBack;
+import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.DefaultSpecItemBean;
+import com.yunsen.enjoy.model.OrderInfo;
+import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.layout.CountDownLayout;
+import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.StringUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.recyclerview.CommonAdapter;
 import com.yunsen.enjoy.widget.recyclerview.base.ViewHolder;
 
 import java.util.List;
+
+import okhttp3.Request;
 
 /**
  * Created by Administrator on 2018/5/23.
@@ -46,7 +53,7 @@ public class FillActivityAdapter extends CommonAdapter<CarDetails> {
 
     @Override
     protected void convert(ViewHolder holder, CarDetails carDetails, int position) {
-
+        final CarDetails data = carDetails;
         String imgUrl = carDetails.getImg_url();
         ImageView imageView = (ImageView) holder.getView(R.id.fill_left_img);
         TextView marketTv = (TextView) holder.getView(R.id.fill_market_price);
@@ -60,8 +67,8 @@ public class FillActivityAdapter extends CommonAdapter<CarDetails> {
                 .into(imageView);
         holder.setText(R.id.fill_title, carDetails.getTitle());
         DefaultSpecItemBean defaultSpecItem = carDetails.getDefault_spec_item();
-        holder.setText(R.id.fill_market_price, "￥" + defaultSpecItem.getMarkePriceStr());
-        holder.setText(R.id.fill_sell_price, "￥" + defaultSpecItem.getSellPriceStr());
+        holder.setText(R.id.fill_market_price, "¥" + defaultSpecItem.getMarkePriceStr());
+        holder.setText(R.id.fill_sell_price, "¥" + defaultSpecItem.getSellPriceStr());
 
         String startString = carDetails.getStart_time();
         String endString = carDetails.getEnd_time();
@@ -103,7 +110,27 @@ public class FillActivityAdapter extends CommonAdapter<CarDetails> {
             fastTv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ToastUtils.makeTextShort("开始抢购");
+                    if (!AccountUtils.hasLogin()) {
+                        UIHelper.showUserLoginActivity(mContext);
+                    } else if (!AccountUtils.hasBoundPhone()) {
+                        UIHelper.showBundPhoneActivity(mContext);
+                    } else {
+                        HttpProxy.getAddShoppingBuy(String.valueOf(data.getId()), "" + data.getDefault_spec_item().getGoods_id(), new HttpCallBack<OrderInfo>() {
+                            @Override
+                            public void onSuccess(OrderInfo responseData) {
+                                if (responseData != null) {
+                                    UIHelper.showMyOrderConfrimActivity(mContext, responseData.getBuy_no());
+                                }
+                            }
+
+                            @Override
+                            public void onError(Request request, Exception e) {
+
+                            }
+                        });
+                    }
+
+
                 }
             });
         }
@@ -128,6 +155,7 @@ public class FillActivityAdapter extends CommonAdapter<CarDetails> {
     }
 
     private static final String TAG = "FillActivityAdapter";
+
     @Override
     public void onViewDetachedFromWindow(ViewHolder holder) {
         super.onViewDetachedFromWindow(holder);

@@ -323,7 +323,7 @@ public class JuTuanGouXq2Activity extends AppCompatActivity implements OnClickLi
                     tuangoujia = JuTuanAdapter.tuangoujia;
                     //				String tuanshu = JuTuanAdapter.tuanshu;
                     //				String tuangoujia = (String) msg.obj;
-                    //				tv_tuangoujia.setText("￥"+tuangoujia);
+                    //				tv_tuangoujia.setText("¥"+tuangoujia);
                     //				tv_tuanshu.setText(tuanshu+"人团数");
                     break;
                 case 1:
@@ -730,7 +730,7 @@ public class JuTuanGouXq2Activity extends AppCompatActivity implements OnClickLi
             tv_titel.setText(data.getArticle_title());
             tv_price.setText("原价：" + data.getSell_price());
 
-            //		tv_tuangoujia.setText("￥"+list.get(0).getGroupon_price());
+            //		tv_tuangoujia.setText("¥"+list.get(0).getGroupon_price());
             //		tv_tuanshu.setText(list.get(0).getPeople()+"人团数");
             tv_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); // 设置市场价文字的中划线
 

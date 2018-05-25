@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.model.CarDetails;
+import com.yunsen.enjoy.ui.UIHelper;
 
 import java.util.List;
 
@@ -46,6 +48,13 @@ public class IntegralTopAdapter extends PagerAdapter {
         item.setLayoutParams(params);
         item.setScaleType(ImageView.ScaleType.CENTER_CROP);
         container.addView(item);
+        final CarDetails fCarDetail = data;
+        item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(fCarDetail.getId()), fCarDetail.getTitle(), Constants.POINT_BUY);
+            }
+        });
         return item;
     }
 

@@ -65,7 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
-                    android:text="￥888.88"
+                    android:text="¥888.88"
                     android:textColor="@color/red"
                     android:textSize="15sp" />
 
@@ -74,7 +74,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="￥999.88"
+                    android:text="¥999.88"
                     android:textColor="@color/color_888"
                     android:textSize="12sp" />
 

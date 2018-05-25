@@ -405,7 +405,7 @@ public class StringUtils {
 
     @Deprecated
     public static String toPriceStr(double price) {
-        return "￥" + numberFormat.format(price);
+        return "¥" + numberFormat.format(price);
     }
 
     public static String toDateString(Date date) {
