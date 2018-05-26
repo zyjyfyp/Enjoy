@@ -37,6 +37,8 @@ public class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListen
 
     private boolean mHasFinish = true;
 
+    private LoadMoreLayout mLoadMoreLayout;
+
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
@@ -105,9 +107,6 @@ public class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListen
         }
     }
 
-    public void onLoadStart() {
-
-    }
 
     /**
      * 取数组中最大值
@@ -127,11 +126,37 @@ public class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListen
     }
 
     @Override
-    public void onLoadNextPage(final View view) {
+    public void onLoadStart() {
+        if (mLoadMoreLayout != null) {
+            mLoadMoreLayout.visibleView();
+            mLoadMoreLayout.showloadingStart();
+        }
     }
 
+    @Override
+    public void onLoadNextPage(final View view) {
+        if (mLoadMoreLayout != null) {
+            mLoadMoreLayout.showLoading();
+        }
+    }
+
+    @Override
     public void onRefreshComplete() {
         mHasFinish = true;
+        if (mLoadMoreLayout != null) {
+            mLoadMoreLayout.goneView();
+        }
+    }
+
+    @Override
+    public void noMore() {
+        if (mLoadMoreLayout != null) {
+            mLoadMoreLayout.showLoadNoMore();
+        }
+    }
+
+    public void setLoadMoreLayout(LoadMoreLayout loadMoreLayout) {
+        this.mLoadMoreLayout = loadMoreLayout;
     }
 
     public static enum LayoutManagerType {

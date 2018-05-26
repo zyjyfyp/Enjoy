@@ -1,6 +1,7 @@
 package com.yunsen.enjoy.activity.buy;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.yunsen.enjoy.model.event.UpHomeUiEvent;
 import com.yunsen.enjoy.ui.layout.SecondActivityLayout;
 import com.yunsen.enjoy.ui.recyclerview.EndlessRecyclerOnScrollListener;
 import com.yunsen.enjoy.ui.recyclerview.LoadMoreLayout;
+import com.yunsen.enjoy.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -32,9 +34,10 @@ import okhttp3.Request;
 
 /**
  * Created by Administrator on 2018/5/25.
+ * 秒杀
  */
 
-public class SecondActivityActivity extends BaseFragmentActivity {
+public class SecondActivityActivity extends BaseFragmentActivity implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "SecondActivityActivity";
     @Bind(R.id.action_back)
     ImageView actionBack;
@@ -44,6 +47,8 @@ public class SecondActivityActivity extends BaseFragmentActivity {
     ImageView actionBarRight;
     @Bind(R.id.secondLayout)
     SecondActivityLayout secondLayout;
+    @Bind(R.id.swipe_refresh_widget)
+    SwipeRefreshLayout swipeRefreshLayout;
     private int mPageIndex = 1;
     private boolean isLoadMore = false;
     private boolean mHasMore = true;
@@ -51,28 +56,20 @@ public class SecondActivityActivity extends BaseFragmentActivity {
 
     private EndlessRecyclerOnScrollListener listener = new EndlessRecyclerOnScrollListener() {
         @Override
-        public void onLoadStart() {
-            super.onLoadStart();
-            loadMoreLayout.visibleView();
-            loadMoreLayout.showloadingStart();
-        }
-
-        @Override
         public void onLoadNextPage(View view) {
             Log.e(TAG, "onLoadNextPage: ");
-            loadMoreLayout.showLoading();
             mPageIndex++;
             isLoadMore = true;
             requestData();
         }
 
         @Override
-        public void onRefreshComplete() {
-            super.onRefreshComplete();
-            loadMoreLayout.goneView();
-            Log.e(TAG, "onRefreshComplete: ");
+        public void noMore() {
+            super.noMore();
+            ToastUtils.makeTextShort("没有更多商品");
         }
     };
+    private FillActivityAdapter mAdapter;
 
     @Override
     public int getLayout() {
@@ -86,6 +83,8 @@ public class SecondActivityActivity extends BaseFragmentActivity {
         secondLayout.setTopTitleVisibility(View.GONE);
         actionBarTitle.setText("秒杀活动");
         loadMoreLayout = secondLayout.getLoadMoreLayout();
+        mAdapter = secondLayout.getAdapter();
+        listener.setLoadMoreLayout(loadMoreLayout);
     }
 
     @Override
@@ -94,8 +93,8 @@ public class SecondActivityActivity extends BaseFragmentActivity {
 
     @Override
     protected void initListener() {
-//        EndlessRecyclerOnScrollListener
         secondLayout.getRecycler().addOnScrollListener(listener);
+        swipeRefreshLayout.setOnRefreshListener(this);
     }
 
     @Override
@@ -112,13 +111,15 @@ public class SecondActivityActivity extends BaseFragmentActivity {
                 if (mHasMore) {
                     listener.onRefreshComplete();
                 } else {
-                    loadMoreLayout.showLoadNoMore();
+                    listener.noMore();
                 }
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onError(Request request, Exception e) {
-                loadMoreLayout.showLoadNoMore();
+                swipeRefreshLayout.setRefreshing(false);
+                listener.noMore();
             }
         });
     }
@@ -151,4 +152,11 @@ public class SecondActivityActivity extends BaseFragmentActivity {
         }
     }
 
+    @Override
+    public void onRefresh() {
+        mHasMore = true;
+        mPageIndex = 1;
+        isLoadMore = false;
+        requestData();
+    }
 }

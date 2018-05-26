@@ -95,7 +95,7 @@ public class CountDownLayout extends LinearLayout {
             mCurrentTime++;
         }
         long time = mStartTime - mCurrentTime;
-        Log.e(TAG, "upView333: mMessageTag=" + mMessageTag + " time = " + time);
+//        Logger.d( "upView333: mMessageTag=" + mMessageTag + " time = " + time);
         if (time < 0) {
             //已经开始抢了
             time = mEndTime - mCurrentTime;
@@ -128,9 +128,10 @@ public class CountDownLayout extends LinearLayout {
      * 停止倒计时
      */
     public void stopMessage() {
+        Log.e(TAG, "stopMessage1: 停止" + mMessageTag);
         if (sHandler.hasMessages(mMessageTag)) {
             sHandler.removeMessages(mMessageTag);
-            Logger.d("stopMessage: 停止倒计时");
+            Logger.d("stopMessage11: 停止倒计时");
         }
     }
 

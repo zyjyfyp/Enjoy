@@ -1,6 +1,7 @@
 package com.yunsen.enjoy.activity.buy;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -43,7 +44,7 @@ import okhttp3.Request;
  * Created by Administrator on 2018/5/24.
  */
 
-public class ExchangePointActivity extends BaseFragmentActivity implements MultiItemTypeAdapter.OnItemClickListener {
+public class ExchangePointActivity extends BaseFragmentActivity implements MultiItemTypeAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
     @Bind(R.id.action_back)
     ImageView actionBack;
     @Bind(R.id.action_bar_title)
@@ -52,6 +53,8 @@ public class ExchangePointActivity extends BaseFragmentActivity implements Multi
     ImageView actionBarRight;
     @Bind(R.id.exchange_recycler)
     RecyclerView exchangeRecycler;
+    @Bind(R.id.swipe_refresh_widget)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     AutoLoopViewPager exchangePager;
     CirclePageIndicator exchangeIndicator;
@@ -108,31 +111,25 @@ public class ExchangePointActivity extends BaseFragmentActivity implements Multi
     protected void initListener() {
         mAdapter.setOnItemClickListener(this);
         onScrollListener = new EndlessRecyclerOnScrollListener() {
-            @Override
-            public void onLoadStart() {
-                super.onLoadStart();
-                loadMoreLayout.visibleView();
-                loadMoreLayout.showloadingStart();
-                Log.e(TAG, "onLoadStart: ");
-            }
 
             @Override
             public void onLoadNextPage(View view) {
                 super.onLoadNextPage(view);
                 Log.e(TAG, "onLoadNextPage: ");
-                loadMoreLayout.showLoading();
                 mPageIndex++;
                 isLoadMore = true;
                 requestIntegrallMore();
             }
 
             @Override
-            public void onRefreshComplete() {
-                super.onRefreshComplete();
-                loadMoreLayout.goneView();
+            public void noMore() {
+                super.noMore();
+                ToastUtils.makeTextShort("没有更多商品");
             }
         };
+        onScrollListener.setLoadMoreLayout(loadMoreLayout);
         exchangeRecycler.addOnScrollListener(onScrollListener);
+        swipeRefreshLayout.setOnRefreshListener(this);
     }
 
     @Override
@@ -170,13 +167,15 @@ public class ExchangePointActivity extends BaseFragmentActivity implements Multi
                 if (mHasMore) {
                     onScrollListener.onRefreshComplete();
                 } else {
-                    loadMoreLayout.showLoadNoMore();
+                    onScrollListener.noMore();
                 }
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onError(Request request, Exception e) {
-                loadMoreLayout.showLoadNoMore();
+                swipeRefreshLayout.setRefreshing(false);
+                onScrollListener.noMore();
             }
         });
     }
@@ -207,5 +206,13 @@ public class ExchangePointActivity extends BaseFragmentActivity implements Multi
     @Override
     public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         return false;
+    }
+
+    @Override
+    public void onRefresh() {
+        mPageIndex = 1;
+        mHasMore = true;
+        isLoadMore = false;
+        requestData();
     }
 }

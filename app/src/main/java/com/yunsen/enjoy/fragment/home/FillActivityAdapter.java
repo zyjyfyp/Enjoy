@@ -22,7 +22,6 @@ import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.layout.CountDownLayout;
 import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.StringUtils;
-import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.recyclerview.CommonAdapter;
 import com.yunsen.enjoy.widget.recyclerview.base.ViewHolder;
 
@@ -162,19 +161,6 @@ public class FillActivityAdapter extends CommonAdapter<CarDetails> {
         ((CountDownLayout) holder.getView(R.id.count_down_layout)).stopMessage();
         Log.e(TAG, "onViewDetachedFromWindow: ");
     }
-
-    @Override
-    public void onViewRecycled(ViewHolder holder) {
-        super.onViewRecycled(holder);
-        Log.e(TAG, "onViewRecycled: ");
-    }
-
-    @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView);
-        Log.e(TAG, "onDetachedFromRecyclerView: ");
-    }
-
 
     /**
      * 添加view

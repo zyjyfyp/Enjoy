@@ -45,10 +45,20 @@ public class SearchListAdapter extends CommonAdapter<CarDetails> {
 
 
     public void upData(List<CarDetails> responseData) {
+        mDatas.clear();
         if (responseData != null) {
-            mDatas.clear();
             mDatas.addAll(responseData);
             notifyDataSetChanged();
         }
     }
+
+    public boolean addData(List<CarDetails> datas) {
+        if (datas != null) {
+            mDatas.addAll(datas);
+            this.notifyDataSetChanged();
+            return true;
+        }
+        return false;
+    }
+
 }

@@ -1107,12 +1107,12 @@ public class HttpProxy {
      * @param searchKey
      * @param callBack
      */
-    public static void getSearchList(String searchKey, final HttpCallBack<List<CarDetails>> callBack) {
+    public static void getSearchList(String searchKey, String pageIndex, final HttpCallBack<List<CarDetails>> callBack) {
         HashMap<String, String> map = new HashMap<>();
         map.put("channel_name", "goods");
         map.put("category_id", "0");
         map.put("page_size", "10");
-        map.put("page_index", "1");
+        map.put("page_index", pageIndex);
         map.put("keyword", searchKey);
         map.put("orderby", "id desc");
         HttpClient.get(URLConstants.SEARCH_KEY_WORK_URL, map, new HttpResponseHandler<SearchListResponse>() {
