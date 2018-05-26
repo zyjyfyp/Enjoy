@@ -31,7 +31,10 @@ import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.activity.user.UserLoginWayActivity;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
+import com.yunsen.enjoy.http.HttpCallBack;
+import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.DataBean;
 import com.yunsen.enjoy.model.SpListData;
 import com.yunsen.enjoy.model.UserRegisterllData;
@@ -48,6 +51,8 @@ import org.json.JSONObject;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Request;
 
 /**
  * Created by Administrator on 2018/5/25.
@@ -140,9 +145,10 @@ public class ShopCartActivity extends BaseFragmentActivity implements View.OnCli
 
             @Override
             public void onClick(View arg0) {
-                ToastUtils.makeTextShort("更多推荐商品");
+                UIHelper.showPartsShopActivity(ShopCartActivity.this);
             }
         });
+        mLists = new ArrayList<CarDetails>();
 
 
         //购物车无商品去逛逛
@@ -217,28 +223,6 @@ public class ShopCartActivity extends BaseFragmentActivity implements View.OnCli
 
     public void onDestroy() {
         super.onDestroy();
-
-
-//                if (GouWuCheAGoodsAdaper.type == true) {
-//                    GouWuCheAGoodsAdaper.mAq.clear();
-//                    GouWuCheAGoodsAdaper.type = false;
-//                }
-//                if (MyShopPingCarActivity.type == true) {
-//                    MyShopPingCarActivity.query.clear();
-//                    MyShopPingCarActivity.query.recycle(mListView);
-//                    MyShopPingCarActivity.type = false;
-//                }
-//
-//        if (lists.size() > 0) {
-//            lists.clear();
-//            lists = null;
-//        }
-//
-//        if (result.size() > 0) {
-//            result.clear();
-//            result = null;
-//        }
-
     }
 
 
@@ -413,51 +397,62 @@ public class ShopCartActivity extends BaseFragmentActivity implements View.OnCli
     /**
      * 热销专区
      */
-    private ArrayList<SpListData> lists;
-    SpListData spList;
+    private List<CarDetails> mLists;
 
     private void load_list() {
-        lists = new ArrayList<SpListData>();
-        AsyncHttp.get(URLConstants.REALM_NAME_LL +
-                        "/get_article_top_list?channel_name=goods&top=5&strwhere=status=0%20and%20is_top=1",
-                new AsyncHttpResponseHandler() {
+        mLists.clear();
+        HttpProxy.getGoodsPartsDatas(new HttpCallBack<List<CarDetails>>() {
+            @Override
+            public void onSuccess(List<CarDetails> responseData) {
+                mLists.addAll(responseData);
+                jdhadapter = new GouWuCheAGoodsAdaper(responseData, ShopCartActivity.this);
+                myGridView.setAdapter(jdhadapter);
+                myGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onSuccess(int arg0, String arg1) {
-                        super.onSuccess(arg0, arg1);
-                        try {
-                            JSONObject jsonObject = new JSONObject(arg1);
-                            String status = jsonObject.getString("status");
-                            String info = jsonObject.getString("info");
-                            if (status.equals("y")) {
-                                JSONArray jsonArray = jsonObject.getJSONArray("data");
-                                for (int i = 1; i < jsonArray.length(); i++) {
-                                    spList = new SpListData();
-                                    JSONObject object = jsonArray.getJSONObject(i);
-                                    spList.id = object.getString("id");
-                                    spList.img_url = object.getString("img_url");
-                                    spList.title = object.getString("title");
-                                    spList.market_price = object.getString("market_price");
-                                    spList.sell_price = object.getString("sell_price");
-                                    lists.add(spList);
-                                }
-                                spList = null;
-                            } else {
-                                ToastUtils.makeTextShort(info);
-                            }
-                            jdhadapter = new GouWuCheAGoodsAdaper(lists, ShopCartActivity.this);
-                            myGridView.setAdapter(jdhadapter);
-                            myGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                                    SpListData listData = lists.get(arg2);
-                                    UIHelper.showGoodsDescriptionActivity(ShopCartActivity.this, listData.id, listData.getTitle());
-                                }
-                            });
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                        CarDetails details = mLists.get(arg2);
+                        UIHelper.showGoodsDescriptionActivity(ShopCartActivity.this, String.valueOf(details.getId()), details.getTitle());
                     }
-                }, null);
+                });
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
+
+//        AsyncHttp.get(URLConstants.REALM_NAME_LL +
+//                        "/get_article_top_list?channel_name=goods&top=5&strwhere=status=0%20and%20is_top=1",
+//                new AsyncHttpResponseHandler() {
+//                    @Override
+//                    public void onSuccess(int arg0, String arg1) {
+//                        super.onSuccess(arg0, arg1);
+//                        try {
+//                            JSONObject jsonObject = new JSONObject(arg1);
+//                            String status = jsonObject.getString("status");
+//                            String info = jsonObject.getString("info");
+//                            if (status.equals("y")) {
+//                                JSONArray jsonArray = jsonObject.getJSONArray("data");
+//                                for (int i = 1; i < jsonArray.length(); i++) {
+//                                    spList = new SpListData();
+//                                    JSONObject object = jsonArray.getJSONObject(i);
+//                                    spList.id = object.getString("id");
+//                                    spList.img_url = object.getString("img_url");
+//                                    spList.title = object.getString("title");
+//                                    spList.market_price = object.getString("market_price");
+//                                    spList.sell_price = object.getString("sell_price");
+//                                }
+//                                spList = null;
+//                            } else {
+//                                ToastUtils.makeTextShort(info);
+//                            }
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }, null);
     }
 
 

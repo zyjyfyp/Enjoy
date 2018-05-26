@@ -538,9 +538,15 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent2(UpHomeUiEvent event) {
+    public void onEvent2(final UpHomeUiEvent event) {
+        final UpHomeUiEvent fEvent = event;
         if (event.getEventId() == EventConstants.HOME_UI_UP) {
-            secondActivity.upTimeUi(event.getCurrentTime());
+            secondActivity.post(new Runnable() {
+                @Override
+                public void run() {
+                    secondActivity.upTimeUi(fEvent.getCurrentTime());
+                }
+            });
         }
     }
 

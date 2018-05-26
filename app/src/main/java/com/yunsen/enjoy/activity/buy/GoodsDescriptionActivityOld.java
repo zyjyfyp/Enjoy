@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.activity.mine.CommomConfrim;
-import com.yunsen.enjoy.activity.mine.WareInformationActivity;
 import com.yunsen.enjoy.adapter.CarTopBannerAdapter;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
@@ -48,7 +47,7 @@ import okhttp3.Request;
  * Created by Administrator on 2018/5/12.
  */
 
-public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
+public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements RadioGroup.OnCheckedChangeListener {
 
     @Bind(R.id.goods_top_pager)
     AutoLoopViewPager goodsTopPager;
@@ -115,6 +114,8 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
     LinearLayout pointLayout;
     @Bind(R.id.goods_market_price_tv2)
     TextView goodsMarketPriceTv2;
+    @Bind(R.id.specifications_layout)
+    LinearLayout specificationsLayout;
     private String mGoodId;
     private CarDetails mCarDetail;
 
@@ -168,7 +169,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
 
     @Override
     protected void initListener() {
-
+        goodsRadioGroup.setOnCheckedChangeListener(this);
     }
 
     @Override
@@ -328,5 +329,20 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
         super.onDestroy();
         ButterKnife.unbind(this);
     }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        switch (checkedId) {
+            case R.id.goods_description_rb:
+                specificationsLayout.setVisibility(View.GONE);
+                webview.setVisibility(View.VISIBLE);
+                break;
+            case R.id.goods_size_rb:
+                webview.setVisibility(View.GONE);
+                specificationsLayout.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
 
 }

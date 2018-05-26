@@ -466,7 +466,7 @@
 
                             <View
                                 android:layout_width="1dp"
-                                android:layout_height="match_parent"
+                                android:layout_height="30dp"
                                 android:layout_marginBottom="5dp"
                                 android:layout_marginTop="5dp"
                                 android:background="@color/all_c1c1c1" />
@@ -501,6 +501,41 @@
                             android:id="@+id/webview"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
+
+                        <LinearLayout
+                            android:id="@+id/specifications_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/item_height"
+                                android:background="@color/color_f5f5f5"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="@dimen/app_margin"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical"
+                                    android:text="属性"
+                                    android:textColor="@color/title_color"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="@dimen/app_margin"
+                                    android:layout_weight="1"
+                                    android:gravity="center_vertical"
+                                    android:text="无"
+                                    android:textColor="@color/title_color"
+                                    android:textSize="15sp" />
+                            </LinearLayout>
+                        </LinearLayout>
                     </LinearLayout>
 
 

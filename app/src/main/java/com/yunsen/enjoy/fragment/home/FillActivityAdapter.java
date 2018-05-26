@@ -78,12 +78,13 @@ public class FillActivityAdapter extends CommonAdapter<CarDetails> {
             long endTime = StringUtils.toDate(endString) != null ? StringUtils.toDate(endString).getTime() : 0;
             startTime = startTime / 1000;
             endTime = endTime / 1000;
+//            countDownLayout.setTag(position);
             if (mCurrentTime < startTime) {
                 countDownLayout.setVisibility(View.VISIBLE);
                 noActivityTv.setVisibility(View.GONE);
                 //活动未开始
                 fastTv.setText("即将开抢");
-                countDownLayout.setData(startTime, endTime);
+                countDownLayout.setData(startTime, endTime, false);
                 countDownLayout.startCountDown(position + 100, mCurrentTime);
                 fastTv.setBackground(mContext.getResources().getDrawable(R.drawable.btn_red_no));
                 fastTv.setClickable(false);
@@ -93,7 +94,7 @@ public class FillActivityAdapter extends CommonAdapter<CarDetails> {
                 noActivityTv.setVisibility(View.GONE);
                 fastTv.setText("马上抢购");
                 fastTv.setClickable(true);
-                countDownLayout.setData(startTime, endTime);
+                countDownLayout.setData(startTime, endTime, true);
                 countDownLayout.startCountDown(position + 100, mCurrentTime);
                 fastTv.setBackground(mContext.getResources().getDrawable(R.drawable.btn_red));
             } else {

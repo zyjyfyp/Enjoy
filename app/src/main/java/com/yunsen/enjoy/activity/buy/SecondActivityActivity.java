@@ -140,8 +140,14 @@ public class SecondActivityActivity extends BaseFragmentActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent2(UpHomeUiEvent event) {
+        final UpHomeUiEvent fEvent = event;
         if (event.getEventId() == EventConstants.HOME_UI_UP) {
-            secondLayout.upTimeUi(event.getCurrentTime());
+            secondLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    secondLayout.upTimeUi(fEvent.getCurrentTime());
+                }
+            });
         }
     }
 

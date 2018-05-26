@@ -39,6 +39,7 @@ public class CountDownLayout extends LinearLayout {
 
     private int hasStart = 0;
     private TextView countDownInfo;
+    private boolean mHasStart;
 
     public CountDownLayout(Context context) {
         super(context);
@@ -68,10 +69,10 @@ public class CountDownLayout extends LinearLayout {
 
     private static final String TAG = "CountDownLayout";
 
-    public void setData(long startTime, long endTime) {
+    public void setData(long startTime, long endTime, boolean hasStart) {
         this.mStartTime = startTime;
         this.mEndTime = endTime;
-        Log.e(TAG, "setData: startTime =" + startTime + "  endTime=" + endTime);
+        this.mHasStart = hasStart;
     }
 
     /**
@@ -85,20 +86,23 @@ public class CountDownLayout extends LinearLayout {
         this.mCurrentTime = currentTime;
         if (!sHandler.hasMessages(messageTag)) {
             sHandler.sendEmptyMessageDelayed(messageTag, 1000);
-            upView();
+            upView(true);
         }
     }
 
-    private boolean upView() {
+    private boolean upView(boolean isFirst) {
+        if (!isFirst) {
+            mCurrentTime++;
+        }
         long time = mStartTime - mCurrentTime;
-
+        Log.e(TAG, "upView333: mMessageTag=" + mMessageTag + " time = " + time);
         if (time < 0) {
             //已经开始抢了
             time = mEndTime - mCurrentTime;
             hasStart++;
-            if (hasStart == 1) {
+            countDownInfo.setText("距结束");
+            if (!mHasStart) {
                 //切换到开始
-                countDownInfo.setText("距结束");
                 EventBus.getDefault().post(new UpHomeUiEvent(EventConstants.HOME_UI_UP, mCurrentTime));
             }
             if (time < 0) {
@@ -117,7 +121,6 @@ public class CountDownLayout extends LinearLayout {
         minuteTv.setText(String.format("%02d", minute));
         hourTv.setText(String.format("%02d", hour));
         dayTv.setText(String.format("%02d", day));
-        mCurrentTime++;
         return true;
     }
 
@@ -125,7 +128,6 @@ public class CountDownLayout extends LinearLayout {
      * 停止倒计时
      */
     public void stopMessage() {
-        Log.e(TAG, "stopMessage: " + mMessageTag);
         if (sHandler.hasMessages(mMessageTag)) {
             sHandler.removeMessages(mMessageTag);
             Logger.d("stopMessage: 停止倒计时");
@@ -136,7 +138,7 @@ public class CountDownLayout extends LinearLayout {
     /**
      * todo message 没有销毁
      */
-    private class MyHandler extends Handler {
+    private static class MyHandler extends Handler {
         WeakReference<CountDownLayout> weakReference;
 
         public MyHandler(CountDownLayout layout) {
@@ -147,8 +149,8 @@ public class CountDownLayout extends LinearLayout {
         public void handleMessage(Message msg) {
             CountDownLayout layout = weakReference.get();
             if (layout != null) {
-                if (layout.upView()) {
-                    sHandler.sendEmptyMessageDelayed(layout.mMessageTag, 1000);
+                if (layout.upView(false)) {
+                    layout.sHandler.sendEmptyMessageDelayed(layout.mMessageTag, 1000);
                 } else {
                     EventBus.getDefault().post(new UpHomeUiEvent(EventConstants.HOME_UI_UP, layout.mCurrentTime));
                 }

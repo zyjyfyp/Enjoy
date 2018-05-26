@@ -316,6 +316,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.mine.ShopCartActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.mine.MyOrderConfrimActivity"
