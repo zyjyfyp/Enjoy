@@ -41,7 +41,6 @@ public class FillActivityAdapter extends CommonAdapter<CarDetails> {
 
     public FillActivityAdapter(Context context, int layoutId, List<CarDetails> datas) {
         super(context, layoutId, datas);
-
     }
 
     @Override
@@ -173,5 +172,29 @@ public class FillActivityAdapter extends CommonAdapter<CarDetails> {
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
         Log.e(TAG, "onDetachedFromRecyclerView: ");
+    }
+
+
+    /**
+     * 添加view
+     *
+     * @param datas
+     * @param currentTime
+     * @return 是否还有更多
+     */
+    public boolean addDatas(List<CarDetails> datas, long currentTime) {
+        this.mCurrentTime = currentTime;
+        int start = mDatas.size();
+        int count = 0;
+        boolean flag;
+        if (datas != null) {
+            mDatas.addAll(datas);
+            count = datas.size();
+            flag = true;
+        } else {
+            flag = false;
+        }
+        this.notifyItemRangeInserted(start, count);
+        return flag;
     }
 }

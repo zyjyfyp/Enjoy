@@ -2,7 +2,9 @@ package com.yunsen.enjoy.activity.buy;
 
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -20,7 +22,10 @@ import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
+import com.yunsen.enjoy.ui.recyclerview.EndlessRecyclerOnScrollListener;
+import com.yunsen.enjoy.ui.recyclerview.ExStaggeredGridLayoutManager;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
+import com.yunsen.enjoy.ui.recyclerview.LoadMoreLayout;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.utils.ToastUtils;
@@ -51,10 +56,15 @@ public class ExchangePointActivity extends BaseFragmentActivity implements Multi
     AutoLoopViewPager exchangePager;
     CirclePageIndicator exchangeIndicator;
 
-    private int mPageIndex = 1;
     private ArrayList<CarDetails> mDatas;
     private ExchangePointAdapter mAdapter;
     private View topView;
+    private LoadMoreLayout loadMoreLayout;
+    private EndlessRecyclerOnScrollListener onScrollListener;
+    private int mPageIndex = 1;
+    private boolean isLoadMore = false;
+    private boolean mHasMore = true;
+    private ExStaggeredGridLayoutManager layoutManager;
 
     @Override
     public int getLayout() {
@@ -75,17 +85,54 @@ public class ExchangePointActivity extends BaseFragmentActivity implements Multi
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        exchangeRecycler.setLayoutManager(new GridLayoutManager(this, 2));
+        layoutManager = new ExStaggeredGridLayoutManager(2, OrientationHelper.VERTICAL);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return 2;
+            }
+        });
+        exchangeRecycler.setLayoutManager(layoutManager);
         mDatas = new ArrayList<>();
         mAdapter = new ExchangePointAdapter(this, R.layout.exchange_point_item, mDatas);
         HeaderAndFooterRecyclerViewAdapter headerAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         exchangeRecycler.setAdapter(headerAdapter);
         RecyclerViewUtils.setHeaderView(exchangeRecycler, topView);
+        loadMoreLayout = new LoadMoreLayout(this);
+        RecyclerViewUtils.setFooterView(exchangeRecycler, loadMoreLayout);
     }
+
+    private static final String TAG = "ExchangePointActivity";
 
     @Override
     protected void initListener() {
         mAdapter.setOnItemClickListener(this);
+        onScrollListener = new EndlessRecyclerOnScrollListener() {
+            @Override
+            public void onLoadStart() {
+                super.onLoadStart();
+                loadMoreLayout.visibleView();
+                loadMoreLayout.showloadingStart();
+                Log.e(TAG, "onLoadStart: ");
+            }
+
+            @Override
+            public void onLoadNextPage(View view) {
+                super.onLoadNextPage(view);
+                Log.e(TAG, "onLoadNextPage: ");
+                loadMoreLayout.showLoading();
+                mPageIndex++;
+                isLoadMore = true;
+                requestIntegrallMore();
+            }
+
+            @Override
+            public void onRefreshComplete() {
+                super.onRefreshComplete();
+                loadMoreLayout.goneView();
+            }
+        };
+        exchangeRecycler.addOnScrollListener(onScrollListener);
     }
 
     @Override
@@ -105,18 +152,33 @@ public class ExchangePointActivity extends BaseFragmentActivity implements Multi
             }
         });
 
-        HttpProxy.getIntegrallMoreDatas(mPageIndex, new HttpCallBack<List<CarDetails>>() {
+        requestIntegrallMore();
+    }
+
+    /**
+     * 请求
+     */
+    private void requestIntegrallMore() {
+        HttpProxy.getIntegrallMoreDatas(String.valueOf(mPageIndex), new HttpCallBack<List<CarDetails>>() {
             @Override
             public void onSuccess(List<CarDetails> responseData) {
-                mAdapter.upData(responseData);
+                if (isLoadMore) {
+                    mHasMore = mAdapter.addData(responseData);
+                } else {
+                    mAdapter.upData(responseData);
+                }
+                if (mHasMore) {
+                    onScrollListener.onRefreshComplete();
+                } else {
+                    loadMoreLayout.showLoadNoMore();
+                }
             }
 
             @Override
             public void onError(Request request, Exception e) {
-
+                loadMoreLayout.showLoadNoMore();
             }
         });
-
     }
 
     @OnClick(R.id.action_back)
@@ -127,6 +189,9 @@ public class ExchangePointActivity extends BaseFragmentActivity implements Multi
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (exchangeRecycler != null) {
+            exchangeRecycler.removeOnScrollListener(onScrollListener);
+        }
         ButterKnife.unbind(this);
     }
 

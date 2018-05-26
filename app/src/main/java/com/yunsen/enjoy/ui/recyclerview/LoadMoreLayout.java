@@ -1,9 +1,11 @@
 package com.yunsen.enjoy.ui.recyclerview;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.yunsen.enjoy.R;
@@ -18,6 +20,7 @@ public class LoadMoreLayout extends RelativeLayout {
     private View loadMoreing;
     private View loadMoreStart;
     private View noMoreLayout;
+    private View layoutView;
 
     public LoadMoreLayout(Context context) {
         super(context);
@@ -41,6 +44,7 @@ public class LoadMoreLayout extends RelativeLayout {
         loadMoreing = rootView.findViewById(R.id.load_more_ing_layout);
         loadMoreStart = rootView.findViewById(R.id.load_more_start_layout);
         noMoreLayout = rootView.findViewById(R.id.no_more_layout);
+        layoutView = rootView.findViewById(R.id.layout_relative);
     }
 
     public void showLoading() {
@@ -65,5 +69,13 @@ public class LoadMoreLayout extends RelativeLayout {
         loadMoreing.setVisibility(GONE);
         loadMoreStart.setVisibility(GONE);
         noMoreLayout.setVisibility(GONE);
+    }
+
+    public void goneView() {
+        layoutView.setVisibility(GONE);
+    }
+
+    public void visibleView() {
+        layoutView.setVisibility(VISIBLE);
     }
 }

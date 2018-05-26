@@ -45,4 +45,18 @@ public class GoodsPartsAdapter extends CommonAdapter<CarDetails> {
         }
         this.notifyDataSetChanged();
     }
+
+    /**
+     * @param datas
+     * @return true hasMore
+     */
+    public boolean addData(List<CarDetails> datas) {
+        boolean flag = false;
+        if (datas != null) {
+            mDatas.addAll(datas);
+            flag = true;
+        }
+        this.notifyDataSetChanged();
+        return flag;
+    }
 }

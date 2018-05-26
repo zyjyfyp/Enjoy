@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 
 /**
  * Created by Administrator on 2018/5/23.
+ * 设置RecyclerView 是否可用滑动
  */
 
 public class NoScrollLinearLayoutManager extends LinearLayoutManager {

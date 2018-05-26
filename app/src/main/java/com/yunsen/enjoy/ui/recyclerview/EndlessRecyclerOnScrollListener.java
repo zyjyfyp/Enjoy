@@ -4,6 +4,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -32,6 +33,9 @@ public class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListen
      * 当前滑动的状态
      */
     private int currentScrollState = 0;
+
+
+    private boolean mHasFinish = true;
 
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -70,6 +74,8 @@ public class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListen
         }
     }
 
+    private static final String TAG = "EndlessRecyclerOnScroll";
+
     @Override
     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
@@ -77,9 +83,30 @@ public class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListen
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         int visibleItemCount = layoutManager.getChildCount();
         int totalItemCount = layoutManager.getItemCount();
-        if ((visibleItemCount > 0 && currentScrollState == RecyclerView.SCROLL_STATE_IDLE && (lastVisibleItemPosition) >= totalItemCount - 1)) {
-            onLoadNextPage(recyclerView);
+        if (((lastVisibleItemPosition) >= totalItemCount - 1) && visibleItemCount > 0 || visibleItemCount <= totalItemCount - 1) {
+            switch (newState) {
+                case RecyclerView.SCROLL_STATE_DRAGGING:
+                    Log.e(TAG, "onScrollStateChanged: SCROLL_STATE_DRAGGING");
+                    if (mHasFinish) {
+                        onLoadStart();
+                    }
+                    break;
+                case RecyclerView.SCROLL_STATE_IDLE:
+                    if (mHasFinish && (lastVisibleItemPosition) >= totalItemCount - 1 && visibleItemCount > 0) {
+                        mHasFinish = false;
+                        onLoadNextPage(recyclerView);
+                    }
+                    Log.e(TAG, "onScrollStateChanged: SCROLL_STATE_IDLE");
+                    break;
+                case RecyclerView.SCROLL_STATE_SETTLING:
+                    Log.e(TAG, "onScrollStateChanged: SCROLL_STATE_SETTLING");
+                    break;
+            }
         }
+    }
+
+    public void onLoadStart() {
+
     }
 
     /**
@@ -101,6 +128,10 @@ public class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListen
 
     @Override
     public void onLoadNextPage(final View view) {
+    }
+
+    public void onRefreshComplete() {
+        mHasFinish = true;
     }
 
     public static enum LayoutManagerType {

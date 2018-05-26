@@ -295,7 +295,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                 secondActivity.post(new Runnable() {
                     @Override
                     public void run() {
-                        secondActivity.setData(responseData, Long.parseLong(data));
+                        secondActivity.upData(responseData, Long.parseLong(data));
 //                        secondActivity.setData(responseData, Long.parseLong(data) );
 
                     }

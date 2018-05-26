@@ -125,6 +125,7 @@ public class CountDownLayout extends LinearLayout {
      * 停止倒计时
      */
     public void stopMessage() {
+        Log.e(TAG, "stopMessage: " + mMessageTag);
         if (sHandler.hasMessages(mMessageTag)) {
             sHandler.removeMessages(mMessageTag);
             Logger.d("stopMessage: 停止倒计时");

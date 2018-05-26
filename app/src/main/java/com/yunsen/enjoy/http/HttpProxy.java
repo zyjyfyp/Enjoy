@@ -1266,12 +1266,12 @@ public class HttpProxy {
      *
      * @param callBack
      */
-    public static void getIntegrallMoreDatas(int pageIndex, final HttpCallBack<List<CarDetails>> callBack) {
+    public static void getIntegrallMoreDatas(String pageIndex, final HttpCallBack<List<CarDetails>> callBack) {
         HashMap<String, Object> param = new HashMap<>();
         param.put("channel_name", "point");
         param.put("category_id", "0");
         param.put("page_size", "10");
-        param.put("page_index", "1");
+        param.put("page_index", pageIndex);
         param.put("strwhere", "");
         param.put("orderby", "");
 

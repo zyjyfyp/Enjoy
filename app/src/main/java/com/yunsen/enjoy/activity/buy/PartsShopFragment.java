@@ -16,6 +16,11 @@ import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.ui.recyclerview.EndlessRecyclerOnScrollListener;
+import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
+import com.yunsen.enjoy.ui.recyclerview.LoadMoreLayout;
+import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
+import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
 import java.util.ArrayList;
@@ -29,7 +34,7 @@ import okhttp3.Request;
  * Created by Administrator on 2018/5/24.
  */
 
-public class PartsShopFragment extends BaseFragment implements MultiItemTypeAdapter.OnItemClickListener {
+public class PartsShopFragment extends BaseFragment implements MultiItemTypeAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     @Bind(R.id.goods_parts_recycler)
     RecyclerView goodsPartsRecycler;
@@ -39,6 +44,33 @@ public class PartsShopFragment extends BaseFragment implements MultiItemTypeAdap
     private GoodsPartsAdapter mAdapter;
     private int mFragmentType = 0;
     private int mChannelValue = 0;
+    private HeaderAndFooterRecyclerViewAdapter footerRecyclerViewAdapter;
+    private LoadMoreLayout loadMoreLayout;
+    private int mPageIndex = 1;
+    private boolean mHasMore;
+    private boolean mIsLoadMore = false;
+    private EndlessRecyclerOnScrollListener onScrollListener = new EndlessRecyclerOnScrollListener() {
+        @Override
+        public void onLoadStart() {
+            super.onLoadStart();
+            loadMoreLayout.visibleView();
+            loadMoreLayout.showloadingStart();
+        }
+
+        @Override
+        public void onLoadNextPage(View view) {
+            super.onLoadNextPage(view);
+            mPageIndex++;
+            mIsLoadMore = true;
+            requestData();
+        }
+
+        @Override
+        public void onRefreshComplete() {
+            super.onRefreshComplete();
+            loadMoreLayout.goneView();
+        }
+    };
 
 
     @Override
@@ -52,7 +84,11 @@ public class PartsShopFragment extends BaseFragment implements MultiItemTypeAdap
         goodsPartsRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mDatas = new ArrayList<>();
         mAdapter = new GoodsPartsAdapter(getActivity(), R.layout.goods_parts_item, mDatas);
-        goodsPartsRecycler.setAdapter(mAdapter);
+        footerRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
+        goodsPartsRecycler.setAdapter(footerRecyclerViewAdapter);
+        loadMoreLayout = new LoadMoreLayout(getActivity());
+        RecyclerViewUtils.setFooterView(goodsPartsRecycler, loadMoreLayout);
+
     }
 
     @Override
@@ -61,22 +97,32 @@ public class PartsShopFragment extends BaseFragment implements MultiItemTypeAdap
         if (arguments != null) {
             mFragmentType = arguments.getInt(Constants.FRAGMENT_TYPE_KEY);
             mChannelValue = arguments.getInt(Constants.CHANNEL_KEY);
-
         }
 
     }
 
     @Override
     protected void requestData() {
-        HttpProxy.getGoodsMoreDatas("1", String.valueOf(mFragmentType), new HttpCallBack<List<CarDetails>>() {
+        HttpProxy.getGoodsMoreDatas(String.valueOf(mPageIndex), String.valueOf(mFragmentType), new HttpCallBack<List<CarDetails>>() {
             @Override
             public void onSuccess(List<CarDetails> responseData) {
-                mAdapter.upData(responseData);
+                if (mIsLoadMore) {
+                    mHasMore = mAdapter.addData(responseData);
+                } else {
+                    mAdapter.upData(responseData);
+                }
+                if (mHasMore) {
+                    onScrollListener.onRefreshComplete();
+                } else {
+                    loadMoreLayout.showLoadNoMore();
+                }
+                swipeRefreshWidget.setRefreshing(false);
             }
 
             @Override
             public void onError(Request request, Exception e) {
-
+                loadMoreLayout.showLoadNoMore();
+                swipeRefreshWidget.setRefreshing(false);
             }
         });
     }
@@ -85,6 +131,8 @@ public class PartsShopFragment extends BaseFragment implements MultiItemTypeAdap
     @Override
     protected void initListener() {
         mAdapter.setOnItemClickListener(this);
+        swipeRefreshWidget.setOnRefreshListener(this);
+        goodsPartsRecycler.addOnScrollListener(onScrollListener);
     }
 
     @Override
@@ -98,5 +146,13 @@ public class PartsShopFragment extends BaseFragment implements MultiItemTypeAdap
     @Override
     public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         return false;
+    }
+
+    @Override
+    public void onRefresh() {
+        mPageIndex = 1;
+        mHasMore = true;
+        mIsLoadMore = false;
+        requestData();
     }
 }

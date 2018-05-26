@@ -1,6 +1,7 @@
 package com.yunsen.enjoy.activity.buy;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,6 +15,10 @@ import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.ui.recyclerview.EndlessRecyclerOnScrollListener;
+import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
+import com.yunsen.enjoy.ui.recyclerview.LoadMoreLayout;
+import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
 import java.util.ArrayList;
@@ -28,7 +33,7 @@ import okhttp3.Request;
  * Created by Administrator on 2018/5/25.
  */
 
-public class ServiceMoreActivity extends BaseFragmentActivity implements MultiItemTypeAdapter.OnItemClickListener {
+public class ServiceMoreActivity extends BaseFragmentActivity implements MultiItemTypeAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     @Bind(R.id.action_back)
     ImageView actionBack;
@@ -38,9 +43,38 @@ public class ServiceMoreActivity extends BaseFragmentActivity implements MultiIt
     ImageView actionBarRight;
     @Bind(R.id.service_more_recycler)
     RecyclerView serviceMoreRecycler;
+    @Bind(R.id.swipe_refresh_widget)
+    SwipeRefreshLayout swipeRefreshLayout;
+
     private int mPageIndex = 1;
     private StoreRecyclerAdapter mAdapter;
     private ArrayList<SProviderModel> mData;
+    private boolean mHasMore;
+    private boolean mIsLoadMore;
+    private LoadMoreLayout loadMoreLayout;
+    private EndlessRecyclerOnScrollListener onScrollListener = new EndlessRecyclerOnScrollListener() {
+        @Override
+        public void onLoadStart() {
+            super.onLoadStart();
+            loadMoreLayout.visibleView();
+            loadMoreLayout.showloadingStart();
+        }
+
+        @Override
+        public void onLoadNextPage(View view) {
+            super.onLoadNextPage(view);
+            mIsLoadMore = true;
+            mPageIndex++;
+            loadMoreLayout.showLoading();
+            requestData();
+        }
+
+        @Override
+        public void onRefreshComplete() {
+            super.onRefreshComplete();
+            loadMoreLayout.goneView();
+        }
+    };
 
     @Override
     public int getLayout() {
@@ -58,12 +92,18 @@ public class ServiceMoreActivity extends BaseFragmentActivity implements MultiIt
     protected void initData(Bundle savedInstanceState) {
         mData = new ArrayList<>();
         mAdapter = new StoreRecyclerAdapter(this, R.layout.shop_item, mData);
-        serviceMoreRecycler.setAdapter(mAdapter);
+        HeaderAndFooterRecyclerViewAdapter footerRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
+        serviceMoreRecycler.setAdapter(footerRecyclerViewAdapter);
+        loadMoreLayout = new LoadMoreLayout(this);
+        RecyclerViewUtils.setFooterView(serviceMoreRecycler, loadMoreLayout);
+        loadMoreLayout.goneView();
     }
 
     @Override
     protected void initListener() {
         mAdapter.setOnItemClickListener(this);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        serviceMoreRecycler.addOnScrollListener(onScrollListener);
     }
 
     @Override
@@ -71,12 +111,23 @@ public class ServiceMoreActivity extends BaseFragmentActivity implements MultiIt
         HttpProxy.getServiceMoreProvider(mPageIndex, null, new HttpCallBack<List<SProviderModel>>() {
             @Override
             public void onSuccess(List<SProviderModel> responseData) {
-                mAdapter.upDatas(responseData);
+                if (mIsLoadMore) {
+                    mHasMore = mAdapter.addDatas(responseData);
+                } else {
+                    mAdapter.upDatas(responseData);
+                }
+                if (mHasMore) {
+                    onScrollListener.onRefreshComplete();
+                } else {
+                    loadMoreLayout.showLoadNoMore();
+                }
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onError(Request request, Exception e) {
-
+                loadMoreLayout.showLoadNoMore();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
@@ -100,5 +151,13 @@ public class ServiceMoreActivity extends BaseFragmentActivity implements MultiIt
     @Override
     public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         return false;
+    }
+
+    @Override
+    public void onRefresh() {
+        mPageIndex = 1;
+        mHasMore = true;
+        mIsLoadMore = false;
+        requestData();
     }
 }

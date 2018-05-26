@@ -1,18 +1,23 @@
 package com.yunsen.enjoy.activity.buy;
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
+import com.yunsen.enjoy.fragment.home.FillActivityAdapter;
 import com.yunsen.enjoy.http.HttpCallBack2;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpHomeUiEvent;
 import com.yunsen.enjoy.ui.layout.SecondActivityLayout;
+import com.yunsen.enjoy.ui.recyclerview.EndlessRecyclerOnScrollListener;
+import com.yunsen.enjoy.ui.recyclerview.LoadMoreLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -30,7 +35,7 @@ import okhttp3.Request;
  */
 
 public class SecondActivityActivity extends BaseFragmentActivity {
-
+    private static final String TAG = "SecondActivityActivity";
     @Bind(R.id.action_back)
     ImageView actionBack;
     @Bind(R.id.action_bar_title)
@@ -39,6 +44,35 @@ public class SecondActivityActivity extends BaseFragmentActivity {
     ImageView actionBarRight;
     @Bind(R.id.secondLayout)
     SecondActivityLayout secondLayout;
+    private int mPageIndex = 1;
+    private boolean isLoadMore = false;
+    private boolean mHasMore = true;
+    private LoadMoreLayout loadMoreLayout;
+
+    private EndlessRecyclerOnScrollListener listener = new EndlessRecyclerOnScrollListener() {
+        @Override
+        public void onLoadStart() {
+            super.onLoadStart();
+            loadMoreLayout.visibleView();
+            loadMoreLayout.showloadingStart();
+        }
+
+        @Override
+        public void onLoadNextPage(View view) {
+            Log.e(TAG, "onLoadNextPage: ");
+            loadMoreLayout.showLoading();
+            mPageIndex++;
+            isLoadMore = true;
+            requestData();
+        }
+
+        @Override
+        public void onRefreshComplete() {
+            super.onRefreshComplete();
+            loadMoreLayout.goneView();
+            Log.e(TAG, "onRefreshComplete: ");
+        }
+    };
 
     @Override
     public int getLayout() {
@@ -51,31 +85,40 @@ public class SecondActivityActivity extends BaseFragmentActivity {
         EventBus.getDefault().register(this);
         secondLayout.setTopTitleVisibility(View.GONE);
         actionBarTitle.setText("秒杀活动");
-//        secondLayout.setData();
+        loadMoreLayout = secondLayout.getLoadMoreLayout();
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
     }
 
     @Override
     protected void initListener() {
-
+//        EndlessRecyclerOnScrollListener
+        secondLayout.getRecycler().addOnScrollListener(listener);
     }
 
     @Override
     public void requestData() {
-        HttpProxy.getSecondActivityMoreData(1, new HttpCallBack2<List<CarDetails>>() {
+        HttpProxy.getSecondActivityMoreData(mPageIndex, new HttpCallBack2<List<CarDetails>>() {
             @Override
             public void onSuccess(List<CarDetails> responseData, Object otherData) {
                 String data = (String) otherData;
-                secondLayout.setData(responseData, Long.parseLong(data));
+                if (isLoadMore) {
+                    secondLayout.upData(responseData, Long.parseLong(data));
+                } else {
+                    mHasMore = secondLayout.addData(responseData, Long.parseLong(data));
+                }
+                if (mHasMore) {
+                    listener.onRefreshComplete();
+                } else {
+                    loadMoreLayout.showLoadNoMore();
+                }
             }
 
             @Override
             public void onError(Request request, Exception e) {
-
+                loadMoreLayout.showLoadNoMore();
             }
         });
     }
@@ -88,7 +131,10 @@ public class SecondActivityActivity extends BaseFragmentActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        secondLayout.removeMessage();
+        RecyclerView recycler = secondLayout.getRecycler();
+        if (recycler != null) {
+            recycler.removeOnScrollListener(listener);
+        }
         EventBus.getDefault().unregister(this);
     }
 
