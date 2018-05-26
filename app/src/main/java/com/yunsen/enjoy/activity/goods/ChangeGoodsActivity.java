@@ -275,7 +275,6 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
         public void onLoadNextPage(View view) {
             super.onLoadNextPage(view);
             if (mData.size() > 0) {
-                Log.e(TAG, "onLoadNextPage: 加载更多");
                 if (mHasMore) {
                     mPageIndex++;
                     isLoadMore = true;

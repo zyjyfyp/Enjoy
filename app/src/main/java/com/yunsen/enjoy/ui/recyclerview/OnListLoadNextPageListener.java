@@ -14,4 +14,16 @@ public interface OnListLoadNextPageListener {
      * @param view 当前RecyclerView/ListView/GridView
      */
     void onLoadNextPage(View view);
+
+    /**
+     *准备加载下一页
+     */
+    void onLoadStart();
+
+    /**
+     * 加载完成下一页
+     */
+    void onRefreshComplete();
+
+    void noMore();
 }

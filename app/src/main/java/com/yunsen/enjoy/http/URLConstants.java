@@ -238,6 +238,7 @@ public class URLConstants {
     public static final String BALANCE_BAY_URL = BuildConfig.ROOT_URL + "/api/payment/balance/index.aspx";
 
 
+
     //    public static final String REALM_NAME_WEB = "http://szlxkg.com";
 //    public static final String REALM_NAME_HTTP = "http://szlxkg.com";
 //    public static final String REALM_NAME_LL = "http://szlxkg.com/tools/mobile_ajax.asmx";
