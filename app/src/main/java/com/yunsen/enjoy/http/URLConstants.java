@@ -63,7 +63,7 @@ public class URLConstants {
     /**
      * 消息通知
      */
-    private static String NOTICE_HTML_URL = "http://mobile.szlxkg.com/news/show-15933.html";
+    private static String NOTICE_HTML_URL = "http://mobile.szlxkg.com/doc/show-15933.html";
 
     public static String getNoticeHtmlUrl(String id) {
         return NOTICE_HTML_URL.replace("15933", id);

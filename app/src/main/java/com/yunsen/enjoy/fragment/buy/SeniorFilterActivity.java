@@ -56,6 +56,7 @@ public class SeniorFilterActivity extends BaseFragmentActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
+        actionBarTitle.setText("高级筛选");
         topView = getLayoutInflater().inflate(R.layout.senior_filter_top_layout, null);
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 4);

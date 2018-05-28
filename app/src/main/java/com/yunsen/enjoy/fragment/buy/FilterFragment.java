@@ -109,7 +109,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
 
     @Override
     protected void requestData() {
-        String city = SharedPreference.getInstance().getString(SpConstants.CITY_KEY, "");
+        String city = SharedPreference.getInstance().getString(SpConstants.CITY_KEY, "深圳市");
         HttpProxy.getFilterBuyCarDatas(new HttpCallBack<List<GoodsData>>() {
             @Override
             public void onSuccess(List<GoodsData> responseData) {

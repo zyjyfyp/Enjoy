@@ -31,7 +31,7 @@ public class FilterRecAdapter extends CommonAdapter<GoodsData> {
         holder.setText(R.id.goods_sub_title_2, goodsData.getSubtitle());
         holder.setText(R.id.goods_money, goodsData.getSell_price() + "万元");//sell_price
         holder.setText(R.id.goods_first_money, "首付" + goodsData.getFirst_payment() + "万元");
-        holder.setText(R.id.goods_address, goodsData.getAddress());
+        holder.setText(R.id.goods_address, goodsData.getCity());
         Picasso.with(mContext)
                 .load(goodsData.getImg_url())
                 .placeholder(R.mipmap.car_1)

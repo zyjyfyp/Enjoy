@@ -4,6 +4,7 @@ package com.yunsen.enjoy.http;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.orhanobut.logger.Logger;
@@ -305,14 +306,18 @@ public class HttpProxy {
      */
 
     public static void getFilterBuyCarDatas(final HttpCallBack<List<GoodsData>> callBack, String channel, String strwhere, String orderby, String city) {
+
         HashMap<String, String> param = new HashMap<>();
         param.put("channel_name", channel);
         param.put("category_id", "0");
         param.put("page_size", "8");
         param.put("page_index", "1");
-        param.put("strwhere", strwhere + " and city=\'" + city + "\'");
         param.put("orderby", orderby);
-
+        if (TextUtils.isEmpty(city)) {
+            param.put("strwhere", strwhere);
+        } else {
+            param.put("strwhere", strwhere + " and city=\'" + city + "\'");
+        }
         HttpClient.get(URLConstants.BUY_CAR_URL, param, new HttpResponseHandler<GoogsListResponse>() {
             @Override
             public void onSuccess(GoogsListResponse response) {
