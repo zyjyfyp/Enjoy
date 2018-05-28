@@ -133,6 +133,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     double cashing_packet = 0;
     String kedi_hongbao;
     int mQuantityCount = 0;
+    private boolean mHasPay;
 
 
     @Override
@@ -145,8 +146,8 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     protected void initView() {
         popupWindowMenu = new MyPopupWindowMenu(this);
         progress = new DialogProgress(MyOrderConfrimActivity.this);
-        api = WXAPIFactory.createWXAPI(MyOrderConfrimActivity.this, null);
-        api.registerApp(Constants.APP_ID);
+        api = WXAPIFactory.createWXAPI(MyOrderConfrimActivity.this, Constants.APP_ID, false);
+//        api.registerApp(Constants.APP_ID);
         progress.CreateProgress();
         mSp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         user_name = mSp.getString(SpConstants.USER_NAME, "");
@@ -237,11 +238,13 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
 //            tv_user_phone.setText(user_mobile);
 //        } else {
         //获取地址
-
+        if (mHasPay) {
+            return;
+        }
 
         // 微信支付成功后关闭此界面
         if (flag) {
-            userloginqm();
+//            userloginqm();
             return;
         }
 
@@ -782,6 +785,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     private int RUN_METHOD = -1;
 
     private void load_list(boolean flag) {
+
         mReadyPay.clear();
         RUN_METHOD = 1;
         url = URLConstants.REALM_NAME_LL + "/get_shopping_buy?buy_no=" + mBuyNo + "";
@@ -1033,6 +1037,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                         } else if ("5".equals(type)) {
                             loadweixinzf2(recharge_no, total_amount);
                         } else if ("2".equals(type)) {
+                            mHasPay = true;
                             Intent intent = new Intent(MyOrderConfrimActivity.this, TishiCarArchivesActivity.class);
                             intent.putExtra("order_no", recharge_no);
                             intent.putExtra("yue", "yue");
@@ -1072,26 +1077,23 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                         // Toast.LENGTH_SHORT).show();
                         if (isPaySupported) {
                             try {
+                                // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+                                api.registerApp(Common.WX_APP_ID);
                                 PayReq req = new PayReq();
-                                req.appId = Constants.APP_ID;
-                                req.partnerId = Constants.MCH_ID;
+                                req.appId = Common.WX_APP_ID;
+                                req.partnerId = Common.WX_MCH_ID;
                                 req.prepayId = prepayid;// 7
                                 req.nonceStr = noncestr;// 3
                                 req.timeStamp = timestamp;// -1
                                 req.packageValue = package_;
                                 req.sign = sign;// -3
-
-                                // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-                                api.registerApp(Constants.APP_ID);
-                                // api.sendReq(req);
+                                //3.调用微信支付sdk支付方法
                                 flag = api.sendReq(req);
                                 System.out.println("支付" + flag);
-                                // finish();
-                                // Toast.makeText(MyOrderConfrimActivity.this,
-                                // "支付true", Toast.LENGTH_SHORT).show();
 
                             } catch (Exception e) {
-
+                                Toast.makeText(MyOrderConfrimActivity.this, "支付失败。。。",
+                                        Toast.LENGTH_SHORT).show();
                                 e.printStackTrace();
                             }
                         } else {
@@ -1116,8 +1118,8 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                     if (TextUtils.equals(resultStatus, "9000")) {
                         Toast.makeText(MyOrderConfrimActivity.this, "支付成功",
                                 Toast.LENGTH_SHORT).show();
-                        userloginqm();
-                        //finish();
+//                        userloginqm();
+                        finish();
                     } else {
                         // 判断resultStatus 为非“9000”则代表可能支付失败
                         // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
@@ -1257,6 +1259,8 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                                 prepayid = jsonObject.getString("prepay_id");
                                 noncestr = jsonObject.getString("nonce_str");
                                 timestamp = jsonObject.getString("timestamp");
+                                Common.WX_APP_ID = jsonObject.getString("app_id");
+                                Common.WX_MCH_ID = jsonObject.getString("mch_id");
                                 package_ = "Sign=WXPay";
                                 sign = jsonObject.getString("sign");
                                 progress.CloseProgress();
@@ -1297,7 +1301,8 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                                 String info = object.getString("info");
                                 if (status.equals("y")) {
                                     progress.CloseProgress();
-                                    userloginqm();
+//                                    userloginqm();
+                                    finish();
                                 } else {
                                     progress.CloseProgress();
                                     Toast.makeText(MyOrderConfrimActivity.this, info, Toast.LENGTH_SHORT).show();
@@ -1317,7 +1322,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
 
     private void ali_pay() {
         try {
-            String orderInfo = getOrderInfo("大道易客商品", "商品描述", recharge_no);
+            String orderInfo = getOrderInfo("袋鼠车宝", "商品描述", recharge_no);
             // 对订单做RSA 签名
             String sign = sign(orderInfo);
             try {
@@ -1330,7 +1335,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
             // 完整的符合支付宝参数规范的订单信息
             final String payInfo = orderInfo + "&sign=\"" + sign + "\"&"
                     + getSignType();
-
+            mHasPay = true;
             Runnable payRunnable = new Runnable() {
 
                 @Override

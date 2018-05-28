@@ -21,6 +21,7 @@ import com.yunsen.enjoy.model.event.UpCityEvent;
 import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
+import com.yunsen.enjoy.ui.recyclerview.NoScrollLinearLayoutManager;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.utils.SharedPreference;
 import com.yunsen.enjoy.widget.FilterHorLayout;
@@ -96,8 +97,9 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
             mChannel = bundle.getString(Constants.CHANNEL_KEY, "goods");
         }
 
-        LinearLayoutManager layoutmanager = new LinearLayoutManager(getActivity());
+        NoScrollLinearLayoutManager layoutmanager = new NoScrollLinearLayoutManager(getActivity());
         //设置RecyclerView 布局
+        layoutmanager.setScrollEnabled(false);
         layoutmanager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutmanager);
         mAdapter = new FilterRecAdapter(getActivity(), R.layout.goods_item_2, new ArrayList<GoodsData>());

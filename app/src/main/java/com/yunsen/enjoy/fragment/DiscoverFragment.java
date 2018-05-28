@@ -25,6 +25,7 @@ import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.yunsen.enjoy.ui.recyclerview.NoScrollLinearLayoutManager;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
+import com.yunsen.enjoy.widget.BaseScrollView;
 import com.yunsen.enjoy.widget.LoadMoreView;
 import com.yunsen.enjoy.widget.ZyViewPager;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
@@ -40,7 +41,7 @@ import okhttp3.Request;
  * Created by Administrator on 2018/4/22.
  */
 
-public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener, MultiItemTypeAdapter.OnItemClickListener {
+public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener, MultiItemTypeAdapter.OnItemClickListener, BaseScrollView.OnScrollListener {
 
 
     @Bind(R.id.tab_layout)
@@ -52,7 +53,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     @Bind(R.id.data_pager)
     ZyViewPager dataPager;
     @Bind(R.id.srcoll)
-    ScrollView srcollView;
+    BaseScrollView srcollView;
     private DiscoverBannerAdapter bannerAdapter;
     private ListPagerAdapter mListPagerAdapter;
 
@@ -66,6 +67,10 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     private static final String THREE_ADAPTER = "three_adapter";
     private static final String FOUR_ADAPTER = "four_adapter";
 
+    private static int mScrollHs[] = new int[]{0, 0, 0, 0};
+    private int mCurrentScroll = 0;
+    private int mCurrentPosition = 0;
+    private List<RecyclerView> mRecyclers;
 
     @Override
     protected int getLayoutId() {
@@ -181,6 +186,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         mAdapter2.setOnItemClickListener(this);
         mAdapter3.setOnItemClickListener(this);
         mAdapter4.setOnItemClickListener(this);
+        srcollView.setOnScrollListener(this);
     }
 
 
@@ -266,7 +272,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     }
 
     public List<RecyclerView> getRecyclerView() {
-        ArrayList<RecyclerView> views = new ArrayList<>();
+        mRecyclers = new ArrayList<>();
 
         RecyclerView recyclerView = new RecyclerView(getActivity());
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
@@ -288,7 +294,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter1);
         recyclerView.setAdapter(recyclerViewAdapter);
         RecyclerViewUtils.setFooterView(recyclerView, new LoadMoreView(getActivity()));
-        views.add(recyclerView);
+        mRecyclers.add(recyclerView);
 
 
         RecyclerView recyclerView2 = new RecyclerView(getActivity());
@@ -307,7 +313,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         TextView view1 = new TextView(getActivity());
         view1.setText("aaa");
         RecyclerViewUtils.setFooterView(recyclerView2, new LoadMoreView(getActivity()));
-        views.add(recyclerView2);
+        mRecyclers.add(recyclerView2);
 
 
         RecyclerView recyclerView3 = new RecyclerView(getActivity());
@@ -322,7 +328,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter3 = new HeaderAndFooterRecyclerViewAdapter(mAdapter3);
         recyclerView3.setAdapter(recyclerViewAdapter3);
         RecyclerViewUtils.setFooterView(recyclerView3, new LoadMoreView(getActivity()));
-        views.add(recyclerView3);
+        mRecyclers.add(recyclerView3);
 
 
         RecyclerView recyclerView4 = new RecyclerView(getActivity());
@@ -336,8 +342,8 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter4 = new HeaderAndFooterRecyclerViewAdapter(mAdapter4);
         recyclerView4.setAdapter(recyclerViewAdapter4);
         RecyclerViewUtils.setFooterView(recyclerView4, new LoadMoreView(getActivity()));
-        views.add(recyclerView4);
-        return views;
+        mRecyclers.add(recyclerView4);
+        return mRecyclers;
     }
 
     @Override
@@ -347,6 +353,17 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
 
     @Override
     public void onPageSelected(int position) {
+        final int fPosition = position;
+        srcollView.post(new Runnable() {
+            @Override
+            public void run() {
+                mScrollHs[fPosition] = mRecyclers.get(fPosition).computeVerticalScrollRange();
+                Log.e(TAG, "run:   mScrollHs[fPosition] =" + mScrollHs[fPosition]);
+                int min = Math.min(mScrollHs[fPosition], mScrollHs[mCurrentPosition]);
+                srcollView.scrollTo(0, min);
+                mCurrentPosition = fPosition;
+            }
+        });
 
     }
 
@@ -358,7 +375,6 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         updateTabTextView(tab, true);
-
     }
 
     @Override
@@ -380,12 +396,9 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
             switch ((typeAdapter.getmAdapterTag())) {
                 case ONE_ADAPTER:
                     datas = mAdapter1.getDatas();
-                    Log.e(TAG, "onItemClick: 1");
                     break;
                 case TWO_ADAPTER:
                     datas = mAdapter2.getDatas();
-                    Log.e(TAG, "onItemClick:2");
-
                     break;
                 case THREE_ADAPTER:
                     datas = mAdapter3.getDatas();
@@ -405,5 +418,10 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     @Override
     public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         return false;
+    }
+
+    @Override
+    public void onScrollChanged(int scrollX, int scrollY) {
+        mCurrentScroll = scrollY;
     }
 }

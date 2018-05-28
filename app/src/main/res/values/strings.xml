@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">乐享商城</string>
+    <string name="app_name">袋鼠车宝</string>
 
     <string name="no_network_connection_toast">No network connection found</string>
 

@@ -11,6 +11,8 @@ import android.widget.ScrollView;
 
 public class BaseScrollView extends ScrollView {
 
+    private OnScrollListener mOnScrollListener;
+
     public BaseScrollView(Context context) {
         super(context);
         intiView();
@@ -29,6 +31,7 @@ public class BaseScrollView extends ScrollView {
     private void intiView() {
 
     }
+
     private float mDownPosX = 0;
     private float mDownPosY = 0;
 
@@ -56,5 +59,19 @@ public class BaseScrollView extends ScrollView {
         return super.onInterceptTouchEvent(ev);
     }
 
-    private static final String TAG = "BaseScrollView";
+    @Override
+    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+        super.onScrollChanged(l, t, oldl, oldt);
+        if (mOnScrollListener != null) {
+            mOnScrollListener.onScrollChanged(l, t);
+        }
+    }
+
+    public void setOnScrollListener(OnScrollListener onScrollListener) {
+        this.mOnScrollListener = onScrollListener;
+    }
+
+    public interface OnScrollListener {
+        public void onScrollChanged(int scrollX, int scrollY);
+    }
 }

@@ -93,21 +93,11 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
 
     @Override
     protected void onResume() {
-
         super.onResume();
-
-        System.out.println("flag状态==============" + flag);
         if (flag == true) {
-            // flag = false;
             userloginqm();
-            // finish();
             orderxq = getIntent().getStringExtra("5");
             System.out.println("---------------xq-" + orderxq);
-            // if (orderxq != null) {
-            // if (orderxq.equals("5")) {
-            // MyOrderXqActivity.handler.sendEmptyMessage(1);
-            // }
-            // }
         }
     }
 
@@ -330,6 +320,9 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
                         if (status.equals("y")) {
                             JSONObject obj = object.getJSONObject("data");
                             notify_url = obj.getString("notify_url");
+                            Common.PARTNER = obj.getString("partner");
+                            Common.SELLER = obj.getString("seller");
+                            Common.RSA_PRIVATE = obj.getString("private_key");
                             progress.CloseProgress();
                             handler.sendEmptyMessage(1);
                             // zhuangtai = true;
