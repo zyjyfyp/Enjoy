@@ -330,7 +330,7 @@ public class LoginActivity extends BaseFragmentActivity {
         String pwd = pwdEdt.getText().toString();
         if (TextUtils.isEmpty(name)) {
             ToastUtils.makeTextShort("请输入电话号码");
-        } else if (Validator.isMobile(pwd)) {
+        } else if (Validator.isMobile(name)) {
             ToastUtils.makeTextShort("请输入正确的电话号码");
         } else if (TextUtils.isEmpty(pwd)) {
             ToastUtils.makeTextShort("请输入密码");
