@@ -16,11 +16,10 @@ public class Constants {
     public static final String MCH_ID = "1395825802";
     public static final String APP_SECRET = "e94e0ca414b307f026334dbbc124426c";
 
+
     public static String WX_Code = "";
     public static QQAuth QQauth;
     public static final String APP_QQ_ID = "222222";// 测试时使用，真正发布的时候要换成自己的APP_ID
-
-
 
 
     /**
@@ -79,6 +78,7 @@ public class Constants {
     public static final int ADD_ADDRESS_REQUEST = 0; //添加地址
     public static final int PAY_MONEY_ACT_REQUEST = 11;//支付页面，服务器的支付
     public static final int ADD_ADDRESS_ACT_REQUEST = 12;//支付页面添加地址
+    public static final int PHONE_LOGIN_REQUEST = 14;// 手机登录
 
 
     /*******************************************************************

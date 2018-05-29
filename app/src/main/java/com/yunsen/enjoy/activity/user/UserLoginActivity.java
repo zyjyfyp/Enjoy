@@ -327,7 +327,7 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
                 break;
             case R.id.tv_denglu://手机登录
                 Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, PHONE_LOGIN_REQUEST);
                 break;
             default:
                 break;
@@ -484,6 +484,7 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
                 case PHONE_LOGIN_REQUEST:
                     finish();
                     break;
+
             }
 
         }

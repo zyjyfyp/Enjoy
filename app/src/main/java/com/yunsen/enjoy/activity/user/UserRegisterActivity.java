@@ -210,7 +210,7 @@ public class UserRegisterActivity extends AppCompatActivity implements OnClickLi
         switch (v.getId()) {
             case R.id.regise_tip:
                 Intent intent4 = new Intent(UserRegisterActivity.this, Webview1.class);
-                intent4.putExtra("zhuce_id", "16933");
+                intent4.putExtra("zhuce_id", "1006");
                 startActivity(intent4);
                 break;
             case R.id.get_yz:

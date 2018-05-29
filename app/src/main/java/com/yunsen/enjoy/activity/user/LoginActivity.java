@@ -355,7 +355,9 @@ public class LoginActivity extends BaseFragmentActivity {
                 SpUtils.saveUserInfo(responseData);
                 EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
                 UIHelper.showHomeActivity(LoginActivity.this);
+                setResult(RESULT_OK);
                 finish();
+
             }
 
             @Override
@@ -376,6 +378,7 @@ public class LoginActivity extends BaseFragmentActivity {
             public void onSuccess(AuthorizationModel responseData) {
                 SpUtils.saveUserInfo(responseData, SpConstants.QQ_LOGIN);
                 EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
+                setResult(RESULT_OK);
                 finish();
             }
 
@@ -446,6 +449,8 @@ public class LoginActivity extends BaseFragmentActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                setResult(RESULT_OK);
+
                 finish();
             }
         }, LoginActivity.this);
