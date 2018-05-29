@@ -68,11 +68,8 @@ public class GuideActivity extends AppCompatActivity {
                             act.startActivity(intent);
                             act.finish();
                         } else {
-                            act.i0.setVisibility(View.GONE);
                             Intent intent = new Intent(act, Guide2Activity.class);
-                            Editor editor = act.preferences.edit();
-                            editor.putString("flow", "yes");
-                            editor.commit();
+
                             act.startActivity(intent);
                             act.finish();
                         }

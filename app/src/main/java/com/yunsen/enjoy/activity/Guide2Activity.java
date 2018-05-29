@@ -1,5 +1,6 @@
 package com.yunsen.enjoy.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,198 +17,127 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.widget.ViewPagerAdapter;
 
 import java.util.ArrayList;
 
 
 /**
- *
  * @author weiping
+ * @version V1.0
  * @Package com.zhangshang
  * @Description: 引导页
  * @date 2014-9-25 下午03:26:37
- * @version V1.0
  */
-public class Guide2Activity extends AppCompatActivity implements OnClickListener,
-        OnPageChangeListener {
+public class Guide2Activity extends AppCompatActivity implements OnPageChangeListener {
     LayoutInflater layoutInflater;
     LinearLayout ll_yindaoye1;
     ImageView iv_yindaoye1;
     private Button bv_experience;
-	// 定义ViewPager对象
-	boolean bool = false;
-	private ViewPager viewPager;
+    // 定义ViewPager对象
+    private ViewPager viewPager;
+    // 定义ViewPager适配器
+    private ViewPagerAdapter vpAdapter;
+    // 定义一个ArrayList来存放View
+    private ArrayList<View> views;
 
-	// 定义ViewPager适配器
-	private ViewPagerAdapter vpAdapter;
-
-	// 定义一个ArrayList来存放View
-	private ArrayList<View> views;
-
-	// 引导图片资源
+    // 引导图片资源
     private static final int[] pics = {R.drawable.zams_ydy_1, R.drawable.zams_ydy_2};
 
-	// 底部小点的图片
-	private ImageView[] points;
+    // 记录当前选中位置
+    private int currentIndex;
 
-	// 记录当前选中位置
-	private int currentIndex;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_guide);
+        initView();
+        initData();
+    }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.activity_guide);
-		initView();
-		initData();
-	}
+    /**
+     * 初始化组件
+     */
+    private void initView() {
+        ll_yindaoye1 = (LinearLayout) findViewById(R.id.ll_yindaoye1);
+        iv_yindaoye1 = (ImageView) findViewById(R.id.iv_yindaoye1);
+        bv_experience = (Button) findViewById(R.id.bv_experience);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        views = new ArrayList<View>();
 
-	/**
-	 * 初始化组件
-	 */
-	private void initView() {
-		ll_yindaoye1 = (LinearLayout) findViewById(R.id.ll_yindaoye1);
-		iv_yindaoye1 = (ImageView) findViewById(R.id.iv_yindaoye1);
 
-        // 实例化ArrayList对象
-		views = new ArrayList<View>();
-		bv_experience = (Button) findViewById(R.id.bv_experience);
-		// 实例化ViewPager
-		viewPager = (ViewPager) findViewById(R.id.viewpager);
+    }
 
-		// 实例化ViewPager适配器
-		vpAdapter = new ViewPagerAdapter(views);
-	}
+    /**
+     * 初始化数据
+     */
+    private void initData() {
+        layoutInflater = LayoutInflater.from(this);
+        // 初始化引导图片列表
+        for (int i = 0; i < pics.length; i++) {
+            View view = layoutInflater.inflate(R.layout.item_guide_image, null);
+            ImageView iv = (ImageView) view.findViewById(R.id.iv_image);
+            iv.setImageResource(pics[i]);
+            views.add(view);
+        }
+        vpAdapter = new ViewPagerAdapter(views);
+        // 设置数据
+        viewPager.setAdapter(vpAdapter);
+        // 设置监听
+        viewPager.setOnPageChangeListener(this);
 
-	/**
-	 * 初始化数据
-	 */
-	private void initData() {
-		layoutInflater = LayoutInflater.from(this);
-		// 初始化引导图片列表
-		for (int i = 0; i < pics.length; i++) {
-			View view = layoutInflater.inflate(R.layout.item_guide_image, null);
-			ImageView iv = (ImageView) view.findViewById(R.id.iv_image);
-//			TextView tv = (TextView) view.findViewById(R.id.tv_title);
-//			bv_experience = (Button) view.findViewById(R.id.bv_experience);
-			iv.setImageResource(pics[i]);
-			// tv.setText(text[i]);
-			views.add(view);
-		}
+        bv_experience.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                getClasss();
+            }
+        });
 
-		bv_experience.setOnClickListener(new OnClickListener() {
+    }
 
-			@Override
-			public void onClick(View arg0) {
-				getClasss();
-			}
-		});
-		// 设置数据
-		viewPager.setAdapter(vpAdapter);
-		// 设置监听
-		viewPager.setOnPageChangeListener(this);
+    public void getClasss() {
+        Intent intent = new Intent(Guide2Activity.this, MainActivity.class);
+        startActivity(intent);
+        SharedPreferences preferences = getSharedPreferences(SpConstants.SP_GUIDE, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("flow", "yes");
+        editor.commit();
+        finish();
+    }
 
-		// 初始化底部小点
-		initPoint();
-	}
+    /**
+     * 当滑动状态改变时调用
+     */
+    @Override
+    public void onPageScrollStateChanged(int arg0) {
 
-	public void getClasss() {
-		Intent intent = new Intent(Guide2Activity.this,MainActivity.class);
-		startActivity(intent);
-		finish();
-	}
+    }
 
-	/**
-	 * 初始化底部小点
-	 */
-	private void initPoint() {
-		LinearLayout linearLayout = (LinearLayout) findViewById(R.id.ll);
+    /**
+     * 当当前页面被滑动时调用
+     */
 
-		points = new ImageView[pics.length];
+    @Override
+    public void onPageScrolled(int arg0, float arg1, int arg2) {
 
-		// 循环取得小点图片
-		for (int i = 0; i < pics.length; i++) {
-			// 得到一个LinearLayout下面的每一个子元素
-			points[i] = (ImageView) linearLayout.getChildAt(i);
-			// 默认都设为灰色
-			points[i].setEnabled(true);
-			// 给每个小点设置监听
-			points[i].setOnClickListener(this);
-			// 设置位置tag，方便取出与当前位置对应
-			points[i].setTag(i);
-		}
+    }
 
-		// 设置当面默认的位置
-		currentIndex = 0;
-		// 设置为白色，即选中状态
-		points[currentIndex].setEnabled(false);
-	}
+    /**
+     * 当新的页面被选中时调用
+     */
+    @Override
+    public void onPageSelected(int position) {
+        // 设置底部小点选中状态
+        if (0 == position) {
+            ll_yindaoye1.setVisibility(View.VISIBLE);
+            bv_experience.setVisibility(View.GONE);
+        } else if (1 == position) {
+            ll_yindaoye1.setVisibility(View.GONE);
+            bv_experience.setVisibility(View.VISIBLE);
+        }
+    }
 
-	/**
-	 * 当滑动状态改变时调用
-	 */
-	@Override
-	public void onPageScrollStateChanged(int arg0) {
-
-	}
-
-	/**
-	 * 当当前页面被滑动时调用
-	 */
-
-	@Override
-	public void onPageScrolled(int arg0, float arg1, int arg2) {
-
-	}
-
-	/**
-	 * 当新的页面被选中时调用
-	 */
-	@Override
-	public void onPageSelected(int position) {
-		// 设置底部小点选中状态
-		if (0 == position) {
-			ll_yindaoye1.setVisibility(View.VISIBLE);
-			bv_experience.setVisibility(View.GONE);
-		} else if (1 == position) {
-			ll_yindaoye1.setVisibility(View.GONE);
-			bv_experience.setVisibility(View.VISIBLE);
-		}
-		setCurDot(position);
-	}
-
-	/**
-	 * 通过点击事件来切换当前的页面
-	 */
-	@Override
-	public void onClick(View v) {
-		int position = (Integer) v.getTag();
-		setCurView(position);
-		setCurDot(position);
-	}
-
-	/**
-	 * 设置当前页面的位置
-	 */
-	private void setCurView(int position) {
-		if (position < 0 || position >= pics.length) {
-			return;
-		}
-		viewPager.setCurrentItem(position);
-	}
-
-	/**
-	 * 设置当前的小点的位置
-	 */
-	private void setCurDot(int positon) {
-		if (positon < 0 || positon > pics.length - 1 || currentIndex == positon) {
-			return;
-		}
-		points[positon].setEnabled(false);
-		points[currentIndex].setEnabled(true);
-
-		currentIndex = positon;
-	}
 
 }

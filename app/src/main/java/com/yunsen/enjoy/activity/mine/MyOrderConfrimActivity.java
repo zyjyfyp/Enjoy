@@ -630,18 +630,9 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
         /**
          * 余额支付
          */
-        yu_pay_c2.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
 
-                yu_pay_c0.setChecked(false);
-                yu_pay_c1.setChecked(false);
-                yu_pay_c2.setChecked(true);
-                // 余额支付
-                type = "2";
-            }
-        });
-
+        yu_pay2.setOnClickListener(this);
+        yu_pay_c2.setOnClickListener(this);
         /**
          * 结算方式
          */
@@ -1442,6 +1433,14 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
         switch (v.getId()) {
             case R.id.iv_fanhui:
                 finish();
+                break;
+            case R.id.yu_pay2:
+            case R.id.yu_pay_c2:
+                yu_pay_c0.setChecked(false);
+                yu_pay_c1.setChecked(false);
+                yu_pay_c2.setChecked(true);
+                // 余额支付
+                type = "2";
                 break;
         }
     }
