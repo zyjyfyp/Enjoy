@@ -20,4 +20,7 @@ public class EventConstants {
 
     public static final int UP_CITY = 4;
     public static final int HOME_UI_UP = 5;
+    public static final int UP_FILTER_FRG = 6;
+    public static final int SHOW_HAS_MORE = 7;//是否显示有更多车
+
 }

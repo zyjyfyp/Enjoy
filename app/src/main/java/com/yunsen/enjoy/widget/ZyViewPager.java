@@ -28,6 +28,7 @@ public class ZyViewPager extends ViewPager {
      **/
     private GestureDetector mGestureDetector;
     private ViewGroup parent;
+    private int mPosition = 0;
 
     public ZyViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -70,17 +71,27 @@ public class ZyViewPager extends ViewPager {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
         int height = 0;
-        for (int i = 0; i < getChildCount(); i++) {
-            View child = getChildAt(i);
+//        for (int i = 0; i < getChildCount(); i++) {
+//            View child = getChildAt(i);
+//            child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+//            int h = child.getMeasuredHeight();
+//            if (h > height)
+//                height = h;
+//        }
+        if (mPosition < getChildCount()) {
+            View child = getChildAt(mPosition);
             child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-            int h = child.getMeasuredHeight();
-            if (h > height)
-                height = h;
+            height = child.getMeasuredHeight();
         }
 
         heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    public void upViewPagerIndexHeight(int position) {
+        this.mPosition = position;
+        requestLayout();
     }
 
 }

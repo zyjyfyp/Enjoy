@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:orientation="vertical">
+    android:id="@+id/car_more_layout"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/bottom_more_tv"
@@ -11,5 +12,5 @@
         android:layout_centerInParent="true"
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
-        android:text="更多精彩内容持续关注哦~"/>
+        android:text="更多精彩内容持续关注哦~" />
 </RelativeLayout>

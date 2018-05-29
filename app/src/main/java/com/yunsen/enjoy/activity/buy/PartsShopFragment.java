@@ -114,14 +114,14 @@ public class PartsShopFragment extends BaseFragment implements MultiItemTypeAdap
                 if (mHasMore) {
                     onScrollListener.onRefreshComplete();
                 } else {
-                    loadMoreLayout.showLoadNoMore();
+                    loadMoreLayout.showLoadNoMore(null);
                 }
                 swipeRefreshWidget.setRefreshing(false);
             }
 
             @Override
             public void onError(Request request, Exception e) {
-                loadMoreLayout.showLoadNoMore();
+                loadMoreLayout.showLoadNoMore(null);
                 swipeRefreshWidget.setRefreshing(false);
             }
         });

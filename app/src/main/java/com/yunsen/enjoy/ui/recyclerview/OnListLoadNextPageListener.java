@@ -25,5 +25,5 @@ public interface OnListLoadNextPageListener {
      */
     void onRefreshComplete();
 
-    void noMore();
+    void noMore(String text);
 }

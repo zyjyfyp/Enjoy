@@ -64,8 +64,8 @@ public class SecondActivityActivity extends BaseFragmentActivity implements Swip
         }
 
         @Override
-        public void noMore() {
-            super.noMore();
+        public void noMore(String text) {
+            super.noMore(text);
             ToastUtils.makeTextShort("没有更多商品");
         }
     };
@@ -111,7 +111,7 @@ public class SecondActivityActivity extends BaseFragmentActivity implements Swip
                 if (mHasMore) {
                     listener.onRefreshComplete();
                 } else {
-                    listener.noMore();
+                    listener.noMore(null);
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -119,7 +119,7 @@ public class SecondActivityActivity extends BaseFragmentActivity implements Swip
             @Override
             public void onError(Request request, Exception e) {
                 swipeRefreshLayout.setRefreshing(false);
-                listener.noMore();
+                listener.noMore("");
             }
         });
     }

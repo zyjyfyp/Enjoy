@@ -90,8 +90,8 @@ public class SearchActivity extends BaseFragmentActivity implements SearchView.O
             }
 
             @Override
-            public void noMore() {
-                super.noMore();
+            public void noMore(String text) {
+                super.noMore(text);
                 ToastUtils.makeTextShort("没有更多商品");
             }
         };
@@ -137,7 +137,7 @@ public class SearchActivity extends BaseFragmentActivity implements SearchView.O
                     if (mHasMore) {
                         mOnScrollListener.onRefreshComplete();
                     } else {
-                        mOnScrollListener.noMore();
+                        mOnScrollListener.noMore(null);
                     }
                     noCarTv.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);

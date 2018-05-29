@@ -119,14 +119,14 @@ public class ServiceMoreActivity extends BaseFragmentActivity implements MultiIt
                 if (mHasMore) {
                     onScrollListener.onRefreshComplete();
                 } else {
-                    loadMoreLayout.showLoadNoMore();
+                    loadMoreLayout.showLoadNoMore(null);
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onError(Request request, Exception e) {
-                loadMoreLayout.showLoadNoMore();
+                loadMoreLayout.showLoadNoMore(null);
                 swipeRefreshLayout.setRefreshing(false);
             }
         });

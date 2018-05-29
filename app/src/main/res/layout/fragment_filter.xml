@@ -2,15 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <include layout="@layout/text_horizntal" />
 
-  <com.yunsen.enjoy.widget.FilterHorLayout
-      android:id="@+id/filter_layout"
-      android:layout_width="match_parent"
-      android:visibility="gone"
-      android:layout_height="wrap_content"/>
+    <com.yunsen.enjoy.widget.FilterHorLayout
+        android:id="@+id/filter_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 
 
     <android.support.v7.widget.RecyclerView
@@ -19,6 +20,13 @@
         android:layout_height="match_parent">
 
     </android.support.v7.widget.RecyclerView>
+
+    <com.yunsen.enjoy.widget.NoticeView
+        android:id="@+id/notice_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        app:notice_type="loading"></com.yunsen.enjoy.widget.NoticeView>
 
 
 </LinearLayout>

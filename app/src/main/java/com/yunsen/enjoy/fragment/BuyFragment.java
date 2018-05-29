@@ -7,8 +7,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.yanzhenjie.permission.Permission;
@@ -16,6 +14,7 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
+import com.yunsen.enjoy.common.StaticVar;
 import com.yunsen.enjoy.fragment.buy.FilterFragment;
 import com.yunsen.enjoy.fragment.buy.FilterFragmentAdapter;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
@@ -23,11 +22,12 @@ import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.event.EventConstants;
-import com.yunsen.enjoy.model.event.UpCityEvent;
+import com.yunsen.enjoy.model.event.UpFilterReqEvent;
 import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.utils.SharedPreference;
+import com.yunsen.enjoy.widget.PullToRefreshView;
 import com.yunsen.enjoy.widget.SearchActionBar;
 import com.yunsen.enjoy.widget.ZyViewPager;
 
@@ -43,7 +43,7 @@ import butterknife.ButterKnife;
 import okhttp3.Request;
 
 
-public class BuyFragment extends BaseFragment implements SearchActionBar.SearchClickListener {
+public class BuyFragment extends BaseFragment implements SearchActionBar.SearchClickListener, ViewPager.OnPageChangeListener {
 
     @Bind(R.id.search_bar)
     SearchActionBar searchBar;
@@ -57,11 +57,14 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
     TabLayout buyMainTab;
     @Bind(R.id.buyMainPager)
     ZyViewPager buyMainPager;
+    @Bind(R.id.refresh_view)
+    PullToRefreshView refreshView;
 
     private Activity mContext;
-    private ArrayList<AdvertModel> mAdvDatas;
     private BannerAdapter bannerAdapter;
     private FilterFragmentAdapter mFragmentAdapter;
+    private int mCurrentPosition = 0;
+    private String mChanels[] = new String[]{"goods", "promotion"};
 
 
     @Override
@@ -81,6 +84,19 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
     protected void initView() {
         ButterKnife.bind(this, rootView);
         searchBar.setLeftText("深圳市");
+        refreshView.setOnFooterRefreshListener(new PullToRefreshView.OnFooterRefreshListener() {
+            @Override
+            public void onFooterRefresh(PullToRefreshView view) {
+                refreshView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        EventBus.getDefault().post(new UpFilterReqEvent(EventConstants.UP_FILTER_FRG, mChanels[mCurrentPosition]));
+                    }
+                }, 1000);
+            }
+        });
+        refreshView.setEnablePullLoadMoreDataStatus(false);
+        refreshView.setEnablePullTorefresh(false);
     }
 
     @Override
@@ -118,7 +134,6 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
 
     @Override
     protected void requestData() {
-        Log.e(TAG, "requestData: qeu");
         HttpProxy.getHomeAdvertList(1017, new HttpCallBack<List<AdvertModel>>() {
             @Override
             public void onSuccess(List<AdvertModel> responseData) {
@@ -138,6 +153,7 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
     @Override
     protected void initListener() {
         searchBar.setSearchClick(this);
+        buyMainPager.setOnPageChangeListener(this);
     }
 
     public List<AdvertModel> getData() {
@@ -191,7 +207,17 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
     public void onEvent(UpUiEvent event) {
         if (event.getEventId() == EventConstants.UP_VIEW_PAGER_HEIGHT) {
             //动态改变ViewPager的高度
-            buyMainPager.requestLayout();
+            buyMainPager.upViewPagerIndexHeight(mCurrentPosition);
+            Log.e(TAG, "onEvent: 动态改变ViewPager的高度");
+            if (!event.isMore()) {
+                refreshView.setEnablePullLoadMoreDataStatus(true);
+            }
+            if (StaticVar.sHasMore[mCurrentPosition]) {
+                refreshView.onFooterRefreshComplete();
+            } else {
+                refreshView.setEnablePullLoadMoreDataStatus(false);
+                refreshView.onFooterRefreshComplete();
+            }
         }
     }
 
@@ -200,5 +226,25 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
     public void onDetach() {
         super.onDetach();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        this.mCurrentPosition = position;
+        if (buyMainPager != null) {
+            buyMainPager.upViewPagerIndexHeight(position);
+            refreshView.setEnablePullLoadMoreDataStatus(true);
+            EventBus.getDefault().post(new UpFilterReqEvent(EventConstants.SHOW_HAS_MORE, mChanels[mCurrentPosition]));
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

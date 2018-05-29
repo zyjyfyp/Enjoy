@@ -392,6 +392,7 @@ public class PullToRefreshView extends LinearLayout {
 				if (!enablePullLoadMoreDataStatus) {
 					return false;
 				}
+
 				View lastChild = mAdapterView.getChildAt(mAdapterView
 						.getChildCount() - 1);
 				if (lastChild == null) {
@@ -410,14 +411,22 @@ public class PullToRefreshView extends LinearLayout {
 		}
 		// 对于ScrollView
 		if (mScrollView != null) {
+
 			// 子scroll view滑动到最顶端
 			View child = mScrollView.getChildAt(0);
 			if (deltaY > 0 && mScrollView.getScrollY() == 0) {
+				if (!enablePullTorefresh) {
+					return false;
+				}
 				mPullState = PULL_DOWN_STATE;
 				return true;
 			} else if (deltaY < 0
 					&& child.getMeasuredHeight() <= getHeight()
 							+ mScrollView.getScrollY()) {
+				// 判断是否禁用上拉加载更多操作
+				if (!enablePullLoadMoreDataStatus) {
+					return false;
+				}
 				mPullState = PULL_UP_STATE;
 				return true;
 			}

@@ -305,13 +305,13 @@ public class HttpProxy {
      * 价格最高：sell_price desc
      */
 
-    public static void getFilterBuyCarDatas(final HttpCallBack<List<GoodsData>> callBack, String channel, String strwhere, String orderby, String city) {
+    public static void getFilterBuyCarDatas(String pageIndex, final HttpCallBack<List<GoodsData>> callBack, String channel, String strwhere, String orderby, String city) {
 
         HashMap<String, String> param = new HashMap<>();
         param.put("channel_name", channel);
         param.put("category_id", "0");
         param.put("page_size", "8");
-        param.put("page_index", "1");
+        param.put("page_index", pageIndex);
         param.put("orderby", orderby);
         if (TextUtils.isEmpty(city)) {
             param.put("strwhere", strwhere);

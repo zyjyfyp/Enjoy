@@ -8,16 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.util.Log;
 import android.view.View;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.adapter.DiscoverBannerAdapter;
 import com.yunsen.enjoy.fragment.discover.GoodsAdapter;
-import com.yunsen.enjoy.fragment.home.BannerAdapter;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
-import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
@@ -25,6 +22,7 @@ import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.yunsen.enjoy.ui.recyclerview.NoScrollLinearLayoutManager;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
+import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.widget.BaseScrollView;
 import com.yunsen.enjoy.widget.LoadMoreView;
 import com.yunsen.enjoy.widget.ZyViewPager;
@@ -39,9 +37,11 @@ import okhttp3.Request;
 
 /**
  * Created by Administrator on 2018/4/22.
+ * 发现
  */
 
-public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener, MultiItemTypeAdapter.OnItemClickListener, BaseScrollView.OnScrollListener {
+public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageChangeListener,
+        TabLayout.OnTabSelectedListener, MultiItemTypeAdapter.OnItemClickListener {
 
 
     @Bind(R.id.tab_layout)
@@ -68,9 +68,9 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     private static final String FOUR_ADAPTER = "four_adapter";
 
     private static int mScrollHs[] = new int[]{0, 0, 0, 0};
-    private int mCurrentScroll = 0;
-    private int mCurrentPosition = 0;
     private List<RecyclerView> mRecyclers;
+    private List mDataArray[] = new List[4];
+    private int mScreenHeight;
 
     @Override
     protected int getLayoutId() {
@@ -131,7 +131,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
 //        loopPager.setAdapter(bannerAdapter);
 //        indicator.setViewPager(loopPager);
 //        indicator.setPadding(5, 5, 10, 5);
-
+        mScreenHeight = DeviceUtil.getHeight(getActivity());
         mListPagerAdapter = new ListPagerAdapter(getRecyclerView(), getActivity());
         dataPager.setAdapter(mListPagerAdapter);
         tabLayout.setupWithViewPager(dataPager);
@@ -186,7 +186,6 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         mAdapter2.setOnItemClickListener(this);
         mAdapter3.setOnItemClickListener(this);
         mAdapter4.setOnItemClickListener(this);
-        srcollView.setOnScrollListener(this);
     }
 
 
@@ -283,6 +282,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
 
         recyclerView.setLayoutManager(layoutmanager);
         ArrayList<GoodsData> storeModes = new ArrayList<>();
+        mDataArray[0] = storeModes;
         storeModes.add(new GoodsData(null, "上海大众汽车广东省深圳市宝安区4S店"));
         storeModes.add(new GoodsData(null, "上海大众汽车广东省深圳市宝安区4S店"));
         storeModes.add(new GoodsData(null, "上海大众汽车广东省深圳市宝安区4S店"));
@@ -305,13 +305,13 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         recyclerView2.setLayoutManager(layoutmanager2);
         ArrayList<GoodsData> datas = new ArrayList<>();
         datas.add(new GoodsData(null, "上海大众汽车广东省深圳市宝安区4S店"));
+        mDataArray[1] = datas;
         mAdapter2 = new GoodsAdapter(getActivity(), R.layout.goods_item, datas);
         mAdapter2.setmAdapterTag(TWO_ADAPTER);
 
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter2 = new HeaderAndFooterRecyclerViewAdapter(mAdapter2);
         recyclerView2.setAdapter(recyclerViewAdapter2);
-        TextView view1 = new TextView(getActivity());
-        view1.setText("aaa");
+
         RecyclerViewUtils.setFooterView(recyclerView2, new LoadMoreView(getActivity()));
         mRecyclers.add(recyclerView2);
 
@@ -323,7 +323,9 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         layoutmanager3.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView3.setLayoutManager(layoutmanager3);
 
-        mAdapter3 = new GoodsAdapter(getActivity(), R.layout.goods_item, new ArrayList<GoodsData>());
+        ArrayList<GoodsData> datas3 = new ArrayList<>();
+        mDataArray[2] = datas3;
+        mAdapter3 = new GoodsAdapter(getActivity(), R.layout.goods_item, datas3);
         mAdapter3.setmAdapterTag(THREE_ADAPTER);
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter3 = new HeaderAndFooterRecyclerViewAdapter(mAdapter3);
         recyclerView3.setAdapter(recyclerViewAdapter3);
@@ -337,7 +339,9 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         layoutmanager4.setScrollEnabled(false);
         layoutmanager4.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView4.setLayoutManager(layoutmanager4);
-        mAdapter4 = new GoodsAdapter(getActivity(), R.layout.goods_item, new ArrayList<GoodsData>());
+        ArrayList<GoodsData> datas4 = new ArrayList<>();
+        mDataArray[3] = datas4;
+        mAdapter4 = new GoodsAdapter(getActivity(), R.layout.goods_item, datas4);
         mAdapter4.setmAdapterTag(FOUR_ADAPTER);
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter4 = new HeaderAndFooterRecyclerViewAdapter(mAdapter4);
         recyclerView4.setAdapter(recyclerViewAdapter4);
@@ -357,11 +361,11 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         srcollView.post(new Runnable() {
             @Override
             public void run() {
-                mScrollHs[fPosition] = mRecyclers.get(fPosition).computeVerticalScrollRange();
-                Log.e(TAG, "run:   mScrollHs[fPosition] =" + mScrollHs[fPosition]);
-                int min = Math.min(mScrollHs[fPosition], mScrollHs[mCurrentPosition]);
-                srcollView.scrollTo(0, min);
-                mCurrentPosition = fPosition;
+                mScrollHs[fPosition] = mDataArray[fPosition].size() * getResources().getDimensionPixelSize(R.dimen.dpi_85);
+                if (mScrollHs[fPosition] < mScreenHeight) {
+                    mScrollHs[fPosition] = mScreenHeight;
+                }
+                dataPager.upViewPagerIndexHeight(fPosition);
             }
         });
 
@@ -420,8 +424,5 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         return false;
     }
 
-    @Override
-    public void onScrollChanged(int scrollX, int scrollY) {
-        mCurrentScroll = scrollY;
-    }
+
 }

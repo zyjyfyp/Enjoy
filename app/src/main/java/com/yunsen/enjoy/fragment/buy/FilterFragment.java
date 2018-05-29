@@ -1,7 +1,6 @@
 package com.yunsen.enjoy.fragment.buy;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
+import com.yunsen.enjoy.common.StaticVar;
 import com.yunsen.enjoy.fragment.BaseFragment;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
@@ -18,6 +18,7 @@ import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.event.ActivityResultEvent;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpCityEvent;
+import com.yunsen.enjoy.model.event.UpFilterReqEvent;
 import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
@@ -26,6 +27,7 @@ import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.utils.SharedPreference;
 import com.yunsen.enjoy.widget.FilterHorLayout;
 import com.yunsen.enjoy.widget.MoreCarView;
+import com.yunsen.enjoy.widget.NoticeView;
 import com.yunsen.enjoy.widget.NumberPickerDialog;
 import com.yunsen.enjoy.widget.interfaces.onLeftOnclickListener;
 import com.yunsen.enjoy.widget.interfaces.onRightOnclickListener;
@@ -64,6 +66,8 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
     FilterHorLayout filterLayout;
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
+    @Bind(R.id.notice_view)
+    NoticeView noticeView;
 
     private FilterRecAdapter mAdapter;
     private String mChannel; //新车还是二手车
@@ -74,6 +78,11 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
     private String mCarCity; //搜索框条件：
     private String mStrwhere = "sell_price>=0";
 
+    private int mPageIndex = 1;
+    private boolean mIsLoadMore = false;
+
+    private MoreCarView moreCarView;
+    private int mCurrentPosition = 0;
 
     @Override
 
@@ -96,6 +105,9 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
         if (bundle != null) {
             mChannel = bundle.getString(Constants.CHANNEL_KEY, "goods");
         }
+        if (!"goods".equals(mChannel)) {
+            mCurrentPosition = 1;
+        }
 
         NoScrollLinearLayoutManager layoutmanager = new NoScrollLinearLayoutManager(getActivity());
         //设置RecyclerView 布局
@@ -105,22 +117,45 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
         mAdapter = new FilterRecAdapter(getActivity(), R.layout.goods_item_2, new ArrayList<GoodsData>());
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         recyclerView.setAdapter(recyclerViewAdapter);
-        RecyclerViewUtils.setFooterView(recyclerView, new MoreCarView(getActivity()));
-        EventBus.getDefault().post(new UpUiEvent(EventConstants.UP_VIEW_PAGER_HEIGHT));
+        moreCarView = new MoreCarView(getActivity());
+        RecyclerViewUtils.setFooterView(recyclerView, moreCarView);
+        recyclerView.setVisibility(View.GONE);
+        moreCarView.setVisibility(View.GONE);
+        noticeView.showNoticeType(NoticeView.Type.LOADING);
+//        EventBus.getDefault().post(new UpUiEvent(EventConstants.UP_VIEW_PAGER_HEIGHT));
     }
 
     @Override
     protected void requestData() {
         String city = SharedPreference.getInstance().getString(SpConstants.CITY_KEY, "深圳市");
-        HttpProxy.getFilterBuyCarDatas(new HttpCallBack<List<GoodsData>>() {
+        HttpProxy.getFilterBuyCarDatas(String.valueOf(mPageIndex), new HttpCallBack<List<GoodsData>>() {
             @Override
             public void onSuccess(List<GoodsData> responseData) {
-                mAdapter.upData(responseData);
+
+                if (mIsLoadMore) {
+                    StaticVar.sHasMore[mCurrentPosition] = mAdapter.addData(responseData);
+                } else {
+                    StaticVar.sHasMore[mCurrentPosition] = mAdapter.upData(responseData);
+                }
+                if (!StaticVar.sHasMore[mCurrentPosition]) {
+                    moreCarView.setVisibility(View.VISIBLE);
+                } else {
+                    moreCarView.setVisibility(View.GONE);
+                }
+
+                UpUiEvent event = new UpUiEvent(EventConstants.UP_VIEW_PAGER_HEIGHT, StaticVar.sHasMore[mCurrentPosition]);
+                event.setMore(mIsLoadMore);
+                EventBus.getDefault().post(event);
+                noticeView.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onError(Request request, Exception e) {
-
+                StaticVar.sHasMore[mCurrentPosition] = mAdapter.addData(null);
+                moreCarView.setVisibility(View.VISIBLE);
+                noticeView.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
             }
         }, mChannel, mStrwhere, mOrderby, city);
     }
@@ -160,7 +195,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
         picker.setLeftOnclickListener("取消", new onLeftOnclickListener() {
             @Override
             public void onLeftClick() {
-                if (picker != null && picker.isShowing()) {
+                if (picker.isShowing()) {
                     picker.dismiss();
                 }
             }
@@ -168,9 +203,10 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
         picker.setRightOnclickListener("确定", new onRightOnclickListener() {
             @Override
             public void onRightClick(int[] index) {
-                if (picker != null && picker.isShowing()) {
+                if (picker.isShowing()) {
                     mOrderby = Constants.SHOT_METHED_VALUE.get(Constants.SORT_METHED[index[0]]);
                     textHor1.setText(Constants.SORT_METHED[index[0]]);
+                    initRequestDta();
                     requestData();
                     picker.dismiss();
                 }
@@ -188,7 +224,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
         picker.setLeftOnclickListener("取消", new onLeftOnclickListener() {
             @Override
             public void onLeftClick() {
-                if (picker != null && picker.isShowing()) {
+                if (picker.isShowing()) {
                     picker.dismiss();
                 }
             }
@@ -196,9 +232,10 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
         picker.setRightOnclickListener("确定", new onRightOnclickListener() {
             @Override
             public void onRightClick(int[] index) {
-                if (picker != null && picker.isShowing()) {
+                if (picker.isShowing()) {
                     mStrwhere = Constants.SHOT_PRICES_VALUES.get(Constants.SORT_PRICES[index[0]]);
                     textHor3.setText(Constants.SORT_PRICES[index[0]]);
+                    initRequestDta();
                     requestData();
                     picker.dismiss();
                 }
@@ -230,6 +267,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
         filterLayout.setVisibility(View.GONE);
         mBrands.clear();
         mStrwhere = mPrice;
+        initRequestDta();
         requestData();
     }
 
@@ -245,12 +283,14 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
         if (mBrands.size() == 0) {
             filterLayout.setVisibility(View.GONE);
         }
+        initRequestDta();
         requestData();
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(UpCityEvent event) {
         if (event.getEventId() == EventConstants.UP_CITY) {
+            initRequestDta();
             requestData();
         }
     }
@@ -269,8 +309,30 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
                     }
                     filterLayout.setVisibility(View.VISIBLE);
                 }
+                initRequestDta();
                 requestData();
                 break;
+        }
+    }
+
+    /**
+     * 还原  请求数据
+     */
+    private void initRequestDta() {
+        mPageIndex = 1;
+        mIsLoadMore = false;
+        StaticVar.sHasMore[mCurrentPosition] = true;
+        moreCarView.setVisibility(View.GONE);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLodeMoreEvent(UpFilterReqEvent event) {
+        if (event.getEventId() == EventConstants.UP_FILTER_FRG && mChannel.equals(event.getType())) {
+            mPageIndex++;
+            mIsLoadMore = true;
+            requestData();
+        } else if (event.getEventId() == EventConstants.SHOW_HAS_MORE && mChannel.equals(event.getType())) {
+            moreCarView.setVisibility(View.GONE);
         }
     }
 
@@ -291,6 +353,5 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-
 }
 

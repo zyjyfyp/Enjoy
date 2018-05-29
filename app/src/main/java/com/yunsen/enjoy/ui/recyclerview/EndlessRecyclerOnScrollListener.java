@@ -149,11 +149,12 @@ public class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListen
     }
 
     @Override
-    public void noMore() {
+    public void noMore(String text) {
         if (mLoadMoreLayout != null) {
-            mLoadMoreLayout.showLoadNoMore();
+            mLoadMoreLayout.showLoadNoMore(text);
         }
     }
+
 
     public void setLoadMoreLayout(LoadMoreLayout loadMoreLayout) {
         this.mLoadMoreLayout = loadMoreLayout;

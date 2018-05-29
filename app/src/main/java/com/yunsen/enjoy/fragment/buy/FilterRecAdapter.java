@@ -40,15 +40,40 @@ public class FilterRecAdapter extends CommonAdapter<GoodsData> {
                 .into(((ImageView) holder.getView(R.id.goods_left_img)));
     }
 
-
-    public void upData(List<GoodsData> responseData) {
+    /**
+     * 如果返回的数据多余或等于8条 说明有更多数据
+     *
+     * @param responseData
+     * @return
+     */
+    public boolean upData(List<GoodsData> responseData) {
+        boolean flag = false;
         mDatas.clear();
         if (responseData != null) {
             mDatas.addAll(responseData);
+//            if (responseData.size() >= 4) {
+//                flag = true;
+//            }
         }
         notifyDataSetChanged();
-        EventBus.getDefault().post(new UpUiEvent(EventConstants.UP_VIEW_PAGER_HEIGHT));
+        return true;
     }
+
+    /**
+     * @param datas
+     * @return
+     */
+    public boolean addData(List<GoodsData> datas) {
+        if (datas != null && datas.size() > 0) {
+            mDatas.addAll(datas);
+            this.notifyDataSetChanged();
+//            EventBus.getDefault().post(new UpUiEvent(EventConstants.UP_VIEW_PAGER_HEIGHT,true));
+            return true;
+        }
+//        EventBus.getDefault().post(new UpUiEvent(EventConstants.UP_VIEW_PAGER_HEIGHT,false));
+        return false;
+    }
+
 
     public void removePosition(int position) {
         if (position >= 0 && position < mDatas.size()) {

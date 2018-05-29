@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 
 /**
- * 
+ *
  * @author weiping
  * @Package com.zhangshang
  * @Description: 引导页
@@ -31,11 +31,10 @@ import java.util.ArrayList;
  */
 public class Guide2Activity extends AppCompatActivity implements OnClickListener,
         OnPageChangeListener {
-	LayoutInflater layoutInflater;
-	LinearLayout ll_yindaoye1,ll_yindaoye2,ll_yindaoye3;
-	ImageView iv_yindaoye1,iv_yindaoye2,iv_yindaoye3;
-	TextView tv_wenzi;
-	private Button bv_experience;
+    LayoutInflater layoutInflater;
+    LinearLayout ll_yindaoye1;
+    ImageView iv_yindaoye1;
+    private Button bv_experience;
 	// 定义ViewPager对象
 	boolean bool = false;
 	private ViewPager viewPager;
@@ -47,14 +46,13 @@ public class Guide2Activity extends AppCompatActivity implements OnClickListener
 	private ArrayList<View> views;
 
 	// 引导图片资源
-	private static final int[] pics = { R.drawable.zams_ydy_1, R.drawable.zams_ydy_2, R.drawable.zams_ydy_3, R.drawable.zams_ydy_4};
+    private static final int[] pics = {R.drawable.zams_ydy_1, R.drawable.zams_ydy_2};
 
 	// 底部小点的图片
 	private ImageView[] points;
 
 	// 记录当前选中位置
 	private int currentIndex;
-	public SharedPreferences mSp;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,17 +68,9 @@ public class Guide2Activity extends AppCompatActivity implements OnClickListener
 	 */
 	private void initView() {
 		ll_yindaoye1 = (LinearLayout) findViewById(R.id.ll_yindaoye1);
-		ll_yindaoye2 = (LinearLayout) findViewById(R.id.ll_yindaoye2);
-		ll_yindaoye3 = (LinearLayout) findViewById(R.id.ll_yindaoye3);
 		iv_yindaoye1 = (ImageView) findViewById(R.id.iv_yindaoye1);
-		iv_yindaoye2 = (ImageView) findViewById(R.id.iv_yindaoye2);
-		iv_yindaoye3 = (ImageView) findViewById(R.id.iv_yindaoye3);
-		tv_wenzi = (TextView) findViewById(R.id.tv_wenzi);
-//		iv_yindaoye1.setBackgroundResource(R.drawable.ydy_jd2);
-//		iv_yindaoye2.setBackgroundResource(R.drawable.ydy_jd1);
-//		iv_yindaoye3.setBackgroundResource(R.drawable.ydy_jd1);
-		
-		// 实例化ArrayList对象
+
+        // 实例化ArrayList对象
 		views = new ArrayList<View>();
 		bv_experience = (Button) findViewById(R.id.bv_experience);
 		// 实例化ViewPager
@@ -178,37 +168,10 @@ public class Guide2Activity extends AppCompatActivity implements OnClickListener
 	public void onPageSelected(int position) {
 		// 设置底部小点选中状态
 		if (0 == position) {
-			tv_wenzi.setText("会员行为数字化");
 			ll_yindaoye1.setVisibility(View.VISIBLE);
-			ll_yindaoye2.setVisibility(View.GONE);
-			ll_yindaoye3.setVisibility(View.GONE);
 			bv_experience.setVisibility(View.GONE);
-//			iv_yindaoye1.setBackgroundResource(R.drawable.ydy_jd2);
-//			iv_yindaoye2.setBackgroundResource(R.drawable.ydy_jd1);
-//			iv_yindaoye3.setBackgroundResource(R.drawable.ydy_jd1);
 		} else if (1 == position) {
-			tv_wenzi.setText("数字价值化");
 			ll_yindaoye1.setVisibility(View.GONE);
-			ll_yindaoye2.setVisibility(View.VISIBLE);
-			ll_yindaoye3.setVisibility(View.GONE);
-			bv_experience.setVisibility(View.GONE);
-//			iv_yindaoye1.setBackgroundResource(R.drawable.ydy_jd1);
-//			iv_yindaoye2.setBackgroundResource(R.drawable.ydy_jd2);
-//			iv_yindaoye3.setBackgroundResource(R.drawable.ydy_jd1);
-		} else if (2 == position) {
-			tv_wenzi.setText("价值权益化");
-			ll_yindaoye1.setVisibility(View.GONE);
-			ll_yindaoye2.setVisibility(View.GONE);
-			ll_yindaoye3.setVisibility(View.VISIBLE);
-			bv_experience.setVisibility(View.GONE);
-//			iv_yindaoye1.setBackgroundResource(R.drawable.ydy_jd1);
-//			iv_yindaoye2.setBackgroundResource(R.drawable.ydy_jd1);
-//			iv_yindaoye3.setBackgroundResource(R.drawable.ydy_jd2);
-		} else {
-			tv_wenzi.setText("权益财富化");
-			ll_yindaoye1.setVisibility(View.GONE);
-			ll_yindaoye2.setVisibility(View.GONE);
-			ll_yindaoye3.setVisibility(View.GONE);
 			bv_experience.setVisibility(View.VISIBLE);
 		}
 		setCurDot(position);

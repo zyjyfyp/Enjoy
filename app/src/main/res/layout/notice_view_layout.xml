@@ -13,8 +13,8 @@
 
     <ProgressBar
         android:id="@+id/notice_loading"
-        android:layout_width="@dimen/notice_width"
-        android:layout_height="@dimen/notice_width"
+        android:layout_width="@dimen/notice_progress_width"
+        android:layout_height="@dimen/notice_progress_width"
         android:layout_gravity="center"
         android:visibility="gone" />
 
