@@ -79,7 +79,7 @@
     <!-- 控件灰色 -->
     <color name="ybs">#F7F7F7</color>
     <color name="zams_ys">#999999</color>
-    <color name="all_wenzi">#5b5b5b</color>
+    <color name="all_wenzi">#5f5b5b5b</color>
     <color name="all_939393">#c5c5c5</color>
     <color name="all_c1c1c1">#c5c5c5</color>
     <color name="baihuise">#F5F5F5</color>

@@ -112,7 +112,7 @@ public class ApplyBuyTwoActivity extends BaseFragmentActivity {
                 String phone = phoneInputEdt.getText().toString();
                 if (TextUtils.isEmpty(phone)) {
                     ToastUtils.makeTextShort("请输入电话号码");
-                } else if (Validator.isMobile(phone)) {
+                } else if (!Validator.isMobile(phone)) {
                     ToastUtils.makeTextShort("请输入正确的电话号码");
                 } else {
                     mApplyCarRequest.setMobile(phone);

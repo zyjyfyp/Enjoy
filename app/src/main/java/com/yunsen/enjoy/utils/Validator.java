@@ -80,7 +80,7 @@ public class Validator {
 	 * @return 校验通过返回true，否则返回false
 	 */
 	public static boolean isMobile(String mobile) {
-		return Pattern.matches(REGEX_MOBILE, mobile);
+		return !Pattern.matches(REGEX_MOBILE, mobile);
 	}
 
 	/**

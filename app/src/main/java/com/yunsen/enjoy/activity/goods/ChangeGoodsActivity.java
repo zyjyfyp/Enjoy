@@ -274,16 +274,22 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
         @Override
         public void onLoadNextPage(View view) {
             super.onLoadNextPage(view);
-            if (mData.size() > 0) {
-                if (mHasMore) {
-                    mPageIndex++;
-                    isLoadMore = true;
-                    requestData();
-                    loadMoreLayout.showLoading();
-                } else {
-                    loadMoreLayout.showLoadNoMore();
+            loadMoreLayout.showLoading();
+            loadMoreLayout.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (mData.size() > 0) {
+                        if (mHasMore) {
+                            mPageIndex++;
+                            isLoadMore = true;
+                            requestData();
+                        } else {
+                            loadMoreLayout.showLoadNoMore();
+                        }
+                    }
                 }
-            }
+            },1000);
+
 
         }
     };

@@ -40,6 +40,7 @@ import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
+import com.yunsen.enjoy.http.DataException;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
@@ -330,7 +331,7 @@ public class LoginActivity extends BaseFragmentActivity {
         String pwd = pwdEdt.getText().toString();
         if (TextUtils.isEmpty(name)) {
             ToastUtils.makeTextShort("请输入电话号码");
-        } else if (Validator.isMobile(pwd)) {
+        } else if (!Validator.isMobile(pwd)) {
             ToastUtils.makeTextShort("请输入正确的电话号码");
         } else if (TextUtils.isEmpty(pwd)) {
             ToastUtils.makeTextShort("请输入密码");
@@ -358,7 +359,9 @@ public class LoginActivity extends BaseFragmentActivity {
 
             @Override
             public void onError(Request request, Exception e) {
-                ToastUtils.makeTextShort("登录失败");
+                if (e instanceof DataException) {
+                    ToastUtils.makeTextShort(e.getMessage());
+                }
             }
         });
     }
