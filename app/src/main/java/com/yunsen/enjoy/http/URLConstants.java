@@ -75,9 +75,9 @@ public class URLConstants {
     public static String CAR_DETAILS_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_model?id=";
 
     /**
-     * 预约看车
+     * 预约看车https://szlxkg.com/tools/mobile_ajax.asmx/get_order_page_size_list
      */
-    public static String APPOINTEMENT_MANAGER = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_order_bespeak";
+    public static String APPOINTMENT_MANAGER = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_order_page_size_list";
     /***
      * 用户信息
      */

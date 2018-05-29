@@ -119,6 +119,7 @@ public class GoodsData {
     private int cashing_point;
     private Object activity;
     private List<AlbumsBean> albums;
+    private int article_id;
 
     public GoodsData() {
     }
@@ -222,6 +223,14 @@ public class GoodsData {
 
     public String getTitle() {
         return title;
+    }
+
+    public int getArticle_id() {
+        return article_id;
+    }
+
+    public void setArticle_id(int article_id) {
+        this.article_id = article_id;
     }
 
     public void setTitle(String title) {

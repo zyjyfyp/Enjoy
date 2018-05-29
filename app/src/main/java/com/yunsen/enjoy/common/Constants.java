@@ -113,6 +113,9 @@ public class Constants {
     public static final String APPLY_BUY_CAR_ID = "apply_buy_car_id";
     public static final String APPLY_BUY_CAR_KEY = "apply_buy_car_key";
 
+    public static final String ADDRESS_KEY = "address_key"; //预约看车地址
+    public static final String POST_CODE_KEY = "post_code_key";
+    public static final String INVOICE_TITLE_KEY = "invoice_title_key";
 
     public static final String CHANNEL_NAME_KEY = "changeName";
     public static final String CATEGORY_ID_KEY = "categoryIdKey";

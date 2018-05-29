@@ -80,7 +80,7 @@ public  class SProviderModel {
     private String tel;
     private String regtime;
     private Object nature;
-    private Object post_code;
+    private String post_code;
     private Object email;
     private String mobile;
     private String artperson;
@@ -233,11 +233,11 @@ public  class SProviderModel {
         this.nature = nature;
     }
 
-    public Object getPost_code() {
+    public String getPost_code() {
         return post_code;
     }
 
-    public void setPost_code(Object post_code) {
+    public void setPost_code(String post_code) {
         this.post_code = post_code;
     }
 

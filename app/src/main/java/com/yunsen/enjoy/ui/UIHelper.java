@@ -389,9 +389,16 @@ public class UIHelper {
      * @param ctx
      */
     public static void showWatchCarActivity(Context ctx, String carId) {
-        Intent intent = new Intent(ctx, WatchCarActivity.class);
-        intent.putExtra(Constants.WATCH_CAR_ID, carId);
-        ctx.startActivity(intent);
+        if (!AccountUtils.hasLogin()) {
+            showUserLoginActivity(ctx);
+        } else if (!AccountUtils.hasBoundPhone()) {
+            showBundPhoneActivity(ctx);
+        } else {
+            Intent intent = new Intent(ctx, WatchCarActivity.class);
+            intent.putExtra(Constants.WATCH_CAR_ID, carId);
+            ctx.startActivity(intent);
+        }
+
     }
 
     /**
@@ -400,9 +407,16 @@ public class UIHelper {
      * @param ctx
      */
     public static void showApplyBuyFirstActivity(Context ctx, String carId) {
-        Intent intent = new Intent(ctx, ApplyBuyFirstActivity.class);
-        intent.putExtra(Constants.APPLY_BUY_CAR_ID, carId);
-        ctx.startActivity(intent);
+        if (!AccountUtils.hasLogin()) {
+            showUserLoginActivity(ctx);
+        } else if (!AccountUtils.hasBoundPhone()) {
+            showBundPhoneActivity(ctx);
+        } else {
+            Intent intent = new Intent(ctx, ApplyBuyFirstActivity.class);
+            intent.putExtra(Constants.APPLY_BUY_CAR_ID, carId);
+            ctx.startActivity(intent);
+
+        }
     }
 
     /**
@@ -411,12 +425,19 @@ public class UIHelper {
      * @param ctx
      * @param model
      */
+
     public static void showApplyTwoActivity(Context ctx, ApplyCarModel model) {
-        Intent intent = new Intent(ctx, ApplyBuyTwoActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(Constants.APPLY_BUY_CAR_KEY, model);
-        intent.putExtras(bundle);
-        ctx.startActivity(intent);
+        if (!AccountUtils.hasLogin()) {
+            showUserLoginActivity(ctx);
+        } else if (!AccountUtils.hasBoundPhone()) {
+            showBundPhoneActivity(ctx);
+        } else {
+            Intent intent = new Intent(ctx, ApplyBuyTwoActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(Constants.APPLY_BUY_CAR_KEY, model);
+            intent.putExtras(bundle);
+            ctx.startActivity(intent);
+        }
     }
 
     /**
@@ -426,11 +447,17 @@ public class UIHelper {
      * @param applyCarRequest
      */
     public static void showApplyThreeActivity(Context ctx, Parcelable applyCarRequest) {
-        Intent intent = new Intent(ctx, ApplyBuyThreeActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(Constants.APPLY_BUY_CAR_KEY, applyCarRequest);
-        intent.putExtras(bundle);
-        ctx.startActivity(intent);
+        if (!AccountUtils.hasLogin()) {
+            showUserLoginActivity(ctx);
+        } else if (!AccountUtils.hasBoundPhone()) {
+            showBundPhoneActivity(ctx);
+        } else {
+            Intent intent = new Intent(ctx, ApplyBuyThreeActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(Constants.APPLY_BUY_CAR_KEY, applyCarRequest);
+            intent.putExtras(bundle);
+            ctx.startActivity(intent);
+        }
     }
 
     public static void showPhotoActivity(Activity act, int requestCode) {

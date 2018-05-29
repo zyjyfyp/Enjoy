@@ -113,7 +113,7 @@ public class MyCollectionFragment extends BaseFragment implements MultiItemTypeA
     public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         if (mDatas != null && mDatas.size() > 0 && mDatas.size() > position) {
             GoodsData goodsData = mDatas.get(position);
-            UIHelper.showCarDetailsActivity(getActivity(), Integer.toString(goodsData.getId()));
+            UIHelper.showCarDetailsActivity(getActivity(), Integer.toString(goodsData.getArticle_id()));
         }
     }
 

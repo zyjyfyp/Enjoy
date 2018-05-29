@@ -21,7 +21,7 @@ public class WatchCarModel {
      private String  mobile;//手机,
      private String  email;//电子邮件,
      private String  post_code;//邮编,
-     private String  message;//备注,
+    private String message;//看车时间
      private String  invoice_title;//发票抬头
 
     public void setUser_id(String user_id) {

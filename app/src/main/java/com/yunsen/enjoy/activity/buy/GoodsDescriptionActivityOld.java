@@ -33,6 +33,7 @@ import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.utils.AccountUtils;
+import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -135,6 +136,9 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
         ButterKnife.bind(this);
         goodsMarketPriceTv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); //中划线
         goodsMarketPriceTv2.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
+        goodsRLayout.getLayoutParams().height = DeviceUtil.getWidth(this);
+
+
     }
 
     @Override
@@ -297,7 +301,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
                 }
                 break;
             case R.id.btn_collect:  //收藏
-                HttpProxy.getAddCollect(mUserId, mUserName, "" + mCarDetail.getDefault_spec_item().getGoods_id(), new HttpCallBack<String>() {
+                HttpProxy.getAddCollect(mUserId, mUserName, "" + mCarDetail.getId(), new HttpCallBack<String>() {
                     @Override
                     public void onSuccess(String responseData) {
                         Toast.makeText(GoodsDescriptionActivityOld.this, responseData, Toast.LENGTH_SHORT).show();

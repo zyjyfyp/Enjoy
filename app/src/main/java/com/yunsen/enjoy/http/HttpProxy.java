@@ -24,6 +24,8 @@ import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.GoogsListResponse;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.NoticeResponse;
+import com.yunsen.enjoy.model.OrderDataBean;
+import com.yunsen.enjoy.model.OrderGoodsBean;
 import com.yunsen.enjoy.model.OrderInfo;
 import com.yunsen.enjoy.model.PullImageResult;
 import com.yunsen.enjoy.model.SProviderModel;
@@ -41,6 +43,7 @@ import com.yunsen.enjoy.model.response.AuthorizationResponse;
 import com.yunsen.enjoy.model.response.CarBrandResponese;
 import com.yunsen.enjoy.model.response.CarDetailsResponse;
 import com.yunsen.enjoy.model.response.ClassifyResponse;
+import com.yunsen.enjoy.model.response.OrderResponse;
 import com.yunsen.enjoy.model.response.PullImageResponse;
 import com.yunsen.enjoy.model.response.SearchListResponse;
 import com.yunsen.enjoy.model.response.ServiceProjectListResponse;
@@ -458,16 +461,27 @@ public class HttpProxy {
         });
     }
 
-    public static void getAppointementCarData() {
-        HttpClient.get(URLConstants.APPOINTEMENT_MANAGER, new HashMap<String, String>(), new HttpResponseHandler() {
+    /**
+     * 预约管理
+     */
+    public static void getAppointmentCarData(String pageIndex, String userId, final HttpCallBack<List<OrderDataBean>> callBack) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("user_id", userId);
+        param.put("page_size", "8");
+        param.put("page_index", pageIndex);
+        param.put("strwhere", "status=2 and datatype=11");
+        param.put("orderby", "");
+        HttpClient.get(URLConstants.APPOINTMENT_MANAGER, param, new HttpResponseHandler<OrderResponse>() {
             @Override
-            public void onSuccess(Object response) {
+            public void onSuccess(OrderResponse response) {
                 super.onSuccess(response);
+                callBack.onSuccess(response.getData());
             }
 
             @Override
             public void onFailure(Request request, Exception e) {
                 super.onFailure(request, e);
+                callBack.onError(request, e);
             }
         });
     }

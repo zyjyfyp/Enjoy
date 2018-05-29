@@ -57,7 +57,7 @@ public class WatchCarActivity extends BaseFragmentActivity {
     @Bind(R.id.goods_address)
     TextView goodsAddress;
     @Bind(R.id.watch_address_tv)
-    EditText watchAddressTv;
+    TextView watchAddressTv;
     @Bind(R.id.watch_time_tv)
     TextView watchTimeTv;
     @Bind(R.id.submit_tv)
@@ -86,20 +86,19 @@ public class WatchCarActivity extends BaseFragmentActivity {
         Intent intent = getIntent();
         if (intent != null) {
             mCarId = intent.getStringExtra(Constants.WATCH_CAR_ID);
+
         }
         mUserInfo = SpUtils.getUserInfo();
         mWatchModel = new WatchCarModel();
         mWatchModel.setUser_id("" + mUserInfo.getId());
         mWatchModel.setUser_name(mUserInfo.getUser_name());
         mWatchModel.setAccept_name(mUserInfo.getUser_name());
-        mWatchModel.setProvince("广州省"); //todo 地址
-        mWatchModel.setCity("深圳市");
-        mWatchModel.setArea("南山区");
-        mWatchModel.setAddress("软件园");
+        mWatchModel.setProvince(mUserInfo.getProvince());
+        mWatchModel.setCity(mUserInfo.getCity());
+        mWatchModel.setArea(mUserInfo.getArea());
+
         mWatchModel.setTelphone(mUserInfo.getMobile());
-        mWatchModel.setEmail("1040135865@qq.com");
-        mWatchModel.setMessage("备注");
-        mWatchModel.setPost_code("415700");
+        mWatchModel.setEmail(mUserInfo.getEmail());
         mWatchModel.setInvoice_title("发票抬头");
     }
 
@@ -145,6 +144,7 @@ public class WatchCarActivity extends BaseFragmentActivity {
         mWatchModel.setArticle_id("" + data.getId());
         int goods_id = data.getDefault_spec_item().getGoods_id();
         mWatchModel.setGoods_id("" + goods_id);
+
     }
 
     @OnClick(R.id.action_back)
@@ -157,7 +157,7 @@ public class WatchCarActivity extends BaseFragmentActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.watch_address_tv:
-//                UIHelper.showMeetAddressActivity(WatchCarActivity.this);
+                UIHelper.showMeetAddressActivity(WatchCarActivity.this);
                 break;
             case R.id.watch_time_tv:
                 showDateDialog();
@@ -170,6 +170,8 @@ public class WatchCarActivity extends BaseFragmentActivity {
 
     private void submitWatchCar() {
         String watchCarAddress = watchAddressTv.getText().toString();
+        mWatchModel.setMessage(watchTimeTv.getText().toString());
+        mWatchModel.setAddress(watchCarAddress);
         if (TextUtils.isEmpty(watchCarAddress)) {
             ToastUtils.makeTextShort("请输入看车地点");
         } else {
@@ -177,7 +179,6 @@ public class WatchCarActivity extends BaseFragmentActivity {
 
                 @Override
                 public void onSuccess(WatchCarBean responseData) {
-                    ToastUtils.makeTextShort("预约成功");
                     UIHelper.showAppointmentActivity(WatchCarActivity.this);
                     finish();
                 }
@@ -214,6 +215,20 @@ public class WatchCarActivity extends BaseFragmentActivity {
         }
         if (!pickerView.isShowing()) {
             pickerView.show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == Constants.MEET_ADDRESS_REQUEST) {
+                String address = data.getStringExtra(Constants.ADDRESS_KEY);
+                String postCode = data.getStringExtra(Constants.POST_CODE_KEY);
+                watchAddressTv.setText(address);
+                mWatchModel.setPost_code(postCode);
+                mWatchModel.setMessage(address);
+            }
         }
     }
 
