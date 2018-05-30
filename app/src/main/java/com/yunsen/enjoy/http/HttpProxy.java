@@ -11,6 +11,7 @@ import com.orhanobut.logger.Logger;
 import com.yunsen.enjoy.common.AppContext;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.model.AccountBalanceModel;
+import com.yunsen.enjoy.model.AddressInfo;
 import com.yunsen.enjoy.model.AdvertList;
 import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.AuthorizationModel;
@@ -43,6 +44,7 @@ import com.yunsen.enjoy.model.response.AuthorizationResponse;
 import com.yunsen.enjoy.model.response.CarBrandResponese;
 import com.yunsen.enjoy.model.response.CarDetailsResponse;
 import com.yunsen.enjoy.model.response.ClassifyResponse;
+import com.yunsen.enjoy.model.response.DefaultAddressResponse;
 import com.yunsen.enjoy.model.response.OrderResponse;
 import com.yunsen.enjoy.model.response.PullImageResponse;
 import com.yunsen.enjoy.model.response.SearchListResponse;
@@ -1466,6 +1468,24 @@ public class HttpProxy {
         });
     }
 
+    /**
+     * 获取用户默认地址
+     */
+    public static void getUserDefaultAddress(String userName, final HttpCallBack<AddressInfo> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("user_name", userName);
+        HttpClient.get(URLConstants.DEFAULT_ADDRESS_URL, param, new HttpResponseHandler<DefaultAddressResponse>() {
+            @Override
+            public void onSuccess(DefaultAddressResponse response) {
+                callBack.onSuccess(response.getData());
+            }
 
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
 }
 

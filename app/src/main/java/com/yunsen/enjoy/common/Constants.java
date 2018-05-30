@@ -75,7 +75,7 @@ public class Constants {
      *****************************************************************/
     public static final int PHOTO_ACTIVITY_REQUEST = 10;//照片页面请求码
     public static final int MEET_ADDRESS_REQUEST = 4;
-    public static final int ADD_ADDRESS_REQUEST = 0; //添加地址
+    public static final int ADD_ADDRESS_REQUEST = 0; //添加地址 修改地址
     public static final int PAY_MONEY_ACT_REQUEST = 11;//支付页面，服务器的支付
     public static final int ADD_ADDRESS_ACT_REQUEST = 12;//支付页面添加地址
     public static final int PHONE_LOGIN_REQUEST = 14;// 手机登录
@@ -120,8 +120,12 @@ public class Constants {
     public static final String CHANNEL_NAME_KEY = "changeName";
     public static final String CATEGORY_ID_KEY = "categoryIdKey";
     public static final String ACT_NAME_KEY = "activity_name";
+    /**
+     * 商品详情
+     */
     public static final String GOODS_ID_KEY = "goods_id";
     public static final String ACT_TYPE_KEY = "act_type_key";
+    public static final String REMAINING_TIME = "remaining_time_key";
 
     /***
      * Activity type

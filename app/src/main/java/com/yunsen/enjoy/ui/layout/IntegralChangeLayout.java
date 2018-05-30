@@ -103,29 +103,42 @@ public class IntegralChangeLayout extends LinearLayout implements View.OnClickLi
     @Override
     public void onClick(View view) {
         CarDetails carDetails = null;
+        if (mDatas == null || mDatas.size() == 0) {
+            return;
+        }
         switch (view.getId()) {
             case R.id.more_tv:
                 UIHelper.showExchangePointActivity(mContext);
                 break;
             case R.id.hone_point_img_0:
-                carDetails = mDatas.get(0);
-                UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(carDetails.getId()), carDetails.getTitle(), Constants.POINT_BUY);
+                if (mDatas.size() > 1) {
+                    carDetails = mDatas.get(0);
+                    UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(carDetails.getId()), carDetails.getTitle(), Constants.POINT_BUY);
+                }
                 break;
             case R.id.hone_point_img_1:
-                carDetails = mDatas.get(1);
-                UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(carDetails.getId()), carDetails.getTitle(), Constants.POINT_BUY);
+                if (mDatas.size() > 2) {
+                    carDetails = mDatas.get(1);
+                    UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(carDetails.getId()), carDetails.getTitle(), Constants.POINT_BUY);
+                }
                 break;
             case R.id.hone_point_img_2:
-                carDetails = mDatas.get(2);
-                UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(carDetails.getId()), carDetails.getTitle(), Constants.POINT_BUY);
+                if (mDatas.size() > 3) {
+                    carDetails = mDatas.get(2);
+                    UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(carDetails.getId()), carDetails.getTitle(), Constants.POINT_BUY);
+                }
                 break;
             case R.id.hone_point_img_3:
-                carDetails = mDatas.get(3);
-                UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(carDetails.getId()), carDetails.getTitle(), Constants.POINT_BUY);
+                if (mDatas.size() > 4) {
+                    carDetails = mDatas.get(3);
+                    UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(carDetails.getId()), carDetails.getTitle(), Constants.POINT_BUY);
+                }
                 break;
             case R.id.hone_point_img_4:
-                carDetails = mDatas.get(4);
-                UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(carDetails.getId()), carDetails.getTitle(), Constants.POINT_BUY);
+                if (mDatas.size() > 5) {
+                    carDetails = mDatas.get(4);
+                    UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(carDetails.getId()), carDetails.getTitle(), Constants.POINT_BUY);
+                }
                 break;
         }
     }

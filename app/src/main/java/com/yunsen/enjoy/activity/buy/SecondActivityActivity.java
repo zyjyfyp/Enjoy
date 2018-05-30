@@ -70,6 +70,7 @@ public class SecondActivityActivity extends BaseFragmentActivity implements Swip
         }
     };
     private FillActivityAdapter mAdapter;
+    private boolean mIsRefresh;
 
     @Override
     public int getLayout() {
@@ -104,14 +105,18 @@ public class SecondActivityActivity extends BaseFragmentActivity implements Swip
             public void onSuccess(List<CarDetails> responseData, Object otherData) {
                 String data = (String) otherData;
                 if (isLoadMore) {
-                    secondLayout.upData(responseData, Long.parseLong(data));
-                } else {
                     mHasMore = secondLayout.addData(responseData, Long.parseLong(data));
+                } else {
+                    secondLayout.upData(responseData, Long.parseLong(data));
                 }
                 if (mHasMore) {
                     listener.onRefreshComplete();
                 } else {
                     listener.noMore(null);
+                }
+                if (mIsRefresh) {
+                    mIsRefresh = false;
+                    ToastUtils.makeTextShort("刷新完成");
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -119,7 +124,7 @@ public class SecondActivityActivity extends BaseFragmentActivity implements Swip
             @Override
             public void onError(Request request, Exception e) {
                 swipeRefreshLayout.setRefreshing(false);
-                listener.noMore("");
+                listener.noMore(null);
             }
         });
     }
@@ -157,6 +162,7 @@ public class SecondActivityActivity extends BaseFragmentActivity implements Swip
         mHasMore = true;
         mPageIndex = 1;
         isLoadMore = false;
+        mIsRefresh = true;
         requestData();
     }
 }

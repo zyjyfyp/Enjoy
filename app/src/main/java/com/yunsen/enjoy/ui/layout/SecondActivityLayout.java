@@ -6,6 +6,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.fragment.home.FillActivityAdapter;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.ui.UIHelper;
@@ -20,9 +22,11 @@ import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.yunsen.enjoy.ui.recyclerview.LoadMoreLayout;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.utils.AccountUtils;
+import com.yunsen.enjoy.utils.StringUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.LoadMoreView;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
+import com.yunsen.enjoy.widget.recyclerview.base.ViewHolder;
 
 import java.lang.ref.WeakReference;
 import java.sql.Time;
@@ -125,7 +129,27 @@ public class SecondActivityLayout extends LinearLayout implements MultiItemTypeA
     public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         if (mDatas != null && mDatas.size() > position) {
             CarDetails details = mDatas.get(position);
-            UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(details.getId()), details.getTitle());
+//                if (holder instanceof ViewHolder) {
+//                    CountDownLayout downLayout = (CountDownLayout) ((ViewHolder) holder).getView(R.id.count_down_layout);
+//                }
+            if (adapter instanceof FillActivityAdapter) {
+                String startString = details.getStart_time();
+                String endString = details.getEnd_time();
+                long startTime = StringUtils.toDate(startString) != null ? StringUtils.toDate(startString).getTime() : 0;
+                long endTime = StringUtils.toDate(endString) != null ? StringUtils.toDate(endString).getTime() : 0;
+                startTime = startTime / 1000;
+                endTime = endTime / 1000;
+                long currentTime = ((FillActivityAdapter) adapter).getCurrentTime();
+                if (currentTime < startTime) {
+//                    ToastUtils.makeTextShort("秒杀活动即将开始");
+                    UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(details.getId()), details.getTitle(), Constants.DEFAULT_BUY, -1);
+                } else if (currentTime > endTime) {
+//                    ToastUtils.makeTextShort("秒杀活动已结束");
+                    UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(details.getId()), details.getTitle(), Constants.DEFAULT_BUY, -2);
+                } else {
+                    UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(details.getId()), details.getTitle(), Constants.DEFAULT_BUY, endTime - currentTime);
+                }
+            }
         }
     }
 

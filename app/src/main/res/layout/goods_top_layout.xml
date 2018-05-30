@@ -10,6 +10,7 @@
     android:layout_marginTop="5dp">
 
     <Button
+        android:visibility="gone"
         android:id="@+id/enter_shop"
         android:layout_width="35dp"
         android:layout_height="35dp"

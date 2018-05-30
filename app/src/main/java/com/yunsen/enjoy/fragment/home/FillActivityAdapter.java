@@ -184,4 +184,8 @@ public class FillActivityAdapter extends CommonAdapter<CarDetails> {
         this.notifyItemRangeInserted(start, count);
         return flag;
     }
+
+    public long getCurrentTime() {
+        return mCurrentTime;
+    }
 }

@@ -103,6 +103,8 @@ public class MineFragment extends BaseFragment {
     LinearLayout rechargeLayout;
     @Bind(R.id.apply_service_layout)
     LinearLayout applyServiceLayout;
+    @Bind(R.id.apply_service_tv)
+    TextView applyServiceTv;
     @Bind(R.id.appointment_layout)
     LinearLayout appointmentLayout;
     @Bind(R.id.help_layout)
@@ -185,6 +187,7 @@ public class MineFragment extends BaseFragment {
     protected void initData() {
         mSp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
         mIsFacilitator = mSp.getBoolean(SpConstants.HAS_SERVICE_SHOP, false);
+        upApplyServiceTv(mIsFacilitator);
         if (AccountUtils.hasLogin()) {
             hasLoginLayout.setVisibility(View.VISIBLE);
             loginIcon.setVisibility(View.GONE);
@@ -574,6 +577,7 @@ public class MineFragment extends BaseFragment {
                 SharedPreferences.Editor edit = mSp.edit();
                 edit.putBoolean(SpConstants.HAS_SERVICE_SHOP, isFacilitator);
                 edit.commit();
+                upApplyServiceTv(mIsFacilitator);
             }
 
             @Override
@@ -581,6 +585,19 @@ public class MineFragment extends BaseFragment {
 
             }
         });
+    }
+
+    /**
+     * 是否是服务商
+     *
+     * @param isFacilitator
+     */
+    private void upApplyServiceTv(boolean isFacilitator) {
+        if (isFacilitator) {
+            applyServiceTv.setText("我是服务商");
+        } else {
+            applyServiceTv.setText("申请服务商");
+        }
     }
 
     /**
@@ -720,6 +737,8 @@ public class MineFragment extends BaseFragment {
                 hasLoginLayout.setVisibility(View.GONE);
                 loginIcon.setVisibility(View.VISIBLE);
                 loginTv.setVisibility(View.VISIBLE);
+                mIsFacilitator = false;
+                upApplyServiceTv(false);
                 Log.e(TAG, "onEvent: 注销更新");
                 balanceTv.setText("");
                 freezeTv.setText("");

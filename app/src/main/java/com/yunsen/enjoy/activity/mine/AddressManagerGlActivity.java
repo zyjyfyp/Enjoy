@@ -53,6 +53,7 @@ import java.util.ArrayList;
  */
 public class AddressManagerGlActivity extends AppCompatActivity {
 
+    private static final int UP_MANAGER_ADDRESS = 10;
     private ListView list_address;
     private Button btn_add_address;
     private WareDao wareDao;
@@ -222,7 +223,7 @@ public class AddressManagerGlActivity extends AppCompatActivity {
                                             Bundle bundle = new Bundle();
                                             bundle.putSerializable("bean", bean);
                                             intent.putExtras(bundle);
-                                            startActivity(intent);
+                                            startActivityForResult(intent, Constants.ADD_ADDRESS_REQUEST);
 
                                         }
 

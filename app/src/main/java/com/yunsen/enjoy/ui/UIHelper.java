@@ -614,6 +614,18 @@ public class UIHelper {
      * @param buyType {@link  com.yunsen.enjoy.common.Constants#DEFAULT_BUY} or {@link  com.yunsen.enjoy.common.Constants#POINT_BUY}
      */
     public static void showGoodsDescriptionActivity(Context ctx, String goodsId, String actName, int buyType) {
+        showGoodsDescriptionActivity(ctx, goodsId, actName, buyType, 0);
+    }
+
+    /**
+     * 显示物品购买界面 秒杀
+     *
+     * @param ctx
+     * @param goodsId
+     * @param actName
+     * @param buyType {@link  com.yunsen.enjoy.common.Constants#DEFAULT_BUY} or {@link  com.yunsen.enjoy.common.Constants#POINT_BUY}
+     */
+    public static void showGoodsDescriptionActivity(Context ctx, String goodsId, String actName, int buyType, long remainingTime) {
         if (!AccountUtils.hasLogin()) {
             UIHelper.showUserLoginActivity(ctx);
         } else if (!AccountUtils.hasBoundPhone()) {
@@ -623,6 +635,7 @@ public class UIHelper {
             intent.putExtra(Constants.GOODS_ID_KEY, goodsId);
             intent.putExtra(Constants.ACT_NAME_KEY, actName);
             intent.putExtra(Constants.ACT_TYPE_KEY, buyType);
+            intent.putExtra(Constants.REMAINING_TIME, remainingTime);
             ctx.startActivity(intent);
         }
 

@@ -55,20 +55,12 @@ import java.util.ArrayList;
 
 public class EditUserAddressActivity extends AppCompatActivity {
 
-    private EditText et_username, et_userphone, et_user_dizhi, et_address;
+    private EditText et_username, et_userphone, et_address;
     private Button btn_hold;
     private String name, phone, address;
-    private Spinner sp_sheng, sp_shi, sp_xian;
-    private ArrayList<String> al_sheng, al_shi, al_xian;
-    private String sheng, shi, xian, yth, key;
-    private int sheng_code, shi_code, area_code, index, is_default;
-    private WareDao wareDao;
-    private UserRegisterData registerData;
+    private int is_default;
     private DialogProgress progress;
-    private DBManager dbManager;
-    private CityDao cityDao;
     @SuppressWarnings("rawtypes")
-    private ArrayAdapter aa_sheng, aa_shi, aa_area;
     private String strUrl;
     private MyPopupWindowMenu popupWindowMenu;
     private SharedPreferences spPreferences;
@@ -78,6 +70,9 @@ public class EditUserAddressActivity extends AppCompatActivity {
     private String cityTxt, cityTxt1, cityTxt2, cityTxt3;
     String dizhi = "选择地区";
     SlipButton sb;
+    private int mProvinceIndex = 1;
+    private int mCityIndex = 1;
+    private int mAreaIndex = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,9 +101,6 @@ public class EditUserAddressActivity extends AppCompatActivity {
             String user_address = dt.user_address;
             System.out.println("checkedAddressId==================" + name);
 
-            // et_username = (EditText) findViewById(R.id.et_user_name);
-            // et_userphone = (EditText) findViewById(R.id.et_user_phone);
-            // et_address = (EditText) findViewById(R.id.et_user_address);
             et_username.setText("收货人:" + name);
             et_userphone.setText(user_area + " " + user_address);
             et_userphone.setText(user_mobile);
@@ -119,27 +111,13 @@ public class EditUserAddressActivity extends AppCompatActivity {
         public void dispatchMessage(android.os.Message msg) {
             switch (msg.what) {
                 case 0:
-                    // et_username.setText("");
-                    // et_userphone.setText("");
-                    // et_address.setText("");
                     String strmsg = (String) msg.obj;
                     progress.CloseProgress();
                     Toast.makeText(getApplicationContext(), strmsg, Toast.LENGTH_SHORT).show();
-                    finish();
-                /*
-                 * if (index == 1) { Intent intent = new
-				 * Intent(AddUserAddressActivity.this,
-				 * AddressManagerActivity.class); startActivity(intent); } else
-				 * if (index == 0) { Intent intent = new
-				 * Intent(AddUserAddressActivity.this,
-				 * OrderConfrimActivity.class); startActivity(intent); }
-				 */
+                    setResult(RESULT_OK);
                     finish();
                     break;
                 case 1:
-                    // et_username.setText("");
-                    // et_userphone.setText("");
-                    // et_address.setText("");
                     String no = (String) msg.obj;
                     progress.CloseProgress();
                     Toast.makeText(getApplicationContext(), no, Toast.LENGTH_SHORT).show();
@@ -152,6 +130,7 @@ public class EditUserAddressActivity extends AppCompatActivity {
 
         ;
     };
+    private static final String TAG = "EditUserAddressActivity";
 
     private void innidade() {
         sb = (SlipButton) findViewById(R.id.sli);
@@ -159,18 +138,12 @@ public class EditUserAddressActivity extends AppCompatActivity {
         tv_city = (TextView) findViewById(R.id.tv_city);
         et_username = (EditText) findViewById(R.id.et_user_name);
         et_userphone = (EditText) findViewById(R.id.et_user_phone);
-        // et_user_dizhi = (EditText) findViewById(R.id.et_user_dizhi);
         et_address = (EditText) findViewById(R.id.et_user_address);
-        // sp_sheng = (Spinner) findViewById(R.id.sp_sheng);
-        // sp_shi = (Spinner) findViewById(R.id.sp_shi);
-        // sp_xian = (Spinner) findViewById(R.id.sp_xian);
         btn_hold = (Button) findViewById(R.id.btn_holdr);
 
-        UserAddressData bean = (UserAddressData) getIntent()
-                .getSerializableExtra("bean");
+        UserAddressData bean = (UserAddressData) getIntent().getSerializableExtra("bean");
         et_username.setText(bean.user_accept_name);
         et_userphone.setText(bean.user_mobile);
-        // et_user_dizhi.setText(bean.province);
         tv_city.setText(bean.province + "、" + bean.city + "、" + bean.user_area);
         et_address.setText(bean.user_address);
         user_address_id = bean.id;
@@ -179,25 +152,13 @@ public class EditUserAddressActivity extends AppCompatActivity {
         cityTxt2 = bean.city;
         cityTxt3 = bean.user_area;
 
-        /**
-         * 判断是否使用红包
-         */
         sb.SetOnChangedListener(new SlipButton.OnChangedListener() {
             @Override
             public void OnChanged(boolean isCheck) {
                 System.out.println("isCheck================" + isCheck);
-                if (isCheck == true) {
-                    try {
-
-                    } catch (Exception e) {
-
-                        e.printStackTrace();
-                    }
+                if (isCheck) {
                     is_default = 1;
-                    //	            		hongbao_tety =  isCheck;//选择红包状态下
-                } else if (isCheck == false) {
-                    //						 sb.setCheck(true);
-                    //						hongbao_tety =  isCheck;//不选择红包状态下
+                } else {
                     is_default = 0;
                 }
             }
@@ -271,7 +232,6 @@ public class EditUserAddressActivity extends AppCompatActivity {
                         String id = spPreferences.getString("user_id", "");
                         String user_name = spPreferences.getString(SpConstants.USER_NAME, "");
 
-                        // String pingjiedizhi = sheng + "、" + shi + "、" + xian;
 
                         strUrl = URLConstants.REALM_NAME_LL
                                 + "/edit_user_shopping_address?user_address_id="
@@ -285,18 +245,7 @@ public class EditUserAddressActivity extends AppCompatActivity {
                                 + "&user_telphone="
                                 + "&user_email=&user_post_code=&is_default=" + is_default + "";
 
-                        // strUrl = URLConstants.REALM_NAME_LL
-                        // + "/add_user_shopping_address?user_id="
-                        // + id
-                        // + "&user_name="
-                        // + user_name+
-                        // "&order_no=&sign=&accept_name=&province=&city=&area="
-                        // + pingjiedizhi + "address=" + address
-                        // + "&post_code&mobile=" + phone + "&telphone="
-                        // + "&email=";
-                        System.out.println("11================" + sheng);
-                        System.out.println("11================" + shi);
-                        System.out.println("11================" + xian);
+
                         System.out.println("strUrl================" + strUrl);
                         AsyncHttp.get(strUrl, new AsyncHttpResponseHandler() {
                             public void onSuccess(int arg0, String arg1) {
@@ -328,7 +277,6 @@ public class EditUserAddressActivity extends AppCompatActivity {
                                 }
                             }
 
-                            ;
 
                             public void onFailure(Throwable arg0, String arg1) {
                                 System.out.println("3================" + arg0);
@@ -354,11 +302,19 @@ public class EditUserAddressActivity extends AppCompatActivity {
      * @return
      */
     private View dialogm() {
-        View contentView = LayoutInflater.from(this).inflate(
-                R.layout.wheelcity_cities_layout, null);
-        final WheelView country = (WheelView) contentView
-                .findViewById(R.id.wheelcity_country);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.wheelcity_cities_layout, null);
+        final WheelView country = (WheelView) contentView.findViewById(R.id.wheelcity_country);
         country.setVisibleItems(3);
+        int length = AddressData.PROVINCES.length;
+        for (int i = 0; i < length; i++) {
+            if (cityTxt1.equals(AddressData.PROVINCES[i])) {
+                Log.e(TAG, "dialogm: " + cityTxt1);
+                mProvinceIndex = i;
+                break;
+            }
+        }
+        mCityIndex = getCityIndex(AddressData.CITIES, mProvinceIndex);
+        mAreaIndex = getAreaIndex(AddressData.COUNTIES, cityTxt3, mProvinceIndex, mCityIndex);
         country.setViewAdapter(new CountryAdapter(this));
 
         final String cities[][] = AddressData.CITIES;
@@ -368,8 +324,7 @@ public class EditUserAddressActivity extends AppCompatActivity {
         city.setVisibleItems(0);
 
         // 地区选择
-        final WheelView ccity = (WheelView) contentView
-                .findViewById(R.id.wheelcity_ccity);
+        final WheelView ccity = (WheelView) contentView.findViewById(R.id.wheelcity_ccity);
         ccity.setVisibleItems(0);// 不限城市
 
         country.addChangingListener(new OnWheelChangedListener() {
@@ -415,11 +370,34 @@ public class EditUserAddressActivity extends AppCompatActivity {
                         .getCurrentItem()][ccity.getCurrentItem()];
             }
         });
-
-        country.setCurrentItem(1);// 设置北京
-        city.setCurrentItem(1);
-        ccity.setCurrentItem(1);
+        country.setCurrentItem(mProvinceIndex);
+        city.setCurrentItem(mCityIndex);
+        ccity.setCurrentItem(mAreaIndex);
         return contentView;
+    }
+
+    private int getAreaIndex(String[][][] counties, String cityTxt3, int mProvinceIndex, int mCityIndex) {
+        int currentIndex = 1;
+        int length = counties[mProvinceIndex][mCityIndex].length;
+        for (int i = 0; i < length; i++) {
+            if (cityTxt3.equals(counties[mProvinceIndex][mCityIndex][i])) {
+                currentIndex = i;
+                break;
+            }
+        }
+        return currentIndex;
+    }
+
+    private int getCityIndex(String[][] cities, int provinceIndex) {
+        int currentIndex = 1;
+        int length = cities[provinceIndex].length;
+        for (int i = 0; i < length; i++) {
+            if (cityTxt2.equals(cities[provinceIndex][i])) {
+                currentIndex = i;
+                break;
+            }
+        }
+        return currentIndex;
     }
 
     /**

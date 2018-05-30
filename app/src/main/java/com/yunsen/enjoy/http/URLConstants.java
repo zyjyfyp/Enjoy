@@ -228,6 +228,10 @@ public class URLConstants {
      * 商品加入购物单
      */
     public static final String ADD_SHOPPING_BUY = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_shopping_buy ";
+    /**
+     * 获取用户默认地址
+     */
+    public static final String DEFAULT_ADDRESS_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_shopping_address_default";
 
     //
     //    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";
