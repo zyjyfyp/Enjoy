@@ -65,7 +65,6 @@ public class GuideActivity extends AppCompatActivity {
                         if (act.preferences.getString("flow", "").equals("yes")) {
                             act.getgaoguan();
                         } else {
-                            act.i0.setVisibility(View.GONE);
                             Intent intent = new Intent(act, Guide2Activity.class);
                             Editor editor = act.preferences.edit();
                             editor.putString("flow", "yes");
