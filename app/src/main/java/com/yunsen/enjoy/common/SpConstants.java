@@ -76,6 +76,7 @@ public class SpConstants {
     public static final String AREA = "area";
     public static final String ADDRESS = "address";
     public static final String EMAIL = "email";
+    public static final String PWD = "pwd"; //密码
 
     /**
      * qq登录的信息

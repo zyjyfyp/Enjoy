@@ -126,6 +126,10 @@ public class Constants {
     public static final String GOODS_ID_KEY = "goods_id";
     public static final String ACT_TYPE_KEY = "act_type_key";
     public static final String REMAINING_TIME = "remaining_time_key";
+    /**
+     * 提现
+     */
+    public static final String BALANCE = "balance";
 
     /***
      * Activity type

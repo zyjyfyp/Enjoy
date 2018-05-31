@@ -579,8 +579,9 @@ public class UIHelper {
      *
      * @param ctx
      */
-    public static void showWithdrawCashActivity(Context ctx) {
+    public static void showWithdrawCashActivity(Context ctx, double balance) {
         Intent intent = new Intent(ctx, WithdrawCashActivity.class);
+        intent.putExtra(Constants.BALANCE, balance);
         ctx.startActivity(intent);
     }
 

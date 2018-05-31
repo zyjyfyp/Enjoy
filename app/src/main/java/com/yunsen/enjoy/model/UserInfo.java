@@ -1,5 +1,6 @@
 package com.yunsen.enjoy.model;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -446,6 +447,11 @@ public class UserInfo {
 
     public double getAmount() {
         return amount;
+    }
+
+    public String getAmountStr() {
+        DecimalFormat df = new DecimalFormat("#0.00");
+        return df.format(amount);
     }
 
     public void setAmount(double amount) {

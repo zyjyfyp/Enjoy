@@ -232,6 +232,22 @@ public class URLConstants {
      * 获取用户默认地址
      */
     public static final String DEFAULT_ADDRESS_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_shopping_address_default";
+    /**
+     * 绑定银行卡
+     * https://szlxkg.com/tools/mobile_ajax.asmx/add_user_bank
+     */
+    public static final String BIND_BANK_CARD_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_user_bank";
+    /**
+     * 获取绑定银行卡的列表
+     * https://szlxkg.com/tools/mobile_ajax.asmx/get_user_bank
+     */
+    public static final String GET_BIND_BACK_LIST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_bank";
+    /**
+     * 申请提现
+     * https://szlxkg.com/tools/mobile_ajax.asmx/user_apply_withdraw
+     */
+    public static final String APPLY_WALLET_CASH_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_apply_withdraw";
+
 
     //
     //    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";
