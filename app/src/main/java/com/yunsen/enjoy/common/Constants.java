@@ -88,6 +88,7 @@ public class Constants {
     public static final int CAMERA = 2;
     public static final int WRITE_EXTERNAL_STORAGE = 3;//存储权限
     public static final int READ_PHONE_STATE = 4;
+    public static final int ORDER_ACT_REQUEST = 5; //跳转订单页面
 
     /*******************************************************************
      *                            intent key                          *

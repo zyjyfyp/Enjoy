@@ -115,7 +115,6 @@ public class ExchangePointActivity extends BaseFragmentActivity implements Multi
             @Override
             public void onLoadNextPage(View view) {
                 super.onLoadNextPage(view);
-                Log.e(TAG, "onLoadNextPage: ");
                 mPageIndex++;
                 isLoadMore = true;
                 requestIntegrallMore();

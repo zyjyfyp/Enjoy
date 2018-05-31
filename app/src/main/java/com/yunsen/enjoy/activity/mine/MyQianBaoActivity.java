@@ -22,7 +22,9 @@ import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.WalletCashBean;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.ui.recyclerview.EndlessRecyclerOnScrollListener;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
+import com.yunsen.enjoy.ui.recyclerview.LoadMoreLayout;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 
 import java.util.ArrayList;
@@ -65,6 +67,10 @@ public class MyQianBaoActivity extends BaseFragmentActivity {
     private int mPageIndex = 1;
     private String mUserName;
     private double mBalance = 0.0;
+    private LoadMoreLayout loadMoreLayout;
+    private EndlessRecyclerOnScrollListener mOnScrollListener;
+    private boolean mIsLoadMore;
+    private boolean mHasMore = true;
 
     @Override
     protected void onResume() {
@@ -90,6 +96,8 @@ public class MyQianBaoActivity extends BaseFragmentActivity {
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         walletRecycler.setAdapter(recyclerViewAdapter);
         RecyclerViewUtils.setHeaderView(walletRecycler, view);
+        loadMoreLayout = new LoadMoreLayout(this);
+        RecyclerViewUtils.setFooterView(walletRecycler, loadMoreLayout);
     }
 
     @Override
@@ -102,21 +110,47 @@ public class MyQianBaoActivity extends BaseFragmentActivity {
 
     @Override
     protected void initListener() {
-
+        mOnScrollListener = new EndlessRecyclerOnScrollListener() {
+            @Override
+            public void onLoadNextPage(View view) {
+                super.onLoadNextPage(view);
+                if (mHasMore) {
+                    mPageIndex++;
+                    mIsLoadMore = true;
+                    walletRecycler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            requestData();
+                        }
+                    }, 500);
+                }
+            }
+        };
+        mOnScrollListener.setLoadMoreLayout(loadMoreLayout);
+        walletRecycler.addOnScrollListener(mOnScrollListener);
     }
 
     @Override
     public void requestData() {
-        super.requestData();
         HttpProxy.getWithDrawCash(mUserId, String.valueOf(mPageIndex), new HttpCallBack<List<WalletCashBean>>() {
             @Override
             public void onSuccess(List<WalletCashBean> responseData) {
-                mAdapter.upData(responseData);
+                if (mIsLoadMore) {
+                    mHasMore = mAdapter.addData(responseData);
+                } else {
+                    mAdapter.upData(responseData);
+                }
+                if (mHasMore) {
+                    mOnScrollListener.onRefreshComplete();
+                } else {
+                    mOnScrollListener.noMore(null);
+                }
             }
 
             @Override
             public void onError(Request request, Exception e) {
-
+                mHasMore = false;
+                mOnScrollListener.noMore(null);
             }
         });
     }

@@ -107,10 +107,10 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
 
     @Override
     protected void initData() {
-        bannerAdapter = new BannerAdapter(getData(), getActivity());
-        buyPager.setAdapter(bannerAdapter);
-        buyIndicator.setViewPager(buyPager);
-        buyIndicator.setPadding(5, 5, 10, 5);
+//        bannerAdapter = new BannerAdapter(getData(), getActivity());
+//        buyPager.setAdapter(bannerAdapter);
+//        buyIndicator.setViewPager(buyPager);
+//        buyIndicator.setPadding(5, 5, 10, 5);
 
         mFragmentAdapter = new FilterFragmentAdapter(getChildFragmentManager(), getFragments());
         buyMainPager.setAdapter(mFragmentAdapter);
@@ -140,6 +140,9 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
                 if (responseData != null && responseData.size() > 0) {
                     bannerAdapter = new BannerAdapter(responseData, getActivity());// TODO: 2018/4/20 need upData方法
                     buyPager.setAdapter(bannerAdapter);
+                    buyIndicator.setViewPager(buyPager);
+                    buyIndicator.setPadding(5, 5, 10, 5);
+
                 }
             }
 

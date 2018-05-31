@@ -41,7 +41,6 @@
                         android:id="@+id/user_name_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="王大锤"
                         android:textColor="@color/white"
                         android:textSize="25sp"
                         android:textStyle="bold" />
@@ -53,7 +52,6 @@
                         android:layout_alignBottom="@id/user_name_tv"
                         android:layout_marginLeft="3dp"
                         android:layout_toRightOf="@id/user_name_tv"
-                        android:text="(15111628558)"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
 
@@ -65,7 +63,6 @@
                         android:layout_marginTop="10dp"
                         android:drawableLeft="@mipmap/grade"
                         android:drawablePadding="5dp"
-                        android:text="超级会员"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
 

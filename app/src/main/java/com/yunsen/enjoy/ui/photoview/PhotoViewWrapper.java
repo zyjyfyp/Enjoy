@@ -49,7 +49,6 @@ public class PhotoViewWrapper extends RelativeLayout {
 
 	public void setUrl(String imageUrl) {
 		Picasso.with(mContext).load(imageUrl)
-				.placeholder(R.drawable.default_image)
 				.into(photoView, new Callback() {
 					@Override
 					public void onSuccess() {

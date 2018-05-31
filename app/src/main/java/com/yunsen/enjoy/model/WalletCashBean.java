@@ -45,7 +45,7 @@ public class WalletCashBean {
     private int from_user_id;
     private String from_user_name;
     private double from_previous;
-    private int from_expense;
+    private double from_expense;
     private double from_balance;
     private Object to_user_id;
     private Object to_user_name;
@@ -121,7 +121,7 @@ public class WalletCashBean {
         this.from_previous = from_previous;
     }
 
-    public int getFrom_expense() {
+    public double getFrom_expense() {
         return from_expense;
     }
 
@@ -130,7 +130,7 @@ public class WalletCashBean {
         return df.format(from_expense);
     }
 
-    public void setFrom_expense(int from_expense) {
+    public void setFrom_expense(double from_expense) {
         this.from_expense = from_expense;
     }
 

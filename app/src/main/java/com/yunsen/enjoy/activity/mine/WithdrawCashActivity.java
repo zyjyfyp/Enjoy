@@ -53,6 +53,7 @@ public class WithdrawCashActivity extends BaseFragmentActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
+        actionBarTitle.setText("钱包提现");
     }
 
     @Override

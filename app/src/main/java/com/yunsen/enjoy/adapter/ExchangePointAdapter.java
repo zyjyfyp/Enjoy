@@ -34,10 +34,11 @@ public class ExchangePointAdapter extends CommonAdapter<CarDetails> {
                 .load(carDetails.getImg_url())
                 .into(imageView);
         DefaultSpecItemBean defaultSpecItem = carDetails.getDefault_spec_item();
-        int cashingPoint = defaultSpecItem.getCashing_point();
-        double sellPrice = defaultSpecItem.getSell_price();
+        int exchangePoint = defaultSpecItem.getExchange_point();
+        String exchangePriceStr = defaultSpecItem.getExchange_priceStr();
+
         holder.setText(R.id.exchange_title, carDetails.getTitle());
-        holder.setText(R.id.exchange_price_tv, "积分兑换：" + cashingPoint + "积分+" + sellPrice + "元");
+        holder.setText(R.id.exchange_price_tv, "积分兑换：" + exchangePoint + "积分+" + exchangePriceStr + "元");
         TextView marketTv = (TextView) holder.getView(R.id.exchange_market_tv);
         marketTv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         marketTv.setText("市场价：¥" + defaultSpecItem.getMarkePriceStr());

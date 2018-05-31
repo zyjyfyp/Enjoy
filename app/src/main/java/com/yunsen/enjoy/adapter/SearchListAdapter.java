@@ -37,7 +37,6 @@ public class SearchListAdapter extends CommonAdapter<CarDetails> {
         holder.setText(R.id.goods_address, goodsData.getAddress());
         Picasso.with(mContext)
                 .load(goodsData.getImg_url())
-                .placeholder(R.mipmap.car_1)
                 .resize(DeviceUtil.dp2px(mContext, 122), DeviceUtil.dp2px(mContext, 90))
                 .centerCrop()
                 .into(((ImageView) holder.getView(R.id.goods_left_img)));

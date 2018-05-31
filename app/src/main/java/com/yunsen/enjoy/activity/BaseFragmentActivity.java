@@ -102,8 +102,6 @@ public abstract class BaseFragmentActivity extends AppCompatActivity {
     protected void onRequestPermissionSuccess(int requestCode) {
     }
 
-    ;
-
     protected void requestPermission(String[] permissions,final int requestCode) {
         AndPermission.with(this)
                 .permission(permissions)

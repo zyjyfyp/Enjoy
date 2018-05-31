@@ -36,7 +36,7 @@ public class WalletCashAdapter extends CommonAdapter<WalletCashBean> {
     }
 
     public boolean addData(List<WalletCashBean> data) {
-        if (data != null) {
+        if (data != null && data.size() > 0) {
             mDatas.addAll(data);
             this.notifyDataSetChanged();
             return true;

@@ -261,22 +261,23 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
         }
         goodsTitle.setText(responseData.getTitle());
         DefaultSpecItemBean defaultSpecItem = responseData.getDefault_spec_item();
-        double rebatePrice = defaultSpecItem.getSell_price();
+        String rebatePrice = defaultSpecItem.getSellPriceStr();
         if (mBuyType == Constants.DEFAULT_BUY) {
             goodsPriceTv.setText("¥" + rebatePrice);
             goodsMarketPriceTv.setText("¥" + defaultSpecItem.getMarkePriceStr());
         } else if (mBuyType == Constants.POINT_BUY) {
             int exchangePoint = defaultSpecItem.getExchange_point();
-            goodsPointTv.setText(exchangePoint + "分+" + rebatePrice + "元");
+            String exchangePriceStr = defaultSpecItem.getExchange_priceStr();
+            goodsPointTv.setText(exchangePoint + "分+" + exchangePriceStr + "元");
             goodsMarketPriceTv2.setText("¥" + defaultSpecItem.getMarkePriceStr());
             int ownPoint = Integer.parseInt(mPoint);
             if (exchangePoint < ownPoint) {
                 mCanExchange = true;
+            } else {
+                mCanExchange = false;
             }
         }
-
-        double cashingPacket = defaultSpecItem.getCashing_packet();
-        goodsPacketPriceTv.setText("¥" + cashingPacket);
+        goodsPacketPriceTv.setText("¥" + defaultSpecItem.getCashing_packetStr());
         this.mCarDetail = responseData;
 
     }

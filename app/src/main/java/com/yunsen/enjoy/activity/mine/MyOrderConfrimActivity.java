@@ -43,16 +43,20 @@ import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.JuTuanGouData;
 import com.yunsen.enjoy.model.ShopCartData;
 import com.yunsen.enjoy.model.ShopCarts;
-import com.yunsen.enjoy.model.UserAddressData;
 import com.yunsen.enjoy.model.UserRegisterllData;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.thirdparty.Common;
 import com.yunsen.enjoy.thirdparty.PayResult;
 import com.yunsen.enjoy.thirdparty.alipay.SignUtils;
+import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.DialogProgress;
 import com.yunsen.enjoy.widget.InScrollListView;
 import com.yunsen.enjoy.widget.MyPopupWindowMenu;
 import com.yunsen.enjoy.widget.SlipButton;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -98,7 +102,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     TextView tv_size, tv_zhifu;
     private String ZhiFuFangShi, express_id;
     private String jubi;
-    String type = "5";
+    String type = "5"; // 5 微信支付, 3 支付宝支付  ,2 余额支付
     String notify_url;
     int kou_hongbao;
     private IWXAPI api;
@@ -122,6 +126,16 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     String mUserhongbao; //用户持有的 红包数值转换的字符串
     private ArrayList<ShopCartData> mReadyPay;
     private String mBuyNo;
+    /**
+     * 购物状态
+     */
+    public static final int PAY_DEFAULT = 0;
+    public static final int PAY_ORDER = 1;
+    public static final int PAY_FINISH = 2;
+    private int mPayState = PAY_DEFAULT; // 0 默认 1生成了订单 2 支付完成
+    private String mTradeNo; //交易号
+
+
     /**
      * 销售总价
      */
@@ -242,6 +256,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
             return;
         }
 
+
         // 微信支付成功后关闭此界面
         if (flag) {
 //            userloginqm();
@@ -298,7 +313,6 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
             public void OnChanged(boolean isCheck) {
 
                 if (isCheck) {
-                    System.out.println("1================" + isCheck);
                     try {
                         if (mUserRedPacket == 0.0) {
                             heji.setVisibility(View.VISIBLE);
@@ -355,20 +369,9 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
 
                         e.printStackTrace();
                     }
-                    //				if (hongbao.equals("0.0")) {
-                    //					kou_hongbao = 0;// 红包为0
-                    //				} else if (kedi_hongbao.equals("0.0")) {
-                    //					kou_hongbao = 0;// 无可抵红包
-                    //				}else {
-                    //					kou_hongbao = 1;// 已低红包
-                    //				}
+
                     hongbao_tety = isCheck;
-                } else if (isCheck == false) {
-                    System.out.println("1================" + isCheck);
-                    // sb.setCheck(true);
-                    System.out.println("dzongjia2================" + dzongjia);
-                    System.out.println("retailPrice2================"
-                            + retailPrice);
+                } else {
                     if (mUserRedPacket == 0.0) {
                         heji.setVisibility(View.VISIBLE);
                         tv_hongbao.setText("不可以使用红包");
@@ -488,6 +491,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case Constants.PAY_MONEY_ACT_REQUEST:
+                    delayPayState(PAY_ORDER);
                     finish();
                     break;
                 case Constants.ADD_ADDRESS_ACT_REQUEST:
@@ -496,7 +500,6 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 case 100:
                     layout0.setVisibility(View.VISIBLE);
                     layout1.setVisibility(View.GONE);
-
                     String name = data.getStringExtra("user_accept_name");
                     String user_area = data.getStringExtra("user_area");
                     String user_mobile = data.getStringExtra("user_mobile");
@@ -509,9 +512,10 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                     tv_user_phone.setText(user_mobile);
                     break;
             }
+        } else if (resultCode == 1 && requestCode == Constants.PAY_MONEY_ACT_REQUEST) {
+            finish();
         }
         Log.e("zyjy", "onActivityResult:resultCode= " + resultCode + " requestCode= " + requestCode);
-
     }
 
     private void initdata() {
@@ -632,7 +636,6 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
          */
 
         yu_pay2.setOnClickListener(this);
-        yu_pay_c2.setOnClickListener(this);
         /**
          * 结算方式
          */
@@ -672,7 +675,6 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                             data.login_sign = obj.getString("login_sign");
                             login_sign = data.login_sign;
                             loadguanggaoll(recharge_no, login_sign);
-                        } else {
                         }
                     } catch (JSONException e) {
 
@@ -1011,7 +1013,6 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 super.onSuccess(arg0, arg1);
                 try {
                     JSONObject object = new JSONObject(arg1);
-
                     String status = object.getString("status");
                     String info = object.getString("info");
                     if ("y".equals(status)) {
@@ -1023,6 +1024,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                         } else {
                             total_amount = jsonObject.getString("total_amount");
                         }
+                        mPayState = PAY_ORDER;
                         if ("3".equals(type)) {
                             loadzhidu(recharge_no, total_amount);
                         } else if ("5".equals(type)) {
@@ -1060,12 +1062,9 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 case 2:// 微信支付
                     try {
                         boolean isPaySupported = api.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
-                        // System.err.println("isPaySupported=============="+isPaySupported);
-                        // Toast.makeText(MyOrderConfrimActivity.this, "获取订单中...",
-                        // Toast.LENGTH_SHORT).show();
+
                         String zhou = String.valueOf(isPaySupported);
-                        // Toast.makeText(MyOrderConfrimActivity.this, zhou,
-                        // Toast.LENGTH_SHORT).show();
+
                         if (isPaySupported) {
                             try {
                                 // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
@@ -1083,13 +1082,13 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                                 System.out.println("支付" + flag);
 
                             } catch (Exception e) {
-                                Toast.makeText(MyOrderConfrimActivity.this, "支付失败。。。",
-                                        Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MyOrderConfrimActivity.this, "支付失败。。。", Toast.LENGTH_SHORT).show();
+                                delayPayState(mPayState);
                                 e.printStackTrace();
                             }
                         } else {
-                            Toast.makeText(MyOrderConfrimActivity.this, "支付失败。。。",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MyOrderConfrimActivity.this, "支付失败。。。", Toast.LENGTH_SHORT).show();
+                            delayPayState(mPayState);
                         }
                     } catch (Exception e) {
 
@@ -1110,19 +1109,20 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                         Toast.makeText(MyOrderConfrimActivity.this, "支付成功",
                                 Toast.LENGTH_SHORT).show();
 //                        userloginqm();
+                        mPayState = PAY_FINISH;
+                        delayPayState(mPayState);
                         finish();
                     } else {
                         // 判断resultStatus 为非“9000”则代表可能支付失败
                         // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
                         if (TextUtils.equals(resultStatus, "8000")) {
-                            Toast.makeText(MyOrderConfrimActivity.this, "支付结果确认中",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MyOrderConfrimActivity.this, "支付结果确认中", Toast.LENGTH_SHORT).show();
+                            delayPayState(mPayState);
                             finish();
-
                         } else {
                             // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-                            Toast.makeText(MyOrderConfrimActivity.this, "支付失败",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MyOrderConfrimActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
+                            delayPayState(mPayState);
                             finish();
                         }
                     }
@@ -1205,13 +1205,11 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                     if ("y".equals(status)) {
                         JSONObject obj = object.getJSONObject("data");
                         notify_url = obj.getString("notify_url");
-                        progress.CloseProgress();
                         handler.sendEmptyMessage(1);
                     } else {
-                        progress.CloseProgress();
-                        Toast.makeText(MyOrderConfrimActivity.this, info,
-                                Toast.LENGTH_SHORT).show();
+                        ToastUtils.makeTextShort(info);
                     }
+                    progress.CloseProgress();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -1429,6 +1427,11 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_fanhui:
@@ -1436,6 +1439,12 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 break;
             case R.id.yu_pay2:
             case R.id.yu_pay_c2:
+                String amountStr = mSp.getString(SpConstants.AMOUNT, "0");
+                Double amount = Double.valueOf(amountStr);
+                if (amount < dzongjia) {
+                    ToastUtils.makeTextShort("您的余额不足，请前往充值中心充值，或请使用其他方式支付");
+                    return;
+                }
                 yu_pay_c0.setChecked(false);
                 yu_pay_c1.setChecked(false);
                 yu_pay_c2.setChecked(true);
@@ -1444,4 +1453,26 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 break;
         }
     }
+
+    /**
+     * 处理支付状态
+     *
+     * @param state
+     */
+    private void delayPayState(int state) {
+        switch (state) {
+            case PAY_DEFAULT:
+                break;
+            case PAY_ORDER:
+                UIHelper.showOrderActivity(MyOrderConfrimActivity.this, "1");
+                EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.UP_MINE_ORDER));
+                finish();
+                break;
+            case PAY_FINISH:
+                UIHelper.showMyOrderXqActivity(MyOrderConfrimActivity.this, mTradeNo);
+                finish();
+                break;
+        }
+    }
+
 }

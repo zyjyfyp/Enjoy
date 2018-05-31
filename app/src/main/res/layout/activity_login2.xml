@@ -15,12 +15,12 @@
 
         <ImageView
             android:id="@+id/action_back"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/app_margin"
             android:layout_marginRight="@dimen/app_margin"
-            android:src="@drawable/back" />
+            android:src="@drawable/fanhui" />
 
         <TextView
 

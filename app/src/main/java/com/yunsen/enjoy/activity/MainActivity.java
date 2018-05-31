@@ -228,7 +228,11 @@ public class MainActivity extends BaseFragmentActivity {
                 if (mMineFragment != null) {
                     mMineFragment.loadUserIcon(selectedImage);
                 }
-
+            }
+        }
+        if (requestCode == Constants.ORDER_ACT_REQUEST) {
+            if (mMineFragment != null) {
+                mMineFragment.onActivityResult(requestCode, resultCode, data);
             }
         }
     }

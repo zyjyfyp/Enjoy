@@ -155,10 +155,10 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 //        footView = new HomeFootView(getActivity());
 //        RecyclerViewUtils.setFooterView(recyclerView, footView);
 
-        bannerAdapter = new BannerAdapter(getData(), getActivity());
-        banner.setAdapter(bannerAdapter);
-        indicatorLayout.setViewPager(banner);
-        indicatorLayout.setPadding(5, 5, 10, 5);
+//        bannerAdapter = new BannerAdapter(getData(), getActivity());
+//        banner.setAdapter(bannerAdapter);
+//        indicatorLayout.setViewPager(banner);
+//        indicatorLayout.setPadding(5, 5, 10, 5);
         String currentCity = SharedPreference.getInstance().getString(SpConstants.CITY_KEY, "深圳市");
         searchBar.setLeftText(currentCity);
         searchBar.setSearchText("请输入车名搜索");
@@ -193,6 +193,8 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                 if (responseData != null && responseData.size() > 0) {
                     bannerAdapter = new BannerAdapter(responseData, getActivity());// TODO: 2018/4/20 need upData方法
                     banner.setAdapter(bannerAdapter);
+                    indicatorLayout.setViewPager(banner);
+                    indicatorLayout.setPadding(5, 5, 10, 5);
                 }
             }
 
@@ -214,7 +216,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                     String ad_url = model.getImgh_url();
                     mAdverModels.add(model);
                     Picasso.with(getActivity()).load(ad_url)
-                            .placeholder(R.mipmap.car_1).into(mCarImgArray[i]);
+                            .into(mCarImgArray[i]);
                 }
             }
 

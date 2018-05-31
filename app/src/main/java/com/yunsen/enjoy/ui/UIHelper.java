@@ -293,12 +293,12 @@ public class UIHelper {
      * 去订单页面
      *
      * @param ctx
-     * @param type
+     * @param type 1 待付款 2 待发货 3待收货 4 已完成
      */
-    public static void showOrderActivity(Context ctx, String type) {
+    public static void showOrderActivity(Activity ctx, String type) {
         Intent intent = new Intent(ctx, MyOrderActivity.class);
         intent.putExtra("status", type);
-        ctx.startActivity(intent);
+        ctx.startActivityForResult(intent, Constants.ORDER_ACT_REQUEST);
     }
 
     /**
@@ -699,7 +699,7 @@ public class UIHelper {
      * 显示订单详情页面
      *
      * @param ctx
-     * @param rechargeNo
+     * @param rechargeNo  交易号
      */
     public static void showMyOrderXqActivity(Context ctx, String rechargeNo) {
         final Context fContext = ctx;

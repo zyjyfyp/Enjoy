@@ -23,4 +23,6 @@ public class EventConstants {
     public static final int UP_FILTER_FRG = 6;
     public static final int SHOW_HAS_MORE = 7;//是否显示有更多车
 
+    public static final int ORDER_STATE = 8;
+    public static final int UP_MINE_ORDER = 9;
 }

@@ -20,7 +20,7 @@ public class DefaultSpecItemBean {
     private int term;
     private double rebate_price;
     private double cost_price;
-    private int exchange_price;
+    private double exchange_price;
     private int exchange_point;
     private double cashing_packet;
     private int cashing_point;
@@ -166,11 +166,16 @@ public class DefaultSpecItemBean {
         this.cost_price = cost_price;
     }
 
-    public int getExchange_price() {
+    public double getExchange_price() {
         return exchange_price;
     }
 
-    public void setExchange_price(int exchange_price) {
+    public String getExchange_priceStr() {
+        DecimalFormat df = new DecimalFormat("#0.00");
+        return df.format(exchange_price);
+    }
+
+    public void setExchange_price(double exchange_price) {
         this.exchange_price = exchange_price;
     }
 
@@ -186,7 +191,7 @@ public class DefaultSpecItemBean {
         return cashing_packet;
     }
 
-    public String getCashingPacketString() {
+    public String getCashing_packetStr() {
         DecimalFormat df = new DecimalFormat("#0.00");
         return df.format(cashing_packet);
     }

@@ -158,7 +158,7 @@ public class MineFragment extends BaseFragment {
     private UserInfo data;
 
     private String mUserId;
-    private Boolean mIsFacilitator = false;
+    private Boolean mIsFacilitator = false; //是否是服务商
     private String mUserName;//用户名
 
     @Override
@@ -537,7 +537,6 @@ public class MineFragment extends BaseFragment {
             if (!TextUtils.isEmpty(user_name_phone)) {//手机登录
                 getLeXiangUserInfo();//获取乐享用户信息
                 load_list();
-
             } else {
                 hasLoginLayout.setVisibility(View.GONE);
                 loginIcon.setVisibility(View.VISIBLE);
@@ -655,8 +654,8 @@ public class MineFragment extends BaseFragment {
                 yth = data.getUser_code();
                 balanceTv.setText("" + data.getAmount()); //钱包
                 freezeTv.setText("" + data.getReserve());//冻结基金
-                commissionTv.setText("0");//佣金
-                readyMoneyTv.setText("0");// 提现
+                commissionTv.setText("0.0");//佣金
+                readyMoneyTv.setText("0.0");// 提现
                 String nickName = data.getNick_name();
                 if (TextUtils.isEmpty(nickName)) {
                     userNameTv.setText(data.getUser_name());
@@ -722,6 +721,12 @@ public class MineFragment extends BaseFragment {
         });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Constants.ORDER_ACT_REQUEST) {
+            load_list();//更新订单信息
+        }
+    }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(UpUiEvent event) {
@@ -755,9 +760,9 @@ public class MineFragment extends BaseFragment {
                 Tencent tencent = Tencent.createInstance(Constants.APP_QQ_ID, getActivity());
                 tencent.logout(getActivity());
                 break;
-//            case EventConstants.UP_MINE_UI:
-//                load_list();
-//                break;
+            case EventConstants.UP_MINE_ORDER:
+                load_list();
+                break;
         }
     }
 
