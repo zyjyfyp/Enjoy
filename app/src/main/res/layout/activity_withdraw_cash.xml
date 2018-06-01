@@ -101,18 +101,18 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="全部提现"
-            android:textColor="@color/weixin"
+            android:textColor="@color/cash_color"
             android:textSize="15sp" />
     </LinearLayout>
 
     <Button
         android:id="@+id/submit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_marginLeft="@dimen/app_margin"
         android:layout_marginRight="@dimen/app_margin"
         android:layout_marginTop="30dp"
-        android:background="@color/weixin"
+        android:background="@color/cash_color"
         android:text="确定"
         android:textColor="@color/white" />
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.yunsen.enjoy.activity.mine;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,10 +13,17 @@ import android.widget.TextView;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.model.BindCardBean;
 import com.yunsen.enjoy.model.request.ApplyWalletCashRequest;
+import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.ToastUtils;
+import com.yunsen.enjoy.widget.dialog.SelectBankCardDialog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,6 +52,8 @@ public class WithdrawCashActivity extends BaseFragmentActivity {
     @Bind(R.id.submit)
     Button submit;
     private double mBalance = 0.0;
+    private List<BindCardBean> mBankCarts;
+    private SelectBankCardDialog mSelectBankDialog;
 
     @Override
     public int getLayout() {
@@ -63,6 +73,7 @@ public class WithdrawCashActivity extends BaseFragmentActivity {
             mBalance = intent.getDoubleExtra(Constants.BALANCE, 0.00);
         }
         balanceTv.setText("当前余额" + mBalance + "元，");
+        mBankCarts = new ArrayList<>();
     }
 
     @Override
@@ -70,14 +81,21 @@ public class WithdrawCashActivity extends BaseFragmentActivity {
 
     }
 
+    @Override
+    public void requestData() {
+        selectBankCardRequest();
+    }
 
-    @OnClick({R.id.action_back, R.id.balance_tv, R.id.withdraw_cash_all, R.id.submit})
+    @OnClick({R.id.action_back, R.id.bank_card_tv, R.id.withdraw_cash_all, R.id.submit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.action_back:
                 finish();
                 break;
-            case R.id.balance_tv:
+            case R.id.bank_card_tv:
+//                UIHelper.showBindBankCardActivity(WithdrawCashActivity.this);
+                mSelectBankDialog = new SelectBankCardDialog(this, mBankCarts);
+//                dialog.show();
                 break;
             case R.id.withdraw_cash_all:
                 moneyEdt.setText(String.valueOf(mBalance));
@@ -97,6 +115,24 @@ public class WithdrawCashActivity extends BaseFragmentActivity {
 
 
         }
+    }
+
+    public void selectBankCardRequest() {
+        SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+        String userId = sp.getString(SpConstants.USER_ID, "");
+        String loginSign = sp.getString(SpConstants.LOGIN_SIGN, "");
+        HttpProxy.getBindBankCardList(userId, loginSign, new HttpCallBack<List<BindCardBean>>() {
+            @Override
+            public void onSuccess(List<BindCardBean> responseData) {
+                responseData.clear();
+                mBankCarts.addAll(responseData);
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
     }
 
     public void applyWalletCashRequest() {

@@ -35,6 +35,7 @@ import com.yunsen.enjoy.activity.dealer.ApplyServiceSecondActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceThreeActivity;
 import com.yunsen.enjoy.activity.dealer.MyFacilitatorActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
+import com.yunsen.enjoy.activity.mine.BindBankCardActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
 import com.yunsen.enjoy.activity.mine.MyOrderConfrimActivity;
@@ -699,7 +700,7 @@ public class UIHelper {
      * 显示订单详情页面
      *
      * @param ctx
-     * @param rechargeNo  交易号
+     * @param rechargeNo 交易号
      */
     public static void showMyOrderXqActivity(Context ctx, String rechargeNo) {
         final Context fContext = ctx;
@@ -810,5 +811,15 @@ public class UIHelper {
     public static void showServiceMoreActivity(Context ctx) {
         Intent intent = new Intent(ctx, ServiceMoreActivity.class);
         ctx.startActivity(intent);
+    }
+
+    /**
+     * 绑定银行卡
+     *
+     * @param activity
+     */
+    public static void showBindBankCardActivity(Activity activity) {
+        Intent intent = new Intent(activity, BindBankCardActivity.class);
+        activity.startActivity(intent);
     }
 }
