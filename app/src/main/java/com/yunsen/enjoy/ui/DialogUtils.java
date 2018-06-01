@@ -69,54 +69,17 @@ public class DialogUtils {
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //  setinten();
-                // TODO: 2018/4/26   更新我的界面
-
                 // 清空SharedPreferences保存数据
                 SharedPreferences jdh_spPreferences = fAct.getSharedPreferences("user_juduihuan", Context.MODE_PRIVATE);
                 SharedPreferences spPreferences = fAct.getSharedPreferences("longuserset", Context.MODE_PRIVATE);
-                SharedPreferences spPreferences_login = fAct.getSharedPreferences("longuserset_login", Context.MODE_PRIVATE);
-
-                if (UserLoginActivity.panduan) {
-                    // if (!user_name_weixin.equals("")) {
-                    spPreferences_login.edit().clear().commit();
-                    spPreferences.edit().clear().commit();
-                    jdh_spPreferences.edit().clear().commit();// 积兑换保存福利清除
-                    String nickname = spPreferences_login.getString(SpConstants.NICK_NAME, "");
-                    System.out.println("1======" + nickname);
-                    // Toast.makeText(getActivity(), "微信名/"+nickname,
-                    UserLoginActivity.panduan = false;
-                    UIHelper.showUserLoginActivity(fAct);
-                } else if (UserLoginWayActivity.panduan) {
-
-                    spPreferences_login.edit().clear().commit();
-                    spPreferences.edit().clear().commit();
-                    jdh_spPreferences.edit().clear().commit();// 积兑换保存福利清除
-                    String nickname = spPreferences_login.getString(SpConstants.NICK_NAME,
-                            "");
-                    System.out.println("1======" + nickname);
-                    UserLoginWayActivity.panduan = false;
-                    UIHelper.showUserLoginActivity(fAct);
-
-                } else if (PhoneLoginActivity.panduan) {
-
-                    spPreferences.edit().clear().commit();
-                    spPreferences_login.edit().clear().commit();
-                    jdh_spPreferences.edit().clear().commit();// 积兑换保存福利清除
-                    String user_name = spPreferences.getString("user", "");
-                    System.out.println("2======" + user_name);
-                    UIHelper.showUserLoginActivity(fAct);
-                    PhoneLoginActivity.panduan = false;
-                } else {
-                    spPreferences.edit().clear().commit();
-                    spPreferences_login.edit().clear().commit();
-                    jdh_spPreferences.edit().clear().commit();// 积兑换保存福利清除
-                    UIHelper.showUserLoginActivity(fAct);
-                }
+                SharedPreferences spPreferences_login = fAct.getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
                 SharedPreferences spPreferences_tishi = fAct.getSharedPreferences("longuserset_tishi", Context.MODE_PRIVATE);
+                spPreferences_login.edit().clear().commit();
+                spPreferences.edit().clear().commit();
+                jdh_spPreferences.edit().clear().commit();// 积兑换保存福利清除
                 spPreferences_tishi.edit().clear().commit();// 第三方授权登录提示绑定手机号信息清空
+                UIHelper.showUserLoginActivity(fAct);
                 EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGOUT));
-
             }
         });
 
@@ -127,7 +90,6 @@ public class DialogUtils {
                 dialog.dismiss();
             }
         });
-
         dialog = builder.create();
         dialog.show();
     }

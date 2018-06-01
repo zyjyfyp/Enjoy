@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -40,10 +41,16 @@ import com.yunsen.enjoy.activity.mine.UserForgotPasswordActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
+import com.yunsen.enjoy.http.DataException;
+import com.yunsen.enjoy.http.HttpCallBack;
+import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.UserRegisterllData;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
+import com.yunsen.enjoy.utils.AccountUtils;
+import com.yunsen.enjoy.utils.SpUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.DialogProgress;
 import com.yunsen.enjoy.widget.MyPopupWindowMenu;
@@ -68,32 +75,26 @@ import java.security.MessageDigest;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import okhttp3.Request;
+
 public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickListener {
     private Button btn_login;
     private EditText et_username, et_pwd, userphone;
     private Button img_title_register;
     private TextView imgbtn_findpwd;
     private MessageDigest md;
-    private String status, rnd, name, password, mm, mi, key, hengyucode,
-            bossUid;
-    public static String id, user_id, login_sign, pwd;
-
+    private String status, rnd, name, password, mm, mi, key, hengyucode, bossUid;
     private String inStr;
-
     private DialogProgress progress;
     private String strUrlone, strUrltwo;
-
-    public static String user_name;
     private MyPopupWindowMenu popupWindowMenu;
     private SharedPreferences spPreferences;
     private String strUr2 = URLConstants.REALM_NAME_LL + "/get_apk_version?browser=android";
     private String URL;
     private ImageView img_weixin_login, img_qq_login;
-    public static boolean isWXLogin = false;
-    public static IWXAPI mWxApi;
+    private IWXAPI mWxApi;
     boolean zhuangtai = false;
     public static Bitmap bitmap;
-    public static boolean panduan = false;
     UserRegisterllData data;
 
 
@@ -133,7 +134,6 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
     @Override
     protected void onResume() {
         super.onResume();
-        user_name = spPreferences.getString(SpConstants.USER_NAME, "");
     }
 
     Handler handler = new Handler() {
@@ -146,84 +146,6 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
                     break;
                 case -1:
                     progress.CloseProgress();
-                    break;
-                case 6:
-                    try {
-                        strUrlone = URLConstants.REALM_NAME_LL + "/get_user_model?username=" + name + "";
-                        System.out.println("======11=============" + strUrlone);
-                        AsyncHttp.get(strUrlone, new AsyncHttpResponseHandler() {
-                            public void onSuccess(int arg0, String arg1) {
-                                try {
-                                    System.out.println("======66输出用户资料=============" + arg1);
-                                    JSONObject object = new JSONObject(arg1);
-                                    status = object.getString("status");
-                                    String datetime = object.getString("datetime");
-                                    JSONObject obj = object.getJSONObject("data");
-                                    if (status.equals("y")) {
-                                        data = new UserRegisterllData();
-                                        data.user_name = obj.getString("user_name");
-                                        data.id = obj.getString("id");
-                                        data.user_code = obj.getString("user_code");
-                                        data.agency_id = obj.getInt("agency_id");
-                                        data.amount = obj.getString("amount");
-                                        data.pension = obj.getString("pension");
-                                        data.packet = obj.getString("packet");
-                                        data.point = obj.getString("point");
-                                        data.group_id = obj.getString("group_id");
-                                        data.mobile = obj.getString("mobile");
-                                        data.login_sign = obj.getString("login_sign");
-                                        data.avatar = obj.getString("avatar");
-                                        data.real_name = obj.getString("real_name");
-                                        data.company_id = obj.getString("company_id");
-                                        data.birthday = obj.getString("birthday");
-                                        data.group_name = obj.getString("group_name");
-                                        data.sex = obj.getString("sex");
-
-                                        login_sign = data.login_sign;
-                                        Editor editor = spPreferences.edit();
-                                        editor.putString("login_sign", data.login_sign);
-                                        editor.putString("avatar", data.avatar);
-                                        editor.putString(SpConstants.MOBILE, data.mobile);
-                                        editor.putString("group_id", data.group_id);
-                                        editor.putString(SpConstants.USER_NAME, data.user_name);
-                                        editor.putString("user_id", data.id);
-                                        editor.putString("point", data.point);
-                                        editor.putString("real_name", data.real_name);
-                                        editor.putString("company_id", data.company_id);
-                                        editor.putString("birthday", data.birthday);
-                                        editor.putString("sex", data.sex);
-                                        editor.putString("datetime", datetime);
-                                        editor.putString(SpConstants.GROUP_NAME, data.group_name);
-                                        editor.commit();
-                                        /**
-                                         * 新增手机登录后保存用户信息
-                                         */
-                                        saveUserInfo(datetime);
-                                        EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));//登录成功通知mine更新页面
-                                        setResult(RESULT_OK);
-                                        finish();
-                                        data = null;
-                                    } else {
-
-                                    }
-                                } catch (JSONException e) {
-
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Throwable arg0, String arg1) {
-
-                                super.onFailure(arg0, arg1);
-                                Toast.makeText(PhoneLoginActivity.this, "连接超时", Toast.LENGTH_SHORT).show();
-                            }
-                        }, PhoneLoginActivity.this);
-
-                    } catch (Exception e) {
-
-                        e.printStackTrace();
-                    }
                     break;
                 case 10:
                     break;
@@ -292,40 +214,6 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
 
     };
 
-    /**
-     * 保存用户信息
-     *
-     * @param datetime
-     */
-    private void saveUserInfo(String datetime) {
-        SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
-        Editor edit = sp.edit();
-        edit.putString("login_sign", data.login_sign);
-        edit.putString("avatar", data.avatar);
-        edit.putString(SpConstants.MOBILE, data.mobile);
-        edit.putString("group_id", data.group_id);
-        edit.putString(SpConstants.USER_NAME, data.user_name);
-        edit.putString("user_id", data.id);
-        edit.putString("point", data.point);
-        edit.putString("real_name", data.real_name);
-        edit.putString("company_id", data.company_id);
-        edit.putString("birthday", data.birthday);
-        edit.putString("sex", data.sex);
-        edit.putString("datetime", datetime);
-        edit.putString(SpConstants.GROUP_NAME, data.group_name);
-        edit.commit();
-    }
-
-    private void saveUserInfo2(String user, String pwd, String user_id) {
-        SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
-        Editor edit = sp.edit();
-        edit.putBoolean("save", true);
-        edit.putString("user", user);
-        edit.putString("pwd", pwd);
-        edit.putString("user_id", user_id);
-        edit.commit();
-    }
-
     // 获取当前程序的版本信息
     public static String getAppVersionName(Context context) {
         String versionName = "";
@@ -337,7 +225,6 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
                 return "";
             }
         } catch (Exception e) {
-
             Log.e("VersionInfo", "Exception", e);
         }
         return versionName;
@@ -521,7 +408,6 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
     private void initdata() {
         userphone = (EditText) findViewById(R.id.et_user_phone);
         LinearLayout ll_buju = (LinearLayout) findViewById(R.id.ll_buju);
-        //		ll_buju.setBackgroundResource(R.drawable.denglu_beijing);
         img_weixin_login = (ImageView) findViewById(R.id.img_weixin_login);
         img_qq_login = (ImageView) findViewById(R.id.img_qq_login);
         img_title_register = (Button) findViewById(R.id.img_title_registre);
@@ -557,7 +443,6 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
 
         switch (v.getId()) {
             case R.id.img_weixin_login:// 微信登录
-                isWXLogin = true;
                 SendAuth.Req req = new SendAuth.Req();
                 req.scope = "snsapi_userinfo";
                 req.state = "wechat_sdk_demo";
@@ -570,77 +455,50 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
                 break;
             case R.id.btn_login:
                 name = userphone.getText().toString().trim();
-                password = et_pwd.getText().toString();
-                if ("".equals(name)) {
+                password = et_pwd.getText().toString().trim();
+                if (TextUtils.isEmpty(name)) {
                     Toast.makeText(PhoneLoginActivity.this, "手机号码不能为空", Toast.LENGTH_SHORT).show();
-                } else if ("".equals(password)) {
+                } else if (TextUtils.isEmpty(password)) {
                     Toast.makeText(PhoneLoginActivity.this, "密码不能为空", Toast.LENGTH_SHORT).show();
                 } else {
                     progress.CreateProgress();
-                    strUrlone = URLConstants.REALM_NAME_LL
-                            + "/user_login?site=mobile&username=" + name
-                            + "&password=" + password + "&terminal=true";
-                    AsyncHttp.get(strUrlone, new AsyncHttpResponseHandler() {
+                    HttpProxy.getUserLogin(name, password, new HttpCallBack<UserInfo>() {
                         @Override
-                        public void onSuccess(int arg0, String arg1) {
-                            super.onSuccess(arg0, arg1);
-                            try {
-                                JSONObject jsonObject = new JSONObject(arg1);
-                                status = jsonObject.getString("status");
-                                System.out.println("status: " + status);
-                                String info = jsonObject.getString("info");
-                                if (status.equals("y")) {
-                                    JSONObject bjot = jsonObject.getJSONObject("data");
-                                    id = bjot.getString("id");
-                                    user_id = bjot.getString("id");
-                                    user_name = bjot.getString("user_name");
-                                    setInStr(password);
-                                    init();
-                                    mm = compute();
-                                    mm = mm.toUpperCase();
-                                    String myrnd = rnd;
-                                    setInStr(mm + myrnd);
-                                    init();
-                                    mi = compute();
-                                    Editor editor = spPreferences.edit();
-                                    editor.putBoolean("save", true);
-                                    editor.putString("user", userphone.getText().toString());
-                                    editor.putString("pwd", et_pwd.getText().toString());
-                                    editor.putString("user_id", user_id);
-                                    editor.commit();
-                                    /**
-                                     * 新增保存手机用户信息
-                                     */
-                                    saveUserInfo2(userphone.getText().toString(), et_pwd.getText().toString(), user_id);
-                                    panduan = true;
-                                    ToastUtils.makeTextShort(info);
-                                    progress.CloseProgress();
-                                    handler.sendEmptyMessage(6);
-                                    // TODO: 2018/5/7  关闭某个页面
-                                    //                                    UserLoginActivity.handler1.sendEmptyMessage(1);
-                                } else if ("n".equals(status)) {
-                                    ToastUtils.makeTextShort(info);
-                                    progress.CloseProgress();
-                                }
-                            } catch (JSONException e) {
+                        public void onSuccess(UserInfo responseData) {
+                            SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+                            SharedPreferences.Editor edit = sp.edit();//保存用户名和密码
+                            edit.putString(SpConstants.INPUT_USER_PWD, et_pwd.getText().toString());
+                            edit.putString(SpConstants.INPUT_USER_NAME, userphone.getText().toString());
+                            edit.commit();
+                            SpUtils.saveUserInfo(responseData);
+                            setInStr(password);
+                            init();
+                            mm = compute();
+                            mm = mm.toUpperCase();
+                            String myrnd = rnd;
+                            setInStr(mm + myrnd);
+                            init();
+                            mi = compute();
+                            progress.CloseProgress();
+                            ToastUtils.makeTextShort("登录成功");
+                            EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));//登录成功通知mine更新页面
+                            setResult(RESULT_OK);
+                            finish();
+                        }
 
-                                e.printStackTrace();
+                        @Override
+                        public void onError(Request request, Exception e) {
+                            if (e instanceof DataException) {
+                                ToastUtils.makeTextShort(e.getMessage());
                             }
-
+                            progress.CloseProgress();
                         }
-
-                        @Override
-                        public void onFailure(Throwable throwable, String s) {
-                            super.onFailure(throwable, s);
-                            Log.e(TAG, "onFailure: " + s);
-                        }
-                    }, PhoneLoginActivity.this);
+                    });
 
                 }
                 break;
             case R.id.wenhao:// 找回密码
-                Intent intent2 = new Intent(PhoneLoginActivity.this,
-                        UserForgotPasswordActivity.class);
+                Intent intent2 = new Intent(PhoneLoginActivity.this, UserForgotPasswordActivity.class);
                 intent2.putExtra("type", "1");
                 startActivity(intent2);
                 break;

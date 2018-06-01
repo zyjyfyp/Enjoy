@@ -38,6 +38,42 @@ public class SpUtils {
         edit.putString(SpConstants.AREA, "" + userInfo.getArea());
         edit.putString(SpConstants.ADDRESS, "" + userInfo.getAddress());
         edit.putString(SpConstants.EMAIL, "" + userInfo.getEmail());
+        edit.putString(SpConstants.PACKET, "" + userInfo.getPacket());
+
+//        edit.putString(SpConstants.USER_CODE, userInfo.getUser_code());
+//        edit.putString(SpConstants.PARENT_ID, "" + userInfo.getParent_id());
+//        edit.putString(SpConstants.PARENT_NAME, "" + userInfo.getParent_name());
+//        edit.putString(SpConstants.USER_LAYER, "" + userInfo.getUser_layer());
+//        edit.putString(SpConstants.USER_LIST, "" + userInfo.getUser_list());
+//        edit.putString(SpConstants.SALES_ID, "" + userInfo.getSales_id());
+//        edit.putString(SpConstants.SALES_NAME, "" + userInfo.getSales_name());
+//        edit.putString(SpConstants.AGENCY_ID, "" + userInfo.getAgency_id());
+//        edit.putString(SpConstants.AGENCY_NAME, "" + userInfo.getAgency_name());
+//        edit.putString(SpConstants.SHOPS_NAME, "" + userInfo.getShops_name());
+//        edit.putString(SpConstants.SHOPS_ID, "" + userInfo.getShops_id());
+//        edit.putString(SpConstants.STORE_NAME, "" + userInfo.getStore_name());
+//        edit.putString(SpConstants.STORE_ID, "" + userInfo.getStore_id());
+//        edit.putString(SpConstants.REG_IP, "" + userInfo.getReg_ip());
+//        edit.putString(SpConstants.IDENTITY_CARD, "" + userInfo.getIdentity_card());
+//        edit.putString(SpConstants.IDENTITY_CARD_A, "" + userInfo.getIdentity_card_a());
+//        edit.putString(SpConstants.IDENTITY_CARD_B, "" + userInfo.getIdentity_card_b());
+//        edit.putString(SpConstants.TELPHONE, "" + userInfo.getTelphone());
+//        edit.putString(SpConstants.TELPHONE, "" + userInfo.getTelphone());
+//        private String street;
+//        private String qq;
+//        private String weixin;
+//        private String login_stamp;
+//        private int promotion;
+//        private int pension;
+//        private int reserveb;
+//        private int reserves;
+//        private int exp;
+//        private int exp_weal;
+//        private int exp_invest;
+//        private int exp_action;
+//        private int exp_time;
+//        private String vip_card;
+
         edit.commit();
     }
 
@@ -73,10 +109,16 @@ public class SpUtils {
             edit.putString(SpConstants.AREA, "" + userInfo.getArea());
             edit.putString(SpConstants.ADDRESS, "" + userInfo.getAddress());
             edit.putString(SpConstants.EMAIL, "" + userInfo.getEmail());
+            edit.putString(SpConstants.PACKET, "" + userInfo.getPacket());
         }
         edit.commit();
     }
 
+    /**
+     * 从sp中获取用户信息
+     *
+     * @return
+     */
     public static UserInfo getUserInfo() {
         AppContext context = AppContext.getInstance();
         UserInfo userInfo = new UserInfo();
@@ -101,6 +143,7 @@ public class SpUtils {
         userInfo.setArea(sp.getString(SpConstants.AREA, "" + userInfo.getArea()));
         userInfo.setAddress(sp.getString(SpConstants.ADDRESS, "" + userInfo.getAddress()));
         userInfo.setEmail(sp.getString(SpConstants.EMAIL, "" + userInfo.getEmail()));
+        userInfo.setPacket(Double.valueOf(sp.getString(SpConstants.PACKET, "" + userInfo.getPacket())));
 
         return userInfo;
     }

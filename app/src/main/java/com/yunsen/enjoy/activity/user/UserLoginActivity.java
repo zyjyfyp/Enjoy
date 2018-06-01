@@ -179,8 +179,6 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
     }
 
     public void userxinxi() {
-
-
         try {
             String accessTokenUrl = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="
                     + Constants.APP_ID + "&secret=" + Constants.APP_SECRET + "&code=" + WX_CODE +

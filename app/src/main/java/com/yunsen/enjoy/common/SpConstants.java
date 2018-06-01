@@ -77,6 +77,28 @@ public class SpConstants {
     public static final String ADDRESS = "address";
     public static final String EMAIL = "email";
     public static final String PWD = "pwd"; //密码
+    public static final String USER_CODE = "user_code";
+    public static final String PARENT_ID = "parent_id";
+    public static final String PARENT_NAME = "parent_name";
+    public static final String USER_LAYER = "user_layer";
+    public static final String USER_LIST = "user_list";
+    public static final String SALES_ID = "sales_id";
+    public static final String SALES_NAME = "sales_name";
+    public static final String AGENCY_ID = "agency_id";
+    public static final String AGENCY_NAME = "agency_name";
+    public static final String SHOPS_NAME = "shops_name";
+    public static final String SHOPS_ID = "shops_id";
+    public static final String STORE_NAME = "store_name";
+    public static final String STORE_ID = "store_id";
+    public static final String REG_IP = "reg_ip";
+    public static final String IDENTITY_CARD = "identity_card";
+    public static final String IDENTITY_CARD_A = "identity_card_a";
+    public static final String IDENTITY_CARD_B = "identity_card_b";
+    public static final String TELPHONE = "telphone";
+    public static final String PACKET = "packet";
+    public static final String INPUT_USER_NAME = "input_user_name";
+    public static final String INPUT_USER_PWD = "input_user_pwd";
+
 
     /**
      * qq登录的信息
@@ -89,4 +111,5 @@ public class SpConstants {
      * 用户地址
      */
     public static final String ADDRESS_SP = "user_dizhixinxi";
+
 }

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -17,12 +18,18 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
+import com.yunsen.enjoy.http.HttpCallBack;
+import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.model.UserInfo;
+import com.yunsen.enjoy.utils.AccountUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
+
+import okhttp3.Request;
 
 /**
  * 引导页的界面
@@ -31,6 +38,7 @@ public class GuideActivity extends AppCompatActivity {
     SharedPreferences preferences;
     private ImageView i0;
     private MyHandler handler;
+    private SharedPreferences mSp;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,6 +52,51 @@ public class GuideActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(R.drawable.zams_qdy)
                 .into(i0);
+        mSp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+        needLogin();//判断是否需要重新登录 防止同一个账号同时使用在多台设备上
+    }
+
+    private void needLogin() {
+        if (AccountUtils.hasLogin() && AccountUtils.hasBoundPhone()) {
+            String userName = mSp.getString(SpConstants.USER_NAME, "");
+            final String loginSign = mSp.getString(SpConstants.LOGIN_SIGN, "");
+            HttpProxy.getUserInfo(userName, new HttpCallBack<UserInfo>() {
+                @Override
+                public void onSuccess(UserInfo responseData) {
+                    String login_sign = responseData.getLogin_sign();
+                    if (!loginSign.equals(login_sign)) {
+                        appLogin();
+                    }
+                }
+
+                @Override
+                public void onError(Request request, Exception e) {
+
+                }
+            });
+
+
+        }
+    }
+
+    private void appLogin() {
+        String userName = mSp.getString(SpConstants.INPUT_USER_NAME, "");
+        String pwd = mSp.getString(SpConstants.INPUT_USER_PWD, "");
+        if (TextUtils.isEmpty(userName) || TextUtils.isEmpty(pwd)) { //如果是第三方登录的 犹如不知道用户名和密码需要重新手动登录
+            mSp.edit().clear().commit();
+            return;
+        }
+        HttpProxy.getUserLogin(userName, pwd, new HttpCallBack<UserInfo>() {
+            @Override
+            public void onSuccess(UserInfo responseData) {
+
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
     }
 
 

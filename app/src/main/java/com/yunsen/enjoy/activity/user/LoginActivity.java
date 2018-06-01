@@ -348,15 +348,26 @@ public class LoginActivity extends BaseFragmentActivity {
      * @param name
      * @param pwd
      */
-    private void requestUserLogin(String name, String pwd) {
+    private void requestUserLogin(final String name, final String pwd) {
         HttpProxy.getUserLogin(name, pwd, new HttpCallBack<UserInfo>() {
             @Override
             public void onSuccess(UserInfo responseData) {
-                SpUtils.saveUserInfo(responseData);
-                EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
-                UIHelper.showHomeActivity(LoginActivity.this);
-                setResult(RESULT_OK);
-                finish();
+                if (layoutPhone != null) {
+                    SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+                    SharedPreferences.Editor edit = sp.edit();
+                    edit.putString(SpConstants.INPUT_USER_PWD, pwd);
+                    edit.putString(SpConstants.INPUT_USER_NAME, name);
+                    edit.commit();
+                    layoutPhone.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
+                            UIHelper.showHomeActivity(LoginActivity.this);
+                            setResult(RESULT_OK);
+                            finish();
+                        }
+                    }, 1000);
+                }
 
             }
 

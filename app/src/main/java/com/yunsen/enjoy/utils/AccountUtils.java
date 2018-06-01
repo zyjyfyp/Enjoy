@@ -64,6 +64,7 @@ public class AccountUtils {
      * 退出时清空
      */
     public static void clearData() {
+
         user_name_phone = "";
         user_name_key = "";
         user_id = "";

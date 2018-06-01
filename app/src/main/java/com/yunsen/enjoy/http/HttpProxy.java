@@ -4,6 +4,7 @@ package com.yunsen.enjoy.http;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.MainThread;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -60,7 +61,10 @@ import com.yunsen.enjoy.model.response.TradeListResponse;
 import com.yunsen.enjoy.model.response.UserInfoResponse;
 import com.yunsen.enjoy.model.response.WalletCashResponse;
 import com.yunsen.enjoy.model.response.WatchCarResponse;
+import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.EntityToMap;
+import com.yunsen.enjoy.utils.SpUtils;
+import com.yunsen.enjoy.utils.ToastUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -497,15 +501,27 @@ public class HttpProxy {
     /**
      * 获取用户信息
      *
-     * @param userId
+     * @param userName 用户名
      * @param callBack
      */
-    public static void getUserInfo(String userId, final HttpCallBack<UserInfo> callBack) {
-        HttpClient.get(URLConstants.PHONE_USER_INFO_URL + userId, new HashMap<String, String>(), new HttpResponseHandler<UserInfoResponse>() {
+    public static void getUserInfo(String userName, final HttpCallBack<UserInfo> callBack) {
+        HttpClient.get(URLConstants.PHONE_USER_INFO_URL + userName, new HashMap<String, String>(), new HttpResponseHandler<UserInfoResponse>() {
             @Override
             public void onSuccess(UserInfoResponse response) {
                 super.onSuccess(response);
-                callBack.onSuccess(response.getData());
+                UserInfo data = response.getData();
+                if (data != null) {
+                    SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+                    String loginSign = sp.getString(SpConstants.LOGIN_SIGN, "");
+                    if (loginSign.equals(data.getLogin_sign())) {  //如果签名一致保存数据， 如果不一致删除数据需要重新登录
+                        SpUtils.saveUserInfo(data);
+                    } else {
+                        sp.edit().clear().commit();
+                    }
+                    callBack.onSuccess(data);
+                } else {
+                    ToastUtils.makeTextShort("获取用户信息失败");
+                }
             }
 
             @Override
@@ -518,8 +534,8 @@ public class HttpProxy {
     /**
      * 电话用户登录
      *
-     * @param phone
-     * @param pwd
+     * @param phone    登录的手机号
+     * @param pwd      密码
      * @param callBack
      */
     public static void getUserLogin(String phone, String pwd, final HttpCallBack<UserInfo> callBack) {
@@ -532,7 +548,13 @@ public class HttpProxy {
             @Override
             public void onSuccess(UserInfoResponse response) {
                 super.onSuccess(response);
-                callBack.onSuccess(response.getData());
+                if (response != null && response.getData() != null) {
+                    UserInfo data = response.getData();
+                    SpUtils.saveUserInfo(data);
+                    callBack.onSuccess(data);
+                } else {
+                    ToastUtils.makeTextShort("获取用户信息失败");
+                }
             }
 
             @Override

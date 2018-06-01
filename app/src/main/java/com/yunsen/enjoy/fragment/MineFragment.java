@@ -51,6 +51,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -153,11 +154,7 @@ public class MineFragment extends BaseFragment {
     private String access_token;
     private String sex;
     private String headimgurl2;
-    private String user_name;
-    private String strUrlone;
-    private UserInfo data;
 
-    private String mUserId;
     private Boolean mIsFacilitator = false; //是否是服务商
     private String mUserName;//用户名
 
@@ -192,19 +189,15 @@ public class MineFragment extends BaseFragment {
             hasLoginLayout.setVisibility(View.VISIBLE);
             loginIcon.setVisibility(View.GONE);
             loginTv.setVisibility(View.GONE);
-            SharedPreferences sp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
             nickname = mSp.getString(SpConstants.NICK_NAME, "");
             headimgurl = mSp.getString(SpConstants.HEAD_IMG_URL, "");
             unionid = mSp.getString(SpConstants.UNION_ID, "");
             access_token = mSp.getString(SpConstants.ACCESS_TOKEN, "");
             sex = mSp.getString(SpConstants.SEX, "");
-
-            String imgUrl = sp.getString(SpConstants.USER_IMG, "");
-            String imgUrl2 = sp.getString(SpConstants.AVATAR, "");
-            String imgUrl3 = sp.getString(SpConstants.HEAD_IMG_URL_2, "");
-
+            String imgUrl = mSp.getString(SpConstants.USER_IMG, "");
+            String imgUrl2 = mSp.getString(SpConstants.AVATAR, "");
+            String imgUrl3 = mSp.getString(SpConstants.HEAD_IMG_URL_2, "");
             String iUrl = null;
-
             if (!TextUtils.isEmpty(imgUrl2)) {
                 iUrl = URLConstants.REALM_URL + imgUrl2;
             } else if (!TextUtils.isEmpty(imgUrl)) {
@@ -219,18 +212,12 @@ public class MineFragment extends BaseFragment {
                     .transform(new GlideCircleTransform(getActivity()))
                     .into(userIconImg);
             getUserInfo();
-
         } else {
             hasLoginLayout.setVisibility(View.GONE);
             loginIcon.setVisibility(View.VISIBLE);
             loginTv.setVisibility(View.VISIBLE);
         }
-        //        spPreferences = getActivity().getSharedPreferences(SpConstants.SP_USER_SET, Context.MODE_PRIVATE);
-        //        user_name_phone = spPreferences.getString(SpConstants.USER, "");
-        //        if (!TextUtils.isEmpty(user_name_phone)) {
-        //            user_id = spPreferences.getString(SpConstants.USER_ID, "");
-        //            user_name_key = user_name_phone;
-        //        }
+
     }
 
 
@@ -435,22 +422,12 @@ public class MineFragment extends BaseFragment {
         }
     }
 
-    /**
-     * 第0个列表数据解析
-     */
-    ArrayList<String> list_1;
-    ArrayList<String> list_2;
-    ArrayList<String> list_3;
-    ArrayList<String> list_4;
 
     /**
      * 加载订单信息
      */
     private void load_list() {
-        list_1 = new ArrayList<String>();
-        list_2 = new ArrayList<String>();
-        list_3 = new ArrayList<String>();
-        list_4 = new ArrayList<String>();
+
         System.out.println("=========user_id============" + user_id);
         AsyncHttp.get(URLConstants.REALM_NAME_LL
                         + "/get_order_page_size_list?user_id=" + user_id + ""
@@ -460,6 +437,10 @@ public class MineFragment extends BaseFragment {
                     public void onSuccess(int arg0, String arg1) {
 
                         super.onSuccess(arg0, arg1);
+                        ArrayList<String> list_1 = new ArrayList<String>();
+                        ArrayList<String> list_2 = new ArrayList<String>();
+                        ArrayList<String> list_3 = new ArrayList<String>();
+                        ArrayList<String> list_4 = new ArrayList<String>();
                         try {
                             JSONObject object = new JSONObject(arg1);
                             String status_1 = object.getString("status");
@@ -493,13 +474,8 @@ public class MineFragment extends BaseFragment {
                                 orderNumber3.setText(num2);
                                 String num3 = String.valueOf(list_4.size());
                                 orderNumber4.setText(num3);
-
-                                list_1 = null;
-                                list_2 = null;
-                                list_3 = null;
-                                list_4 = null;
                             }
-                        } catch (Exception e) {
+                        } catch (JSONException e) {
 
                             e.printStackTrace();
                         }
@@ -524,7 +500,6 @@ public class MineFragment extends BaseFragment {
             mUserName = mSp.getString(SpConstants.NICK_NAME, "");
         }
 
-
         if (SpConstants.WEI_XIN.equals(loginFlag) || SpConstants.QQ_LOGIN.equals(loginFlag)) {//微信登录
             if (AccountUtils.hasBoundPhone()) {
                 getLeXiangUserInfo();//获取乐享用户信息
@@ -543,30 +518,11 @@ public class MineFragment extends BaseFragment {
                 loginTv.setVisibility(View.VISIBLE);
             }
         }
-
-        //        if (!TextUtils.isEmpty(nickname)) {//是微信登录
-        //            if (!TextUtils.isEmpty(user_name_phone)) {//有绑定手机
-        //                getLeXiangUserInfo();//获取乐享用户信息
-        //                load_list();
-        //                requestIsFacilitator();//判断是否是服务商
-        //            } else {
-        //                // TODO: 2018/4/26 清空用户数据
-        //                //                        setinten();// 数据清空
-        //                setUserIconAndName(nickname, headimgurl2, headimgurl);
-        //            }
-        //        } else {
-        //            if (!TextUtils.isEmpty(user_name_phone)) {//手机登录
-        //                getLeXiangUserInfo();//获取乐享用户信息
-        //                load_list();
-        //            } else {
-        //                hasLoginLayout.setVisibility(View.GONE);
-        //                loginIcon.setVisibility(View.VISIBLE);
-        //                loginTv.setVisibility(View.VISIBLE);
-        //            }
-        //        }
-
     }
 
+    /**
+     * 是否是服务商
+     */
     private void requestIsFacilitator() {
         //facilitator
         HttpProxy.getIsFacilitator(user_id, new HttpCallBack<Boolean>() {
@@ -634,23 +590,9 @@ public class MineFragment extends BaseFragment {
      * 获取乐享用户信息
      */
     public void getLeXiangUserInfo() {
-        strUrlone = URLConstants.REALM_NAME_LL + "/get_user_model?username=" + user_name_phone + "";
-
-
         HttpProxy.getUserInfo(user_name_phone, new HttpCallBack<UserInfo>() {
             @Override
             public void onSuccess(UserInfo data) {
-                // TODO: 2018/5/7 zyjy what?
-                //                            double dzongjia = data.getExp() + data.getExp_weal() + data.getExp_invest() + data.getExp_action() + data.getExp_time();
-                //                            BigDecimal w = new BigDecimal(dzongjia);
-                //                            double zong_jz = w.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue(); //价值
-                SharedPreferences.Editor editor = mSp.edit();
-                editor.putString("mobile", data.getMobile());
-                editor.putString("avatar", data.getAvatar());
-                editor.putString("group_id", "" + data.getGroup_id());
-                editor.putString("group_name", data.getGroup_name());
-                editor.commit();
-                SpUtils.saveUserInfo(data);
                 yth = data.getUser_code();
                 balanceTv.setText("" + data.getAmount()); //钱包
                 freezeTv.setText("" + data.getReserve());//冻结基金
@@ -661,7 +603,6 @@ public class MineFragment extends BaseFragment {
                     userNameTv.setText(data.getUser_name());
                 } else {
                     userNameTv.setText(nickName);
-                    editor.putString(SpConstants.NICK_NAME, nickName);
                 }
                 gradeTv.setText(data.getGroup_name());
                 phoneNumTv.setText("(" + data.getMobile() + ")");
@@ -674,43 +615,12 @@ public class MineFragment extends BaseFragment {
                             .transform(new GlideCircleTransform(getActivity()))
                             .into(userIconImg);
                 } else {
-                    //                    GetImgUtil.loadLocationImg(getActivity(), userIconImg);
                     Glide.with(MineFragment.this)
                             .load(URLConstants.REALM_URL + avatar)
                             .placeholder(R.mipmap.ic_launcher_round)
                             .transform(new GlideCircleTransform(getActivity()))
                             .into(userIconImg);
                 }
-                // point
-                //                                System.out.println("tp_type===============" + tp_type);
-                //                                if (tp_type == false) { todo ??
-                //                                    tp_type = false;
-                //                                    mImageLoader = initImageLoader(getActivity(), mImageLoader, "test");
-                //                                    if (!data.avatar.equals("")) {
-                //                                        mImageLoader.displayImage(RealmName.REALM_NAME_FTP + data.avatar, networkImage);
-                //                                    } else {
-                //                                        if (data.avatar.equals("")) {
-                //                                            bitMap = BitmapFactory.decodeResource(getResources(), R.mipmap.app_icon);
-                //                                            networkImage.setImageBitmap(bitMap);
-                //                                        } else {
-                //                                            if (!headimgurl.equals("")) {
-                //                                                img_head.setVisibility(View.GONE);
-                //                                                networkImage.setVisibility(View.VISIBLE);
-                //                                                mImageLoader = initImageLoader(getActivity(), mImageLoader, "test");
-                //                                                mImageLoader.displayImage(headimgurl, networkImage);
-                //                                            } else {
-                //                                                if (!headimgurl2.equals("")) {
-                //                                                    img_head.setVisibility(View.VISIBLE);
-                //                                                    networkImage.setVisibility(View.GONE);
-                //                                                    bitmap = BitUtil.stringtoBitmap(headimgurl2);
-                //                                                    bitmap = Utils.toRoundBitmap(bitmap, null); // 这个时候的图片已经被处理成圆形的了
-                //                                                    img_head.setImageBitmap(bitmap);
-                //                                                }
-                //                                            }
-                //                                        }
-                //                                    }
-                //                                }
-                //                                userpanduan(data.login_sign); 判断是否升级 todo??
             }
 
             @Override
@@ -773,8 +683,7 @@ public class MineFragment extends BaseFragment {
             HttpProxy.putUserIcon(getActivity(), imgUrl, new HttpCallBack<String>() {
                 @Override
                 public void onSuccess(String responseData) {
-                    SharedPreferences sp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor edit = sp.edit();
+                    SharedPreferences.Editor edit = mSp.edit();
                     edit.putString(SpConstants.USER_IMG, imgUrl);
                     edit.commit();
                 }
@@ -808,7 +717,6 @@ public class MineFragment extends BaseFragment {
 
 
     public void loadUserIcon(Uri selectedImage) {
-
         //上传图片
         GetImgUtil.pullImageBase4(getActivity(), selectedImage, EventConstants.USER_ICON);
     }

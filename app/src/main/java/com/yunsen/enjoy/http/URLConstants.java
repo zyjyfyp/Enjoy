@@ -14,7 +14,6 @@ public class URLConstants {
 
     public static final String REALM_ACCOUNT_URL = "http://szlxkg.com/tools/mobile_ajax.asmx";
 
-
     /**
      * 头部广告
      */
