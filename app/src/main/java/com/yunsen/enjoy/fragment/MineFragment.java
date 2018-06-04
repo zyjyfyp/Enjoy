@@ -565,7 +565,7 @@ public class MineFragment extends BaseFragment {
 
             Glide.with(MineFragment.this)
                     .load(imgString)
-                    .error(R.mipmap.login_icon)
+                    .error(R.mipmap.app_icon)
                     .transform(new GlideCircleTransform(getActivity()))
                     .into(userIconImg);
             //            Bitmap bitmap = Utils.stringtoBitmap(imgString);
@@ -576,7 +576,7 @@ public class MineFragment extends BaseFragment {
         } else {
             Glide.with(MineFragment.this)
                     .load(imgUrl)
-                    .error(R.mipmap.login_icon)
+                    .error(R.mipmap.app_icon)
                     .transform(new GlideCircleTransform(getActivity()))
                     .into(userIconImg);
         }

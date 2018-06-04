@@ -46,7 +46,7 @@ public class BannerAdapter extends PagerAdapter {
         if (data.getAd_url() == null) {
             item.setImageResource(data.getRseImg());
         } else {
-            Picasso.with(mContext).load(data.getAd_url()).placeholder(R.mipmap.car_1).into(item);
+            Picasso.with(mContext).load(data.getAd_url()).placeholder(R.mipmap.banner1).into(item);
         }
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(-1, -1);
         item.setLayoutParams(params);

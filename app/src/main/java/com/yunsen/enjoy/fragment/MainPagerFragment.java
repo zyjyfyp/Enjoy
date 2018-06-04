@@ -220,7 +220,7 @@ public class MainPagerFragment extends BaseFragment implements View.OnClickListe
 
     public List<AdvertModel> getData() {
         ArrayList<AdvertModel> data = new ArrayList<>();
-        data.add(new AdvertModel(R.mipmap.adv_home, null));
+        data.add(new AdvertModel(R.mipmap.banner1, null));
 //        data.add(new AdvertModel(R.mipmap.adv_home, "http://pic71.nipic.com/file/20150610/13549908_104823135000_2.jpg"));
 //        data.add(new AdvertModel(R.mipmap.adv_home, "http://img07.tooopen.com/images/20170316/tooopen_sy_201956178977.jpg"));
 //        data.add(new AdvertModel(R.mipmap.adv_home, "http://img.zcool.cn/community/010a1b554c01d1000001bf72a68b37.jpg@1280w_1l_2o_100sh.png"));

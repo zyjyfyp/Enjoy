@@ -66,9 +66,7 @@ public class GuideActivity extends AppCompatActivity {
                             act.getgaoguan();
                         } else {
                             Intent intent = new Intent(act, Guide2Activity.class);
-                            Editor editor = act.preferences.edit();
-                            editor.putString("flow", "yes");
-                            editor.commit();
+
                             act.startActivity(intent);
                             act.finish();
                         }

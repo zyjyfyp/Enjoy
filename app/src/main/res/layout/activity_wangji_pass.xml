@@ -1,21 +1,18 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-
+    android:background="@mipmap/app_login_bg"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
         android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/ll_buju"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@mipmap/login_bg"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <ImageView
@@ -39,10 +36,11 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/app_icon" />
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/login_top_icon"/>
 
             </LinearLayout>
 
@@ -62,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
-            android:background="@color/white">
+          >
 
             <ImageView
                 android:layout_width="25dp"
@@ -82,7 +80,7 @@
                 android:inputType="number"
                 android:maxLength="11"
                 android:singleLine="true"
-                android:textColor="@color/all_wenzi"
+                android:textColor="@color/black"
                 android:textColorHint="@color/all_c1c1c1"
                 android:textSize="16sp" />
 
@@ -98,7 +96,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/white">
+          >
 
             <ImageView
                 android:layout_width="25dp"
@@ -119,7 +117,7 @@
                 android:inputType="number"
                 android:maxLength="10"
                 android:singleLine="true"
-                android:textColor="@color/all_wenzi"
+                android:textColor="@color/black"
                 android:textColorHint="@color/all_c1c1c1"
                 android:textSize="16sp" />
 
@@ -133,7 +131,7 @@
                 android:ems="6"
                 android:gravity="center"
                 android:text="获取验证码"
-                android:textColor="@color/color_theme"
+                android:textColor="@color/color_888"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -148,7 +146,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/white">
+        >
 
             <ImageView
                 android:layout_width="25dp"
@@ -169,7 +167,7 @@
                 android:maxLength="20"
                 android:password="true"
                 android:singleLine="true"
-                android:textColor="@color/all_wenzi"
+                android:textColor="@color/black"
                 android:textColorHint="@color/all_c1c1c1"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -188,9 +186,9 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="30dp"
-            android:background="@drawable/bg_red_3_5_login"
+            android:background="@drawable/login_btn_bg"
             android:text="确定"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/title_color"
             android:textSize="20dp" />
 
 

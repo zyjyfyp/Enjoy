@@ -28,7 +28,7 @@ public class GoodsAdapter extends CommonAdapter<GoodsData> {
         holder.setText(R.id.goods_sub_title, goodsData.getCategory_title());
         Picasso.with(mContext)
                 .load(goodsData.getImg_url())
-                .placeholder(R.mipmap.car_1)
+                .placeholder(R.mipmap.banner1)
                 .resize(DeviceUtil.dp2px(mContext,105),DeviceUtil.dp2px(mContext,70))
                 .centerCrop()
                 .into(((ImageView) holder.getView(R.id.goods_right_img)));
