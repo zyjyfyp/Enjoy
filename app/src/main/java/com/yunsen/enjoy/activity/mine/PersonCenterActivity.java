@@ -37,13 +37,14 @@ import com.gghl.view.wheelcity.WheelView;
 import com.gghl.view.wheelcity.adapters.ArrayWheelAdapter;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.squareup.picasso.Picasso;
+import com.yanzhenjie.permission.Action;
+import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
-import com.yunsen.enjoy.activity.MainActivity;
-import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.adapter.CountryAdapter;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.PermissionSetting;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.fragment.MineFragment;
 import com.yunsen.enjoy.http.AsyncHttp;
@@ -82,6 +83,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -965,21 +967,25 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                System.out.println("MainFragment.zhuangtai------------------");
-                // TODO: 2018/4/24  zhangyong  MainActivity.zhuangtai  状态下载
-                if (MainActivity.zhuangtai == true) {
-                    Toast.makeText(PersonCenterActivity.this, "正在下载...", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                } else if (UserLoginActivity.zhuangtai == true) {
-                    Toast.makeText(PersonCenterActivity.this, "正在下载...", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                } else if (PersonCenterActivity.zhuangtai == true) {
+                if (UpdateApkThread.IsLoading()) {
                     Toast.makeText(PersonCenterActivity.this, "正在下载...", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 } else {
-                    final String filePath = Environment.getExternalStorageDirectory() + "/ss";
-                    new UpdateApkThread("http://mobile.zams.cn/upload/201711/06/201711061711323273.apk", filePath, "zams.apk", PersonCenterActivity.this).start();
-                    downLoadApk();
+                    AndPermission.with(PersonCenterActivity.this)
+                            .permission(Permission.Group.STORAGE)
+                            .onGranted(new Action() {
+                                @Override
+                                public void onAction(List<String> permissions) {
+                                    String filePath = Environment.getExternalStorageDirectory() + "/ss";
+                                    new UpdateApkThread(URL, filePath, "zams.apk", PersonCenterActivity.this).start();
+                                }
+                            })
+                            .onDenied(new Action() {
+                                @Override
+                                public void onAction(List<String> permissions) {
+                                    new PermissionSetting(PersonCenterActivity.this).showSettingStorage(permissions);
+                                }
+                            }).start();
                 }
             }
         });

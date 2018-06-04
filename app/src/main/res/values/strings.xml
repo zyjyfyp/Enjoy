@@ -46,6 +46,7 @@
     <string name="title_dialog">提示</string>
     <string name="message_permission_rationale">允许以下权限以便程序继续执行：\n\n%1$s</string>
     <string name="message_permission_always_failed">我们需要以下权限，请在设置中为我们开启：\n\n%1$s</string>
+    <string name="message_permission_storage_failed">该权限禁止，我们无法下载应用，请在设置中为我们开启：\n\n%1$s</string>
 
     <string name="pwd_hint_info">请输入密码(6&#8211;20位数字的密码)</string>
     <string name="errcode_success">发送成功</string>

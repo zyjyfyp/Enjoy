@@ -37,10 +37,14 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
+import com.yanzhenjie.permission.Action;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.PermissionSetting;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.HttpCallBack;
@@ -63,6 +67,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 import okhttp3.Request;
 
@@ -616,21 +621,26 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                System.out.println("UserLoginActivity.zhuangtai------------------" + UserLoginActivity.zhuangtai);
-                // TODO: 2018/4/25 zyjy 升级标记
-                if (MainActivity.zhuangtai == true) {
-                    Toast.makeText(UserLoginActivity.this, "正在下载...", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                } else if (PersonCenterActivity.zhuangtai == true) {
-                    Toast.makeText(UserLoginActivity.this, "正在下载...", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                } else if (UserLoginActivity.zhuangtai == true) {
+                if (UpdateApkThread.IsLoading()) {
                     Toast.makeText(UserLoginActivity.this, "正在下载...", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 } else {
-                    final String filePath = Environment.getExternalStorageDirectory() + "/ss";
-                    new UpdateApkThread("http://mobile.zams.cn/upload/201711/06/201711061711323273.apk", filePath, "zams.apk", UserLoginActivity.this).start();
-                    downLoadApk();
+
+                    AndPermission.with(UserLoginActivity.this)
+                            .permission(Permission.Group.STORAGE)
+                            .onGranted(new Action() {
+                                @Override
+                                public void onAction(List<String> permissions) {
+                                    String filePath = Environment.getExternalStorageDirectory() + "/ss";
+                                    new UpdateApkThread(URL, filePath, "zams.apk", UserLoginActivity.this).start();
+                                }
+                            })
+                            .onDenied(new Action() {
+                                @Override
+                                public void onAction(List<String> permissions) {
+                                    new PermissionSetting(UserLoginActivity.this).showSettingStorage(permissions);
+                                }
+                            }).start();
                 }
             }
         });
