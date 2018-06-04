@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height"
         android:gravity="center_vertical"
+        android:descendantFocusability="blocksDescendants"
         android:orientation="horizontal">
 
         <ImageView
@@ -53,6 +54,8 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginRight="20dp"
+            android:focusable="false"
+            android:clickable="false"
             android:button="@drawable/checkbox_selectors" />
 
 

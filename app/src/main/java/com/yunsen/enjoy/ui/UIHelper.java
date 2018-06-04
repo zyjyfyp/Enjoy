@@ -820,6 +820,6 @@ public class UIHelper {
      */
     public static void showBindBankCardActivity(Activity activity) {
         Intent intent = new Intent(activity, BindBankCardActivity.class);
-        activity.startActivity(intent);
+        activity.startActivityForResult(intent, Constants.BIND_BANK_CARD_REQUEST);
     }
 }

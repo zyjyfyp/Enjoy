@@ -14,8 +14,15 @@ import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.model.BindCardTypeBean;
 import com.yunsen.enjoy.model.request.BindBankCardRequest;
 import com.yunsen.enjoy.utils.ToastUtils;
+import com.yunsen.enjoy.utils.Validator;
+import com.yunsen.enjoy.widget.MyAlertDialog;
+import com.yunsen.enjoy.widget.SelectCityProxy;
+import com.yunsen.enjoy.widget.dialog.BindCardTypeDialog;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,7 +34,7 @@ import okhttp3.Request;
  * 绑定银行卡
  */
 
-public class BindBankCardActivity extends BaseFragmentActivity {
+public class BindBankCardActivity extends BaseFragmentActivity implements BindCardTypeDialog.onBindBankTypeListener, SelectCityProxy.onSelectCityListener {
     @Bind(R.id.action_back)
     ImageView actionBack;
     @Bind(R.id.action_bar_title)
@@ -48,6 +55,11 @@ public class BindBankCardActivity extends BaseFragmentActivity {
     EditText bindPhoneEdt;
     @Bind(R.id.submit)
     Button submit;
+    private ArrayList<BindCardTypeBean> mTypeDatas;
+    private BindCardTypeDialog mBindCardTypeDialog;
+    private SelectCityProxy mSelectCityProxy;
+    private MyAlertDialog mSelectCityDialog;
+    private BindBankCardRequest mRequestDatas;
 
     @Override
     public int getLayout() {
@@ -62,12 +74,28 @@ public class BindBankCardActivity extends BaseFragmentActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
+        mTypeDatas = new ArrayList<>();
+        mTypeDatas.add(new BindCardTypeBean("工商银行", false));
+        mTypeDatas.add(new BindCardTypeBean("建设银行", false));
+        mTypeDatas.add(new BindCardTypeBean("农业银行", false));
+        mTypeDatas.add(new BindCardTypeBean("邮政银行", false));
+        mTypeDatas.add(new BindCardTypeBean("中国银行", false));
+        mTypeDatas.add(new BindCardTypeBean("广发银行", false));
+        mTypeDatas.add(new BindCardTypeBean("光大银行", false));
+        mTypeDatas.add(new BindCardTypeBean("商户银行", false));
+        //成功
+        SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+        String userId = sp.getString(SpConstants.USER_ID, "");
+        String loginSign = sp.getString(SpConstants.LOGIN_SIGN, "");
+        mRequestDatas = new BindBankCardRequest(userId, loginSign);
+        mBindCardTypeDialog = new BindCardTypeDialog(BindBankCardActivity.this, mTypeDatas);
+        mSelectCityProxy = new SelectCityProxy();
     }
 
     @Override
     protected void initListener() {
-
+        mBindCardTypeDialog.setOnBindBackTypeListener(this);
+        mSelectCityProxy.setOnSelectCityListener(this);
     }
 
 
@@ -78,8 +106,15 @@ public class BindBankCardActivity extends BaseFragmentActivity {
                 finish();
                 break;
             case R.id.bind_card_type_tv:
+                if (!mBindCardTypeDialog.isShowing()) {
+                    mBindCardTypeDialog.show();
+                }
                 break;
             case R.id.bind_address_tv:
+                if (mSelectCityDialog == null) {
+                    mSelectCityDialog = mSelectCityProxy.createDialog(this, "选择地区");
+                }
+                mSelectCityDialog.show();
                 break;
             case R.id.submit:
                 addBankCard();
@@ -106,23 +141,19 @@ public class BindBankCardActivity extends BaseFragmentActivity {
             ToastUtils.makeTextShort("请选择地区");
         } else if (TextUtils.isEmpty(phone)) {
             ToastUtils.makeTextShort("请输入手机号");
+        } else if (!Validator.isMobile(phone)) {
+            ToastUtils.makeTextShort("请输入正确的电话号码");
         } else {
-            //成功
-            SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
-            String userId = sp.getString(SpConstants.USER_ID, "");
-            String loginSign = sp.getString(SpConstants.LOGIN_SIGN, "");
-            BindBankCardRequest request = new BindBankCardRequest(userId, loginSign);
-            request.setBank_account(name);
-            request.setBank_card(cardId);
-            request.setBank_name(cardType);
+            mRequestDatas.setBank_account(name);
+            mRequestDatas.setBank_card(cardId);
+            mRequestDatas.setBank_name(cardType);
             // ddd
-            request.setBank_certtype(occupation);
-
-
-            HttpProxy.bindBankCard(request, new HttpCallBack<Boolean>() {
+            mRequestDatas.setBank_certtype(occupation);
+            HttpProxy.bindBankCard(mRequestDatas, new HttpCallBack<Boolean>() {
                 @Override
                 public void onSuccess(Boolean responseData) {
                     ToastUtils.makeTextShort("绑定成功");
+                    setResult(RESULT_OK);
                     finish();
                 }
 
@@ -131,6 +162,21 @@ public class BindBankCardActivity extends BaseFragmentActivity {
 
                 }
             });
+        }
+    }
+
+    @Override
+    public void onCallBack(BindCardTypeBean data) {
+        bindCardTypeTv.setText(data.getName());
+    }
+
+    @Override
+    public void onSelectCityCallBack(String... address) {
+        if (address != null && address.length >= 4) {
+            bindAddressTv.setText(address[0]);
+            mRequestDatas.setBank_province(address[1]);
+            mRequestDatas.setBank_city(address[2]);
+            mRequestDatas.setBank_area(address[3]);
         }
     }
 }
