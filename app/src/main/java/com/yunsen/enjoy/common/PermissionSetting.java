@@ -43,4 +43,31 @@ public final class PermissionSetting {
                 })
                 .show();
     }
+    /**
+     * 下载的提示
+     *
+     * @param permissions
+     */
+    public void showSettingStorage(final List<String> permissions) {
+        List<String> permissionNames = Permission.transformText(mContext, permissions);
+        String message = mContext.getString(R.string.message_permission_storage_failed, TextUtils.join("\n", permissionNames));
+        final SettingService settingService = AndPermission.permissionSetting(mContext);
+        new AlertDialog.Builder(mContext)
+                .setCancelable(false)
+                .setTitle(R.string.title_dialog)
+                .setMessage(message)
+                .setPositiveButton(R.string.setting, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        settingService.execute();
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        settingService.cancel();
+                    }
+                })
+                .show();
+    }
 }
