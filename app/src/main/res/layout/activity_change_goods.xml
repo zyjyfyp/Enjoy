@@ -110,6 +110,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/hint_bg"
+                    android:inputType="number"
                     android:gravity="center"
                     android:hint="最低价"
                     android:textSize="14sp" />
@@ -129,6 +130,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/hint_bg"
                     android:gravity="center"
+                    android:inputType="number"
                     android:hint="最高价"
                     android:textSize="14sp" />
 

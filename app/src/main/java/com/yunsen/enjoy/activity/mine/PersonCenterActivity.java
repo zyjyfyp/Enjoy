@@ -42,8 +42,6 @@ import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
-import com.yunsen.enjoy.activity.MainActivity;
-import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.adapter.CountryAdapter;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.PermissionSetting;
@@ -54,6 +52,7 @@ import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.http.down.UpdateApkThread;
+import com.yunsen.enjoy.model.AddressInfo;
 import com.yunsen.enjoy.model.UserRegisterllData;
 import com.yunsen.enjoy.model.UserSenJiBean;
 import com.yunsen.enjoy.model.event.EventConstants;
@@ -86,6 +85,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import it.sauronsoftware.ftp4j.FTPAbortedException;
 import it.sauronsoftware.ftp4j.FTPClient;
 import it.sauronsoftware.ftp4j.FTPDataTransferException;
@@ -95,6 +96,14 @@ import okhttp3.Request;
 
 
 public class PersonCenterActivity extends BaseFragmentActivity implements OnClickListener {
+    private static final int CHOOSE_PICTURE = 0;
+    private static final int TAKE_PICTURE = 1;
+    private static final int CROP_SMALL_PICTURE = 2;
+    private static final int ADDRESS_ACT_REQUEST = 3;
+
+    @Bind(R.id.default_address_tv)
+    TextView defaultAddressTv;
+
     private String yth;
     private TextView v2, v7, tv_nicheng, tv_nick_name;
     private RelativeLayout v6, mm, ll_update, rl_nichen;
@@ -109,17 +118,15 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
     String dizhi = "选择地区";
     private String cityTxt, cityTxt1, cityTxt2, cityTxt3;
     String login_sign, sex, nick_name, mobile;
-    String user_name, user_id;
+    String user_id;
     private DialogProgress progress;
     UserRegisterllData data;
-    protected static final int CHOOSE_PICTURE = 0;
-    protected static final int TAKE_PICTURE = 1;
-    private static final int CROP_SMALL_PICTURE = 2;
     protected static Uri tempUri;
     public static String path, time, province, city, area, lng, lat, imagePath, tupian;
     View vi_shenji;
     public static boolean zhuangtai = false;
     private SharedPreferences mSp;
+    private String mUserName;
 
     @Override
     public int getLayout() {
@@ -129,8 +136,9 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
 
     @Override
     protected void initView() {
+        ButterKnife.bind(this);
         mSp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
-        user_name = mSp.getString(SpConstants.USER_NAME, "");
+        mUserName = mSp.getString(SpConstants.USER_NAME, "");
         user_id = mSp.getString(SpConstants.USER_ID, "");
         progress = new DialogProgress(PersonCenterActivity.this);
         init();
@@ -162,6 +170,31 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
     protected void onResume() {
         super.onResume();
         userloginqm();
+    }
+
+    @Override
+    public void requestData() {
+        super.requestData();
+        requestDefaultAddress();
+    }
+
+    /**
+     * \
+     * 默认地址
+     */
+    private void requestDefaultAddress() {
+        HttpProxy.getUserDefaultAddress(mUserName, new HttpCallBack<AddressInfo>() {
+            @Override
+            public void onSuccess(AddressInfo responseData) {
+                String address = responseData.getProvince() + responseData.getCity() + responseData.getArea() + responseData.getUser_address();
+                defaultAddressTv.setText(address);
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
     }
 
     private void init() {
@@ -219,7 +252,7 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
             public void onClick(View arg0) {
                 Intent intent = new Intent(PersonCenterActivity.this, AddressManagerGlActivity.class);
                 intent.putExtra("order_confrim", "order_confrim");// 标示
-                startActivity(intent);
+                startActivityForResult(intent, ADDRESS_ACT_REQUEST);
             }
         });
 
@@ -290,7 +323,13 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                                         tv_nicheng.setTextColor(getResources().getColor(R.color.black));
                                     }
                                 }
+                                if ("1".equals(sex)) {
+                                    sex = "男";
+                                } else if ("2".equals(sex)) {
+                                    sex = "女";
+                                }
                                 tv_nick_name.setText(sex);
+
                                 v7.setText(data.mobile);//手机号
                                 Editor editor = mSp.edit();
                                 editor.putString(SpConstants.AVATAR, data.avatar);
@@ -567,6 +606,9 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                     break;
             }
         }
+        if (requestCode == ADDRESS_ACT_REQUEST) {
+            requestDefaultAddress();
+        }
     }
 
     /**
@@ -696,7 +738,7 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
         editor.putString(SpConstants.AVATAR, imgUrl);
         editor.commit();
         String strUrl = URLConstants.REALM_ACCOUNT_URL
-                + "/user_avatar_save?user_name=" + user_name + "&user_id=" + user_id + "&user_avatar=" + imgUrl + "&sign=" + login_sign + "";
+                + "/user_avatar_save?user_name=" + mUserName + "&user_id=" + user_id + "&user_avatar=" + imgUrl + "&sign=" + login_sign + "";
         AsyncHttp.get(strUrl, new AsyncHttpResponseHandler() {
             public void onSuccess(int arg0, String arg1) {
                 try {
@@ -1038,7 +1080,7 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
     private void loadusersex() {
         try {
             AsyncHttp.get(URLConstants.REALM_ACCOUNT_URL
-                            + "/user_info_edit?user_id=" + user_id + "&user_name=" + user_name + "" +
+                            + "/user_info_edit?user_id=" + user_id + "&user_name=" + mUserName + "" +
                             "&nick_name=" + nick_name + "&mobile=" + mobile + "&sex=" + sex + "&birthday=string&email=string" +
                             "&telphone=string&qq=string&msn=string&province=" + cityTxt1 + "&city=" + cityTxt2 + "&area=" + cityTxt3 + "&address=string&sign=" + login_sign + "",
                     new AsyncHttpResponseHandler() {
@@ -1096,5 +1138,9 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
         }
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ButterKnife.unbind(this);
+    }
 }

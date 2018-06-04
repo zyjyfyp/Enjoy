@@ -88,7 +88,6 @@ public class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListen
         if (((lastVisibleItemPosition) >= totalItemCount - 1) && visibleItemCount > 0 || visibleItemCount <= totalItemCount - 1) {
             switch (newState) {
                 case RecyclerView.SCROLL_STATE_DRAGGING:
-                    Log.e(TAG, "onScrollStateChanged: SCROLL_STATE_DRAGGING");
                     if (mHasFinish) {
                         onLoadStart();
                     }
@@ -98,10 +97,8 @@ public class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListen
                         mHasFinish = false;
                         onLoadNextPage(recyclerView);
                     }
-                    Log.e(TAG, "onScrollStateChanged: SCROLL_STATE_IDLE");
                     break;
                 case RecyclerView.SCROLL_STATE_SETTLING:
-                    Log.e(TAG, "onScrollStateChanged: SCROLL_STATE_SETTLING");
                     break;
             }
         }
@@ -143,17 +140,18 @@ public class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListen
     @Override
     public void onRefreshComplete() {
         mHasFinish = true;
-        if(mLoadMoreLayout!=null){
+        if (mLoadMoreLayout != null) {
             mLoadMoreLayout.goneView();
         }
     }
 
     @Override
-    public void noMore() {
+    public void noMore(String text) {
         if (mLoadMoreLayout != null) {
-            mLoadMoreLayout.showLoadNoMore();
+            mLoadMoreLayout.showLoadNoMore(text);
         }
     }
+
 
     public void setLoadMoreLayout(LoadMoreLayout loadMoreLayout) {
         this.mLoadMoreLayout = loadMoreLayout;

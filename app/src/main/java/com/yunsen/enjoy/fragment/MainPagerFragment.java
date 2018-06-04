@@ -59,7 +59,7 @@ public class MainPagerFragment extends BaseFragment implements View.OnClickListe
     private View leftSearchImg;
     private View rightMenu;
     private View btnImgLayout;
-    private boolean mIsFacilitator =false;
+    private boolean mIsFacilitator = false;
     private SharedPreferences mSp;
     private String mUserId;
 
@@ -126,15 +126,15 @@ public class MainPagerFragment extends BaseFragment implements View.OnClickListe
                         break;
 
                     case 1:
-                        UIHelper.showChangeGoodsActivity(getActivity(), "goods", "1698", "换产品",0);
+                        UIHelper.showChangeGoodsActivity(getActivity(), "goods", "1698", "换产品", 0);
                         break;
                     case 2:
 //                        UIHelper.showChangeGoodsActivity(getActivity(), "service", "609", "换服务");
-                        UIHelper.showChangeGoodsActivity(getActivity(), "goods", "609", "换服务",0);
+                        UIHelper.showChangeGoodsActivity(getActivity(), "goods", "609", "换服务", 0);
                         break;
                     case 3:
 //                        UIHelper.showChangeGoodsActivity(getActivity(), "card", "1711", "换卡卷");
-                        UIHelper.showChangeGoodsActivity(getActivity(), "goods", "1711", "换卡卷",0);
+                        UIHelper.showChangeGoodsActivity(getActivity(), "goods", "1711", "换卡卷", 0);
 
                         break;
                 }
@@ -143,7 +143,17 @@ public class MainPagerFragment extends BaseFragment implements View.OnClickListe
         twoHLayout.setmListener(new HorizontalLayout4.onHorizontalItemClick() {
             @Override
             public void onItemClick(int index) {
-                ToastUtils.makeTextShort("功能暂未开放。");
+                switch (index) {
+                    case 0:
+                        UIHelper.showApplyAgentActivity(getActivity());
+                        break;
+                    case 1:
+                        UIHelper.showHowOperateActivity(getActivity());
+                        break;
+                    case 2:
+                        UIHelper.showHowIncomeActivity(getActivity());
+                        break;
+                }
             }
         });
     }

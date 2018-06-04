@@ -1,5 +1,6 @@
 package com.yunsen.enjoy.utils;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -23,8 +24,8 @@ public class Validator {
 	 */
 	// public static final String REGEX_MOBILE =
 	// "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
-	public static final String REGEX_MOBILE = "^((13[0-9])|(15[^4])|(18[0,1,2,3,5-9])|(17[0-9])|(147))\\d{8}$";
-//	public static final String REGEX_MOBILE = "^1[34578]\\\\d{9}$";
+//	public static final String REGEX_MOBILE = "^((13[0-9])|(15[^4])|(18[0,1,2,3,5-9])|(17[0-9])|(147))\\d{8}$";
+	public static final String REGEX_MOBILE = "/^[1][3,4,5,7,8][0-9]{9}$/";
 	// String regExp = "^(5|6|8|9)\\d{7}$";//香港手机号码8位数，5|6|8|9开头+7位任意数
 	// http://blog.csdn.net/centralperk/article/details/7360590
 
@@ -80,7 +81,11 @@ public class Validator {
 	 * @return 校验通过返回true，否则返回false
 	 */
 	public static boolean isMobile(String mobile) {
-		return !Pattern.matches(REGEX_MOBILE, mobile);
+//		return Pattern.matches(REGEX_MOBILE, mobile);
+		String regex = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,1,2,5-9])|(17[0-9]))\\d{8}$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(mobile);
+		return matcher.matches();
 	}
 
 	/**

@@ -78,7 +78,7 @@ public class Constants {
     public static final int ADD_ADDRESS_REQUEST = 0; //添加地址
     public static final int PAY_MONEY_ACT_REQUEST = 11;//支付页面，服务器的支付
     public static final int ADD_ADDRESS_ACT_REQUEST = 12;//支付页面添加地址
-
+    public static final int ORDER_ACT_REQUEST = 5; //跳转订单页面
 
     /*******************************************************************
      *                          申请手机权限时的请求码                      *

@@ -31,7 +31,10 @@ import com.yunsen.enjoy.activity.dealer.ApplyServiceActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceSecondActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceThreeActivity;
 import com.yunsen.enjoy.activity.dealer.MyFacilitatorActivity;
+import com.yunsen.enjoy.activity.goods.ApplyAgentActivity;
 import com.yunsen.enjoy.activity.goods.ChangeGoodsActivity;
+import com.yunsen.enjoy.activity.goods.HowIncomeActivity;
+import com.yunsen.enjoy.activity.goods.HowOperateActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
@@ -284,12 +287,11 @@ public class UIHelper {
      * @param ctx
      * @param type
      */
-    public static void showOrderActivity(Context ctx, String type) {
+    public static void showOrderActivity(Activity ctx, String type) {
         Intent intent = new Intent(ctx, MyOrderActivity.class);
         intent.putExtra("status", type);
-        ctx.startActivity(intent);
+        ctx.startActivityForResult(intent, Constants.ORDER_ACT_REQUEST);
     }
-
     /**
      * 绑定手机
      *
@@ -701,5 +703,36 @@ public class UIHelper {
     private void showMyJuDuiHuanActivity() {
 
     }
+
+    /**
+     * 申请待理
+     *
+     * @param ctx
+     */
+    public static void showApplyAgentActivity(Context ctx) {
+        Intent intent = new Intent(ctx, ApplyAgentActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 如何经营
+     *
+     * @param ctx
+     */
+    public static void showHowOperateActivity(Context ctx) {
+        Intent intent = new Intent(ctx, HowOperateActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 如何收益
+     *
+     * @param ctx
+     */
+    public static void showHowIncomeActivity(Context ctx) {
+        Intent intent = new Intent(ctx, HowIncomeActivity.class);
+        ctx.startActivity(intent);
+    }
+
 
 }

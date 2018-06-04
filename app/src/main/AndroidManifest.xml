@@ -179,8 +179,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.pay.TishiCarArchivesActivity"
-            android:theme="@style/AlertDialogStyle"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AlertDialogStyle" />
         <activity
             android:name=".activity.user.PhoneLoginActivity"
             android:screenOrientation="portrait" />
@@ -313,6 +313,15 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.yunsen.enjoy.activity.pay.ZhiFuFangShiActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.goods.ApplyAgentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.goods.HowOperateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.goods.HowIncomeActivity"
             android:screenOrientation="portrait" />
 
     </application>

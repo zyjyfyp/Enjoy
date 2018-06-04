@@ -12,6 +12,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -139,6 +140,11 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
     public AMapLocationClientOption mLocationOption = null;
     private GradeAdapter mGradeAdapter;
     private SelectCityFragment mCityFragment;
+    private String mOrderBy = "click desc"; //排序   价格最低：sell_price asc    价格最高：sell_price desc 智能排序：click desc
+    public static final String ASC = "sell_price asc";
+    public static final String DESC = "sell_price desc";
+    private String mCity = "";
+    private String mCurrentCity = "深圳市";
 
     @Override
     public int getLayout() {
@@ -284,11 +290,11 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
                             isLoadMore = true;
                             requestData();
                         } else {
-                            loadMoreLayout.showLoadNoMore();
+                            loadMoreLayout.showLoadNoMore(null);
                         }
                     }
                 }
-            },1000);
+            }, 1000);
 
 
         }
@@ -298,34 +304,36 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
     @Override
     public void requestData() {
         if (mHasMore)
-            HttpProxy.getChangeGoodsList(mChannelName, mCategegoryId, String.valueOf(mPageIndex), new HttpCallBack<List<CarDetails>>() {
-                @Override
-                public void onSuccess(List<CarDetails> responseData) {
-                    if (isLoadMore) {
-                        mHasMore = mAdapter.addData(responseData);
-                        if (mHasMore) {
-                            loadMoreLayout.showloadingStart();
-                        } else {
-                            loadMoreLayout.showLoadNoMore();
+            HttpProxy.getChangeGoodsList(mChannelName, mCategegoryId, String.valueOf(mPageIndex),
+                    mOrderBy, mCity,
+                    new HttpCallBack<List<CarDetails>>() {
+                        @Override
+                        public void onSuccess(List<CarDetails> responseData) {
+                            if (isLoadMore) {
+                                mHasMore = mAdapter.addData(responseData);
+                                if (mHasMore) {
+                                    loadMoreLayout.showloadingStart();
+                                } else {
+                                    loadMoreLayout.showLoadNoMore(null);
+                                }
+                            } else {
+                                mAdapter.upData(responseData);
+                            }
+                            swipeRefreshWidget.setRefreshing(false);
                         }
-                    } else {
-                        mAdapter.upData(responseData);
-                    }
-                    swipeRefreshWidget.setRefreshing(false);
-                }
 
-                @Override
-                public void onError(Request request, Exception e) {
-                    if (!isLoadMore) {
-                        mAdapter.upData(null);
-                    } else {
-                        mHasMore = false;
-                    }
-                    loadMoreLayout.showLoadNoMore();
-                    swipeRefreshWidget.setRefreshing(false);
-                }
+                        @Override
+                        public void onError(Request request, Exception e) {
+                            if (!isLoadMore) {
+                                mAdapter.upData(null);
+                            } else {
+                                mHasMore = false;
+                            }
+                            loadMoreLayout.showLoadNoMore(null);
+                            swipeRefreshWidget.setRefreshing(false);
+                        }
 
-            });
+                    });
     }
 
 
@@ -366,6 +374,9 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
                 break;
             case R.id.d_text_hor_3:
                 dTextHor3.setSelected(true);
+                mCity = mCurrentCity;
+                upDataInit();
+                requestData();
                 break;
             case R.id.d_text_hor_4:
                 openRightDrag();
@@ -376,12 +387,14 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
             case R.id.d_text_hor_2top:
                 dTextHor2.setSelected(true);
                 dTextHor2.setCompoundDrawables(null, null, mSortUp, null);
+                mOrderBy = ASC;
                 upDataInit();
                 requestData();
                 break;
             case R.id.d_text_hor_2bottom:
                 dTextHor2.setSelected(true);
                 dTextHor2.setCompoundDrawables(null, null, mSortDown, null);
+                mOrderBy = DESC;
                 upDataInit();
                 requestData();
                 break;
@@ -467,6 +480,7 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
                     dTextHor1.setText(name);
                     upDataInit();
                     requestData();
+
                 }
 
             }
@@ -524,7 +538,12 @@ public class ChangeGoodsActivity extends BaseFragmentActivity implements MultiIt
                 amapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
                 GlobalStatic.latitude = amapLocation.getLatitude();//获取纬度
                 GlobalStatic.longitude = amapLocation.getLongitude();//获取经度
-                mAdapter.notifyDataSetChanged();
+                mAdapter.notifyDataSetChanged(); //计算商品的的距离
+                Log.e(TAG, "onLocationChanged: ");
+                String city = amapLocation.getCity();
+                if (!mCurrentCity.equals(city) && !TextUtils.isEmpty(city)) {
+                    mCurrentCity = city;
+                }
             } else {
                 Log.e("AmapError", "location Error, ErrCode:"
                         + amapLocation.getErrorCode() + ", errInfo:"

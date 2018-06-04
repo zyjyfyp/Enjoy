@@ -264,7 +264,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
                 }
                 break;
             case R.id.btn_collect:  //收藏
-                HttpProxy.getAddCollect(mUserId, mUserName, "" + mCarDetail.getDefault_spec_item().getGoods_id(), new HttpCallBack<String>() {
+                HttpProxy.getAddCollect(mUserId, mUserName, "" + mCarDetail.getId(), new HttpCallBack<String>() {
                     @Override
                     public void onSuccess(String responseData) {
                         Toast.makeText(GoodsDescriptionActivityOld.this, responseData, Toast.LENGTH_SHORT).show();

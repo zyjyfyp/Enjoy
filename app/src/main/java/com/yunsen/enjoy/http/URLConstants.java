@@ -63,7 +63,7 @@ public class URLConstants {
     /**
      * 消息通知
      */
-    private static String NOTICE_HTML_URL = "http://mobile.szlxkg.com/news/show-15933.html";
+    private static String NOTICE_HTML_URL = "http://mobile.szlxkg.com/doc/show-15933.html";
 
     public static String getNoticeHtmlUrl(String id) {
         return NOTICE_HTML_URL.replace("15933", id);
@@ -237,7 +237,26 @@ public class URLConstants {
      */
     public static final String BALANCE_BAY_URL = BuildConfig.ROOT_URL + "/api/payment/balance/index.aspx";
 
+    /**
+     * 获取用户默认地址
+     */
+    public static final String DEFAULT_ADDRESS_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_shopping_address_default";
+    /**
+     * 绑定银行卡
+     * https://szlxkg.com/tools/mobile_ajax.asmx/add_user_bank
+     */
+    public static final String BIND_BANK_CARD_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_user_bank";
 
+    /**
+     * 获取绑定银行卡的列表
+     * https://szlxkg.com/tools/mobile_ajax.asmx/get_user_bank
+     */
+    public static final String GET_BIND_BACK_LIST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_bank";
+    /**
+     * 申请提现
+     * https://szlxkg.com/tools/mobile_ajax.asmx/user_apply_withdraw
+     */
+    public static final String APPLY_WALLET_CASH_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_apply_withdraw";
 
     //    public static final String REALM_NAME_WEB = "http://szlxkg.com";
 //    public static final String REALM_NAME_HTTP = "http://szlxkg.com";

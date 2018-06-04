@@ -16,7 +16,7 @@ public interface OnListLoadNextPageListener {
     void onLoadNextPage(View view);
 
     /**
-     *准备加载下一页
+     * 准备加载下一页
      */
     void onLoadStart();
 
@@ -25,5 +25,5 @@ public interface OnListLoadNextPageListener {
      */
     void onRefreshComplete();
 
-    void noMore();
+    void noMore(String text);
 }

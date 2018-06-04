@@ -11,9 +11,11 @@ import com.yunsen.enjoy.common.AppContext;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.model.AccountBalanceModel;
+import com.yunsen.enjoy.model.AddressInfo;
 import com.yunsen.enjoy.model.AdvertList;
 import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.AuthorizationModel;
+import com.yunsen.enjoy.model.BindCardBean;
 import com.yunsen.enjoy.model.BrandResponse;
 import com.yunsen.enjoy.model.CarBrand;
 import com.yunsen.enjoy.model.CarBrandList;
@@ -32,15 +34,20 @@ import com.yunsen.enjoy.model.ServiceProvideResponse;
 import com.yunsen.enjoy.model.ShopCarCount;
 import com.yunsen.enjoy.model.TradeData;
 import com.yunsen.enjoy.model.UserInfo;
+import com.yunsen.enjoy.model.WalletCashBean;
 import com.yunsen.enjoy.model.WatchCarBean;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
+import com.yunsen.enjoy.model.request.ApplyWalletCashRequest;
+import com.yunsen.enjoy.model.request.BindBankCardRequest;
 import com.yunsen.enjoy.model.request.WatchCarModel;
 import com.yunsen.enjoy.model.response.AccountBalanceResponse;
 import com.yunsen.enjoy.model.response.AddShoppingBuysResponse;
 import com.yunsen.enjoy.model.response.AuthorizationResponse;
+import com.yunsen.enjoy.model.response.BindBankListResponse;
 import com.yunsen.enjoy.model.response.CarBrandResponese;
 import com.yunsen.enjoy.model.response.CarDetailsResponse;
+import com.yunsen.enjoy.model.response.DefaultAddressResponse;
 import com.yunsen.enjoy.model.response.GoodsCarResponse;
 import com.yunsen.enjoy.model.response.PullImageResponse;
 import com.yunsen.enjoy.model.response.SearchListResponse;
@@ -50,8 +57,11 @@ import com.yunsen.enjoy.model.response.ShopCarAccountResponse;
 import com.yunsen.enjoy.model.response.StringResponse;
 import com.yunsen.enjoy.model.response.TradeListResponse;
 import com.yunsen.enjoy.model.response.UserInfoResponse;
+import com.yunsen.enjoy.model.response.WalletCashResponse;
 import com.yunsen.enjoy.model.response.WatchCarResponse;
 import com.yunsen.enjoy.utils.EntityToMap;
+import com.yunsen.enjoy.utils.SpUtils;
+import com.yunsen.enjoy.utils.ToastUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -67,7 +77,7 @@ public class HttpProxy {
     private static final String TAG = "HttpProxy";
 
     /**
-     * 获取首页广告  买车页面广告
+     * 获取首页广告 ；买车页面广告
      */
     public static void getHomeAdvertList(int id, final HttpCallBack<List<AdvertModel>> callBack) {
         HttpClient.get(URLConstants.HOME_ADV_URL + id, null, new HttpResponseHandler<AdvertList>() {
@@ -428,15 +438,27 @@ public class HttpProxy {
     /**
      * 获取用户信息
      *
-     * @param userId
+     * @param userName 用户名
      * @param callBack
      */
-    public static void getUserInfo(String userId, final HttpCallBack<UserInfo> callBack) {
-        HttpClient.get(URLConstants.PHONE_USER_INFO_URL + userId, new HashMap<String, String>(), new HttpResponseHandler<UserInfoResponse>() {
+    public static void getUserInfo(String userName, final HttpCallBack<UserInfo> callBack) {
+        HttpClient.get(URLConstants.PHONE_USER_INFO_URL + userName, new HashMap<String, String>(), new HttpResponseHandler<UserInfoResponse>() {
             @Override
             public void onSuccess(UserInfoResponse response) {
                 super.onSuccess(response);
-                callBack.onSuccess(response.getData());
+                UserInfo data = response.getData();
+                if (data != null) {
+                    SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+                    String loginSign = sp.getString(SpConstants.LOGIN_SIGN, "");
+                    if (loginSign.equals(data.getLogin_sign())) {  //如果签名一致保存数据， 如果不一致删除数据需要重新登录
+                        SpUtils.saveUserInfo(data);
+                    } else {
+                        sp.edit().clear().commit();
+                    }
+                    callBack.onSuccess(data);
+                } else {
+                    ToastUtils.makeTextShort("获取用户信息失败");
+                }
             }
 
             @Override
@@ -449,8 +471,8 @@ public class HttpProxy {
     /**
      * 电话用户登录
      *
-     * @param phone
-     * @param pwd
+     * @param phone    登录的手机号
+     * @param pwd      密码
      * @param callBack
      */
     public static void getUserLogin(String phone, String pwd, final HttpCallBack<UserInfo> callBack) {
@@ -463,7 +485,13 @@ public class HttpProxy {
             @Override
             public void onSuccess(UserInfoResponse response) {
                 super.onSuccess(response);
-                callBack.onSuccess(response.getData());
+                if (response != null && response.getData() != null) {
+                    UserInfo data = response.getData();
+                    SpUtils.saveUserInfo(data);
+                    callBack.onSuccess(data);
+                } else {
+                    ToastUtils.makeTextShort("获取用户信息失败");
+                }
             }
 
             @Override
@@ -714,22 +742,24 @@ public class HttpProxy {
     /**
      * 提现接口
      */
-    public static void getWithDrawCash() {
+    public static void getWithDrawCash(String userId, String pageIndex, final HttpCallBack<List<WalletCashBean>> callBack) {
         HashMap<String, String> param = new HashMap<>();
-        param.put("user_id", "");
+        param.put("user_id", userId);
         param.put("fund_id", "1");
         param.put("expenses_id", "0");
         param.put("page_size", "8");
-        param.put("page_index", "1");
-        HttpClient.get(URLConstants.WITH_DRAW_CASH_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
+        param.put("page_index", pageIndex);
+        HttpClient.get(URLConstants.WITH_DRAW_CASH_URL, param, new HttpResponseHandler<WalletCashResponse>() {
             @Override
-            public void onSuccess(AccountBalanceResponse response) {
+            public void onSuccess(WalletCashResponse response) {
                 super.onSuccess(response);
+                callBack.onSuccess(response.getData());
             }
 
             @Override
             public void onFailure(Request request, Exception e) {
                 Logger.e(TAG, "onFailure: " + e.getMessage());
+                callBack.onError(request, e);
             }
         });
     }
@@ -1065,12 +1095,12 @@ public class HttpProxy {
      * @param searchKey
      * @param callBack
      */
-    public static void getSearchList(String searchKey, final HttpCallBack<List<CarDetails>> callBack) {
+    public static void getSearchList(String searchKey, String pageIndex, final HttpCallBack<List<CarDetails>> callBack) {
         HashMap<String, String> map = new HashMap<>();
         map.put("channel_name", "goods");
         map.put("category_id", "0");
         map.put("page_size", "10");
-        map.put("page_index", "1");
+        map.put("page_index", pageIndex);
         map.put("keyword", searchKey);
         map.put("orderby", "id desc");
         HttpClient.get(URLConstants.SEARCH_KEY_WORK_URL, map, new HttpResponseHandler<SearchListResponse>() {
@@ -1229,15 +1259,16 @@ public class HttpProxy {
     /**
      * 换产品的接口
      */
-    public static void getChangeGoodsList(String channelName, String categoryId, String pageIdx, final HttpCallBack<List<CarDetails>> callBack) {
+    public static void getChangeGoodsList(String channelName, String categoryId, String pageIdx,
+                                          String orderBy, String city,
+                                          final HttpCallBack<List<CarDetails>> callBack) {
         HashMap<String, String> map = new HashMap<>();
         map.put("channel_name", channelName);
         map.put("category_id", categoryId);
         map.put("page_size", "10");
         map.put("page_index", pageIdx);
-        map.put("strwhere", "");
-        map.put("orderby", "");
-
+        map.put("strwhere", "city=\'" + city + " \'");//and brand_id like '%条件%'
+        map.put("orderby", orderBy);
         HttpClient.get(URLConstants.CHANGE_GOODS_LIST, map, new HttpResponseHandler<SearchListResponse>() {
             @Override
             public void onSuccess(SearchListResponse response) {
@@ -1425,6 +1456,93 @@ public class HttpProxy {
         });
     }
 
+    /**
+     * 获取用户默认地址
+     */
+    public static void getUserDefaultAddress(String userName, final HttpCallBack<AddressInfo> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("user_name", userName);
+        HttpClient.get(URLConstants.DEFAULT_ADDRESS_URL, param, new HttpResponseHandler<DefaultAddressResponse>() {
+            @Override
+            public void onSuccess(DefaultAddressResponse response) {
+                callBack.onSuccess(response.getData());
+            }
 
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 绑定银行卡
+     *
+     * @param request
+     * @param callBack
+     */
+    public static void bindBankCard(BindBankCardRequest request, final HttpCallBack<Boolean> callBack) {
+        Map<String, Object> param = EntityToMap.ConvertObjToMap(request);
+        HttpClient.get(URLConstants.BIND_BANK_CARD_URL, param, new HttpResponseHandler<StringResponse>() {
+            @Override
+            public void onSuccess(StringResponse response) {
+                callBack.onSuccess(true);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 获取用户绑定的银行卡列表
+     *
+     * @param userId
+     * @param userSign
+     * @param callBack
+     */
+    public static void getBindBankCardList(String userId, String userSign, final HttpCallBack<List<BindCardBean>> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("user_id", userId);
+        param.put("sign", userSign);
+        HttpClient.get(URLConstants.GET_BIND_BACK_LIST_URL, param, new HttpResponseHandler<BindBankListResponse>() {
+            @Override
+            public void onSuccess(BindBankListResponse response) {
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 申请提现
+     *
+     * @param request
+     * @param callBack
+     */
+    public static void applyWalletCash(ApplyWalletCashRequest request, final HttpCallBack<Boolean> callBack) {
+        Map<String, Object> param = EntityToMap.ConvertObjToMap(request);
+        HttpClient.get(URLConstants.APPLY_WALLET_CASH_URL, param, new HttpResponseHandler<RestApiResponse>() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                callBack.onSuccess(true);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
 }
 
