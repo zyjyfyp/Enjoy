@@ -324,6 +324,17 @@
         <!--<item name="android:windowIsFloating">true</item>-->
     </style>
 
+    <style name="ReleaseProductsTitle">
+        <item name="android:layout_height">@dimen/item_height</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:textColor">@color/title_color</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_marginLeft">@dimen/app_margin</item>
+        <item name="android:layout_marginRight">@dimen/app_margin</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
     <color name="color_060606">#060606</color>
     <color name="color_999999">#999999</color>
     <color name="color_bf1a1p">#bf1a19</color>

@@ -23,6 +23,7 @@ import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.utils.AccountUtils;
+import com.yunsen.enjoy.utils.DeviceUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,7 +36,6 @@ import okhttp3.Request;
  * 引导页的界面
  */
 public class GuideActivity extends AppCompatActivity {
-    SharedPreferences preferences;
     private ImageView i0;
     private MyHandler handler;
     private SharedPreferences mSp;
@@ -113,9 +113,11 @@ public class GuideActivity extends AppCompatActivity {
             if (act != null) {
                 switch (msg.what) {
                     case 0:
-                        act.preferences = act.getSharedPreferences(SpConstants.SP_GUIDE, Activity.MODE_PRIVATE);
+                        SharedPreferences preferences = act.getSharedPreferences(SpConstants.SP_GUIDE, Activity.MODE_PRIVATE);
+                        String versionName = preferences.getString(SpConstants.APP_VERSION_NAME, "");
+                        String currentVersionName = DeviceUtil.getAppVersionName(act);
                         // 如果程序已经进入
-                        if (act.preferences.getString("flow", "").equals("yes")) {
+                        if (!versionName.equals(currentVersionName)) {
 //                            act.getgaoguan(); //todo 跳过广告判断
                             Intent intent = new Intent(act, MainActivity.class);
                             act.startActivity(intent);

@@ -346,13 +346,13 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                                 if (!TextUtils.isEmpty(avatar) && avatar.startsWith("http")) {
                                     Glide.with(PersonCenterActivity.this)
                                             .load(avatar)
-                                            .placeholder(R.mipmap.ic_launcher_round)
+                                            .placeholder(R.mipmap.default_img)
                                             .transform(new GlideCircleTransform(PersonCenterActivity.this))
                                             .into(networkImage);
                                 } else {
                                     Glide.with(PersonCenterActivity.this)
                                             .load(URLConstants.REALM_URL + avatar)
-                                            .placeholder(R.mipmap.ic_launcher_round)
+                                            .placeholder(R.mipmap.default_img)
                                             .transform(new GlideCircleTransform(PersonCenterActivity.this))
                                             .into(networkImage);
                                 }
@@ -1132,7 +1132,7 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
             });
             Glide.with(this)
                     .load(URLConstants.REALM_URL + imgUrl)
-                    .placeholder(R.mipmap.ic_launcher_round)
+                    .placeholder(R.mipmap.default_img)
                     .transform(new GlideCircleTransform(this))
                     .into(networkImage);
         }
