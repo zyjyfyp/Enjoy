@@ -119,6 +119,9 @@ public class MainActivity extends BaseFragmentActivity {
                     case R.id.main_footbar_user:
                         currIndex = 3;
                         break;
+                    case R.id.foot_bar_center:
+                        UIHelper.showReleaseProductsActivity(MainActivity.this);
+                        break;
                     default:
                         break;
                 }

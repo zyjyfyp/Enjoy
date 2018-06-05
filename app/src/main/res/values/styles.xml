@@ -74,6 +74,7 @@
     <style name="TeamTabLayoutStyle">
         <item name="android:textSize">18sp</item>
     </style>
+
     <style name="NoticeTabLayoutStyle">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
@@ -223,6 +224,25 @@
         <item name="android:paddingBottom">10dp</item>
         <item name="android:button">@null</item>
         <item name="android:textColor">@drawable/red_text_check</item>
+    </style>
+
+    <style name="ReleaseProductsTitle">
+        <item name="android:layout_height">@dimen/item_height</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:textColor">@color/title_color</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_marginLeft">@dimen/app_margin</item>
+        <item name="android:layout_marginRight">@dimen/app_margin</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="ReleaseProductsContent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/item_height</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/title_color</item>
     </style>
 
 

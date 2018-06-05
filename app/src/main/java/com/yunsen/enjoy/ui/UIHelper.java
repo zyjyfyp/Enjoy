@@ -41,6 +41,7 @@ import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
 import com.yunsen.enjoy.activity.mine.MyOrderConfrimActivity;
 import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
+import com.yunsen.enjoy.activity.mine.ReleaseProductsActivity;
 import com.yunsen.enjoy.activity.mine.TeamActivity;
 import com.yunsen.enjoy.activity.mine.UserForgotPasswordActivity;
 import com.yunsen.enjoy.activity.mine.Webview1;
@@ -292,6 +293,7 @@ public class UIHelper {
         intent.putExtra("status", type);
         ctx.startActivityForResult(intent, Constants.ORDER_ACT_REQUEST);
     }
+
     /**
      * 绑定手机
      *
@@ -731,6 +733,16 @@ public class UIHelper {
      */
     public static void showHowIncomeActivity(Context ctx) {
         Intent intent = new Intent(ctx, HowIncomeActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 发布产品
+     *
+     * @param ctx
+     */
+    public static void showReleaseProductsActivity(Context ctx) {
+        Intent intent = new Intent(ctx, ReleaseProductsActivity.class);
         ctx.startActivity(intent);
     }
 

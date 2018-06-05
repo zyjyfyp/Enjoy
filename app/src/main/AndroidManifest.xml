@@ -323,6 +323,9 @@
         <activity
             android:name=".activity.goods.HowIncomeActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.mine.ReleaseProductsActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 
