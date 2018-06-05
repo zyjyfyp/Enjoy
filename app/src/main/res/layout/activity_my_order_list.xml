@@ -123,7 +123,7 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="已完成"
+                android:text="申请售后"
                 android:textColor="@color/all_wenzi"
                 android:textSize="16dp" />
         </LinearLayout>

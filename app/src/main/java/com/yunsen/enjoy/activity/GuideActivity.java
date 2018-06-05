@@ -49,9 +49,9 @@ public class GuideActivity extends AppCompatActivity {
         i0 = (ImageView) findViewById(R.id.i0);
         i0.setVisibility(View.VISIBLE);
         handler.sendEmptyMessageDelayed(0, 3000);
-        Glide.with(this)
-                .load(R.drawable.zams_qdy)
-                .into(i0);
+//        Glide.with(this)
+//                .load(R.drawable.zams_qdy)
+//                .into(i0);
         mSp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         needLogin();//判断是否需要重新登录 防止同一个账号同时使用在多台设备上
     }

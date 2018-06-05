@@ -5,13 +5,13 @@
     android:layout_gravity="bottom"
     android:background="@color/no_color"
     android:orientation="vertical"
-    android:padding="0dp" >
+    android:padding="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/item0"
@@ -22,74 +22,106 @@
             android:textColor="@color/all_c1c1c1"
             android:textSize="14sp" />
         <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/gray" />
-            <RelativeLayout
-                 android:id="@+id/rl_nan"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                >
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray" />
 
-                <TextView
-                     android:id="@+id/tv_nan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                     android:textColor="@color/black"
-                     android:layout_marginLeft="20dp"
-                    android:textSize="15sp"
-                    android:text="男" />
+        <RelativeLayout
+            android:id="@+id/secrecy_layout"
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
 
-                <TextView
-                    android:id="@+id/v2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true" />
+            <TextView
+                android:id="@+id/secrecy_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="保密"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
 
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@drawable/list_div" />
-            <RelativeLayout
-                 android:id="@+id/rl_nv"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                >
-
-                <TextView
-                    android:id="@+id/tv_nv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                     android:textColor="@color/black"
-                     android:layout_marginLeft="20dp"
-                    android:textSize="15sp"
-                    android:text="女" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true" />
+            <TextView
+                android:id="@+id/v0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
 
 
-            </RelativeLayout>
- <Button
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/list_div" />
+
+        <RelativeLayout
+            android:id="@+id/rl_nan"
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+            <TextView
+                android:id="@+id/tv_nan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="男"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/v2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/list_div" />
+
+        <RelativeLayout
+            android:id="@+id/rl_nv"
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+            <TextView
+                android:id="@+id/tv_nv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="女"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+
+
+        </RelativeLayout>
+
+        <Button
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
             android:background="@drawable/bg_red_3_5_login"
             android:text="关闭"
             android:textColor="#FFFFFF"

@@ -1586,5 +1586,56 @@ public class HttpProxy {
             }
         });
     }
+
+    /**
+     * 是否已经收藏
+     *
+     * @param goodsId
+     * @param userId
+     * @param callBack
+     */
+    public static void getHasCollectGoods(String goodsId, String userId, final HttpCallBack<Boolean> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("article_id", goodsId);
+        param.put("user_id", userId);
+
+        HttpClient.get(URLConstants.GOODS_HAS_COLLECT_URL, param, new HttpResponseHandler<RestApiResponse>() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                callBack.onSuccess(true);// 未收藏
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 取消收藏
+     *
+     * @param goodsId
+     * @param userId
+     * @param callBack
+     */
+    public static void cancelCollectGoods(String goodsId, String userId, final HttpCallBack<Boolean> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("article_id", goodsId);
+        param.put("user_id", userId);
+        HttpClient.get(URLConstants.CANCEL_GOODS_COLLECT_URL, param, new HttpResponseHandler<RestApiResponse>() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                callBack.onSuccess(true);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
 }
 

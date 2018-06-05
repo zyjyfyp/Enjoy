@@ -246,6 +246,16 @@ public class URLConstants {
      * https://szlxkg.com/tools/mobile_ajax.asmx/user_apply_withdraw
      */
     public static final String APPLY_WALLET_CASH_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_apply_withdraw";
+    /**
+     * 是否已经收藏
+     * http://szlxkg.com/tools/mobile_ajax.asmx/user_is_favorite
+     */
+    public static final String GOODS_HAS_COLLECT_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_is_favorite";
+    /**
+     * http://szlxkg.com/tools/mobile_ajax.asmx/user_favorite_cancel
+     * 取消收藏
+     */
+    public static final String CANCEL_GOODS_COLLECT_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_favorite_cancel";
 
 
     //

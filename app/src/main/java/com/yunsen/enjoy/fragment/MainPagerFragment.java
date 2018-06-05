@@ -2,6 +2,7 @@ package com.yunsen.enjoy.fragment;
 
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,7 +14,6 @@ import android.widget.LinearLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
-import com.squareup.picasso.Picasso;
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
@@ -21,15 +21,15 @@ import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.fragment.home.BannerAdapter;
+import com.yunsen.enjoy.fragment.home.PreferenceCarAdapter;
 import com.yunsen.enjoy.fragment.home.StoreRecyclerAdapter;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpCallBack2;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.AdvertModel;
+import com.yunsen.enjoy.model.CarBrand;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.CarModel;
-import com.yunsen.enjoy.model.DefaultSpecItemBean;
-import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.HomeCarModel;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.SProviderModel;
@@ -46,7 +46,6 @@ import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.utils.SharedPreference;
 import com.yunsen.enjoy.widget.ADTextView;
-import com.yunsen.enjoy.widget.HomeFootView;
 import com.yunsen.enjoy.widget.HorizontalLayout;
 import com.yunsen.enjoy.widget.HorizontalLayout2;
 import com.yunsen.enjoy.widget.SearchActionBar;
@@ -94,6 +93,9 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     private SecondActivityLayout secondActivity;
     private GoodsPartsLayout goodsPartsLayout;
     private View serviceMoreTv;
+    private RecyclerView recyclerPreferenceView;
+    private ArrayList<CarBrand> mPreferenceDatas;
+    private PreferenceCarAdapter mPreferenceAdapter;
 
 
     @Override
@@ -117,6 +119,9 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
         oneHLayout = (HorizontalLayout) topView.findViewById(R.id.one_horizontal_layout);
         twoHLayout = (HorizontalLayout2) topView.findViewById(R.id.two_horizontal_layout);
+
+        recyclerPreferenceView = (RecyclerView) topView.findViewById(R.id.recycler_preference); //优选新车
+
 
         allCars = topView.findViewById(R.id.button_layout);
         moreCar = topView.findViewById(R.id.more_tv);
@@ -142,6 +147,15 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(new GlideDrawableImageViewTarget(allCars, 1));
+
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 4);
+        layoutManager.setAutoMeasureEnabled(true);
+        recyclerPreferenceView.setLayoutManager(layoutManager);
+        mPreferenceDatas = new ArrayList<>();
+        mPreferenceAdapter = new PreferenceCarAdapter(getActivity(), R.layout.img_and_text_layout, mPreferenceDatas);
+        recyclerPreferenceView.setAdapter(mPreferenceAdapter);
+
+
         LinearLayoutManager layoutmanager = new LinearLayoutManager(getActivity());
         //设置RecyclerView 布局
         layoutmanager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -152,13 +166,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         recyclerView.setAdapter(recyclerViewAdapter);
         RecyclerViewUtils.setHeaderView(recyclerView, topView);
-//        footView = new HomeFootView(getActivity());
-//        RecyclerViewUtils.setFooterView(recyclerView, footView);
 
-//        bannerAdapter = new BannerAdapter(getData(), getActivity());
-//        banner.setAdapter(bannerAdapter);
-//        indicatorLayout.setViewPager(banner);
-//        indicatorLayout.setPadding(5, 5, 10, 5);
         String currentCity = SharedPreference.getInstance().getString(SpConstants.CITY_KEY, "深圳市");
         searchBar.setLeftText(currentCity);
         searchBar.setSearchText("请输入车名搜索");
@@ -183,6 +191,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
     }
 
+
     private static final String TAG = "MainPagerFragment";
 
     @Override
@@ -203,28 +212,28 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
             }
         });
-        /**
-         * 乐享新车
-         */
-        HttpProxy.getCarList(new HttpCallBack<List<CarDetails>>() {
-            @Override
-            public void onSuccess(List<CarDetails> responseData) {
-                Log.e(TAG, "onSuccess: 乐享新车 ");
-                mAdverModels.clear();
-                for (int i = 0; i < responseData.size() && i < mCarImgArray.length; i++) {
-                    CarDetails model = responseData.get(i);
-                    String ad_url = model.getImgh_url();
-                    mAdverModels.add(model);
-                    Picasso.with(getActivity()).load(ad_url)
-                            .into(mCarImgArray[i]);
-                }
-            }
-
-            @Override
-            public void onError(Request request, Exception e) {
-
-            }
-        });
+//        /**
+//         * 乐享新车
+//         */
+//        HttpProxy.getCarList(new HttpCallBack<List<CarDetails>>() {
+//            @Override
+//            public void onSuccess(List<CarDetails> responseData) {
+//                Log.e(TAG, "onSuccess: 乐享新车 ");
+//                mAdverModels.clear();
+//                for (int i = 0; i < responseData.size() && i < mCarImgArray.length; i++) {
+//                    CarDetails model = responseData.get(i);
+//                    String ad_url = model.getImgh_url();
+//                    mAdverModels.add(model);
+//                    Picasso.with(getActivity()).load(ad_url)
+//                            .into(mCarImgArray[i]);
+//                }
+//            }
+//
+//            @Override
+//            public void onError(Request request, Exception e) {
+//
+//            }
+//        });
         //公告1
         HttpProxy.getNoticeData1(new HttpCallBack<List<NoticeModel>>() {
             @Override
@@ -253,22 +262,32 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 
             }
         });
-        /**
-         * 推荐汽车
-         */
-        HttpProxy.getBrandData(new HttpCallBack<List<CarModel>>() {
+//        /**
+//         * 推荐汽车
+//         */
+//        HttpProxy.getBrandData(new HttpCallBack<List<CarModel>>() {
+//            @Override
+//            public void onSuccess(List<CarModel> responseData) {
+//                Log.e(TAG, "onSuccess: 推荐汽车");
+//                twoHLayout.upData(responseData);
+//            }
+//
+//            @Override
+//            public void onError(Request request, Exception e) {
+//
+//            }
+//        });
+        HttpProxy.getSeniorCarBrandDatas(new HttpCallBack<List<CarBrand>>() {
             @Override
-            public void onSuccess(List<CarModel> responseData) {
-                Log.e(TAG, "onSuccess: 推荐汽车");
-                twoHLayout.upData(responseData);
+            public void onSuccess(List<CarBrand> responseData) {
+                mPreferenceAdapter.upDatas(responseData);
             }
 
             @Override
             public void onError(Request request, Exception e) {
 
             }
-        });
-
+        }, "");
         requestServiceProvider(false);
         /**
          * 积分兑换
@@ -383,6 +402,17 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         mAdapter.setOnItemClickListener(this);
         //footView.getLoadMoreBtn().setOnClickListener(this);
         serviceMoreTv.setOnClickListener(this);
+        mPreferenceAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
+                toBuyCarFragment();
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
+                return false;
+            }
+        });
     }
 
     public List<AdvertModel> getData() {

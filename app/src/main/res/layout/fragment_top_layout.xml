@@ -123,32 +123,28 @@
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:orientation="horizontal"
+        android:visibility="gone"
         android:weightSum="4" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/color_f5f7fa" />
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:background="@color/color_f5f7fa" />-->
 
     <com.yunsen.enjoy.widget.HorizontalLayout2
         android:id="@+id/two_horizontal_layout"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
+        android:visibility="gone"
         android:weightSum="4" />
 
     <ImageView
         android:id="@+id/button_layout"
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="40dp"
+        android:visibility="gone"></ImageView>
 
-
-    </ImageView>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/color_f5f7fa" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -161,7 +157,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="乐享新车"
+            android:text="袋鼠新车"
             android:textColor="@color/title_color"
             android:textSize="15sp" />
 
@@ -176,7 +172,7 @@
             android:layout_height="wrap_content"
             android:drawablePadding="5dp"
             android:drawableRight="@mipmap/more"
-            android:text="@string/more" />
+            android:text="全部新车" />
     </LinearLayout>
 
     <LinearLayout
@@ -184,7 +180,8 @@
         android:layout_height="164dp"
         android:layout_marginLeft="@dimen/app_margin"
         android:layout_marginRight="@dimen/app_margin"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/car_img_big"
@@ -227,7 +224,8 @@
         android:layout_marginLeft="@dimen/app_margin"
         android:layout_marginRight="@dimen/app_margin"
         android:layout_marginTop="4dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/car_img_3"
@@ -257,6 +255,11 @@
             android:scaleType="fitXY"
             android:src="@mipmap/car_5" />
     </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_preference"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <View
         android:layout_width="match_parent"

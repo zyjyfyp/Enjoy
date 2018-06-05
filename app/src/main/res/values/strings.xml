@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">袋鼠车宝</string>
 
-    <string name="no_network_connection_toast">No network connection found</string>
+    <string name="no_network_connection_toast">无法连接网络</string>
 
     <!-- 页面名称 -->
     <string name="main_navigation_home">首页</string>

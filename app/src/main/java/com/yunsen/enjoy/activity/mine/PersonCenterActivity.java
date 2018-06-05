@@ -302,10 +302,10 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
 
                             try {
                                 if (!data.vip_card.equals("")) {
-                                    tv_ka_name.setText("服务金卡:");
+                                    tv_ka_name.setText("服务金卡");
                                     v2.setText(data.vip_card);
                                 } else {
-                                    tv_ka_name.setText("会员号:");
+                                    tv_ka_name.setText("会员号");
                                     v2.setText(data.user_code);
                                 }
 

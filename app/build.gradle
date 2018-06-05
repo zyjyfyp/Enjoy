@@ -18,6 +18,8 @@ packer {
 
 android {
     compileSdkVersion 26
+    buildToolsVersion "26.0.3"
+
     defaultConfig {
         // Warning:Renderscript support mode is not currently supported with renderscript target 21+
         renderscriptTargetApi 20
@@ -157,4 +159,5 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     implementation 'com.yanzhenjie:permission:2.0.0-rc4'
     compile 'com.android.support:multidex:1.0.2'
+    implementation project(':citypicker')
 }

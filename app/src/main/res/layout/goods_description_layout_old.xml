@@ -277,6 +277,7 @@
                                 android:background="@color/list_diver" />
 
                             <LinearLayout
+                                android:visibility="gone"
                                 android:id="@+id/market_information_appraise"
                                 android:layout_width="match_parent"
                                 android:layout_height="50dp"
@@ -291,6 +292,7 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:visibility="gone"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
@@ -615,17 +617,19 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/collect_img"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/shoucang" />
+                    android:src="@drawable/collect_select" />
 
                 <TextView
+                    android:id="@+id/collect_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="收藏"
-                    android:textColor="@color/huiheise"
+                    android:textColor="@color/collect_tv_select"
                     android:textSize="13sp" />
             </LinearLayout>
         </LinearLayout>

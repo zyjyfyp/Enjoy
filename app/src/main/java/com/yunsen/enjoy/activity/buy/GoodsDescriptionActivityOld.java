@@ -122,6 +122,10 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
     LinearLayout specificationsLayout;
 
     private static final int REMAINING_TIME = 1;
+    @Bind(R.id.collect_img)
+    ImageView collectImg;
+    @Bind(R.id.collect_tv)
+    TextView collectTv;
     private String mGoodId;
     private CarDetails mCarDetail;
 
@@ -135,6 +139,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
     private long mRemainingTime = 0;
     private static MyHandler sHandler;
     private boolean isSecondGoods = false;
+    private boolean mRequestFinish = false;
 
     @Override
 
@@ -198,6 +203,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
 
     @Override
     public void requestData() {
+        mRequestFinish = false;
         HttpProxy.getCarDetailsData(new HttpCallBack<CarDetails>() {
             @Override
             public void onSuccess(CarDetails responseData) {
@@ -216,6 +222,23 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
             }
         }, mGoodId);
 
+        HttpProxy.getHasCollectGoods(mGoodId, mUserId, new HttpCallBack<Boolean>() {
+            @Override
+            public void onSuccess(Boolean responseData) {
+                collectImg.setSelected(false);
+                collectTv.setSelected(false);
+                mRequestFinish = true;
+                collectTv.setText("收藏");
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+                collectImg.setSelected(true);
+                collectTv.setSelected(true);
+                collectTv.setText("已收藏");
+                mRequestFinish = true;
+            }
+        });
     }
 
     /**
@@ -322,17 +345,26 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
                 break;
 
             case R.id.btn_collect:  //收藏
-                HttpProxy.getAddCollect(mUserId, mUserName, "" + mCarDetail.getId(), new HttpCallBack<String>() {
-                    @Override
-                    public void onSuccess(String responseData) {
-                        Toast.makeText(GoodsDescriptionActivityOld.this, responseData, Toast.LENGTH_SHORT).show();
-                    }
+                if (mRequestFinish) {
+                    if (collectImg.isSelected()) {
+                        deleteCollect(mGoodId);
+                    } else {
+                        HttpProxy.getAddCollect(mUserId, mUserName, "" + mCarDetail.getId(), new HttpCallBack<String>() {
+                            @Override
+                            public void onSuccess(String responseData) {
+                                Toast.makeText(GoodsDescriptionActivityOld.this, responseData, Toast.LENGTH_SHORT).show();
+                                collectImg.setSelected(true);
+                                collectImg.setSelected(true);
+                            }
 
-                    @Override
-                    public void onError(Request request, Exception e) {
-                        ToastUtils.makeTextShort(e.getMessage());
+                            @Override
+                            public void onError(Request request, Exception e) {
+                                ToastUtils.makeTextShort(e.getMessage());
+                            }
+                        });
                     }
-                });
+                }
+
                 break;
             case R.id.btn_add_shop_cart:
                 if (isSecondGoods && (mRemainingTime == 0 || mRemainingTime == -2)) {
@@ -363,6 +395,29 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
                 }
                 break;
         }
+    }
+
+    /**
+     * 删除收藏
+     *
+     * @param goodId
+     */
+    private void deleteCollect(String goodId) {
+        HttpProxy.cancelCollectGoods(goodId, mUserId, new HttpCallBack<Boolean>() {
+            @Override
+            public void onSuccess(Boolean responseData) {
+                collectImg.setSelected(false);
+                collectTv.setSelected(false);
+                collectTv.setText("收藏");
+                ToastUtils.makeTextShort("取消收藏成功");
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+                ToastUtils.makeTextShort("取消收藏失败");
+            }
+        });
+
     }
 
     @Override

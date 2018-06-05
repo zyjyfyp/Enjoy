@@ -17,6 +17,7 @@ import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.activity.MoveActivity;
 import com.yunsen.enjoy.activity.SearchActivity;
 import com.yunsen.enjoy.activity.SelectCityActivity;
+import com.yunsen.enjoy.activity.SelectCityNewActivity;
 import com.yunsen.enjoy.activity.ServiceShopInfoActivity;
 import com.yunsen.enjoy.activity.WebActivity;
 import com.yunsen.enjoy.activity.buy.ApplyBuyFirstActivity;
@@ -152,7 +153,7 @@ public class UIHelper {
      * @param context
      */
     public static void showSelectCityActivity(Activity context) {
-        Intent intent = new Intent(context, SelectCityActivity.class);
+        Intent intent = new Intent(context, SelectCityNewActivity.class);
         context.startActivity(intent);
     }
 

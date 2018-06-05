@@ -37,23 +37,20 @@ public class Constants {
         SHOT_METHED_VALUE.put("理财最少", "");
     }
 
-    public static final String[] SORT_PRICES = new String[]{"不限", "3万以下", "3-5万", "5-7万", "7-9万", "9-12万", "12-16万", "16-20万", "20万以上"};
+    public static final String[] SORT_PRICES = new String[]{"5万以下", "5-10万", "10-15万", "15-20万", "20万以上"};
     public static Map<String, String> SHOT_PRICES_VALUES = new HashMap<>();
 
     static {
-        SHOT_PRICES_VALUES.put("不限", "sell_price>=0");
-        SHOT_PRICES_VALUES.put("3万以下", "sell_price<=3");
-        SHOT_PRICES_VALUES.put("3-5万", "sell_price between 3and 5");
-        SHOT_PRICES_VALUES.put("5-7万", "sell_price between 5and 7");
-        SHOT_PRICES_VALUES.put("7-9万", "sell_price between 7and 9");
-        SHOT_PRICES_VALUES.put("9-12万", "sell_price between 9and 12");
-        SHOT_PRICES_VALUES.put("12-16万", "sell_price between 12and 16");
-        SHOT_PRICES_VALUES.put("16-20万", "sell_price between 16and 20");
+//        SHOT_PRICES_VALUES.put("不限", "sell_price>=0");
+        SHOT_PRICES_VALUES.put("5万以下", "sell_price<=5");
+        SHOT_PRICES_VALUES.put("5-10万", "sell_price between 5and 10");
+        SHOT_PRICES_VALUES.put("10-15万", "sell_price between 10and 15");
+        SHOT_PRICES_VALUES.put("15-20万", "sell_price between 15and 20");
         SHOT_PRICES_VALUES.put("20万以上", "and sell_price>20");
     }
 
 
-    public final static String[] DISCOVER_TITLE = {"头条", "导购", "用车", "百科"};
+    public final static String[] DISCOVER_TITLE = {"新闻资讯", "导购", "用车", "百科"};
     public static final CharSequence[] BUY_CAR = {"新车", "二手车"};
     public static final String CHANNEL_KEY = "channel_key";
     public static final String WEB_URL_KEY = "web_url_key";

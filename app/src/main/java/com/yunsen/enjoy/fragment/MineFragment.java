@@ -20,6 +20,7 @@ import com.tencent.tauth.Tencent;
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.MainActivity;
+import com.yunsen.enjoy.activity.buy.MyLoanActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceActivity;
 import com.yunsen.enjoy.activity.dealer.MyFacilitatorActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
@@ -140,8 +141,8 @@ public class MineFragment extends BaseFragment {
     LinearLayout readyMoneyLayout;
     @Bind(R.id.has_login_layout)
     LinearLayout hasLoginLayout;
-    @Bind(R.id.account_cart_layout)
-    LinearLayout cartLayout;
+    @Bind(R.id.my_loan_layout)
+    LinearLayout myLoanLayout;
 
     private Activity context;
 
@@ -208,7 +209,7 @@ public class MineFragment extends BaseFragment {
 
             Glide.with(MineFragment.this)
                     .load(iUrl)
-                    .error(R.mipmap.default_img)
+                    .error(R.mipmap.login_icon)
                     .transform(new GlideCircleTransform(getActivity()))
                     .into(userIconImg);
             getUserInfo();
@@ -396,7 +397,7 @@ public class MineFragment extends BaseFragment {
     }
 
     @OnClick({R.id.user_icon_img, R.id.balance_layout, R.id.freeze_layout,
-            R.id.commission_layout, R.id.ready_money_layout, R.id.account_cart_layout})
+            R.id.commission_layout, R.id.ready_money_layout, R.id.my_loan_layout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.user_icon_img:
@@ -416,8 +417,8 @@ public class MineFragment extends BaseFragment {
             case R.id.ready_money_layout:
                 assetsClick("4");
                 break;
-            case R.id.account_cart_layout:
-                goLoginOrOtherActivity(ShopCartActivity.class);
+            case R.id.my_loan_layout:
+                goLoginOrOtherActivity(MyLoanActivity.class);
                 break;
         }
     }
@@ -611,13 +612,13 @@ public class MineFragment extends BaseFragment {
                 if (!TextUtils.isEmpty(avatar) && avatar.startsWith("http")) {
                     Glide.with(MineFragment.this)
                             .load(avatar)
-                            .placeholder(R.mipmap.default_img)
+                            .placeholder(R.mipmap.login_icon)
                             .transform(new GlideCircleTransform(getActivity()))
                             .into(userIconImg);
                 } else {
                     Glide.with(MineFragment.this)
                             .load(URLConstants.REALM_URL + avatar)
-                            .placeholder(R.mipmap.default_img)
+                            .placeholder(R.mipmap.login_icon)
                             .transform(new GlideCircleTransform(getActivity()))
                             .into(userIconImg);
                 }
@@ -695,7 +696,7 @@ public class MineFragment extends BaseFragment {
             });
             Glide.with(this)
                     .load(URLConstants.REALM_URL + imgUrl)
-                    .placeholder(R.mipmap.default_img)
+                    .placeholder(R.mipmap.login_icon)
                     .transform(new GlideCircleTransform(getActivity()))
                     .into(userIconImg);
         }

@@ -24,6 +24,7 @@ import com.yunsen.enjoy.widget.DialogProgress;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 public class GenderFangShiActivity extends AppCompatActivity implements
         OnClickListener {
@@ -32,6 +33,8 @@ public class GenderFangShiActivity extends AppCompatActivity implements
     private SharedPreferences spPreferences;
     TextView tv_nan, tv_nv;
     String type;
+    private TextView secrecyTv;
+    private View secrecyLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +57,20 @@ public class GenderFangShiActivity extends AppCompatActivity implements
         rl_nv.setOnClickListener(this);
         tv_nan = (TextView) findViewById(R.id.tv_nan);
         tv_nv = (TextView) findViewById(R.id.tv_nv);
+        secrecyTv = ((TextView) findViewById(R.id.secrecy_tv));
+        secrecyLayout = findViewById(R.id.secrecy_layout);
         type = getIntent().getStringExtra("type");
         if ("1".equals(type)) {
+            secrecyLayout.setVisibility(View.VISIBLE);
             tv_nan.setText("男");
             tv_nv.setText("女");
+            secrecyTv.setText("保密");
         } else if ("2".equals(type)) {
             tv_nan.setText("用户密码");
             tv_nv.setText("支付密码");
+            secrecyLayout.setVisibility(View.GONE);
         }
+        secrecyLayout.setOnClickListener(this);
     }
 
 
@@ -94,16 +103,20 @@ public class GenderFangShiActivity extends AppCompatActivity implements
                     value = "女";
                     userloginqm();
                 } else if (type.equals("2")) {
-                        value = "2";
-                        Intent intent = new Intent(GenderFangShiActivity.this,
-                                ModPassActivity.class);
-                        intent.putExtra("value", value);
-                        startActivity(intent);
-                        finish();
+                    value = "2";
+                    Intent intent = new Intent(GenderFangShiActivity.this,
+                            ModPassActivity.class);
+                    intent.putExtra("value", value);
+                    startActivity(intent);
+                    finish();
                 }
                 break;
             case R.id.btn_login:
                 finish();
+                break;
+            case R.id.secrecy_layout:
+                value = "保密";
+                userloginqm();
                 break;
             default:
                 break;

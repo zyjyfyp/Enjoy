@@ -11,9 +11,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.activity.buy.GoodsDescriptionActivityOld;
 import com.yunsen.enjoy.adapter.CarTopBannerAdapter;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
@@ -88,11 +90,16 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
     NoticeView noticeView;
     @Bind(R.id.data_layout)
     LinearLayout dataLayout;
+    @Bind(R.id.collect_img)
+    ImageView collectImg;
+    @Bind(R.id.collect_tv)
+    TextView collectTv;
     private String mCarId;
     private CarDetails mData;
     private SharedPreferences mSp;
     private String mUserName;
     private String mUserId;
+    private boolean mRequestFinish;
 
     @Override
     public int getLayout() {
@@ -127,6 +134,7 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
 
     @Override
     public void requestData() {
+        mRequestFinish = false;
         dataLayout.setVisibility(View.GONE);
         if (!DeviceUtil.isNetworkAvailable(CarDetailsActivity.this)) {
             noticeView.showNoticeType(NoticeView.Type.NO_INTERNET);
@@ -150,6 +158,25 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
 
             }
         }, mCarId);
+
+        HttpProxy.getHasCollectGoods(mCarId, mUserId, new HttpCallBack<Boolean>() {
+            @Override
+            public void onSuccess(Boolean responseData) {
+                collectImg.setSelected(false);
+                collectTv.setSelected(false);
+                mRequestFinish = true;
+                collectTv.setText("收藏");
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+                collectImg.setSelected(true);
+                collectTv.setSelected(true);
+                collectTv.setText("已收藏");
+                mRequestFinish = true;
+            }
+        });
+
     }
 
     private void upBanner(List<AlbumsBean> albums) {
@@ -200,7 +227,14 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
                 break;
             case R.id.collect_layout:
                 if (mData != null) {
-                    getAddCollect(mData);
+                    if (mRequestFinish) {
+                        if (collectImg.isSelected()) {
+                            deleteCollect(mCarId);
+                        } else {
+                            getAddCollect(mData);
+                        }
+                    }
+
                 }
                 break;
             case R.id.ask_layout:
@@ -227,17 +261,40 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
         HttpProxy.getAddCollect(mUserId, mUserName, String.valueOf(data.getId()), new HttpCallBack<String>() {
             @Override
             public void onSuccess(String responseData) {
+                collectImg.setSelected(true);
+                collectTv.setSelected(true);
                 ToastUtils.makeTextShort("关注成功");
             }
 
             @Override
             public void onError(Request request, Exception e) {
                 ToastUtils.makeTextShort("此商品已被关注");
-
             }
         });
     }
 
+    /**
+     * 删除收藏
+     *
+     * @param goodId
+     */
+    private void deleteCollect(String goodId) {
+        HttpProxy.cancelCollectGoods(goodId, mUserId, new HttpCallBack<Boolean>() {
+            @Override
+            public void onSuccess(Boolean responseData) {
+                collectImg.setSelected(false);
+                collectTv.setSelected(false);
+                collectTv.setText("收藏");
+                ToastUtils.makeTextShort("取消收藏成功");
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+                ToastUtils.makeTextShort("取消收藏失败");
+            }
+        });
+
+    }
 
     @Override
     protected void onResume() {
@@ -261,45 +318,5 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
         super.onDestroy();
         ButterKnife.unbind(this);
     }
-    //    //轮播图适配器
-    //    public class GalleryPagerAdapter extends PagerAdapter {
-    //
-    //        @Override
-    //        public int getCount() {
-    //            return imageViewIds.length;
-    //        }
-    //
-    //        @Override
-    //        public boolean isViewFromObject(View view, Object object) {
-    //            return view == object;
-    //        }
-    //
-    //        @Override
-    //        public Object instantiateItem(ViewGroup container, int position) {
-    //            ImageView item = new ImageView(CarDetailsActivity.this);
-    //            item.setImageResource(imageViewIds[position]);
-    //            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(-1, -1);
-    //            item.setLayoutParams(params);
-    //            item.setScaleType(ImageView.ScaleType.FIT_XY);
-    //            container.addView(item);
-    //
-    //            final int pos = position;
-    //            item.setOnClickListener(new View.OnClickListener() {
-    //                @Override
-    //                public void onClick(View v) {
-    //                    Intent intent = new Intent(CarDetailsActivity.this, ImageGalleryActivity.class);
-    //                    intent.putStringArrayListExtra("images", (ArrayList<String>) imageList);
-    //                    intent.putExtra("position", pos);
-    //                    startActivity(intent);
-    //                }
-    //            });
-    //
-    //            return item;
-    //        }
-    //
-    //        @Override
-    //        public void destroyItem(ViewGroup collection, int position, Object view) {
-    //            collection.removeView((View) view);
-    //        }
-    //    }
+
 }

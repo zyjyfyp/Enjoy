@@ -48,6 +48,14 @@ public  class CarBrand {
     private String seo_description;
     private String update_time;
 
+    public CarBrand() {
+    }
+
+    public CarBrand(String title, String img_url) {
+        this.title = title;
+        this.img_url = img_url;
+    }
+
     public String getFlag() {
         return flag;
     }
