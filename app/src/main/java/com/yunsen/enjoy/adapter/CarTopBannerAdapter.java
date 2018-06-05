@@ -47,7 +47,7 @@ public class CarTopBannerAdapter extends PagerAdapter {
         } else {
             Picasso.with(mContext)
                     .load(data.getThumb_path())
-                    .placeholder(R.mipmap.banner4)
+                    .placeholder(R.mipmap.default_banner)
                     .into(item);
         }
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(-1, -1);

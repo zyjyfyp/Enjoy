@@ -209,7 +209,7 @@ public class MineFragment extends BaseFragment {
 
             Glide.with(MineFragment.this)
                     .load(iUrl)
-                    .error(R.mipmap.ic_launcher_round)
+                    .error(R.mipmap.default_img)
                     .transform(new GlideCircleTransform(getActivity()))
                     .into(userIconImg);
             getUserInfo();
@@ -608,13 +608,13 @@ public class MineFragment extends BaseFragment {
                 if (!TextUtils.isEmpty(avatar) && avatar.startsWith("http")) {
                     Glide.with(MineFragment.this)
                             .load(avatar)
-                            .placeholder(R.mipmap.ic_launcher_round)
+                            .placeholder(R.mipmap.default_img)
                             .transform(new GlideCircleTransform(getActivity()))
                             .into(userIconImg);
                 } else {
                     Glide.with(MineFragment.this)
                             .load(URLConstants.REALM_URL + avatar)
-                            .placeholder(R.mipmap.ic_launcher_round)
+                            .placeholder(R.mipmap.default_img)
                             .transform(new GlideCircleTransform(getActivity()))
                             .into(userIconImg);
                 }
@@ -692,7 +692,7 @@ public class MineFragment extends BaseFragment {
             });
             Glide.with(this)
                     .load(URLConstants.REALM_URL + imgUrl)
-                    .placeholder(R.mipmap.ic_launcher_round)
+                    .placeholder(R.mipmap.default_img)
                     .transform(new GlideCircleTransform(getActivity()))
                     .into(userIconImg);
         }

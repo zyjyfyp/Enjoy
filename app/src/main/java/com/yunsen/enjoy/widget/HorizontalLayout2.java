@@ -70,7 +70,7 @@ public class HorizontalLayout2 extends LinearLayout implements View.OnClickListe
                 ImageView leftImg = view.findViewById(R.id.left_img);
                 TextView rightTv = (TextView) view.findViewById(R.id.right_tv);
                 Log.e(TAG, "upData: " + data.get(i).getImg_url());
-                Picasso.with(mContext).load(data.get(i).getImg_url()).placeholder(R.mipmap.car_1).into(leftImg);
+                Picasso.with(mContext).load(data.get(i).getImg_url()).placeholder(R.mipmap.default_img).into(leftImg);
                 rightTv.setText(data.get(i).getTitle());
             }
         }
@@ -85,7 +85,7 @@ public class HorizontalLayout2 extends LinearLayout implements View.OnClickListe
         View view = mInflater.inflate(R.layout.img_and_text_layout, layout, false);
         ImageView leftImg = view.findViewById(R.id.left_img);
         TextView rightTv = (TextView) view.findViewById(R.id.right_tv);
-        Picasso.with(mContext).load(data.getImg_url()).placeholder(R.mipmap.car_1).into(leftImg);
+        Picasso.with(mContext).load(data.getImg_url()).placeholder(R.mipmap.default_banner).into(leftImg);
         rightTv.setText(data.getTitle());
         layout.addView(view);
         layout.setOnClickListener(this);

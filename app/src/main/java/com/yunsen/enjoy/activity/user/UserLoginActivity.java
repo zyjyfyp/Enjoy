@@ -29,10 +29,14 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.orhanobut.logger.Logger;
+import com.tencent.connect.UserInfo;
 import com.tencent.connect.auth.QQAuth;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
@@ -43,10 +47,14 @@ import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.PermissionSetting;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
+import com.yunsen.enjoy.http.HttpCallBack;
+import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.http.down.UpdateApkThread;
+import com.yunsen.enjoy.model.AuthorizationModel;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
+import com.yunsen.enjoy.utils.SpUtils;
 import com.yunsen.enjoy.widget.DialogProgress;
 
 import org.greenrobot.eventbus.EventBus;
@@ -61,6 +69,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
+import okhttp3.Request;
+
+import static com.yunsen.enjoy.activity.user.LoginActivity.initOpenidAndToken;
+
 public class UserLoginActivity extends AppCompatActivity implements OnClickListener {
     private static final int PHONE_LOGIN_REQUEST = 1;
     private Button btn_login;
@@ -71,7 +83,7 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
     private SharedPreferences spPreferences_weixin;
     private SharedPreferences spPreferences_login;
     public static boolean isWXLogin = false;
-    public static IWXAPI mWxApi;
+    private IWXAPI mWxApi;
     public static String WX_CODE = "";
     public static String mAppid;
     public static QQAuth mQQAuth;
@@ -90,15 +102,25 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
     SharedPreferences spPreferences_qq;
     Editor editor;
     private AlertDialog dialog;
+    private static Tencent mTencent;
+    private boolean isServerSideLogin;
+    private UserInfo mInfo;
+    private static final String TAG = "UserLoginActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_weixin_login);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
         mWxApi = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);
         mWxApi.registerApp(Constants.APP_ID);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        mTencent = Tencent.createInstance(Constants.APP_QQ_ID, this);
+
+
         spPreferences_weixin = getSharedPreferences("longuserset_weixin", MODE_PRIVATE);
         spPreferences_login = getSharedPreferences("longuserset_login", MODE_PRIVATE);
         try {
@@ -162,8 +184,6 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
     }
 
     public void userxinxi() {
-
-
         try {
             String accessTokenUrl = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="
                     + Constants.APP_ID + "&secret=" + Constants.APP_SECRET + "&code=" + WX_CODE +
@@ -297,11 +317,8 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.btn_login://微信登录
-                //			Intent intent = new Intent(UserLoginActivity.this,MainUserLoginActivity.class);
-                //			startActivity(intent);
                 isWXLogin = true;
                 SendAuth.Req req = new SendAuth.Req();
                 req.scope = "snsapi_userinfo";
@@ -309,15 +326,156 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
                 mWxApi.sendReq(req);
                 break;
             case R.id.tv_qq_login://qq登录
-                Intent intent = new Intent(UserLoginActivity.this, UserLoginWayActivity.class);
-                startActivity(intent);
+                qqLogin();
                 break;
             case R.id.tv_denglu://手机登录
-                Intent intent3 = new Intent(UserLoginActivity.this, PhoneLoginActivity.class);
-                startActivityForResult(intent3, PHONE_LOGIN_REQUEST);
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivityForResult(intent, PHONE_LOGIN_REQUEST);
                 break;
             default:
                 break;
+        }
+    }
+
+    /**
+     * QQ登录
+     */
+    private void qqLogin() {
+
+        if (!mTencent.isSessionValid()) {
+            mTencent.login(this, "all", loginListener);
+            isServerSideLogin = false;
+        } else {
+            if (isServerSideLogin) { // Server-Side 模式的登陆, 先退出，再进行SSO登陆
+                mTencent.logout(this);
+                mTencent.login(this, "all", loginListener);
+                isServerSideLogin = false;
+                return;
+            }
+            mTencent.logout(this);
+            updateUserInfo();
+        }
+    }
+
+    IUiListener loginListener = new UserLoginActivity.BaseUiListener() {
+        @Override
+        protected void doComplete(JSONObject values) {
+            initOpenidAndToken(values);
+            updateUserInfo();
+        }
+
+    };
+
+    public void updateUserInfo() {
+        SharedPreferences spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+        SharedPreferences.Editor editor = spPreferences.edit();
+        editor.putString(SpConstants.LOGIN_FLAG, SpConstants.QQ_LOGIN);
+        editor.putBoolean(SpConstants.PAN_DUAN, true);
+        editor.putBoolean(SpConstants.PAN_DUAN_TI_SHI, true);
+        editor.commit();
+        if (mTencent != null && mTencent.isSessionValid()) {
+            IUiListener listener = new IUiListener() {
+                @Override
+                public void onError(UiError e) {
+                }
+
+                @Override
+                public void onComplete(final Object response) {
+                    Log.e(TAG, "onComplete: " + response);
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            JSONObject json = (JSONObject) response;
+                            if (json.has("figureurl")) {
+                                try {
+                                    nickname = json.getString("nickname");
+                                    sex = json.getString("gender");
+                                    province = json.getString("province");
+                                    city = json.getString("city");
+                                    String figureurl_qq_2 = json.getString("figureurl_qq_2");
+                                    SharedPreferences spPreferences_login = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = spPreferences_login.edit();
+                                    editor.putString(SpConstants.NICK_NAME, nickname);
+                                    editor.putString(SpConstants.HEAD_IMG_URL_2, figureurl_qq_2);
+                                    editor.putString(SpConstants.SEX, sex);
+                                    editor.putString(SpConstants.PROVINCE, province);
+                                    editor.putString(SpConstants.CITY, city);
+                                    editor.putString(SpConstants.COUNTRY, country);
+                                    editor.putString(SpConstants.LOGIN_FLAG, SpConstants.QQ_LOGIN);
+                                    editor.commit();
+                                    /**
+                                     * 第三方授权
+                                     */
+                                    requestBundlePhone();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }.start();
+                }
+
+                @Override
+                public void onCancel() {
+                }
+            };
+            mInfo = new UserInfo(UserLoginActivity.this, mTencent.getQQToken());
+            mInfo.getUserInfo(listener);
+        }
+    }
+
+    /**
+     * QQ第三方登录
+     */
+    private void requestBundlePhone() {
+        HttpProxy.requestBindPhone(new HttpCallBack<AuthorizationModel>() {
+            @Override
+            public void onSuccess(AuthorizationModel responseData) {
+                SpUtils.saveUserInfo(responseData, SpConstants.QQ_LOGIN);
+                EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
+                finish();
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
+    }
+
+
+    private class BaseUiListener implements IUiListener {
+        @Override
+        public void onComplete(Object response) {
+            try {
+                String access_token = ((JSONObject) response).getString("access_token");
+                String openid = ((JSONObject) response).getString("openid");
+                String ret = ((JSONObject) response).getString("ret");
+                String oauth_openid = ((JSONObject) response).getString("openid");
+                SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("access_token", access_token);
+                editor.putString("unionid", openid);
+                editor.putString("sex", ret);
+                editor.putString("oauth_openid", oauth_openid);
+                editor.putString(SpConstants.OAUTH_UNIONID, oauth_openid);
+                editor.commit();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            doComplete((JSONObject) response);
+        }
+
+        protected void doComplete(JSONObject values) {
+        }
+
+        @Override
+        public void onError(UiError e) {
+            Toast.makeText(UserLoginActivity.this, "onError: " + e.errorDetail, Toast.LENGTH_SHORT);
+        }
+
+        @Override
+        public void onCancel() {
         }
     }
 
@@ -329,51 +487,12 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
                 case PHONE_LOGIN_REQUEST:
                     finish();
                     break;
+
             }
 
         }
     }
 
-    //	private class BaseUiListener implements IUiListener {
-    //
-    //		@Override
-    //		public void onComplete(Object response) {
-    //			System.out.println("response==============="+response);
-    //			try {
-    //				String access_token = ((JSONObject) response).getString("access_token");
-    //				String openid = ((JSONObject) response).getString("openid");
-    //				String ret = ((JSONObject) response).getString("ret");
-    ////				System.out.println("access_token==============="+access_token);
-    //				Editor editor = spPreferences.edit();
-    //				editor.putString("access_token", access_token);
-    //				editor.putString("unionid", openid);
-    //				editor.putString("sex", ret);
-    //				editor.commit();
-    //			} catch (JSONException e) {
-    //
-    //				e.printStackTrace();
-    //			}
-    ////			Util.showResultDialog(UserLoginActivity.this, response.toString(),"登录成功");
-    ////
-    //			doComplete((JSONObject) response);
-    //		}
-    //
-    //		protected void doComplete(JSONObject values) {
-    //
-    //		}
-    //
-    //		@Override
-    //		public void onError(UiError e) {
-    //			Util.toastMessage(UserLoginActivity.this, "onError: " + e.errorDetail);
-    //			Util.dismissDialog();
-    //		}
-    //
-    //		@Override
-    //		public void onCancel() {
-    ////			Util.toastMessage(UserLoginActivity.this, "用户取消");//onCancel:
-    //			Util.dismissDialog();
-    //		}
-    //	}
 
     private void updata() {
         try {
@@ -506,6 +625,7 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
                     Toast.makeText(UserLoginActivity.this, "正在下载...", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 } else {
+
                     AndPermission.with(UserLoginActivity.this)
                             .permission(Permission.Group.STORAGE)
                             .onGranted(new Action() {

@@ -49,7 +49,7 @@ public class DiscoverBannerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, final int position) {
         ImageView item = new ImageView(mContext);
         final GoodsData data = mDatas.get(position);
-        Picasso.with(mContext).load(data.getImg_url()).placeholder(R.mipmap.car_1).into(item);
+        Picasso.with(mContext).load(data.getImg_url()).placeholder(R.mipmap.default_img).into(item);
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(-1, -1);
         item.setLayoutParams(params);
         item.setScaleType(ImageView.ScaleType.FIT_XY);

@@ -90,7 +90,7 @@ public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
      * 设置图片
      */
     public BaseRecyclerHolder setImageByUrl(int viewId, String url) {
-        Picasso.with(context).load(url).placeholder(R.mipmap.car_4).into((ImageView) getView(viewId));
+        Picasso.with(context).load(url).placeholder(R.mipmap.default_img).into((ImageView) getView(viewId));
         return this;
     }
 }

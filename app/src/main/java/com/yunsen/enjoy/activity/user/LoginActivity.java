@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.orhanobut.logger.Logger;
 import com.tencent.connect.auth.QQAuth;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.IUiListener;
@@ -118,7 +119,7 @@ public class LoginActivity extends BaseFragmentActivity {
     private String access_token;
     private String nickname, headimgurl, unionid, sex, province, city, country, oauth_openid;
     private boolean mIsWXLogin;
-    public static Tencent mTencent;
+    private static Tencent mTencent;
     private com.tencent.connect.UserInfo mInfo;
     private boolean isServerSideLogin;
     private QQAuth mQQAuth;
@@ -170,12 +171,11 @@ public class LoginActivity extends BaseFragmentActivity {
                 qqLogin();
                 break;
             case R.id.weixin_loing_img:
-                //                mIsWXLogin = true;
-                //                SendAuth.Req req = new SendAuth.Req();
-                //                req.scope = "snsapi_userinfo";
-                //                req.state = "wechat_sdk_demo";
-                //                mWxApi.sendReq(req);
-                mTencent.logout(this);
+                mIsWXLogin = true;
+                SendAuth.Req req = new SendAuth.Req();
+                req.scope = "snsapi_userinfo";
+                req.state = "wechat_sdk_demo";
+                mWxApi.sendReq(req);
                 break;
         }
     }
@@ -331,7 +331,7 @@ public class LoginActivity extends BaseFragmentActivity {
         String pwd = pwdEdt.getText().toString();
         if (TextUtils.isEmpty(name)) {
             ToastUtils.makeTextShort("请输入电话号码");
-        } else if (!Validator.isMobile(pwd)) {
+        } else if (!Validator.isMobile(name)) {
             ToastUtils.makeTextShort("请输入正确的电话号码");
         } else if (TextUtils.isEmpty(pwd)) {
             ToastUtils.makeTextShort("请输入密码");
@@ -348,13 +348,27 @@ public class LoginActivity extends BaseFragmentActivity {
      * @param name
      * @param pwd
      */
-    private void requestUserLogin(String name, String pwd) {
+    private void requestUserLogin(final String name, final String pwd) {
         HttpProxy.getUserLogin(name, pwd, new HttpCallBack<UserInfo>() {
             @Override
             public void onSuccess(UserInfo responseData) {
-                SpUtils.saveUserInfo(responseData);
-                EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
-                finish();
+                if (layoutPhone != null) {
+                    SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+                    SharedPreferences.Editor edit = sp.edit();
+                    edit.putString(SpConstants.INPUT_USER_PWD, pwd);
+                    edit.putString(SpConstants.INPUT_USER_NAME, name);
+                    edit.commit();
+                    layoutPhone.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
+                            UIHelper.showHomeActivity(LoginActivity.this);
+                            setResult(RESULT_OK);
+                            finish();
+                        }
+                    }, 1000);
+                }
+
             }
 
             @Override
@@ -375,6 +389,7 @@ public class LoginActivity extends BaseFragmentActivity {
             public void onSuccess(AuthorizationModel responseData) {
                 SpUtils.saveUserInfo(responseData, SpConstants.QQ_LOGIN);
                 EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
+                setResult(RESULT_OK);
                 finish();
             }
 
@@ -445,6 +460,8 @@ public class LoginActivity extends BaseFragmentActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                setResult(RESULT_OK);
+
                 finish();
             }
         }, LoginActivity.this);

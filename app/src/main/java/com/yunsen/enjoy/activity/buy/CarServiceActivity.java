@@ -67,11 +67,11 @@ public class CarServiceActivity extends BaseFragmentActivity {
 
     public List<CarServiceModel> getDatas() {
         ArrayList<CarServiceModel> list = new ArrayList<>();
-        list.add(new CarServiceModel(R.mipmap.ic_launcher_round, "基础保质",
+        list.add(new CarServiceModel(R.mipmap.default_img, "基础保质",
                 "交易完成后，在1万或两万内，乐享为本车提供发动机，变速箱两大系统的售后保质"));
-        list.add(new CarServiceModel(R.mipmap.ic_launcher_round,
+        list.add(new CarServiceModel(R.mipmap.default_img,
                 "基础保质", "14天内如果先退款，联系您的专属购车管家，即可以为您提供完善的售后服务"));
-        list.add(new CarServiceModel(R.mipmap.ic_launcher_round, "基础保质",
+        list.add(new CarServiceModel(R.mipmap.default_img, "基础保质",
                 "资深行业权威专家，完后两次专业检测，层层为您把关排除隐患，精选放心的车源，拒绝重大事故车、水泡车、火烧车"));
         return list;
     }

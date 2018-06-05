@@ -28,7 +28,7 @@ public class StoreRecyclerAdapter extends CommonAdapter<SProviderModel> {
         if (carStoreMode.getImg_url() != null) {
             Glide.with(mContext)
                     .load(carStoreMode.getImg_url())
-                    .placeholder(R.mipmap.car_4)
+                    .placeholder(R.mipmap.default_img)
                     .centerCrop()
                     .into((ImageView) holder.getView(R.id.shop_item_img));
         } else {

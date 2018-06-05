@@ -52,6 +52,7 @@ import com.yunsen.enjoy.activity.pay.TishiCarArchivesActivity;
 import com.yunsen.enjoy.activity.user.DBFengXiangActivity;
 import com.yunsen.enjoy.activity.user.LoginActivity;
 import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
+import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.activity.user.UserRegisterActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.fragment.buy.SelectBrandActivity;
@@ -305,12 +306,12 @@ public class UIHelper {
     }
 
     /**
-     * 微信登录
+     *登录
      *
      * @param ctx
      */
     public static void showUserLoginActivity(Context ctx) {
-        Intent intent = new Intent(ctx, LoginActivity.class);
+        Intent intent = new Intent(ctx, UserLoginActivity.class);
         ctx.startActivity(intent);
     }
 

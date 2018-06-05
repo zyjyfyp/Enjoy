@@ -179,7 +179,7 @@
                 android:layout_width="90dp"
                 android:layout_height="90dp"
                 android:layout_margin="@dimen/app_margin"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/default_img" />
 
             <TextView
                 android:layout_width="match_parent"

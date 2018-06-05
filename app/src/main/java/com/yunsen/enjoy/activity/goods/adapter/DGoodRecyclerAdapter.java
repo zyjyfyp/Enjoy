@@ -43,9 +43,11 @@ public class DGoodRecyclerAdapter extends CommonAdapter<CarDetails> {
         View view = holder.getView(R.id.d_goods_item_distance);
         Glide.with(mContext)
                 .load(goodsData.getImg_url())
+                .placeholder(R.mipmap.default_img)
                 .into(imgView);
         holder.setText(R.id.d_goods_item_title, goodsData.getTitle());
-        holder.setText(R.id.d_goods_item_price, "￥" + goodsData.getDefault_spec_item().getSell_price());
+        holder.setText(R.id.d_goods_item_price, "￥" + goodsData.getDefault_spec_item()
+                .getSell_price());
         holder.setText(R.id.d_goods_item_like, "想要换：" + goodsData.getCategory_title());
         String lat = goodsData.getLat().trim();
         String lng = goodsData.getLng().trim();
@@ -58,7 +60,7 @@ public class DGoodRecyclerAdapter extends CommonAdapter<CarDetails> {
             holder.setText(R.id.d_goods_item_distance, df + "千米");
         } else {
 //            view.setVisibility(View.GONE);
-            holder.setText(R.id.d_goods_item_distance,  "0.0 千米");
+            holder.setText(R.id.d_goods_item_distance, "0.0 千米");
         }
         View repertory = holder.getView(R.id.d_goods_clear_repertory);
         if (mShowClear) {
