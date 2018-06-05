@@ -157,7 +157,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="袋鼠新车"
+            android:text="袋鼠车库"
             android:textColor="@color/title_color"
             android:textSize="15sp" />
 
