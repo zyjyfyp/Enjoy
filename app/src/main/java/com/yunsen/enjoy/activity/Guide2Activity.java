@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.SpConstants;
+import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.widget.ViewPagerAdapter;
 
 import java.util.ArrayList;
@@ -120,12 +121,14 @@ public class Guide2Activity extends AppCompatActivity implements OnClickListener
     }
 
     public void getClasss() {
-        Intent intent = new Intent(Guide2Activity.this, MainActivity.class);
-        startActivity(intent);
+        String versionName = DeviceUtil.getAppVersionName(this);
         SharedPreferences sp = getSharedPreferences(SpConstants.SP_GUIDE, Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("flow", "yes");
+        editor.putString(SpConstants.APP_VERSION_NAME, versionName);
         editor.commit();
+        Intent intent = new Intent(Guide2Activity.this, MainActivity.class);
+        startActivity(intent);
         finish();
     }
 

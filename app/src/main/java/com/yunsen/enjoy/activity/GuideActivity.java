@@ -18,6 +18,7 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.utils.DeviceUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,7 +29,6 @@ import java.lang.ref.WeakReference;
  * 引导页的界面
  */
 public class GuideActivity extends AppCompatActivity {
-    SharedPreferences preferences;
     private ImageView i0;
     private MyHandler handler;
 
@@ -60,13 +60,15 @@ public class GuideActivity extends AppCompatActivity {
             if (act != null) {
                 switch (msg.what) {
                     case 0:
-                        act.preferences = act.getSharedPreferences(SpConstants.SP_GUIDE, Activity.MODE_PRIVATE);
+                        SharedPreferences preferences = act.getSharedPreferences(SpConstants.SP_GUIDE, Activity.MODE_PRIVATE);
                         // 如果程序已经进入
-                        if (act.preferences.getString("flow", "").equals("yes")) {
+//                        String flow = preferences.getString("flow", "");
+                        String versionName = preferences.getString(SpConstants.APP_VERSION_NAME, "");
+                        String currentVersionName = DeviceUtil.getAppVersionName(act);
+                        if (versionName.equals(currentVersionName)) {
                             act.getgaoguan();
                         } else {
                             Intent intent = new Intent(act, Guide2Activity.class);
-
                             act.startActivity(intent);
                             act.finish();
                         }
