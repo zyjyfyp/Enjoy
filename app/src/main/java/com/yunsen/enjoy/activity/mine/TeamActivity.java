@@ -1,16 +1,26 @@
 package com.yunsen.enjoy.activity.mine;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.activity.mine.adapter.TeamFragmentAdapter;
 import com.yunsen.enjoy.activity.mine.fragment.TeamFragment;
+import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.utils.DeviceUtil;
+import com.yunsen.enjoy.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +34,8 @@ import butterknife.OnClick;
  */
 public class TeamActivity extends BaseFragmentActivity {
 
+    @Bind(R.id.team_top_layout)
+    LinearLayout topLayout;
     @Bind(R.id.action_back)
     ImageView actionBack;
     @Bind(R.id.action_bar_title)
@@ -38,6 +50,8 @@ public class TeamActivity extends BaseFragmentActivity {
     private TeamFragment teamTwoFragment;
     private TeamFragment teamThreeFragment;
     private List<Fragment> mFragments;
+    private PopupWindow mpopuWindw;
+    private PopupWindow popupWindow;
 
     @Override
     public int getLayout() {
@@ -48,6 +62,8 @@ public class TeamActivity extends BaseFragmentActivity {
     protected void initView() {
         ButterKnife.bind(this);
         actionBarTitle.setText("团队信息");
+        actionBarRight.setVisibility(View.VISIBLE);
+        actionBarRight.setImageResource(R.drawable.share_app_seletor);
     }
 
     @Override
@@ -73,14 +89,65 @@ public class TeamActivity extends BaseFragmentActivity {
     }
 
 
-    @OnClick(R.id.action_back)
-    public void onViewClicked() {
-        finish();
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
     }
+
+
+    @OnClick({R.id.action_back, R.id.action_bar_right})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.action_back:
+                finish();
+                break;
+            case R.id.action_bar_right:
+                showSharePopupWindow();
+                break;
+        }
+    }
+
+    private void showSharePopupWindow() {
+        // 加载popupWindow的布局文件
+        LayoutInflater layoutInflater;
+        layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View contentView = layoutInflater.inflate(R.layout.share_app_layout, null, false);
+        View qrCodeView = contentView.findViewById(R.id.qr_code_layout);
+        View shareLayout = contentView.findViewById(R.id.share_layout);
+        popupWindow = new PopupWindow(contentView, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setBackgroundDrawable(getResources().getDrawable(R.color.share_layout_bg));
+// 设置背景颜色变暗
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 0.7f;
+        getWindow().setAttributes(lp);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha = 1f;
+                getWindow().setAttributes(lp);
+            }
+        });
+        qrCodeView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                ToastUtils.makeTextShort("面对面");
+                UIHelper.showExtensionActivity(TeamActivity.this);
+
+                popupWindow.dismiss();
+            }
+        });
+        shareLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIHelper.showDBFengXiangActivity(TeamActivity.this, "你好！url");
+                popupWindow.dismiss();
+            }
+        });
+
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.showAsDropDown(actionBarRight, -10, 0);
+    }
+
 }

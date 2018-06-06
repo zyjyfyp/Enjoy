@@ -38,6 +38,7 @@ import com.yunsen.enjoy.activity.dealer.MyFacilitatorActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.BindBankCardActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
+import com.yunsen.enjoy.activity.mine.ExtensionActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
 import com.yunsen.enjoy.activity.mine.MyOrderConfrimActivity;
 import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
@@ -686,6 +687,16 @@ public class UIHelper {
         ctx.startActivity(intent);
     }
 
+    public static void showDBFengXiangActivity(Context ctx, String title) {
+        Intent intent = new Intent(ctx, DBFengXiangActivity.class);
+//        intent.putExtra("sp_id", spId);
+//        intent.putExtra("company_id", companyId);
+        intent.putExtra("title", title);
+//        intent.putExtra("subtitle", subTitle);
+//        intent.putExtra("img_url", imgUrl);
+        ctx.startActivity(intent);
+    }
+
     /**
      * 订单确认页面
      *
@@ -835,5 +846,13 @@ public class UIHelper {
         showWebActivity(ctx, url);
     }
 
-
+    /**
+     * 面对面推广
+     *
+     * @param ctx
+     */
+    public static void showExtensionActivity(Context ctx) {
+        Intent intent = new Intent(ctx, ExtensionActivity.class);
+        ctx.startActivity(intent);
+    }
 }

@@ -240,7 +240,8 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
                 }
                 break;
             case R.id.ask_layout:
-                requestPermission(Permission.CALL_PHONE, Constants.CALL_PHONE);
+//                requestPermission(Permission.CALL_PHONE, Constants.CALL_PHONE);
+                ToastUtils.makeTextShort("此功能暂未开放");
                 break;
             case R.id.add_shop_btn:
                 UIHelper.showWatchCarActivity(this, mCarId);

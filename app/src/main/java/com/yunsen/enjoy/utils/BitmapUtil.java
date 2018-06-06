@@ -8,15 +8,25 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.widget.ImageView;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.squareup.picasso.Picasso;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.http.URLConstants;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Hashtable;
 
 /**
  * Created by tiansj on 15/11/16.
@@ -72,7 +82,7 @@ public class BitmapUtil {
     public static Bitmap comp(Bitmap image) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        if( baos.toByteArray().length / 1024>1024) {//判断如果图片大于1M,进行压缩避免在生成图片（BitmapFactory.decodeStream）时溢出
+        if (baos.toByteArray().length / 1024 > 1024) {//判断如果图片大于1M,进行压缩避免在生成图片（BitmapFactory.decodeStream）时溢出
             baos.reset();//重置baos即清空baos
             image.compress(Bitmap.CompressFormat.JPEG, 50, baos);//这里压缩50%，把压缩后的数据存放到baos中
         }
@@ -102,13 +112,14 @@ public class BitmapUtil {
         bitmap = BitmapFactory.decodeStream(isBm, null, newOpts);
         return compressImage(bitmap);//压缩好比例大小后再进行质量压缩
     }
+
     //质量压缩法
     private static Bitmap compressImage(Bitmap image) {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
         int options = 100;
-        while ( baos.toByteArray().length / 1024>32) { //循环判断如果压缩后图片是否大于100kb,大于继续压缩
+        while (baos.toByteArray().length / 1024 > 32) { //循环判断如果压缩后图片是否大于100kb,大于继续压缩
             baos.reset();//重置baos即清空baos
             image.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
             options -= 10;//每次都减少10
@@ -117,8 +128,10 @@ public class BitmapUtil {
         Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
         return bitmap;
     }
+
     /**
      * bitmap转为base64
+     *
      * @param bitmap
      * @return
      */
@@ -151,4 +164,46 @@ public class BitmapUtil {
         }
         return result;
     }
+
+    private static final int BLACK = 0xff000000;
+
+    /**
+     * 生成二维码
+     *
+     * @param str
+     * @param widthHeight
+     * @return
+     * @throws WriterException
+     */
+    public static Bitmap createQRCode(String str, int widthHeight)
+            throws WriterException {
+
+        Hashtable<EncodeHintType, String> hints = new Hashtable<EncodeHintType, String>();
+        // 设置二维码编码格式
+        hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+
+        BitMatrix marBitMatrix = new MultiFormatWriter().encode(str,
+                BarcodeFormat.QR_CODE, widthHeight, widthHeight);
+        int _width = marBitMatrix.getWidth();
+        int _height = marBitMatrix.getHeight();
+        // 根据宽度和高度计算像素大小；
+        int[] pixels = new int[_height * _width];
+
+        // 描点
+        for (int y = 0; y < _height; y++) {
+            for (int x = 0; x < _width; x++) {
+                if (marBitMatrix.get(x, y)) {
+                    pixels[y * _width + x] = BLACK;
+                }
+            }
+        }
+
+        // 生成位图
+        Bitmap mBitmap = Bitmap.createBitmap(_width, _height,
+                Bitmap.Config.ARGB_8888);
+        mBitmap.setPixels(pixels, 0, _width, 0, 0, _width, _height);
+
+        return mBitmap;
+    }
+
 }

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="45dp"
+    android:id="@+id/team_top_layout"
     android:orientation="vertical">
 
     <LinearLayout
@@ -23,26 +24,28 @@
 
         <TextView
             android:id="@+id/action_bar_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/app_margin"
             android:layout_marginRight="@dimen/app_margin"
-            android:gravity="center"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
             android:maxLines="1"
             android:textColor="@color/color_000"
             android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/action_bar_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="20dp"
             android:visibility="gone" />
     </LinearLayout>
 
     <View
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="10dp"
-        android:background="@color/gray" />
+        android:background="@color/gray"
+        android:visibility="gone" />
 </LinearLayout>
