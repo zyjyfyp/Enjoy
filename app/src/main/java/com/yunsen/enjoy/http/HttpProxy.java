@@ -516,6 +516,7 @@ public class HttpProxy {
                     if (loginSign.equals(data.getLogin_sign())) {  //如果签名一致保存数据， 如果不一致删除数据需要重新登录
                         SpUtils.saveUserInfo(data);
                     } else {
+                        AccountUtils.clearData();
                         sp.edit().clear().commit();
                     }
                     callBack.onSuccess(data);

@@ -134,7 +134,10 @@ public class Constants {
      * Activity type
      */
     public static final int REPERTORY_ACT = 1;
-
+    /**
+     * webView
+     */
+    public static final String WEB_VIEW_TYPE_KEY = "web_view_type_key";
 
     /**
      * 资金详情

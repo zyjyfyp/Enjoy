@@ -266,8 +266,9 @@ public class UIHelper {
      * @param ctx
      */
     public static void showHelpActivity(Context ctx) {
-        Intent intent4 = new Intent(ctx, Webview1.class);
-        intent4.putExtra("jysbz_id", "10334");
+        Intent intent4 = new Intent(ctx, WebActivity.class);
+        String url = URLConstants.REALM_NAME_WEB + "/mobile/news/conent-10334.html";
+        intent4.putExtra(Constants.WEB_URL_KEY, url);
         ctx.startActivity(intent4);
     }
 
@@ -823,4 +824,16 @@ public class UIHelper {
         Intent intent = new Intent(activity, BindBankCardActivity.class);
         activity.startActivityForResult(intent, Constants.BIND_BANK_CARD_REQUEST);
     }
+
+    /**
+     * 用户协议
+     *
+     * @param ctx
+     */
+    public static void showUserAgreement(Context ctx) {
+        String url = URLConstants.REALM_NAME_WEB + "/mobile/news/conent- 1006.html";
+        showWebActivity(ctx, url);
+    }
+
+
 }

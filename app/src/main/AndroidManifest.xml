@@ -167,9 +167,6 @@
             android:name=".activity.mine.AddUserAddressActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.mine.Webview1"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.mine.AddressManagerActivity"
             android:screenOrientation="portrait" />
         <activity

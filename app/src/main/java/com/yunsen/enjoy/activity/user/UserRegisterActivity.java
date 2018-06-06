@@ -32,6 +32,7 @@ import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.Register_Va;
+import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.utils.Validator;
 import com.yunsen.enjoy.widget.DialogProgress;
@@ -209,9 +210,7 @@ public class UserRegisterActivity extends AppCompatActivity implements OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.regise_tip:
-                Intent intent4 = new Intent(UserRegisterActivity.this, Webview1.class);
-                intent4.putExtra("zhuce_id", "1006");
-                startActivity(intent4);
+                UIHelper.showUserAgreement(UserRegisterActivity.this);
                 break;
             case R.id.get_yz:
                 phone = userphone.getText().toString().trim();

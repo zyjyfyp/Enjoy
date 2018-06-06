@@ -250,8 +250,6 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
 
                     spPreferences_qq = getSharedPreferences("longuserset_3_qq", MODE_PRIVATE);
                     spPreferences_qq.edit().clear().commit();
-
-
                     isWXLogin = false;
                     finish();
                 }

@@ -83,6 +83,7 @@ public class GuideActivity extends AppCompatActivity {
         String userName = mSp.getString(SpConstants.INPUT_USER_NAME, "");
         String pwd = mSp.getString(SpConstants.INPUT_USER_PWD, "");
         if (TextUtils.isEmpty(userName) || TextUtils.isEmpty(pwd)) { //如果是第三方登录的 犹如不知道用户名和密码需要重新手动登录
+            AccountUtils.clearData();
             mSp.edit().clear().commit();
             return;
         }
