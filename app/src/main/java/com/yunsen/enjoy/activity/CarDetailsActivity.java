@@ -158,21 +158,23 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
 
             }
         }, mCarId);
-
+        /**
+         * 判断商品是否被收藏
+         */
         HttpProxy.getHasCollectGoods(mCarId, mUserId, new HttpCallBack<Boolean>() {
             @Override
             public void onSuccess(Boolean responseData) {
                 collectImg.setSelected(false);
                 collectTv.setSelected(false);
                 mRequestFinish = true;
-                collectTv.setText("收藏");
+                collectTv.setText("已收藏");
             }
 
             @Override
             public void onError(Request request, Exception e) {
                 collectImg.setSelected(true);
                 collectTv.setSelected(true);
-                collectTv.setText("已收藏");
+                collectTv.setText("收藏");
                 mRequestFinish = true;
             }
         });
@@ -263,12 +265,13 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
             public void onSuccess(String responseData) {
                 collectImg.setSelected(true);
                 collectTv.setSelected(true);
-                ToastUtils.makeTextShort("关注成功");
+                collectTv.setText("已收藏");
+                ToastUtils.makeTextShort("收藏成功");
             }
 
             @Override
             public void onError(Request request, Exception e) {
-                ToastUtils.makeTextShort("此商品已被关注");
+                ToastUtils.makeTextShort("此商品已被收藏");
             }
         });
     }
