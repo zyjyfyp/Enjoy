@@ -55,6 +55,7 @@ import com.yunsen.enjoy.model.AuthorizationModel;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.utils.SpUtils;
+import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.DialogProgress;
 
 import org.greenrobot.eventbus.EventBus;
@@ -115,9 +116,10 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        mWxApi = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);
-        mWxApi.registerApp(Constants.APP_ID);
+//        mWxApi = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);
+        mWxApi = WXAPIFactory.createWXAPI(this, null);
 
+        mWxApi.registerApp(Constants.APP_ID);
         mTencent = Tencent.createInstance(Constants.APP_QQ_ID, this);
 
 
@@ -154,31 +156,6 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
 
         if (!zhuangtai) {
             updata();
-        }
-
-        if (isWXLogin) {
-            panduan = true;
-            panduan_tishi = true;
-            oauth_name = "weixin";
-            System.out.println("2------------------" + WX_CODE);
-            //				Toast.makeText(this, "微信code为"+WX_CODE+"/", 1000).show();
-            spPreferences_tishi = getSharedPreferences("longuserset_tishi", MODE_PRIVATE);
-            String qq = spPreferences_tishi.getString("qq", "");
-            if (!qq.equals("")) {
-                spPreferences_tishi.edit().clear().commit();
-                UserLoginWayActivity.panduan_tishi = false;
-            }
-            System.out.println("=================qq==" + qq);
-
-            longuserset_ptye = getSharedPreferences("longuserset_ptye", MODE_PRIVATE);
-            editor = longuserset_ptye.edit();
-            editor.putString("ptye", "weixin");
-            editor.commit();
-
-            userxinxi();
-        } else {
-            //				onClickLogin();
-            //				finish();
         }
 
     }
@@ -320,7 +297,7 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
                 isWXLogin = true;
                 SendAuth.Req req = new SendAuth.Req();
                 req.scope = "snsapi_userinfo";
-                req.state = "wechat_sdk_demo";
+                req.state = "wei_xin_log_in";
                 mWxApi.sendReq(req);
                 break;
             case R.id.tv_qq_login://qq登录
@@ -404,7 +381,7 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
                                     /**
                                      * 第三方授权
                                      */
-                                    requestBundlePhone();
+                                    requestBundlePhone(SpConstants.QQ_LOGIN);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -425,18 +402,20 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
     /**
      * QQ第三方登录
      */
-    private void requestBundlePhone() {
+    private void requestBundlePhone(final String loginType) {
         HttpProxy.requestBindPhone(new HttpCallBack<AuthorizationModel>() {
             @Override
             public void onSuccess(AuthorizationModel responseData) {
-                SpUtils.saveUserInfo(responseData, SpConstants.QQ_LOGIN);
+                SpUtils.saveUserInfo(responseData, loginType);
                 EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
                 finish();
             }
 
             @Override
             public void onError(Request request, Exception e) {
-
+                Log.e(TAG, "onError: " + e);
+                EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
+                finish();
             }
         });
     }
@@ -485,9 +464,13 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
                 case PHONE_LOGIN_REQUEST:
                     finish();
                     break;
-
             }
-
+        } else if (resultCode == 2) {
+            /**
+             * 第三方授权 微信第三方授权成功
+             */
+            Log.e(TAG, "onActivityResult: 第三方授权 微信第三方授权开始");
+            requestBundlePhone(SpConstants.WEI_XIN);
         }
     }
 
@@ -596,10 +579,6 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
 
     // 安装apk
     protected void installApk(File file) {
-        // TODO: 2018/4/25 zyjy 升级标记
-        MainActivity.zhuangtai = false;
-        UserLoginActivity.zhuangtai = false;
-        PersonCenterActivity.zhuangtai = false;
         Intent intent = new Intent();
         // 执行动作
         intent.setAction(Intent.ACTION_VIEW);

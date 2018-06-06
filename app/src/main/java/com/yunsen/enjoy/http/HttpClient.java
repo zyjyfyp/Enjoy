@@ -41,6 +41,10 @@ public class HttpClient {
     private static final MediaType MEDIA_TYPE = MediaType.parse("text/html;");
     private static OkHttpClient client;
 
+    public static OkHttpClient getClient() {
+        return client;
+    }
+
     static {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(CONNECT_TIME_OUT, TimeUnit.SECONDS);

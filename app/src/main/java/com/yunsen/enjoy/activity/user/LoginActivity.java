@@ -305,7 +305,7 @@ public class LoginActivity extends BaseFragmentActivity {
                                     /**
                                      * 第三方授权
                                      */
-                                    requestBundlePhone();
+                                    requestBundlePhone(SpConstants.QQ_LOGIN);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -383,11 +383,11 @@ public class LoginActivity extends BaseFragmentActivity {
     /**
      * QQ第三方登录
      */
-    private void requestBundlePhone() {
+    private void requestBundlePhone(final String loginType) {
         HttpProxy.requestBindPhone(new HttpCallBack<AuthorizationModel>() {
             @Override
             public void onSuccess(AuthorizationModel responseData) {
-                SpUtils.saveUserInfo(responseData, SpConstants.QQ_LOGIN);
+                SpUtils.saveUserInfo(responseData, loginType);
                 EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
                 setResult(RESULT_OK);
                 finish();
@@ -395,7 +395,9 @@ public class LoginActivity extends BaseFragmentActivity {
 
             @Override
             public void onError(Request request, Exception e) {
-
+                EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
+                setResult(RESULT_OK);
+                finish();
             }
         });
     }
@@ -474,7 +476,11 @@ public class LoginActivity extends BaseFragmentActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.e(TAG, "onActivityResult: requestCode=" + requestCode + "resultCode=" + resultCode);
         Log.e(TAG, "onActivityResult: " + data);
-        mTencent.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2) {
+            requestBundlePhone(SpConstants.WEI_XIN);
+        } else {
+            mTencent.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     private void updata() {
@@ -526,7 +532,6 @@ public class LoginActivity extends BaseFragmentActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                downLoadApk();
             }
         });
         builder.setNegativeButton("以后再说",
@@ -539,44 +544,6 @@ public class LoginActivity extends BaseFragmentActivity {
         builder.create().show();
     }
 
-    protected void downLoadApk() {
-        final ProgressDialog pd; // 进度条对话框
-        pd = new ProgressDialog(LoginActivity.this);
-        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        pd.setMessage("正在下载更新");
-        pd.setCanceledOnTouchOutside(false);
-        pd.setProgressNumberFormat(null);
-        pd.show();
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    System.out.println("=====URL==============" + URL);
-                    File file = getFileFromServer(URL, pd);
-                    sleep(3000);
-                    installApk(file);
-                    pd.dismiss(); // 结束掉进度条对话框
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-    }
-
-    // 安装apk
-    protected void installApk(File file) {
-        // TODO: 2018/4/25 zyjy 升级标记
-        MainActivity.zhuangtai = false;
-        UserLoginActivity.zhuangtai = false;
-        PersonCenterActivity.zhuangtai = false;
-        Intent intent = new Intent();
-        // 执行动作
-        intent.setAction(Intent.ACTION_VIEW);
-        // 执行的数据类型
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");// 编者按：此处Android应为android，否则造成安装不了
-        LoginActivity.this.startActivity(intent);
-    }
 
     public static File getFileFromServer(String path, ProgressDialog pd)
             throws Exception {

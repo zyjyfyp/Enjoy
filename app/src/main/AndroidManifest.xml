@@ -301,6 +301,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:theme="@style/wx_login_style"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.mine.WithdrawCashActivity"

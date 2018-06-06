@@ -256,6 +256,14 @@ public class URLConstants {
      * 取消收藏
      */
     public static final String CANCEL_GOODS_COLLECT_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_favorite_cancel";
+    /**
+     * 获取token
+     */
+    public static final String WX_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token";
+    /**
+     * 微信登录
+     */
+    public static final String WX_LOGIN_URL = "https://api.weixin.qq.com/sns/userinfo";
 
 
     //

@@ -8,6 +8,7 @@ import android.support.annotation.MainThread;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
 import com.orhanobut.logger.Logger;
 import com.yunsen.enjoy.common.AppContext;
 import com.yunsen.enjoy.common.SpConstants;
@@ -36,6 +37,8 @@ import com.yunsen.enjoy.model.ServiceProject;
 import com.yunsen.enjoy.model.ServiceProvideResponse;
 import com.yunsen.enjoy.model.TradeData;
 import com.yunsen.enjoy.model.UserInfo;
+import com.yunsen.enjoy.model.WXAccessTokenEntity;
+import com.yunsen.enjoy.model.WXUserInfo;
 import com.yunsen.enjoy.model.WalletCashBean;
 import com.yunsen.enjoy.model.WatchCarBean;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
@@ -66,11 +69,17 @@ import com.yunsen.enjoy.utils.EntityToMap;
 import com.yunsen.enjoy.utils.SpUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.Request;
+import okhttp3.Response;
+
+import static com.yunsen.enjoy.http.HttpClient.mapToQueryString;
 
 /**
  * Created by Administrator on 2018/4/20.
@@ -1635,6 +1644,70 @@ public class HttpProxy {
             public void onFailure(Request request, Exception e) {
                 super.onFailure(request, e);
                 callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 获取微信信息
+     *
+     * @param param
+     */
+    public static void getWXAccessTokenEntity(Map<String, String> param, final HttpCallBack<WXAccessTokenEntity> callBack) {
+        String url = URLConstants.WX_ACCESS_TOKEN_URL;
+        if (param != null && param.size() > 0) {
+            url = url + "?" + mapToQueryString(param);
+            Log.e(TAG, "getWXAccessTokenEntity: " + url);
+        }
+        final Request request = new Request.Builder().url(url).build();
+        HttpClient.getClient().newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callBack.onError(request, e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                try {
+                    String responseBody = response.body().string();
+                    WXAccessTokenEntity wxResponse = JSON.parseObject(responseBody, WXAccessTokenEntity.class);
+                    callBack.onSuccess(wxResponse);
+                } catch (Exception e) {
+                    Log.e(TAG, "onResponse: " + e.getMessage());
+                    callBack.onError(request, e);
+                }
+            }
+        });
+    }
+
+    /**
+     * 获取微信信息
+     *
+     * @param param
+     */
+    public static void getWxLoginInfo(Map<String, String> param, final HttpCallBack<WXUserInfo> callBack) {
+        String url = URLConstants.WX_LOGIN_URL;
+        if (param != null && param.size() > 0) {
+            url = url + "?" + mapToQueryString(param);
+            Log.e(TAG, "getWxLoginInfo: " + url);
+        }
+        final Request request = new Request.Builder().url(url).build();
+        HttpClient.getClient().newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callBack.onError(request, e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                try {
+                    String responseBody = response.body().string();
+                    WXUserInfo wxResponse = JSON.parseObject(responseBody, WXUserInfo.class);
+                    callBack.onSuccess(wxResponse);
+                } catch (Exception e) {
+                    Log.e(TAG, "onResponse: " + e.getMessage());
+                    callBack.onError(request, e);
+                }
             }
         });
     }

@@ -96,7 +96,7 @@
     </style>
 
     <!-- 自定义仿IOS的AlertDialog的样式 -->
-    <style name="AlertDialogStyle" parent="@style/Theme.AppCompat.Light.Dialog">
+    <style name="AlertDialogStyle" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowIsFloating">true</item>
@@ -343,7 +343,20 @@
     <!--<item name="cpSectionHeight">@dimen/custom_section_height</item>-->
     <!--<item name="cpOverlayBackground">@color/color_green</item>-->
     <!--</style>-->
+    /**
+    微信登录
+    */
 
+    <style name="wx_login_style" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:activityCloseExitAnimation">@anim/push_up_in</item><!--退出动画-->
+        <item name="android:activityOpenExitAnimation">@anim/push_up_out</item>
+        <!--<item name="android:background">@color/color_transparent_9000</item>-->
+    </style>
     <color name="color_060606">#060606</color>
     <color name="color_999999">#999999</color>
     <color name="color_bf1a1p">#bf1a19</color>

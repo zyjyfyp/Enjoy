@@ -12,9 +12,11 @@ import java.util.Map;
 
 public class Constants {
     //    微信
-    public static final String APP_ID = "wx4f8e083f922d29bb";
+    public static final String APP_ID = "wxe60c28541b0fa8a2";
     public static final String MCH_ID = "1395825802";
-    public static final String APP_SECRET = "e94e0ca414b307f026334dbbc124426c";
+    //    public static final String APP_SECRET = "e90f651c7db96bbf164ab28a25b3f5cd";
+    public static final String APP_SECRET = "ba972155375ade032175041398457297";
+//    public static final String APP_SECRET = "";
 
 
     public static String WX_Code = "";
