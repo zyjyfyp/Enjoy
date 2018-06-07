@@ -19,6 +19,7 @@ import com.yunsen.enjoy.activity.user.UserLoginWayActivity;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
+import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.widget.interfaces.OnLeftOnclickListener;
 import com.yunsen.enjoy.widget.interfaces.OnRightOnclickListener;
 
@@ -82,6 +83,7 @@ public class DialogUtils {
                 spPreferences.edit().clear().commit();
                 jdh_spPreferences.edit().clear().commit();// 积兑换保存福利清除
                 spPreferences_tishi.edit().clear().commit();// 第三方授权登录提示绑定手机号信息清空
+                AccountUtils.clearData();
                 UIHelper.showUserLoginActivity(fAct);
                 EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGOUT));
             }

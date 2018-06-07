@@ -83,6 +83,7 @@ public class GuideActivity extends AppCompatActivity {
         String userName = mSp.getString(SpConstants.INPUT_USER_NAME, "");
         String pwd = mSp.getString(SpConstants.INPUT_USER_PWD, "");
         if (TextUtils.isEmpty(userName) || TextUtils.isEmpty(pwd)) { //如果是第三方登录的 犹如不知道用户名和密码需要重新手动登录
+            AccountUtils.clearData();
             mSp.edit().clear().commit();
             return;
         }
@@ -114,12 +115,14 @@ public class GuideActivity extends AppCompatActivity {
                 switch (msg.what) {
                     case 0:
                         SharedPreferences preferences = act.getSharedPreferences(SpConstants.SP_GUIDE, Activity.MODE_PRIVATE);
-                        // 如果程序已经进入
-//                        String flow = preferences.getString("flow", "");
                         String versionName = preferences.getString(SpConstants.APP_VERSION_NAME, "");
                         String currentVersionName = DeviceUtil.getAppVersionName(act);
-                        if (versionName.equals(currentVersionName)) {
-                            act.getgaoguan();
+                        // 如果程序已经进入
+                        if (!TextUtils.isEmpty(versionName) && versionName.equals(currentVersionName)) {
+//                            act.getgaoguan(); //todo 跳过广告判断
+                            Intent intent = new Intent(act, MainActivity.class);
+                            act.startActivity(intent);
+                            act.finish();
                         } else {
                             Intent intent = new Intent(act, Guide2Activity.class);
                             act.startActivity(intent);

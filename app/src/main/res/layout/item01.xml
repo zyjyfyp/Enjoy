@@ -12,6 +12,7 @@
             android:id="@+id/i0"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:src="@drawable/zams_qdy"
             android:scaleType="fitXY"
             >
         </ImageView>

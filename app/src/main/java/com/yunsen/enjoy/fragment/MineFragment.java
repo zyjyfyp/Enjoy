@@ -660,9 +660,9 @@ public class MineFragment extends BaseFragment {
                 orderNumber2.setText("0");
                 orderNumber3.setText("0");
                 orderNumber4.setText("0");
+                AccountUtils.clearData();
                 SharedPreferences sp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
                 sp.edit().clear().commit();
-                AccountUtils.clearData();
                 //                Constants.QQauth = QQAuth.createInstance(Constants.APP_QQ_ID, AppContext.getInstance());
                 Tencent tencent = Tencent.createInstance(Constants.APP_QQ_ID, getActivity());
                 tencent.logout(getActivity());
