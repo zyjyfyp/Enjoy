@@ -44,7 +44,6 @@ import com.yunsen.enjoy.ui.DialogUtils;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.GetImgUtil;
-import com.yunsen.enjoy.utils.SpUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.GlideCircleTransform;
 
@@ -493,7 +492,7 @@ public class MineFragment extends BaseFragment {
             mUserName = nickname;
         }
 
-        if (SpConstants.WEI_XIN.equals(loginFlag) || SpConstants.QQ_LOGIN.equals(loginFlag)) {//微信登录
+        if (SpConstants.WEI_XIN.equals(loginFlag) || SpConstants.QQ_LOGIN.equals(loginFlag)) {//微信登录 QQ登录
             if (AccountUtils.hasBoundPhone()) {
                 getLeXiangUserInfo();//获取乐享用户信息
                 load_list();

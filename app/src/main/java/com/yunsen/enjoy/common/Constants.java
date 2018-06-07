@@ -14,8 +14,10 @@ public class Constants {
     //    微信
     public static final String APP_ID = "wxe60c28541b0fa8a2";
     public static final String MCH_ID = "1395825802";
-    //    public static final String APP_SECRET = "e90f651c7db96bbf164ab28a25b3f5cd";
-    public static final String APP_SECRET = "ba972155375ade032175041398457297";
+    public static final String APP_SECRET = "ca30ef7495cdd92ee94e1190f78a8735";
+    //微信小程序原始ID
+    public static final String WX_GH_ID = "gh_aeab7704dad3";
+    public static final String WX_MCH_ID = "1502153101";
 //    public static final String APP_SECRET = "";
 
 

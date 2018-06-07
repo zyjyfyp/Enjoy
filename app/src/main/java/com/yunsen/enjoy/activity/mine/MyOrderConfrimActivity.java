@@ -1062,20 +1062,19 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 case 2:// 微信支付
                     try {
                         boolean isPaySupported = api.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
-
                         String zhou = String.valueOf(isPaySupported);
 
                         if (isPaySupported) {
                             try {
                                 // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-                                api.registerApp(Common.WX_APP_ID);
+                                api.registerApp(Constants.APP_ID);
                                 PayReq req = new PayReq();
-                                req.appId = Common.WX_APP_ID;
-                                req.partnerId = Common.WX_MCH_ID;
-                                req.prepayId = prepayid;// 7
+                                req.appId = Constants.APP_ID;
+                                req.partnerId = Constants.WX_MCH_ID;//商户id
+                                req.prepayId = prepayid;// 7 预支付交易会话ID
                                 req.nonceStr = noncestr;// 3
                                 req.timeStamp = timestamp;// -1
-                                req.packageValue = package_;
+                                req.packageValue = package_; //扩展字段
                                 req.sign = sign;// -3
                                 //3.调用微信支付sdk支付方法
                                 flag = api.sendReq(req);

@@ -1,6 +1,8 @@
 package com.yunsen.enjoy.activity.mine;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +15,11 @@ import com.bumptech.glide.Glide;
 import com.google.zxing.WriterException;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
+import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.utils.BitmapUtil;
+
+import java.io.File;
+import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -46,29 +52,30 @@ public class ExtensionActivity extends BaseFragmentActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        new AsyncTask<Nullable, Nullable, Bitmap>() {
+//        getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER,MODE_PRIVATE).getString(SpConstants.)
+        final String path = getExternalCacheDir().toString() + "enjoy";
+        new AsyncTask<String, Nullable, Boolean>() {
 
             @Override
-            protected Bitmap doInBackground(Nullable... nullables) {
-                Bitmap bitmap = null;
-                try {
-                    bitmap = BitmapUtil.createQRCode("你好啊！", 350);
-                } catch (WriterException e) {
-                    e.printStackTrace();
-                }
-
-                return bitmap;
+            protected Boolean doInBackground(String... str) {
+                boolean flag = false;
+                Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.app_icon_1);
+                flag = BitmapUtil.createQRImage("你好", 450, 450, icon, str[0]);
+                return flag;
             }
 
             @Override
-            protected void onPostExecute(Bitmap result) {
+            protected void onPostExecute(Boolean result) {
                 super.onPostExecute(result);
-                if (result != null) {
-                    qrCodeImg.setImageBitmap(result);
+                if (result) {
+//                    qrCodeImg.setImageBitmap(result);
+                    Glide.with(ExtensionActivity.this)
+                            .load(path)
+                            .into(qrCodeImg);
                 }
 
             }
-        }.execute();
+        }.execute(path);
     }
 
     @Override

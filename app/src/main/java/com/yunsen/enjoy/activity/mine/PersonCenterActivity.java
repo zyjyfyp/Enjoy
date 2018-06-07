@@ -346,13 +346,13 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                                 if (!TextUtils.isEmpty(avatar) && avatar.startsWith("http")) {
                                     Glide.with(PersonCenterActivity.this)
                                             .load(avatar)
-                                            .placeholder(R.mipmap.default_img)
+                                            .placeholder(R.mipmap.login_icon)
                                             .transform(new GlideCircleTransform(PersonCenterActivity.this))
                                             .into(networkImage);
                                 } else {
                                     Glide.with(PersonCenterActivity.this)
                                             .load(URLConstants.REALM_URL + avatar)
-                                            .placeholder(R.mipmap.default_img)
+                                            .placeholder(R.mipmap.login_icon)
                                             .transform(new GlideCircleTransform(PersonCenterActivity.this))
                                             .into(networkImage);
                                 }

@@ -13,6 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.buy.GoodsDescriptionActivityOld;
@@ -39,6 +42,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Request;
+
+import static com.yunsen.enjoy.activity.mine.PersonCenterActivity.path;
 
 public class CarDetailsActivity extends BaseFragmentActivity implements NoticeView.OnNoticeListener {
     private static final String TAG = "CarDetailsActivity";
@@ -240,8 +245,13 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
                 }
                 break;
             case R.id.ask_layout:
-//                requestPermission(Permission.CALL_PHONE, Constants.CALL_PHONE);
-                ToastUtils.makeTextShort("此功能暂未开放");
+                String appId = Constants.APP_ID; // "wxe60c28541b0fa8a2"填应用AppId
+                IWXAPI api = WXAPIFactory.createWXAPI(this, appId);
+                WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
+                req.userName = Constants.WX_GH_ID; // 填小程序原始id
+                req.path = "pages/customer/customer";                  //拉起小程序页面的可带参路径，不填默认拉起小程序首页
+                req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
+                api.sendReq(req);
                 break;
             case R.id.add_shop_btn:
                 UIHelper.showWatchCarActivity(this, mCarId);

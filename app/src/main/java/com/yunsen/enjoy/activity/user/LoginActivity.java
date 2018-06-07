@@ -50,6 +50,7 @@ import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.SpUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
@@ -122,7 +123,6 @@ public class LoginActivity extends BaseFragmentActivity {
     private static Tencent mTencent;
     private com.tencent.connect.UserInfo mInfo;
     private boolean isServerSideLogin;
-    private QQAuth mQQAuth;
     private String URL;
     private String strUr2 = URLConstants.REALM_NAME_LL + "/get_apk_version?browser=android";
 
@@ -174,9 +174,17 @@ public class LoginActivity extends BaseFragmentActivity {
                 mIsWXLogin = true;
                 SendAuth.Req req = new SendAuth.Req();
                 req.scope = "snsapi_userinfo";
-                req.state = "wechat_sdk_demo";
+                req.state = "wei_xin_log_in";
                 mWxApi.sendReq(req);
                 break;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (AccountUtils.mWeiXiHasLogin) {
+            finish();
         }
     }
 
@@ -477,7 +485,9 @@ public class LoginActivity extends BaseFragmentActivity {
         Log.e(TAG, "onActivityResult: requestCode=" + requestCode + "resultCode=" + resultCode);
         Log.e(TAG, "onActivityResult: " + data);
         if (requestCode == 2) {
-            requestBundlePhone(SpConstants.WEI_XIN);
+//            requestBundlePhone(SpConstants.WEI_XIN);
+            setResult(2);
+            finish();
         } else {
             mTencent.onActivityResult(requestCode, resultCode, data);
         }

@@ -24,6 +24,8 @@ public class AccountUtils {
     private static boolean mHasLogin;
     private static boolean mHasBound;
 
+    public static boolean mWeiXiHasLogin = false; //微信登录时的标记
+
     /**
      * 是否已经登录
      *
@@ -75,6 +77,7 @@ public class AccountUtils {
         sex = "";
         mHasBound = false;
         mHasLogin = false;
+        mWeiXiHasLogin = false;
     }
 
     public static String getUser_name_phone() {

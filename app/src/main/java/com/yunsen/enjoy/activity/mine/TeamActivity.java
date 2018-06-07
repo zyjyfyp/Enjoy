@@ -141,7 +141,7 @@ public class TeamActivity extends BaseFragmentActivity {
         shareLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UIHelper.showDBFengXiangActivity(TeamActivity.this, "你好！url");
+                UIHelper.showDBFengXiangActivity(TeamActivity.this, "你好");
                 popupWindow.dismiss();
             }
         });

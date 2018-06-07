@@ -20,17 +20,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserRegisterllData;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpUiEvent;
+import com.yunsen.enjoy.model.response.UserInfoResponse;
+import com.yunsen.enjoy.utils.AccountUtils;
+import com.yunsen.enjoy.utils.SpUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.utils.Utils;
 import com.yunsen.enjoy.utils.Validator;
 import com.yunsen.enjoy.widget.DialogProgress;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -84,6 +91,7 @@ public class MobilePhoneActivity extends AppCompatActivity implements OnClickLis
                 case 0:
                     String strhengyuname = (String) msg.obj;
                     Toast.makeText(getApplicationContext(), strhengyuname, Toast.LENGTH_SHORT).show();
+                    EventBus.getDefault().post(new UpUiEvent(EventConstants.APP_LOGIN));
                     progress.CloseProgress();
                     finish();
                     break;
@@ -221,7 +229,6 @@ public class MobilePhoneActivity extends AppCompatActivity implements OnClickLis
                             province = getIntent().getStringExtra("province");
                             city = getIntent().getStringExtra("city");
                             country = getIntent().getStringExtra("area");
-
                             if (province == null) {
                                 province = "";
                             }
@@ -248,8 +255,8 @@ public class MobilePhoneActivity extends AppCompatActivity implements OnClickLis
                             } else {
                                 sex = "女";
                             }
-                            oauth_name = mSp.getString(SpConstants.OAUTH_NAME, "");
 
+                            oauth_name = mSp.getString(SpConstants.OAUTH_NAME, "");
                             String strUrl = URLConstants.REALM_NAME_LL
                                     + "/user_oauth_bind_0217?mobile="
                                     + phone + "&password=" + pwd
@@ -263,7 +270,7 @@ public class MobilePhoneActivity extends AppCompatActivity implements OnClickLis
                                     + "&oauth_unionid=" + unionid
                                     + "&oauth_openid=" + oauth_openid
                                     + "";
-                            System.out.println("注册" + strUrl);
+                            Log.e(TAG, "注册" + strUrl);
 
                             AsyncHttp.get(strUrl,
                                     new AsyncHttpResponseHandler() {
@@ -272,51 +279,22 @@ public class MobilePhoneActivity extends AppCompatActivity implements OnClickLis
                                             super.onSuccess(arg0, arg1);
                                             try {
                                                 JSONObject jsonObject = new JSONObject(arg1);
-
                                                 String status = jsonObject.getString("status");
-                                                String info = jsonObject.getString("info");
                                                 if ("n".equals(status)) {
-
                                                     str = jsonObject.getString("info");
-                                                    String no = jsonObject.getString("info");
-
                                                     progress.CloseProgress();
                                                     Message message = new Message();
                                                     message.what = 1;
                                                     message.obj = str;
                                                     handler.sendMessage(message);
                                                 } else if ("y".equals(status)) {
-                                                    hengyuName = jsonObject.getString("info");
-                                                    JSONObject obj = jsonObject.getJSONObject("data");
-                                                    UserRegisterllData data = new UserRegisterllData();
-                                                    data.id = obj.getString("id");
-                                                    data.user_name = obj.getString("user_name");
-                                                    data.user_code = obj.getString("user_code");
-                                                    data.agency_id = obj.getInt("agency_id");
-                                                    data.amount = obj.getString("amount");
-                                                    data.pension = obj.getString("pension");
-                                                    data.packet = obj.getString("packet");
-                                                    data.point = obj.getString("point");
-                                                    data.group_id = obj.getString("group_id");
-                                                    data.login_sign = obj.getString("login_sign");
-                                                    data.agency_name = obj.getString("agency_name");
-                                                    data.group_name = obj.getString("group_name");
-                                                    data.avatar = obj.getString("avatar");
-                                                    data.mobile = obj.getString("mobile");
-                                                    data.exp = obj.getString("exp");
-
-                                                    Editor editor = mSp.edit();
-                                                    editor.putString("user", data.user_name);
-                                                    editor.putString("user_name", data.user_name);
-                                                    editor.putString("user_id", data.id);
-                                                    editor.commit();
+                                                    UserInfoResponse userInfoResponse = JSON.parseObject(arg1, UserInfoResponse.class);
+                                                    SpUtils.saveUserInfo(userInfoResponse.getData());
                                                     progress.CloseProgress();
                                                     Message message = new Message();
                                                     message.what = 0;
                                                     message.obj = hengyuName;
                                                     handler.sendMessage(message);
-                                                    finish();
-
                                                 }
                                             } catch (JSONException e) {
                                                 e.printStackTrace();

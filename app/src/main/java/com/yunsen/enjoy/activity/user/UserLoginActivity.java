@@ -54,6 +54,7 @@ import com.yunsen.enjoy.http.down.UpdateApkThread;
 import com.yunsen.enjoy.model.AuthorizationModel;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
+import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.SpUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.DialogProgress;
@@ -153,10 +154,13 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
     protected void onResume() {
         super.onResume();
         wx_fanhui = true;//分享微信返回APP
-
+        if (AccountUtils.mWeiXiHasLogin) {
+            finish();
+        }
         if (!zhuangtai) {
             updata();
         }
+
 
     }
 

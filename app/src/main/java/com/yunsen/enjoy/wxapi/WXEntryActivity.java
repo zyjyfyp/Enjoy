@@ -2,8 +2,10 @@ package com.yunsen.enjoy.wxapi;
 
 import com.alibaba.fastjson.JSON;
 import com.orhanobut.logger.Logger;
+import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -12,11 +14,14 @@ import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.model.AuthorizationModel;
 import com.yunsen.enjoy.model.WXAccessTokenEntity;
 import com.yunsen.enjoy.model.WXBaseRespEntity;
 import com.yunsen.enjoy.model.WXUserInfo;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
+import com.yunsen.enjoy.utils.AccountUtils;
+import com.yunsen.enjoy.utils.SpUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
 
 
@@ -86,46 +91,51 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         Logger.d("baseResp:--A" + JSON.toJSONString(baseResp));
         Log.e(TAG, "baseResp--B:" + baseResp.errStr + "," + baseResp.openId + "," + baseResp.transaction + "," + baseResp.errCode);
         WXBaseRespEntity entity = JSON.parseObject(JSON.toJSONString(baseResp), WXBaseRespEntity.class);
-        switch (baseResp.errCode) {
-            case BaseResp.ErrCode.ERR_OK:
-                HashMap<String, String> param = new HashMap<>();
-                param.put("appid", Constants.APP_ID);
-                param.put("secret", Constants.APP_SECRET);
-                param.put("code", entity.getCode());
-                param.put("grant_type", "authorization_code");
-                HttpProxy.getWXAccessTokenEntity(param, new HttpCallBack<WXAccessTokenEntity>() {
-                    @Override
-                    public void onSuccess(WXAccessTokenEntity accessTokenEntity) {
-                        if (accessTokenEntity != null) {
-                            getUserInfo(accessTokenEntity);
-                        } else {
+        if (baseResp.getType() == ConstantsAPI.COMMAND_LAUNCH_WX_MINIPROGRAM) {
+            WXLaunchMiniProgram.Resp launchMiniProResp = (WXLaunchMiniProgram.Resp) baseResp;
+            String extraData = launchMiniProResp.extMsg; // 对应JsApi navigateBackApplication中的extraData字段数据
+            Log.e(TAG, "onResp: " + extraData);
+        } else {
+            switch (baseResp.errCode) {
+                case BaseResp.ErrCode.ERR_OK:
+                    HashMap<String, String> param = new HashMap<>();
+                    param.put("appid", Constants.APP_ID);
+                    param.put("secret", Constants.APP_SECRET);
+                    param.put("code", entity.getCode());
+                    param.put("grant_type", "authorization_code");
+                    HttpProxy.getWXAccessTokenEntity(param, new HttpCallBack<WXAccessTokenEntity>() {
+                        @Override
+                        public void onSuccess(WXAccessTokenEntity accessTokenEntity) {
+                            if (accessTokenEntity != null) {
+                                getUserInfo(accessTokenEntity);
+                            } else {
+                                Logger.e("获取失败");
+                            }
+                        }
+
+                        @Override
+                        public void onError(Request request, Exception e) {
                             Logger.e("获取失败");
                         }
-                    }
-
-                    @Override
-                    public void onError(Request request, Exception e) {
-                        Logger.e("获取失败");
-                    }
-                });
-                break;
-            case BaseResp.ErrCode.ERR_USER_CANCEL:
-                ToastUtils.makeTextShort("登录取消");
-                finish();
-                break;
-            case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                ToastUtils.makeTextShort("发送被拒绝");
-                finish();
-                break;
-            case BaseResp.ErrCode.ERR_BAN:
-                ToastUtils.makeTextShort("签名错误");
-                break;
-            default:
-                ToastUtils.makeTextShort("发送返回");
-                finish();
-                break;
+                    });
+                    break;
+                case BaseResp.ErrCode.ERR_USER_CANCEL:
+                    ToastUtils.makeTextShort("登录取消");
+                    finish();
+                    break;
+                case BaseResp.ErrCode.ERR_AUTH_DENIED:
+                    ToastUtils.makeTextShort("发送被拒绝");
+                    finish();
+                    break;
+                case BaseResp.ErrCode.ERR_BAN:
+                    ToastUtils.makeTextShort("签名错误");
+                    break;
+                default:
+                    ToastUtils.makeTextShort("发送返回");
+                    finish();
+                    break;
+            }
         }
-
     }
 
     /**
@@ -146,7 +156,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 intent.putExtra("headUrl", headUrl);
                 WXEntryActivity.this.setResult(2, intent);
                 Log.e(TAG, "onSuccess: " + headUrl);
-
                 SharedPreferences spPreferences_login = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
                 SharedPreferences.Editor editor = spPreferences_login.edit();
                 editor.putString(SpConstants.NICK_NAME, wxResponse.getNickname());
@@ -159,14 +168,35 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 editor.putString("country", wxResponse.getCountry());
                 editor.putString("oauth_openid", wxResponse.getOpenid());
                 editor.putString(SpConstants.LOGIN_FLAG, SpConstants.WEI_XIN);
+                AccountUtils.mWeiXiHasLogin = true;
                 editor.commit();
+                requestBundlePhone(SpConstants.WEI_XIN);
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
+    }
+
+    /**
+     * 获取用户形象
+     */
+    private void requestBundlePhone(final String loginType) {
+        HttpProxy.requestBindPhone(new HttpCallBack<AuthorizationModel>() {
+            @Override
+            public void onSuccess(AuthorizationModel responseData) {
+                SpUtils.saveUserInfo(responseData, loginType);
                 EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
                 finish();
             }
 
             @Override
             public void onError(Request request, Exception e) {
-
+                Log.e(TAG, "onError: " + e);
+                EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
+                finish();
             }
         });
     }
