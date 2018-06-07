@@ -61,6 +61,7 @@ public class Utils {
 
     /**
      * 设置手机网络类型，wifi，cmwap，ctwap，用于联网参数选择
+     *
      * @return
      */
     static String getNetworkType() {
@@ -121,9 +122,7 @@ public class Utils {
     }
 
 
-
-
-    static String getString(Context context, int resId){
+    static String getString(Context context, int resId) {
         return context.getResources().getString(resId);
     }
 
@@ -177,8 +176,7 @@ public class Utils {
         return localPath;
     }
 
-    public static byte[] bmpToByteArray(final Bitmap bmp,
-                                        final boolean needRecycle) {
+    public static byte[] bmpToByteArray(final Bitmap bmp, final boolean needRecycle) {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.PNG, 100, output);
         if (needRecycle) {
@@ -194,6 +192,7 @@ public class Utils {
 
         return result;
     }
+
     /**
      * 显示动画
      *
@@ -223,11 +222,11 @@ public class Utils {
         mHiddenAction.setDuration(200);
         return mHiddenAction;
     }
+
     /**
      * 转换图片成圆形
      *
-     * @param bitmap
-     *            传入Bitmap对象
+     * @param bitmap 传入Bitmap对象
      * @param
      * @return
      */
@@ -287,6 +286,7 @@ public class Utils {
 
         return output;
     }
+
     public static String bitmaptoString(Bitmap bitmap) {
 
         // 将Bitmap转换成字符串
@@ -297,6 +297,7 @@ public class Utils {
         string = Base64.encodeToString(bytes, Base64.DEFAULT);
         return string;
     }
+
     public static Bitmap stringtoBitmap(String string) {
         // 将字符串转换成Bitmap类型
         Bitmap bitmap = null;

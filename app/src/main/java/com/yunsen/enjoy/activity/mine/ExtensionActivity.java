@@ -1,5 +1,6 @@
 package com.yunsen.enjoy.activity.mine;
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -15,7 +16,9 @@ import com.bumptech.glide.Glide;
 import com.google.zxing.WriterException;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
+import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.utils.BitmapUtil;
 
 import java.io.File;
@@ -38,6 +41,8 @@ public class ExtensionActivity extends BaseFragmentActivity {
     ImageView actionBarRight;
     @Bind(R.id.qr_code_img)
     ImageView qrCodeImg;
+    private String mShareUrl;
+    private String mUserId;
 
     @Override
     public int getLayout() {
@@ -48,11 +53,13 @@ public class ExtensionActivity extends BaseFragmentActivity {
     protected void initView() {
         ButterKnife.bind(this);
         actionBarTitle.setText("面对面推广");
+        SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+        mUserId = sp.getString(SpConstants.USER_ID, "");
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-//        getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER,MODE_PRIVATE).getString(SpConstants.)
+        mShareUrl = URLConstants.REALM_URL + "/appshare/" + mUserId + ".html";
         final String path = getExternalCacheDir().toString() + "enjoy";
         new AsyncTask<String, Nullable, Boolean>() {
 
@@ -60,7 +67,7 @@ public class ExtensionActivity extends BaseFragmentActivity {
             protected Boolean doInBackground(String... str) {
                 boolean flag = false;
                 Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.app_icon_1);
-                flag = BitmapUtil.createQRImage("你好", 450, 450, icon, str[0]);
+                flag = BitmapUtil.createQRImage(mShareUrl, 450, 450, icon, str[0]);
                 return flag;
             }
 
@@ -68,10 +75,8 @@ public class ExtensionActivity extends BaseFragmentActivity {
             protected void onPostExecute(Boolean result) {
                 super.onPostExecute(result);
                 if (result) {
-//                    qrCodeImg.setImageBitmap(result);
-                    Glide.with(ExtensionActivity.this)
-                            .load(path)
-                            .into(qrCodeImg);
+                    Bitmap bitmap = BitmapFactory.decodeFile(path);
+                    qrCodeImg.setImageBitmap(bitmap);
                 }
 
             }

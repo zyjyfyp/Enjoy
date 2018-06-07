@@ -1,9 +1,15 @@
 longuserset 保存的用户信息
 longuserset_login 保存第三方的用户信息
 
+      keyAlias "乐享汽车"
+      keyPassword "yunsen1230."
+     storePassword "yunsen1230."
+
  A6:B8:B9:7D:25:50:6F:04:5A:B1:8D:D1:25:C7:9D:96:CF:FA:19:44
  com.yunsen.enjoy
- ba972155375ade032175041398457297
+ e90f651c7db96bbf164ab28a25b3f5cd
+
+
 
 sercrt
 ca30ef7495cdd92ee94e1190f78a8735

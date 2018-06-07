@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
@@ -140,6 +141,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
     private static MyHandler sHandler;
     private boolean isSecondGoods = false;
     private boolean mRequestFinish = false;
+    private String mUnionid;
 
     @Override
 
@@ -178,6 +180,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
         mUserId = sp.getString(SpConstants.USER_ID, "");
         mUserName = sp.getString(SpConstants.USER_NAME, "");
         mPoint = sp.getString(SpConstants.POINT, "");
+        mUnionid = sp.getString(SpConstants.UNION_ID, "");
         switch (mBuyType) {
             case Constants.DEFAULT_BUY:
                 marketInformationJuduihuan.setVisibility(View.GONE);
@@ -340,8 +343,9 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
                 UIHelper.showShopCar(this);
                 break;
             case R.id.goods_share_img:
-                UIHelper.showDBFengXiangActivity(this, String.valueOf(mCarDetail.getId()), String.valueOf(mCarDetail.getCompany_id()), mCarDetail.getTitle(),
-                        mCarDetail.getSubtitle(), mCarDetail.getImg_url());
+                String shareUrl = URLConstants.REALM_URL + "/goods/show-" + mCarDetail.getId() + ".html?cid=" + mCarDetail.getCompany_id() + "&unionid=" + mUnionid + "&shareid=" + mUserId + "&from=android";
+                Log.e("zyjy33", "onViewClicked: " + shareUrl);
+                UIHelper.showShareGoodsActivity(this, mCarDetail.getTitle(), mCarDetail.getSubtitle(), shareUrl, mCarDetail.getImg_url());
                 break;
 
             case R.id.btn_collect:  //收藏

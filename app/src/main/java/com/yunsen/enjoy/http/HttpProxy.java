@@ -16,6 +16,7 @@ import com.yunsen.enjoy.model.AccountBalanceModel;
 import com.yunsen.enjoy.model.AddressInfo;
 import com.yunsen.enjoy.model.AdvertList;
 import com.yunsen.enjoy.model.AdvertModel;
+import com.yunsen.enjoy.model.ApkVersionInfo;
 import com.yunsen.enjoy.model.AuthorizationModel;
 import com.yunsen.enjoy.model.BindCardBean;
 import com.yunsen.enjoy.model.BrandResponse;
@@ -48,6 +49,7 @@ import com.yunsen.enjoy.model.request.BindBankCardRequest;
 import com.yunsen.enjoy.model.request.WatchCarModel;
 import com.yunsen.enjoy.model.response.AccountBalanceResponse;
 import com.yunsen.enjoy.model.response.AddShoppingBuysResponse;
+import com.yunsen.enjoy.model.response.ApkVersionResponse;
 import com.yunsen.enjoy.model.response.AuthorizationResponse;
 import com.yunsen.enjoy.model.response.BindBankListResponse;
 import com.yunsen.enjoy.model.response.CarBrandResponese;
@@ -1753,5 +1755,27 @@ public class HttpProxy {
             }
         });
     }
+
+    /**
+     * 获取apk版本信息
+     *
+     * @param callBack
+     */
+    public static void getApkVersion(final HttpCallBack<ApkVersionInfo> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        HttpClient.get(URLConstants.GET_APK_VERSION, param, new HttpResponseHandler<ApkVersionResponse>() {
+            @Override
+            public void onSuccess(ApkVersionResponse response) {
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
 }
 

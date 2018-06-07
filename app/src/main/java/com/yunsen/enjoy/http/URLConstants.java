@@ -1,5 +1,7 @@
 package com.yunsen.enjoy.http;
 
+import android.os.Build;
+
 import com.yunsen.enjoy.BuildConfig;
 
 /**
@@ -260,6 +262,12 @@ public class URLConstants {
      * 获取token
      */
     public static final String WX_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token";
+
+    /**
+     * 获取apk版本信息
+     */
+    public static final String GET_APK_VERSION = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_apk_version?browser=android";
+
     /**
      * 微信登录
      */

@@ -1,6 +1,7 @@
 package com.yunsen.enjoy.activity.mine;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,8 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.activity.mine.adapter.TeamFragmentAdapter;
 import com.yunsen.enjoy.activity.mine.fragment.TeamFragment;
+import com.yunsen.enjoy.common.SpConstants;
+import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
@@ -52,6 +55,8 @@ public class TeamActivity extends BaseFragmentActivity {
     private List<Fragment> mFragments;
     private PopupWindow mpopuWindw;
     private PopupWindow popupWindow;
+    private String mUserId;
+    private String mShareUrl;
 
     @Override
     public int getLayout() {
@@ -68,6 +73,9 @@ public class TeamActivity extends BaseFragmentActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+        mUserId = sp.getString(SpConstants.USER_ID, "");
+        mShareUrl = URLConstants.REALM_URL + "/appshare/" + mUserId + ".html";
         initFragment();
         viewpager.setAdapter(new TeamFragmentAdapter(getSupportFragmentManager(), mFragments));
         tabLayout.setupWithViewPager(viewpager);
@@ -134,14 +142,13 @@ public class TeamActivity extends BaseFragmentActivity {
             public void onClick(View v) {
 //                ToastUtils.makeTextShort("面对面");
                 UIHelper.showExtensionActivity(TeamActivity.this);
-
                 popupWindow.dismiss();
             }
         });
         shareLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UIHelper.showDBFengXiangActivity(TeamActivity.this, "你好");
+                UIHelper.showShareAppInfoActivity(TeamActivity.this, "");
                 popupWindow.dismiss();
             }
         });

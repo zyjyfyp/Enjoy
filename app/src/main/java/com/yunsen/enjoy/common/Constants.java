@@ -135,9 +135,16 @@ public class Constants {
     public static final String BALANCE = "balance";
 
     /***
-     * Activity type
+     * 分享
      */
-    public static final int REPERTORY_ACT = 1;
+    public static final String SHARE_IMG_URL = "share_img_url";
+    public static final String SHARE_TYPE = "share_type";
+    public static final int SHARE_APP_INFO = 1; //分享app
+    public static final String SHARE_URL = "share_info";
+    public static final int SHARE_GOODS_INFO = 2; //分享商品
+    public static final String SHARE_TITLE = "share_title"; //分享标题
+    public static final String SHARE_DESCRIPTION = "share_description";//描述
+
     /**
      * webView
      */

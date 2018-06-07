@@ -118,14 +118,13 @@ public class GuideActivity extends AppCompatActivity {
                         String versionName = preferences.getString(SpConstants.APP_VERSION_NAME, "");
                         String currentVersionName = DeviceUtil.getAppVersionName(act);
                         // 如果程序已经进入
-                        if (!versionName.equals(currentVersionName)) {
+                        if (!TextUtils.isEmpty(versionName) && versionName.equals(currentVersionName)) {
 //                            act.getgaoguan(); //todo 跳过广告判断
                             Intent intent = new Intent(act, MainActivity.class);
                             act.startActivity(intent);
                             act.finish();
                         } else {
                             Intent intent = new Intent(act, Guide2Activity.class);
-
                             act.startActivity(intent);
                             act.finish();
                         }

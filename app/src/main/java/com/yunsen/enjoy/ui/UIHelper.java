@@ -16,7 +16,6 @@ import com.yunsen.enjoy.activity.HouseDetailActivity;
 import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.activity.MoveActivity;
 import com.yunsen.enjoy.activity.SearchActivity;
-import com.yunsen.enjoy.activity.SelectCityActivity;
 import com.yunsen.enjoy.activity.SelectCityNewActivity;
 import com.yunsen.enjoy.activity.ServiceShopInfoActivity;
 import com.yunsen.enjoy.activity.WebActivity;
@@ -46,18 +45,15 @@ import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.activity.mine.ShopCartActivity;
 import com.yunsen.enjoy.activity.mine.TeamActivity;
 import com.yunsen.enjoy.activity.mine.UserForgotPasswordActivity;
-import com.yunsen.enjoy.activity.mine.Webview1;
 import com.yunsen.enjoy.activity.mine.WithdrawCashActivity;
 import com.yunsen.enjoy.activity.order.DianPingActivity;
 import com.yunsen.enjoy.activity.order.MyOrderActivity;
 import com.yunsen.enjoy.activity.order.MyOrderXqActivity;
 import com.yunsen.enjoy.activity.user.DBFengXiangActivity;
-import com.yunsen.enjoy.activity.user.LoginActivity;
 import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.activity.user.UserRegisterActivity;
 import com.yunsen.enjoy.common.Constants;
-import com.yunsen.enjoy.fragment.MainPagerFragment;
 import com.yunsen.enjoy.fragment.buy.SelectBrandActivity;
 import com.yunsen.enjoy.fragment.buy.SeniorFilterActivity;
 import com.yunsen.enjoy.http.AsyncHttp;
@@ -72,8 +68,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -687,13 +681,34 @@ public class UIHelper {
         ctx.startActivity(intent);
     }
 
-    public static void showDBFengXiangActivity(Context ctx, String title) {
+    /**
+     * 分享商品
+     *
+     * @param ctx
+     * @param shareDescription
+     * @param shareUrl
+     * @param imgPath
+     */
+    public static void showShareGoodsActivity(Context ctx, String shareTitle, String shareDescription, String shareUrl, String imgPath) {
         Intent intent = new Intent(ctx, DBFengXiangActivity.class);
-//        intent.putExtra("sp_id", spId);
-//        intent.putExtra("company_id", companyId);
-        intent.putExtra("title", title);
-//        intent.putExtra("subtitle", subTitle);
-//        intent.putExtra("img_url", imgUrl);
+        intent.putExtra(Constants.SHARE_IMG_URL, imgPath);
+        intent.putExtra(Constants.SHARE_URL, shareUrl);
+        intent.putExtra(Constants.SHARE_TITLE, shareTitle);
+        intent.putExtra(Constants.SHARE_DESCRIPTION, shareDescription);
+        intent.putExtra(Constants.SHARE_TYPE, Constants.SHARE_GOODS_INFO);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 分享app
+     *
+     * @param ctx
+     * @param imgPath
+     */
+    public static void showShareAppInfoActivity(Context ctx, String imgPath) {
+        Intent intent = new Intent(ctx, DBFengXiangActivity.class);
+        intent.putExtra(Constants.SHARE_IMG_URL, imgPath);
+        intent.putExtra(Constants.SHARE_TYPE, Constants.SHARE_APP_INFO);
         ctx.startActivity(intent);
     }
 

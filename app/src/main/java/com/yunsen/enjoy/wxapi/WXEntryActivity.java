@@ -120,11 +120,11 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     });
                     break;
                 case BaseResp.ErrCode.ERR_USER_CANCEL:
-                    ToastUtils.makeTextShort("登录取消");
+                    ToastUtils.makeTextShort("取消");
                     finish();
                     break;
                 case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                    ToastUtils.makeTextShort("发送被拒绝");
+                    ToastUtils.makeTextShort("拒绝");
                     finish();
                     break;
                 case BaseResp.ErrCode.ERR_BAN:

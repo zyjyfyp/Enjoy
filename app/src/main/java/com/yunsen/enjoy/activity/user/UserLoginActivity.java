@@ -119,8 +119,8 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
 
 //        mWxApi = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);
         mWxApi = WXAPIFactory.createWXAPI(this, null);
-
         mWxApi.registerApp(Constants.APP_ID);
+
         mTencent = Tencent.createInstance(Constants.APP_QQ_ID, this);
 
 
