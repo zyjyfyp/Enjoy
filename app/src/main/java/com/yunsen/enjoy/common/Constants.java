@@ -23,7 +23,7 @@ public class Constants {
 
     public static String WX_Code = "";
     public static QQAuth QQauth;
-    public static final String APP_QQ_ID = "222222";// 测试时使用，真正发布的时候要换成自己的APP_ID
+    public static final String APP_QQ_ID = "1106880995";// 测试时使用，真正发布的时候要换成自己的APP_ID
 
 
     /**

@@ -210,7 +210,6 @@ public class WareInformationActivity extends AppCompatActivity implements
         String access_token = spPreferences_login.getString("access_token", "");
         String sex = spPreferences_login.getString("sex", "");
         System.out.println("UserLoginActivity=====================" + UserLoginActivity.oauth_name);
-        System.out.println("UserLoginWayActivity=====================" + UserLoginWayActivity.oauth_name);
 
         if (UserLoginActivity.oauth_name.equals("weixin")) {
             oauth_name = "weixin";

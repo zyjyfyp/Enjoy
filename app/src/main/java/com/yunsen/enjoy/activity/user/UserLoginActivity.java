@@ -43,6 +43,7 @@ import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
+import com.yunsen.enjoy.common.AppContext;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.PermissionSetting;
 import com.yunsen.enjoy.common.SpConstants;
@@ -121,7 +122,7 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
         mWxApi = WXAPIFactory.createWXAPI(this, null);
         mWxApi.registerApp(Constants.APP_ID);
 
-        mTencent = Tencent.createInstance(Constants.APP_QQ_ID, this);
+        mTencent = Tencent.createInstance(Constants.APP_QQ_ID, AppContext.getInstance());
 
 
         spPreferences_weixin = getSharedPreferences("longuserset_weixin", MODE_PRIVATE);
@@ -320,7 +321,6 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
      * QQ登录
      */
     private void qqLogin() {
-
         if (!mTencent.isSessionValid()) {
             mTencent.login(this, "all", loginListener);
             isServerSideLogin = false;
@@ -372,10 +372,12 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
                                     province = json.getString("province");
                                     city = json.getString("city");
                                     String figureurl_qq_2 = json.getString("figureurl_qq_2");
+                                    String figureurl_qq_1 = json.getString("figureurl_qq_1");
                                     SharedPreferences spPreferences_login = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
                                     SharedPreferences.Editor editor = spPreferences_login.edit();
                                     editor.putString(SpConstants.NICK_NAME, nickname);
                                     editor.putString(SpConstants.HEAD_IMG_URL_2, figureurl_qq_2);
+                                    editor.putString(SpConstants.HEAD_IMG_URL, figureurl_qq_1);
                                     editor.putString(SpConstants.SEX, sex);
                                     editor.putString(SpConstants.PROVINCE, province);
                                     editor.putString(SpConstants.CITY, city);

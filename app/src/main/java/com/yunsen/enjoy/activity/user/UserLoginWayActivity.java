@@ -25,6 +25,7 @@ import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.common.AppContext;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.model.event.EventConstants;
@@ -41,20 +42,13 @@ public class UserLoginWayActivity extends AppCompatActivity implements
         OnClickListener {
     private DialogProgress progress;
     public static String kahao;
-    private String nickname, sex, province, city, country;
-    // private SharedPreference spPreferences_qq;
-    public static boolean isWXLogin = false;
     public static IWXAPI mWxApi;
     public static String WX_CODE = "";
-    public static String mAppid;
+    private String mAppid = Constants.APP_QQ_ID;
     private UserInfo mInfo;
     private Tencent mTencent;
-    //        private final String APP_ID = "1105738127";
-// TODO: 2018/4/26
-    private final String APP_ID = "222222";// 测试时使用，真正发布的时候要换成自己的APP_ID
     public static Bitmap bitmap;
     public static String oauth_name = "";
-    public static boolean panduan = false;
     public static boolean panduan_tishi = false;
     public static boolean jiemian = false;
     public static Handler handler1;
@@ -68,13 +62,11 @@ public class UserLoginWayActivity extends AppCompatActivity implements
         mWxApi = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);
         mWxApi.registerApp(Constants.APP_ID);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
         mSp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+
         try {
             jiemian = true;// 判断界面是否打开
-
             progress = new DialogProgress(UserLoginWayActivity.this);
-
             initdata();
             handler1 = new Handler() {
                 public void dispatchMessage(Message msg) {
@@ -84,7 +76,6 @@ public class UserLoginWayActivity extends AppCompatActivity implements
                         case 1:
                             finish();
                             break;
-
                         default:
                             break;
                     }
@@ -97,63 +88,17 @@ public class UserLoginWayActivity extends AppCompatActivity implements
     }
 
     @Override
-    protected void onResume() {
-
-        super.onResume();
-        // SharedPreference spPreferences = getSharedPreferences("longuserset",
-        // MODE_PRIVATE);
-        // user_name = spPreferences.getString("user_name", "");
-        // if (nickname == null && bitmap == null) {
-        // panduan = false;
-        // finish();
-        // }
-
-    }
-
-    @Override
     protected void onStart() {
         final Context context = UserLoginWayActivity.this;
         final Context ctxContext = context.getApplicationContext();
-        mAppid = APP_ID;
         Constants.QQauth = QQAuth.createInstance(mAppid, ctxContext);
-        mTencent = Tencent.createInstance(mAppid, UserLoginWayActivity.this);
+        mTencent = Tencent.createInstance(mAppid, AppContext.getInstance());
         super.onStart();
     }
-
-    Handler handler = new Handler() {
-
-        public void dispatchMessage(android.os.Message msg) {
-
-            switch (msg.what) {
-                case 0:
-                    break;
-                case -1:
-                    progress.CloseProgress();
-                    break;
-                case 10:
-
-                    break;
-                case 1:
-                    String str = (String) msg.obj;
-                    Toast.makeText(UserLoginWayActivity.this, str, Toast.LENGTH_SHORT).show();
-                    break;
-                case 7:
-
-                    break;
-                default:
-                    break;
-            }
-
-        }
-
-        ;
-
-    };
 
     private void initdata() {
         TextView item0 = (TextView) findViewById(R.id.item0);
         TextView item1 = (TextView) findViewById(R.id.item1);
-        // TextView item2 = (TextView) findViewById(R.id.item2);
         TextView item4 = (TextView) findViewById(R.id.item4);
         item0.setOnClickListener(this);
         item1.setOnClickListener(this);
@@ -172,9 +117,6 @@ public class UserLoginWayActivity extends AppCompatActivity implements
                 break;
             case R.id.item1://
                 onClickLogin();
-                // Intent intent = new
-                // Intent(UserLoginActivity.this,QQLoginActivity.class);
-                // startActivity(intent);
                 break;
             case R.id.item4://
                 finish();
@@ -191,11 +133,9 @@ public class UserLoginWayActivity extends AppCompatActivity implements
             spPreferences_tishi.edit().clear().commit();
             UserLoginActivity.panduan_tishi = false;
         }
-        System.out.println("=================weixin==" + weixin);
         oauth_name = "qq";
         if (!Constants.QQauth.isSessionValid()) {
             try {
-
                 IUiListener listener = new BaseUiListener() {
                     @Override
                     protected void doComplete(JSONObject values) {
@@ -221,8 +161,7 @@ public class UserLoginWayActivity extends AppCompatActivity implements
         public void onComplete(Object response) {
             System.out.println("response===============" + response);
             try {
-                String access_token = ((JSONObject) response)
-                        .getString("access_token");
+                String access_token = ((JSONObject) response).getString("access_token");
                 String openid = ((JSONObject) response).getString("openid");
                 String ret = ((JSONObject) response).getString("ret");
                 String oauth_openid = ((JSONObject) response).getString("openid");
@@ -237,9 +176,6 @@ public class UserLoginWayActivity extends AppCompatActivity implements
 
                 e.printStackTrace();
             }
-            // Util.showResultDialog(UserLoginActivity.this,
-            // response.toString(),"登录成功");
-            //
             doComplete((JSONObject) response);
         }
 
@@ -249,9 +185,7 @@ public class UserLoginWayActivity extends AppCompatActivity implements
 
         @Override
         public void onError(UiError e) {
-            Toast.makeText(UserLoginWayActivity.this, "onError: "
-                    + e.errorDetail, Toast.LENGTH_SHORT);
-//			Util.dismissDialog();
+            Toast.makeText(UserLoginWayActivity.this, "onError: " + e.errorDetail, Toast.LENGTH_SHORT);
         }
 
         @Override
@@ -263,12 +197,6 @@ public class UserLoginWayActivity extends AppCompatActivity implements
 
     private void updateUserInfo() {
         try {
-            SharedPreferences spPreferences = getSharedPreferences(
-                    "longuserset_ptye", MODE_PRIVATE);
-            Editor editor = spPreferences.edit();
-            editor.putString("ptye", "qq");
-            editor.commit();
-            panduan = true;
             panduan_tishi = true;
 
             if (Constants.QQauth != null && Constants.QQauth.isSessionValid()) {
@@ -281,81 +209,56 @@ public class UserLoginWayActivity extends AppCompatActivity implements
 
                         @Override
                         public void onComplete(final Object response) {
-                            try {
-                                // Message msg = new Message();
-                                // msg.obj = response;
-                                // msg.what = 0;
-                                // mHandler.sendMessage(msg);
-                                new Thread() {
+                            new Thread() {
 
-                                    @Override
-                                    public void run() {
-                                        JSONObject json = (JSONObject) response;
-                                        if (json.has("figureurl")) {
-                                            bitmap = null;
-                                            try {
-                                                nickname = json.getString("nickname");
-                                                sex = json.getString("gender");
-                                                province = json.getString("province");
-                                                city = json.getString("city");
-                                                System.out.println("nickname==========1=====" + nickname);
-
-                                                bitmap = GetImgUtil.getImage(json.getString("figureurl_qq_2"));
-                                                String headimgurl2 = Utils.bitmaptoString(bitmap);
-                                                Editor editor = mSp.edit();
-                                                editor.putString(SpConstants.NICK_NAME, nickname);
-                                                editor.putString("headimgurl2", headimgurl2);
-                                                editor.putString("sex", sex);
-                                                editor.putString("province", province);
-                                                editor.putString("city", city);
-                                                editor.putString("country", country);
-                                                editor.commit();
-                                                System.out.println("bitmap===============" + bitmap);
-                                                EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            }
-                                            if (nickname != null && bitmap != null) {
-                                                // SharedPreference
-                                                // spPreferences_3_wx =
-                                                // getSharedPreferences("longuserset_3_wx",
-                                                // MODE_PRIVATE);
-                                                // spPreferences_3_wx.edit().clear().commit();
-                                                finish();
-                                                UserLoginActivity.handler1.sendEmptyMessage(1);
-                                            } else {
-
-                                                // SharedPreference
-                                                // spPreferences_3_wx =
-                                                // getSharedPreferences("longuserset_3_wx",
-                                                // MODE_PRIVATE);
-                                                // spPreferences_3_wx.edit().clear().commit();
-                                                finish();
-                                                UserLoginActivity.handler1
-                                                        .sendEmptyMessage(1);
-                                            }
+                                @Override
+                                public void run() {
+                                    JSONObject json = (JSONObject) response;
+                                    if (json.has("figureurl")) {
+                                        bitmap = null;
+                                        String nickname = null;
+                                        try {
+                                            nickname = json.getString("nickname");
+                                            String sex = json.getString("gender");
+                                            String province = json.getString("province");
+                                            String city = json.getString("city");
+                                            String country = json.getString("country");
+                                            System.out.println("nickname==========1=====" + nickname);
+                                            bitmap = GetImgUtil.getImage(json.getString("figureurl_qq_2"));
+                                            String headimgurl2 = Utils.bitmaptoString(bitmap);
+                                            Editor editor = mSp.edit();
+                                            editor.putString(SpConstants.NICK_NAME, nickname);
+                                            editor.putString("headimgurl2", headimgurl2);
+                                            editor.putString("sex", sex);
+                                            editor.putString("province", province);
+                                            editor.putString("city", city);
+                                            editor.putString("country", country);
+                                            editor.commit();
+                                            EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
                                         }
+                                        if (nickname != null && bitmap != null) {
+                                            finish();
+                                            UserLoginActivity.handler1.sendEmptyMessage(1);
+                                        } else {
+                                            finish();
+                                            UserLoginActivity.handler1.sendEmptyMessage(1);
+                                        }
+                                    } else {
+                                        finish();
                                     }
+                                }
 
-                                }.start();
-                                System.out.println("bitmap2==============="
-                                        + bitmap);
-                                finish();
-                            } catch (Exception e) {
-
-                                e.printStackTrace();
-                            }
-
+                            }.start();
                         }
 
                         @Override
                         public void onCancel() {
                         }
                     };
-                    System.out.println("2===============");
                     mInfo = new UserInfo(this, Constants.QQauth.getQQToken());
                     mInfo.getUserInfo(listener);
-
                 } catch (Exception e) {
 
                     e.printStackTrace();

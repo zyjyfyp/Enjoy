@@ -78,8 +78,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="tencent222222" />
-                <!-- 100380359 100381104 222222 -->
+                <data android:scheme="tencent1106880995" />        <!--app Id-->
             </intent-filter>
         </activity>
         <!--//高德地图-->

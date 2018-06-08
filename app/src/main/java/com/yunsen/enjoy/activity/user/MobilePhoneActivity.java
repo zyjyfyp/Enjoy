@@ -49,7 +49,7 @@ public class MobilePhoneActivity extends AppCompatActivity implements OnClickLis
     private EditText userpwd, userphone, et_user_yz;
     private Button btn_register, get_yz;
     private String name, phone, pwd, yz;
-    private String str, hengyuName;
+    private String str;
     private DialogProgress progress;
     private String strUrl;
     private String yanzhengma;
@@ -89,8 +89,7 @@ public class MobilePhoneActivity extends AppCompatActivity implements OnClickLis
 
             switch (msg.what) {
                 case 0:
-                    String strhengyuname = (String) msg.obj;
-                    Toast.makeText(getApplicationContext(), strhengyuname, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "绑定成功", Toast.LENGTH_SHORT).show();
                     EventBus.getDefault().post(new UpUiEvent(EventConstants.APP_LOGIN));
                     progress.CloseProgress();
                     finish();
@@ -293,7 +292,6 @@ public class MobilePhoneActivity extends AppCompatActivity implements OnClickLis
                                                     progress.CloseProgress();
                                                     Message message = new Message();
                                                     message.what = 0;
-                                                    message.obj = hengyuName;
                                                     handler.sendMessage(message);
                                                 }
                                             } catch (JSONException e) {
@@ -309,9 +307,7 @@ public class MobilePhoneActivity extends AppCompatActivity implements OnClickLis
                         }
                     }.start();
                 }
-
                 break;
-
             default:
                 break;
         }

@@ -38,6 +38,7 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
+import com.yunsen.enjoy.common.AppContext;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
@@ -142,8 +143,7 @@ public class LoginActivity extends BaseFragmentActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        //        mQQAuth = QQAuth.createInstance(Constants.APP_QQ_ID, AppContext.getInstance());
-        mTencent = Tencent.createInstance(Constants.APP_QQ_ID, this);
+        mTencent = Tencent.createInstance(Constants.APP_QQ_ID, AppContext.getInstance());
     }
 
 
@@ -256,6 +256,7 @@ public class LoginActivity extends BaseFragmentActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             doComplete((JSONObject) response);
         }
 

@@ -30,6 +30,7 @@ import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.activity.mine.ShopCartActivity;
 import com.yunsen.enjoy.activity.mine.TeamActivity;
+import com.yunsen.enjoy.common.AppContext;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
@@ -655,7 +656,7 @@ public class MineFragment extends BaseFragment {
                 SharedPreferences sp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
                 sp.edit().clear().commit();
                 //                Constants.QQauth = QQAuth.createInstance(Constants.APP_QQ_ID, AppContext.getInstance());
-                Tencent tencent = Tencent.createInstance(Constants.APP_QQ_ID, getActivity());
+                Tencent tencent = Tencent.createInstance(Constants.APP_QQ_ID, AppContext.getInstance());
                 tencent.logout(getActivity());
                 break;
             case EventConstants.UP_MINE_ORDER:
