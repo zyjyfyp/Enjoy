@@ -75,7 +75,7 @@ public class Constants {
      *****************************************************************/
     public static final int PHOTO_ACTIVITY_REQUEST = 10;//照片页面请求码
     public static final int MEET_ADDRESS_REQUEST = 4;
-    public static final int ADD_ADDRESS_REQUEST = 0; //添加地址
+    public static final int ADD_ADDRESS_REQUEST = 0; //添加地址 修改地址
     public static final int PAY_MONEY_ACT_REQUEST = 11;//支付页面，服务器的支付
     public static final int ADD_ADDRESS_ACT_REQUEST = 12;//支付页面添加地址
     public static final int ORDER_ACT_REQUEST = 5; //跳转订单页面
@@ -123,6 +123,16 @@ public class Constants {
      * Activity type
      */
     public static final int REPERTORY_ACT = 1;
+    /***
+     * 分享
+     */
+    public static final String SHARE_IMG_URL = "share_img_url";
+    public static final String SHARE_TYPE = "share_type";
+    public static final int SHARE_APP_INFO = 1; //分享app
+    public static final String SHARE_URL = "share_info";
+    public static final int SHARE_GOODS_INFO = 2; //分享商品
+    public static final String SHARE_TITLE = "share_title"; //分享标题
+    public static final String SHARE_DESCRIPTION = "share_description";//描述
 
 
     /**

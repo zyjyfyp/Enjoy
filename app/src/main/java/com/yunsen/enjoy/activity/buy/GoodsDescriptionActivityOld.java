@@ -22,6 +22,7 @@ import com.yunsen.enjoy.activity.mine.CommomConfrim;
 import com.yunsen.enjoy.adapter.CarTopBannerAdapter;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
+import com.yunsen.enjoy.http.DataException;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
@@ -108,6 +109,10 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
     LinearLayout marketInformationBottom;
     @Bind(R.id.goods_radio_group)
     RadioGroup goodsRadioGroup;
+    @Bind(R.id.collect_img)
+    ImageView collectImg;
+    @Bind(R.id.collect_tv)
+    TextView collectTv;
     public static int fangshi = 0;
     private String mGoodId;
     private CarDetails mCarDetail;
@@ -116,6 +121,8 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
             data_goods_id_1, data_price, data_spec_text, data_exchange_price, data_exchange_point;
     private String mUserName;
     private String mUserId;
+    private boolean mRequestFinish = false;
+    private String mUnionid;
 
     @Override
     public int getLayout() {
@@ -138,6 +145,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
         SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         mUserId = sp.getString(SpConstants.USER_ID, "");
         mUserName = sp.getString(SpConstants.USER_NAME, "");
+        mUnionid = sp.getString(SpConstants.UNION_ID, "");
     }
 
 
@@ -148,6 +156,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
 
     @Override
     public void requestData() {
+        mRequestFinish = false;
         HttpProxy.getCarDetailsData(new HttpCallBack<CarDetails>() {
             @Override
             public void onSuccess(CarDetails responseData) {
@@ -166,6 +175,25 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
             }
         }, mGoodId);
 
+        HttpProxy.getHasCollectGoods(mGoodId, mUserId, new HttpCallBack<Boolean>() {
+            @Override
+            public void onSuccess(Boolean responseData) {
+                collectImg.setSelected(false);
+                collectTv.setSelected(false);
+                mRequestFinish = true;
+                collectTv.setText("收藏");
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+                if (e instanceof DataException) {
+                    collectImg.setSelected(true);
+                    collectTv.setSelected(true);
+                    collectTv.setText("已收藏");
+                }
+                mRequestFinish = true;
+            }
+        });
     }
 
     /**
@@ -255,8 +283,8 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
                 finish();
                 break;
             case R.id.goods_share_img:
-                UIHelper.showDBFengXiangActivity(this, String.valueOf(mCarDetail.getId()), String.valueOf(mCarDetail.getCompany_id()), mCarDetail.getTitle(),
-                        mCarDetail.getSubtitle(), mCarDetail.getImg_url());
+                String shareUrl = URLConstants.REALM_URL + "/goods/show-" + mCarDetail.getId() + ".html?cid=" + mCarDetail.getCompany_id() + "&unionid=" + mUnionid + "&shareid=" + mUserId + "&from=android";
+                UIHelper.showShareGoodsActivity(this, mCarDetail.getTitle(), mCarDetail.getSubtitle(), shareUrl, mCarDetail.getImg_url());
                 break;
             case R.id.btn_dianping: //评论
                 if (mCarDetail.getAlbums() != null && mCarDetail.getAlbums().size() > 0) {
@@ -264,17 +292,27 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
                 }
                 break;
             case R.id.btn_collect:  //收藏
-                HttpProxy.getAddCollect(mUserId, mUserName, "" + mCarDetail.getId(), new HttpCallBack<String>() {
-                    @Override
-                    public void onSuccess(String responseData) {
-                        Toast.makeText(GoodsDescriptionActivityOld.this, responseData, Toast.LENGTH_SHORT).show();
-                    }
+                if (mRequestFinish) {
+                    if (collectImg.isSelected()) {
+                        deleteCollect(mGoodId);
+                    } else {
+                        HttpProxy.getAddCollect(mUserId, mUserName, "" + mCarDetail.getId(), new HttpCallBack<String>() {
+                            @Override
+                            public void onSuccess(String responseData) {
+                                Toast.makeText(GoodsDescriptionActivityOld.this, "收藏成功", Toast.LENGTH_SHORT).show();
+                                collectImg.setSelected(true);
+                                collectTv.setSelected(true);
+                                collectTv.setText("已收藏");
+                            }
 
-                    @Override
-                    public void onError(Request request, Exception e) {
-                        ToastUtils.makeTextShort(e.getMessage());
+                            @Override
+                            public void onError(Request request, Exception e) {
+                            }
+                        });
                     }
-                });
+                }else {
+                ToastUtils.makeTextShort("数据加载中，请稍后");
+                }
 
                 break;
             case R.id.btn_add_shop_cart:
@@ -286,6 +324,29 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity {
                 CommomConfrim.showSheet(this, String.valueOf(mCarDetail.getId()));
                 break;
         }
+    }
+
+    /**
+     * 删除收藏
+     *
+     * @param goodId
+     */
+    private void deleteCollect(String goodId) {
+        HttpProxy.cancelCollectGoods(goodId, mUserId, new HttpCallBack<Boolean>() {
+            @Override
+            public void onSuccess(Boolean responseData) {
+                collectImg.setSelected(false);
+                collectTv.setSelected(false);
+                collectTv.setText("已收藏");
+                ToastUtils.makeTextShort("取消收藏成功");
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+                ToastUtils.makeTextShort("取消收藏失败");
+            }
+        });
+
     }
 
     @Override

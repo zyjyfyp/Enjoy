@@ -6,14 +6,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
 import com.orhanobut.logger.Logger;
 import com.yunsen.enjoy.common.AppContext;
-import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.model.AccountBalanceModel;
 import com.yunsen.enjoy.model.AddressInfo;
 import com.yunsen.enjoy.model.AdvertList;
 import com.yunsen.enjoy.model.AdvertModel;
+import com.yunsen.enjoy.model.ApkVersionInfo;
 import com.yunsen.enjoy.model.AuthorizationModel;
 import com.yunsen.enjoy.model.BindCardBean;
 import com.yunsen.enjoy.model.BrandResponse;
@@ -34,6 +35,8 @@ import com.yunsen.enjoy.model.ServiceProvideResponse;
 import com.yunsen.enjoy.model.ShopCarCount;
 import com.yunsen.enjoy.model.TradeData;
 import com.yunsen.enjoy.model.UserInfo;
+import com.yunsen.enjoy.model.WXAccessTokenEntity;
+import com.yunsen.enjoy.model.WXUserInfo;
 import com.yunsen.enjoy.model.WalletCashBean;
 import com.yunsen.enjoy.model.WatchCarBean;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
@@ -43,6 +46,7 @@ import com.yunsen.enjoy.model.request.BindBankCardRequest;
 import com.yunsen.enjoy.model.request.WatchCarModel;
 import com.yunsen.enjoy.model.response.AccountBalanceResponse;
 import com.yunsen.enjoy.model.response.AddShoppingBuysResponse;
+import com.yunsen.enjoy.model.response.ApkVersionResponse;
 import com.yunsen.enjoy.model.response.AuthorizationResponse;
 import com.yunsen.enjoy.model.response.BindBankListResponse;
 import com.yunsen.enjoy.model.response.CarBrandResponese;
@@ -63,11 +67,17 @@ import com.yunsen.enjoy.utils.EntityToMap;
 import com.yunsen.enjoy.utils.SpUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.Request;
+import okhttp3.Response;
+
+import static com.yunsen.enjoy.http.HttpClient.mapToQueryString;
 
 /**
  * Created by Administrator on 2018/4/20.
@@ -1544,5 +1554,142 @@ public class HttpProxy {
             }
         });
     }
+
+    /**
+     * 是否已经收藏
+     *
+     * @param goodsId
+     * @param userId
+     * @param callBack
+     */
+    public static void getHasCollectGoods(String goodsId, String userId, final HttpCallBack<Boolean> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("article_id", goodsId);
+        param.put("user_id", userId);
+
+        HttpClient.get(URLConstants.GOODS_HAS_COLLECT_URL, param, new HttpResponseHandler<RestApiResponse>() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                callBack.onSuccess(true);// 未收藏
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 取消收藏
+     *
+     * @param goodsId
+     * @param userId
+     * @param callBack
+     */
+    public static void cancelCollectGoods(String goodsId, String userId, final HttpCallBack<Boolean> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("article_id", goodsId);
+        param.put("user_id", userId);
+        HttpClient.get(URLConstants.CANCEL_GOODS_COLLECT_URL, param, new HttpResponseHandler<RestApiResponse>() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                callBack.onSuccess(true);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 获取微信信息
+     *
+     * @param param
+     */
+    public static void getWXAccessTokenEntity(Map<String, String> param, final HttpCallBack<WXAccessTokenEntity> callBack) {
+        String url = URLConstants.WX_ACCESS_TOKEN_URL;
+        if (param != null && param.size() > 0) {
+            url = url + "?" + mapToQueryString(param);
+            Log.e(TAG, "getWXAccessTokenEntity: " + url);
+        }
+        final Request request = new Request.Builder().url(url).build();
+        HttpClient.getClient().newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callBack.onError(request, e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                try {
+                    String responseBody = response.body().string();
+                    WXAccessTokenEntity wxResponse = JSON.parseObject(responseBody, WXAccessTokenEntity.class);
+                    callBack.onSuccess(wxResponse);
+                } catch (Exception e) {
+                    Log.e(TAG, "onResponse: " + e.getMessage());
+                    callBack.onError(request, e);
+                }
+            }
+        });
+    }
+
+    /**
+     * 获取微信信息
+     *
+     * @param param
+     */
+    public static void getWxLoginInfo(Map<String, String> param, final HttpCallBack<WXUserInfo> callBack) {
+        String url = URLConstants.WX_LOGIN_URL;
+        if (param != null && param.size() > 0) {
+            url = url + "?" + mapToQueryString(param);
+            Log.e(TAG, "getWxLoginInfo: " + url);
+        }
+        final Request request = new Request.Builder().url(url).build();
+        HttpClient.getClient().newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callBack.onError(request, e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                try {
+                    String responseBody = response.body().string();
+                    WXUserInfo wxResponse = JSON.parseObject(responseBody, WXUserInfo.class);
+                    callBack.onSuccess(wxResponse);
+                } catch (Exception e) {
+                    Log.e(TAG, "onResponse: " + e.getMessage());
+                    callBack.onError(request, e);
+                }
+            }
+        });
+    }
+
+    /**
+     * 获取apk版本信息
+     *
+     * @param callBack
+     */
+    public static void getApkVersion(final HttpCallBack<ApkVersionInfo> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        HttpClient.get(URLConstants.GET_APK_VERSION, param, new HttpResponseHandler<ApkVersionResponse>() {
+            @Override
+            public void onSuccess(ApkVersionResponse response) {
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
 }
 

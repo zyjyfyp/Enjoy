@@ -258,8 +258,9 @@ public class UIHelper {
      * @param ctx
      */
     public static void showHelpActivity(Context ctx) {
-        Intent intent4 = new Intent(ctx, Webview1.class);
-        intent4.putExtra("jysbz_id", "10334");
+        Intent intent4 = new Intent(ctx, WebActivity.class);
+        String url = URLConstants.REALM_NAME_WEB + "/mobile/news/conent-10334.html";
+        intent4.putExtra(Constants.WEB_URL_KEY, url);
         ctx.startActivity(intent4);
     }
 
@@ -287,7 +288,7 @@ public class UIHelper {
      * 去订单页面
      *
      * @param ctx
-     * @param type
+     * @param type 1 待付款 2 待发货 3待收货 4 已完成
      */
     public static void showOrderActivity(Activity ctx, String type) {
         Intent intent = new Intent(ctx, MyOrderActivity.class);
@@ -394,9 +395,16 @@ public class UIHelper {
      * @param ctx
      */
     public static void showApplyBuyFirstActivity(Context ctx, String carId) {
-        Intent intent = new Intent(ctx, ApplyBuyFirstActivity.class);
-        intent.putExtra(Constants.APPLY_BUY_CAR_ID, carId);
-        ctx.startActivity(intent);
+        if (!AccountUtils.hasLogin()) {
+            showUserLoginActivity(ctx);
+        } else if (!AccountUtils.hasBoundPhone()) {
+            showBundPhoneActivity(ctx);
+        } else {
+            Intent intent = new Intent(ctx, ApplyBuyFirstActivity.class);
+            intent.putExtra(Constants.APPLY_BUY_CAR_ID, carId);
+            ctx.startActivity(intent);
+
+        }
     }
 
     /**
@@ -405,12 +413,19 @@ public class UIHelper {
      * @param ctx
      * @param model
      */
+
     public static void showApplyTwoActivity(Context ctx, ApplyCarModel model) {
-        Intent intent = new Intent(ctx, ApplyBuyTwoActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(Constants.APPLY_BUY_CAR_KEY, model);
-        intent.putExtras(bundle);
-        ctx.startActivity(intent);
+        if (!AccountUtils.hasLogin()) {
+            showUserLoginActivity(ctx);
+        } else if (!AccountUtils.hasBoundPhone()) {
+            showBundPhoneActivity(ctx);
+        } else {
+            Intent intent = new Intent(ctx, ApplyBuyTwoActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(Constants.APPLY_BUY_CAR_KEY, model);
+            intent.putExtras(bundle);
+            ctx.startActivity(intent);
+        }
     }
 
     /**
@@ -420,11 +435,17 @@ public class UIHelper {
      * @param applyCarRequest
      */
     public static void showApplyThreeActivity(Context ctx, Parcelable applyCarRequest) {
-        Intent intent = new Intent(ctx, ApplyBuyThreeActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(Constants.APPLY_BUY_CAR_KEY, applyCarRequest);
-        intent.putExtras(bundle);
-        ctx.startActivity(intent);
+        if (!AccountUtils.hasLogin()) {
+            showUserLoginActivity(ctx);
+        } else if (!AccountUtils.hasBoundPhone()) {
+            showBundPhoneActivity(ctx);
+        } else {
+            Intent intent = new Intent(ctx, ApplyBuyThreeActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(Constants.APPLY_BUY_CAR_KEY, applyCarRequest);
+            intent.putExtras(bundle);
+            ctx.startActivity(intent);
+        }
     }
 
     public static void showPhotoActivity(Activity act, int requestCode) {
@@ -602,6 +623,37 @@ public class UIHelper {
     }
 
     /**
+     * 分享商品
+     *
+     * @param ctx
+     * @param shareDescription
+     * @param shareUrl
+     * @param imgPath
+     */
+    public static void showShareGoodsActivity(Context ctx, String shareTitle, String shareDescription, String shareUrl, String imgPath) {
+        Intent intent = new Intent(ctx, DBFengXiangActivity.class);
+        intent.putExtra(Constants.SHARE_IMG_URL, imgPath);
+        intent.putExtra(Constants.SHARE_URL, shareUrl);
+        intent.putExtra(Constants.SHARE_TITLE, shareTitle);
+        intent.putExtra(Constants.SHARE_DESCRIPTION, shareDescription);
+        intent.putExtra(Constants.SHARE_TYPE, Constants.SHARE_GOODS_INFO);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 分享app
+     *
+     * @param ctx
+     * @param imgPath
+     */
+    public static void showShareAppInfoActivity(Context ctx, String imgPath) {
+        Intent intent = new Intent(ctx, DBFengXiangActivity.class);
+        intent.putExtra(Constants.SHARE_IMG_URL, imgPath);
+        intent.putExtra(Constants.SHARE_TYPE, Constants.SHARE_APP_INFO);
+        ctx.startActivity(intent);
+    }
+
+    /**
      * @param ctx
      */
     public static void showHomeShopCar(Context ctx) {
@@ -626,7 +678,7 @@ public class UIHelper {
      * 显示订单详情页面
      *
      * @param ctx
-     * @param rechargeNo
+     * @param rechargeNo 交易号
      */
     public static void showMyOrderXqActivity(Context ctx, String rechargeNo) {
         final Context fContext = ctx;

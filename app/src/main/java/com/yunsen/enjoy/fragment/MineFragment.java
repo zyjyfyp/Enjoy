@@ -28,6 +28,7 @@ import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
 import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.activity.mine.TeamActivity;
+import com.yunsen.enjoy.common.AppContext;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
@@ -142,21 +143,13 @@ public class MineFragment extends BaseFragment {
 
     private Activity context;
 
-    private String nickname;
     private String user_name_phone;
     private String user_id;
     private SharedPreferences mSp;
     private String headimgurl;
-    private String unionid;
-    private String access_token;
-    private String sex;
     private String headimgurl2;
-    private String user_name;
-    private String strUrlone;
-    private UserInfo data;
 
-    private String mUserId;
-    private Boolean mIsFacilitator = false;
+    private Boolean mIsFacilitator = false; //是否是服务商
     private String mUserName;//用户名
 
     @Override
@@ -190,11 +183,7 @@ public class MineFragment extends BaseFragment {
             hasLoginLayout.setVisibility(View.VISIBLE);
             loginIcon.setVisibility(View.GONE);
             loginTv.setVisibility(View.GONE);
-            nickname = mSp.getString(SpConstants.NICK_NAME, "");
             headimgurl = mSp.getString(SpConstants.HEAD_IMG_URL, "");
-            unionid = mSp.getString(SpConstants.UNION_ID, "");
-            access_token = mSp.getString(SpConstants.ACCESS_TOKEN, "");
-            sex = mSp.getString(SpConstants.SEX, "");
             String imgUrl = mSp.getString(SpConstants.USER_IMG, "");
             String imgUrl2 = mSp.getString(SpConstants.AVATAR, "");
             String imgUrl3 = mSp.getString(SpConstants.HEAD_IMG_URL_2, "");
@@ -209,7 +198,7 @@ public class MineFragment extends BaseFragment {
 
             Glide.with(MineFragment.this)
                     .load(iUrl)
-                    .error(R.mipmap.default_img)
+                    .error(R.mipmap.login_icon)
                     .transform(new GlideCircleTransform(getActivity()))
                     .into(userIconImg);
             getUserInfo();
@@ -485,7 +474,7 @@ public class MineFragment extends BaseFragment {
      * 获取用户信息
      */
     private void getUserInfo() {
-        nickname = mSp.getString(SpConstants.NICK_NAME, "");
+        String nickname = mSp.getString(SpConstants.NICK_NAME, "");
         headimgurl = mSp.getString(SpConstants.HEAD_IMG_URL, "");
         headimgurl2 = mSp.getString(SpConstants.HEAD_IMG_URL_2, "");
         user_name_phone = mSp.getString(SpConstants.USER_NAME, "");
@@ -494,10 +483,10 @@ public class MineFragment extends BaseFragment {
         String loginFlag = mSp.getString(SpConstants.LOGIN_FLAG, "");
         mUserName = mSp.getString(SpConstants.USER_NAME, "");
         if (TextUtils.isEmpty(mUserName)) {
-            mUserName = mSp.getString(SpConstants.NICK_NAME, "");
+            mUserName = nickname;
         }
 
-        if (SpConstants.WEI_XIN.equals(loginFlag) || SpConstants.QQ_LOGIN.equals(loginFlag)) {//微信登录
+        if (SpConstants.WEI_XIN.equals(loginFlag) || SpConstants.QQ_LOGIN.equals(loginFlag)) {//微信登录 QQ登录
             if (AccountUtils.hasBoundPhone()) {
                 getLeXiangUserInfo();//获取乐享用户信息
                 load_list();
@@ -562,21 +551,15 @@ public class MineFragment extends BaseFragment {
     private void setUserIconAndName(String name, String imgString, String imgUrl) {
         userNameTv.setText(name);
         if (!TextUtils.isEmpty(imgString)) {
-
             Glide.with(MineFragment.this)
                     .load(imgString)
-                    .error(R.mipmap.app_icon)
+                    .error(R.mipmap.login_icon)
                     .transform(new GlideCircleTransform(getActivity()))
                     .into(userIconImg);
-            //            Bitmap bitmap = Utils.stringtoBitmap(imgString);
-            //            if (bitmap != null) {
-            //                bitmap = Utils.toRoundBitmap(bitmap); // 这个时候的图片已经被处理成圆形的了
-            //                userIconImg.setImageBitmap(bitmap);
-            //            }
         } else {
             Glide.with(MineFragment.this)
                     .load(imgUrl)
-                    .error(R.mipmap.app_icon)
+                    .error(R.mipmap.login_icon)
                     .transform(new GlideCircleTransform(getActivity()))
                     .into(userIconImg);
         }
@@ -601,6 +584,7 @@ public class MineFragment extends BaseFragment {
                 } else {
                     userNameTv.setText(nickName);
                 }
+                gradeTv.setVisibility(View.VISIBLE);
                 gradeTv.setText(data.getGroup_name());
                 phoneNumTv.setText("(" + data.getMobile() + ")");
                 String avatar = data.getAvatar();
@@ -608,13 +592,13 @@ public class MineFragment extends BaseFragment {
                 if (!TextUtils.isEmpty(avatar) && avatar.startsWith("http")) {
                     Glide.with(MineFragment.this)
                             .load(avatar)
-                            .placeholder(R.mipmap.default_img)
+                            .placeholder(R.mipmap.login_icon)
                             .transform(new GlideCircleTransform(getActivity()))
                             .into(userIconImg);
                 } else {
                     Glide.with(MineFragment.this)
                             .load(URLConstants.REALM_URL + avatar)
-                            .placeholder(R.mipmap.default_img)
+                            .placeholder(R.mipmap.login_icon)
                             .transform(new GlideCircleTransform(getActivity()))
                             .into(userIconImg);
                 }
@@ -652,19 +636,20 @@ public class MineFragment extends BaseFragment {
                 mIsFacilitator = false;
                 upApplyServiceTv(false);
                 Log.e(TAG, "onEvent: 注销更新");
-                balanceTv.setText("");
-                freezeTv.setText("");
-                commissionTv.setText("");
-                readyMoneyTv.setText("");
+                balanceTv.setText("0.0");
+                freezeTv.setText("0.0");
+                commissionTv.setText("0.0");
+                readyMoneyTv.setText("0.0");
                 orderNumber1.setText("0");
                 orderNumber2.setText("0");
                 orderNumber3.setText("0");
                 orderNumber4.setText("0");
+                gradeTv.setVisibility(View.GONE);
                 AccountUtils.clearData();
                 SharedPreferences sp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
                 sp.edit().clear().commit();
                 //                Constants.QQauth = QQAuth.createInstance(Constants.APP_QQ_ID, AppContext.getInstance());
-                Tencent tencent = Tencent.createInstance(Constants.APP_QQ_ID, getActivity());
+                Tencent tencent = Tencent.createInstance(Constants.APP_QQ_ID, AppContext.getInstance());
                 tencent.logout(getActivity());
                 break;
             case EventConstants.UP_MINE_ORDER:
@@ -692,7 +677,7 @@ public class MineFragment extends BaseFragment {
             });
             Glide.with(this)
                     .load(URLConstants.REALM_URL + imgUrl)
-                    .placeholder(R.mipmap.default_img)
+                    .placeholder(R.mipmap.login_icon)
                     .transform(new GlideCircleTransform(getActivity()))
                     .into(userIconImg);
         }

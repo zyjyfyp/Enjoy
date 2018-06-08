@@ -3,11 +3,11 @@ package com.yunsen.enjoy.activity.user;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -17,14 +17,20 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
+import com.yunsen.enjoy.http.HttpCallBack;
+import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
-import com.yunsen.enjoy.model.UserRegisterllData;
+import com.yunsen.enjoy.model.AuthorizationModel;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
+import com.yunsen.enjoy.utils.SpUtils;
+import com.yunsen.enjoy.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import okhttp3.Request;
 
 /**
  * 提示绑定手机号
@@ -44,6 +50,7 @@ public class TishiWxBangDingActivity extends AppCompatActivity implements OnClic
     String country = "";
     String nickname = "";
     String oauth_name;
+    private String loginFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +96,8 @@ public class TishiWxBangDingActivity extends AppCompatActivity implements OnClic
         }
     }
 
+    private static final String TAG = "TishiWxBangDingActivity";
+
     public void userlogin() {
         try {
             spPreferences_login = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
@@ -100,19 +109,7 @@ public class TishiWxBangDingActivity extends AppCompatActivity implements OnClic
             String oauth_openid = spPreferences_login.getString("oauth_openid", "");
             province = getIntent().getStringExtra("province");
             city = getIntent().getStringExtra("city");
-            String loginFlag = spPreferences_login.getString(SpConstants.LOGIN_FLAG, "");
-            if (province == null) {
-                province = "";
-            }
-            if (city == null) {
-                city = "";
-            }
-
-            System.out.println("UserLoginActivity.oauth_name=====================" + UserLoginActivity.oauth_name);
-            //				if (!UserLoginActivity.oauth_name.equals("")) {
-            System.out.println("UserLoginActivity=====================" + UserLoginActivity.oauth_name);
-            System.out.println("UserLoginWayActivity=====================" + UserLoginWayActivity.oauth_name);
-
+            loginFlag = spPreferences_login.getString(SpConstants.LOGIN_FLAG, "");
 
             if (SpConstants.WEI_XIN.equals(loginFlag)) {
                 oauth_name = "weixin";
@@ -120,17 +117,13 @@ public class TishiWxBangDingActivity extends AppCompatActivity implements OnClic
                 oauth_name = "qq";
             }
 
-            System.out.println("nickname-----1-----" + nickname);
             String nick_name = nickname.replaceAll("\\s*", "");
-            System.out.println("nick_name-----2-----" + nick_name);
             String strUrlone = URLConstants.REALM_NAME_LL + "/user_oauth_register_0217?nick_name=" + nick_name + "&sex=" + sex + "&avatar=" + headimgurl + "" +
                     "&province=" + province + "&city=" + city + "&country=" + country + "&oauth_name=" + oauth_name + "&oauth_unionid=" + unionid + "" +
                     "&oauth_openid=" + oauth_openid + "";
-            System.out.println("======11=============" + strUrlone);
+            Log.d(TAG, "userlogin: " + strUrlone);
             AsyncHttp.get(strUrlone, new AsyncHttpResponseHandler() {
                 public void onSuccess(int arg0, String arg1) {
-                    System.out.println("======输出=============" + arg1);
-                    //						Toast.makeText(UserLoginActivity.this, "数据为+"+arg1, 400).show();
                     try {
                         JSONObject object = new JSONObject(arg1);
                         String status = object.getString("status");
@@ -145,32 +138,21 @@ public class TishiWxBangDingActivity extends AppCompatActivity implements OnClic
                             intent.putExtra("headimgurl", headimgurl);
                             startActivity(intent);
                             finish();
-
                         } else {
-                            JSONObject obj = object.getJSONObject("data");
-                            UserRegisterllData data = new UserRegisterllData();
-                            data.id = obj.getString("id");
-                            data.user_name = obj.getString("user_name");
-                            user_id = data.id;
-                            SharedPreferences spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
-                            String user = spPreferences.getString("user", "");
-                            System.out.println("---1-------------------" + user);
-                            Editor editor = spPreferences.edit();
-                            editor.putString("user", data.user_name);
-                            editor.putString("user_id", data.id);
-                            editor.commit();
-                            /**
-                             * 乐享保存绑定用户的信息
-                             */
-                            SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
-                            Editor edit = sp.edit();
-                            edit.putString("user", data.user_name);
-                            edit.putString("user_id", data.id);
-                            edit.commit();
-                            String user_name = spPreferences.getString("user", "");
-                            System.out.println("---2-------------------" + user_name);
-                            EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
-                            finish();
+                            HttpProxy.requestBindPhone(new HttpCallBack<AuthorizationModel>() {
+                                @Override
+                                public void onSuccess(AuthorizationModel responseData) {
+                                    SpUtils.saveUserInfo(responseData, loginFlag);
+                                    EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
+                                    finish();
+                                }
+
+                                @Override
+                                public void onError(Request request, Exception e) {
+                                    ToastUtils.makeTextShort("绑定失败");
+                                    finish();
+                                }
+                            });
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

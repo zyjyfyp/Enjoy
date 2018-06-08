@@ -246,7 +246,6 @@ public class URLConstants {
      * https://szlxkg.com/tools/mobile_ajax.asmx/add_user_bank
      */
     public static final String BIND_BANK_CARD_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_user_bank";
-
     /**
      * 获取绑定银行卡的列表
      * https://szlxkg.com/tools/mobile_ajax.asmx/get_user_bank
@@ -257,6 +256,30 @@ public class URLConstants {
      * https://szlxkg.com/tools/mobile_ajax.asmx/user_apply_withdraw
      */
     public static final String APPLY_WALLET_CASH_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_apply_withdraw";
+    /**
+     * 是否已经收藏
+     * http://szlxkg.com/tools/mobile_ajax.asmx/user_is_favorite
+     */
+    public static final String GOODS_HAS_COLLECT_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_is_favorite";
+    /**
+     * http://szlxkg.com/tools/mobile_ajax.asmx/user_favorite_cancel
+     * 取消收藏
+     */
+    public static final String CANCEL_GOODS_COLLECT_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_favorite_cancel";
+    /**
+     * 获取token
+     */
+    public static final String WX_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token";
+
+    /**
+     * 获取apk版本信息
+     */
+    public static final String GET_APK_VERSION = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_apk_version?browser=android";
+
+    /**
+     * 微信登录
+     */
+    public static final String WX_LOGIN_URL = "https://api.weixin.qq.com/sns/userinfo";
 
     //    public static final String REALM_NAME_WEB = "http://szlxkg.com";
 //    public static final String REALM_NAME_HTTP = "http://szlxkg.com";
