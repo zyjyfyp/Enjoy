@@ -25,6 +25,7 @@ import com.yunsen.enjoy.activity.mine.CommomConfrim;
 import com.yunsen.enjoy.adapter.CarTopBannerAdapter;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
+import com.yunsen.enjoy.http.DataException;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
@@ -236,9 +237,11 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
 
             @Override
             public void onError(Request request, Exception e) {
-                collectImg.setSelected(true);
-                collectTv.setSelected(true);
-                collectTv.setText("已收藏");
+                if (e instanceof DataException) {
+                    collectImg.setSelected(true);
+                    collectTv.setSelected(true);
+                    collectTv.setText("已收藏");
+                }
                 mRequestFinish = true;
             }
         });
@@ -367,6 +370,8 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
                             }
                         });
                     }
+                } else {
+                    ToastUtils.makeTextShort("数据加载中，请稍后");
                 }
 
                 break;
