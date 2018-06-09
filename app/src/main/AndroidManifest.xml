@@ -97,7 +97,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
+        <!--监听网络连接的-->
+        <receiver android:name=".common.wsmanager.NetStatusReceiver" />
         <!-- app activity -->
         <activity
             android:name=".activity.MainActivity"

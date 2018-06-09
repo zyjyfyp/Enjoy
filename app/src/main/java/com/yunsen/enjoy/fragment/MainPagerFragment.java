@@ -277,7 +277,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
 //
 //            }
 //        });
-        HttpProxy.getSeniorCarBrandDatas(new HttpCallBack<List<CarBrand>>() {
+        HttpProxy.getMainSeniorCarBrandDatas(new HttpCallBack<List<CarBrand>>() {
             @Override
             public void onSuccess(List<CarBrand> responseData) {
                 mPreferenceAdapter.upDatas(responseData);

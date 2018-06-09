@@ -18,6 +18,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.thirdparty.Common;
+import com.yunsen.enjoy.ui.UIHelper;
 
 /**
  * 微信支付回调
@@ -55,10 +56,13 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
             //支付成功
             if (zhuangtai == 0) {
                 Toast.makeText(WXPayEntryActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                setResult(2);
             } else if (zhuangtai == -1) {
                 Toast.makeText(WXPayEntryActivity.this, "支付异常", Toast.LENGTH_SHORT).show();
+                setResult(3);
             } else if (zhuangtai == -2) {
                 Toast.makeText(WXPayEntryActivity.this, "微信支付失败", Toast.LENGTH_SHORT).show();
+                setResult(3);
             }
         }
         finish();

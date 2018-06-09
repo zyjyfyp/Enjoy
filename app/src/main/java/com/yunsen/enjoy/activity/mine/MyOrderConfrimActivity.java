@@ -23,10 +23,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.alipay.sdk.app.PayTask;
 
 import com.hengyushop.dao.CardItem;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.orhanobut.logger.Logger;
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -44,6 +46,7 @@ import com.yunsen.enjoy.model.JuTuanGouData;
 import com.yunsen.enjoy.model.ShopCartData;
 import com.yunsen.enjoy.model.ShopCarts;
 import com.yunsen.enjoy.model.UserRegisterllData;
+import com.yunsen.enjoy.model.WxSignData;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.thirdparty.Common;
@@ -148,6 +151,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     String kedi_hongbao;
     int mQuantityCount = 0;
     private boolean mHasPay;
+    private WxSignData mSignData;
 
 
     @Override
@@ -260,6 +264,8 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
         // 微信支付成功后关闭此界面
         if (flag) {
 //            userloginqm();
+            delayPayState(PAY_FINISH);
+            finish();
             return;
         }
 
@@ -515,9 +521,15 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
         } else if (resultCode == 1 && requestCode == Constants.PAY_MONEY_ACT_REQUEST) {
             finish();
         }
-        Log.e("zyjy", "onActivityResult:resultCode= " + resultCode + " requestCode= " + requestCode);
+//        else if (resultCode == 2) {
+//            delayPayState(PAY_FINISH);
+//        } else if (requestCode == 3) {
+//            delayPayState(PAY_ORDER);
+//        }
+        Logger.t(TAG).d("onActivityResult:resultCode= " + resultCode + " requestCode= " + requestCode);
     }
 
+    private static final String TAG = "MyOrderConfrimActivity";
     private void initdata() {
 
         /**
@@ -1062,24 +1074,20 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 case 2:// 微信支付
                     try {
                         boolean isPaySupported = api.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
-                        String zhou = String.valueOf(isPaySupported);
-
-                        if (isPaySupported) {
+                        if (isPaySupported && mSignData != null) {
                             try {
                                 // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-                                api.registerApp(Constants.APP_ID);
+                                api.registerApp(mSignData.getApp_id());
                                 PayReq req = new PayReq();
-                                req.appId = Constants.APP_ID;
-                                req.partnerId = Constants.WX_MCH_ID;//商户id
-                                req.prepayId = prepayid;// 7 预支付交易会话ID
-                                req.nonceStr = noncestr;// 3
-                                req.timeStamp = timestamp;// -1
-                                req.packageValue = package_; //扩展字段
-                                req.sign = sign;// -3
+                                req.appId = mSignData.getApp_id();
+                                req.partnerId = mSignData.getMch_id();//商户id
+                                req.prepayId = mSignData.getPrepay_id();// 7 预支付交易会话ID
+                                req.nonceStr = mSignData.getNonce_str();// 3
+                                req.timeStamp = mSignData.getTimestamp();// -1
+                                req.packageValue = "Sign=WXPay"; //扩展字段
+                                req.sign = mSignData.getSign();// -3
                                 //3.调用微信支付sdk支付方法
                                 flag = api.sendReq(req);
-                                System.out.println("支付" + flag);
-
                             } catch (Exception e) {
                                 Toast.makeText(MyOrderConfrimActivity.this, "支付失败。。。", Toast.LENGTH_SHORT).show();
                                 delayPayState(mPayState);
@@ -1100,7 +1108,6 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
 
                     // 支付宝返回此次支付结果及加签，建议对支付宝签名信息拿签约时支付宝提供的公钥做验签
                     String resultInfo = payResult.getResult();
-
                     String resultStatus = payResult.getResultStatus();
                     System.out.println(resultInfo + "---" + resultStatus);
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
@@ -1241,16 +1248,9 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                             String status = object.getString("status");
                             String info = object.getString("info");
                             if (status.equals("y")) {
-                                JSONObject jsonObject = object
-                                        .getJSONObject("data");
-                                partner_id = jsonObject.getString("mch_id");
-                                prepayid = jsonObject.getString("prepay_id");
-                                noncestr = jsonObject.getString("nonce_str");
-                                timestamp = jsonObject.getString("timestamp");
-                                Common.WX_APP_ID = jsonObject.getString("app_id");
-                                Common.WX_MCH_ID = jsonObject.getString("mch_id");
-                                package_ = "Sign=WXPay";
-                                sign = jsonObject.getString("sign");
+                                JSONObject jsonObject = object.getJSONObject("data");
+                                String json = jsonObject.toString();
+                                mSignData = JSON.parseObject(json, WxSignData.class);
                                 progress.CloseProgress();
                                 handler.sendEmptyMessage(2);
                             } else {
@@ -1456,7 +1456,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     /**
      * 处理支付状态
      *
-     * @param state
+     * @param state PAY_DEFAULT -- PAY_ORDER --PAY_FINISH
      */
     private void delayPayState(int state) {
         switch (state) {

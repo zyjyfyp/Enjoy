@@ -33,6 +33,7 @@ import com.yunsen.enjoy.activity.mine.TeamActivity;
 import com.yunsen.enjoy.common.AppContext;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
+import com.yunsen.enjoy.common.wsmanager.WsManager;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
@@ -634,9 +635,11 @@ public class MineFragment extends BaseFragment {
                 loginIcon.setVisibility(View.GONE);
                 loginTv.setVisibility(View.GONE);
                 Log.e(TAG, "onEvent: 登录更新");
+                WsManager.getInstance().init();
                 getUserInfo();
                 break;
             case EventConstants.APP_LOGOUT:
+                WsManager.getInstance().disconnect();
                 hasLoginLayout.setVisibility(View.GONE);
                 loginIcon.setVisibility(View.VISIBLE);
                 loginTv.setVisibility(View.VISIBLE);

@@ -12,6 +12,8 @@ import com.orhanobut.logger.DiskLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
+import com.yunsen.enjoy.common.wsmanager.ForegroundCallbacks;
+import com.yunsen.enjoy.common.wsmanager.WsManager;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.utils.WebUitls;
 
@@ -54,7 +56,7 @@ public class AppContext extends Application {
                 .methodCount(0)         // (Optional) How many method line to show. Default 2
                 .methodOffset(7)        // (Optional) Hides internal method calls up to offset. Default 5
                 .build();
-
+        initAppStatusListener();//webService
         /**
          * logger 日志
          */
@@ -76,6 +78,21 @@ public class AppContext extends Application {
     // 注册App异常崩溃处理器
     private void registerUncaughtExceptionHandler() {
         Thread.setDefaultUncaughtExceptionHandler(AppException.getAppExceptionHandler());
+    }
+
+    private void initAppStatusListener() {
+        ForegroundCallbacks.init(this).addListener(new ForegroundCallbacks.Listener() {
+            @Override
+            public void onBecameForeground() {
+                Logger.t("WsManager").d("应用回到前台调用重连方法");
+                WsManager.getInstance().reconnect();
+            }
+
+            @Override
+            public void onBecameBackground() {
+
+            }
+        });
     }
 
 }

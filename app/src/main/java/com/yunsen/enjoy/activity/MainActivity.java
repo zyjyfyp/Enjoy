@@ -16,12 +16,14 @@ import android.widget.Toast;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.wsmanager.WsManager;
 import com.yunsen.enjoy.fragment.BuyFragment;
 import com.yunsen.enjoy.fragment.CarFragment;
 import com.yunsen.enjoy.fragment.DiscoverFragment;
 import com.yunsen.enjoy.fragment.MainPagerFragment;
 import com.yunsen.enjoy.fragment.MineFragment;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.utils.AccountUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,7 +54,9 @@ public class MainActivity extends BaseFragmentActivity {
 
     @Override
     protected void initView() {
-
+        if (AccountUtils.hasBoundPhone()) { //已经登录了才能聊天
+            WsManager.getInstance().init();
+        }
     }
 
     @Override
@@ -256,5 +260,11 @@ public class MainActivity extends BaseFragmentActivity {
         } else if (requestCode == Constants.WRITE_EXTERNAL_STORAGE) {
             UIHelper.showPhotoActivity(this, Constants.PHOTO_ACTIVITY_REQUEST);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        WsManager.getInstance().disconnect();
     }
 }

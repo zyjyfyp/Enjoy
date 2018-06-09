@@ -58,6 +58,6 @@ public class Common {
     public static String USER_KEY = "17562";
     public static int PAGER_LENGTH = 0;
     public static String WX_APP_ID;
-    public static String WX_MCH_ID = "1502153101";
+    public static String WX_MCH_ID = "1505676961";
 
 }

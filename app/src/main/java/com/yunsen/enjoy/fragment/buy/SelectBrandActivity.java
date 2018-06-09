@@ -95,7 +95,7 @@ public class SelectBrandActivity extends BaseFragmentActivity implements MultiIt
             @Override
             public void onSuccess(CarBrandList responseData) {
                 Log.e(TAG, "onSuccess: " + responseData);
-                mTopAdapter.upDatas(responseData.getListB()); // TODO: 2018/5/14 热门品牌
+                mTopAdapter.upDatas(responseData.getList());
 
                 if (responseData.getList() == null && responseData.getList().size() < 0) {
                     topView.setVisibility(View.GONE);

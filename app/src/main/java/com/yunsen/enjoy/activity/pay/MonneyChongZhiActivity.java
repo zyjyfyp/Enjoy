@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.alipay.sdk.app.PayTask;
 
 import com.hengyushop.dao.AdvertDao1;
@@ -35,6 +36,7 @@ import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserRegisterllData;
+import com.yunsen.enjoy.model.WxSignData;
 import com.yunsen.enjoy.thirdparty.Common;
 import com.yunsen.enjoy.thirdparty.PayResult;
 import com.yunsen.enjoy.thirdparty.alipay.SignUtils;
@@ -70,6 +72,7 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
     String pety;
     public static Handler handlerll;
 	boolean flag = false;
+    private WxSignData mSignData;
 
 	@Override
 	protected void onResume() {
@@ -606,15 +609,9 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
 								String info = object.getString("info");
 								if(status.equals("y")){
 									JSONObject jsonObject = object.getJSONObject("data");
-									partner_id = jsonObject.getString("mch_id");
-									prepayid = jsonObject.getString("prepay_id");
-									noncestr= jsonObject.getString("nonce_str");
-									timestamp = jsonObject.getString("timestamp");
-
-									package_="Sign=WXPay";
-									sign= jsonObject.getString("sign");
-									System.out.println("weixin================================="+package_);
-									progress.CloseProgress();
+                                    String json = jsonObject.toString();
+                                    mSignData = JSON.parseObject(json, WxSignData.class);
+                                    progress.CloseProgress();
 									handler.sendEmptyMessage(2);
 								}else {
 									progress.CloseProgress();
@@ -752,18 +749,17 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
 				case 2://微信支付
 					boolean isPaySupported = api.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
 					if(isPaySupported){
-						PayReq req = new PayReq();
-						req.appId			= Constants.APP_ID;
-						req.partnerId		= Constants.MCH_ID;
-						req.prepayId		= prepayid;//7
-						req.nonceStr		= noncestr;//3
-						req.timeStamp		= timestamp;//-1
-						req.packageValue	= package_;
-						req.sign			= sign;//-3
-						// 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-						api.registerApp(Constants.APP_ID);
-						flag = api.sendReq(req);
-						System.out.println("支付"+flag);
+                        api.registerApp(mSignData.getApp_id());
+                        PayReq req = new PayReq();
+                        req.appId = mSignData.getApp_id();
+                        req.partnerId = mSignData.getMch_id();//商户id
+                        req.prepayId = mSignData.getPrepay_id();// 7 预支付交易会话ID
+                        req.nonceStr = mSignData.getNonce_str();// 3
+                        req.timeStamp = mSignData.getTimestamp();// -1
+                        req.packageValue = "Sign=WXPay"; //扩展字段
+                        req.sign = mSignData.getSign();// -3
+                        //3.调用微信支付sdk支付方法
+                        flag = api.sendReq(req);
 					}else {
 
 					}

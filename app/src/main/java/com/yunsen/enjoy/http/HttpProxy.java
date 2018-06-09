@@ -463,6 +463,37 @@ public class HttpProxy {
         });
     }
 
+    public static void getMainSeniorCarBrandDatas(final HttpCallBack<List<CarBrand>> callBack, String id) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("top", "12");
+        param.put("parent_id", "0");
+        param.put("channel_id", "7");
+        param.put("orderby", "id desc");
+        param.put("flag", "false");
+
+        HttpClient.get(URLConstants.CAR_BRAND_URL, param, new HttpResponseHandler<CarBrandResponese>() {
+            @Override
+            public void onSuccess(CarBrandResponese response) {
+                if (response.getData() != null) {
+                    CarBrandList data = response.getData();
+                    if (data != null) {
+                        List<CarBrand> list = data.getList();
+                        callBack.onSuccess(list);
+                        return;
+                    }
+                }
+
+                callBack.onError(null, new Exception("date is empty!"));
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
     /**
      * 获取汽车详情
      *
