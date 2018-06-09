@@ -36,6 +36,11 @@
             android:text="@string/main_navigation_interest" />
 
         <RadioButton
+            android:id="@+id/foot_bar_car"
+            style="@style/main_footer_bar_radio"
+            android:drawableTop="@drawable/widget_bar_car_bg"
+            android:text="@string/buy_car" />
+        <RadioButton
             android:id="@+id/main_footbar_user"
             style="@style/main_footer_bar_radio"
             android:drawableTop="@drawable/widget_bar_user_bg"

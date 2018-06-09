@@ -115,6 +115,19 @@ public class UIHelper {
     }
 
     /**
+     * z在MainActivity 跳转 fragment
+     *
+     * @param act
+     * @param index
+     */
+    public static void toMainOtherFragment(Activity act, int index) {
+        if (act instanceof MainActivity) {
+            ((MainActivity) act).setCurrIndex(index);
+        }
+    }
+
+
+    /**
      * 判断是否是服务商，并跳转 登录，我是服务商，申请服务商页面
      *
      * @param ctx
@@ -641,11 +654,24 @@ public class UIHelper {
     }
 
     /**
+     * 去主页面
+     *
      * @param ctx
      */
     public static void showHomeShopCar(Context ctx) {
         Intent intent = new Intent(ctx, MainActivity.class);
         intent.putExtra(Constants.FRAGMENT_TYPE_KEY, 0);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 跳转购物车
+     *
+     * @param ctx
+     */
+    public static void showHomeCarFragment(Context ctx) {
+        Intent intent = new Intent(ctx, MainActivity.class);
+        intent.putExtra(Constants.FRAGMENT_TYPE_KEY, 3);
         ctx.startActivity(intent);
     }
 
@@ -822,7 +848,7 @@ public class UIHelper {
     }
 
     /**
-     * 去购物车
+     * 去购物车 activity
      *
      * @param ctx
      */
@@ -830,6 +856,7 @@ public class UIHelper {
         Intent intent = new Intent(ctx, ShopCartActivity.class);
         ctx.startActivity(intent);
     }
+
 
     /**
      * 服务商更多

@@ -343,7 +343,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
         switch (view.getId()) {
             case R.id.btn_dianping: //购物车
             case R.id.enter_shop: //返回购物车
-                UIHelper.showShopCar(this);
+                UIHelper.showHomeCarFragment(this);
                 break;
             case R.id.goods_share_img:
                 String shareUrl = URLConstants.REALM_URL + "/goods/show-" + mCarDetail.getId() + ".html?cid=" + mCarDetail.getCompany_id() + "&unionid=" + mUnionid + "&shareid=" + mUserId + "&from=android";

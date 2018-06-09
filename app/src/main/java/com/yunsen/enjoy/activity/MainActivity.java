@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.fragment.BuyFragment;
+import com.yunsen.enjoy.fragment.CarFragment;
 import com.yunsen.enjoy.fragment.DiscoverFragment;
 import com.yunsen.enjoy.fragment.MainPagerFragment;
 import com.yunsen.enjoy.fragment.MineFragment;
@@ -73,7 +74,7 @@ public class MainActivity extends BaseFragmentActivity {
     }
 
     private void initMainData(Bundle savedInstanceState) {
-        fragmentTags = new ArrayList<>(Arrays.asList("HomeFragment", "ImFragment", "InterestFragment", "MineFragment"));
+        fragmentTags = new ArrayList<>(Arrays.asList("HomeFragment", "ImFragment", "InterestFragment", "CarFragment", "MineFragment"));
         currIndex = 0;
         if (savedInstanceState != null) {
             currIndex = savedInstanceState.getInt(CURR_INDEX);
@@ -106,6 +107,9 @@ public class MainActivity extends BaseFragmentActivity {
                         indexId = R.id.foot_bar_interest;
                         break;
                     case 3:
+                        indexId = R.id.foot_bar_car;
+                        break;
+                    case 4:
                         indexId = R.id.main_footbar_user;
                         break;
                 }
@@ -129,8 +133,11 @@ public class MainActivity extends BaseFragmentActivity {
                     case R.id.foot_bar_interest:
                         currIndex = 2;
                         break;
-                    case R.id.main_footbar_user:
+                    case R.id.foot_bar_car:
                         currIndex = 3;
+                        break;
+                    case R.id.main_footbar_user:
+                        currIndex = 4;
                         break;
                     default:
                         break;
@@ -172,6 +179,8 @@ public class MainActivity extends BaseFragmentActivity {
             case 2:
                 return new DiscoverFragment();
             case 3:
+                return new CarFragment();
+            case 4:
                 mMineFragment = new MineFragment();
                 return mMineFragment;
             default:
@@ -211,6 +220,9 @@ public class MainActivity extends BaseFragmentActivity {
                 group.check(R.id.foot_bar_interest);
                 break;
             case 3:
+                group.check(R.id.foot_bar_car);
+                break;
+            case 4:
                 group.check(R.id.main_footbar_user);
                 break;
 
