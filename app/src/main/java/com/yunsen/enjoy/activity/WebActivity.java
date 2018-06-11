@@ -10,8 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -27,7 +30,7 @@ import butterknife.OnClick;
 
 public class WebActivity extends BaseFragmentActivity {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "WebActivity";
     @Bind(R.id.action_back)
     ImageView actionBack;
     @Bind(R.id.action_bar_title)
@@ -37,9 +40,12 @@ public class WebActivity extends BaseFragmentActivity {
     @Bind(R.id.webProgress)
     ProgressBar webProgress;
     @Bind(R.id.webRootView)
-    LinearLayout webRootView;
+    FrameLayout webRootView;
+    @Bind(R.id.web_error_layout)
+    LinearLayout webErrorLayout;
     private WebView webView;
     private String mUrl = "";
+    private boolean mWebError = false;
 
     @Override
     public int getLayout() {
@@ -71,6 +77,7 @@ public class WebActivity extends BaseFragmentActivity {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
+                mWebError = false;
                 webProgress.setVisibility(View.VISIBLE);
                 if (webView != null) {
                     webView.getSettings().setBlockNetworkImage(true);
@@ -83,6 +90,9 @@ public class WebActivity extends BaseFragmentActivity {
                 super.onPageFinished(view, url);
                 if (webView == null) {
                     return;
+                }
+                if (!mWebError) {
+                    webErrorLayout.setVisibility(View.GONE);
                 }
                 webView.getSettings().setBlockNetworkImage(false);
                 if (!webView.getSettings().getLoadsImagesAutomatically()) {
@@ -104,7 +114,11 @@ public class WebActivity extends BaseFragmentActivity {
                 //                String data = "页面未找到！";
                 //                view.loadUrl("javascript:document.body.innerHTML=\"" + data + "\"");
                 Log.e(TAG, "onReceivedError: " + failingUrl);
+                mWebError = true;
+                webErrorLayout.setVisibility(View.VISIBLE);
             }
+
+
         });
 
         webView.setWebChromeClient(new WebChromeClient() {

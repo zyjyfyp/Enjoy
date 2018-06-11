@@ -60,6 +60,7 @@ public class URLConstants {
      * 绑定手机号码
      */
     public static final String BOUDLE_PHONE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_oauth_register_0217";
+    public static final String HEIGHT_FILTER_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_category_list";
     //    http://mobile.zams.cn/tools/mobile_ajax.asmx/user_oauth_register_0217
     /**
      * 消息通知

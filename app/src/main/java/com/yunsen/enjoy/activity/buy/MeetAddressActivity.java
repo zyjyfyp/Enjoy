@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
@@ -42,6 +43,8 @@ public class MeetAddressActivity extends BaseFragmentActivity implements MultiIt
     ImageView actionBarRight;
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
+    @Bind(R.id.no_data_error_layout)
+    LinearLayout noDataErrorLayout;
     private ArrayList<SProviderModel> mDatas;
     private MeetAddressAdapter mAdapter;
     private int mPageIndex = 1;
@@ -77,11 +80,13 @@ public class MeetAddressActivity extends BaseFragmentActivity implements MultiIt
             @Override
             public void onSuccess(List<SProviderModel> responseData) {
                 mAdapter.upDatas(responseData);
+                noDataErrorLayout.setVisibility(View.GONE);
             }
 
             @Override
             public void onError(Request request, Exception e) {
                 Logger.e("onError: " + e.getMessage());
+                noDataErrorLayout.setVisibility(View.VISIBLE);
             }
         });
     }

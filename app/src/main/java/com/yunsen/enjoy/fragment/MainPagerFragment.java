@@ -33,6 +33,7 @@ import com.yunsen.enjoy.model.CarModel;
 import com.yunsen.enjoy.model.HomeCarModel;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.SProviderModel;
+import com.yunsen.enjoy.model.event.ActivityResultEvent;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpCityEvent;
 import com.yunsen.enjoy.model.event.UpHomeUiEvent;
@@ -405,6 +406,13 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         mPreferenceAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
+                List<CarBrand> datas = mPreferenceAdapter.getDatas();
+                if (datas != null && datas.size() > position) {
+                    CarBrand brand = datas.get(position);
+                    ActivityResultEvent event = new ActivityResultEvent(EventConstants.CAR_BRAND_ID_KEY, brand.getId(), brand.getTitle());
+                    event.setFragmentType(Constants.ALL_CAR_TYPE);
+                    EventBus.getDefault().postSticky(event);
+                }
                 toBuyCarFragment();
             }
 
@@ -500,6 +508,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
      * 去买车界面
      */
     private void toBuyCarFragment() {
+
         ((MainActivity) getActivity()).setCurrIndex(1);
     }
 

@@ -14,6 +14,7 @@ import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.CarBrand;
+import com.yunsen.enjoy.model.HeightFilterBean;
 import com.yunsen.enjoy.model.event.ActivityResultEvent;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
@@ -43,8 +44,8 @@ public class SeniorFilterActivity extends BaseFragmentActivity {
     ImageView actionBarRight;
     @Bind(R.id.top_recycler_view)
     RecyclerView topRecyclerView;
-    private ArrayList<CarBrand> mTopDatas;
-    private HotCarBrandAdapter mTopAdapter;
+    private ArrayList<HeightFilterBean> mTopDatas;
+    private HeightFilterAdapter mTopAdapter;
     private View topView;
     private String mFragmentType;
 
@@ -59,10 +60,10 @@ public class SeniorFilterActivity extends BaseFragmentActivity {
         actionBarTitle.setText("高级筛选");
         topView = getLayoutInflater().inflate(R.layout.senior_filter_top_layout, null);
 
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 4);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         topRecyclerView.setLayoutManager(layoutManager);
         mTopDatas = new ArrayList<>();
-        mTopAdapter = new HotCarBrandAdapter(this, R.layout.hot_brand_item, mTopDatas);
+        mTopAdapter = new HeightFilterAdapter(this, R.layout.height_filter_item, mTopDatas);
         HeaderAndFooterRecyclerViewAdapter headerAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mTopAdapter);
         topRecyclerView.setAdapter(headerAndFooterRecyclerViewAdapter);
         RecyclerViewUtils.setHeaderView(topRecyclerView, topView);
@@ -81,9 +82,9 @@ public class SeniorFilterActivity extends BaseFragmentActivity {
         mTopAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
-                List<CarBrand> datas = mTopAdapter.getDatas();
+                List<HeightFilterBean> datas = mTopAdapter.getDatas();
                 if (datas != null && datas.size() > position-1) {
-                    CarBrand carBrand = datas.get(position-1);
+                    HeightFilterBean carBrand = datas.get(position - 1);
                     ActivityResultEvent event = new ActivityResultEvent(EventConstants.SENIOR_FILTER_ID, carBrand.getId(), carBrand.getTitle());
                     event.setFragmentType(mFragmentType);
                     EventBus.getDefault().postSticky(event);
@@ -100,9 +101,9 @@ public class SeniorFilterActivity extends BaseFragmentActivity {
 
     @Override
     public void requestData() {
-        HttpProxy.getSeniorCarBrandDatas(new HttpCallBack<List<CarBrand>>() {
+        HttpProxy.getHeightFilterDatas(mFragmentType, new HttpCallBack<List<HeightFilterBean>>() {
             @Override
-            public void onSuccess(List<CarBrand> responseData) {
+            public void onSuccess(List<HeightFilterBean> responseData) {
                 mTopAdapter.upDatas(responseData);
             }
 
@@ -110,7 +111,9 @@ public class SeniorFilterActivity extends BaseFragmentActivity {
             public void onError(Request request, Exception e) {
 
             }
-        }, "");
+        });
+
+
     }
 
 

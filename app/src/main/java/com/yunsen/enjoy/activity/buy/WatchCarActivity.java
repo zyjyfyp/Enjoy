@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -62,6 +63,7 @@ public class WatchCarActivity extends BaseFragmentActivity {
     TextView watchTimeTv;
     @Bind(R.id.submit_tv)
     TextView submit_tv;
+
 
     private DatePickerViewDialog pickerView;
     private String mCarId;
@@ -176,7 +178,6 @@ public class WatchCarActivity extends BaseFragmentActivity {
             ToastUtils.makeTextShort("请输入看车地点");
         } else {
             HttpProxy.requestMeetingCar(mWatchModel, new HttpCallBack<WatchCarBean>() {
-
                 @Override
                 public void onSuccess(WatchCarBean responseData) {
                     UIHelper.showAppointmentActivity(WatchCarActivity.this);
@@ -185,7 +186,6 @@ public class WatchCarActivity extends BaseFragmentActivity {
 
                 @Override
                 public void onError(Request request, Exception e) {
-
                 }
             });
         }

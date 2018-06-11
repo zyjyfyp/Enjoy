@@ -26,9 +26,11 @@
         android:gravity="center_vertical"
         android:text="车牌所在地"
         android:textColor="@color/title_color"
+        android:visibility="gone"
         android:textSize="18sp"/>
 
     <TextView
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height"
         android:layout_marginLeft="@dimen/app_margin"

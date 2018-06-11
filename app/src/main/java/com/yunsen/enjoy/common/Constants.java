@@ -31,6 +31,7 @@ public class Constants {
      */
     public static final String[] SORT_METHED = new String[]{"智能排序", "最新上架", "价格最低", "价格最高", "车龄最短", "理财最少"};
     public static Map<String, String> SHOT_METHED_VALUE = new HashMap<String, String>();
+    public static final String ALL_CAR_TYPE = "all_car_type";
 
     static {
         SHOT_METHED_VALUE.put("智能排序", "click desc");

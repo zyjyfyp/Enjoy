@@ -39,7 +39,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -77,6 +76,8 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
     private String mCarTitle;
     private String mCarCity; //搜索框条件：
     private String mStrwhere = "sell_price>=0";
+    private String mBrandId = ""; //汽车类型 高级筛选
+    private String mBrandIdOne = ""; //品牌
 
     private int mPageIndex = 1;
     private boolean mIsLoadMore = false;
@@ -108,7 +109,6 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
         if (!"goods".equals(mChannel)) {
             mCurrentPosition = 1;
         }
-
         NoScrollLinearLayoutManager layoutmanager = new NoScrollLinearLayoutManager(getActivity());
         //设置RecyclerView 布局
         layoutmanager.setScrollEnabled(false);
@@ -131,7 +131,6 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
         HttpProxy.getFilterBuyCarDatas(String.valueOf(mPageIndex), new HttpCallBack<List<GoodsData>>() {
             @Override
             public void onSuccess(List<GoodsData> responseData) {
-
                 if (mIsLoadMore) {
                     StaticVar.sHasMore[mCurrentPosition] = mAdapter.addData(responseData);
                 } else {
@@ -157,7 +156,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
                 noticeView.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
             }
-        }, mChannel, mStrwhere, mOrderby, city);
+        }, mBrandIdOne, mBrandId, mChannel, mStrwhere, mOrderby, city);
     }
 
     @Override
@@ -265,7 +264,8 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
     @Override
     public void onFilterReset() {
         filterLayout.setVisibility(View.GONE);
-        mBrands.clear();
+        mBrandId = null;
+        mBrandIdOne = null;
         mStrwhere = mPrice;
         initRequestDta();
         requestData();
@@ -273,14 +273,14 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
 
     @Override
     public void onItemClose(int id) {
-        mBrands.remove(String.valueOf(id));
         mStrwhere = mPrice;
-        Iterator<String> iterator = mBrands.keySet().iterator();
-        while (iterator.hasNext()) {
-            String next = iterator.next();
-            mStrwhere += mStrwhere + " and brand_id like \'%" + next + "%\'";
+
+        if (!TextUtils.isEmpty(mBrandId) && id == Integer.parseInt(mBrandId)) {
+            mBrandId = null;
+        } else if (!TextUtils.isEmpty(mBrandIdOne) && id == Integer.parseInt(mBrandIdOne)) {
+            mBrandIdOne = null;
         }
-        if (mBrands.size() == 0) {
+        if (TextUtils.isEmpty(mBrandId) && TextUtils.isEmpty(mBrandIdOne)) {
             filterLayout.setVisibility(View.GONE);
         }
         initRequestDta();
@@ -299,20 +299,42 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
     public void onActivityEvent(ActivityResultEvent event) {
         switch (event.getEventId()) {
             case EventConstants.CAR_BRAND_ID_KEY:
-            case EventConstants.SENIOR_FILTER_ID:
                 if (!TextUtils.isEmpty(mChannel) && mChannel.equals(event.getFragmentType())) {
-                    int dataId = event.getDataId();
-                    if (!mBrands.containsKey(String.valueOf(dataId))) {
-                        mBrands.put(String.valueOf(dataId), event.getName());
-                        mStrwhere = mStrwhere + " and brand_id like \'%" + dataId + "%\'";
-                        filterLayout.addItemView(event.getName(), dataId);
+                    if (!TextUtils.isEmpty(mBrandIdOne)) {
+                        int id = Integer.parseInt(mBrandIdOne);
+                        filterLayout.removeItemView(id);
                     }
+                    int dataId = event.getDataId();
+                    mBrandIdOne = String.valueOf(dataId);
+                    filterLayout.addItemView(event.getName(), dataId);
+                    filterLayout.setVisibility(View.VISIBLE);
+                } else if (Constants.ALL_CAR_TYPE.equals(event.getFragmentType())) {
+                    if (!TextUtils.isEmpty(mBrandIdOne)) {
+                        int id = Integer.parseInt(mBrandIdOne);
+                        filterLayout.removeItemView(id);
+                    }
+                    int dataId = event.getDataId();
+                    mBrandIdOne = String.valueOf(dataId);
+                    filterLayout.addItemView(event.getName(), dataId);
                     filterLayout.setVisibility(View.VISIBLE);
                 }
-                initRequestDta();
-                requestData();
+                break;
+            case EventConstants.SENIOR_FILTER_ID:
+                if (!TextUtils.isEmpty(mChannel) && mChannel.equals(event.getFragmentType())) {
+                    if (!TextUtils.isEmpty(mBrandId)) {
+                        int id = Integer.parseInt(mBrandId);
+                        filterLayout.removeItemView(id);
+                    }
+                    int dataId = event.getDataId();
+                    mBrandId = String.valueOf(dataId);
+                    filterLayout.addItemView(event.getName(), dataId);
+                    filterLayout.setVisibility(View.VISIBLE);
+                }
                 break;
         }
+
+        initRequestDta();
+        requestData();
     }
 
     /**

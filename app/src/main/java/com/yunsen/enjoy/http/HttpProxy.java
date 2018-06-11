@@ -27,6 +27,7 @@ import com.yunsen.enjoy.model.CarModel;
 import com.yunsen.enjoy.model.ClassifyBean;
 import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.GoogsListResponse;
+import com.yunsen.enjoy.model.HeightFilterBean;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.NoticeResponse;
 import com.yunsen.enjoy.model.OrderDataBean;
@@ -56,6 +57,7 @@ import com.yunsen.enjoy.model.response.CarBrandResponese;
 import com.yunsen.enjoy.model.response.CarDetailsResponse;
 import com.yunsen.enjoy.model.response.ClassifyResponse;
 import com.yunsen.enjoy.model.response.DefaultAddressResponse;
+import com.yunsen.enjoy.model.response.HeightFilterResponse;
 import com.yunsen.enjoy.model.response.OrderResponse;
 import com.yunsen.enjoy.model.response.PullImageResponse;
 import com.yunsen.enjoy.model.response.SearchListResponse;
@@ -330,8 +332,19 @@ public class HttpProxy {
      * 价格最低：sell_price asc
      * 价格最高：sell_price desc
      */
-
-    public static void getFilterBuyCarDatas(String pageIndex, final HttpCallBack<List<GoodsData>> callBack, String channel, String strwhere, String orderby, String city) {
+    /**
+     * @param pageIndex
+     * @param callBack
+     * @param brandIdOne 品牌
+     * @param brandId    高级筛选
+     * @param channel
+     * @param strwhere
+     * @param orderby
+     * @param city
+     */
+    public static void getFilterBuyCarDatas(String pageIndex, final HttpCallBack<List<GoodsData>> callBack,
+                                            String brandIdOne, String brandId,
+                                            String channel, String strwhere, String orderby, String city) {
 
         HashMap<String, String> param = new HashMap<>();
         param.put("channel_name", channel);
@@ -339,11 +352,18 @@ public class HttpProxy {
         param.put("page_size", "8");
         param.put("page_index", pageIndex);
         param.put("orderby", orderby);
-        if (TextUtils.isEmpty(city)) {
-            param.put("strwhere", strwhere);
-        } else {
-            param.put("strwhere", strwhere + " and city=\'" + city + "\'");
+
+        if (!TextUtils.isEmpty(brandIdOne)) {
+            strwhere += "and brand_id like \'%" + brandIdOne + "%\'";
         }
+        if (!TextUtils.isEmpty(brandId)) {
+            strwhere += "and brand_id like \'%" + brandId + "%\'";
+        }
+//        if (TextUtils.isEmpty(city)) {
+            param.put("strwhere", strwhere);
+//        } else {
+//            param.put("strwhere", strwhere + " and city=\'" + city + "\'");
+//        }
         HttpClient.get(URLConstants.BUY_CAR_URL, param, new HttpResponseHandler<GoogsListResponse>() {
             @Override
             public void onSuccess(GoogsListResponse response) {
@@ -1808,5 +1828,28 @@ public class HttpProxy {
         });
     }
 
+    /**
+     * 高级筛选
+     *
+     * @param channelName
+     * @param callBack
+     */
+    public static void getHeightFilterDatas(String channelName, final HttpCallBack<List<HeightFilterBean>> callBack) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("channel_name", channelName);
+        param.put("parent_id", "0");
+        HttpClient.get(URLConstants.HEIGHT_FILTER_URL, param, new HttpResponseHandler<HeightFilterResponse>() {
+            @Override
+            public void onSuccess(HeightFilterResponse response) {
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
 }
 

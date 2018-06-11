@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
@@ -45,7 +46,8 @@ public class ServiceMoreActivity extends BaseFragmentActivity implements MultiIt
     RecyclerView serviceMoreRecycler;
     @Bind(R.id.swipe_refresh_widget)
     SwipeRefreshLayout swipeRefreshLayout;
-
+    @Bind(R.id.no_data_error_layout)
+    LinearLayout noDataErrorLayout;
     private int mPageIndex = 1;
     private StoreRecyclerAdapter mAdapter;
     private ArrayList<SProviderModel> mData;
@@ -111,6 +113,7 @@ public class ServiceMoreActivity extends BaseFragmentActivity implements MultiIt
         HttpProxy.getServiceMoreProvider(mPageIndex, null, new HttpCallBack<List<SProviderModel>>() {
             @Override
             public void onSuccess(List<SProviderModel> responseData) {
+                noDataErrorLayout.setVisibility(View.GONE);
                 if (mIsLoadMore) {
                     mHasMore = mAdapter.addDatas(responseData);
                 } else {
@@ -128,6 +131,9 @@ public class ServiceMoreActivity extends BaseFragmentActivity implements MultiIt
             public void onError(Request request, Exception e) {
                 loadMoreLayout.showLoadNoMore(null);
                 swipeRefreshLayout.setRefreshing(false);
+                if (mData.size() == 0) {
+                    noDataErrorLayout.setVisibility(View.VISIBLE);
+                }
             }
         });
     }

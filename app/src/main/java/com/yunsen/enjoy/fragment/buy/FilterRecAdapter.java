@@ -40,7 +40,7 @@ public class FilterRecAdapter extends CommonAdapter<GoodsData> {
     }
 
     /**
-     * 如果返回的数据多余或等于8条 说明有更多数据
+     * 如果返回的数据多余或等于0条 说明有更多数据
      *
      * @param responseData
      * @return
@@ -48,14 +48,12 @@ public class FilterRecAdapter extends CommonAdapter<GoodsData> {
     public boolean upData(List<GoodsData> responseData) {
         boolean flag = false;
         mDatas.clear();
-        if (responseData != null) {
+        if (responseData != null && responseData.size() > 0) {
             mDatas.addAll(responseData);
-//            if (responseData.size() >= 4) {
-//                flag = true;
-//            }
+            flag = true;
         }
         notifyDataSetChanged();
-        return true;
+        return flag;
     }
 
     /**

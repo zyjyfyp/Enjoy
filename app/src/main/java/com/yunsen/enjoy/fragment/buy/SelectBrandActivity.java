@@ -51,6 +51,7 @@ public class SelectBrandActivity extends BaseFragmentActivity implements MultiIt
     private HotCarBrandAdapter mTopAdapter;
     private View topView;
     private String mFragmentType;
+    private boolean mHasTop = false;
 
     @Override
     public int getLayout() {
@@ -76,7 +77,6 @@ public class SelectBrandActivity extends BaseFragmentActivity implements MultiIt
         mAdapter = new CarBrandAdapter(this, mDatas);
         HeaderAndFooterRecyclerViewAdapter viewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         recyclerView.setAdapter(viewAdapter);
-        RecyclerViewUtils.setHeaderView(recyclerView, topView);
     }
 
     @Override
@@ -95,12 +95,12 @@ public class SelectBrandActivity extends BaseFragmentActivity implements MultiIt
             @Override
             public void onSuccess(CarBrandList responseData) {
                 Log.e(TAG, "onSuccess: " + responseData);
-                mTopAdapter.upDatas(responseData.getList());
-
-                if (responseData.getList() == null && responseData.getList().size() < 0) {
-                    topView.setVisibility(View.GONE);
+                if (responseData.getList() != null && responseData.getList().size() > 0) {
+                    mTopAdapter.upDatas(responseData.getList());
+                    mHasTop = true;
+                    RecyclerViewUtils.setHeaderView(recyclerView, topView);
                 } else {
-                    topView.setVisibility(View.VISIBLE);
+                    mHasTop = false;
                 }
                 mAdapter.upDatas(responseData);
             }
@@ -119,8 +119,11 @@ public class SelectBrandActivity extends BaseFragmentActivity implements MultiIt
             @Override
             public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
                 List<CarBrand> datas = mAdapter.getDatas();
-                if (position > 0 && datas != null && datas.size() > 0 && datas.size() > position - 1) {
-                    CarBrand carBrand = datas.get(position - 1);
+                if (mHasTop) {
+                    position = position - 1;
+                }
+                if (position >= 0 && datas != null && datas.size() > 0 && datas.size() > position) {
+                    CarBrand carBrand = datas.get(position);
                     String title = carBrand.getTitle();
                     ActivityResultEvent event = new ActivityResultEvent(EventConstants.CAR_BRAND_ID_KEY, carBrand.getId(), title);
                     event.setFragmentType(mFragmentType);

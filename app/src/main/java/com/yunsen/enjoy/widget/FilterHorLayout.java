@@ -74,7 +74,10 @@ public class FilterHorLayout extends HorizontalScrollView implements View.OnClic
 
     public void removeItemView(int id) {
         View view = rootLayout.findViewWithTag(id);
-        rootLayout.removeView(view);
+        ViewParent parent = view.getParent();
+        if (parent instanceof LinearLayout) {
+            rootLayout.removeView((LinearLayout) parent);
+        }
     }
 
     @Override

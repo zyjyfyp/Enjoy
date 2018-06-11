@@ -7,23 +7,24 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
-import com.yunsen.enjoy.activity.buy.GoodsDescriptionActivityOld;
 import com.yunsen.enjoy.adapter.CarTopBannerAdapter;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.AlbumsBean;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.DefaultSpecItemBean;
@@ -42,8 +43,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Request;
-
-import static com.yunsen.enjoy.activity.mine.PersonCenterActivity.path;
 
 public class CarDetailsActivity extends BaseFragmentActivity implements NoticeView.OnNoticeListener {
     private static final String TAG = "CarDetailsActivity";
@@ -99,12 +98,18 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
     ImageView collectImg;
     @Bind(R.id.collect_tv)
     TextView collectTv;
+    @Bind(R.id.car_introduce_web)
+    WebView carIntroduceWeb;
+    @Bind(R.id.layout_ent_gallery)
+    RelativeLayout layoutEntGallery;
+
     private String mCarId;
     private CarDetails mData;
     private SharedPreferences mSp;
     private String mUserName;
     private String mUserId;
     private boolean mRequestFinish;
+    private int mScreenWidth;
 
     @Override
     public int getLayout() {
@@ -116,6 +121,9 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
         ButterKnife.bind(this);
         detailsOldCarMoney.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); //中划线
         actionBarTitle.setText("汽车详情");
+        mScreenWidth = DeviceUtil.getWidth(this);
+        ViewGroup.LayoutParams lp = layoutEntGallery.getLayoutParams();
+        lp.height = mScreenWidth / 4 * 3;
     }
 
 
@@ -155,6 +163,13 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
                 upBanner(responseData.getAlbums());
                 noticeView.closeNoticeView();
                 dataLayout.setVisibility(View.VISIBLE);
+                List<AlbumsBean> albums = responseData.getAlbums();
+                if (albums != null && albums.size() > 0) {
+                    baseIntroduceTv.setVisibility(View.GONE);
+                    carIntroduceWeb.loadUrl(URLConstants.REALM_NAME_HTTP + "/mobile/goods/conent-" + albums.get(0).getArticle_id() + ".html");//商品介绍
+                } else {
+                    baseIntroduceTv.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override

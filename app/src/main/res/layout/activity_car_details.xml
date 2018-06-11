@@ -96,13 +96,13 @@
             </LinearLayout>
 
             <LinearLayout
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="@dimen/app_margin"
                 android:layout_marginRight="@dimen/app_margin"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/first_pay_tv"
@@ -277,24 +277,39 @@
                 android:layout_height="15dp"
                 android:background="@color/gray_light" />
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/car_introduce_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/app_margin"
-                android:layout_marginRight="@dimen/app_margin"
-                android:text="汽车介绍"
-                android:textColor="@color/color_3c434c"
-                android:textSize="16sp" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/base_introduce_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/app_margin"
-                android:layout_marginRight="@dimen/app_margin"
-                android:text="非常好"
-                android:textColor="@color/color_888"
-                android:textSize="13sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/app_margin"
+                    android:layout_marginRight="@dimen/app_margin"
+                    android:text="汽车介绍"
+                    android:textColor="@color/color_3c434c"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/base_introduce_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/app_margin"
+                    android:layout_marginRight="@dimen/app_margin"
+                    android:text="非常好"
+                    android:textColor="@color/color_888"
+                    android:textSize="13sp" />
+
+                <WebView
+                    android:id="@+id/car_introduce_web"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </WebView>
+
+            </LinearLayout>
         </LinearLayout>
 
 
