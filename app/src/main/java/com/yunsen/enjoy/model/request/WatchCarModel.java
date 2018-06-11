@@ -6,23 +6,23 @@ package com.yunsen.enjoy.model.request;
 
 public class WatchCarModel {
     private String user_id;//用户id,
-     private String  user_name;//用户名,
-     private String  article_id;//;//内容id,
-     private String  goods_id;//;//商品id,
-     private String  payment_id;//;//支付方式,5
-     private String  express_id;//配送方式,7
-     private String  is_invoice;//是否需要发票,0
-     private String  accept_name;//收货人,
-     private String  province;//省,
-     private String  city;//市,
-     private String  area;//区,
-     private String  address;//地址,
-     private String  telphone;//联系电话,
-     private String  mobile;//手机,
-     private String  email;//电子邮件,
-     private String  post_code;//邮编,
+    private String user_name;//用户名,
+    private String article_id;//;//内容id,
+    private String goods_id;//;//商品id,
+    private String payment_id;//;//支付方式,5
+    private String express_id;//配送方式,7
+    private String is_invoice;//是否需要发票,0
+    private String accept_name;//收货人,
+    private String province;//省,
+    private String city;//市,
+    private String area;//区,
+    private String address;//地址,
+    private String telphone;//联系电话,
+    private String mobile;//手机,
+    private String email;//电子邮件,
+    private String post_code;//邮编,
     private String message;//看车时间
-     private String  invoice_title;//发票抬头
+    private String invoice_title;//发票抬头
 
     public void setUser_id(String user_id) {
         this.user_id = user_id;

@@ -359,11 +359,11 @@ public class HttpProxy {
         if (!TextUtils.isEmpty(brandId)) {
             strwhere += "and brand_id like \'%" + brandId + "%\'";
         }
-//        if (TextUtils.isEmpty(city)) {
+        if (TextUtils.isEmpty(city)) {
             param.put("strwhere", strwhere);
-//        } else {
-//            param.put("strwhere", strwhere + " and city=\'" + city + "\'");
-//        }
+        } else {
+            param.put("strwhere", strwhere + " and city=\'" + city + "\'");
+        }
         HttpClient.get(URLConstants.BUY_CAR_URL, param, new HttpResponseHandler<GoogsListResponse>() {
             @Override
             public void onSuccess(GoogsListResponse response) {

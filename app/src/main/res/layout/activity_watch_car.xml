@@ -158,7 +158,77 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:gravity="center"
+                    android:layout_width="65dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/app_margin"
+                    android:layout_marginRight="@dimen/app_margin"
+                    android:text="姓\t\t\t名"
+                    android:textColor="@color/color_888" />
+
+                <EditText
+                    android:layout_marginLeft="2dp"
+                    android:id="@+id/watch_name_tv"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:drawablePadding="5dp"
+                    android:textColor="@color/color_3c434c"
+                    android:hint="请输入姓名"
+                    android:maxLines="1"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/app_margin"
+                android:layout_marginRight="@dimen/app_margin"
+                android:background="@color/gray_light" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="65dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/app_margin"
+                    android:layout_marginRight="@dimen/app_margin"
+                    android:gravity="center"
+                    android:text="电\t\t\t话"
+                    android:textColor="@color/color_888" />
+
+                <EditText
+                    android:id="@+id/watch_phone_edt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:drawablePadding="5dp"
+                    android:hint="请输入电话"
+                    android:maxLines="1"
+                    android:textColor="@color/color_3c434c"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/app_margin"
+                android:layout_marginRight="@dimen/app_margin"
+                android:background="@color/gray_light" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="65dp"
+                    android:gravity="center"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/app_margin"
                     android:layout_marginRight="@dimen/app_margin"
@@ -191,9 +261,10 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="65dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/app_margin"
+                    android:gravity="center"
                     android:layout_marginRight="@dimen/app_margin"
                     android:text="看车时间"
                     android:textColor="@color/color_888" />

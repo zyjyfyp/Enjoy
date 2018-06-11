@@ -596,13 +596,13 @@
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/enter_shop" />
+                    android:src="@mipmap/custom_service" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="购物车"
+                    android:text="联系客服"
                     android:textColor="@color/huiheise"
                     android:textSize="13sp" />
             </LinearLayout>

@@ -341,7 +341,9 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
         }
 
         switch (view.getId()) {
-            case R.id.btn_dianping: //购物车
+            case R.id.btn_dianping: // 联系客服
+                UIHelper.goWXApp(GoodsDescriptionActivityOld.this);
+                break;
             case R.id.enter_shop: //返回购物车
                 UIHelper.showHomeCarFragment(this);
                 break;

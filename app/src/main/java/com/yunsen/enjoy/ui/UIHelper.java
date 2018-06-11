@@ -10,6 +10,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yunsen.enjoy.activity.AdvertActivity;
 import com.yunsen.enjoy.activity.CarDetailsActivity;
 import com.yunsen.enjoy.activity.HouseDetailActivity;
@@ -896,5 +899,20 @@ public class UIHelper {
     public static void showExtensionActivity(Context ctx) {
         Intent intent = new Intent(ctx, ExtensionActivity.class);
         ctx.startActivity(intent);
+    }
+
+    /**
+     * 跳转微信小程序的在线客服
+     *
+     * @param ctx
+     */
+    public static void goWXApp(Context ctx) {
+        String appId = Constants.APP_ID; // "wxe60c28541b0fa8a2"填应用AppId
+        IWXAPI api = WXAPIFactory.createWXAPI(ctx, appId);
+        WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
+        req.userName = Constants.WX_GH_ID; // 填小程序原始id
+        req.path = "pages/customer/customer";                  //拉起小程序页面的可带参路径，不填默认拉起小程序首页
+        req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
+        api.sendReq(req);
     }
 }

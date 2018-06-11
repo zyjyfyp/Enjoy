@@ -141,6 +141,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -155,7 +156,8 @@
                         android:maxLines="1"
                         android:text="服务费：3500元  （车价x4%，最低3500元）"
                         android:textColor="@color/color_888"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -367,7 +369,7 @@
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_gravity="center"
-                    android:src="@mipmap/floor_price" />
+                    android:src="@mipmap/custom_service" />
 
                 <TextView
                     android:layout_width="wrap_content"

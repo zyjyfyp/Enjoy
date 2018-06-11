@@ -3,11 +3,9 @@ package com.yunsen.enjoy.activity.buy;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -63,6 +61,10 @@ public class WatchCarActivity extends BaseFragmentActivity {
     TextView watchTimeTv;
     @Bind(R.id.submit_tv)
     TextView submit_tv;
+    @Bind(R.id.watch_name_tv)
+    EditText watchNameTv;
+    @Bind(R.id.watch_phone_edt)
+    EditText watchPhoneEdt;
 
 
     private DatePickerViewDialog pickerView;
@@ -102,6 +104,7 @@ public class WatchCarActivity extends BaseFragmentActivity {
         mWatchModel.setTelphone(mUserInfo.getMobile());
         mWatchModel.setEmail(mUserInfo.getEmail());
         mWatchModel.setInvoice_title("发票抬头");
+        watchPhoneEdt.setText(mUserInfo.getMobile());
     }
 
     @Override
@@ -174,9 +177,18 @@ public class WatchCarActivity extends BaseFragmentActivity {
         String watchCarAddress = watchAddressTv.getText().toString();
         mWatchModel.setMessage(watchTimeTv.getText().toString());
         mWatchModel.setAddress(watchCarAddress);
-        if (TextUtils.isEmpty(watchCarAddress)) {
+        String name = watchNameTv.getText().toString();
+        String phone = watchPhoneEdt.getText().toString();
+
+        if (TextUtils.isEmpty(name)) {
+            ToastUtils.makeTextShort("请输入姓名");
+        } else if (TextUtils.isEmpty(phone)) {
+            ToastUtils.makeTextShort("请输入手机号码");
+        } else if (TextUtils.isEmpty(watchCarAddress)) {
             ToastUtils.makeTextShort("请输入看车地点");
         } else {
+            mWatchModel.setMobile(phone);
+            mWatchModel.setAccept_name(name);
             HttpProxy.requestMeetingCar(mWatchModel, new HttpCallBack<WatchCarBean>() {
                 @Override
                 public void onSuccess(WatchCarBean responseData) {
@@ -189,8 +201,8 @@ public class WatchCarActivity extends BaseFragmentActivity {
                 }
             });
         }
-
     }
+
 
     private void showDateDialog() {
         if (pickerView == null) {

@@ -25,25 +25,24 @@
             android:orientation="vertical">
 
             <RelativeLayout
-            android:id="@+id/layout_ent_gallery"
-            android:layout_width="fill_parent"
-            android:layout_height="170dp"
-            android:background="@color/white"
-            >
+                android:id="@+id/layout_ent_gallery"
+                android:layout_width="fill_parent"
+                android:layout_height="180dp"
+                android:background="@color/white">
 
-            <com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager
-            android:id="@+id/loop_pager"
-            android:layout_width="match_parent"
-            android:layout_height="170dp"/>
+                <com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager
+                    android:id="@+id/loop_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
-            <com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator
-            android:id="@+id/indicator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="5dp"
-            android:padding="5dp"/>
+                <com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator
+                    android:id="@+id/indicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="5dp"
+                    android:padding="5dp" />
             </RelativeLayout>
 
 

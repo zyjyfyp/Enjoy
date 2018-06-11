@@ -76,8 +76,8 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
     private String mCarTitle;
     private String mCarCity; //搜索框条件：
     private String mStrwhere = "sell_price>=0";
-    private String mBrandId = ""; //汽车类型 高级筛选
-    private String mBrandIdOne = ""; //品牌
+    private String mBrandId = null; //汽车类型 高级筛选
+    private String mBrandIdOne = null; //品牌
 
     private int mPageIndex = 1;
     private boolean mIsLoadMore = false;

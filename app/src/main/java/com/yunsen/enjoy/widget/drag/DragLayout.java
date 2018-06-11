@@ -21,6 +21,7 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.utils.DeviceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +67,8 @@ public class DragLayout extends FrameLayout implements View.OnClickListener {
         screenWidth = getScreenWidth(getContext());
         dragIcon = new ImageView(getContext());
         dragIcon.setImageResource(R.mipmap.phone_drag_icon);
-        LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        int width = DeviceUtil.dp2px(getContext(), 30);
+        LayoutParams lp = new LayoutParams(width, width);
         lp.gravity = Gravity.BOTTOM | Gravity.END;
         lp.bottomMargin = 300;
         lp.rightMargin = 50;
@@ -229,7 +231,7 @@ public class DragLayout extends FrameLayout implements View.OnClickListener {
     }
 
     public void setDragIconClick(Activity act) {
-        this.mActivity=act;
+        this.mActivity = act;
         dragIcon.setOnClickListener(this);
     }
 

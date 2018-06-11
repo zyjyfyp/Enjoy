@@ -19,7 +19,9 @@ import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.PullImageEvent;
+import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.GetImgUtil;
@@ -174,8 +176,9 @@ public class ApplyBuyThreeActivity extends BaseFragmentActivity {
             @Override
             public void onSuccess(Boolean responseData) {
                 ToastUtils.makeTextShort("申请成功");
-                finish();
                 UIHelper.showHomeActivity(ApplyBuyThreeActivity.this);
+                EventBus.getDefault().post(new UpUiEvent(EventConstants.APP_LOGIN));
+                finish();
             }
 
             @Override
