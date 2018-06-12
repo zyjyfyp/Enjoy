@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.model.AdvertModel;
@@ -48,21 +49,28 @@ public class DiscoverBannerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         ImageView item = new ImageView(mContext);
         final GoodsData data = mDatas.get(position);
-        Picasso.with(mContext).load(data.getImg_url()).into(item);
+        if (data.getImgRes() != 0) {
+            item.setImageResource(data.getImgRes());
+        } else {
+            Glide.with(mContext)
+                    .load(data.getImg_url())
+                    .placeholder(R.mipmap.adv_home)
+                    .into(item);
+            final int pos = position;
+            item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int articleId = data.getId();
+                    if (articleId != 0) {
+                        UIHelper.showCarDetailsActivity(mContext, articleId);
+                    }
+                }
+            });
+        }
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(-1, -1);
         item.setLayoutParams(params);
         item.setScaleType(ImageView.ScaleType.FIT_XY);
         container.addView(item);
-        final int pos = position;
-        item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int articleId = data.getId();
-                if (articleId != 0) {
-                    UIHelper.showCarDetailsActivity(mContext, articleId);
-                }
-            }
-        });
         return item;
     }
 

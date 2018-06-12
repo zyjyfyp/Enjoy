@@ -361,14 +361,17 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
                         HttpProxy.getAddCollect(mUserId, mUserName, "" + mCarDetail.getId(), new HttpCallBack<String>() {
                             @Override
                             public void onSuccess(String responseData) {
-                                Toast.makeText(GoodsDescriptionActivityOld.this, "收藏成功", Toast.LENGTH_SHORT).show();
                                 collectImg.setSelected(true);
                                 collectTv.setSelected(true);
                                 collectTv.setText("已收藏");
+                                ToastUtils.makeTextShort("收藏成功");
                             }
 
                             @Override
                             public void onError(Request request, Exception e) {
+                                if (e instanceof DataException) {
+                                    ToastUtils.makeTextShort(e.getMessage());
+                                }
                             }
                         });
                     }

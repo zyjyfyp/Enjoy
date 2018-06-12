@@ -107,7 +107,6 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         } else {
             try {
                 java.lang.reflect.Field fieldView = tab.getClass().getDeclaredField("mView");
@@ -127,10 +126,10 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
 
     @Override
     protected void initData() {
-//        bannerAdapter = new DiscoverBannerAdapter(getData(), getActivity());
-//        loopPager.setAdapter(bannerAdapter);
-//        indicator.setViewPager(loopPager);
-//        indicator.setPadding(5, 5, 10, 5);
+        bannerAdapter = new DiscoverBannerAdapter(getData(), getActivity());
+        loopPager.setAdapter(bannerAdapter);
+        indicator.setViewPager(loopPager);
+        indicator.setPadding(5, 5, 10, 5);
         mScreenHeight = DeviceUtil.getHeight(getActivity());
         mListPagerAdapter = new ListPagerAdapter(getRecyclerView(), getActivity());
         dataPager.setAdapter(mListPagerAdapter);
@@ -140,7 +139,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
 
     public List<GoodsData> getData() {
         ArrayList<GoodsData> data = new ArrayList<>();
-        data.add(new GoodsData("http://pic71.nipic.com/file/20150610/13549908_104823135000_2.jpg", null));
+        data.add(new GoodsData(R.mipmap.adv_home));
 //        data.add(new AdvertModel(R.mipmap.adv_home, "http://pic71.nipic.com/file/20150610/13549908_104823135000_2.jpg"));
 //        data.add(new AdvertModel(R.mipmap.adv_home, "http://img07.tooopen.com/images/20170316/tooopen_sy_201956178977.jpg"));
 //        data.add(new AdvertModel(R.mipmap.adv_home, "http://img.zcool.cn/community/010a1b554c01d1000001bf72a68b37.jpg@1280w_1l_2o_100sh.png"));
@@ -165,10 +164,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
                 if (responseData != null && responseData.size() > 0) {
                     bannerAdapter = new DiscoverBannerAdapter(responseData, getActivity());
                     loopPager.setAdapter(bannerAdapter);
-                    indicator.setViewPager(loopPager);
-                    indicator.setPadding(5, 5, 10, 5);
                 }
-
             }
 
             @Override
@@ -283,12 +279,6 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         recyclerView.setLayoutManager(layoutmanager);
         ArrayList<GoodsData> storeModes = new ArrayList<>();
         mDataArray[0] = storeModes;
-        storeModes.add(new GoodsData(null, "上海大众汽车广东省深圳市宝安区4S店"));
-        storeModes.add(new GoodsData(null, "上海大众汽车广东省深圳市宝安区4S店"));
-        storeModes.add(new GoodsData(null, "上海大众汽车广东省深圳市宝安区4S店"));
-        storeModes.add(new GoodsData(null, "上海大众汽车广东省深圳市宝安区4S店"));
-        storeModes.add(new GoodsData(null, "上海大众汽车广东省深圳市宝安区4S店"));
-        storeModes.add(new GoodsData(null, "上海大众汽车广东省深圳市宝安区4S店"));
         mAdapter1 = new GoodsAdapter(getActivity(), R.layout.goods_item, storeModes);
         mAdapter1.setmAdapterTag(ONE_ADAPTER);
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter1);
@@ -304,7 +294,6 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         layoutmanager2.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView2.setLayoutManager(layoutmanager2);
         ArrayList<GoodsData> datas = new ArrayList<>();
-        datas.add(new GoodsData(null, "上海大众汽车广东省深圳市宝安区4S店"));
         mDataArray[1] = datas;
         mAdapter2 = new GoodsAdapter(getActivity(), R.layout.goods_item, datas);
         mAdapter2.setmAdapterTag(TWO_ADAPTER);
@@ -413,7 +402,9 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
             }
             if (datas != null && datas.size() > 0 && datas.size() > position) {
                 GoodsData goodsData = datas.get(position);
-                UIHelper.showNoticeWebActivity(getActivity(), goodsData.getId());
+                if (goodsData != null) {
+                    UIHelper.showNoticeWebActivity(getActivity(), goodsData.getId());
+                }
             }
         }
 

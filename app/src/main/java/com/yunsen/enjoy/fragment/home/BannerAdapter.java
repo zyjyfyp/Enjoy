@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.model.AdvertModel;
@@ -46,7 +47,10 @@ public class BannerAdapter extends PagerAdapter {
         if (data.getAd_url() == null) {
             item.setImageResource(data.getRseImg());
         } else {
-            Picasso.with(mContext).load(data.getAd_url()).into(item);
+            Glide.with(mContext)
+                    .load(data.getAd_url())
+                    .placeholder(R.mipmap.adv_home)
+                    .into(item);
         }
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(-1, -1);
         item.setLayoutParams(params);

@@ -184,16 +184,16 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
         HttpProxy.getHasCollectGoods(mCarId, mUserId, new HttpCallBack<Boolean>() {
             @Override
             public void onSuccess(Boolean responseData) {
-                collectImg.setSelected(false);
-                collectTv.setSelected(false);
+                collectImg.setSelected(true);
+                collectTv.setSelected(true);
                 mRequestFinish = true;
                 collectTv.setText("已收藏");
             }
 
             @Override
             public void onError(Request request, Exception e) {
-                collectImg.setSelected(true);
-                collectTv.setSelected(true);
+                collectImg.setSelected(false);
+                collectTv.setSelected(false);
                 collectTv.setText("收藏");
                 mRequestFinish = true;
             }
@@ -222,14 +222,15 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
         detailsTitle.setText(responseData.getTitle());
         flowLayout.setDatas(responseData.getDatatype());//超值
         DefaultSpecItemBean defaultSpecItem = responseData.getDefault_spec_item();
-        double rebatePrice = defaultSpecItem.getSell_price();
-        detailsCarMoney.setText(rebatePrice + "万");
-        double market_price = defaultSpecItem.getMarket_price();
-        detailsOldCarMoney.setText("新车含税" + market_price + "万");
-        double firstPayment = defaultSpecItem.getFirst_payment();
-        int stockQuantity = defaultSpecItem.getStock_quantity();
-        firstPayTv.setText("首付" + firstPayment + "万 直卖专享" + stockQuantity + "首付");
-
+        if (defaultSpecItem != null) {
+            double rebatePrice = defaultSpecItem.getSell_price();
+            detailsCarMoney.setText(rebatePrice + "万");
+            double market_price = defaultSpecItem.getMarket_price();
+            detailsOldCarMoney.setText("新车含税" + market_price + "万");
+            double firstPayment = defaultSpecItem.getFirst_payment();
+            int stockQuantity = defaultSpecItem.getStock_quantity();
+            firstPayTv.setText("首付" + firstPayment + "万 直卖专享" + stockQuantity + "首付");
+        }
     }
 
     @Override
@@ -266,10 +267,14 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
                 UIHelper.showWatchCarActivity(this, mCarId);
                 break;
             case R.id.order_buy_layout:
-                UIHelper.showApplyBuyFirstActivity(this, mCarId);
+                if (mRequestFinish) {
+                    UIHelper.showApplyBuyFirstActivity(this, mCarId);
+                }
                 break;
             case R.id.apply_buy_tv:
-                UIHelper.showApplyBuyFirstActivity(this, mCarId);
+                if (mRequestFinish) {
+                    UIHelper.showApplyBuyFirstActivity(this, mCarId);
+                }
                 break;
         }
     }

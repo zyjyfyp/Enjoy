@@ -65,7 +65,7 @@ public class GoodsData {
      * albums : [{"id":43910,"article_id":10284,"thumb_path":"/upload/201612/15/thumb_201612151928555185.jpg","original_path":"/upload/201612/15/201612151928555185.jpg","remark":"","add_time":"2018-04-23 15:22:39","update_time":"2017-08-17 17:34:55"},{"id":43992,"article_id":10284,"thumb_path":"/upload/201612/30/thumb_201612301746299271.jpg","original_path":"/upload/201612/30/201612301746299271.jpg","remark":"","add_time":"2018-04-23 15:22:39","update_time":"2017-08-17 17:34:55"}]
      * activity : null
      */
-    private int imgRes;
+    private int imgRes = 0;
     private int id;
     private int company_id;
     private String company_name;
