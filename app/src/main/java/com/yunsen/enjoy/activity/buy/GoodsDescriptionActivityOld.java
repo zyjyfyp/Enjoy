@@ -348,8 +348,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
                 UIHelper.showHomeCarFragment(this);
                 break;
             case R.id.goods_share_img:
-                String shareUrl = URLConstants.REALM_URL + "/goods/show-" + mCarDetail.getId() + ".html?cid=" + mCarDetail.getCompany_id() + "&unionid=" + mUnionid + "&shareid=" + mUserId + "&from=android";
-                Log.e("zyjy33", "onViewClicked: " + shareUrl);
+                String shareUrl = URLConstants.SHEAR_URL + "/goods/show-" + mCarDetail.getId() + ".html?cid=" + mCarDetail.getCompany_id() + "&unionid=" + mUnionid + "&shareid=" + mUserId + "&from=android";
                 UIHelper.showShareGoodsActivity(this, mCarDetail.getTitle(), mCarDetail.getSubtitle(), shareUrl, mCarDetail.getImg_url());
                 break;
 

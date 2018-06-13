@@ -14,6 +14,8 @@ public class URLConstants {
      */
     public static final String REALM_URL = BuildConfig.ROOT_URL;
 
+    public static final String SHEAR_URL = "http://mobile.szlxkg.com/";
+
     public static final String REALM_ACCOUNT_URL = "http://szlxkg.com/tools/mobile_ajax.asmx";
 
     /**
