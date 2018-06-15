@@ -391,12 +391,12 @@ public class HttpProxy {
      *
      * @param callBack
      */
-    public static void getDiscoverDatas(final HttpCallBack<List<GoodsData>> callBack, String id) {
+    public static void getDiscoverDatas(String pageIndex, final HttpCallBack<List<GoodsData>> callBack, String id) {
         HashMap<String, String> param = new HashMap<>();
         param.put("channel_name", "news");
         param.put("category_id", id);
         param.put("page_size", "8");
-        param.put("page_index", "1");
+        param.put("page_index", pageIndex);
         param.put("strwhere", "status=0");
         param.put("orderby", "");
         //      头条-3 / 导购-2778 / 用车-2750 / 百科-4065,

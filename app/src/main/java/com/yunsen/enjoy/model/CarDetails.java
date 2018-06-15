@@ -201,7 +201,7 @@ public class CarDetails {
      */
 
     private List<SpecItemBean> spec_item;
-    private List<?> param;
+    private List<CarBaseInfo> param;
     private List<?> steps;
     /**
      * article_id : 14837
@@ -859,11 +859,11 @@ public class CarDetails {
         this.spec_item = spec_item;
     }
 
-    public List<?> getParam() {
+    public List<CarBaseInfo> getParam() {
         return param;
     }
 
-    public void setParam(List<?> param) {
+    public void setParam(List<CarBaseInfo> param) {
         this.param = param;
     }
 

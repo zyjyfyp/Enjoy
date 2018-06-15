@@ -25,6 +25,7 @@ import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.widget.BaseScrollView;
 import com.yunsen.enjoy.widget.LoadMoreView;
+import com.yunsen.enjoy.widget.PullToRefreshView;
 import com.yunsen.enjoy.widget.ZyViewPager;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
@@ -43,7 +44,6 @@ import okhttp3.Request;
 public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageChangeListener,
         TabLayout.OnTabSelectedListener, MultiItemTypeAdapter.OnItemClickListener {
 
-
     @Bind(R.id.tab_layout)
     TabLayout tabLayout;
     @Bind(R.id.loop_pager)
@@ -54,6 +54,9 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     ZyViewPager dataPager;
     @Bind(R.id.srcoll)
     BaseScrollView srcollView;
+    @Bind(R.id.pull_to_refresh)
+    PullToRefreshView pullToResh;
+
     private DiscoverBannerAdapter bannerAdapter;
     private ListPagerAdapter mListPagerAdapter;
 
@@ -71,6 +74,8 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     private List<RecyclerView> mRecyclers;
     private List mDataArray[] = new List[4];
     private int mScreenHeight;
+    private int mPageIndexs[] = new int[]{1, 1, 1, 1};
+    private boolean mHasMores[] = new boolean[]{true, true, true, true};
 
     @Override
     protected int getLayoutId() {
@@ -85,6 +90,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         indicator.setFocusable(true);
         indicator.setFocusableInTouchMode(true);
         indicator.requestFocus();
+        pullToResh.setEnablePullTorefresh(false);
     }
 
     /**
@@ -140,9 +146,6 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     public List<GoodsData> getData() {
         ArrayList<GoodsData> data = new ArrayList<>();
         data.add(new GoodsData(R.mipmap.adv_home));
-//        data.add(new AdvertModel(R.mipmap.adv_home, "http://pic71.nipic.com/file/20150610/13549908_104823135000_2.jpg"));
-//        data.add(new AdvertModel(R.mipmap.adv_home, "http://img07.tooopen.com/images/20170316/tooopen_sy_201956178977.jpg"));
-//        data.add(new AdvertModel(R.mipmap.adv_home, "http://img.zcool.cn/community/010a1b554c01d1000001bf72a68b37.jpg@1280w_1l_2o_100sh.png"));
         return data;
     }
 
@@ -182,6 +185,33 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         mAdapter2.setOnItemClickListener(this);
         mAdapter3.setOnItemClickListener(this);
         mAdapter4.setOnItemClickListener(this);
+        pullToResh.setOnFooterRefreshListener(new PullToRefreshView.OnFooterRefreshListener() {
+            @Override
+            public void onFooterRefresh(PullToRefreshView view) {
+                final int index = dataPager.getCurrentItem();
+                mPageIndexs[index]++;
+                pullToResh.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        switch (index) {
+                            case 0:
+                                requestOne();
+                                break;
+                            case 1:
+                                requestTwo();
+                                break;
+                            case 2:
+                                requestThree();
+                                break;
+                            case 3:
+                                requestFour();
+                                break;
+                        }
+                    }
+                }, 500);
+
+            }
+        });
     }
 
 
@@ -189,15 +219,20 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
      * 头条-3 / 导购-2778 / 用车-2750 / 百科-4065,
      */
     private void requestOne() {
-        HttpProxy.getDiscoverDatas(new HttpCallBack<List<GoodsData>>() {
+        HttpProxy.getDiscoverDatas(String.valueOf(mPageIndexs[0]), new HttpCallBack<List<GoodsData>>() {
             @Override
             public void onSuccess(final List<GoodsData> responseData) {
-                mAdapter1.upData(responseData);
+                boolean hasMore = mAdapter1.addBaseDatas(responseData);
+                if (!hasMore) {
+                    RecyclerViewUtils.setFooterView(mRecyclers.get(0), new LoadMoreView(getActivity()));
+                }
+                pullToResh.onFooterRefreshComplete();
             }
 
             @Override
             public void onError(Request request, Exception e) {
-
+                RecyclerViewUtils.setFooterView(mRecyclers.get(3), new LoadMoreView(getActivity()));
+                pullToResh.onFooterRefreshComplete();
             }
         }, "3");
 
@@ -207,15 +242,20 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
      * 导购
      */
     private void requestTwo() {
-        HttpProxy.getDiscoverDatas(new HttpCallBack<List<GoodsData>>() {
+        HttpProxy.getDiscoverDatas(String.valueOf(mPageIndexs[1]), new HttpCallBack<List<GoodsData>>() {
             @Override
             public void onSuccess(List<GoodsData> responseData) {
-                mAdapter2.upData(responseData);
+                boolean hasMore = mAdapter2.addBaseDatas(responseData);
+                if (!hasMore) {
+                    RecyclerViewUtils.setFooterView(mRecyclers.get(1), new LoadMoreView(getActivity()));
+                }
+                pullToResh.onFooterRefreshComplete();
             }
 
             @Override
             public void onError(Request request, Exception e) {
-
+                RecyclerViewUtils.setFooterView(mRecyclers.get(3), new LoadMoreView(getActivity()));
+                pullToResh.onFooterRefreshComplete();
             }
 
         }, "2778");//2778
@@ -226,15 +266,20 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
      * 用车
      */
     private void requestThree() {
-        HttpProxy.getDiscoverDatas(new HttpCallBack<List<GoodsData>>() {
+        HttpProxy.getDiscoverDatas(String.valueOf(mPageIndexs[2]), new HttpCallBack<List<GoodsData>>() {
             @Override
             public void onSuccess(List<GoodsData> responseData) {
-                mAdapter3.upData(responseData);
+                boolean hasMore = mAdapter3.addBaseDatas(responseData);
+                if (!hasMore) {
+                    RecyclerViewUtils.setFooterView(mRecyclers.get(2), new LoadMoreView(getActivity()));
+                }
+                pullToResh.onFooterRefreshComplete();
             }
 
             @Override
             public void onError(Request request, Exception e) {
-
+                RecyclerViewUtils.setFooterView(mRecyclers.get(3), new LoadMoreView(getActivity()));
+                pullToResh.onFooterRefreshComplete();
             }
         }, "2750");
     }
@@ -243,15 +288,20 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
      * 百科
      */
     private void requestFour() {
-        HttpProxy.getDiscoverDatas(new HttpCallBack<List<GoodsData>>() {
+        HttpProxy.getDiscoverDatas(String.valueOf(mPageIndexs[3]), new HttpCallBack<List<GoodsData>>() {
             @Override
             public void onSuccess(List<GoodsData> responseData) {
-                mAdapter4.upData(responseData);
+                boolean hasMore = mAdapter4.addBaseDatas(responseData);
+                if (!hasMore) {
+                    RecyclerViewUtils.setFooterView(mRecyclers.get(3), new LoadMoreView(getActivity()));
+                }
+                pullToResh.onFooterRefreshComplete();
             }
 
             @Override
             public void onError(Request request, Exception e) {
-
+                RecyclerViewUtils.setFooterView(mRecyclers.get(3), new LoadMoreView(getActivity()));
+                pullToResh.onFooterRefreshComplete();
             }
         }, "4065");
     }
@@ -283,7 +333,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         mAdapter1.setmAdapterTag(ONE_ADAPTER);
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter1);
         recyclerView.setAdapter(recyclerViewAdapter);
-        RecyclerViewUtils.setFooterView(recyclerView, new LoadMoreView(getActivity()));
+//        RecyclerViewUtils.setFooterView(recyclerView, new LoadMoreView(getActivity()));
         mRecyclers.add(recyclerView);
 
 
@@ -301,7 +351,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter2 = new HeaderAndFooterRecyclerViewAdapter(mAdapter2);
         recyclerView2.setAdapter(recyclerViewAdapter2);
 
-        RecyclerViewUtils.setFooterView(recyclerView2, new LoadMoreView(getActivity()));
+//        RecyclerViewUtils.setFooterView(recyclerView2, new LoadMoreView(getActivity()));
         mRecyclers.add(recyclerView2);
 
 
@@ -318,7 +368,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         mAdapter3.setmAdapterTag(THREE_ADAPTER);
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter3 = new HeaderAndFooterRecyclerViewAdapter(mAdapter3);
         recyclerView3.setAdapter(recyclerViewAdapter3);
-        RecyclerViewUtils.setFooterView(recyclerView3, new LoadMoreView(getActivity()));
+//        RecyclerViewUtils.setFooterView(recyclerView3, new LoadMoreView(getActivity()));
         mRecyclers.add(recyclerView3);
 
 
@@ -334,7 +384,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         mAdapter4.setmAdapterTag(FOUR_ADAPTER);
         HeaderAndFooterRecyclerViewAdapter recyclerViewAdapter4 = new HeaderAndFooterRecyclerViewAdapter(mAdapter4);
         recyclerView4.setAdapter(recyclerViewAdapter4);
-        RecyclerViewUtils.setFooterView(recyclerView4, new LoadMoreView(getActivity()));
+//        RecyclerViewUtils.setFooterView(recyclerView4, new LoadMoreView(getActivity()));
         mRecyclers.add(recyclerView4);
         return mRecyclers;
     }

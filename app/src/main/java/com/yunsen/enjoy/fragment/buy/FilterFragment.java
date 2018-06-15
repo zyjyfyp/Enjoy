@@ -84,6 +84,8 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
 
     private MoreCarView moreCarView;
     private int mCurrentPosition = 0;
+    private NumberPickerDialog mSortPicker;
+    private NumberPickerDialog mPricePicker;
 
     @Override
 
@@ -119,10 +121,17 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
         recyclerView.setAdapter(recyclerViewAdapter);
         moreCarView = new MoreCarView(getActivity());
         RecyclerViewUtils.setFooterView(recyclerView, moreCarView);
+        startLoading();
+//        EventBus.getDefault().post(new UpUiEvent(EventConstants.UP_VIEW_PAGER_HEIGHT));
+    }
+
+    /**
+     * 开始加载 loading
+     */
+    private void startLoading() {
         recyclerView.setVisibility(View.GONE);
         moreCarView.setVisibility(View.GONE);
         noticeView.showNoticeType(NoticeView.Type.LOADING);
-//        EventBus.getDefault().post(new UpUiEvent(EventConstants.UP_VIEW_PAGER_HEIGHT));
     }
 
     @Override
@@ -190,57 +199,61 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
      * 智能排序
      */
     private void showPickerDialog() {
-        final NumberPickerDialog picker = new NumberPickerDialog(getActivity(), Constants.SORT_METHED);
-        picker.setLeftOnclickListener("取消", new onLeftOnclickListener() {
-            @Override
-            public void onLeftClick() {
-                if (picker.isShowing()) {
-                    picker.dismiss();
+        if (mSortPicker == null) {
+            mSortPicker = new NumberPickerDialog(getActivity(), Constants.SORT_METHED);
+            mSortPicker.setLeftOnclickListener("取消", new onLeftOnclickListener() {
+                @Override
+                public void onLeftClick() {
+                    if (mSortPicker.isShowing()) {
+                        mSortPicker.dismiss();
+                    }
                 }
-            }
-        });
-        picker.setRightOnclickListener("确定", new onRightOnclickListener() {
-            @Override
-            public void onRightClick(int[] index) {
-                if (picker.isShowing()) {
-                    mOrderby = Constants.SHOT_METHED_VALUE.get(Constants.SORT_METHED[index[0]]);
-                    textHor1.setText(Constants.SORT_METHED[index[0]]);
-                    initRequestDta();
-                    requestData();
-                    picker.dismiss();
+            });
+            mSortPicker.setRightOnclickListener("确定", new onRightOnclickListener() {
+                @Override
+                public void onRightClick(int[] index) {
+                    if (mSortPicker.isShowing()) {
+                        mOrderby = Constants.SHOT_METHED_VALUE.get(Constants.SORT_METHED[index[0]]);
+                        textHor1.setText(Constants.SORT_METHED[index[0]]);
+                        initRequestDta();
+                        requestData();
+                        mSortPicker.dismiss();
+                    }
                 }
-            }
-        });
-        picker.show();
+            });
+        }
+        mSortPicker.show();
     }
 
     /**
      * 显示价格排序
      */
     private void showPriceDialog() {
-        final NumberPickerDialog picker = new NumberPickerDialog(getActivity(), Constants.SORT_PRICES);
+        if (mPricePicker == null) {
+            mPricePicker = new NumberPickerDialog(getActivity(), Constants.SORT_PRICES);
 
-        picker.setLeftOnclickListener("取消", new onLeftOnclickListener() {
-            @Override
-            public void onLeftClick() {
-                if (picker.isShowing()) {
-                    picker.dismiss();
+            mPricePicker.setLeftOnclickListener("取消", new onLeftOnclickListener() {
+                @Override
+                public void onLeftClick() {
+                    if (mPricePicker.isShowing()) {
+                        mPricePicker.dismiss();
+                    }
                 }
-            }
-        });
-        picker.setRightOnclickListener("确定", new onRightOnclickListener() {
-            @Override
-            public void onRightClick(int[] index) {
-                if (picker.isShowing()) {
-                    mStrwhere = Constants.SHOT_PRICES_VALUES.get(Constants.SORT_PRICES[index[0]]);
-                    textHor3.setText(Constants.SORT_PRICES[index[0]]);
-                    initRequestDta();
-                    requestData();
-                    picker.dismiss();
+            });
+            mPricePicker.setRightOnclickListener("确定", new onRightOnclickListener() {
+                @Override
+                public void onRightClick(int[] index) {
+                    if (mPricePicker.isShowing()) {
+                        mStrwhere = Constants.SHOT_PRICES_VALUES.get(Constants.SORT_PRICES[index[0]]);
+                        textHor3.setText(Constants.SORT_PRICES[index[0]]);
+                        initRequestDta();
+                        requestData();
+                        mPricePicker.dismiss();
+                    }
                 }
-            }
-        });
-        picker.show();
+            });
+        }
+        mPricePicker.show();
     }
 
 
@@ -341,6 +354,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
      * 还原  请求数据
      */
     private void initRequestDta() {
+        startLoading();
         mPageIndex = 1;
         mIsLoadMore = false;
         StaticVar.sHasMore[mCurrentPosition] = true;

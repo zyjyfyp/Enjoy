@@ -67,7 +67,7 @@ public class DragLayout extends FrameLayout implements View.OnClickListener {
         screenWidth = getScreenWidth(getContext());
         dragIcon = new ImageView(getContext());
         dragIcon.setImageResource(R.mipmap.phone_drag_icon);
-        int width = DeviceUtil.dp2px(getContext(), 30);
+        int width = DeviceUtil.dp2px(getContext(), 40);
         LayoutParams lp = new LayoutParams(width, width);
         lp.gravity = Gravity.BOTTOM | Gravity.END;
         lp.bottomMargin = 300;

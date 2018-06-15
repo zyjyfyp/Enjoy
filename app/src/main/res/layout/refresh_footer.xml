@@ -37,7 +37,6 @@
         android:gravity="center"
         android:textColor="#000000"
         android:text="@string/pull_to_refresh_footer_pull_label"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold" />
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>

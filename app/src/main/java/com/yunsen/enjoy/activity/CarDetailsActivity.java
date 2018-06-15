@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.adapter.CarBaseInfoAdapter;
 import com.yunsen.enjoy.adapter.CarTopBannerAdapter;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
@@ -26,6 +28,7 @@ import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.AlbumsBean;
+import com.yunsen.enjoy.model.CarBaseInfo;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.DefaultSpecItemBean;
 import com.yunsen.enjoy.ui.UIHelper;
@@ -37,6 +40,7 @@ import com.yunsen.enjoy.widget.FlowLayout;
 import com.yunsen.enjoy.widget.NoticeView;
 import com.yunsen.enjoy.widget.drag.DragLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -102,6 +106,8 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
     WebView carIntroduceWeb;
     @Bind(R.id.layout_ent_gallery)
     RelativeLayout layoutEntGallery;
+    @Bind(R.id.car_base_info_recycler)
+    RecyclerView recyclerCarBaseInfo;
 
     private String mCarId;
     private CarDetails mData;
@@ -110,6 +116,8 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
     private String mUserId;
     private boolean mRequestFinish;
     private int mScreenWidth;
+    private ArrayList<CarBaseInfo> mCarBaseInfos;
+    private CarBaseInfoAdapter mCarBaseInfoAdapter;
 
     @Override
     public int getLayout() {
@@ -137,6 +145,11 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
         mSp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         mUserName = mSp.getString(SpConstants.USER_NAME, "");
         mUserId = mSp.getString(SpConstants.USER_ID, "");
+        recyclerCarBaseInfo.setLayoutManager(new GridLayoutManager(this, 3));
+        mCarBaseInfos = new ArrayList<>();
+        mCarBaseInfoAdapter = new CarBaseInfoAdapter(this, R.layout.car_base_info_item, mCarBaseInfos);
+        recyclerCarBaseInfo.setAdapter(mCarBaseInfoAdapter);
+
     }
 
     @Override
@@ -161,6 +174,7 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
                 mData = responseData;
                 upView(responseData);
                 upBanner(responseData.getAlbums());
+                upCarBaseInfo(responseData.getParam());
                 noticeView.closeNoticeView();
                 dataLayout.setVisibility(View.VISIBLE);
                 List<AlbumsBean> albums = responseData.getAlbums();
@@ -184,21 +198,33 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
         HttpProxy.getHasCollectGoods(mCarId, mUserId, new HttpCallBack<Boolean>() {
             @Override
             public void onSuccess(Boolean responseData) {
-                collectImg.setSelected(true);
-                collectTv.setSelected(true);
+                collectImg.setSelected(false); //未收藏
+                collectTv.setSelected(false);
                 mRequestFinish = true;
-                collectTv.setText("已收藏");
+                collectTv.setText("收藏");
             }
 
             @Override
             public void onError(Request request, Exception e) {
-                collectImg.setSelected(false);
-                collectTv.setSelected(false);
-                collectTv.setText("收藏");
+                collectImg.setSelected(true);
+                collectTv.setSelected(true);
+                collectTv.setText("已收藏");
                 mRequestFinish = true;
             }
         });
 
+    }
+
+    /**
+     * 更新汽车属性
+     *
+     * @param param
+     */
+    private void upCarBaseInfo(List<CarBaseInfo> param) {
+        if (param != null && param.size() > 0) {
+            mCarBaseInfoAdapter.upBaseDatas(param);
+            Log.e(TAG, "upCarBaseInfo: " + param.size());
+        }
     }
 
     private void upBanner(List<AlbumsBean> albums) {
