@@ -1,6 +1,7 @@
 package com.yunsen.enjoy.common.wsmanager;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
@@ -19,7 +20,19 @@ import com.neovisionaries.ws.client.WebSocketFrame;
 import com.orhanobut.logger.Logger;
 import com.yunsen.enjoy.BuildConfig;
 import com.yunsen.enjoy.common.AppContext;
+import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.SpConstants;
+import com.yunsen.enjoy.http.HttpCallBack;
+import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.model.NoticeTokeBean;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpNoticeUi;
+import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.DeviceUtil;
+import com.yunsen.enjoy.widget.NoticeHelper;
+
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -37,6 +50,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class WsManager {
     private static WsManager mInstance;
+    private static SharedPreferences mSp;
     private final String TAG = this.getClass().getSimpleName();
 
     /**
@@ -57,6 +71,12 @@ public class WsManager {
     private long minInterval = 3000;//重连最小时间间隔
     private long maxInterval = 60000;//重连最大时间间隔
 
+    public static String sAppSecret = "80311CEB1BD99F51";
+    public static String sAppId = "3";
+    public static String sSessionId;
+    private String sNoticeToken;
+    private static int sNoticeId = 0;
+
     private WsManager() {
     }
 
@@ -64,6 +84,8 @@ public class WsManager {
         if (mInstance == null) {
             synchronized (WsManager.class) {
                 if (mInstance == null) {
+                    mSp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_NOTICE_ID, Context.MODE_PRIVATE);
+                    sNoticeId = mSp.getInt(SpConstants.NTICE_ID, 0);
                     mInstance = new WsManager();
                 }
             }
@@ -72,7 +94,7 @@ public class WsManager {
     }
 
     public void init() {
-        if (ws == null) {
+        if (ws == null && AccountUtils.hasBoundPhone()) {
             try {
                 /**
                  * configUrl其实是缓存在本地的连接地址
@@ -111,6 +133,38 @@ public class WsManager {
         public void onTextMessage(WebSocket websocket, String text) throws Exception {
             super.onTextMessage(websocket, text);
             Log.e("receiverMsg:%s", text);
+            if (text != null) {
+                String json = changeToJson(text);
+                if (text.startsWith(Constants.Connected)) { //链接获取session_id;
+                    sSessionId = new JSONObject(json).getString("session_id");
+                    HttpProxy.postGetToken(sAppId, sAppSecret, new HttpCallBack<NoticeTokeBean>() {
+                        @Override
+                        public void onSuccess(NoticeTokeBean responseData) {
+                            sNoticeToken = responseData.getDevice_token();
+                            Log.e(TAG, "onSuccess: sNoticeToken=" + sNoticeToken);
+                            HttpProxy.postUpUserInfo(sSessionId, sNoticeToken, null);
+                        }
+
+                        @Override
+                        public void onError(okhttp3.Request request, Exception e) {
+
+                        }
+                    });
+                } else if (text.startsWith(Constants.MESSAGE)) {
+                    String content = new JSONObject(json).getString("content");
+                    String title = new JSONObject(json).getString("title");
+                    if (TextUtils.isEmpty(title)) {
+                        title = "消息";
+                    }
+                    NoticeHelper.senNotice(sNoticeId, AppContext.getInstance(), title, content);
+                    sNoticeId++;
+                    if (sNoticeId < 0) {
+                        sNoticeId = 0;
+                    }
+                    mSp.edit().putInt(SpConstants.NTICE_ID, sNoticeId).commit();
+//                    EventBus.getDefault().postSticky(new UpNoticeUi(EventConstants.UP_NOTICE_UI, content));
+                }
+            }
 
             Response response = Codec.decoder(text);//解析出第一层bean
             if (response.getRespEvent() == 10) {//响应
@@ -196,7 +250,10 @@ public class WsManager {
             Logger.t(TAG).d("重连失败网络不可用");
             return;
         }
-
+        if (!AccountUtils.hasBoundPhone()) {
+            Logger.t(TAG).d("用户为登录");
+            return;
+        }
         //这里其实应该还有个用户是否登录了的判断 因为当连接成功后我们需要发送用户信息到服务端进行校验
         //由于我们这里是个demo所以省略了
         if (ws != null && !ws.isOpen() &&//当前连接断开了
@@ -398,5 +455,22 @@ public class WsManager {
         });
     }
 
-
+    /**
+     * 把消息转为Json
+     *
+     * @param message
+     * @return
+     */
+    public String changeToJson(String message) {
+        if (message == null) {
+            return null;
+        }
+        int startIndex = message.indexOf(":") + 1;
+        if (startIndex == -1) {
+            return null;
+        }
+        String json = message.substring(startIndex);
+        Log.e(TAG, "changeToJson: =" + json);
+        return json;
+    }
 }

@@ -6,6 +6,7 @@ import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -96,6 +97,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             String extraData = launchMiniProResp.extMsg; // 对应JsApi navigateBackApplication中的extraData字段数据
             Log.e(TAG, "onResp: " + extraData);
         } else {
+
             switch (baseResp.errCode) {
                 case BaseResp.ErrCode.ERR_OK:
                     HashMap<String, String> param = new HashMap<>();

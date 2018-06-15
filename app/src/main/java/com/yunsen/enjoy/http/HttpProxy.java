@@ -30,6 +30,7 @@ import com.yunsen.enjoy.model.GoogsListResponse;
 import com.yunsen.enjoy.model.HeightFilterBean;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.NoticeResponse;
+import com.yunsen.enjoy.model.NoticeTokeBean;
 import com.yunsen.enjoy.model.OrderDataBean;
 import com.yunsen.enjoy.model.OrderGoodsBean;
 import com.yunsen.enjoy.model.OrderInfo;
@@ -58,6 +59,7 @@ import com.yunsen.enjoy.model.response.CarDetailsResponse;
 import com.yunsen.enjoy.model.response.ClassifyResponse;
 import com.yunsen.enjoy.model.response.DefaultAddressResponse;
 import com.yunsen.enjoy.model.response.HeightFilterResponse;
+import com.yunsen.enjoy.model.response.NoticeTokenResponse;
 import com.yunsen.enjoy.model.response.OrderResponse;
 import com.yunsen.enjoy.model.response.PullImageResponse;
 import com.yunsen.enjoy.model.response.SearchListResponse;
@@ -362,7 +364,7 @@ public class HttpProxy {
         if (TextUtils.isEmpty(city)) {
             param.put("strwhere", strwhere);
         } else {
-            param.put("strwhere", strwhere + " and city=\'" + city + "\'");
+            param.put("strwhere", strwhere + " and city like \'%" + city + "%\' or city like \'%所有城市%\'");
         }
         HttpClient.get(URLConstants.BUY_CAR_URL, param, new HttpResponseHandler<GoogsListResponse>() {
             @Override
@@ -1851,5 +1853,90 @@ public class HttpProxy {
             }
         });
     }
+
+    /**
+     * 消息推送
+     */
+
+    public static void postGetToken(String appId, String appSecret, final HttpCallBack<NoticeTokeBean> callBack) {
+        SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+        String userCode = sp.getString(SpConstants.USER_CODE, "");
+        String unionId = sp.getString(SpConstants.UNION_ID, "");
+        String openId = sp.getString(SpConstants.OAUTH_OPEN_ID, "");
+        HashMap<String, String> params = new HashMap<>();
+        params.put("app_id", appId);
+        params.put("app_secret", appSecret);
+        params.put("code_id", "111152699");
+        params.put("union_id", unionId);
+        params.put("open_id", "");
+        params.put("device_type", "3");
+        HttpClient.post(URLConstants.NOTICE_GET_TOKEN_URL, params, new HttpResponseHandler<NoticeTokenResponse>() {
+            @Override
+            public void onSuccess(NoticeTokenResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+            }
+        });
+    }
+
+    /**
+     * g更新 消息用户数据
+     *
+     * @param sessionId
+     * @param callBack
+     */
+    public static void postUpUserInfo(String sessionId, String accessToken, final HttpCallBack<NoticeTokeBean> callBack) {
+        SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+        String companyId = sp.getString(SpConstants.COMPANY_ID, "");
+        String groupId = sp.getString(SpConstants.GROUP_ID, "");
+        String nickName = sp.getString(SpConstants.NICK_NAME, "");
+        String avatarUrl = sp.getString(SpConstants.AVATAR, "");
+        String sex = sp.getString(SpConstants.SEX, "");
+        String userCountry = sp.getString(SpConstants.COUNTRY, "");
+        String userProvince = sp.getString(SpConstants.PROVINCE, "");
+        String userCity = sp.getString(SpConstants.CITY, "");
+        String userArea = sp.getString(SpConstants.AREA, "");
+        String userGender;
+        if ("男".equals(sex)) {
+            userGender = "1";
+        } else if ("女".equals(sex)) {
+            userGender = "2";
+        } else {
+            userGender = "3";
+        }
+        HashMap<String, String> params = new HashMap<>();
+        params.put("company_id", companyId);
+        params.put("group_id", groupId);
+        params.put("role_id", "");
+        params.put("nick_name", nickName);
+        params.put("avatar_url", avatarUrl);
+        params.put("user_gender", userGender);
+        params.put("user_country", userCountry);
+        params.put("user_province", userProvince);
+        params.put("user_city", userCity);
+        params.put("user_area", userArea);
+        params.put("device_type", "3");
+        params.put("device_name", "android");
+        params.put("session_id", sessionId);
+        HttpClient.post(URLConstants.NOTICE_UP_USER_URL + accessToken, params, new HttpResponseHandler<RestApiResponse>() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                super.onSuccess(response);
+                Log.e(TAG, "onSuccess: 消息链接成功！");
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                Log.e(TAG, "onFailure: 消息链接失败！");
+            }
+        });
+    }
+
 }
 

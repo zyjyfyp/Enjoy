@@ -168,4 +168,18 @@ public class Constants {
     public static final int DEFAULT_BUY = 1;
     public static final int POINT_BUY = 2;
 
+    public static final String NONE = "NONE";                   //普通消息
+    public static final String Connected = "CONNECTED";         //服务链接消息
+    public static final String Contact = "CONTACT";             //好友通知消息
+    public static final String Profile = "PROFILE";             //资料通知消息
+    public static final String Cmd = "CMD";                     //通用命令通知消息
+    public static final String Info = "INFO";                   //提示条通知消息
+    public static final String Grp = "GRP";                     //群组通知消息
+    public static final String Diz = "DIZ";                     //讨论组通知消息
+    public static final String Read = "READ";                   //已读通知消息
+    public static final String PSCmd = "PSCMD";                 //公众服务命令消息
+    public static final String CmdMsg = "CMDMSG";               //命令消息
+    public static final String MESSAGE = "message";               //消息
+
+
 }

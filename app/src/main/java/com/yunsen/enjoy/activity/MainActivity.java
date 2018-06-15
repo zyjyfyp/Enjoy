@@ -54,9 +54,7 @@ public class MainActivity extends BaseFragmentActivity {
 
     @Override
     protected void initView() {
-//        if (AccountUtils.hasBoundPhone()) { //已经登录了才能聊天
             WsManager.getInstance().init();
-//        }
     }
 
     @Override

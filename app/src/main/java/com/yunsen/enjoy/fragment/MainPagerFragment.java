@@ -37,6 +37,7 @@ import com.yunsen.enjoy.model.event.ActivityResultEvent;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpCityEvent;
 import com.yunsen.enjoy.model.event.UpHomeUiEvent;
+import com.yunsen.enjoy.model.event.UpNoticeUi;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.layout.GoodsPartsLayout;
 import com.yunsen.enjoy.ui.layout.IntegralChangeLayout;
@@ -50,6 +51,7 @@ import com.yunsen.enjoy.widget.ADTextView;
 import com.yunsen.enjoy.widget.HorizontalLayout;
 import com.yunsen.enjoy.widget.HorizontalLayout2;
 import com.yunsen.enjoy.widget.SearchActionBar;
+import com.yunsen.enjoy.widget.ZyToastHelper;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -581,7 +583,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent2(final UpHomeUiEvent event) {
+    public void onEvent2(UpHomeUiEvent event) {
         final UpHomeUiEvent fEvent = event;
         if (event.getEventId() == EventConstants.HOME_UI_UP) {
             secondActivity.post(new Runnable() {

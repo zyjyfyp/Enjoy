@@ -103,7 +103,9 @@ public class SpConstants {
     /**
      * qq登录的信息
      */
-    public static final String SP_LONG_USER_QQ = "QQSp";
+    public static final String SP_NOTICE_ID = "notice_sp";
+    public static final String NTICE_ID = "notice_id";
+
 
     public static final String OAUTH_NAME = "oauth_name";
     public static final String OAUTH_UNIONID = "oauth_unionid";

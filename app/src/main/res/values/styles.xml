@@ -357,6 +357,12 @@
         <item name="android:activityOpenExitAnimation">@anim/push_up_out</item>
         <!--<item name="android:background">@color/color_transparent_9000</item>-->
     </style>
+
+    <style name="ClickToast" parent="@android:style/Animation.Toast">
+        <item name="android:windowEnterAnimation">@anim/anim_clicktoast_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_clicktoast_out</item>
+    </style>
+
     <color name="color_060606">#060606</color>
     <color name="color_999999">#999999</color>
     <color name="color_bf1a1p">#bf1a19</color>

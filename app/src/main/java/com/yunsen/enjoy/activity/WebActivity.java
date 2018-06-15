@@ -57,7 +57,7 @@ public class WebActivity extends BaseFragmentActivity {
         ButterKnife.bind(this);
         webView = new WebView(this);
         webRootView.addView(webView);
-        webView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        webView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         actionBarTitle.setText("加载中，请稍后...");
     }
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.util.Log;
 import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
+import com.yunsen.enjoy.common.AppContext;
 
 import java.io.File;
 
@@ -176,4 +178,30 @@ public class DeviceUtil {
         return versionName;
 
     }
+
+    private static int sScreenWidth = 0;
+    private static int sScreenHeight = 0;
+
+    public static int getScreenWidth() {
+        if (sScreenWidth != 0) {
+            return sScreenWidth;
+        }
+        Resources resources = AppContext.getInstance().getResources();
+        DisplayMetrics dm = resources.getDisplayMetrics();
+        sScreenWidth = dm.widthPixels;
+        sScreenHeight = dm.heightPixels;
+        return sScreenWidth;
+    }
+
+    public static int getScreenHeight() {
+        if (sScreenHeight != 0) {
+            return sScreenHeight;
+        }
+        Resources resources = AppContext.getInstance().getResources();
+        DisplayMetrics dm = resources.getDisplayMetrics();
+        sScreenWidth = dm.widthPixels;
+        sScreenHeight = dm.heightPixels;
+        return sScreenHeight;
+    }
+
 }

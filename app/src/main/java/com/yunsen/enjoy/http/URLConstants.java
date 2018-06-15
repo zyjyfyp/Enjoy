@@ -275,6 +275,14 @@ public class URLConstants {
      * 微信登录
      */
     public static final String WX_LOGIN_URL = "https://api.weixin.qq.com/sns/userinfo";
+    /**
+     * 消息通知
+     */
+    public static final String NOTICE_GET_TOKEN_URL = "https://ju918.com/tools/client_ajax.asmx/get_token";
+    /**
+     * 更新信息
+     */
+    public static final String NOTICE_UP_USER_URL = "https://ju918.com/tools/client_ajax.asmx/user_refresh?access_token=";
 
 
     //
