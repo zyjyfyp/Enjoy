@@ -177,11 +177,11 @@ public class MainActivity extends BaseFragmentActivity {
             case 0:
                 return new MainPagerFragment();
             case 1:
-                return new BuyFragment();
+                return new CarFragment();
             case 2:
                 return new DiscoverFragment();
             case 3:
-                return new CarFragment();
+                return new BuyFragment();
             case 4:
                 mMineFragment = new MineFragment();
                 return mMineFragment;

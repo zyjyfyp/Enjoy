@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="51dp"
     android:background="@color/main_footer_bg">
-    <!--android:background="@color/main_footer_bg"-->
 
     <View
         android:layout_width="match_parent"

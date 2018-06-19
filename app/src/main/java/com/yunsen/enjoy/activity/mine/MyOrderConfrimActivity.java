@@ -1294,7 +1294,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
 
     private void ali_pay() {
         try {
-            String orderInfo = getOrderInfo("袋鼠车宝", "商品描述", recharge_no);
+            String orderInfo = getOrderInfo("盖亚商城", "商品描述", recharge_no);
             // 对订单做RSA 签名
             String sign = sign(orderInfo);
             try {

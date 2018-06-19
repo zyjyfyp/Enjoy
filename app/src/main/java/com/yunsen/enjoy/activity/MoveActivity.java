@@ -11,7 +11,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * 袋鼠车宝
+ * 盖亚商城
  */
 public class MoveActivity extends BaseFragmentActivity {
 
@@ -31,7 +31,7 @@ public class MoveActivity extends BaseFragmentActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-        actionBarTitle.setText("袋鼠车宝");
+        actionBarTitle.setText("盖亚商城");
     }
 
     @Override
