@@ -73,8 +73,9 @@ public class ADTextView extends TextSwitcher implements ViewSwitcher.ViewFactory
         this.resources = res;
     }
 
-    public void setTextStillTime(long time, int eventId) {
+    public void setTextStillTime(long time, int index, int eventId) {
         this.mTime = time;
+        this.index = index;
         mHandler.sendEmptyMessageDelayed(eventId, 1);
     }
 
@@ -89,7 +90,11 @@ public class ADTextView extends TextSwitcher implements ViewSwitcher.ViewFactory
 
     private void updateText() {
         if (resources != null && resources.size() > index) {
-            this.setText(resources.get(index).getTitle());
+            String title = resources.get(index).getTitle();
+            if (title != null) {
+                title = title.trim();
+            }
+            this.setText(title);
         }
     }
 

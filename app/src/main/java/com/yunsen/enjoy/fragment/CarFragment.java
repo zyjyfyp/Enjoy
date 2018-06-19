@@ -94,14 +94,7 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
     private MyGridView myGridView;
     public static boolean type = false;
     GouWuCheAGoodsAdaper jdhadapter;
-
-    String weixin = "";
-    String qq = "";
-    String nickname = "";
-    String user_name = "";
     String user_name_phone = "";
-    String oauth_name;
-    String datall;
     private SharedPreferences mSP;
     private String user_id;
     private String login_sign;

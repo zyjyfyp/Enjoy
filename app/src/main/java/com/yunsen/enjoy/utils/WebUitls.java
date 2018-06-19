@@ -1,6 +1,7 @@
 package com.yunsen.enjoy.utils;
 
 import android.content.Context;
+import android.os.Build;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -36,6 +37,9 @@ public class WebUitls {
         final String cachePath = sContext.getApplicationContext().getDir("cache", Context.MODE_PRIVATE).getPath();
         settings.setAppCachePath(cachePath);
         settings.setAppCacheMaxSize(5 * 1024 * 1024);
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP)
+            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+
     }
 
     public static void init(AppContext appContext) {

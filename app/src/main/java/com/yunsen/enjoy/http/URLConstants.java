@@ -1,6 +1,5 @@
 package com.yunsen.enjoy.http;
 
-import android.os.Build;
 
 import com.yunsen.enjoy.BuildConfig;
 
@@ -14,9 +13,9 @@ public class URLConstants {
      */
     public static final String REALM_URL = BuildConfig.ROOT_URL;
 
-    public static final String SHEAR_URL = "http://mobile.szlxkg.com/";
+    public static final String SHEAR_URL = BuildConfig.ROOT_URL;
 
-    public static final String REALM_ACCOUNT_URL = "http://szlxkg.com/tools/mobile_ajax.asmx";
+    public static final String REALM_ACCOUNT_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx";
 
     /**
      * 头部广告
@@ -32,6 +31,14 @@ public class URLConstants {
      */
 //    public static final String NOTICE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_page_size_list";
     public static final String NOTICE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_top_list_2017";
+    /**
+     * 首页广告
+     */
+    public static final String HOME_GOODS_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_category_list_2017";
+    /**
+     * 推广信息
+     */
+    public static final String SPREAD_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_page_size_list";
 
     /**
      * 推荐汽车,品牌筛选，高级筛选
@@ -67,7 +74,7 @@ public class URLConstants {
     /**
      * 消息通知
      */
-    private static String NOTICE_HTML_URL = "http://mobile.szlxkg.com/doc/show-15933.html";
+    private static String NOTICE_HTML_URL = BuildConfig.ROOT_URL + "/doc/show-15933.html";
 
     public static String getNoticeHtmlUrl(String id) {
         return NOTICE_HTML_URL.replace("15933", id);
@@ -208,7 +215,8 @@ public class URLConstants {
     /**
      * 发现页面的广告图
      */
-    public static final String DISCOVER_BANNER_URL = BuildConfig.ROOT_URL + "/toolS/mobile_ajax.asmx/get_article_top_list";
+//    public static final String DISCOVER_BANNER_URL = BuildConfig.ROOT_URL + "/toolS/mobile_ajax.asmx/get_article_top_list";
+    public static final String DISCOVER_BANNER_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_adbanner_list?advert_id=12";
 
     /**
      * 积分兑换 数据接口
@@ -290,8 +298,7 @@ public class URLConstants {
     //    public static final String REALM_NAME_HTTP = "http://mobile.zams.cn";
     //    public static final String REALM_NAME_LL = "http://mobile.zams.cn/tools/mobile_ajax.asmx";
     //    public static final String REALM_NAME_FX = "http://mobile.zams.cn";
-    public static final String REALM_NAME_WEB = "http://szlxkg.com";
-    public static final String REALM_NAME_HTTP = "http://szlxkg.com";
-    public static final String REALM_NAME_LL = "http://szlxkg.com/tools/mobile_ajax.asmx";
-    public static final String REALM_NAME_FX = "http://szlxkg.com";
+    public static final String REALM_NAME_WEB = BuildConfig.ROOT_URL;
+    public static final String REALM_NAME_HTTP = BuildConfig.ROOT_URL;
+    public static final String REALM_NAME_LL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx";
 }

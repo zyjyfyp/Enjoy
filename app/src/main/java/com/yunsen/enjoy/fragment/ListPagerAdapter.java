@@ -1,12 +1,10 @@
 package com.yunsen.enjoy.fragment;
 
-import android.content.Context;
-import android.support.v4.view.PagerAdapter;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.model.ClassifyBean;
 
 import java.util.List;
 
@@ -14,49 +12,33 @@ import java.util.List;
  * Created by Administrator on 2018/4/23.
  */
 
-public class ListPagerAdapter extends PagerAdapter {
-    private final Context mContext;
-    private List<RecyclerView> mViews;
+public class ListPagerAdapter extends FragmentStatePagerAdapter {
+    private List<ClassifyBean> mTitles;
+    private List<Fragment> mFragments;
 
-    public ListPagerAdapter(List<RecyclerView> views, Context context) {
-        this.mViews = views;
-        this.mContext = context;
+    public ListPagerAdapter(FragmentManager fm, List<Fragment> fragments, List<ClassifyBean> titles) {
+        super(fm);
+        this.mFragments = fragments;
+        this.mTitles = titles;
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        return mFragments.get(position);
     }
 
     @Override
     public int getCount() {
-        return mViews.size();
-    }
-
-    @Override
-    public boolean isViewFromObject(View view, Object object) {
-        return view == object;
-    }
-
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        container.addView(mViews.get(position));
-        return mViews.get(position);
-    }
-
-    @Override
-    public void destroyItem(ViewGroup collection, int position, Object view) {
-        collection.removeView((View) view);
+        return mFragments == null ? 0 : mFragments.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
         String title = "";
-        if (position >= 0 && position <= Constants.DISCOVER_TITLE.length) {
-            title = Constants.DISCOVER_TITLE[position];
+        if (position >= 0 && position < mTitles.size()) {
+            ClassifyBean classifyBean = mTitles.get(position);
+            title = classifyBean.getTitle();
         }
         return title;
-    }
-
-    public RecyclerView getRecyclerView(int index) {
-        if (index >= 0 && index < mViews.size()) {
-            return mViews.get(index);
-        }
-        return null;
     }
 }

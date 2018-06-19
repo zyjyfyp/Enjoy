@@ -18,6 +18,15 @@ public class Constants {
     //微信小程序原始ID
     public static final String WX_GH_ID = "gh_aeab7704dad3";
     public static final String WX_MCH_ID = "1502153101";
+    public static final String CLASSIFY_PARENT_ID = "classify_parent_id";
+    public static final String CLASSIFY_ID = "classify_id";
+    public static final String CLASSIFY_CHANNEL_ID = "classify_channel_id";
+    public static final String CLASSIFY_TITLE = "classify_title";
+
+    public static final String WEB_TIME_KEY = "web_time_key";
+    public static final String WEB_TITLE_KEY = "web_title_key";
+    public static final String WEB_CLICK_KEY = "web_click_key";
+    public static final String WEB_CATEGORY_KEY = "web_category_key";
 //    public static final String APP_SECRET = "";
 //appId=wxe60c28541b0fa8a2&body=zyjytest&device_info=1000&key=ca30ef7495cdd92ee94e1190f78a8735&mch_id=1502153101&nonce_str=ibuaiVcKdpRxkhJA
 

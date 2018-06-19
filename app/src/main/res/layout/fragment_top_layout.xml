@@ -26,17 +26,22 @@
             android:padding="5dp" />
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/color_f5f7fa" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="70dp"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="53dp"
+            android:layout_height="60dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/app_margin"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="10dp"
             android:scaleType="centerCrop"
             android:src="@mipmap/news_text" />
 
@@ -52,21 +57,6 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:background="@drawable/orange_oval_bg"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:paddingBottom="2dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingTop="2dp"
-                    android:text="优惠活动"
-                    android:textColor="@color/color_fff"
-                    android:textSize="11sp" />
 
                 <com.yunsen.enjoy.widget.ADTextView
                     android:id="@+id/adt_text1"
@@ -84,28 +74,12 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:background="@drawable/orange_oval_bg"
-                    android:gravity="center"
-                    android:minLines="1"
-                    android:paddingBottom="2dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingTop="2dp"
-                    android:text="商品评测"
-                    android:textColor="@color/color_fff"
-                    android:textSize="11sp" />
-
                 <com.yunsen.enjoy.widget.ADTextView
                     android:id="@+id/adt_text2"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
                     android:layout_centerInParent="true"
                     android:gravity="center" />
-
 
             </LinearLayout>
 
@@ -117,214 +91,5 @@
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:background="@color/color_f5f7fa" />
-
-    <com.yunsen.enjoy.widget.HorizontalLayout
-        android:id="@+id/one_horizontal_layout"
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        android:weightSum="4" />
-
-    <!--<View-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="1dp"-->
-    <!--android:background="@color/color_f5f7fa" />-->
-
-    <com.yunsen.enjoy.widget.HorizontalLayout2
-        android:id="@+id/two_horizontal_layout"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        android:weightSum="4" />
-
-    <ImageView
-        android:id="@+id/button_layout"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:visibility="gone"></ImageView>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/item_height"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="袋鼠车库"
-            android:textColor="@color/title_color"
-            android:textSize="15sp" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/more_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="5dp"
-            android:drawableRight="@mipmap/more"
-            android:text="全部新车" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="164dp"
-        android:layout_marginLeft="@dimen/app_margin"
-        android:layout_marginRight="@dimen/app_margin"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/car_img_big"
-            android:layout_width="164dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="2dp"
-            android:scaleType="fitXY"
-            android:src="@mipmap/car_big_1" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/car_img_1"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="1dp"
-                android:layout_weight="1"
-                android:scaleType="fitXY"
-                android:src="@mipmap/car_1" />
-
-            <ImageView
-                android:id="@+id/car_img_2"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="1dp"
-                android:layout_weight="1"
-                android:scaleType="fitXY"
-                android:src="@mipmap/car_2" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginLeft="@dimen/app_margin"
-        android:layout_marginRight="@dimen/app_margin"
-        android:layout_marginTop="4dp"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/car_img_3"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="1dp"
-            android:layout_weight="1"
-            android:scaleType="fitXY"
-            android:src="@mipmap/car_3" />
-
-        <ImageView
-            android:id="@+id/car_img_4"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp"
-            android:layout_weight="1"
-            android:scaleType="fitXY"
-            android:src="@mipmap/car_4" />
-
-        <ImageView
-            android:id="@+id/car_img_5"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="1dp"
-            android:layout_weight="1"
-            android:scaleType="fitXY"
-            android:src="@mipmap/car_5" />
-    </LinearLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_preference"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/app_margin"
-        android:background="@color/color_f5f7fa" />
-
-    <com.yunsen.enjoy.ui.layout.IntegralChangeLayout
-        android:id="@+id/integral_layout"
-        android:layout_width="match_parent"
-        android:layout_height="300dp" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/app_margin"
-        android:background="@color/color_f5f7fa" />
-
-    <com.yunsen.enjoy.ui.layout.SecondActivityLayout
-        android:id="@+id/home_activity_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/app_margin"
-        android:background="@color/color_f5f7fa" />
-
-    <com.yunsen.enjoy.ui.layout.GoodsPartsLayout
-        android:id="@+id/goods_parts_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/app_margin"
-        android:background="@color/color_f5f7fa" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/item_height"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="服务商"
-            android:textColor="@color/title_color"
-            android:textSize="15sp" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/service_more_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:drawablePadding="5dp"
-            android:drawableRight="@mipmap/more"
-            android:gravity="center_vertical"
-            android:text="@string/more" />
-    </LinearLayout>
 
 </LinearLayout>

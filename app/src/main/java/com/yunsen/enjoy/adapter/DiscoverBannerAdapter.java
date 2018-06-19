@@ -23,10 +23,10 @@ import java.util.List;
 
 public class DiscoverBannerAdapter extends PagerAdapter {
     private static final String TAG = "BannerAdapter";
-    private List<GoodsData> mDatas;
+    private List<AdvertModel> mDatas;
     private Context mContext;
 
-    public DiscoverBannerAdapter(List<GoodsData> datas, Context context) {
+    public DiscoverBannerAdapter(List<AdvertModel> datas, Context context) {
         if (datas == null) {
             this.mDatas = new ArrayList<>();
         } else {
@@ -48,12 +48,12 @@ public class DiscoverBannerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         ImageView item = new ImageView(mContext);
-        final GoodsData data = mDatas.get(position);
-        if (data.getImgRes() != 0) {
-            item.setImageResource(data.getImgRes());
+        final AdvertModel data = mDatas.get(position);
+        if (data.getRseImg() != 0) {
+            item.setImageResource(data.getRseImg());
         } else {
             Glide.with(mContext)
-                    .load(data.getImg_url())
+                    .load(data.getAd_url())
                     .placeholder(R.mipmap.adv_home)
                     .into(item);
             final int pos = position;
@@ -79,17 +79,11 @@ public class DiscoverBannerAdapter extends PagerAdapter {
         collection.removeView((View) view);
     }
 
-    public void upData(List<GoodsData> datas) {
+    public void upData(List<AdvertModel> datas) {
         mDatas.clear();
         if (datas != null) {
             mDatas.addAll(datas);
             notifyDataSetChanged();
         }
-    }
-
-    @Override
-    public CharSequence getPageTitle(int position) {
-        Log.e(TAG, "getPageTitle: p= " + position);
-        return "标题" + position;
     }
 }

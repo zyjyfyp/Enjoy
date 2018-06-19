@@ -69,7 +69,7 @@ public class CarDetails {
     private int express_id;
     private int min_quantity;
     private Object unit;
-    private Object packing;
+    private String packing;
     private int weight;
     private String validity;
     private int templet_id;
@@ -707,11 +707,11 @@ public class CarDetails {
         this.unit = unit;
     }
 
-    public Object getPacking() {
+    public String getPacking() {
         return packing;
     }
 
-    public void setPacking(Object packing) {
+    public void setPacking(String packing) {
         this.packing = packing;
     }
 

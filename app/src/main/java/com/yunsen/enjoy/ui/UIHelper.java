@@ -61,7 +61,9 @@ import com.yunsen.enjoy.fragment.buy.SelectBrandActivity;
 import com.yunsen.enjoy.fragment.buy.SeniorFilterActivity;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.MyOrderData;
+import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.OrderBean;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
@@ -281,6 +283,40 @@ public class UIHelper {
         String url = URLConstants.REALM_NAME_WEB + "/mobile/news/conent-10334.html";
         intent4.putExtra(Constants.WEB_URL_KEY, url);
         ctx.startActivity(intent4);
+    }
+
+    /**
+     * 显示有标题的webView
+     *
+     * @param ctx
+     * @param data
+     */
+    public static void showHasTitleWebActivity(Context ctx, CarDetails data) {
+        Intent intent = new Intent(ctx, WebActivity.class);
+        String value = Integer.toString(data.getId());
+        intent.putExtra(Constants.WEB_URL_KEY, URLConstants.getNoticeHtmlUrl(value));
+        intent.putExtra(Constants.WEB_TIME_KEY, data.getAdd_time());
+        intent.putExtra(Constants.WEB_TITLE_KEY, data.getTitle());
+        intent.putExtra(Constants.WEB_CLICK_KEY, String.valueOf(data.getClick()));
+        intent.putExtra(Constants.WEB_CATEGORY_KEY, data.getCategory_title());
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 显示有标题的WebView
+     *
+     * @param ctx
+     * @param data
+     */
+    public static void showHasTitleWebActivity(Context ctx, NoticeModel data) {
+        Intent intent = new Intent(ctx, WebActivity.class);
+        String value = Integer.toString(data.getId());
+        intent.putExtra(Constants.WEB_URL_KEY, URLConstants.getNoticeHtmlUrl(value));
+        intent.putExtra(Constants.WEB_TIME_KEY, data.getAdd_time());
+        intent.putExtra(Constants.WEB_TITLE_KEY, data.getTitle());
+        intent.putExtra(Constants.WEB_CLICK_KEY, String.valueOf(data.getClick()));
+        intent.putExtra(Constants.WEB_CATEGORY_KEY, data.getCategory_title());
+        ctx.startActivity(intent);
     }
 
     /**

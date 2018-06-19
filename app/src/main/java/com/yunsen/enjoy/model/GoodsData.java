@@ -120,6 +120,7 @@ public class GoodsData {
     private Object activity;
     private List<AlbumsBean> albums;
     private int article_id;
+    private String packing;
 
     public GoodsData() {
     }
@@ -574,5 +575,13 @@ public class GoodsData {
 
     public void setCashing_packet(double cashing_packet) {
         this.cashing_packet = cashing_packet;
+    }
+
+    public String getPacking() {
+        return packing;
+    }
+
+    public void setPacking(String packing) {
+        this.packing = packing;
     }
 }

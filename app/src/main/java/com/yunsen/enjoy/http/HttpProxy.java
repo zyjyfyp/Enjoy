@@ -113,16 +113,18 @@ public class HttpProxy {
     }
 
     /**
-     * 获取车辆广告
+     * 获取首页的商品
+     * List<CarDetails> data = response.getData();
      *
      * @param callBack
      */
-    public static void getCarList(final HttpCallBack<List<CarDetails>> callBack) {
+    public static void getHomeGoods(final HttpCallBack<List<CarDetails>> callBack) {
         HashMap<String, Object> param = new HashMap<>();
         param.put("channel_name", "goods");
-        param.put("top", "6");
+        param.put("category_id", "0");
+        param.put("top", "5");
         param.put("strwhere", "");
-        HttpClient.get(URLConstants.CAR_ADV_URL, param, new HttpResponseHandler<SearchListResponse>() {
+        HttpClient.get(URLConstants.HOME_GOODS_URL, param, new HttpResponseHandler<SearchListResponse>() {
             @Override
             public void onSuccess(SearchListResponse response) {
                 List<CarDetails> data = response.getData();
@@ -150,7 +152,7 @@ public class HttpProxy {
 //        param.put("strwhere", "status=0");
 //        param.put("orderby", "");
         param.put("channel_name", "news");
-        param.put("top", "5");
+        param.put("top", "10");
         param.put("strwhere", "");
 
         HttpClient.get(URLConstants.NOTICE_URL, param, new HttpResponseHandler<NoticeResponse>() {
@@ -167,30 +169,29 @@ public class HttpProxy {
     }
 
     /**
-     * 首页通知2
+     * 推广助手信息
      *
      * @param callBack
      */
-    public static void getNoticeData2(final HttpCallBack<List<NoticeModel>> callBack) {
-        HashMap<String, String> param = new HashMap<>();
-//        param.put("channel_name", "news");
-//        param.put("category_id", "7");
-//        param.put("page_size", "8");
-//        param.put("page_index", "1");
-//        param.put("strwhere", "status=0");
-//        param.put("orderby", "");
+    public static void getSpreadDatas(String pageIndex, String categoryId, final HttpCallBack<List<CarDetails>> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
         param.put("channel_name", "news");
-        param.put("top", "5");
+        param.put("category_id", categoryId);
+        param.put("page_size", "100");
+        param.put("page_index", pageIndex);
         param.put("strwhere", "");
-        HttpClient.get(URLConstants.NOTICE_URL, param, new HttpResponseHandler<NoticeResponse>() {
+        param.put("orderby", "");
+
+        HttpClient.get(URLConstants.GOODS_MORE_URL, param, new HttpResponseHandler<SearchListResponse>() {
             @Override
-            public void onSuccess(NoticeResponse response) {
+            public void onSuccess(SearchListResponse response) {
                 callBack.onSuccess(response.getData());
             }
 
             @Override
             public void onFailure(Request request, Exception e) {
                 super.onFailure(request, e);
+                callBack.onError(request, e);
             }
         });
     }
@@ -1257,16 +1258,17 @@ public class HttpProxy {
      * @param
      * @param callBack
      */
-    public static void getDiscoverBannerList(final HttpCallBack<List<GoodsData>> callBack) {
+    public static void getDiscoverBannerList(final HttpCallBack<List<AdvertModel>> callBack) {
         HashMap<String, String> map = new HashMap<>();
-        map.put("channel_name", "news");
-        map.put("top", "5");
-        map.put("strwhere", "is_slide=1");
-        HttpClient.get(URLConstants.DISCOVER_BANNER_URL, map, new HttpResponseHandler<GoogsListResponse>() {
+//        map.put("channel_name", "news");
+//        map.put("top", "5");
+//        map.put("strwhere", "is_slide=1");
+
+        HttpClient.get(URLConstants.DISCOVER_BANNER_URL, map, new HttpResponseHandler<AdvertList>() {
             @Override
-            public void onSuccess(GoogsListResponse response) {
+            public void onSuccess(AdvertList response) {
                 super.onSuccess(response);
-                List<GoodsData> data = response.getData();
+                List<AdvertModel> data = response.getData();
                 if (data != null) {
                     callBack.onSuccess(data);
                 } else {

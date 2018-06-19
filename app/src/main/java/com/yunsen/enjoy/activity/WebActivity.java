@@ -4,14 +4,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
@@ -43,9 +43,24 @@ public class WebActivity extends BaseFragmentActivity {
     FrameLayout webRootView;
     @Bind(R.id.web_error_layout)
     LinearLayout webErrorLayout;
+    @Bind(R.id.web_title)
+    TextView webTitle;
+    @Bind(R.id.web_time)
+    TextView webTime;
+    @Bind(R.id.web_click_tv)
+    TextView webClickTv;
+    @Bind(R.id.web_category_tv)
+    TextView webCategoryTv;
+    @Bind(R.id.top_layout)
+    LinearLayout topLayout;
     private WebView webView;
     private String mUrl = "";
     private boolean mWebError = false;
+
+    private String mWebTitle;
+    private String mWebClick;
+    private String mWebTime;
+    private String mWebCategory;
 
     @Override
     public int getLayout() {
@@ -66,8 +81,20 @@ public class WebActivity extends BaseFragmentActivity {
         Intent intent = getIntent();
         if (intent != null) {
             mUrl = intent.getStringExtra(Constants.WEB_URL_KEY);
+            mWebTitle = intent.getStringExtra(Constants.WEB_TITLE_KEY);
+            mWebClick = intent.getStringExtra(Constants.WEB_CLICK_KEY);
+            mWebTime = intent.getStringExtra(Constants.WEB_TIME_KEY);
+            mWebCategory = intent.getStringExtra(Constants.WEB_CATEGORY_KEY);
         }
+        if (!TextUtils.isEmpty(mWebTitle)) {
+            webTitle.setText(mWebTitle);
+            webCategoryTv.setText("分类: " + mWebCategory);
+            webTime.setText("" + mWebTime);
+            webClickTv.setText(mWebClick + "次浏览");
+        }
+
         WebUitls.initWebView(webView);
+
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -93,6 +120,13 @@ public class WebActivity extends BaseFragmentActivity {
                 }
                 if (!mWebError) {
                     webErrorLayout.setVisibility(View.GONE);
+                    if (!TextUtils.isEmpty(mWebTitle)) {
+                        topLayout.setVisibility(View.VISIBLE);
+                    } else {
+                        topLayout.setVisibility(View.GONE);
+                    }
+                } else {
+                    topLayout.setVisibility(View.GONE);
                 }
                 webView.getSettings().setBlockNetworkImage(false);
                 if (!webView.getSettings().getLoadsImagesAutomatically()) {
@@ -149,7 +183,6 @@ public class WebActivity extends BaseFragmentActivity {
 
     @Override
     protected void initListener() {
-
     }
 
     @Override
@@ -184,5 +217,12 @@ public class WebActivity extends BaseFragmentActivity {
         } else {
             finish();
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }
