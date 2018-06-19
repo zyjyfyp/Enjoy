@@ -53,7 +53,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:gravity="center"
-                        android:text="注册乐享汽车账号"
+                        android:text="注册盖亚商城账号"
                         android:textColor="@color/white"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -209,7 +209,7 @@
                     android:id="@+id/regise_tip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="《乐享汽车服务与用户协议》"
+                    android:text="《盖亚商城服务与用户协议》"
                     android:textColor="@color/color_theme"></TextView>
             </LinearLayout>
 

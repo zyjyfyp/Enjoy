@@ -81,9 +81,6 @@ public class ShopCartActivity extends BaseFragmentActivity implements View.OnCli
     private TextView mFavorite; // 移到收藏夹,分享
 
     private TextView mDelete; // 删除 结算
-
-    private TextView subtitle;
-    ImageView imageView1;
     public boolean ptye = false;
     private double totalPrice = 0; // 商品总价
     public static double dzongjia = 0;
@@ -99,18 +96,12 @@ public class ShopCartActivity extends BaseFragmentActivity implements View.OnCli
     String num = "1";
     public static StringBuffer str;
     boolean zhuangtai = true;
-    private Button btn_register;
+    private ImageView btn_register;
     private MyGridView myGridView;
     public static boolean type = false;
     GouWuCheAGoodsAdaper jdhadapter;
-
-    String weixin = "";
-    String qq = "";
-    String nickname = "";
     String user_name = "";
     String user_name_phone = "";
-    String oauth_name;
-    String datall;
     private SharedPreferences mSP;
     private String user_id;
     private String login_sign;
@@ -123,8 +114,6 @@ public class ShopCartActivity extends BaseFragmentActivity implements View.OnCli
     @Override
     protected void initView() {
         progress = new DialogProgress(this);
-        imageView1 = (ImageView) findViewById(R.id.imageView1);
-        imageView1.setBackground(getResources().getDrawable(R.drawable.zams_gwc));
         myGridView = (MyGridView) findViewById(R.id.gridView);
         myGridView.setFocusable(false);
         back = (ImageView) findViewById(R.id.back_img);
@@ -132,14 +121,12 @@ public class ShopCartActivity extends BaseFragmentActivity implements View.OnCli
         ll_xianshi = (LinearLayout) findViewById(R.id.ll_xianshi);
         mBottonLayout = (RelativeLayout) findViewById(R.id.cart_rl_allprie_total);
         mCheckAll = (CheckBox) findViewById(R.id.check_box_all);
-        mEdit = (TextView) findViewById(R.id.subtitle);
         mPriceAll = (TextView) findViewById(R.id.tv_cart_total);
         mFavorite = (TextView) findViewById(R.id.tv_cart_move_favorite);
         mDelete = (TextView) findViewById(R.id.tv_cart_buy_or_del);
-        subtitle = (TextView) findViewById(R.id.subtitle);
         mListView = (ListView) findViewById(R.id.listview);
         mListView.setSelector(R.drawable.list_selector);
-        btn_register = (Button) findViewById(R.id.btn_register);
+        btn_register = (ImageView) findViewById(R.id.btn_register);
         ll_tjsp = (LinearLayout) findViewById(R.id.ll_tjsp);
         ll_tjsp.setOnClickListener(new View.OnClickListener() {
 
@@ -193,7 +180,6 @@ public class ShopCartActivity extends BaseFragmentActivity implements View.OnCli
             getgouwuche();
         } else {
             adv_pager.setVisibility(View.VISIBLE);
-            subtitle.setVisibility(View.GONE);
             mListView.setVisibility(View.GONE);
             ll_xianshi.setVisibility(View.GONE);
         }
@@ -267,7 +253,6 @@ public class ShopCartActivity extends BaseFragmentActivity implements View.OnCli
                                 dm = null;
                                 progress.CloseProgress();
                                 adv_pager.setVisibility(View.GONE);
-                                subtitle.setVisibility(View.VISIBLE);
                                 mListView.setVisibility(View.VISIBLE);
                                 ll_xianshi.setVisibility(View.VISIBLE);
                                 System.out.println("1================");
@@ -275,7 +260,6 @@ public class ShopCartActivity extends BaseFragmentActivity implements View.OnCli
                                 progress.CloseProgress();
                                 System.out.println("2================");
                                 adv_pager.setVisibility(View.VISIBLE);
-                                subtitle.setVisibility(View.GONE);
                                 mListView.setVisibility(View.GONE);
                                 //								mPriceAll.setText("¥"+0.00);
                                 ll_xianshi.setVisibility(View.GONE);
@@ -687,32 +671,6 @@ public class ShopCartActivity extends BaseFragmentActivity implements View.OnCli
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.subtitle:
-                isBatchModel = !isBatchModel;
-                if (isBatchModel) {//删除商品
-                    mEdit.setText(getResources().getString(R.string.menu_enter));
-                    mDelete.setText(getResources().getString(R.string.menu_del));
-                    mBottonLayout.setVisibility(View.VISIBLE);
-                    mFavorite.setVisibility(View.GONE);
-                    BigDecimal c = new BigDecimal(totalPrice);
-                    dzongjia = c.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                    mPriceAll.setText("¥" + dzongjia);
-                    setQuantitySum();
-                    zhuangtai = false;
-                } else {
-                    mEdit.setText(getResources().getString(R.string.menu_edit));
-                    mDelete.setText(getResources().getString(R.string.menu_sett));
-                    mFavorite.setVisibility(View.GONE);
-                    mBottonLayout.setVisibility(View.VISIBLE);
-                    //				totalPrice=0;
-                    BigDecimal c = new BigDecimal(totalPrice);
-                    dzongjia = c.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                    mPriceAll.setText("¥" + dzongjia);
-                    setQuantitySum();
-                    zhuangtai = true;
-                }
-
-                break;
 
             case R.id.check_box_all:
                 totalPrice = 0;
@@ -908,10 +866,8 @@ public class ShopCartActivity extends BaseFragmentActivity implements View.OnCli
             }
 
             if (isBatchModel) {
-                subtitle.setText(R.string.menu_edit);
                 mDelete.setText(getResources().getString(R.string.menu_del) + "(" + quantitySum + ")");
             } else {
-                subtitle.setText(R.string.menu_enter);
                 mDelete.setText(getResources().getString(R.string.menu_sett) + "(" + quantitySum + ")");
             }
         }

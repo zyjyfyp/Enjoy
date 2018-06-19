@@ -37,7 +37,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 /**
- * 乐享汽车
+ * 盖亚商城
  *
  * @author Administrator
  */
@@ -594,7 +594,7 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
         try {
 
             //
-            String orderInfo = getOrderInfo("乐享汽车商品", "商品描述", recharge_no);
+            String orderInfo = getOrderInfo("盖亚商城商品", "商品描述", recharge_no);
 
             // 对订单做RSA 签名
             String sign = sign(orderInfo);

@@ -424,7 +424,7 @@ public class UIHelper {
     }
 
     /**
-     * 乐享汽车服务
+     * 盖亚商城服务
      *
      * @param ctx
      */

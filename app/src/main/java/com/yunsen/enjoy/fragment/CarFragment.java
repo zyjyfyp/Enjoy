@@ -56,15 +56,12 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
     private static final int INITIALIZE = 0;
     private ListView mListView;// 列表
     private ListAdapter mListAdapter;// adapter
-    private LinearLayout adv_pager, ll_tjsp;
+    private LinearLayout adv_pager;
     private LinearLayout ll_xianshi;
     private List<DataBean> mListData = new ArrayList<DataBean>();// 数据
-
     private boolean isBatchModel;// 是否可删除模式
 
-    private RelativeLayout mBottonLayout;
     private CheckBox mCheckAll; // 全选 全不选
-    private TextView mEdit; // 切换到删除模式
 
     private TextView mPriceAll; // 商品总价
 
@@ -74,8 +71,6 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
 
     private TextView mDelete; // 删除 结算
 
-    private TextView subtitle;
-    ImageView imageView1;
     public boolean ptye = false;
     private double totalPrice = 0; // 商品总价
     public static double dzongjia = 0;
@@ -89,11 +84,8 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
     private static List<String> list_size = new ArrayList<String>();
     String num = "1";
     public static StringBuffer str;
-    boolean zhuangtai = true;
-    private Button btn_register;
-    private MyGridView myGridView;
+    private ImageView btn_register;
     public static boolean type = false;
-    GouWuCheAGoodsAdaper jdhadapter;
     String user_name_phone = "";
     private SharedPreferences mSP;
     private String user_id;
@@ -101,38 +93,21 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_gouwuche;
+        return R.layout.fragment_car;
     }
 
     @Override
     protected void initView() {
         progress = new DialogProgress(getActivity());
-        imageView1 = (ImageView) rootView.findViewById(R.id.imageView1);
-        imageView1.setBackground(getResources().getDrawable(R.drawable.zams_gwc));
-        myGridView = (MyGridView) rootView.findViewById(R.id.gridView);
-        myGridView.setFocusable(false);
         adv_pager = (LinearLayout) rootView.findViewById(R.id.adv_pager);
         ll_xianshi = (LinearLayout) rootView.findViewById(R.id.ll_xianshi);
-        mBottonLayout = (RelativeLayout) rootView.findViewById(R.id.cart_rl_allprie_total);
         mCheckAll = (CheckBox) rootView.findViewById(R.id.check_box_all);
-        mEdit = (TextView) rootView.findViewById(R.id.subtitle);
         mPriceAll = (TextView) rootView.findViewById(R.id.tv_cart_total);
         mFavorite = (TextView) rootView.findViewById(R.id.tv_cart_move_favorite);
         mDelete = (TextView) rootView.findViewById(R.id.tv_cart_buy_or_del);
-        subtitle = (TextView) rootView.findViewById(R.id.subtitle);
         mListView = (ListView) rootView.findViewById(R.id.listview);
         mListView.setSelector(R.drawable.list_selector);
-        btn_register = (Button) rootView.findViewById(R.id.btn_register);
-        ll_tjsp = (LinearLayout) rootView.findViewById(R.id.ll_tjsp);
-        ll_tjsp.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                UIHelper.showPartsShopActivity(getActivity());
-            }
-        });
-        mLists = new ArrayList<CarDetails>();
-
+        btn_register = (ImageView) rootView.findViewById(R.id.btn_register);
 
         //购物车无商品去逛逛
         btn_register.setOnClickListener(new View.OnClickListener() {
@@ -148,7 +123,6 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
                 }
             }
         });
-        load_list();
     }
 
     @Override
@@ -166,7 +140,6 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initListener() {
-        mEdit.setOnClickListener(this);
         mDelete.setOnClickListener(this);
         mCheckAll.setOnClickListener(this);
     }
@@ -180,7 +153,6 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
             getgouwuche();
         } else {
             adv_pager.setVisibility(View.VISIBLE);
-            subtitle.setVisibility(View.GONE);
             mListView.setVisibility(View.GONE);
             ll_xianshi.setVisibility(View.GONE);
         }
@@ -216,14 +188,10 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
 
     private void getgouwuche() {
 
-        System.out.println("ptye================" + ptye);
-        if (ptye == false) {
+        if (!ptye ) {
             progress.CreateProgress();
         }
-
         result = new ArrayList<DataBean>();
-
-
         AsyncHttp.get(URLConstants.REALM_NAME_LL + "/get_shopping_cart?pageSize=500&pageIndex=1&user_id=" + user_id + ""
                 , new AsyncHttpResponseHandler() {
                     @Override
@@ -254,20 +222,14 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
                                 dm = null;
                                 progress.CloseProgress();
                                 adv_pager.setVisibility(View.GONE);
-                                subtitle.setVisibility(View.VISIBLE);
                                 mListView.setVisibility(View.VISIBLE);
                                 ll_xianshi.setVisibility(View.VISIBLE);
-                                System.out.println("1================");
                             } else {
                                 progress.CloseProgress();
-                                System.out.println("2================");
                                 adv_pager.setVisibility(View.VISIBLE);
-                                subtitle.setVisibility(View.GONE);
                                 mListView.setVisibility(View.GONE);
-                                //								mPriceAll.setText("¥"+0.00);
                                 ll_xianshi.setVisibility(View.GONE);
                             }
-                            //							refreshListView();
                             progress.CloseProgress();
                         } catch (JSONException e) {
 
@@ -286,66 +248,6 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
         loadData();
     }
 
-    /**
-     * 热销专区
-     */
-    private List<CarDetails> mLists;
-
-    private void load_list() {
-        mLists.clear();
-        HttpProxy.getGoodsPartsDatas(new HttpCallBack<List<CarDetails>>() {
-            @Override
-            public void onSuccess(List<CarDetails> responseData) {
-                mLists.addAll(responseData);
-                jdhadapter = new GouWuCheAGoodsAdaper(responseData, getActivity());
-                myGridView.setAdapter(jdhadapter);
-                myGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                        CarDetails details = mLists.get(arg2);
-                        UIHelper.showGoodsDescriptionActivity(getActivity(), String.valueOf(details.getId()), details.getTitle());
-                    }
-                });
-            }
-
-            @Override
-            public void onError(Request request, Exception e) {
-
-            }
-        });
-
-//        AsyncHttp.get(URLConstants.REALM_NAME_LL +
-//                        "/get_article_top_list?channel_name=goods&top=5&strwhere=status=0%20and%20is_top=1",
-//                new AsyncHttpResponseHandler() {
-//                    @Override
-//                    public void onSuccess(int arg0, String arg1) {
-//                        super.onSuccess(arg0, arg1);
-//                        try {
-//                            JSONObject jsonObject = new JSONObject(arg1);
-//                            String status = jsonObject.getString("status");
-//                            String info = jsonObject.getString("info");
-//                            if (status.equals("y")) {
-//                                JSONArray jsonArray = jsonObject.getJSONArray("data");
-//                                for (int i = 1; i < jsonArray.length(); i++) {
-//                                    spList = new SpListData();
-//                                    JSONObject object = jsonArray.getJSONObject(i);
-//                                    spList.id = object.getString("id");
-//                                    spList.img_url = object.getString("img_url");
-//                                    spList.title = object.getString("title");
-//                                    spList.market_price = object.getString("market_price");
-//                                    spList.sell_price = object.getString("sell_price");
-//                                }
-//                                spList = null;
-//                            } else {
-//                                ToastUtils.makeTextShort(info);
-//                            }
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }, null);
-    }
 
 
     private void loadData() {
@@ -370,14 +272,12 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private List<DataBean> getData() {
-        //		System.out.println("result11-------------"+result.size());
         return result;
     }
 
 
     class Params {
         int op;
-
         public Params(int op) {
             this.op = op;
             System.out.println("result1-------------");
@@ -670,33 +570,6 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.subtitle:
-                isBatchModel = !isBatchModel;
-                if (isBatchModel) {//删除商品
-                    mEdit.setText(getResources().getString(R.string.menu_enter));
-                    mDelete.setText(getResources().getString(R.string.menu_del));
-                    mBottonLayout.setVisibility(View.VISIBLE);
-                    mFavorite.setVisibility(View.GONE);
-                    BigDecimal c = new BigDecimal(totalPrice);
-                    dzongjia = c.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                    mPriceAll.setText("¥" + dzongjia);
-                    setQuantitySum();
-                    zhuangtai = false;
-                } else {
-                    mEdit.setText(getResources().getString(R.string.menu_edit));
-                    mDelete.setText(getResources().getString(R.string.menu_sett));
-                    mFavorite.setVisibility(View.GONE);
-                    mBottonLayout.setVisibility(View.VISIBLE);
-                    //				totalPrice=0;
-                    BigDecimal c = new BigDecimal(totalPrice);
-                    dzongjia = c.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                    mPriceAll.setText("¥" + dzongjia);
-                    setQuantitySum();
-                    zhuangtai = true;
-                }
-
-                break;
-
             case R.id.check_box_all:
                 totalPrice = 0;
                 if (mCheckAll.isChecked()) {
@@ -786,32 +659,6 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
                         setQuantitySum();
                     }
 
-                    //						String strUrl = RealmName.REALM_NAME_LL + "/cart_goods_delete?"+ "clear=0&user_id=" + user_id+ "&cart_id=" + str1;
-                    //						AsyncHttp.get(strUrl,new AsyncHttpResponseHandler() {
-                    //							@Override
-                    //							public void onSuccess(int arg0, String arg1) {
-                    //
-                    //								System.out.println("==========================访问接口成功！"+arg1);
-                    //								super.onSuccess(arg0, arg1);
-                    //								try {
-                    //
-                    //								JSONObject object = new JSONObject(arg1);
-                    //								  String status = object.getString("status");
-                    //								    String info = object.getString("info");
-                    //								    if (status.equals("y")) {
-                    //								    	Toast.makeText(getActivity(), info, Toast.LENGTH_SHORT).show();
-                    //								    	// 刷新
-                    ////										mListAdapter.notifyDataSetChanged();
-                    //								    }else {
-                    //								    	Toast.makeText(getActivity(), info, Toast.LENGTH_SHORT).show();
-                    //									}
-                    //								} catch (Exception e) {
-                    //
-                    //									e.printStackTrace();
-                    //								}
-                    //							}
-                    //
-                    //						}, getActivity());
                 } else {
                     String str1 = "";
                     String str2 = "";
@@ -819,9 +666,6 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
                     if (totalPrice != 0) {
                         for (int i = 0; i < mListData.size(); i++) {
                             if (mListData.get(i).isChoose()) {
-                                //							str1 = "";//先清空
-                                //							str2 = "";//先清空
-                                //							str3 = "";//先清空
                                 String fegefu = str1.length() > 0 ? "," : "";
                                 str1 = str1 + fegefu + String.valueOf(mListData.get(i).getArticle_id());
                                 str2 = str2 + fegefu + String.valueOf(mListData.get(i).getGoods_id());
@@ -888,10 +732,8 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
             }
 
             if (isBatchModel) {
-                subtitle.setText(R.string.menu_edit);
                 mDelete.setText(getResources().getString(R.string.menu_del) + "(" + quantitySum + ")");
             } else {
-                subtitle.setText(R.string.menu_enter);
                 mDelete.setText(getResources().getString(R.string.menu_sett) + "(" + quantitySum + ")");
             }
         }
