@@ -38,6 +38,7 @@ import com.yunsen.enjoy.activity.dealer.ApplyServiceActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceSecondActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceThreeActivity;
 import com.yunsen.enjoy.activity.dealer.MyFacilitatorActivity;
+import com.yunsen.enjoy.activity.mine.AddressManagerGlActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.BindBankCardActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
@@ -962,6 +963,16 @@ public class UIHelper {
         Intent intent = new Intent(ctx, GoodsDescriptionActivity.class);
         intent.putExtra(Constants.GOODS_ID_KEY, goodsId);
         intent.putExtra(Constants.ACT_TYPE_KEY, Constants.DEFAULT_BUY);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 收货地址页面
+     *
+     * @param ctx
+     */
+    public static void showAddressManagerGlActivity(Context ctx) {
+        Intent intent = new Intent(ctx, AddressManagerGlActivity.class);
         ctx.startActivity(intent);
     }
 

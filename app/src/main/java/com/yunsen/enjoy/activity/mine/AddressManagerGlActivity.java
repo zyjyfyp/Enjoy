@@ -205,31 +205,28 @@ public class AddressManagerGlActivity extends AppCompatActivity {
                         list_address.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
 
-                        list_address
-                                .setOnItemClickListener(new OnItemClickListener() {
+                        list_address.setOnItemClickListener(new OnItemClickListener() {
 
-                                    @Override
-                                    public void onItemClick(AdapterView<?> arg0,
-                                                            View arg1, int arg2, long arg3) {
+                            @Override
+                            public void onItemClick(AdapterView<?> arg0,
+                                                    View arg1, int arg2, long arg3) {
 
-                                        if (getIntent().hasExtra("order_confrim")) {
-                                            // 表示是来自订单确认
+                                if (getIntent().hasExtra("order_confrim")) {
+                                    // 表示是来自订单确认
+                                    Intent intent = new Intent(
+                                            AddressManagerGlActivity.this,
+                                            EditUserAddressActivity.class);
 
-                                            Intent intent = new Intent(
-                                                    AddressManagerGlActivity.this,
-                                                    EditUserAddressActivity.class);
+                                    UserAddressData bean = list.get(arg2);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("bean", bean);
+                                    intent.putExtras(bundle);
+                                    startActivityForResult(intent, Constants.ADD_ADDRESS_REQUEST);
+                                }
 
-                                            UserAddressData bean = list.get(arg2);
-                                            Bundle bundle = new Bundle();
-                                            bundle.putSerializable("bean", bean);
-                                            intent.putExtras(bundle);
-                                            startActivityForResult(intent, Constants.ADD_ADDRESS_REQUEST);
+                            }
 
-                                        }
-
-                                    }
-
-                                });
+                        });
 
                     } catch (Exception e) {
 

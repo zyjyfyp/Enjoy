@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -20,16 +22,10 @@ import com.tencent.tauth.Tencent;
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.MainActivity;
-import com.yunsen.enjoy.activity.buy.MyLoanActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceActivity;
 import com.yunsen.enjoy.activity.dealer.MyFacilitatorActivity;
-import com.yunsen.enjoy.activity.mine.AppointmentActivity;
-import com.yunsen.enjoy.activity.mine.CollectionActivity;
-import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
-import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
-import com.yunsen.enjoy.activity.mine.ShopCartActivity;
-import com.yunsen.enjoy.activity.mine.TeamActivity;
+import com.yunsen.enjoy.adapter.ImageAndTextAdapter;
 import com.yunsen.enjoy.common.AppContext;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
@@ -38,6 +34,7 @@ import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.model.UsedFunction;
 import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.PullImageEvent;
@@ -48,6 +45,7 @@ import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.GetImgUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.GlideCircleTransform;
+import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -63,7 +61,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Request;
 
-public class MineFragment extends BaseFragment {
+public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.OnItemClickListener {
     private static final String TAG = "MineFragment";
     public static String yth;
     @Bind(R.id.login_icon)
@@ -88,65 +86,67 @@ public class MineFragment extends BaseFragment {
     TextView orderTitle3;
     @Bind(R.id.order_number_3)
     TextView orderNumber3;
-    @Bind(R.id.order_img_4)
-    ImageView orderImg4;
-    @Bind(R.id.order_title_4)
-    TextView orderTitle4;
-    @Bind(R.id.order_number_4)
-    TextView orderNumber4;
-    @Bind(R.id.account_manager_layout)
-    LinearLayout accountManagerLayout;
-    @Bind(R.id.collection_layout)
-    LinearLayout collectionLayout;
-    @Bind(R.id.team_layout)
-    LinearLayout teamLayout;
-    @Bind(R.id.finance_layout)
-    LinearLayout financeLayout;
-    @Bind(R.id.recharge_layout)
-    LinearLayout rechargeLayout;
-    @Bind(R.id.apply_service_layout)
-    LinearLayout applyServiceLayout;
-    @Bind(R.id.apply_service_tv)
-    TextView applyServiceTv;
-    @Bind(R.id.appointment_layout)
-    LinearLayout appointmentLayout;
-    @Bind(R.id.help_layout)
-    LinearLayout helpLayout;
-    @Bind(R.id.logout_layout)
-    LinearLayout logoutLayout;
-    @Bind(R.id.user_icon_img)
-    ImageView userIconImg;
-    @Bind(R.id.user_name_tv)
-    TextView userNameTv;
-    @Bind(R.id.phone_num_tv)
-    TextView phoneNumTv;
     @Bind(R.id.grade_tv)
     TextView gradeTv;
     @Bind(R.id.grade_img)
     ImageView gradeImg;
+    @Bind(R.id.has_login_layout)
+    LinearLayout hasLoginLayout;
+    @Bind(R.id.user_icon_img)
+    ImageView userIconImg;
+    @Bind(R.id.user_name_tv)
+    TextView userNameTv;
+    @Bind(R.id.user_sex_img)
+    ImageView userSexImg;
+    @Bind(R.id.user_contribution_tv)
+    TextView userContributionTv;
+    @Bind(R.id.user_id_tv)
+    TextView userIdTv;
+    @Bind(R.id.setting_img)
+    ImageView settingImg;
+    @Bind(R.id.all_income_money_tv)
+    TextView allIncomeMoneyTv;
+    @Bind(R.id.all_income_money_layout)
+    LinearLayout allIncomeMoneyLayout;
+    @Bind(R.id.all_order_count_tv)
+    TextView allOrderCountTv;
+    @Bind(R.id.all_order_count_layout)
+    LinearLayout allOrderCountLayout;
+    @Bind(R.id.all_income_tv)
+    TextView allIncomeTv;
+    @Bind(R.id.all_income_layout)
+    LinearLayout allIncomeLayout;
     @Bind(R.id.balance_tv)
     TextView balanceTv;
     @Bind(R.id.balance_layout)
     LinearLayout balanceLayout;
-    @Bind(R.id.freeze_tv)
-    TextView freezeTv;
-    @Bind(R.id.freeze_layout)
-    LinearLayout freezeLayout;
-    @Bind(R.id.commission_tv)
-    TextView commissionTv;
-    @Bind(R.id.commission_layout)
-    LinearLayout commissionLayout;
-    @Bind(R.id.ready_money_tv)
-    TextView readyMoneyTv;
-    @Bind(R.id.ready_money_layout)
-    LinearLayout readyMoneyLayout;
-    @Bind(R.id.has_login_layout)
-    LinearLayout hasLoginLayout;
-    @Bind(R.id.my_loan_layout)
-    LinearLayout myLoanLayout;
-
+    @Bind(R.id.stored_ic_card_tv)
+    TextView storedIcCardTv;
+    @Bind(R.id.stored_ic_card_layout)
+    LinearLayout storedIcCardLayout;
+    @Bind(R.id.order_more_tv)
+    TextView orderMoreTv;
+    @Bind(R.id.grade_more_tv)
+    TextView gradeMoreTv;
+    @Bind(R.id.spread_layout)
+    LinearLayout spreadLayout;
+    @Bind(R.id.user_count_tv)
+    TextView userCountTv;
+    @Bind(R.id.user_count_layout)
+    LinearLayout userCountLayout;
+    @Bind(R.id.order_count_tv)
+    TextView orderCountTv;
+    @Bind(R.id.order_count_layout)
+    LinearLayout orderCountLayout;
+    @Bind(R.id.income_tv)
+    TextView incomeTv;
+    @Bind(R.id.income_layout)
+    LinearLayout incomeLayout;
+    @Bind(R.id.no_login_layout)
+    LinearLayout noLoginLayout;
+    @Bind(R.id.recycler_mine)
+    RecyclerView recyclerMine;
     private Activity context;
-
     private String user_name_phone;
     private String user_id;
     private SharedPreferences mSp;
@@ -155,6 +155,8 @@ public class MineFragment extends BaseFragment {
 
     private Boolean mIsFacilitator = false; //是否是服务商
     private String mUserName;//用户名
+    private ImageAndTextAdapter mFuncAdapter;
+    private double mBalance = 0;//余额
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -176,17 +178,34 @@ public class MineFragment extends BaseFragment {
     @Override
     protected void initView() {
         ButterKnife.bind(this, rootView);
+        Glide.with(MineFragment.this)
+                .load(R.mipmap.login_icon)
+                .transform(new GlideCircleTransform(getActivity()))
+                .into(userIconImg);
     }
 
     @Override
     protected void initData() {
+        recyclerMine.setLayoutManager(new GridLayoutManager(getActivity(), 4));
+        ArrayList<UsedFunction> datas = new ArrayList<>();
+        datas.add(new UsedFunction(R.mipmap.withdraw_cash, "余额提现"));
+        datas.add(new UsedFunction(R.mipmap.money_pakage, "钱包"));
+        datas.add(new UsedFunction(R.mipmap.address_img, "收货地址"));
+        datas.add(new UsedFunction(R.mipmap.yesterday_money, "昨日收益"));
+        datas.add(new UsedFunction(R.mipmap.invitation_win, "有奖邀请"));
+        datas.add(new UsedFunction(R.mipmap.upgrade_vip, "升级会员"));
+        datas.add(new UsedFunction(R.mipmap.apply_proxy, "申请代理"));
+        datas.add(new UsedFunction(R.mipmap.authentication, "实名认证"));
+        mFuncAdapter = new ImageAndTextAdapter(getActivity(), R.layout.img_and_text_layout_2, datas);
+        recyclerMine.setAdapter(mFuncAdapter);
+
         mSp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
         mIsFacilitator = mSp.getBoolean(SpConstants.HAS_SERVICE_SHOP, false);
-        upApplyServiceTv(mIsFacilitator);
         if (AccountUtils.hasLogin()) {
             hasLoginLayout.setVisibility(View.VISIBLE);
             loginIcon.setVisibility(View.GONE);
             loginTv.setVisibility(View.GONE);
+            noLoginLayout.setVisibility(View.GONE);
             headimgurl = mSp.getString(SpConstants.HEAD_IMG_URL, "");
             String imgUrl = mSp.getString(SpConstants.USER_IMG, "");
             String imgUrl2 = mSp.getString(SpConstants.AVATAR, "");
@@ -210,6 +229,7 @@ public class MineFragment extends BaseFragment {
             hasLoginLayout.setVisibility(View.GONE);
             loginIcon.setVisibility(View.VISIBLE);
             loginTv.setVisibility(View.VISIBLE);
+            noLoginLayout.setVisibility(View.VISIBLE);
         }
 
     }
@@ -222,7 +242,7 @@ public class MineFragment extends BaseFragment {
 
     @Override
     protected void initListener() {
-
+        mFuncAdapter.setOnItemClickListener(this);
     }
 
     @OnClick(R.id.login_icon)
@@ -267,12 +287,8 @@ public class MineFragment extends BaseFragment {
         orderClick("3");
     }
 
-    @OnClick(R.id.order_img_4)
-    public void onOrderImg4Clicked() {
-        orderClick("4");
-    }
 
-    @OnClick(R.id.account_manager_layout) //账户管理
+    //账户管理
     public void onAccountManagerLayoutClicked() {
         goLoginOrOtherActivity(PersonCenterActivity.class);
     }
@@ -324,49 +340,6 @@ public class MineFragment extends BaseFragment {
         }
     }
 
-    @OnClick(R.id.collection_layout) //收藏
-    public void onCollectionLayoutClicked() {
-        goLoginOrOtherActivity(CollectionActivity.class);
-    }
-
-    @OnClick(R.id.team_layout) //团队信息
-    public void onTeamLayoutClicked() {
-        goLoginOrOtherActivity(TeamActivity.class);
-    }
-
-    @OnClick(R.id.finance_layout)
-    public void onFinanceLayoutClicked() {
-        goLoginOrOtherActivity(MyAssetsActivity.class);
-    }
-
-    @OnClick(R.id.recharge_layout)
-    public void onRechargeLayoutClicked() {
-        goLoginOrOtherActivity(MyQianBaoActivity.class);
-    }
-
-    @OnClick(R.id.apply_service_layout) //申请服务商（我是服务商）
-    public void onApplyServiceLayoutClicked() {
-        goLoginOrIsFacilitator();
-    }
-
-    @OnClick(R.id.appointment_layout) //预约管理
-    public void onAppointmentLayoutClicked() {
-        goLoginOrOtherActivity(AppointmentActivity.class);
-    }
-
-    @OnClick(R.id.help_layout)
-    public void onHelpLayoutClicked() {
-        UIHelper.showHelpActivity(getActivity());
-    }
-
-    @OnClick(R.id.logout_layout)
-    public void onLogoutLayoutClicked() {
-        if (AccountUtils.hasLogin()) {
-            DialogUtils.showLoginDialog(getActivity());
-        } else {
-            Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     /**
      * 判断是否登录和绑定跳转我的资产
@@ -386,33 +359,6 @@ public class MineFragment extends BaseFragment {
             } else {
                 UIHelper.showUserLoginActivity(getActivity());
             }
-        }
-    }
-
-    @OnClick({R.id.user_icon_img, R.id.balance_layout, R.id.freeze_layout,
-            R.id.commission_layout, R.id.ready_money_layout, R.id.my_loan_layout})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.user_icon_img:
-                if (getActivity() instanceof MainActivity) {
-                    ((MainActivity) getActivity()).requestPermission(Permission.WRITE_EXTERNAL_STORAGE, Constants.WRITE_EXTERNAL_STORAGE);
-                }
-                break;
-            case R.id.balance_layout:
-                assetsClick("1");
-                break;
-            case R.id.freeze_layout:
-                assetsClick("2");
-                break;
-            case R.id.commission_layout:
-                assetsClick("3");
-                break;
-            case R.id.ready_money_layout:
-                assetsClick("4");
-                break;
-            case R.id.my_loan_layout:
-                goLoginOrOtherActivity(MyLoanActivity.class);
-                break;
         }
     }
 
@@ -466,8 +412,6 @@ public class MineFragment extends BaseFragment {
                                 orderNumber2.setText(num1);
                                 String num2 = String.valueOf(list_3.size());
                                 orderNumber3.setText(num2);
-                                String num3 = String.valueOf(list_4.size());
-                                orderNumber4.setText(num3);
                             }
                         } catch (JSONException e) {
 
@@ -493,6 +437,14 @@ public class MineFragment extends BaseFragment {
         if (TextUtils.isEmpty(mUserName)) {
             mUserName = nickname;
         }
+        String userId = mSp.getString(SpConstants.USER_CODE, "");
+        if (!TextUtils.isEmpty(userId)) {
+            userIdTv.setText("ID: " + userId);
+        }
+        String groupName = mSp.getString(SpConstants.GROUP_NAME, "");
+        if (!TextUtils.isEmpty(groupName)) {
+            gradeTv.setText(groupName);
+        }
 
         if (SpConstants.WEI_XIN.equals(loginFlag) || SpConstants.QQ_LOGIN.equals(loginFlag)) {//微信登录 QQ登录
             if (AccountUtils.hasBoundPhone()) {
@@ -510,6 +462,7 @@ public class MineFragment extends BaseFragment {
                 hasLoginLayout.setVisibility(View.GONE);
                 loginIcon.setVisibility(View.VISIBLE);
                 loginTv.setVisibility(View.VISIBLE);
+                noLoginLayout.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -526,7 +479,6 @@ public class MineFragment extends BaseFragment {
                 SharedPreferences.Editor edit = mSp.edit();
                 edit.putBoolean(SpConstants.HAS_SERVICE_SHOP, isFacilitator);
                 edit.commit();
-                upApplyServiceTv(mIsFacilitator);
             }
 
             @Override
@@ -536,18 +488,6 @@ public class MineFragment extends BaseFragment {
         });
     }
 
-    /**
-     * 是否是服务商
-     *
-     * @param isFacilitator
-     */
-    private void upApplyServiceTv(boolean isFacilitator) {
-        if (isFacilitator) {
-            applyServiceTv.setText("我是服务商");
-        } else {
-            applyServiceTv.setText("申请服务商");
-        }
-    }
 
     /**
      * 设置用户图标 和 名字
@@ -582,10 +522,8 @@ public class MineFragment extends BaseFragment {
             @Override
             public void onSuccess(UserInfo data) {
                 yth = data.getUser_code();
-                balanceTv.setText("" + data.getAmount()); //钱包
-                freezeTv.setText("" + data.getReserve());//冻结基金
-                commissionTv.setText("0.0");//佣金
-                readyMoneyTv.setText("0.0");// 提现
+                mBalance = data.getAmount();
+                balanceTv.setText(data.getAmountStr()); //钱包
                 String nickName = data.getNick_name();
                 if (TextUtils.isEmpty(nickName)) {
                     userNameTv.setText(data.getUser_name());
@@ -594,7 +532,6 @@ public class MineFragment extends BaseFragment {
                 }
                 gradeTv.setVisibility(View.VISIBLE);
                 gradeTv.setText(data.getGroup_name());
-                phoneNumTv.setText("(" + data.getMobile() + ")");
                 String avatar = data.getAvatar();
 
                 if (!TextUtils.isEmpty(avatar) && avatar.startsWith("http")) {
@@ -609,6 +546,12 @@ public class MineFragment extends BaseFragment {
                             .placeholder(R.mipmap.login_icon)
                             .transform(new GlideCircleTransform(getActivity()))
                             .into(userIconImg);
+                }
+                if (!TextUtils.isEmpty(data.getUser_code())) {
+                    userIdTv.setText("ID: " + data.getUser_code());
+                }
+                if (!TextUtils.isEmpty(data.getGroup_name())) {
+                    gradeTv.setText(data.getGroup_name());
                 }
             }
 
@@ -634,6 +577,7 @@ public class MineFragment extends BaseFragment {
                 hasLoginLayout.setVisibility(View.VISIBLE);
                 loginIcon.setVisibility(View.GONE);
                 loginTv.setVisibility(View.GONE);
+                noLoginLayout.setVisibility(View.GONE);
                 Log.e(TAG, "onEvent: 登录更新");
                 WsManager.getInstance().init();
                 getUserInfo();
@@ -643,17 +587,13 @@ public class MineFragment extends BaseFragment {
                 hasLoginLayout.setVisibility(View.GONE);
                 loginIcon.setVisibility(View.VISIBLE);
                 loginTv.setVisibility(View.VISIBLE);
+                noLoginLayout.setVisibility(View.VISIBLE);
                 mIsFacilitator = false;
-                upApplyServiceTv(false);
+                balanceTv.setText("0.00");
                 Log.e(TAG, "onEvent: 注销更新");
-                balanceTv.setText("0.0");
-                freezeTv.setText("0.0");
-                commissionTv.setText("0.0");
-                readyMoneyTv.setText("0.0");
                 orderNumber1.setText("0");
                 orderNumber2.setText("0");
                 orderNumber3.setText("0");
-                orderNumber4.setText("0");
                 gradeTv.setVisibility(View.GONE);
                 AccountUtils.clearData();
                 SharedPreferences sp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
@@ -714,4 +654,100 @@ public class MineFragment extends BaseFragment {
     }
 
 
+    @OnClick({
+            R.id.balance_layout, R.id.user_icon_img, R.id.setting_img, R.id.all_income_money_layout,
+            R.id.all_order_count_layout, R.id.all_income_layout, R.id.stored_ic_card_layout, R.id.order_more_tv, R.id.grade_more_tv,
+            R.id.spread_layout, R.id.user_count_layout, R.id.order_count_layout, R.id.income_layout})
+    public void onViewClicked(View view) {
+        if (!AccountUtils.hasLogin()) {
+            UIHelper.showUserLoginActivity(getActivity());
+        } else if (!AccountUtils.hasBoundPhone()) {
+            UIHelper.showBundPhoneActivity(getActivity());
+        } else {
+            switch (view.getId()) {
+                case R.id.user_icon_img:
+                    if (getActivity() instanceof MainActivity) {
+                        ((MainActivity) getActivity()).requestPermission(Permission.WRITE_EXTERNAL_STORAGE, Constants.WRITE_EXTERNAL_STORAGE);
+                    }
+                    break;
+                case R.id.balance_layout:
+                    assetsClick("1");
+                    break;
+                case R.id.setting_img:
+                    UIHelper.showPersonCenterActivity(getActivity());
+                    break;
+                case R.id.all_income_money_layout:
+                    ToastUtils.makeTextShort("本月盈收");
+                    break;
+                case R.id.all_order_count_layout:
+                    ToastUtils.makeTextShort("本月订单");
+                    break;
+                case R.id.all_income_layout:
+                    ToastUtils.makeTextShort("累计收益");
+                    break;
+                case R.id.stored_ic_card_layout:
+                    ToastUtils.makeTextShort("储值卡");
+                    break;
+                case R.id.order_more_tv: //我的订单更多
+                    UIHelper.showOrderActivity(getActivity(), "0");
+                    break;
+                case R.id.grade_more_tv:
+                    ToastUtils.makeTextShort("排名");
+                    break;
+                case R.id.spread_layout:
+                    ToastUtils.makeTextShort("推广");
+                    break;
+                case R.id.user_count_layout:
+                    ToastUtils.makeTextShort("人数");
+                    break;
+                case R.id.order_count_layout:
+                    ToastUtils.makeTextShort("订单数");
+                    break;
+                case R.id.income_layout:
+                    ToastUtils.makeTextShort("累计收益");
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
+        if (!AccountUtils.hasLogin()) {
+            UIHelper.showUserLoginActivity(getActivity());
+        } else if (!AccountUtils.hasBoundPhone()) {
+            UIHelper.showBundPhoneActivity(getActivity());
+        } else {
+            switch (position) {
+                case 0:
+                    UIHelper.showWithdrawCashActivity(getActivity(), mBalance);
+                    break;
+                case 1:
+                    ToastUtils.makeTextShort("钱包");
+                    break;
+                case 2:
+                    UIHelper.showAddressManagerGlActivity(getActivity());
+                    break;
+                case 3:
+                    ToastUtils.makeTextShort("昨日收益");
+                    break;
+                case 4:
+                    UIHelper.showExtensionActivity(getActivity());
+                    break;
+                case 5:
+                    ToastUtils.makeTextShort("升级会员");
+                    break;
+                case 6:
+                    ToastUtils.makeTextShort("申请代理");
+                    break;
+                case 7:
+                    ToastUtils.makeTextShort("实名认证");
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
+        return false;
+    }
 }
