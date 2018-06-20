@@ -215,6 +215,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
                 upBanner(albums);
                 upView(responseData);
                 upData(responseData);
+
                 if (albums != null && albums.size() > 0) {
                     webview.loadUrl(URLConstants.REALM_NAME_HTTP + "/mobile/goods/conent-" + albums.get(0).getArticle_id() + ".html");//商品介绍
                 }

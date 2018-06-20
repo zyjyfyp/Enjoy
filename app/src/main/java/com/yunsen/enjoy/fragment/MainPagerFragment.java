@@ -285,7 +285,8 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
             List<CarDetails> datas = ((HomeGoodsAdapter) adapter).getDatas();
             int pos = position - 1;
             if (pos >= 0 && pos < datas.size()) {
-                ToastUtils.makeTextShort("" + pos);
+                int id = datas.get(pos).getId();
+                UIHelper.showGoodsDescriptionActivity(getActivity(), String.valueOf(id));
             }
         }
     }

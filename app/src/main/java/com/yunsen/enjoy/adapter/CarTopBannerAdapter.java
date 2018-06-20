@@ -2,13 +2,11 @@ package com.yunsen.enjoy.adapter;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
-import com.yunsen.enjoy.R;
+import com.bumptech.glide.Glide;
 import com.yunsen.enjoy.model.AlbumsBean;
 
 import java.util.List;
@@ -42,11 +40,11 @@ public class CarTopBannerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, final int position) {
         ImageView item = new ImageView(mContext);
         AlbumsBean data = mDatas.get(position);
-        if (data.getThumb_path() == null) {
+        if (data.getOriginal_path() == null) {
             item.setImageResource(data.getResId());
         } else {
-            Picasso.with(mContext)
-                    .load(data.getThumb_path())
+            Glide.with(mContext)
+                    .load(data.getOriginal_path())
                     .into(item);
         }
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(-1, -1);

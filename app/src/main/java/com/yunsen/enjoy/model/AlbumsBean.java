@@ -55,7 +55,11 @@ public class AlbumsBean {
     }
 
     public String getOriginal_path() {
-        return original_path;
+        if (original_path != null && original_path.startsWith("http")) {
+            return original_path;
+        } else {
+            return URLConstants.REALM_URL + original_path;
+        }
     }
 
     public void setOriginal_path(String original_path) {

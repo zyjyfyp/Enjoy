@@ -27,6 +27,7 @@ import com.yunsen.enjoy.activity.buy.ApplyBuyThreeActivity;
 import com.yunsen.enjoy.activity.buy.ApplyBuyTwoActivity;
 import com.yunsen.enjoy.activity.buy.CarServiceActivity;
 import com.yunsen.enjoy.activity.buy.ExchangePointActivity;
+import com.yunsen.enjoy.activity.buy.GoodsDescriptionActivity;
 import com.yunsen.enjoy.activity.buy.GoodsDescriptionActivityOld;
 import com.yunsen.enjoy.activity.buy.MeetAddressActivity;
 import com.yunsen.enjoy.activity.buy.PartsShopActivity;
@@ -710,7 +711,7 @@ public class UIHelper {
      */
     public static void showHomeCarFragment(Context ctx) {
         Intent intent = new Intent(ctx, MainActivity.class);
-        intent.putExtra(Constants.FRAGMENT_TYPE_KEY, 3);
+        intent.putExtra(Constants.FRAGMENT_TYPE_KEY, 1);
         ctx.startActivity(intent);
     }
 
@@ -951,4 +952,17 @@ public class UIHelper {
         req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
         api.sendReq(req);
     }
+
+    /**
+     * 去商品详情
+     *
+     * @param ctx
+     */
+    public static void showGoodsDescriptionActivity(Context ctx, String goodsId) {
+        Intent intent = new Intent(ctx, GoodsDescriptionActivity.class);
+        intent.putExtra(Constants.GOODS_ID_KEY, goodsId);
+        intent.putExtra(Constants.ACT_TYPE_KEY, Constants.DEFAULT_BUY);
+        ctx.startActivity(intent);
+    }
+
 }

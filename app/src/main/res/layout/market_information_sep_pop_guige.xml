@@ -8,12 +8,13 @@
         android:id="@+id/market_information_pop_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="0dp">
+       >
 
         <LinearLayout
+            android:layout_marginBottom="1dp"
+            android:layout_gravity="bottom"
             android:layout_width="match_parent"
             android:layout_height="75dp"
-            android:layout_marginTop="35dp"
             android:background="@color/white"
             android:orientation="vertical">
 
@@ -40,6 +41,16 @@
                 android:text="价格:"
                 android:textColor="@color/hongse"
                 android:textSize="15sp" />
+            <TextView
+                android:visibility="gone"
+                android:layout_marginLeft="120dp"
+                android:id="@+id/good_no_tv"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/title_color"
+                android:textSize="13sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/tv_guige"
@@ -71,7 +82,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginBottom="0dp"
         android:background="@color/list_diver" />
 
     <LinearLayout
@@ -84,13 +94,34 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/market_information_pop_bottom"
-            android:layout_below="@+id/market_information_pop_top">
+           >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/no_attribute_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+                    <TextView
+                        android:textSize="15sp"
+                        android:textColor="@color/title_color"
+                        android:text="属性"
+                        android:layout_margin="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:textSize="15sp"
+                        android:textColor="@color/orange_color"
+                        android:text="无"
+                        android:layout_margin="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
 
                 <ListView
                     android:id="@+id/listview_01"
@@ -117,7 +148,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_weight="1"
-                        android:text="数量"
+                        android:text="购买数量"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 

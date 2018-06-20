@@ -99,19 +99,14 @@
 
         <CheckBox
             android:id="@+id/check_box_all"
-            style="@style/mycheckbox"
+            android:button="@drawable/checkbox_selectors"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="0dp"
-            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
-            android:clickable="true"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
             android:gravity="center"
             android:minHeight="64dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:visibility="visible" />
 
         <RelativeLayout

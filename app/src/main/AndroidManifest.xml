@@ -90,7 +90,7 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.yunsen.enjoy.fileprovider"
+            android:authorities="com.yunsen.gaea.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -345,6 +345,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.mine.ExtensionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.buy.GoodsDescriptionActivity"
             android:screenOrientation="portrait" />
     </application>
 

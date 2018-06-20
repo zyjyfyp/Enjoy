@@ -22,6 +22,7 @@ import com.yunsen.enjoy.fragment.CarFragment;
 import com.yunsen.enjoy.fragment.DiscoverFragment;
 import com.yunsen.enjoy.fragment.MainPagerFragment;
 import com.yunsen.enjoy.fragment.MineFragment;
+import com.yunsen.enjoy.fragment.NoticeFragment;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.AccountUtils;
 
@@ -181,7 +182,7 @@ public class MainActivity extends BaseFragmentActivity {
             case 2:
                 return new DiscoverFragment();
             case 3:
-                return new BuyFragment();
+                return new NoticeFragment();
             case 4:
                 mMineFragment = new MineFragment();
                 return mMineFragment;

@@ -79,7 +79,10 @@ public class URLConstants {
     public static String getNoticeHtmlUrl(String id) {
         return NOTICE_HTML_URL.replace("15933", id);
     }
-
+    /**
+     * 删除物品
+     */
+    public static final String DELETE_SHOPPING_CART_GOODS = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/cart_goods_delete";
     /**
      * 汽车详情
      */

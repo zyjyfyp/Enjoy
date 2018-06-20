@@ -38,6 +38,7 @@ import com.yunsen.enjoy.model.PullImageResult;
 import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.model.ServiceProject;
 import com.yunsen.enjoy.model.ServiceProvideResponse;
+import com.yunsen.enjoy.model.ShopCarCount;
 import com.yunsen.enjoy.model.TradeData;
 import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.WXAccessTokenEntity;
@@ -65,6 +66,7 @@ import com.yunsen.enjoy.model.response.PullImageResponse;
 import com.yunsen.enjoy.model.response.SearchListResponse;
 import com.yunsen.enjoy.model.response.ServiceProjectListResponse;
 import com.yunsen.enjoy.model.response.ServiceShopInfoResponse;
+import com.yunsen.enjoy.model.response.ShopCarAccountResponse;
 import com.yunsen.enjoy.model.response.StringResponse;
 import com.yunsen.enjoy.model.response.TradeListResponse;
 import com.yunsen.enjoy.model.response.UserInfoResponse;
@@ -1939,6 +1941,32 @@ public class HttpProxy {
             }
         });
     }
+    /**
+     * 删除购物车的某个商品
+     */
+    public static void deleteShopCarGoods(String userId, String GoodsId, final HttpCallBack<ShopCarCount> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("clear", "0");
+        map.put("user_id", userId);
+        map.put("cart_id", GoodsId);
+        HttpClient.get(URLConstants.DELETE_SHOPPING_CART_GOODS, map, new HttpResponseHandler<ShopCarAccountResponse>() {
+            @Override
+            public void onSuccess(ShopCarAccountResponse response) {
+                super.onSuccess(response);
+                ShopCarCount data = response.getData();
+                if (data != null) {
+                    callBack.onSuccess(data);
+                } else {
+                    callBack.onError(null, new Exception("data is empty!"));
+                }
+            }
 
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
+                super.onFailure(request, e);
+            }
+        });
+    }
 }
 
