@@ -28,7 +28,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="20dip"
                 android:gravity="center"
-                android:text="绑定乐享汽车手机号"
+                android:text="绑定袋鼠车宝手机号"
                 android:textColor="@color/all_wenzi"
                 android:textSize="18sp" />
 
