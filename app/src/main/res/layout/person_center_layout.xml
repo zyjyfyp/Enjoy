@@ -90,6 +90,34 @@
                         android:background="@color/list_item_line" />
 
                     <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp">
+
+                        <TextView
+                            android:id="@+id/tv_ka_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:text="会员卡号"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/v2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true" />
+
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@drawable/list_div" />
+
+                    <RelativeLayout
                         android:id="@+id/rl_nichen"
                         android:layout_width="match_parent"
                         android:layout_height="45dp">
@@ -116,33 +144,62 @@
                         android:layout_height="1dp"
                         android:background="@drawable/list_div" />
 
+
                     <RelativeLayout
+                        android:id="@+id/emil_layout"
                         android:layout_width="match_parent"
                         android:layout_height="45dp">
 
                         <TextView
-                            android:id="@+id/tv_ka_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
-                            android:text="会员号"
+                            android:text="邮箱"
                             android:textSize="15sp" />
 
                         <TextView
-                            android:id="@+id/v2"
+                            android:id="@+id/emil_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true" />
-
-
+                            android:layout_centerVertical="true"
+                            android:hint="请输入邮箱" />
                     </RelativeLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@drawable/list_div" />
+
+                    <RelativeLayout
+                        android:id="@+id/online_qq_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:text="联系QQ"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/online_qq_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="right"
+                            android:hint="请输入联系QQ" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@drawable/list_div" />
+
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -161,8 +218,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true" />
+                            android:layout_centerVertical="true"
+                            android:gravity="right" />
                     </RelativeLayout>
+
+
                 </LinearLayout>
 
                 <View
@@ -191,19 +251,6 @@
                             android:text="性别"
                             android:textSize="15sp" />
 
-                        <EditText
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:imeOptions="actionNext"
-                            android:singleLine="true"
-                            android:text="查看全部订单"
-                            android:textColor="@color/ban_louming"
-                            android:textSize="13sp"
-                            android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/edt_xingbie"
@@ -223,16 +270,34 @@
                             android:background="@mipmap/more" />
                     </LinearLayout>
 
-                    <EditText
+                    <View
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:gravity="right"
-                        android:hint="查看全部订单"
-                        android:textColor="@color/all_wenzi"
-                        android:textColorHint="@color/all_c1c1c1"
-                        android:textSize="13sp"
-                        android:visibility="gone" />
+                        android:layout_height="1dp"
+                        android:background="@drawable/list_div" />
+
+                    <RelativeLayout
+                        android:id="@+id/birthday_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:text="生日"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/birthday_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="right"
+                            android:hint="请选择你的生日" />
+                    </RelativeLayout>
+
 
                     <View
                         android:layout_width="match_parent"
@@ -684,13 +749,26 @@
                             android:background="@mipmap/more" />
 
                     </RelativeLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@drawable/list_div" />
 
+                    <RelativeLayout
+                        android:id="@+id/logout_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:text="注销"
+                            android:textSize="15sp" />
+
+                    </RelativeLayout>
                 </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@drawable/list_div" />
             </LinearLayout>
         </ScrollView>
 

@@ -58,13 +58,18 @@ import com.yunsen.enjoy.model.UserSenJiBean;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.PullImageEvent;
 import com.yunsen.enjoy.model.event.UpUiEvent;
+import com.yunsen.enjoy.ui.DialogUtils;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.GetImgUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.utils.Utils;
+import com.yunsen.enjoy.widget.DatePickerViewDialog;
 import com.yunsen.enjoy.widget.DialogProgress;
 import com.yunsen.enjoy.widget.GlideCircleTransform;
 import com.yunsen.enjoy.widget.MyAlertDialog;
+import com.yunsen.enjoy.widget.interfaces.onLeftOnclickListener;
+import com.yunsen.enjoy.widget.interfaces.onRightOnclickListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -127,6 +132,12 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
     public static boolean zhuangtai = false;
     private SharedPreferences mSp;
     private String mUserName;
+    private TextView emilTv;
+    private TextView onlineQQTv;
+    private TextView birthdayDayTv;
+    private String mBirthday = "";
+    private DatePickerViewDialog mDataPicker;
+    private String mQQData = "";
 
     @Override
     public int getLayout() {
@@ -219,13 +230,22 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
         ll_diqu = (LinearLayout) findViewById(R.id.ll_diqu);
         ll_shenji = (LinearLayout) findViewById(R.id.ll_shenji);
         vi_shenji = findViewById(R.id.vi_shenji);
+        emilTv = ((TextView) (TextView) findViewById(R.id.emil_tv));
+        ((RelativeLayout) (findViewById(R.id.emil_layout))).setOnClickListener(this);
+        onlineQQTv = ((TextView) (TextView) findViewById(R.id.online_qq_tv));
+        ((RelativeLayout) (findViewById(R.id.online_qq_layout))).setOnClickListener(this);
+
+        birthdayDayTv = ((TextView) (TextView) findViewById(R.id.birthday_tv));
+        ((RelativeLayout) (findViewById(R.id.birthday_layout))).setOnClickListener(this);
+        ((RelativeLayout) (findViewById(R.id.logout_layout))).setOnClickListener(this);
+
         ll_update.setOnClickListener(this);
         rl_nichen.setOnClickListener(this);
         ll_gender.setOnClickListener(this);
         ll_diqu.setOnClickListener(this);
         mm.setOnClickListener(this);
         networkImage.setOnClickListener(this);
-
+        emilTv.setOnClickListener(this);
         String version = getAppVersionName(PersonCenterActivity.this);
         System.out.println("c_version==============" + version);
         tv_banbenhao.setText(version);
@@ -299,9 +319,22 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                             data.area = obj.getString("area");
                             data.vip_card = obj.getString("vip_card");
                             mobile = data.user_name;
+                            data.email = obj.getString("email");
+                            mBirthday = obj.getString("birthday");
+                            mQQData = obj.getString("qq");
+                            Log.e("nihoa", "onSuccess: " + mBirthday);
+                            if (mBirthday != null) {
+                                mBirthday = mBirthday.trim();
+                                int endIndex = mBirthday.indexOf(" ");
+                                mBirthday = mBirthday.substring(0, endIndex);
+                                birthdayDayTv.setText(mBirthday);
+                            }
+                            if (!TextUtils.isEmpty(mQQData)) {
+                                onlineQQTv.setText(mQQData);
+                            }
 
                             try {
-                                if (!data.vip_card.equals("")) {
+                                if (!TextUtils.isEmpty(data.vip_card)) {
                                     tv_ka_name.setText("服务金卡");
                                     v2.setText(data.vip_card);
                                 } else {
@@ -334,13 +367,11 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                                 Editor editor = mSp.edit();
                                 editor.putString(SpConstants.AVATAR, data.avatar);
                                 editor.commit();
-
-                                if (data.province.equals("")) {
-
+                                if (TextUtils.isEmpty(data.province)) {
                                 } else {
                                     tv_city.setText(data.province + "、" + data.city + "、" + data.area);
                                 }
-
+                                emilTv.setText(data.email);
                                 String avatar = data.avatar;
 
                                 if (!TextUtils.isEmpty(avatar) && avatar.startsWith("http")) {
@@ -524,8 +555,64 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
             case R.id.roundImage_network:
                 showChoosePicDialog();
                 break;
+            case R.id.emil_layout:
+                Intent intentE = new Intent(PersonCenterActivity.this, TishiNicknameActivity.class);
+                intentE.putExtra(Constants.ACT_TYPE_KEY, Constants.EMIL);
+                startActivity(intentE);
+                break;
+            case R.id.online_qq_layout:
+                Intent intentOn = new Intent(PersonCenterActivity.this, TishiNicknameActivity.class);
+                intentOn.putExtra(Constants.ACT_TYPE_KEY, Constants.ONLINE_QQ);
+                startActivity(intentOn);
+                break;
+            case R.id.birthday_layout:
+                showDatePicker();
+                break;
+            case R.id.logout_layout:
+               DialogUtils.showLoginDialog(this);
+                break;
             default:
                 break;
+        }
+    }
+
+    /**
+     * 显示日志picker
+     */
+    private void showDatePicker() {
+        if (mDataPicker == null) {
+            mDataPicker = new DatePickerViewDialog(this);
+            mDataPicker.setRightOnclickListener("确定", new onRightOnclickListener() {
+                @Override
+                public void onRightClick(int... index) {
+                    final String date = index[0] + "-" + index[1] + "-" + index[2];
+                    HttpProxy.changeBirthday(user_id, mUserName, login_sign, date, new HttpCallBack<Boolean>() {
+                        @Override
+                        public void onSuccess(Boolean responseData) {
+                            if (responseData) {
+                                ToastUtils.makeTextShort("修改成功");
+                                birthdayDayTv.setText(date);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Request request, Exception e) {
+                            ToastUtils.makeTextShort("修改失败");
+                        }
+                    });
+                    mDataPicker.dismiss();
+                }
+            });
+            mDataPicker.setLeftOnclickListener("取消", new onLeftOnclickListener() {
+                @Override
+                public void onLeftClick() {
+                    mDataPicker.dismiss();
+                }
+            });
+        }
+
+        if (!mDataPicker.isShowing()) {
+            mDataPicker.show();
         }
     }
 
@@ -1081,7 +1168,7 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
         try {
             AsyncHttp.get(URLConstants.REALM_ACCOUNT_URL
                             + "/user_info_edit?user_id=" + user_id + "&user_name=" + mUserName + "" +
-                            "&nick_name=" + nick_name + "&mobile=" + mobile + "&sex=" + sex + "&birthday=string&email=string" +
+                            "&nick_name=" + nick_name + "&mobile=" + mobile + "&sex=" + sex + "&birthday=" + mBirthday + "&email=" + data.email +
                             "&telphone=string&qq=string&msn=string&province=" + cityTxt1 + "&city=" + cityTxt2 + "&area=" + cityTxt3 + "&address=string&sign=" + login_sign + "",
                     new AsyncHttpResponseHandler() {
                         @Override

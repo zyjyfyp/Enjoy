@@ -1941,6 +1941,7 @@ public class HttpProxy {
             }
         });
     }
+
     /**
      * 删除购物车的某个商品
      */
@@ -1965,6 +1966,98 @@ public class HttpProxy {
             public void onFailure(Request request, Exception e) {
                 callBack.onError(request, e);
                 super.onFailure(request, e);
+            }
+        });
+    }
+
+    /**
+     * 修改邮箱
+     *
+     * @param userId
+     * @param userName
+     * @param userSign
+     * @param emil
+     * @param callBack
+     */
+    public static void changeEmilData(String userId, String userName, String userSign, String emil, final HttpCallBack<Boolean> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("user_id", userId);
+        map.put("user_name", userName);
+        map.put("field", "email");
+        map.put("value", emil);
+        map.put("sign", userSign);
+        HttpClient.get(URLConstants.CHANGE_EMIL_URL, map, new HttpResponseHandler<RestApiResponse>() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(true);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onSuccess(false);
+            }
+        });
+    }
+
+    /**
+     * 修改QQ
+     *
+     * @param userId
+     * @param userName
+     * @param loginSign
+     * @param qq
+     * @param callBack
+     */
+    public static void changeQQData(String userId, String userName, String loginSign, String qq, final HttpCallBack<Boolean> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("user_id", userId);
+        map.put("user_name", userName);
+        map.put("field", "qq");
+        map.put("value", qq);
+        map.put("sign", loginSign);
+        HttpClient.get(URLConstants.CHANGE_ONLINE_QQ_URL, map, new HttpResponseHandler<RestApiResponse>() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(true);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onSuccess(false);
+            }
+        });
+    }
+
+    /**
+     *
+     * @param userId
+     * @param userName
+     * @param loginSign
+     * @param birthday
+     * @param callBack
+     */
+    public static void changeBirthday(String userId, String userName, String loginSign, String birthday, final HttpCallBack<Boolean> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("user_id", userId);
+        map.put("user_name", userName);
+        map.put("field", "birthday");
+        map.put("value", birthday);
+        map.put("sign", loginSign);
+        HttpClient.get(URLConstants.CHANGE_ONLINE_QQ_URL, map, new HttpResponseHandler<RestApiResponse>() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(true);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onSuccess(false);
             }
         });
     }

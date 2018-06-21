@@ -204,4 +204,5 @@ public class DeviceUtil {
         return sScreenHeight;
     }
 
+
 }

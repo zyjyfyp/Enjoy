@@ -445,6 +445,14 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
         if (!TextUtils.isEmpty(groupName)) {
             gradeTv.setText(groupName);
         }
+        String sex = mSp.getString(SpConstants.SEX, "");
+        if (Constants.GIRL.equals(sex)) {
+            userSexImg.setImageResource(R.mipmap.girl_img);
+        } else if (Constants.BOY.equals(sex)) {
+            userSexImg.setImageResource(R.mipmap.boy_img);
+        } else {
+            userSexImg.setImageResource(R.mipmap.secrecy);
+        }
 
         if (SpConstants.WEI_XIN.equals(loginFlag) || SpConstants.QQ_LOGIN.equals(loginFlag)) {//微信登录 QQ登录
             if (AccountUtils.hasBoundPhone()) {
@@ -552,6 +560,14 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
                 }
                 if (!TextUtils.isEmpty(data.getGroup_name())) {
                     gradeTv.setText(data.getGroup_name());
+                }
+                String sex = data.getSex();
+                if (Constants.GIRL.equals(sex)) {
+                    userSexImg.setImageResource(R.mipmap.girl_img);
+                } else if (Constants.BOY.equals(sex)) {
+                    userSexImg.setImageResource(R.mipmap.boy_img);
+                } else {
+                    userSexImg.setImageResource(R.mipmap.secrecy);
                 }
             }
 

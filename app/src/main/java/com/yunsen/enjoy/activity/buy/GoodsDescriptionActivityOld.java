@@ -155,7 +155,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
         ButterKnife.bind(this);
         goodsMarketPriceTv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); //中划线
         goodsMarketPriceTv2.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
-        goodsRLayout.getLayoutParams().height = DeviceUtil.getWidth(this);
+        goodsRLayout.getLayoutParams().height = (int) (DeviceUtil.getWidth(this) * 0.6);
         sHandler = new MyHandler(this);
     }
 

@@ -19,9 +19,12 @@ import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserRegisterllData;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.widget.DialogProgress;
 
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
@@ -144,6 +147,7 @@ public class GenderFangShiActivity extends AppCompatActivity implements
                         System.out.println("======login_sign============="
                                 + login_sign);
                         loadusersex(login_sign);
+
                     } else {
                     }
                 } catch (JSONException e) {
@@ -177,6 +181,7 @@ public class GenderFangShiActivity extends AppCompatActivity implements
                             String info = object.getString("info");
                             if (status.equals("y")) {
                                 progress.CloseProgress();
+                                EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
                                 finish();
                             } else {
                                 progress.CloseProgress();

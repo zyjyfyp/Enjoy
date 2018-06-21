@@ -37,6 +37,7 @@ public class UserRegisterllData implements Serializable {
 	public String birthday;
 	public String sex;
 	public String datetime;
+	public String email="";
 
 	public String getAgency_name() {
 		return agency_name;

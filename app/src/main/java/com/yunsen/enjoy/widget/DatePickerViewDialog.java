@@ -89,7 +89,7 @@ public class DatePickerViewDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 if (rightOnclickListener != null) {
-                    rightOnclickListener.onRightClick(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
+                    rightOnclickListener.onRightClick(datePicker.getYear(), datePicker.getMonth() + 1, datePicker.getDayOfMonth());
                 }
             }
         });

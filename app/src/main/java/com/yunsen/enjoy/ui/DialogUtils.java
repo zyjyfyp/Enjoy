@@ -13,6 +13,7 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.activity.MainActivity;
 import com.yunsen.enjoy.activity.user.PhoneLoginActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.activity.user.UserLoginWayActivity;
@@ -85,6 +86,9 @@ public class DialogUtils {
                 spPreferences_tishi.edit().clear().commit();// 第三方授权登录提示绑定手机号信息清空
                 AccountUtils.clearData();
                 UIHelper.showUserLoginActivity(fAct);
+                if (!(fAct instanceof MainActivity)) {
+                    fAct.finish();
+                }
                 EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGOUT));
             }
         });

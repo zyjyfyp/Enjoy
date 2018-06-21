@@ -79,6 +79,7 @@ public class URLConstants {
     public static String getNoticeHtmlUrl(String id) {
         return NOTICE_HTML_URL.replace("15933", id);
     }
+
     /**
      * 删除物品
      */
@@ -294,7 +295,14 @@ public class URLConstants {
      * 更新信息
      */
     public static final String NOTICE_UP_USER_URL = "https://ju918.com/tools/client_ajax.asmx/user_refresh?access_token=";
-
+    /**
+     * 修改邮箱
+     */
+    public static final String CHANGE_EMIL_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_update_field";
+    /**
+     * 修改QQ
+     */
+    public static final String CHANGE_ONLINE_QQ_URL =BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_update_field"; ;
 
     //
     //    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";
