@@ -256,6 +256,7 @@
         <item name="android:textSize">13sp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/back_time_bg</item>
+        <item name="android:maxLines">1</item>
         <item name="android:padding">2dp</item>
     </style>
 

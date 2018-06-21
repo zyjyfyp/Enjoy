@@ -46,7 +46,7 @@ public class CarTopBannerAdapter extends PagerAdapter {
             item.setImageResource(data.getResId());
         } else {
             Picasso.with(mContext)
-                    .load(data.getThumb_path())
+                    .load(data.getOriginal_path())
                     .into(item);
         }
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(-1, -1);

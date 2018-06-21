@@ -52,6 +52,7 @@
                 android:layout_marginTop="5dp"
                 android:textColor="@color/color_888"
                 android:textSize="13sp"
+                android:maxLines="2"
                 android:visibility="gone" />
 
             <LinearLayout
@@ -74,6 +75,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:maxLines="2"
                     android:text="¥999.88"
                     android:textColor="@color/color_888"
                     android:textSize="12sp" />
