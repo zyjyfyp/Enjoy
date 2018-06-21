@@ -20,6 +20,7 @@ public class ClassifyBean {
     private String title;
     private String content;
     private String img_url;
+    private int index;
 
     public int getId() {
         return id;
@@ -67,5 +68,13 @@ public class ClassifyBean {
 
     public void setImg_url(String img_url) {
         this.img_url = img_url;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }

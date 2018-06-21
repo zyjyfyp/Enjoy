@@ -346,14 +346,11 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                                 System.out.println("=============nickname======" + nickname);
                                 if (!nickname.equals("")) {
                                     tv_nicheng.setText(nickname);
-                                    tv_nicheng.setTextColor(getResources().getColor(R.color.black));
                                 } else {
                                     if (nick_name.equals("")) {
                                         tv_nicheng.setText("请输入您的昵称");
-                                        tv_nicheng.setTextColor(getResources().getColor(R.color.gray));
                                     } else {
                                         tv_nicheng.setText(nick_name);
-                                        tv_nicheng.setTextColor(getResources().getColor(R.color.black));
                                     }
                                 }
                                 if ("1".equals(sex)) {

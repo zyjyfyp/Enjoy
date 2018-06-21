@@ -1,39 +1,29 @@
 package com.yunsen.enjoy.fragment;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SimpleItemAnimator;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.adapter.DiscoverBannerAdapter;
 import com.yunsen.enjoy.common.Constants;
-import com.yunsen.enjoy.fragment.discover.GoodsAdapter;
 import com.yunsen.enjoy.fragment.discover.SpreadFragment;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.ClassifyBean;
-import com.yunsen.enjoy.model.GoodsData;
-import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.model.event.DiscoverEvent;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
-import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
-import com.yunsen.enjoy.ui.recyclerview.NoScrollLinearLayoutManager;
-import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.widget.BaseScrollView;
-import com.yunsen.enjoy.widget.LoadMoreView;
-import com.yunsen.enjoy.widget.PullToRefreshView;
 import com.yunsen.enjoy.widget.ZyViewPager;
-import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +37,7 @@ import okhttp3.Request;
  * 发现
  */
 
-public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageChangeListener{
+public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageChangeListener {
 
     @Bind(R.id.tab_layout)
     TabLayout tabLayout;
@@ -73,6 +63,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
 
     private ArrayList<Fragment> mFragments;
     private ArrayList<ClassifyBean> mTitles;
+    private int mCurrentPosition = 0;
 
     @Override
     protected int getLayoutId() {
@@ -82,13 +73,13 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     @Override
     protected void initView() {
         ButterKnife.bind(this, rootView);
+        EventBus.getDefault().register(this);
         dataPager.setParent(srcollView);
         indicator.setFocusable(true);
         indicator.setFocusableInTouchMode(true);
         indicator.requestFocus();
 //        pullToResh.setEnablePullTorefresh(false);
     }
-
 
 
     @Override
@@ -103,10 +94,12 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         ClassifyBean e = new ClassifyBean();
         e.setTitle("全部");
         e.setId(0);
+        e.setIndex(0);
         mTitles.add(e);
         addFragment(e);
         mListPagerAdapter = new ListPagerAdapter(getChildFragmentManager(), mFragments, mTitles);
         dataPager.setAdapter(mListPagerAdapter);
+        dataPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(dataPager);
     }
 
@@ -125,6 +118,8 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
             @Override
             public void onSuccess(List<ClassifyBean> responseData) {
                 upUi(responseData);
+                int size = mTitles.size();
+                dataPager.setOffscreenPageLimit(size);
             }
 
             @Override
@@ -140,11 +135,14 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
      * @param responseData
      */
     private void upUi(List<ClassifyBean> responseData) {
+        int index = 1;
         if (responseData != null) {
-            int size = responseData.size()-1;
+            int size = responseData.size() - 1;
             while (size >= 0) {
                 ClassifyBean bean = responseData.get(size);
+                bean.setIndex(index);
                 addFragment(bean);
+                index++;
                 size--;
             }
             mTitles.addAll(responseData);
@@ -160,6 +158,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         args.putString(Constants.CLASSIFY_PARENT_ID, String.valueOf(bean.getParent_id()));
         args.putString(Constants.CLASSIFY_CHANNEL_ID, String.valueOf(bean.getChannel_id()));
         args.putString(Constants.CLASSIFY_TITLE, bean.getTitle());
+        args.putInt(Constants.FRAGMENT_TYPE_KEY, bean.getIndex());
         fragment.setArguments(args);
     }
 
@@ -213,8 +212,8 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        EventBus.getDefault().unregister(this);
         ButterKnife.unbind(this);
-
     }
 
 
@@ -225,8 +224,8 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
 
     @Override
     public void onPageSelected(int position) {
-        final int fPosition = position;
-
+        dataPager.upViewPagerIndexHeight(position);
+        mCurrentPosition = position;
     }
 
     @Override
@@ -234,5 +233,12 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
 
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(DiscoverEvent event) {
+        int position = event.getPosition();
+        if (mCurrentPosition == position) {
+            dataPager.upViewPagerIndexHeight(position);
+        }
+    }
 
 }

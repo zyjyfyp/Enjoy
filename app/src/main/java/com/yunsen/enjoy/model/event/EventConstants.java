@@ -26,4 +26,5 @@ public class EventConstants {
     public static final int ORDER_STATE = 8;
     public static final int UP_MINE_ORDER = 9;
     public static final int UP_NOTICE_UI = 10; //收到消息
+    public static final int LOAD_FINISH = 11;
 }

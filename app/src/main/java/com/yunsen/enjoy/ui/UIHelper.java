@@ -43,6 +43,7 @@ import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.BindBankCardActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.mine.ExtensionActivity;
+import com.yunsen.enjoy.activity.mine.MonthIncomeActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
 import com.yunsen.enjoy.activity.mine.MyOrderConfrimActivity;
 import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
@@ -973,6 +974,16 @@ public class UIHelper {
      */
     public static void showAddressManagerGlActivity(Context ctx) {
         Intent intent = new Intent(ctx, AddressManagerGlActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 本月盈亏
+     *
+     * @param ctx
+     */
+    public static void showMonthIncomeActivity(Context ctx) {
+        Intent intent = new Intent(ctx, MonthIncomeActivity.class);
         ctx.startActivity(intent);
     }
 

@@ -693,7 +693,7 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
                     UIHelper.showPersonCenterActivity(getActivity());
                     break;
                 case R.id.all_income_money_layout:
-                    ToastUtils.makeTextShort("本月盈收");
+                    UIHelper.showMonthIncomeActivity(getActivity());
                     break;
                 case R.id.all_order_count_layout:
                     ToastUtils.makeTextShort("本月订单");

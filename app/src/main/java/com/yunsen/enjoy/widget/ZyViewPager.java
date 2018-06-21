@@ -4,9 +4,12 @@ import android.content.Context;
 import android.graphics.PointF;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.yunsen.enjoy.utils.DeviceUtil;
 
 /**
  * Created by Administrator on 2018/4/22.
@@ -83,9 +86,9 @@ public class ZyViewPager extends ViewPager {
             child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
             height = child.getMeasuredHeight();
         }
-
+        int pagerHeight = DeviceUtil.getScreenHeight() - DeviceUtil.dp2px(getContext(), 225);
+        height = Math.max(pagerHeight, height);
         heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
-
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 

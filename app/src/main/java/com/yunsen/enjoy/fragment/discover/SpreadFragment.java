@@ -13,9 +13,13 @@ import com.yunsen.enjoy.fragment.BaseFragment;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.CarDetails;
+import com.yunsen.enjoy.model.event.DiscoverEvent;
+import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.widget.FlowLayout;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +43,7 @@ public class SpreadFragment extends BaseFragment implements MultiItemTypeAdapter
     private String mChannelId;
     private ArrayList<CarDetails> mDatas;
     private SpreadAdapter mAdapter;
+    private int mPosition = 0;
 
     @Override
     protected int getLayoutId() {
@@ -60,6 +65,7 @@ public class SpreadFragment extends BaseFragment implements MultiItemTypeAdapter
         mId = bundle.getString(Constants.CLASSIFY_ID);
         mParentId = bundle.getString(Constants.CLASSIFY_PARENT_ID);
         mChannelId = bundle.getString(Constants.CLASSIFY_CHANNEL_ID);
+        mPosition = bundle.getInt(Constants.FRAGMENT_TYPE_KEY);
     }
 
     @Override
@@ -68,11 +74,12 @@ public class SpreadFragment extends BaseFragment implements MultiItemTypeAdapter
             @Override
             public void onSuccess(List<CarDetails> responseData) {
                 mAdapter.addBaseDatas(responseData);
+                EventBus.getDefault().post(new DiscoverEvent(EventConstants.LOAD_FINISH, mPosition));
             }
 
             @Override
             public void onError(Request request, Exception e) {
-
+                EventBus.getDefault().post(new DiscoverEvent(EventConstants.LOAD_FINISH, mPosition));
             }
         });
     }
