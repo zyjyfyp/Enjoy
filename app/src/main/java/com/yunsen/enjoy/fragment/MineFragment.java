@@ -453,15 +453,13 @@ public class MineFragment extends BaseFragment {
      * 加载订单信息
      */
     private void load_list() {
-
-        System.out.println("=========user_id============" + user_id);
+        Log.e(TAG, "load_list: ss");
         AsyncHttp.get(URLConstants.REALM_NAME_LL
                         + "/get_order_page_size_list?user_id=" + user_id + ""
                         + "&page_size=1000&page_index=1&strwhere=datatype=1&orderby=",
                 new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int arg0, String arg1) {
-
                         super.onSuccess(arg0, arg1);
                         ArrayList<String> list_1 = new ArrayList<String>();
                         ArrayList<String> list_2 = new ArrayList<String>();
@@ -502,7 +500,6 @@ public class MineFragment extends BaseFragment {
                                 orderNumber4.setText(num3);
                             }
                         } catch (JSONException e) {
-
                             e.printStackTrace();
                         }
                     }
@@ -690,7 +687,6 @@ public class MineFragment extends BaseFragment {
                 AccountUtils.clearData();
                 SharedPreferences sp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
                 sp.edit().clear().commit();
-                //                Constants.QQauth = QQAuth.createInstance(Constants.APP_QQ_ID, AppContext.getInstance());
                 Tencent tencent = Tencent.createInstance(Constants.APP_QQ_ID, AppContext.getInstance());
                 tencent.logout(getActivity());
                 break;
@@ -737,6 +733,7 @@ public class MineFragment extends BaseFragment {
         super.onDestroyView();
         ButterKnife.unbind(this);
         DialogUtils.closeLoginDialog();
+        DialogUtils.closeBecomeVipDialog();
     }
 
 

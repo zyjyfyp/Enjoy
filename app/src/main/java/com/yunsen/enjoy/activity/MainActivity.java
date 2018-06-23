@@ -23,7 +23,6 @@ import com.yunsen.enjoy.fragment.DiscoverFragment;
 import com.yunsen.enjoy.fragment.MainPagerFragment;
 import com.yunsen.enjoy.fragment.MineFragment;
 import com.yunsen.enjoy.ui.UIHelper;
-import com.yunsen.enjoy.utils.AccountUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

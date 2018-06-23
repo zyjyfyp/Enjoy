@@ -59,7 +59,7 @@ public class AccountUtils {
             return false;
         } else {
             mHasBound = true;
-            return mHasBound;
+            return true;
         }
     }
 
@@ -70,7 +70,7 @@ public class AccountUtils {
      */
     public static boolean hasVIP() {
         if (mHasVIP) {
-            return false;
+            return true;
         }
         SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
         String status = sp.getString(SpConstants.STATUS, "");
@@ -79,7 +79,7 @@ public class AccountUtils {
         } else {
             mHasVIP = true;
         }
-        return false;
+        return mHasVIP;
     }
 
 

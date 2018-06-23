@@ -160,7 +160,7 @@ public class DialogUtils {
         sBecomeVipDialog.show();
     }
 
-    public static void BecomeVipDialog() {
+    public static void closeBecomeVipDialog() {
         if (sBecomeVipDialog != null) {
             if (sBecomeVipDialog.isShowing()) {
                 sBecomeVipDialog.dismiss();
