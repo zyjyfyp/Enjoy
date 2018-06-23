@@ -1,5 +1,6 @@
 package com.yunsen.enjoy.ui.layout;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -75,7 +76,7 @@ public class SecondActivityLayout extends LinearLayout implements MultiItemTypeA
         recycler.setLayoutManager(new LinearLayoutManager(mContext));
         loadMoreLayout = new LoadMoreLayout(context);
         mDatas = new ArrayList<>();
-        mAdapter = new FillActivityAdapter(mContext, R.layout.fill_activity_item, mDatas);
+        mAdapter = new FillActivityAdapter(context, R.layout.fill_activity_item, mDatas);
         HeaderAndFooterRecyclerViewAdapter headerAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         recycler.setAdapter(headerAndFooterRecyclerViewAdapter);
         RecyclerViewUtils.setFooterView(recycler, loadMoreLayout);

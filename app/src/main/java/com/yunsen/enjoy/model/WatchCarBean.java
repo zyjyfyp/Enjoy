@@ -10,14 +10,14 @@ public  class WatchCarBean {
      * trade_no : T180510154937493781
      */
 
-    private int total_amount;
+    private double total_amount;
     private String trade_no;
 
-    public int getTotal_amount() {
+    public double getTotal_amount() {
         return total_amount;
     }
 
-    public void setTotal_amount(int total_amount) {
+    public void setTotal_amount(double total_amount) {
         this.total_amount = total_amount;
     }
 

@@ -1,5 +1,6 @@
 package com.yunsen.enjoy.fragment.home;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Paint;
 import android.os.Handler;
@@ -18,6 +19,7 @@ import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.DefaultSpecItemBean;
 import com.yunsen.enjoy.model.OrderInfo;
+import com.yunsen.enjoy.ui.DialogUtils;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.layout.CountDownLayout;
 import com.yunsen.enjoy.utils.AccountUtils;
@@ -35,7 +37,7 @@ import okhttp3.Request;
 
 public class FillActivityAdapter extends CommonAdapter<CarDetails> {
     private long mCurrentTime = 0;
-//    private long mStartTime;
+    //    private long mStartTime;
 //    private long mEndTime;
 
     public FillActivityAdapter(Context context, int layoutId, List<CarDetails> datas) {
@@ -114,19 +116,23 @@ public class FillActivityAdapter extends CommonAdapter<CarDetails> {
                     } else if (!AccountUtils.hasBoundPhone()) {
                         UIHelper.showBundPhoneActivity(mContext);
                     } else {
-                        HttpProxy.getAddShoppingBuy(String.valueOf(data.getId()), "" + data.getDefault_spec_item().getGoods_id(), new HttpCallBack<OrderInfo>() {
-                            @Override
-                            public void onSuccess(OrderInfo responseData) {
-                                if (responseData != null) {
-                                    UIHelper.showMyOrderConfrimActivity(mContext, responseData.getBuy_no());
+                        if (!AccountUtils.hasVIP()) {
+                            DialogUtils.showBecomeVipDialog(mContext);
+                        } else {
+                            HttpProxy.getAddShoppingBuy(String.valueOf(data.getId()), "" + data.getDefault_spec_item().getGoods_id(), new HttpCallBack<OrderInfo>() {
+                                @Override
+                                public void onSuccess(OrderInfo responseData) {
+                                    if (responseData != null) {
+                                        UIHelper.showMyOrderConfrimActivity(mContext, responseData.getBuy_no());
+                                    }
                                 }
-                            }
 
-                            @Override
-                            public void onError(Request request, Exception e) {
+                                @Override
+                                public void onError(Request request, Exception e) {
 
-                            }
-                        });
+                                }
+                            });
+                        }
                     }
 
 

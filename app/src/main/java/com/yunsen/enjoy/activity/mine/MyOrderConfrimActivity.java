@@ -1089,15 +1089,13 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                     break;
                 case 5:// 支付宝
                     PayResult payResult = new PayResult((String) msg.obj);
-
                     // 支付宝返回此次支付结果及加签，建议对支付宝签名信息拿签约时支付宝提供的公钥做验签
                     String resultInfo = payResult.getResult();
                     String resultStatus = payResult.getResultStatus();
-                    System.out.println(resultInfo + "---" + resultStatus);
+                    System.out.println(resultInfo + "--aa-" + resultStatus);
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                     if (TextUtils.equals(resultStatus, "9000")) {
-                        Toast.makeText(MyOrderConfrimActivity.this, "支付成功",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MyOrderConfrimActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
 //                        userloginqm();
                         mPayState = PAY_FINISH;
                         delayPayState(mPayState);
@@ -1188,8 +1186,6 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 super.onSuccess(arg0, arg1);
                 try {
                     JSONObject object = new JSONObject(arg1);
-                    System.out.println("2================================="
-                            + arg1);
                     String status = object.getString("status");
                     String info = object.getString("info");
                     if ("y".equals(status)) {
@@ -1305,8 +1301,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
             }
 
             // 完整的符合支付宝参数规范的订单信息
-            final String payInfo = orderInfo + "&sign=\"" + sign + "\"&"
-                    + getSignType();
+            final String payInfo = orderInfo + "&sign=\"" + sign + "\"&" + getSignType();
             mHasPay = true;
             Runnable payRunnable = new Runnable() {
 
@@ -1340,7 +1335,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
      * @param content 待签名订单信息
      */
     public String sign(String content) {
-        return SignUtils.sign(content, Common.RSA_PRIVATE, false);
+        return SignUtils.sign(content, Common.RSA_PRIVATE);
     }
 
     /**

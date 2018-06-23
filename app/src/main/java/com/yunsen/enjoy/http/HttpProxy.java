@@ -1938,5 +1938,28 @@ public class HttpProxy {
         });
     }
 
+    /**
+     * 预约看车
+     */
+    public static void submitVipOrder(WatchCarModel model, final HttpCallBack<WatchCarBean> callBack) {
+        model.setPayment_id("5");
+        model.setExpress_id("7");
+        model.setIs_invoice("0");
+        Map<String, Object> param = EntityToMap.ConvertObjToMap(model);
+        HttpClient.get(URLConstants.MEET_CAR_URL, param, new HttpResponseHandler<WatchCarResponse>() {
+            @Override
+            public void onSuccess(WatchCarResponse response) {
+                WatchCarBean data = response.getData();
+                if (data != null) {
+                    callBack.onSuccess(data);
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
+            }
+        });
+    }
 }
 

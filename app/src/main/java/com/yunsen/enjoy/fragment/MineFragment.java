@@ -237,14 +237,22 @@ public class MineFragment extends BaseFragment {
      */
     private void orderClick(String type) {
         if (AccountUtils.hasLogin()) {
-            if (AccountUtils.hasBoundPhone()) {
+            if (AccountUtils.hasVIP()) {
                 UIHelper.showOrderActivity(getActivity(), type);
+            } else if (AccountUtils.hasBoundPhone()) {
+                if (!AccountUtils.hasVIP()) {
+                    DialogUtils.showBecomeVipDialog(getActivity());
+                } else {
+                    DialogUtils.showBecomeVipDialog(getActivity());
+                }
             } else {
                 UIHelper.showBundPhoneActivity(getActivity());
             }
         } else {
-            if (AccountUtils.hasBoundPhone()) {
+            if (AccountUtils.hasVIP()) {
                 UIHelper.showOrderActivity(getActivity(), type);
+            } else if (AccountUtils.hasBoundPhone()) {
+                DialogUtils.showBecomeVipDialog(getActivity());
             } else {
                 UIHelper.showUserLoginActivity(getActivity());
             }
@@ -286,13 +294,21 @@ public class MineFragment extends BaseFragment {
         Intent intent = new Intent(getActivity(), cls);
         if (AccountUtils.hasLogin()) {
             if (AccountUtils.hasBoundPhone()) {
-                getActivity().startActivity(intent);
+                if (!AccountUtils.hasVIP()) {
+                    DialogUtils.showBecomeVipDialog(getActivity());
+                } else {
+                    getActivity().startActivity(intent);
+                }
             } else {
                 UIHelper.showBundPhoneActivity(getActivity());
             }
         } else {
             if (AccountUtils.hasBoundPhone()) {
-                getActivity().startActivity(intent);
+                if (!AccountUtils.hasVIP()) {
+                    DialogUtils.showBecomeVipDialog(getActivity());
+                } else {
+                    getActivity().startActivity(intent);
+                }
             } else {
                 UIHelper.showUserLoginActivity(getActivity());
             }
@@ -311,13 +327,21 @@ public class MineFragment extends BaseFragment {
         }
         if (AccountUtils.hasLogin()) {
             if (AccountUtils.hasBoundPhone()) {
-                getActivity().startActivity(intent);
+                if (!AccountUtils.hasVIP()) {
+                    DialogUtils.showBecomeVipDialog(getActivity());
+                } else {
+                    getActivity().startActivity(intent);
+                }
             } else {
                 UIHelper.showBundPhoneActivity(getActivity());
             }
         } else {
             if (AccountUtils.hasBoundPhone()) {
-                getActivity().startActivity(intent);
+                if (!AccountUtils.hasVIP()) {
+                    DialogUtils.showBecomeVipDialog(getActivity());
+                } else {
+                    getActivity().startActivity(intent);
+                }
             } else {
                 UIHelper.showUserLoginActivity(getActivity());
             }
@@ -376,13 +400,21 @@ public class MineFragment extends BaseFragment {
     private void assetsClick(String type) {
         if (AccountUtils.hasLogin()) {
             if (AccountUtils.hasBoundPhone()) {
-                UIHelper.showAssetsActivity(getActivity(), type);
+                if (!AccountUtils.hasVIP()) {
+                    DialogUtils.showBecomeVipDialog(getActivity());
+                } else {
+                    UIHelper.showAssetsActivity(getActivity(), type);
+                }
             } else {
                 UIHelper.showBundPhoneActivity(getActivity());
             }
         } else {
             if (AccountUtils.hasBoundPhone()) {
-                UIHelper.showAssetsActivity(getActivity(), type);
+                if (!AccountUtils.hasVIP()) {
+                    DialogUtils.showBecomeVipDialog(getActivity());
+                } else {
+                    UIHelper.showAssetsActivity(getActivity(), type);
+                }
             } else {
                 UIHelper.showUserLoginActivity(getActivity());
             }

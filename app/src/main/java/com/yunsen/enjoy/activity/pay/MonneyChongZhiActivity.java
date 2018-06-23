@@ -638,8 +638,8 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
 	 *            待签名订单信息
 	 */
 	public String sign(String content) {
-		return SignUtils.sign(content, Common.RSA_PRIVATE,false);
-	}
+        return SignUtils.sign(content, Common.RSA_PRIVATE);
+    }
 
 	/**
 	 * get the sign type we use. 获取签名方式

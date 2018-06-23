@@ -52,6 +52,7 @@ import com.yunsen.enjoy.activity.mine.WithdrawCashActivity;
 import com.yunsen.enjoy.activity.order.DianPingActivity;
 import com.yunsen.enjoy.activity.order.MyOrderActivity;
 import com.yunsen.enjoy.activity.order.MyOrderXqActivity;
+import com.yunsen.enjoy.activity.pay.MyOrderZFActivity;
 import com.yunsen.enjoy.activity.user.DBFengXiangActivity;
 import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
@@ -402,15 +403,19 @@ public class UIHelper {
      *
      * @param ctx
      */
-    public static void showWatchCarActivity(Context ctx, String carId) {
+    public static void showWatchCarActivity(Activity ctx, String carId) {
         if (!AccountUtils.hasLogin()) {
             showUserLoginActivity(ctx);
         } else if (!AccountUtils.hasBoundPhone()) {
             showBundPhoneActivity(ctx);
         } else {
-            Intent intent = new Intent(ctx, WatchCarActivity.class);
-            intent.putExtra(Constants.WATCH_CAR_ID, carId);
-            ctx.startActivity(intent);
+            if (!AccountUtils.hasVIP()) {
+                DialogUtils.showBecomeVipDialog(ctx);
+            } else {
+                Intent intent = new Intent(ctx, WatchCarActivity.class);
+                intent.putExtra(Constants.WATCH_CAR_ID, carId);
+                ctx.startActivity(intent);
+            }
         }
 
     }
@@ -420,15 +425,19 @@ public class UIHelper {
      *
      * @param ctx
      */
-    public static void showApplyBuyFirstActivity(Context ctx, String carId) {
+    public static void showApplyBuyFirstActivity(Activity ctx, String carId) {
         if (!AccountUtils.hasLogin()) {
             showUserLoginActivity(ctx);
         } else if (!AccountUtils.hasBoundPhone()) {
             showBundPhoneActivity(ctx);
         } else {
-            Intent intent = new Intent(ctx, ApplyBuyFirstActivity.class);
-            intent.putExtra(Constants.APPLY_BUY_CAR_ID, carId);
-            ctx.startActivity(intent);
+            if (!AccountUtils.hasVIP()) {
+                DialogUtils.showBecomeVipDialog(ctx);
+            } else {
+                Intent intent = new Intent(ctx, ApplyBuyFirstActivity.class);
+                intent.putExtra(Constants.APPLY_BUY_CAR_ID, carId);
+                ctx.startActivity(intent);
+            }
 
         }
     }
@@ -440,17 +449,21 @@ public class UIHelper {
      * @param model
      */
 
-    public static void showApplyTwoActivity(Context ctx, ApplyCarModel model) {
+    public static void showApplyTwoActivity(Activity ctx, ApplyCarModel model) {
         if (!AccountUtils.hasLogin()) {
             showUserLoginActivity(ctx);
         } else if (!AccountUtils.hasBoundPhone()) {
             showBundPhoneActivity(ctx);
         } else {
-            Intent intent = new Intent(ctx, ApplyBuyTwoActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(Constants.APPLY_BUY_CAR_KEY, model);
-            intent.putExtras(bundle);
-            ctx.startActivity(intent);
+            if (!AccountUtils.hasVIP()) {
+                DialogUtils.showBecomeVipDialog(ctx);
+            } else {
+                Intent intent = new Intent(ctx, ApplyBuyTwoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(Constants.APPLY_BUY_CAR_KEY, model);
+                intent.putExtras(bundle);
+                ctx.startActivity(intent);
+            }
         }
     }
 
@@ -466,11 +479,15 @@ public class UIHelper {
         } else if (!AccountUtils.hasBoundPhone()) {
             showBundPhoneActivity(ctx);
         } else {
-            Intent intent = new Intent(ctx, ApplyBuyThreeActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(Constants.APPLY_BUY_CAR_KEY, applyCarRequest);
-            intent.putExtras(bundle);
-            ctx.startActivity(intent);
+            if (!AccountUtils.hasVIP()) {
+                DialogUtils.showBecomeVipDialog(ctx);
+            } else {
+                Intent intent = new Intent(ctx, ApplyBuyThreeActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(Constants.APPLY_BUY_CAR_KEY, applyCarRequest);
+                intent.putExtras(bundle);
+                ctx.startActivity(intent);
+            }
         }
     }
 
@@ -641,19 +658,12 @@ public class UIHelper {
      * @param buyType {@link  com.yunsen.enjoy.common.Constants#DEFAULT_BUY} or {@link  com.yunsen.enjoy.common.Constants#POINT_BUY}
      */
     public static void showGoodsDescriptionActivity(Context ctx, String goodsId, String actName, int buyType, long remainingTime) {
-        if (!AccountUtils.hasLogin()) {
-            UIHelper.showUserLoginActivity(ctx);
-        } else if (!AccountUtils.hasBoundPhone()) {
-            UIHelper.showBundPhoneActivity(ctx);
-        } else {
-            Intent intent = new Intent(ctx, GoodsDescriptionActivityOld.class);
-            intent.putExtra(Constants.GOODS_ID_KEY, goodsId);
-            intent.putExtra(Constants.ACT_NAME_KEY, actName);
-            intent.putExtra(Constants.ACT_TYPE_KEY, buyType);
-            intent.putExtra(Constants.REMAINING_TIME, remainingTime);
-            ctx.startActivity(intent);
-        }
-
+        Intent intent = new Intent(ctx, GoodsDescriptionActivityOld.class);
+        intent.putExtra(Constants.GOODS_ID_KEY, goodsId);
+        intent.putExtra(Constants.ACT_NAME_KEY, actName);
+        intent.putExtra(Constants.ACT_TYPE_KEY, buyType);
+        intent.putExtra(Constants.REMAINING_TIME, remainingTime);
+        ctx.startActivity(intent);
     }
 
     /**
@@ -915,4 +925,21 @@ public class UIHelper {
         req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
         api.sendReq(req);
     }
+
+    /**
+     * 去支付
+     *
+     * @param ctx
+     * @param orderNo
+     * @param money
+     */
+    public static void toPayVipMoney(Context ctx, String orderNo, double money) {
+        Intent intent = new Intent(ctx, MyOrderZFActivity.class);
+        intent.putExtra("order_no", orderNo);
+        intent.putExtra("order_type", "5");
+        intent.putExtra("total_c", String.valueOf(money));
+        intent.putExtra(MyOrderZFActivity.HAS_YU_E, false);
+        ctx.startActivity(intent);
+    }
+
 }

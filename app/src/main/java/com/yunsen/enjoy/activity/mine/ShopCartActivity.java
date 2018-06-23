@@ -38,6 +38,7 @@ import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.DataBean;
 import com.yunsen.enjoy.model.SpListData;
 import com.yunsen.enjoy.model.UserRegisterllData;
+import com.yunsen.enjoy.ui.DialogUtils;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
@@ -161,7 +162,11 @@ public class ShopCartActivity extends BaseFragmentActivity implements View.OnCli
                 } else if (!AccountUtils.hasBoundPhone()) {
                     UIHelper.showBundPhoneActivity(ShopCartActivity.this);
                 } else {
-                    UIHelper.showHomeShopCar(ShopCartActivity.this);
+                    if (!AccountUtils.hasVIP()) {
+                        DialogUtils.showBecomeVipDialog(ShopCartActivity.this);
+                    } else {
+                        UIHelper.showHomeShopCar(ShopCartActivity.this);
+                    }
                 }
             }
         });

@@ -32,6 +32,7 @@ import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.DataBean;
+import com.yunsen.enjoy.ui.DialogUtils;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
@@ -150,6 +151,8 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
                     UIHelper.showUserLoginActivity(getActivity());
                 } else if (!AccountUtils.hasBoundPhone()) {
                     UIHelper.showBundPhoneActivity(getActivity());
+                } else if (!AccountUtils.hasVIP()) {
+                    DialogUtils.showBecomeVipDialog(getActivity());
                 } else {
                     UIHelper.showHomeShopCar(getActivity());
                 }

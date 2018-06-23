@@ -98,6 +98,7 @@ public class SpConstants {
     public static final String PACKET = "packet";
     public static final String INPUT_USER_NAME = "input_user_name";
     public static final String INPUT_USER_PWD = "input_user_pwd";
+    public static final String STATUS = "status"; //是否成为正式会员
 
 
     /**

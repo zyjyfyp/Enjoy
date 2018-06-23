@@ -33,6 +33,7 @@ import com.yunsen.enjoy.model.AlbumsBean;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.DefaultSpecItemBean;
 import com.yunsen.enjoy.model.SpecItemBean;
+import com.yunsen.enjoy.ui.DialogUtils;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
@@ -337,6 +338,10 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
         }
         if (!AccountUtils.hasBoundPhone()) {
             UIHelper.showBundPhoneActivity(this);
+            return;
+        }
+        if (!AccountUtils.hasVIP()) {
+            DialogUtils.showBecomeVipDialog(this);
             return;
         }
 

@@ -23,6 +23,7 @@ public class AccountUtils {
 
     private static boolean mHasLogin;
     private static boolean mHasBound;
+    private static boolean mHasVIP;
 
     public static boolean mWeiXiHasLogin = false; //微信登录时的标记
 
@@ -58,9 +59,29 @@ public class AccountUtils {
             return false;
         } else {
             mHasBound = true;
-            return true;
+            return mHasBound;
         }
     }
+
+    /**
+     * 是否是正式会员
+     *
+     * @return
+     */
+    public static boolean hasVIP() {
+        if (mHasVIP) {
+            return false;
+        }
+        SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+        String status = sp.getString(SpConstants.STATUS, "");
+        if (TextUtils.isEmpty(status) || "1".equals(status)) {//非正式会员；
+            mHasVIP = false;
+        } else {
+            mHasVIP = true;
+        }
+        return false;
+    }
+
 
     /**
      * 退出时清空

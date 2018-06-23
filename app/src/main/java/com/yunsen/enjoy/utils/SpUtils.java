@@ -39,8 +39,8 @@ public class SpUtils {
         edit.putString(SpConstants.ADDRESS, "" + userInfo.getAddress());
         edit.putString(SpConstants.EMAIL, "" + userInfo.getEmail());
         edit.putString(SpConstants.PACKET, "" + userInfo.getPacket());
-
         edit.putString(SpConstants.USER_CODE, userInfo.getUser_code());
+        edit.putString(SpConstants.STATUS, "" + userInfo.getStatus());
 //        edit.putString(SpConstants.PARENT_ID, "" + userInfo.getParent_id());
 //        edit.putString(SpConstants.PARENT_NAME, "" + userInfo.getParent_name());
 //        edit.putString(SpConstants.USER_LAYER, "" + userInfo.getUser_layer());
@@ -111,6 +111,7 @@ public class SpUtils {
             edit.putString(SpConstants.EMAIL, "" + userInfo.getEmail());
             edit.putString(SpConstants.PACKET, "" + userInfo.getPacket());
             edit.putString(SpConstants.USER_CODE, "" + userInfo.getUser_code());
+            edit.putString(SpConstants.STATUS, "" + userInfo.getStatus());
         }
         edit.commit();
     }
@@ -145,8 +146,8 @@ public class SpUtils {
         userInfo.setAddress(sp.getString(SpConstants.ADDRESS, "" + userInfo.getAddress()));
         userInfo.setEmail(sp.getString(SpConstants.EMAIL, "" + userInfo.getEmail()));
         userInfo.setPacket(Double.valueOf(sp.getString(SpConstants.PACKET, "" + userInfo.getPacket())));
-        userInfo.setPacket(Double.valueOf(sp.getString(SpConstants.USER_CODE, "" + userInfo.getUser_code())));
-
+        userInfo.setUser_code(sp.getString(SpConstants.USER_CODE, "" + userInfo.getUser_code()));
+        userInfo.setStatus(Integer.valueOf(sp.getString(SpConstants.STATUS, "" + userInfo.getStatus())));
         return userInfo;
     }
 

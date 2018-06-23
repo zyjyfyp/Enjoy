@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -15,11 +16,20 @@ import com.yunsen.enjoy.activity.user.PhoneLoginActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.activity.user.UserLoginWayActivity;
 import com.yunsen.enjoy.common.SpConstants;
+import com.yunsen.enjoy.http.HttpCallBack;
+import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.model.UserInfo;
+import com.yunsen.enjoy.model.WatchCarBean;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
+import com.yunsen.enjoy.model.request.WatchCarModel;
 import com.yunsen.enjoy.utils.AccountUtils;
+import com.yunsen.enjoy.utils.SpUtils;
+import com.yunsen.enjoy.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
+
+import okhttp3.Request;
 
 /**
  * Created by Administrator on 2018/4/23.
@@ -28,6 +38,7 @@ import org.greenrobot.eventbus.EventBus;
 public class DialogUtils {
 
     private static AlertDialog dialog;
+    private static AlertDialog sBecomeVipDialog;
 
     public static Dialog createNumbmerPickerDialog(Activity act) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(act);
@@ -103,7 +114,59 @@ public class DialogUtils {
             }
             dialog = null;
         }
+    }
 
+    public static void showBecomeVipDialog(Context act) {
+        final Context fAct = act;
+        AlertDialog.Builder builder = new AlertDialog.Builder(fAct);
+        builder.setTitle("升级正式会员");
+        builder.setMessage("您目前还是准用户，缴纳9.9元成为正式会员，立享多重优惠！");
+        builder.setPositiveButton("去升级", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                UserInfo userInfo = SpUtils.getUserInfo();
+                WatchCarModel model = new WatchCarModel();
+                model.setUser_name(userInfo.getUser_name());
+                model.setUser_id(String.valueOf(userInfo.getId()));
+                model.setArticle_id("2061");
+                model.setGoods_id("11272");
+                model.setCity(userInfo.getCity());
+                model.setProvince(userInfo.getProvince());
+                model.setAddress(userInfo.getAddress());
+                model.setArea(userInfo.getArea());
+                model.setMobile(userInfo.getMobile());
+                model.setAccept_name(userInfo.getUser_name());
+                HttpProxy.submitVipOrder(model, new HttpCallBack<WatchCarBean>() {
+                    @Override
+                    public void onSuccess(WatchCarBean responseData) {
+                        UIHelper.toPayVipMoney(fAct, responseData.getTrade_no(), responseData.getTotal_amount());
+                    }
+
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        ToastUtils.makeTextShort("数据异常");
+                    }
+                });
+            }
+        });
+
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        sBecomeVipDialog = builder.create();
+        sBecomeVipDialog.show();
+    }
+
+    public static void BecomeVipDialog() {
+        if (sBecomeVipDialog != null) {
+            if (sBecomeVipDialog.isShowing()) {
+                sBecomeVipDialog.dismiss();
+            }
+            sBecomeVipDialog = null;
+        }
     }
 
 }
