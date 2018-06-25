@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alipay.sdk.app.PayTask;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -27,7 +26,10 @@ import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserRegisterllData;
 import com.yunsen.enjoy.thirdparty.Common;
-import com.yunsen.enjoy.thirdparty.PayResult;
+import com.yunsen.enjoy.thirdparty.PayProxy;
+import com.yunsen.enjoy.thirdparty.alipay.AuthResult;
+import com.yunsen.enjoy.thirdparty.alipay.OrderInfoUtil2_0;
+import com.yunsen.enjoy.thirdparty.alipay.PayResult;
 import com.yunsen.enjoy.thirdparty.alipay.SignUtils;
 import com.yunsen.enjoy.widget.DialogProgress;
 
@@ -36,6 +38,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Map;
 
 /**
  * 袋鼠车宝
@@ -61,7 +64,7 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
     public static String datetime, sell_price, give_pension, article_id;
     LinearLayout ll_zhifu_buju;
     public static String huodong_type = "0";
-    private boolean mYuE;
+    private boolean mYuE = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,11 +76,11 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
         progress = new DialogProgress(MyOrderZFActivity.this);
         api = WXAPIFactory.createWXAPI(MyOrderZFActivity.this, null);
         api.registerApp(Constants.APP_ID);
-        setUpViews();
         Intent intent = getIntent();
         recharge_no = intent.getStringExtra("order_no");
         total_c = intent.getStringExtra("total_c");
         mYuE = intent.getBooleanExtra(HAS_YU_E, true);
+        setUpViews();
     }
 
     private void setUpViews() {
@@ -87,10 +90,10 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
         TextView item3 = (TextView) findViewById(R.id.item3);
         TextView item4 = (TextView) findViewById(R.id.item4);
         ll_zhifu_buju = (LinearLayout) findViewById(R.id.ll_zhifu_buju);
-        if (!mYuE) {
-            item0.setVisibility(View.GONE);
-        } else {
+        if (mYuE) {
             item0.setVisibility(View.VISIBLE);
+        } else {
+            item0.setVisibility(View.GONE);
         }
         item0.setOnClickListener(this);
         // item1.setOnClickListener(this);
@@ -158,53 +161,6 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
         }
     }
 
-    private void getzhou() {
-
-        try {
-            AsyncHttp.get(URLConstants.REALM_NAME_LL
-                            + "/add_order_signup?user_id=" + user_id + "&user_name="
-                            + user_name + "" + "&total_fee=" + total_c
-                            + "&out_trade_no=" + recharge_no + "&payment_type=alipay",
-                    // add_order_signup?user_id=string&user_name=string&user_sign=string&buy_no=string&payment_id=string&is_invoice=string
-                    // &invoice_title=string
-                    new AsyncHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(int arg0, String arg1) {
-                            super.onSuccess(arg0, arg1);
-                            try {
-                                JSONObject object = new JSONObject(arg1);
-                                System.out
-                                        .println("2================================="
-                                                + arg1);
-                                String status = object.getString("status");
-                                String info = object.getString("info");
-                                if (status.equals("y")) {
-                                    JSONObject obj = object
-                                            .getJSONObject("data");
-                                    notify_url = obj.getString("notify_url");
-                                    progress.CloseProgress();
-                                    handler.sendEmptyMessage(1);
-                                    // zhuangtai = true;
-                                    finish();
-                                } else {
-                                    progress.CloseProgress();
-                                    Toast.makeText(MyOrderZFActivity.this,
-                                            info, Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                    }, null);
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-    }
-
-    private static final String TAG = "MyOrderZFActivity";
     Handler handler = new Handler() {
         @SuppressWarnings("unchecked")
         @Override
@@ -246,33 +202,51 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
                     }
 
                     break;
-                case 5:// 支付宝
-                    PayResult payResult = new PayResult((String) msg.obj);
-                    // 支付宝返回此次支付结果及加签，建议对支付宝签名信息拿签约时支付宝提供的公钥做验签
-                    String resultInfo = payResult.getResult();
+                case PayProxy.SDK_PAY_FLAG: {
+                    @SuppressWarnings("unchecked")
+                    PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+                    /**
+                     对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+                     */
+                    String resultInfo = payResult.getResult();// 同步返回需要验证的信息
                     String resultStatus = payResult.getResultStatus();
-                    Log.e(TAG, "dispatchMessage: " + resultInfo + "  " + resultStatus);
-                    // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
+                    // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
-                        Toast.makeText(MyOrderZFActivity.this, "支付成功",
-                                Toast.LENGTH_SHORT).show();
+                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                        Toast.makeText(MyOrderZFActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
                         userloginqm();
                         finish();
+
                     } else {
-                        // 判断resultStatus 为非“9000”则代表可能支付失败
-                        // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
-                        if (TextUtils.equals(resultStatus, "8000")) {
-                            Toast.makeText(MyOrderZFActivity.this, "支付结果确认中", Toast.LENGTH_SHORT).show();
-                            finish();
-
-                        } else {
-                            // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-                            Toast.makeText(MyOrderZFActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
-                            finish();
-
-                        }
+                        // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                        Toast.makeText(MyOrderZFActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                     break;
+                }
+                case PayProxy.SDK_AUTH_FLAG: {
+                    @SuppressWarnings("unchecked")
+                    AuthResult authResult = new AuthResult((Map<String, String>) msg.obj, true);
+                    String resultStatus = authResult.getResultStatus();
+
+                    // 判断resultStatus 为“9000”且result_code
+                    // 为“200”则代表授权成功，具体状态码代表含义可参考授权接口文档
+                    if (TextUtils.equals(resultStatus, "9000") && TextUtils.equals(authResult.getResultCode(), "200")) {
+                        // 获取alipay_open_id，调支付时作为参数extern_token 的value
+                        // 传入，则支付账户为该授权账户
+                        Toast.makeText(MyOrderZFActivity.this,
+                                "授权成功\n" + String.format("authCode:%s", authResult.getAuthCode()), Toast.LENGTH_SHORT)
+                                .show();
+                        finish();
+                    } else {
+                        // 其他状态值则为授权失败
+                        Toast.makeText(MyOrderZFActivity.this,
+                                "授权失败" + String.format("authCode:%s", authResult.getAuthCode()), Toast.LENGTH_SHORT).show();
+                        finish();
+
+                    }
+                    break;
+                }
                 default:
                     break;
             }
@@ -304,6 +278,7 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
                             Common.PARTNER = obj.getString("partner");
                             Common.SELLER = obj.getString("seller");
                             Common.RSA_PRIVATE = obj.getString("private_key");
+                            PayProxy.RSA2_PRIVATE = obj.getString("private_key");
                             progress.CloseProgress();
                             handler.sendEmptyMessage(1);
                             finish();
@@ -474,36 +449,10 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
     }
 
     private void ali_pay() {
-        String orderInfo = getOrderInfo("袋鼠车宝", "商品描述", recharge_no);
-        // 对订单做RSA签名
-        String sign = sign(orderInfo);
-
-        try {
-            // 仅需对sign 做URL编码
-            sign = URLEncoder.encode(sign, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        // 完整的符合支付宝参数规范的订单信息
-        final String payInfo = orderInfo + "&sign=\"" + sign + "\"&" + getSignType();
-
-        Runnable payRunnable = new Runnable() {
-            @Override
-            public void run() {
-                // 构造PayTask 对象
-                PayTask alipay = new PayTask(MyOrderZFActivity.this);
-                // 调用支付接口，获取支付结果
-                String result = alipay.pay(payInfo, true);
-                Message msg = new Message();
-                msg.what = 5;
-                msg.obj = result;
-                handler.sendMessage(msg);
-            }
-        };
-        // 必须异步调用
-        Thread payThread = new Thread(payRunnable);
-        payThread.start();
+        String bizContent = "{\"timeout_express\":\"30m\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\""
+                + total_c + "\",\"subject\":\"袋鼠车宝\",\"body\":\"商品描述\",\"out_trade_no\":\"" + recharge_no + "\"}";
+        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(PayProxy.APPID, true, bizContent);
+        PayProxy.payV2(this, handler, params);
     }
 
     /**

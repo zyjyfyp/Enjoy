@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -116,7 +117,7 @@ public class DialogUtils {
         }
     }
 
-    public static void showBecomeVipDialog(Context act) {
+    public static void showBecomeVipDialog(final Context act) {
         final Context fAct = act;
         AlertDialog.Builder builder = new AlertDialog.Builder(fAct);
         builder.setTitle("升级正式会员");
@@ -132,7 +133,11 @@ public class DialogUtils {
                 model.setGoods_id("11272");
                 model.setCity(userInfo.getCity());
                 model.setProvince(userInfo.getProvince());
-                model.setAddress(userInfo.getAddress());
+                String address = userInfo.getAddress();
+                if (TextUtils.isEmpty(address)) {
+                    address = "地址为空";
+                }
+                model.setAddress(address);
                 model.setArea(userInfo.getArea());
                 model.setMobile(userInfo.getMobile());
                 model.setAccept_name(userInfo.getUser_name());
