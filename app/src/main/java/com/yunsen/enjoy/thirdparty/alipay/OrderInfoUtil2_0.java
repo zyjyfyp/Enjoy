@@ -1,5 +1,7 @@
 package com.yunsen.enjoy.thirdparty.alipay;
 
+import com.yunsen.enjoy.thirdparty.PayProxy;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -12,17 +14,18 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
+
 public class OrderInfoUtil2_0 {
-	
+
 	/**
 	 * 构造授权参数列表
-	 * 
+	 *
 	 * @param pid
 	 * @param app_id
-	 * @param target_id
+	 * @param
 	 * @return
 	 */
-	public static Map<String, String> buildAuthInfoMap(String pid, String app_id, String target_id, boolean rsa2) {
+	public static Map<String, String> buildAuthInfoMap(String pid, String app_id, boolean rsa2) {
 		Map<String, String> keyValues = new HashMap<String, String>();
 
 		// 商户签约拿到的app_id，如：2013081700024223
@@ -47,7 +50,7 @@ public class OrderInfoUtil2_0 {
 		keyValues.put("scope", "kuaijie");
 
 		// 商户唯一标识，如：kkkkk091125
-		keyValues.put("target_id", target_id);
+//		keyValues.put("target_id", target_id);
 
 		// 授权类型， 固定值
 		keyValues.put("auth_type", "AUTHACCOUNT");
@@ -60,17 +63,19 @@ public class OrderInfoUtil2_0 {
 
 	/**
 	 * 构造支付订单参数列表
+	 *
+	 * @param
 	 * @param app_id
-	 * @param rsa2
+	 * @param
 	 * @return
 	 */
-	public static Map<String, String> buildOrderParamMap(String app_id, boolean rsa2) {
+	public static Map<String, String> buildOrderParamMap(String app_id, boolean rsa2, String bizContent) {
 		Map<String, String> keyValues = new HashMap<String, String>();
 
 		keyValues.put("app_id", app_id);
 
-		keyValues.put("biz_content", "{\"timeout_express\":\"30m\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\"0.01\",\"subject\":\"1\",\"body\":\"我是测试数据\",\"out_trade_no\":\"" + getOutTradeNo() +  "\"}");
-		
+		keyValues.put("biz_content", bizContent);
+
 		keyValues.put("charset", "utf-8");
 
 		keyValues.put("method", "alipay.trade.app.pay");
@@ -80,15 +85,16 @@ public class OrderInfoUtil2_0 {
 		keyValues.put("timestamp", "2016-07-29 16:55:53");
 
 		keyValues.put("version", "1.0");
-		
+
+		keyValues.put("notify_url", PayProxy.NOTIFY_URL);
+
 		return keyValues;
 	}
-	
+
 	/**
 	 * 构造支付订单参数信息
-	 * 
-	 * @param map
-	 * 支付订单参数
+	 *
+	 * @param map 支付订单参数
 	 * @return
 	 */
 	public static String buildOrderParam(Map<String, String> map) {
@@ -108,10 +114,10 @@ public class OrderInfoUtil2_0 {
 
 		return sb.toString();
 	}
-	
+
 	/**
 	 * 拼接键值对
-	 * 
+	 *
 	 * @param key
 	 * @param value
 	 * @param isEncode
@@ -132,13 +138,11 @@ public class OrderInfoUtil2_0 {
 		}
 		return sb.toString();
 	}
-	
+
 	/**
 	 * 对支付参数信息进行签名
-	 * 
-	 * @param map
-	 *            待签名授权信息
-	 * 
+	 *
+	 * @param map 待签名授权信息
 	 * @return
 	 */
 	public static String getSign(Map<String, String> map, String rsaKey, boolean rsa2) {
@@ -168,9 +172,10 @@ public class OrderInfoUtil2_0 {
 		}
 		return "sign=" + encodedSign;
 	}
-	
+
 	/**
 	 * 要求外部订单号必须唯一。
+	 *
 	 * @return
 	 */
 	private static String getOutTradeNo() {

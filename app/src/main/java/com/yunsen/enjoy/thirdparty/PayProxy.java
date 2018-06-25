@@ -22,26 +22,25 @@ public class PayProxy {
     /**
      * 支付宝支付业务：入参app_id
      */
-    public static final String APPID = "2018042060024307";
+    public static final String APPID = "2018052560213307";
     /**
      * 支付宝账户登录授权业务：入参pid值
      */
-    public static final String PID = "";
+    public static final String PID = "2088131337200802";
     /**
      * 支付宝账户登录授权业务：入参target_id值
      */
-    public static final String TARGET_ID = "";
-    public static final int SDK_PAY_FLAG = 1;
-    public static final String RSA2_PRIVATE = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCH8RWcXgdmqxQBeaxIiieEMqAsnuciw7lnYiGo0hXt6xwYhCIsP3DIpyNPQ0hUoyy52nv5nevS3iHjOmmyHPsj9YF12q3GQ/mQK5UXUsigNmALCRYtEFLeRZLBPNOWmGE7EOvH/Zt5Vk3Oug9DLHKSsGzgCtQxvxYuiK5leH2UKIblLPXzIax33YQexK8z6P+fPlwnMmYHPhQUNnTctrzsu9xxwqKALjhbPSRyw2u2KZBFMq8PZY/LXoAqLAYPYKnrQK07czviGekYw9rPdYoTtoPORet+11ni+ojbaNzAbbLstv08Eh5XTGkOzKATzWNKdchCZe/saJb7GBR/J8zvAgMBAAECggEAKrrlCBmmSedMioosVUDX2v3uyxfHn23WQWDfI6mlqvtUAYDHHRFz6h5fQvLrMW95B5JdlcDF96pLDJm3z3y8lDj/UIRESyXitCZ+3q3u0i1FUzKv/co7whIsZwEvoQ6UwXQ4KMzWqfUuz+Q8F+lIukMqdeHxgRGHb2kXKF4PWxpMum24G56zKwCzGV0Esh2Y86lD+O2FiqVsXgjKm0KRcBA6eG6TlO/z/OeZ9n054aDhKaSKGq9+NN2hOkkLgZWg4DMKRO9Vgw5L0NdjGAHxOQlVI/V2FrGDI7xe1d10+aex4H/z+Iy6DSMxASE2dcgTuR1Xb02uqouv3DDBPPDfgQKBgQC/tHYwhZSWq/6nZ+fRPRWGx/AGcplwdKCjp1up0J2BKs6mPYGFmlhbVpA3SizkXKYG69l0UEB5K0Z13INqsa8L3xtPEUApykkzh8rLGbfuhlvZmwMgEmPFLXORFe2i/+/DZrvE5gqCC1AgoWSwHJFxBNqyk6uHVHg1HI7pUM6bBwKBgQC1iN3pALQr2IxFE7ecD6blF02ktxB6ZHLNI4UWWvjD080Rgsf49uQrACg32ETNjXmPYdPdNFaWUpma23/GFTRSHpbFwhbntiPWFicK8gZEOgKz+hBD3bFlUjcaiizZbWuZU3Raum7GB2vzq4OuEIEfSw9+6G0WRePs2z9VXNl82QKBgF6rU6JqlRJDJaKuIUCnFbZVjibg+P0b2yh2QUH/D4j2Bs75mLjNm8yfVuC29KxhRGwulFhoOS6dPFJ/7zYFQRhvuSC2uCTrDHMyH+dkb/yOxVUUw9pWuoZpB6UiWxQfp9urJBb8Mzw9MfirOvntYbWaXBXL7u0JvcMcs0Zs7VqJAoGAc0FPauS4f3IANMc89sd1NdQixqY3vw1RWe7oS3Y8pNAvTaPT5LyTxr1Vy4byv/LHsAHzamkVZGFTBt+/cvr5ef3TygDdXAXnIMB1z1w0IFMYbj4g34W8YFDfjWkW6oCvJOy4XfYp6G7D2jQV6YivAjg8wV0+DTsYZ8QXpNHLf5kCgYEAmRrXXyJG8DFV5RHLqGYDRfhmVky0NGDnD0GtCu88BiZwccbOxUFgzEcH9EkJWuOSzu5Te9+FHwyKcP+oQ0JHnEluusY0KcgZfxckJPYB7EqRnuh1/0qrtF4RhMi08vayzxXni2a+/T9Xncb6DuA+Ri1K673M/FzpkqxOqbd3gCk=";
-    public static final String RSA_PRIVATE = "aa";
-    public static final int SDK_AUTH_FLAG = 2;
-    public static void payV2(final Activity act, final Handler mHandler, View v) {
-       
+    public static final int SDK_PAY_FLAG = 111;
+    public static String NOTIFY_URL = "http://www.szlxkg.com/api/payment/alipayphone/notify_url.aspx";
+    public static String RSA2_PRIVATE = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDrsKfVDpj9Onv2Dkf3OsKMfmmu7TqyFXHCDVETFzv4Z1qDjo2H3cEsbFdIUzDcvCXK+OkHNLN3ofLiWL4I2qiRLJF/ndrUDddYSk0fkB3XjWsiAP5u6Zwktnqr7SaIMQaJnvfy3C+nLYA+nGG8DExRGRkLC+LOHkfaYuWiy/XqS9eeTia0LO914aqA+j6uUTCd6YDyJVAcs+Am7MfKN/jsUQi7wkwMF5BAvSMmDXvpFPKjBh21glSMW/SQYrpPKGyq4DgaEmHrvw5rKvBpRdHW5RUNmwe8GhyNS9qU/AMuGIuvAW1BAtliQtZbhJM2WxouvIT5cgONcVsZUQhWxefpAgMBAAECggEAQI+Dabk17ye2DRCcZfySjimSiXgyO9Xj82PycWhL5R9qi97gpfb4k1KaFhWzrMNdFtxX+MFW585U2eu1InfC9QFgWbTD3JJuCqFPvvWbNxBl6EqdZ4RWYTgbIj0z8Np9D/WbtcrawtCT8JKlsv0raouVcJEw74Ub6ZZtkMqN8j+NkPhyxxpVWN126L0qKPD8kRzAl2SphdBF+H3umP7XKFv3riBaXJKIWnvVwtFmgvpY+D14LKqoXyU6reE8uFGErpKq/Xfsnme3rAlVNbWgnb8kCcLxgBNG8TIt3o/oYpvclUOm6Q35ADa8a8V82TTYZj7zrpiYqsfjo1hfJ/USgQKBgQD8k5vr6C7YsCtWlqcaUX5SP0s74amj508bA06ST+Q/eQdFL0VzyGCCCOEyCaE0d4xRSnjJnhLST5r3BRzmPxA0ozsMDBD6FXQTAsYVcDbAEk71lo/YIs6q9Ek75j2/UiQ3RtT5K8OeD8fCsdIkqLRDWv/v1Z/RbVB8KVXwhf1GHwKBgQDu4nQdmSc1h2IjdMMhFMsIUmSFHo3pqdiCY+eTnFwqD4kxYUAIOQkf1FHmLalLQoUJlHeloTTMep7alzIOG8GPL+zoSb4uekft5IA3nwH5TmajrFWijOfdOjEtuxiE2Zy57IFij7OQ6Ng3OIAc46U4GE8mg+5icrdA40KzazDA9wKBgFH+LSDBB+wqDHeYgniluedDSs4OrL5bia+QPEJ9EvCT/os0FEzI4KN19H0E6UMaCAAft+Rjn2KMmxbTnxUTpdQgpTt880nsCvlc7ibpfayOhPluvhWA/yw6D0gVrzfbl4wmP18AGQnHv6ZxiXGDHrm64djetXoMDZOw64ggRx8rAoGBANrn+bAF4MBUx8HmBcoS29tMZYD3duRhGF6kXloONwb0JaxyidL/MTVRw5tCzJiC5JbazqmhCFk5JMj7NItpM/6a1GYo7XZ55+BAPJ67v3tONRBXpEHJDdDUuqxFfzp+j/hwmkBPnyVzum8f/4Z5tbWp0R5iV9kvdm6n0z/HQm4RAoGAR933l8i3CsAbx4qCSpY6G5sdToHgbiDoaBGnivph1zEcH7yGYCgakeK1YM0dv03RzLzKRaJXp5mgmhGoAdaW6AidpATQ53rr/5XS2t9NKleH3r7Dl0JTKL+gF9TDWvX4E8mNaxAxfS2k8b7TPK2qN0f/z4Yl73drGrOwoS1hDNs=";
+    public static final String RSA_PRIVATE = "";
+    public static final int SDK_AUTH_FLAG = 222;
+
+    public static void payV2(final Activity act, final Handler mHandler, Map<String, String> params) {
         if (TextUtils.isEmpty(APPID) || (TextUtils.isEmpty(RSA2_PRIVATE) && TextUtils.isEmpty(RSA_PRIVATE))) {
             new AlertDialog.Builder(act).setTitle("警告").setMessage("需要配置APPID | RSA_PRIVATE")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialoginterface, int i) {
-                            //
                             act.finish();
                         }
                     }).show();
@@ -56,7 +55,7 @@ public class PayProxy {
          * orderInfo的获取必须来自服务端；
          */
         boolean rsa2 = (RSA2_PRIVATE.length() > 0);
-        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(APPID, rsa2);
+//        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(APPID, rsa2);
         String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
 
         String privateKey = rsa2 ? RSA2_PRIVATE : RSA_PRIVATE;
