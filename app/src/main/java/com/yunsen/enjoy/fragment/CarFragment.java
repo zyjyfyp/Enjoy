@@ -77,7 +77,6 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
 
     private TextView subtitle;
     ImageView imageView1;
-    public boolean ptye = false;
     private double totalPrice = 0; // 商品总价
     public static double dzongjia = 0;
     /**
@@ -85,7 +84,6 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
      */
     private SparseArray<Boolean> mSelectState = new SparseArray<Boolean>();
     List<DataBean> result;
-    private DialogProgress progress;
     private static List<String> list_id = new ArrayList<String>();
     private static List<String> list_size = new ArrayList<String>();
     String num = "1";
@@ -114,7 +112,6 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initView() {
-        progress = new DialogProgress(getActivity());
         imageView1 = (ImageView) rootView.findViewById(R.id.imageView1);
         imageView1.setBackground(getResources().getDrawable(R.drawable.zams_gwc));
         myGridView = (MyGridView) rootView.findViewById(R.id.gridView);
@@ -225,15 +222,7 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
     DataBean dm;
 
     private void getgouwuche() {
-
-        System.out.println("ptye================" + ptye);
-        if (ptye == false) {
-            progress.CreateProgress();
-        }
-
         result = new ArrayList<DataBean>();
-
-
         AsyncHttp.get(URLConstants.REALM_NAME_LL + "/get_shopping_cart?pageSize=500&pageIndex=1&user_id=" + user_id + ""
                 , new AsyncHttpResponseHandler() {
                     @Override
@@ -262,23 +251,18 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
 
                                 }
                                 dm = null;
-                                progress.CloseProgress();
                                 adv_pager.setVisibility(View.GONE);
                                 subtitle.setVisibility(View.VISIBLE);
                                 mListView.setVisibility(View.VISIBLE);
                                 ll_xianshi.setVisibility(View.VISIBLE);
                                 System.out.println("1================");
                             } else {
-                                progress.CloseProgress();
                                 System.out.println("2================");
                                 adv_pager.setVisibility(View.VISIBLE);
                                 subtitle.setVisibility(View.GONE);
                                 mListView.setVisibility(View.GONE);
-                                //								mPriceAll.setText("¥"+0.00);
                                 ll_xianshi.setVisibility(View.GONE);
                             }
-                            //							refreshListView();
-                            progress.CloseProgress();
                         } catch (JSONException e) {
 
                             e.printStackTrace();
@@ -755,7 +739,6 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
                             AsyncHttp.get(strUrl, new AsyncHttpResponseHandler() {
                                 @Override
                                 public void onSuccess(int arg0, String arg1) {
-
                                     System.out.println("==========================删除接口成功！" + arg1);
                                     super.onSuccess(arg0, arg1);
                                     try {
@@ -765,7 +748,6 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
                                         String info = object.getString("info");
                                         if ("y".equals(status)) {
                                             ToastUtils.makeTextShort(info);
-                                            ptye = true;
                                             System.out.println("list_size.size()==========================" + list_size.size());
                                             list_num2.add(i);
                                             System.out.println("list_num.size()==========================" + list_num.size());
@@ -925,7 +907,6 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
 
     private void loadgouwuche(String str1, String str2, String str3) {
         try {
-            progress.CreateProgress();
             AsyncHttp.get(URLConstants.REALM_NAME_LL + "/add_shopping_buys?user_id=" + user_id + "&user_name=" + user_name_phone +
                             "&user_sign=" + login_sign + "&article_id=" + str1 + "&goods_id=" + str2 + "&quantity=" + str3 + "",
                     new AsyncHttpResponseHandler() {
@@ -939,35 +920,16 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
                                 System.out.println("购物清单================" + arg1);
                                 String info = jsonObject.getString("info");
                                 if (status.equals("y")) {
-                                    progress.CloseProgress();
                                     JSONObject obj = jsonObject.getJSONObject("data");
                                     String buy_no = obj.getString("buy_no");
                                     String count = obj.getString("count");
 
-                                    //									JSONArray jsot = jsonObject.getJSONArray("data");
-                                    //									ShopCartBean bean = new ShopCartBean();
-                                    //									for (int i = 0; i < jsot.length(); i++) {
-                                    //									JSONObject obj = jsot.getJSONObject(i);
-                                    //									bean.setId(obj.getString("id"));
-                                    //									String id = obj.getString("id");
-                                    //									list_id.add(id);
-                                    //									}
-                                    //									    str = new StringBuffer();
-                                    //								        for(String s:list_id){
-                                    //								        	str.append(s+",");
-                                    //								        }
-                                    //								        str.delete(str.lastIndexOf(","),str.length());
-                                    //								        System.out.println("id拼接之后---------------"+str);
-
-
-                                    //									Toast.makeText(getActivity(), info, Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getActivity(), MyOrderConfrimActivity.class);
                                     intent.putExtra("buy_no", buy_no);
                                     startActivity(intent);
                                 } else {
                                     ToastUtils.makeTextShort(info);
                                 }
-                                progress.CloseProgress();
                             } catch (JSONException e) {
 
                                 e.printStackTrace();
@@ -977,10 +939,6 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
 
                         @Override
                         public void onFailure(Throwable arg0, String arg1) {
-
-                            System.out.println("==========================访问接口失败！");
-                            System.out.println("=========================" + arg0);
-                            System.out.println("==========================" + arg1);
                             super.onFailure(arg0, arg1);
                         }
 
@@ -993,71 +951,6 @@ public class CarFragment extends BaseFragment implements View.OnClickListener {
         }
     }
 
-    //	private void loadgouwuche(String str1, String str2, String str3){
-    //		try {
-    //			progress.CreateProgress();
-    //
-    //			AsyncHttp.get(RealmName.REALM_NAME_LL+ "/add_shopping_buys?user_id="+user_id+"&user_name="+user_name+
-    //					"&article_id="+str1+"&goods_id="+str2+"&quantity="+str3+"",
-    //
-    //					new AsyncHttpResponseHandler() {
-    //						@Override
-    //						public void onSuccess(int arg0,String arg1) {
-    //
-    //							super.onSuccess(arg0, arg1);
-    //							try {
-    //								JSONObject jsonObject = new JSONObject(arg1);
-    //								String status = jsonObject.getString("status");
-    //								System.out.println("购物清单================"+arg1);
-    //								String info = jsonObject.getString("info");
-    //								if (status.equals("y")) {
-    //									progress.CloseProgress();
-    //									JSONArray jsot = jsonObject.getJSONArray("data");
-    //									ShopCartBean bean = new ShopCartBean();
-    //									for (int i = 0; i < jsot.length(); i++) {
-    //									JSONObject obj = jsot.getJSONObject(i);
-    //									bean.setId(obj.getString("id"));
-    //									String id = obj.getString("id");
-    //									list_id.add(id);
-    //									}
-    //									    str = new StringBuffer();
-    //								        for(String s:list_id){
-    //								        	str.append(s+",");
-    //								        }
-    //								        str.delete(str.lastIndexOf(","),str.length());
-    //								        System.out.println("id拼接之后---------------"+str);
-    //
-    //
-    ////									Toast.makeText(getActivity(), info, Toast.LENGTH_SHORT).show();
-    //									Intent intent=new Intent(getActivity(), MyOrderConfrimActivity.class);
-    //									startActivity(intent);
-    //								}else {
-    //									Toast.makeText(getActivity(), info, Toast.LENGTH_SHORT).show();
-    //								}
-    //								progress.CloseProgress();
-    //							} catch (JSONException e) {
-    //
-    //								e.printStackTrace();
-    //							}
-    //
-    //						}
-    //						@Override
-    //						public void onFailure(Throwable arg0, String arg1) {
-    //
-    //							System.out.println("==========================访问接口失败！");
-    //							System.out.println("========================="+arg0);
-    //							System.out.println("=========================="+arg1);
-    //							super.onFailure(arg0, arg1);
-    //						}
-    //
-    //
-    //					}, getActivity());
-    //
-    //			} catch (Exception e) {
-    //
-    //				e.printStackTrace();
-    //			}
-    //	}
     public void setListViewHeightBasedOnChildren(ListView listView) {
         // 获取ListView对应的Adapter
         CarFragment.ListAdapter listAdapter = (CarFragment.ListAdapter) mListView.getAdapter();

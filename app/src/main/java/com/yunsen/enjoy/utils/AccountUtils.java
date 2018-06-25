@@ -99,6 +99,7 @@ public class AccountUtils {
         mHasBound = false;
         mHasLogin = false;
         mWeiXiHasLogin = false;
+        mHasVIP = false;
     }
 
     public static String getUser_name_phone() {
