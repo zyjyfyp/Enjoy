@@ -119,4 +119,10 @@
         </attr>
 
     </declare-styleable>
+
+    <declare-styleable name="PieChart">
+        <attr name="name" format="string"/>
+        <attr name="percentDecimal" format="integer"/>
+        <attr name="textSize" format="dimension"/>
+    </declare-styleable>
 </resources>

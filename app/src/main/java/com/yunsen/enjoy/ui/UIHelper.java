@@ -42,6 +42,7 @@ import com.yunsen.enjoy.activity.mine.AddressManagerGlActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.BindBankCardActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
+import com.yunsen.enjoy.activity.mine.CumulativeIncomeActivity;
 import com.yunsen.enjoy.activity.mine.ExtensionActivity;
 import com.yunsen.enjoy.activity.mine.MonthIncomeActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
@@ -984,6 +985,16 @@ public class UIHelper {
      */
     public static void showMonthIncomeActivity(Context ctx) {
         Intent intent = new Intent(ctx, MonthIncomeActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 显示累计收益
+     *
+     * @param ctx
+     */
+    public static void showCumulativeIncomeActivity(Context ctx) {
+        Intent intent = new Intent(ctx, CumulativeIncomeActivity.class);
         ctx.startActivity(intent);
     }
 

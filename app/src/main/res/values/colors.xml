@@ -113,5 +113,8 @@
     <color name="share_layout_bg">#dedede</color>
     <color name="toast_bg_color">#2c252525</color>
     <color name="spread_text_bg">#47000000</color>
+    <color name="color_pink">#fb624e</color>
+    <color name="color_violet">#725ffa</color>
+    <color name="color_yellow">#fda305</color>
 
 </resources>
