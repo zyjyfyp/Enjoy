@@ -938,7 +938,7 @@ public class UIHelper {
         intent.putExtra("order_no", orderNo);
         intent.putExtra("order_type", "5");
         intent.putExtra("total_c", String.valueOf(money));
-        intent.putExtra(MyOrderZFActivity.HAS_YU_E, false);
+        intent.putExtra(MyOrderZFActivity.BE_COME_VIP, true);
         ctx.startActivity(intent);
     }
 

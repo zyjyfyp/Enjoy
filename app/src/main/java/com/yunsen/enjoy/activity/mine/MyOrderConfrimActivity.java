@@ -1085,9 +1085,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
 
                         e.printStackTrace();
                     }
-
                     break;
-
                 case PayProxy.SDK_PAY_FLAG: {
                     PayResult payResult = new PayResult((Map<String, String>) msg.obj);
                     /**
@@ -1186,7 +1184,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                     String info = object.getString("info");
                     if ("y".equals(status)) {
                         JSONObject obj = object.getJSONObject("data");
-                        notify_url = obj.getString("notify_url");
+                        PayProxy.NOTIFY_URL = notify_url = obj.getString("notify_url");
                         handler.sendEmptyMessage(1);
                     } else {
                         ToastUtils.makeTextShort(info);

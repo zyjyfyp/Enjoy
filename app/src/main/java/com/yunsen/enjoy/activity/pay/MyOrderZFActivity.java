@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
@@ -25,19 +24,19 @@ import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserRegisterllData;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.thirdparty.Common;
 import com.yunsen.enjoy.thirdparty.PayProxy;
 import com.yunsen.enjoy.thirdparty.alipay.AuthResult;
 import com.yunsen.enjoy.thirdparty.alipay.OrderInfoUtil2_0;
 import com.yunsen.enjoy.thirdparty.alipay.PayResult;
-import com.yunsen.enjoy.thirdparty.alipay.SignUtils;
 import com.yunsen.enjoy.widget.DialogProgress;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Map;
 
 /**
@@ -46,7 +45,7 @@ import java.util.Map;
  * @author Administrator
  */
 public class MyOrderZFActivity extends AppCompatActivity implements OnClickListener {
-    public static final String HAS_YU_E = "hasYuE";
+    public static final String BE_COME_VIP = "become_vip";
     String total_c;
     private DialogProgress progress;
     String user_name, user_id, login_sign, order_no;
@@ -64,7 +63,7 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
     public static String datetime, sell_price, give_pension, article_id;
     LinearLayout ll_zhifu_buju;
     public static String huodong_type = "0";
-    private boolean mYuE = true;
+    private boolean mIsBecomeVip = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +78,7 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
         Intent intent = getIntent();
         recharge_no = intent.getStringExtra("order_no");
         total_c = intent.getStringExtra("total_c");
-        mYuE = intent.getBooleanExtra(HAS_YU_E, true);
+        mIsBecomeVip = intent.getBooleanExtra(BE_COME_VIP, false);
         setUpViews();
     }
 
@@ -90,10 +89,10 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
         TextView item3 = (TextView) findViewById(R.id.item3);
         TextView item4 = (TextView) findViewById(R.id.item4);
         ll_zhifu_buju = (LinearLayout) findViewById(R.id.ll_zhifu_buju);
-        if (mYuE) {
-            item0.setVisibility(View.VISIBLE);
-        } else {
+        if (mIsBecomeVip) {
             item0.setVisibility(View.GONE);
+        } else {
+            item0.setVisibility(View.VISIBLE);
         }
         item0.setOnClickListener(this);
         // item1.setOnClickListener(this);
@@ -105,11 +104,10 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        if (flag == true) {
-            userloginqm();
-            orderxq = getIntent().getStringExtra("5");
-            System.out.println("---------------xq-" + orderxq);
-        }
+//        if (flag == true) {
+//            userloginqm();
+        orderxq = getIntent().getStringExtra("5");
+//        }
     }
 
     @Override
@@ -119,12 +117,7 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
             case R.id.item0:
                 // 余额支付
                 orderxq = getIntent().getStringExtra("5");
-                System.out.println("---------------xq-" + orderxq);
-                // order_type = getIntent().getStringExtra("order_type");
-                // System.out.println("order_type----------------"+order_type);
-
-                Intent intent = new Intent(MyOrderZFActivity.this,
-                        TishiCarArchivesActivity.class);
+                Intent intent = new Intent(MyOrderZFActivity.this, TishiCarArchivesActivity.class);
                 // intent.putExtra("order_type",order_type);
                 intent.putExtra("order_no", recharge_no);
                 intent.putExtra("order_yue", "order_yue");
@@ -139,23 +132,18 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
                 intent.putExtra("mobile", getIntent().getStringExtra("mobile"));
                 startActivity(intent);
                 finish();
-                // Toast.makeText(MyOrderZFActivity.this,
-                // "功能正在完善",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.item1:
                 break;
             case R.id.item2:// 支付宝
-                // type = "3";
                 loadzhidu(recharge_no);
                 break;
             case R.id.item3:// 微信
-                // type = "5";
                 loadweixinzf2(recharge_no);
                 break;
             case R.id.item4:
                 finish();
                 break;
-
             default:
                 break;
         }
@@ -214,7 +202,9 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(MyOrderZFActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
-                        userloginqm();
+                        if (mIsBecomeVip) {
+                            EventBus.getDefault().post(new UpUiEvent(EventConstants.APP_LOGIN));
+                        }
                         finish();
 
                     } else {
@@ -228,20 +218,17 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
                     @SuppressWarnings("unchecked")
                     AuthResult authResult = new AuthResult((Map<String, String>) msg.obj, true);
                     String resultStatus = authResult.getResultStatus();
-
                     // 判断resultStatus 为“9000”且result_code
                     // 为“200”则代表授权成功，具体状态码代表含义可参考授权接口文档
                     if (TextUtils.equals(resultStatus, "9000") && TextUtils.equals(authResult.getResultCode(), "200")) {
                         // 获取alipay_open_id，调支付时作为参数extern_token 的value
                         // 传入，则支付账户为该授权账户
-                        Toast.makeText(MyOrderZFActivity.this,
-                                "授权成功\n" + String.format("authCode:%s", authResult.getAuthCode()), Toast.LENGTH_SHORT)
+                        Toast.makeText(MyOrderZFActivity.this, "授权成功\n" + String.format("authCode:%s", authResult.getAuthCode()), Toast.LENGTH_SHORT)
                                 .show();
                         finish();
                     } else {
                         // 其他状态值则为授权失败
-                        Toast.makeText(MyOrderZFActivity.this,
-                                "授权失败" + String.format("authCode:%s", authResult.getAuthCode()), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MyOrderZFActivity.this, "授权失败" + String.format("authCode:%s", authResult.getAuthCode()), Toast.LENGTH_SHORT).show();
                         finish();
 
                     }
@@ -252,6 +239,16 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
             }
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 2) {
+            if (mIsBecomeVip) {
+                EventBus.getDefault().post(new UpUiEvent(EventConstants.APP_LOGIN));
+            }
+        }
+    }
 
     /**
      * 支付宝
@@ -274,7 +271,7 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
                         String info = object.getString("info");
                         if ("y".equals(status)) {
                             JSONObject obj = object.getJSONObject("data");
-                            notify_url = obj.getString("notify_url");
+                            PayProxy.NOTIFY_URL = notify_url = obj.getString("notify_url");
                             Common.PARTNER = obj.getString("partner");
                             Common.SELLER = obj.getString("seller");
                             Common.RSA_PRIVATE = obj.getString("private_key");
@@ -310,8 +307,7 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
             String monney = String.valueOf(Double.parseDouble(total_c) * 100);
             AsyncHttp.get(URLConstants.REALM_NAME_LL + "/payment_sign?user_id="
                             + user_id + "&user_name=" + user_name + "" + "&total_fee="
-                            + monney + "&out_trade_no=" + recharge_no
-                            + "&payment_type=weixin",
+                            + monney + "&out_trade_no=" + recharge_no + "&payment_type=weixin",
 
                     new AsyncHttpResponseHandler() {
                         @Override
@@ -361,8 +357,7 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
         try {
             SharedPreferences spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
             String user_name = spPreferences.getString(SpConstants.USER_NAME, "");
-            String strUrlone = URLConstants.REALM_NAME_LL
-                    + "/get_user_model?username=" + user_name + "";
+            String strUrlone = URLConstants.REALM_NAME_LL + "/get_user_model?username=" + user_name + "";
             AsyncHttp.get(strUrlone, new AsyncHttpResponseHandler() {
                 public void onSuccess(int arg0, String arg1) {
                     try {
@@ -453,78 +448,6 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
                 + total_c + "\",\"subject\":\"袋鼠车宝\",\"body\":\"商品描述\",\"out_trade_no\":\"" + recharge_no + "\"}";
         Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(PayProxy.APPID, true, bizContent);
         PayProxy.payV2(this, handler, params);
-    }
-
-    /**
-     * sign the order info. 对订单信息进行签名
-     *
-     * @param content 待签名订单信息
-     */
-    public String sign(String content) {
-        return SignUtils.sign(content, Common.RSA_PRIVATE);
-    }
-
-    /**
-     * get the sign type we use. 获取签名方式
-     */
-    public String getSignType() {
-        return "sign_type=\"RSA\"";
-    }
-
-    /**
-     * create the order info. 创建订单信息
-     */
-    public String getOrderInfo(String subject, String body, String dingdan) {
-        // 签约合作者身份ID
-        String orderInfo = "partner=" + "\"" + Common.PARTNER + "\"";
-
-        // 签约卖家支付宝账号
-        orderInfo += "&seller_id=" + "\"" + Common.SELLER + "\"";
-
-        // 商户网站唯一订单号
-        orderInfo += "&out_trade_no=" + "\"" + dingdan + "\"";
-
-        // 商品名称
-        orderInfo += "&subject=" + "\"" + subject + "\"";
-
-        // 商品详情
-        orderInfo += "&body=" + "\"" + body + "\"";
-
-        // 商品金额
-        orderInfo += "&total_fee=" + "\"" + total_c + "\"";
-
-        // 服务器异步通知页面路径
-        System.out.println("======notify_url=============" + notify_url);
-
-        orderInfo += "&notify_url=" + "\"" + notify_url + "\"";
-        System.out.println("======orderInfo=============" + orderInfo);
-
-        // 服务接口名称， 固定值
-        orderInfo += "&service=\"mobile.securitypay.pay\"";
-
-        // 支付类型， 固定值
-        orderInfo += "&payment_type=\"1\"";
-
-        // 参数编码， 固定值
-        orderInfo += "&_input_charset=\"utf-8\"";
-
-        // 设置未付款交易的超时时间
-        // 默认30分钟，一旦超时，该笔交易就会自动被关闭。
-        // 取值范围：1m～15d。
-        // m-分钟，h-小时，d-天，1c-当天（无论交易何时创建，都在0点关闭）。
-        // 该参数数值不接受小数点，如1.5h，可转换为90m。
-        orderInfo += "&it_b_pay=\"30m\"";
-
-        // extern_token为经过快登授权获取到的alipay_open_id,带上此参数用户将使用授权的账户进行支付
-        // orderInfo += "&extern_token=" + "\"" + extern_token + "\"";
-
-        // 支付宝处理完请求后，当前页面跳转到商户指定页面的路径，可空
-        // orderInfo += "&return_url=\"m.alipay.com\"";
-
-        // 调用银行卡支付，需配置此参数，参与签名， 固定值 （需要签约《无线银行卡快捷支付》才能使用）
-        // orderInfo += "&paymethod=\"expressGateway\"";
-        System.out.println(orderInfo);
-        return orderInfo;
     }
 
 

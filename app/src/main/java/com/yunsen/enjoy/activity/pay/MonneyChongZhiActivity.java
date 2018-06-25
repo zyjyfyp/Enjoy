@@ -78,10 +78,7 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
 
     @Override
     protected void onResume() {
-
         super.onResume();
-
-        System.out.println("flag==============" + flag);
         if (flag == true) {
             userloginqm();
         }
@@ -316,12 +313,7 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
                             String login_sign = data.login_sign;
                             System.out.println("======login_sign=============" + login_sign);
                             System.out.println("======recharge_no=============" + recharge_no);
-
-                            //							if (pety.equals("2")) {
-                            //
-                            //							}else if (pety.equals("3")) {
                             loadguanggaoll(recharge_no, login_sign);
-                            //							}
                         } else {
                         }
                     } catch (JSONException e) {
@@ -348,12 +340,7 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
     private void loadguanggaoll(String recharge_noll, String login_sign) {
         try {
             recharge_no = recharge_noll;
-            System.out.println("recharge_no=================================" + recharge_no);
-            //			login_sign = spPreferences.getString("login_sign", "");
-            System.out.println("login_sign=================================" + login_sign);
-            //update_user_pension  update_user_amount
-            AsyncHttp.get(URLConstants.REALM_NAME_LL
-                            + "/update_user_amount?user_id=" + user_id + "&user_name=" + user_name + "" +
+            AsyncHttp.get(URLConstants.REALM_NAME_LL + "/update_user_amount?user_id=" + user_id + "&user_name=" + user_name + "" +
                             "&recharge_no=" + recharge_noll + "&sign=" + login_sign + "",
 
                     new AsyncHttpResponseHandler() {
@@ -362,17 +349,14 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
                             super.onSuccess(arg0, arg1);
                             try {
                                 JSONObject object = new JSONObject(arg1);
-                                System.out.println("1=================================" + arg1);
                                 String status = object.getString("status");
                                 String info = object.getString("info");
                                 if (status.equals("y")) {
                                     progress.CloseProgress();
-                                    //									   loadzhidu(recharge_no);
-                                    //							    	   Toast.makeText(MonneyChongZhiActivity.this, info, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MonneyChongZhiActivity.this, info, Toast.LENGTH_SHORT).show();
                                     finish();
                                 } else {
                                     progress.CloseProgress();
-                                    //									Toast.makeText(MonneyChongZhiActivity.this, info, Toast.LENGTH_SHORT).show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -381,10 +365,7 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
 
                         @Override
                         public void onFailure(Throwable arg0, String arg1) {
-
                             super.onFailure(arg0, arg1);
-                            System.out.println("11=================================" + arg0);
-                            System.out.println("22=================================" + arg1);
                             Toast.makeText(MonneyChongZhiActivity.this, "网络超时异常", Toast.LENGTH_SHORT).show();
                         }
 
@@ -476,7 +457,7 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
                                 String info = object.getString("info");
                                 if (status.equals("y")) {
                                     JSONObject obj = object.getJSONObject("data");
-                                    notify_url = obj.getString("notify_url");
+                                    PayProxy.NOTIFY_URL = notify_url = obj.getString("notify_url");
                                     return_url = obj.getString("return_url");
                                     System.out.println("return_url=================================" + return_url);
                                     progress.CloseProgress();
