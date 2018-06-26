@@ -461,7 +461,7 @@ public class MineFragment extends BaseFragment {
                     @Override
                     public void onSuccess(int arg0, String arg1) {
                         super.onSuccess(arg0, arg1);
-                        ArrayList<String> list_1 = new ArrayList<String>();
+                        ArrayList<String> list_1 = new ArrayList<>();
                         ArrayList<String> list_2 = new ArrayList<String>();
                         ArrayList<String> list_3 = new ArrayList<String>();
                         ArrayList<String> list_4 = new ArrayList<String>();
@@ -491,6 +491,7 @@ public class MineFragment extends BaseFragment {
                                     }
                                 }
                                 String num = String.valueOf(list_1.size());
+                                Log.e(TAG, "onSuccess: num=" + num);
                                 orderNumber1.setText(num);
                                 String num1 = String.valueOf(list_2.size());
                                 orderNumber2.setText(num1);

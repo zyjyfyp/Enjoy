@@ -114,6 +114,12 @@ public class DeviceUtil {
         return "";
     }
 
+    /**
+     * 需要申请权限
+     *
+     * @param context
+     * @return
+     */
     public static String getDeviceId(Context context) {
         try {
             String strIMEI = getIMEI(context);

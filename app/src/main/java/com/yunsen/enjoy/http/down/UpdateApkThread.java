@@ -1,6 +1,7 @@
 package com.yunsen.enjoy.http.down;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
@@ -31,7 +32,7 @@ public class UpdateApkThread extends Thread {
     private String fileName;
     private Context context;
     private NotificationManager notificationManager;// 状态栏通知管理类
-    private Notification notification;// 状态栏通知
+    //    private Notification notification;// 状态栏通知
     private RemoteViews notificationViews;// 状态栏通知显示的view
     private Timer timer;// 定时器，用于更新下载进度
     private TimerTask task;// 定时器执行的任务
@@ -42,7 +43,8 @@ public class UpdateApkThread extends Thread {
     private final int downloadError = 3;// 下载失败
     private DownLoadUtil downLoadUtil;
     ProgressDialog downLoadDialog;
-    private static boolean mIsLoading = false;
+    public static boolean mIsLoading = false;
+    private Notification.Builder mNoticeBuilder;
 
     public UpdateApkThread(String downloadUrl, String fileLocation, String fileName, Context context) {
         if (mIsLoading) {
@@ -90,11 +92,12 @@ public class UpdateApkThread extends Thread {
      */
     private void initNofication() {
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notification = new Notification();
-        notification.icon = R.mipmap.app_icon_1;// 设置通知消息的图标
-        notification.tickerText = "正在下载...";// 设置通知消息的标题
+        mNoticeBuilder = new Notification.Builder(context);
+        mNoticeBuilder.setSmallIcon(R.mipmap.app_icon_1);// 设置通知消息的图标
+        mNoticeBuilder.setContentTitle("正在下载...");// 设置通知消息的标题
         notificationViews = new RemoteViews(context.getPackageName(), R.layout.down_notification);
         notificationViews.setImageViewResource(R.id.download_icon, R.mipmap.app_icon_1);
+        mNoticeBuilder.setContent(notificationViews);
     }
 
     /**
@@ -127,39 +130,57 @@ public class UpdateApkThread extends Thread {
                     String progress = format.format(size);
                     notificationViews.setTextViewText(R.id.progressTv, "已下载" + progress + "%");
                     notificationViews.setProgressBar(R.id.progressBar, 100, (int) size, false);
-                    notification.contentView = notificationViews;
-                    notificationManager.notify(notificationID, notification);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        //8.0以上弹出通知状态栏
+                        String channelID = "0";
+                        String channelName = "channel_name";
+                        NotificationChannel channel = new NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH);
+                        if (notificationManager != null) {
+                            notificationManager.createNotificationChannel(channel);
+                            mNoticeBuilder.setChannelId(channelID);
+                            mNoticeBuilder.build();
+                        }
+                    } else {
+                        notificationManager.notify(notificationID, mNoticeBuilder.build());
+                    }
+
                     if (downLoadDialog != null && downLoadDialog.isShowing()) {
                         downLoadDialog.setProgress((int) size);
                     }
                 }
             } else if (msg.what == downloadSuccess) {// 下载完成
                 mIsLoading = false;
-                notificationViews.setTextViewText(R.id.progressTv, "下载完成");
+                File file = new File(saveFile, "zams.apk");
+                notificationViews.setTextViewText(R.id.progressTv, "下载完成，点击安装");
                 notificationViews.setProgressBar(R.id.progressBar, 100, 100, false);
-                notification.contentView = notificationViews;
-                notification.tickerText = "下载完成";
-                notificationManager.notify(notificationID, notification);
+//                notification.contentView = notificationViews;
+                PendingIntent intent = getApkInstallService(file);
+                mNoticeBuilder.setAutoCancel(true);
+                mNoticeBuilder.setContentIntent(intent);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    //8.0以上弹出通知状态栏
+                    String channelID = "0";
+                    String channelName = "channel_name";
+                    NotificationChannel channel = new NotificationChannel(channelID, channelName, NotificationManager.IMPORTANCE_HIGH);
+                    if (notificationManager != null) {
+                        notificationManager.createNotificationChannel(channel);
+                        mNoticeBuilder.setChannelId(channelID);
+                        mNoticeBuilder.build();
+                    }
+                } else {
+                    notificationManager.notify(notificationID, mNoticeBuilder.build());
+                }
                 if (timer != null && task != null) {
                     timer.cancel();
                     task.cancel();
                     timer = null;
                     task = null;
                 }
-                File file = new File(saveFile + "/zams.apk");
                 if (downLoadDialog != null && downLoadDialog.isShowing()) {
                     downLoadDialog.dismiss();
-                    openAPKFile(file.getAbsolutePath());
+                    context.startService(new Intent(context, ApkInstallService.class));
                 }
-                Log.e(TAG, "handleMessage: 下载完成安装");
-
-
-                PendingIntent intent = getApkInstallService(file);
-                notification.flags |= Notification.FLAG_AUTO_CANCEL;
-                notification.contentIntent = intent;
-                notification.contentView.setTextViewText(R.id.progressTv, "下载完成，点击安装");
-                notificationManager.notify(notificationID, notification);
-
+                Log.e(TAG, "handleMessage: 下载完成  安装");
             } else if (msg.what == downloadError) {// 下载失败
                 mIsLoading = false;
                 if (timer != null && task != null) {

@@ -113,22 +113,19 @@ public class TishiWxBangDingActivity extends AppCompatActivity implements OnClic
             loginFlag = spPreferences_login.getString(SpConstants.LOGIN_FLAG, "");
 
             if (SpConstants.WEI_XIN.equals(loginFlag)) {
-                oauth_name = "weixin";
+                oauth_name = SpConstants.WEI_XIN;
             } else if (SpConstants.QQ_LOGIN.equals(loginFlag)) {
-                oauth_name = "qq";
+                oauth_name = SpConstants.QQ_LOGIN;
             }
 
             String nick_name = nickname.replaceAll("\\s*", "");
             String strUrlone = URLConstants.REALM_NAME_LL + "/user_oauth_register_0217?nick_name=" + nick_name + "&sex=" + sex + "&avatar=" + headimgurl + "" +
                     "&province=" + province + "&city=" + city + "&country=" + country + "&oauth_name=" + oauth_name + "&oauth_unionid=" + unionid + "" +
                     "&oauth_openid=" + oauth_openid + "";
-            Log.e(TAG, "userlogin: " + strUrlone);
             AsyncHttp.get(strUrlone, new AsyncHttpResponseHandler() {
                 public void onSuccess(int arg0, String arg1) {
                     try {
                         JSONObject object = new JSONObject(arg1);
-                        String status = object.getString("status");
-                        String info = object.getString("info");
                         String datall = object.getString("data");
                         if (datall.equals("null")) {
                             Intent intent = new Intent(TishiWxBangDingActivity.this, MobilePhoneActivity.class);
@@ -140,7 +137,7 @@ public class TishiWxBangDingActivity extends AppCompatActivity implements OnClic
                             startActivity(intent);
                             finish();
                         } else {
-                            HttpProxy.requestBindPhone(new HttpCallBack<AuthorizationModel>() {
+                            HttpProxy.requestBindPhone(oauth_name, new HttpCallBack<AuthorizationModel>() {
                                 @Override
                                 public void onSuccess(AuthorizationModel responseData) {
                                     SpUtils.saveUserInfo(responseData, loginFlag);

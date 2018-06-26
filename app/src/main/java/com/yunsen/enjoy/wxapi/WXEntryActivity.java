@@ -89,15 +89,12 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     public void onResp(BaseResp baseResp) {
-        Logger.d("baseResp:--A" + JSON.toJSONString(baseResp));
-        Log.e(TAG, "baseResp--B:" + baseResp.errStr + "," + baseResp.openId + "," + baseResp.transaction + "," + baseResp.errCode);
         WXBaseRespEntity entity = JSON.parseObject(JSON.toJSONString(baseResp), WXBaseRespEntity.class);
         if (baseResp.getType() == ConstantsAPI.COMMAND_LAUNCH_WX_MINIPROGRAM) {
             WXLaunchMiniProgram.Resp launchMiniProResp = (WXLaunchMiniProgram.Resp) baseResp;
             String extraData = launchMiniProResp.extMsg; // 对应JsApi navigateBackApplication中的extraData字段数据
-            Log.e(TAG, "onResp: " + extraData);
+            Log.d(TAG, "onResp: " + extraData);
         } else {
-
             switch (baseResp.errCode) {
                 case BaseResp.ErrCode.ERR_OK:
                     HashMap<String, String> param = new HashMap<>();
@@ -163,12 +160,13 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 editor.putString(SpConstants.NICK_NAME, wxResponse.getNickname());
                 editor.putString("headimgurl", wxResponse.getHeadimgurl());
                 editor.putString("access_token", accessToken);
-                editor.putString("unionid", wxResponse.getUnionid());
+                editor.putString(SpConstants.UNION_ID, wxResponse.getUnionid());
+                editor.putString(SpConstants.OAUTH_UNIONID, wxResponse.getUnionid());
                 editor.putString("sex", "" + wxResponse.getSex());
                 editor.putString("province", wxResponse.getProvince());
                 editor.putString("city", wxResponse.getCity());
                 editor.putString("country", wxResponse.getCountry());
-                editor.putString("oauth_openid", wxResponse.getOpenid());
+                editor.putString(SpConstants.OAUTH_OPEN_ID, wxResponse.getOpenid());
                 editor.putString(SpConstants.LOGIN_FLAG, SpConstants.WEI_XIN);
                 AccountUtils.mWeiXiHasLogin = true;
                 editor.commit();
@@ -186,7 +184,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
      * 获取用户形象
      */
     private void requestBundlePhone(final String loginType) {
-        HttpProxy.requestBindPhone(new HttpCallBack<AuthorizationModel>() {
+        HttpProxy.requestBindPhone(loginType, new HttpCallBack<AuthorizationModel>() {
             @Override
             public void onSuccess(AuthorizationModel responseData) {
                 SpUtils.saveUserInfo(responseData, loginType);

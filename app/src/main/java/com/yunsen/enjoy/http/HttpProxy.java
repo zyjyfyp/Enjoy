@@ -1323,7 +1323,7 @@ public class HttpProxy {
         String city = sp.getString(SpConstants.CITY, "");
         String country = sp.getString(SpConstants.COUNTRY, "");
         String oauthOpenId = sp.getString(SpConstants.OAUTH_OPEN_ID, "");
-        String oauthName = sp.getString(SpConstants.OAUTH_NAME, null);
+        String oauthName = sp.getString(SpConstants.OAUTH_NAME, "");
         String oauthUnionId = sp.getString(SpConstants.OAUTH_UNIONID, "");
 
         HashMap<String, String> param = new HashMap<>();
@@ -1356,7 +1356,7 @@ public class HttpProxy {
     /**
      * @param callBack
      */
-    public static void requestBindPhone(String aa, final HttpCallBack<AuthorizationModel> callBack) {
+    public static void requestBindPhone(String loginTyp, final HttpCallBack<AuthorizationModel> callBack) {
         SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
         String nickName = sp.getString(SpConstants.NICK_NAME, "");
         String avatar = sp.getString(SpConstants.HEAD_IMG_URL_2, "");
@@ -1365,7 +1365,7 @@ public class HttpProxy {
         String city = sp.getString(SpConstants.CITY, "");
         String country = sp.getString(SpConstants.COUNTRY, "");
         String oauthOpenId = sp.getString(SpConstants.OAUTH_OPEN_ID, "");
-        String oauthName = sp.getString(SpConstants.OAUTH_NAME, null);
+        String oauthName = sp.getString(SpConstants.OAUTH_NAME, loginTyp);
         String oauthUnionId = sp.getString(SpConstants.OAUTH_UNIONID, "");
 
         HashMap<String, String> param = new HashMap<>();
@@ -1378,6 +1378,7 @@ public class HttpProxy {
         param.put(SpConstants.OAUTH_OPEN_ID, oauthOpenId);
         param.put(SpConstants.OAUTH_NAME, oauthName);
         param.put(SpConstants.OAUTH_UNIONID, oauthUnionId);
+
 
         HttpClient.get(URLConstants.BOUDLE_PHONE_URL, param, new HttpResponseHandler<AuthorizationResponse>() {
             @Override
