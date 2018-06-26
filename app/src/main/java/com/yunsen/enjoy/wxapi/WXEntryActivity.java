@@ -156,13 +156,13 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 Intent intent = getIntent();
                 intent.putExtra("headUrl", headUrl);
                 WXEntryActivity.this.setResult(2, intent);
-                Log.e(TAG, "onSuccess: " + headUrl);
                 SharedPreferences spPreferences_login = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
                 SharedPreferences.Editor editor = spPreferences_login.edit();
                 editor.putString(SpConstants.NICK_NAME, wxResponse.getNickname());
                 editor.putString("headimgurl", wxResponse.getHeadimgurl());
                 editor.putString("access_token", accessToken);
                 editor.putString("unionid", wxResponse.getUnionid());
+                editor.putString(SpConstants.OAUTH_UNIONID, wxResponse.getUnionid());
                 editor.putString("sex", "" + wxResponse.getSex());
                 editor.putString("province", wxResponse.getProvince());
                 editor.putString("city", wxResponse.getCity());
@@ -185,7 +185,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
      * 获取用户形象
      */
     private void requestBundlePhone(final String loginType) {
-        HttpProxy.requestBindPhone(new HttpCallBack<AuthorizationModel>() {
+        HttpProxy.requestBindPhone(loginType, new HttpCallBack<AuthorizationModel>() {
             @Override
             public void onSuccess(AuthorizationModel responseData) {
                 SpUtils.saveUserInfo(responseData, loginType);

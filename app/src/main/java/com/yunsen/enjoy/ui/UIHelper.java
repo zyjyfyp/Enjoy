@@ -44,13 +44,10 @@ import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.activity.mine.ReleaseProductsActivity;
 import com.yunsen.enjoy.activity.mine.TeamActivity;
 import com.yunsen.enjoy.activity.mine.UserForgotPasswordActivity;
-import com.yunsen.enjoy.activity.mine.Webview1;
 import com.yunsen.enjoy.activity.order.DianPingActivity;
 import com.yunsen.enjoy.activity.order.MyOrderActivity;
 import com.yunsen.enjoy.activity.order.MyOrderXqActivity;
-import com.yunsen.enjoy.activity.pay.TishiCarArchivesActivity;
 import com.yunsen.enjoy.activity.user.DBFengXiangActivity;
-import com.yunsen.enjoy.activity.user.LoginActivity;
 import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.activity.user.UserRegisterActivity;
@@ -58,11 +55,9 @@ import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.fragment.buy.SelectBrandActivity;
 import com.yunsen.enjoy.fragment.buy.SeniorFilterActivity;
 import com.yunsen.enjoy.http.AsyncHttp;
-import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.MyOrderData;
 import com.yunsen.enjoy.model.OrderBean;
-import com.yunsen.enjoy.model.OrderInfo;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.utils.AccountUtils;
@@ -307,7 +302,7 @@ public class UIHelper {
     }
 
     /**
-     *登录
+     * 登录
      *
      * @param ctx
      */
@@ -798,6 +793,7 @@ public class UIHelper {
         Intent intent = new Intent(ctx, ReleaseProductsActivity.class);
         ctx.startActivity(intent);
     }
+
 
 
 }

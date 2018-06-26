@@ -16,6 +16,7 @@ public class Constants {
     public static final String MCH_ID = "1394459302";
     public static final String APP_SECRET = "e94e0ca414b307f026334dbbc124426c";
     public static final String TEST_USER_ID = "44881"; // TODO: 2018/5/18  测试时用的UserId
+    public static final String IMG_LIST = "img_list";
 
     public static String WX_Code = "";
     public static QQAuth QQauth;
@@ -87,6 +88,7 @@ public class Constants {
     public static final int CAMERA = 2;
     public static final int WRITE_EXTERNAL_STORAGE = 3;//存储权限
     public static final int READ_PHONE_STATE = 4;
+    public static final int LOAD_IMG_REQUEST = 5;
 
     /*******************************************************************
      *                            intent key                          *
