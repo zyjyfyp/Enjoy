@@ -117,7 +117,6 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-//        mWxApi = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);
         mWxApi = WXAPIFactory.createWXAPI(this, null);
         mWxApi.registerApp(Constants.APP_ID);
 
@@ -320,7 +319,6 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
      * QQ登录
      */
     private void qqLogin() {
-
         if (!mTencent.isSessionValid()) {
             mTencent.login(this, "all", loginListener);
             isServerSideLogin = false;
@@ -407,9 +405,10 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
 
     /**
      * QQ第三方登录
+     * 微信第三方登录
      */
     private void requestBundlePhone(final String loginType) {
-        HttpProxy.requestBindPhone(new HttpCallBack<AuthorizationModel>() {
+        HttpProxy.requestBindPhone(loginType, new HttpCallBack<AuthorizationModel>() {
             @Override
             public void onSuccess(AuthorizationModel responseData) {
                 SpUtils.saveUserInfo(responseData, loginType);

@@ -97,7 +97,6 @@ public class DShoppingCarAdapter extends CommonAdapter<GoodsCarInfo> {
             @Override
             public void onClick(View v) {
                 final View fView = v;
-
                 AlertDialog yesAndNoDialog = DialogUtils.createYesAndNoDialog(mContext, "", "先留着", "删除",
                         null, new OnRightOnclickListener() {
                             @Override

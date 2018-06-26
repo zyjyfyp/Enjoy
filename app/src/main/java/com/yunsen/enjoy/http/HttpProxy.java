@@ -1236,6 +1236,49 @@ public class HttpProxy {
     }
 
     /**
+     * @param callBack
+     */
+    public static void requestBindPhone(String loginTyp, final HttpCallBack<AuthorizationModel> callBack) {
+        SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+        String nickName = sp.getString(SpConstants.NICK_NAME, "");
+        String avatar = sp.getString(SpConstants.HEAD_IMG_URL_2, "");
+        String sex = sp.getString(SpConstants.SEX, "");
+        String province = sp.getString(SpConstants.PROVINCE, "");
+        String city = sp.getString(SpConstants.CITY, "");
+        String country = sp.getString(SpConstants.COUNTRY, "");
+        String oauthOpenId = sp.getString(SpConstants.OAUTH_OPEN_ID, "");
+        String oauthName = sp.getString(SpConstants.OAUTH_NAME, loginTyp);
+        String oauthUnionId = sp.getString(SpConstants.OAUTH_UNIONID, "");
+
+        HashMap<String, String> param = new HashMap<>();
+        param.put(SpConstants.NICK_NAME, nickName);
+        param.put(SpConstants.AVATAR, avatar);
+        param.put(SpConstants.SEX, sex);
+        param.put(SpConstants.PROVINCE, province);
+        param.put(SpConstants.CITY, city);
+        param.put(SpConstants.COUNTRY, country);
+        param.put(SpConstants.OAUTH_OPEN_ID, oauthOpenId);
+        param.put(SpConstants.OAUTH_NAME, oauthName);
+        param.put(SpConstants.OAUTH_UNIONID, oauthUnionId);
+
+
+        HttpClient.get(URLConstants.BOUDLE_PHONE_URL, param, new HttpResponseHandler<AuthorizationResponse>() {
+            @Override
+            public void onSuccess(AuthorizationResponse response) {
+                super.onSuccess(response);
+                AuthorizationModel data = response.getData();
+                callBack.onSuccess(data);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
      * 大道
      * 首页底部的商品
      *

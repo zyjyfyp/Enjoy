@@ -9,8 +9,8 @@
    <ImageView
        android:id="@+id/top_img"
        android:src="@mipmap/repertory"
-       android:layout_width="40dp"
-       android:layout_height="40dp" />
+       android:layout_width="32dp"
+       android:layout_height="32dp" />
 
     <TextView
         android:layout_marginTop="5dp"

@@ -30,13 +30,13 @@
     <com.yunsen.enjoy.widget.HorizontalLayout3
         android:id="@+id/one_horizontal_layout_3"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:orientation="horizontal"
         android:weightSum="4" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/item_height"
+        android:layout_height="40dp"
         android:layout_marginRight="@dimen/app_margin"
         android:gravity="center_vertical"
         android:orientation="horizontal">
@@ -68,15 +68,14 @@
     <ImageView
         android:id="@+id/button_layout"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
-        android:layout_marginBottom="@dimen/app_margin"
+        android:layout_height="70dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/center_adv" />
 
     <com.yunsen.enjoy.widget.HorizontalLayout4
         android:id="@+id/two_horizontal_layout_4"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="90dp"
         android:orientation="horizontal"
         android:weightSum="3" />
 
@@ -90,6 +89,5 @@
         android:layout_height="50dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/center_adv_2" />
-
 
 </LinearLayout>

@@ -21,10 +21,10 @@
         android:textSize="16sp" />
 
     <ImageView
-        android:layout_marginTop="@dimen/app_margin"
+        android:layout_marginTop="8dp"
         android:id="@+id/bottom_img"
-        android:layout_width="70dp"
-        android:layout_height="50dp"
-        android:src="@mipmap/repertory" />
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        />
 
 </LinearLayout>

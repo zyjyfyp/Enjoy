@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.MainActivity;
@@ -27,6 +28,7 @@ import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.yunsen.enjoy.ui.recyclerview.RecycleViewDivider;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
+import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.ADTextView;
 import com.yunsen.enjoy.widget.HorizontalLayout3;
@@ -62,6 +64,7 @@ public class MainPagerFragment extends BaseFragment implements View.OnClickListe
     private boolean mIsFacilitator = false;
     private SharedPreferences mSp;
     private String mUserId;
+    private RelativeLayout galleryLayoutEnt;
 
 
     @Override
@@ -82,11 +85,13 @@ public class MainPagerFragment extends BaseFragment implements View.OnClickListe
         oneHLayout = topView.findViewById(R.id.one_horizontal_layout_3);
         twoHLayout = topView.findViewById(R.id.two_horizontal_layout_4);
         btnImgLayout = topView.findViewById(R.id.button_layout);
+        galleryLayoutEnt = topView.findViewById(R.id.layout_ent_gallery);
+        galleryLayoutEnt.getLayoutParams().height = (int) (DeviceUtil.getScreenWidth() * 0.45);
     }
 
     @Override
     protected void initData() {
-
+        btnImgLayout.getLayoutParams().height = (int) (DeviceUtil.getScreenWidth() * 0.28);
         mSp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
         GridLayoutManager layoutmanager = new GridLayoutManager(getActivity(), 2);
         //设置RecyclerView 布局
