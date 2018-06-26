@@ -869,7 +869,6 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
             PackageManager pm = context.getPackageManager();
             PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
             versionName = pi.versionName;
-            //				versioncode = pi.versionCode;
             if (versionName == null || versionName.length() <= 0) {
                 return "";
             }
@@ -957,7 +956,6 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
 
     // 程序版本更新
     private void dialog() {
-
         AlertDialog.Builder builder = new Builder(PersonCenterActivity.this);
         builder.setMessage(content);
         System.out.println("content==============" + content);

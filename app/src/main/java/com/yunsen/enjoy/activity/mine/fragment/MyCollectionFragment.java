@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.activity.mine.adapter.CollectAdapter;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.fragment.BaseFragment;
 import com.yunsen.enjoy.fragment.buy.FilterRecAdapter;
@@ -53,7 +55,7 @@ public class MyCollectionFragment extends BaseFragment implements MultiItemTypeA
     private DialogProgress progress;
     private SharedPreferences spPreferences;
     private ArrayList<GoodsData> mDatas;
-    private FilterRecAdapter mAdapter;
+    private CollectAdapter mAdapter;
     private String mUserId;
 
     private boolean mHasMore;
@@ -103,7 +105,7 @@ public class MyCollectionFragment extends BaseFragment implements MultiItemTypeA
         noCollectTv = (TextView) rootView.findViewById(R.id.no_collect_tv);
         collectRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         mDatas = new ArrayList<>();
-        mAdapter = new FilterRecAdapter(getActivity(), R.layout.goods_item_2, mDatas);
+        mAdapter = new CollectAdapter(getActivity(), mDatas);
         HeaderAndFooterRecyclerViewAdapter andFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
         collectRecycler.setAdapter(andFooterRecyclerViewAdapter);
         loadMoreLayout = new LoadMoreLayout(getActivity());
@@ -175,7 +177,20 @@ public class MyCollectionFragment extends BaseFragment implements MultiItemTypeA
     public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         if (mDatas != null && mDatas.size() > 0 && mDatas.size() > position) {
             GoodsData goodsData = mDatas.get(position);
-            UIHelper.showCarDetailsActivity(getActivity(), Integer.toString(goodsData.getArticle_id()));
+            switch (goodsData.getChannel_id()) {//7车  13积分 22商品
+                case 7:
+                    UIHelper.showCarDetailsActivity(getActivity(), Integer.toString(goodsData.getId()));
+                    break;
+                case 13:
+                    UIHelper.showGoodsDescriptionActivity(getActivity(), Integer.toString(goodsData.getId()), goodsData.getTitle(), Constants.POINT_BUY);
+                    break;
+                case 22:
+                    UIHelper.showGoodsDescriptionActivity(getActivity(), Integer.toString(goodsData.getId()), goodsData.getTitle());
+                    break;
+                default:
+                    UIHelper.showCarDetailsActivity(getActivity(), Integer.toString(goodsData.getId()));
+                    break;
+            }
         }
     }
 
@@ -218,7 +233,7 @@ public class MyCollectionFragment extends BaseFragment implements MultiItemTypeA
 
             @Override
             public void onError(Request request, Exception e) {
-
+                ToastUtils.makeTextShort("取消失败");
             }
         });
     }

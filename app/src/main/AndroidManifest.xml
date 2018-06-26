@@ -346,6 +346,8 @@
         <activity
             android:name=".activity.mine.ExtensionActivity"
             android:screenOrientation="portrait" />
+
+        <service android:name=".http.down.ApkInstallService" />
     </application>
 
 </manifest>

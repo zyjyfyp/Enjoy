@@ -1,70 +1,17 @@
 package com.yunsen.enjoy.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.yunsen.enjoy.common.Constants;
-import com.yunsen.enjoy.fragment.MineFragment;
 import com.yunsen.enjoy.http.URLConstants;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
  * Created by Administrator on 2018/4/23.
  */
 public class GoodsData {
-    /**
-     * id : 10284
-     * company_id : 11873
-     * company_name : 深圳齐善食品有限公司
-     * channel_id : 7
-     * channel_name : goods
-     * category_id : 595
-     * category_title :
-     * brand_id : 0
-     * brand_title :
-     * code : 5957711081653130194
-     * title : 齐善食品_散装豆干 素肉豆腐干 酱香味 26g
-     * subtitle : 小吃零食 齐善素食 美味爽口
-     * call_index : goods201612291547242720
-     * link_url :
-     * img_url : /upload/201701/04/201701041416224379.jpg
-     * seo_title :
-     * seo_keywords :
-     * seo_description :
-     * summary :
-     * content : <img alt="" src="/upload/201611/08/201611081654060702.jpg" /><img alt="" src="/upload/201611/08/201611081654068983.jpg" /><img alt="" src="/upload/201611/08/201611081654096796.jpg" /><img alt="" src="/upload/201611/08/201611081654117421.jpg" />
-     * mcontent : <img alt="" src="/upload/201611/08/201611081654060702.jpg" /><img alt="" src="/upload/201611/08/201611081654068983.jpg" /><img alt="" src="/upload/201611/08/201611081654096796.jpg" /><img alt="" src="/upload/201611/08/201611081654117421.jpg" />
-     * sort_id : <img alt="" src="/upload/201611/08/201611081654060702.jpg" /><img alt="" src="/upload/201611/08/201611081654068983.jpg" /><img alt="" src="/upload/201611/08/201611081654096796.jpg" /><img alt="" src="/upload/201611/08/201611081654117421.jpg" />
-     * click : 120
-     * status : 0
-     * is_msg : 0
-     * is_top : 0
-     * is_red : 0
-     * is_hot : 0
-     * is_slide : 0
-     * is_sys : 1
-     * user_id : 118
-     * user_name : 姚小娟
-     * province : 广东省
-     * city : 深圳市
-     * area : 南山区
-     * street : 所有乡村
-     * address : 所有省份,所有城市,所有区县
-     * start_time : null
-     * end_time : null
-     * add_time : 2016-11-08 16:55:12
-     * update_time : 2017-08-17 17:34:55
-     * comment : 1
-     * sell_price : 0
-     * market_price : 0
-     * first_payment : 0
-     * monthly_supply : 0
-     * term : 0
-     * cashing_packet : 0
-     * cashing_point : 0
-     * albums : [{"id":43910,"article_id":10284,"thumb_path":"/upload/201612/15/thumb_201612151928555185.jpg","original_path":"/upload/201612/15/201612151928555185.jpg","remark":"","add_time":"2018-04-23 15:22:39","update_time":"2017-08-17 17:34:55"},{"id":43992,"article_id":10284,"thumb_path":"/upload/201612/30/thumb_201612301746299271.jpg","original_path":"/upload/201612/30/201612301746299271.jpg","remark":"","add_time":"2018-04-23 15:22:39","update_time":"2017-08-17 17:34:55"}]
-     * activity : null
-     */
+
     private int imgRes = 0;
     private int id;
     private int company_id;
@@ -120,6 +67,9 @@ public class GoodsData {
     private Object activity;
     private List<AlbumsBean> albums;
     private int article_id;
+    private String tags;
+    private String lng;
+    private String lat;
 
     public GoodsData() {
     }
@@ -529,13 +479,22 @@ public class GoodsData {
 
     public void setSell_price(double sell_price) {
         this.sell_price = sell_price;
+    }
 
+    public String getSellPriceStr() {
+        DecimalFormat df = new DecimalFormat("#0.00");
+        return df.format(sell_price);
     }
 
     public double getMarket_price() {
         BigDecimal bg = new BigDecimal(market_price);
         market_price = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return market_price;
+    }
+
+    public String getMarketpriceStr() {
+        DecimalFormat df = new DecimalFormat("#0.00");
+        return df.format(market_price);
     }
 
     public void setMarket_price(double market_price) {
@@ -575,4 +534,31 @@ public class GoodsData {
     public void setCashing_packet(double cashing_packet) {
         this.cashing_packet = cashing_packet;
     }
+
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+
 }

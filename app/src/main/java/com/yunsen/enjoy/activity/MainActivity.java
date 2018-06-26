@@ -1,31 +1,47 @@
 
 package com.yunsen.enjoy.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.yanzhenjie.permission.Action;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.PermissionSetting;
 import com.yunsen.enjoy.common.wsmanager.WsManager;
 import com.yunsen.enjoy.fragment.BuyFragment;
 import com.yunsen.enjoy.fragment.CarFragment;
 import com.yunsen.enjoy.fragment.DiscoverFragment;
 import com.yunsen.enjoy.fragment.MainPagerFragment;
 import com.yunsen.enjoy.fragment.MineFragment;
+import com.yunsen.enjoy.http.HttpCallBack;
+import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.http.down.UpdateApkThread;
+import com.yunsen.enjoy.model.ApkVersionInfo;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.utils.DeviceUtil;
+import com.yunsen.enjoy.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
+import okhttp3.Request;
 
 public class MainActivity extends BaseFragmentActivity {
 
@@ -39,6 +55,7 @@ public class MainActivity extends BaseFragmentActivity {
     private FragmentManager fragmentManager;
     private long mFirstPressedTime;
     private MineFragment mMineFragment;
+    private AlertDialog mAppUpDataDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +70,7 @@ public class MainActivity extends BaseFragmentActivity {
 
     @Override
     protected void initView() {
-            WsManager.getInstance().init();
+        WsManager.getInstance().init();
     }
 
     @Override
@@ -65,6 +82,80 @@ public class MainActivity extends BaseFragmentActivity {
 
     @Override
     protected void initListener() {
+
+    }
+
+    @Override
+    public void requestData() {
+        HttpProxy.getApkVersion(new HttpCallBack<ApkVersionInfo>() {
+            @Override
+            public void onSuccess(ApkVersionInfo responseData) {
+                String fileVersion = responseData.getFile_version();
+                String version = DeviceUtil.getAppVersionName(MainActivity.this);
+                String c_version = version.trim().replaceAll("\\.", "");
+                float server_version = Float.parseFloat(fileVersion.replaceAll("\\.", ""));//服务器
+                float client_version = Float.parseFloat(c_version);//当前
+                if (server_version > client_version) {
+                    dialog(URLConstants.REALM_URL + responseData.getFile_path(), responseData.getContent());
+                } else {
+                    ToastUtils.makeTextShort("当前为最新版本");
+                }
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
+    }
+
+    // 程序版本更新
+    private void dialog(final String downLoadUrl, String content) {
+        if (mAppUpDataDialog == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("提示:新版本");
+            builder.setPositiveButton("更新", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (UpdateApkThread.IsLoading()) {
+                        Toast.makeText(MainActivity.this, "正在下载...", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    } else {
+                        AndPermission.with(MainActivity.this)
+                                .permission(Permission.Group.STORAGE)
+                                .onGranted(new Action() {
+                                    @Override
+                                    public void onAction(List<String> permissions) {
+                                        String filePath = Environment.getExternalStorageDirectory() + "/ss";
+                                        new UpdateApkThread(downLoadUrl, filePath, "zams.apk", MainActivity.this).start();
+                                    }
+                                })
+                                .onDenied(new Action() {
+                                    @Override
+                                    public void onAction(List<String> permissions) {
+                                        new PermissionSetting(MainActivity.this).showSettingStorage(permissions);
+                                    }
+                                }).start();
+                    }
+                }
+            });
+            builder.setNegativeButton("以后再说",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            mAppUpDataDialog = builder.create();
+        }
+
+        if (!mAppUpDataDialog.isShowing()) {
+            if (TextUtils.isEmpty(content)) {
+                content = "发现新版本!";
+            }
+            mAppUpDataDialog.setMessage(content);
+            mAppUpDataDialog.show();
+        }
 
     }
 
@@ -262,6 +353,12 @@ public class MainActivity extends BaseFragmentActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mAppUpDataDialog != null) {
+            if (mAppUpDataDialog.isShowing()) {
+                mAppUpDataDialog.dismiss();
+            }
+            mAppUpDataDialog = null;
+        }
         WsManager.getInstance().disconnect();
     }
 }

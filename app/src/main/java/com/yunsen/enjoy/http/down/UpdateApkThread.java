@@ -1,6 +1,5 @@
 package com.yunsen.enjoy.http.down;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -155,11 +154,9 @@ public class UpdateApkThread extends Thread {
                 Log.e(TAG, "handleMessage: 下载完成安装");
 
 
-                Intent intent = getNoticeItntent(file);
-                // PendingIntent 通知栏跳转
-                PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+                PendingIntent intent = getApkInstallService(file);
                 notification.flags |= Notification.FLAG_AUTO_CANCEL;
-                notification.contentIntent = pendingIntent;
+                notification.contentIntent = intent;
                 notification.contentView.setTextViewText(R.id.progressTv, "下载完成，点击安装");
                 notificationManager.notify(notificationID, notification);
 
@@ -198,24 +195,9 @@ public class UpdateApkThread extends Thread {
         return mIsLoading;
     }
 
-    private Intent getNoticeItntent(File apkFile) {
-        Intent installIntent = null;
-        //兼容7.0
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            installIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            Uri contentUri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileProvider", apkFile);
-            installIntent.setDataAndType(contentUri, "application/vnd.android.package-archive");
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                return intent;
-            }
-        } else {
-            Uri uri = Uri.fromFile(apkFile);
-            installIntent = new Intent(Intent.ACTION_VIEW);
-            installIntent.setDataAndType(uri, "application/vnd.android.package-archive");
-        }
-        return installIntent;
+    private PendingIntent getApkInstallService(File apkFile) {
+        PendingIntent intent = PendingIntent.getService(context, 1, new Intent(context, ApkInstallService.class), PendingIntent.FLAG_ONE_SHOT);
+        return intent;
     }
 
 

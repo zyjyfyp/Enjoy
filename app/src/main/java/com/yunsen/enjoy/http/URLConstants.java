@@ -98,11 +98,11 @@ public class URLConstants {
     /**
      * 删除用户关注
      */
-    public static final String DELECT_COLLECT_URL = URLConstants.REALM_NAME_LL + "/user_favorite_delete";
+    public static final String DELECT_COLLECT_URL = URLConstants.REALM_NAME_LL + "/user_favorite_cancel";
     /**
      * 我的收藏
      */
-    public static final String COLLECT_LIST_URL = URLConstants.REALM_NAME_LL + "/get_user_favorite_list";
+    public static final String COLLECT_LIST_URL = URLConstants.REALM_NAME_LL + "/get_user_article_collection";
     /**
      * 商店收藏https://szlxkg.com
      */
