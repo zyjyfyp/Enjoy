@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.GoodsData;
@@ -41,9 +42,11 @@ public class DGoodRecyclerAdapter extends CommonAdapter<CarDetails> {
     protected void convert(ViewHolder holder, CarDetails goodsData, int position) {
         ImageView imgView = holder.getView(R.id.d_goods_left_img);
         View view = holder.getView(R.id.d_goods_item_distance);
+        RequestOptions options = new RequestOptions()
+                .placeholder(R.mipmap.default_img);
         Glide.with(mContext)
                 .load(goodsData.getImg_url())
-                .placeholder(R.mipmap.default_img)
+                .apply(options)
                 .into(imgView);
         holder.setText(R.id.d_goods_item_title, goodsData.getTitle());
         holder.setText(R.id.d_goods_item_price, "￥" + goodsData.getDefault_spec_item()

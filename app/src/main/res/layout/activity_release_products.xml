@@ -6,8 +6,8 @@
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="60dp">
+        android:fillViewport="true"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -176,6 +176,7 @@
                 android:visibility="gone" />
 
             <ImageView
+                android:id="@+id/add_img"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
                 android:layout_margin="@dimen/app_margin"
@@ -358,24 +359,25 @@
                     android:layout_marginRight="@dimen/app_margin"
                     android:src="@mipmap/more" />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="bottom"
+                android:gravity="center">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/app_margin"
+                    android:layout_marginRight="@dimen/app_margin"
+                    android:background="@drawable/orange_button"
+                    android:text="下一步"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom"
-        android:gravity="center">
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/app_margin"
-            android:layout_marginRight="@dimen/app_margin"
-            android:background="@drawable/orange_button"
-            android:text="下一步"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
-
-    </LinearLayout>
 </FrameLayout>

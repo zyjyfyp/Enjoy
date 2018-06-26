@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.model.CarBrand;
 import com.yunsen.enjoy.widget.recyclerview.CommonAdapter;
@@ -27,8 +28,8 @@ public class HotCarBrandAdapter extends CommonAdapter<CarBrand> {
         ImageView view = holder.getView(R.id.hot_brand_img);
         Glide.with(mContext)
                 .load(carBrand.getImg_url())
-                .placeholder(R.mipmap.brand_default)
-                .centerCrop()
+                .apply(new RequestOptions().placeholder(R.mipmap.brand_default)
+                        .centerCrop())
                 .into(view);
     }
 

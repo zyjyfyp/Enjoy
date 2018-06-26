@@ -12,6 +12,11 @@ import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
+import com.yunsen.enjoy.ui.UIHelper;
+
+import org.devio.takephoto.app.TakePhoto;
+import org.devio.takephoto.app.TakePhotoImpl;
+import org.devio.takephoto.permission.TakePhotoInvocationHandler;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -61,6 +66,7 @@ public class ReleaseProductsActivity extends BaseFragmentActivity {
     ScrollView scrollView;
     @Bind(R.id.radio_group)
     RadioGroup radioGroup;
+    private TakePhoto takePhoto;
 
     @Override
     public int getLayout() {
@@ -84,8 +90,10 @@ public class ReleaseProductsActivity extends BaseFragmentActivity {
     }
 
 
-
-    @OnClick({R.id.action_back, R.id.action_bar_right, R.id.select_title_edt, R.id.select_title_size_tv, R.id.select_goods_tv, R.id.classify_tv, R.id.quality_date_tv, R.id.create_date_tv, R.id.point_tv})
+    @OnClick({R.id.action_back, R.id.action_bar_right, R.id.select_title_edt,
+            R.id.select_title_size_tv, R.id.select_goods_tv, R.id.classify_tv,
+            R.id.quality_date_tv, R.id.create_date_tv, R.id.point_tv,
+            R.id.add_img})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.action_back:
@@ -106,8 +114,12 @@ public class ReleaseProductsActivity extends BaseFragmentActivity {
                 break;
             case R.id.point_tv:
                 break;
+            case R.id.add_img:
+                UIHelper.showMyTakePhotoActivity(this);
+                break;
         }
     }
+
 
     @OnClick(R.id.radio_group)
     public void onViewClicked() {

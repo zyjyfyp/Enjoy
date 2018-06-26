@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/BigYike.iml" filepath="$PROJECT_DIR$/BigYike.iml" />
       <module fileurl="file://D:\AndroidWork\BigYike\Enjoy.iml" filepath="D:\AndroidWork\BigYike\Enjoy.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/takephoto_library/takephoto_library.iml" filepath="$PROJECT_DIR$/takephoto_library/takephoto_library.iml" />
     </modules>
   </component>
 </project>

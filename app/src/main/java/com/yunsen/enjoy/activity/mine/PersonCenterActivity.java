@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.gghl.view.wheelcity.AddressData;
 import com.gghl.view.wheelcity.OnWheelChangedListener;
 import com.gghl.view.wheelcity.WheelView;
@@ -346,14 +347,12 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                                 if (!TextUtils.isEmpty(avatar) && avatar.startsWith("http")) {
                                     Glide.with(PersonCenterActivity.this)
                                             .load(avatar)
-                                            .placeholder(R.mipmap.default_img)
-                                            .transform(new GlideCircleTransform(PersonCenterActivity.this))
+                                            .apply(new RequestOptions().placeholder(R.mipmap.default_img) .transform(new GlideCircleTransform(PersonCenterActivity.this)))
                                             .into(networkImage);
                                 } else {
                                     Glide.with(PersonCenterActivity.this)
                                             .load(URLConstants.REALM_URL + avatar)
-                                            .placeholder(R.mipmap.default_img)
-                                            .transform(new GlideCircleTransform(PersonCenterActivity.this))
+                                            .apply(new RequestOptions().placeholder(R.mipmap.default_img) .transform(new GlideCircleTransform(PersonCenterActivity.this)))
                                             .into(networkImage);
                                 }
 //                                if (SpConstants.OK.equals(data.avatar)) {
@@ -1132,8 +1131,7 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
             });
             Glide.with(this)
                     .load(URLConstants.REALM_URL + imgUrl)
-                    .placeholder(R.mipmap.default_img)
-                    .transform(new GlideCircleTransform(this))
+                    .apply(new RequestOptions().placeholder(R.mipmap.default_img) .transform(new GlideCircleTransform(PersonCenterActivity.this)))
                     .into(networkImage);
         }
     }

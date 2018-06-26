@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.model.CarBrand;
 import com.yunsen.enjoy.model.CarBrandList;
@@ -73,8 +74,8 @@ public class CarBrandAdapter extends MultiItemTypeAdapter<CarBrand> {
         ImageView view = holder.getView(R.id.brand_ic_first);
         Glide.with(mContext)
                 .load(brand.getImg_url())
-                .placeholder(R.mipmap.brand_default)
-                .centerCrop()
+                .apply(new RequestOptions().placeholder(R.mipmap.brand_default)
+                        .centerCrop())
                 .into(view);
 
     }
@@ -85,8 +86,8 @@ public class CarBrandAdapter extends MultiItemTypeAdapter<CarBrand> {
         ImageView view = holder.getView(R.id.brand_ic);
         Glide.with(mContext)
                 .load(brand.getImg_url())
-                .placeholder(R.mipmap.brand_default)
-                .centerCrop()
+                .apply(new RequestOptions().placeholder(R.mipmap.brand_default)
+                        .centerCrop())
                 .into(view);
     }
 

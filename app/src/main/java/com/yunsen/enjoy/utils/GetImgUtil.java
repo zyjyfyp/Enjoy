@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
@@ -12,6 +14,8 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.FutureTarget;
+import com.bumptech.glide.request.RequestOptions;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
@@ -20,6 +24,7 @@ import com.yunsen.enjoy.model.event.PullImageEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -95,11 +100,15 @@ public class GetImgUtil {
             protected String doInBackground(Nullable... nullables) {
                 Bitmap bitmap = null;
                 try {
-                    bitmap = Glide.with(activity)
+                    Drawable drawable = Glide.with(activity)
                             .load(imgUri)
-                            .asBitmap()
-                            .into(200, 200)
+                            .submit(200, 200)
                             .get();
+                    bitmap = Bitmap.createBitmap(
+                            drawable.getIntrinsicWidth(),
+                            drawable.getIntrinsicHeight(),
+                            drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+                                    : Bitmap.Config.RGB_565);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
@@ -140,11 +149,15 @@ public class GetImgUtil {
                 mType = type[0];
                 Bitmap bitmap = null;
                 try {
-                    bitmap = Glide.with(activity)
+                    Drawable drawable = Glide.with(activity)
                             .load(imgUri)
-                            .asBitmap()
-                            .into(200, 200)
+                            .submit(200, 200)
                             .get();
+                    bitmap = Bitmap.createBitmap(
+                            drawable.getIntrinsicWidth(),
+                            drawable.getIntrinsicHeight(),
+                            drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+                                    : Bitmap.Config.RGB_565);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
@@ -158,7 +171,7 @@ public class GetImgUtil {
             @Override
             protected void onPostExecute(String s) {
                 HashMap<String, String> params = new HashMap<>();
-                params.put("base64",s);
+                params.put("base64", s);
                 HttpProxy.getPullImageBase64(s, new HttpCallBack<PullImageResult>() {
                     @Override
                     public void onSuccess(PullImageResult responseData) {

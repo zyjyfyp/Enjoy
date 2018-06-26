@@ -40,6 +40,7 @@ import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
 import com.yunsen.enjoy.activity.mine.MyOrderConfrimActivity;
 import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
+import com.yunsen.enjoy.activity.mine.MyTakePhotoActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.activity.mine.ReleaseProductsActivity;
 import com.yunsen.enjoy.activity.mine.TeamActivity;
@@ -800,4 +801,8 @@ public class UIHelper {
     }
 
 
+    public static void showMyTakePhotoActivity(Activity activity) {
+        Intent intent = new Intent(activity, MyTakePhotoActivity.class);
+        activity.startActivity(intent);
+    }
 }

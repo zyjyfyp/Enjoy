@@ -122,7 +122,6 @@ public class MyCollectWareAdapter extends BaseAdapter {
 
             Glide.with(context)
                     .load(URLConstants.REALM_URL + list.get(position).img_url)
-                    .centerCrop()
                     .into(image);
 
         } catch (Exception e) {

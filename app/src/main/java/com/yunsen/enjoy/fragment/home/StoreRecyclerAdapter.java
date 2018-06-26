@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.widget.recyclerview.CommonAdapter;
@@ -26,10 +27,11 @@ public class StoreRecyclerAdapter extends CommonAdapter<SProviderModel> {
         holder.setText(R.id.shop_item_sub_t1, carStoreMode.getName());
         holder.setText(R.id.shop_item_address, carStoreMode.getAddress());
         if (carStoreMode.getImg_url() != null) {
+            RequestOptions options = new RequestOptions().placeholder(R.mipmap.default_img)
+                    .centerCrop();
             Glide.with(mContext)
                     .load(carStoreMode.getImg_url())
-                    .placeholder(R.mipmap.default_img)
-                    .centerCrop()
+                    .apply(options)
                     .into((ImageView) holder.getView(R.id.shop_item_img));
         } else {
             holder.setImageResource(R.id.shop_item_img, R.mipmap.car_2);

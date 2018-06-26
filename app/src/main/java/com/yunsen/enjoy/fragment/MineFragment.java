@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.tencent.tauth.Tencent;
 import com.yanzhenjie.permission.Permission;
@@ -43,7 +44,6 @@ import com.yunsen.enjoy.ui.DialogUtils;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.GetImgUtil;
-import com.yunsen.enjoy.utils.SpUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.GlideCircleTransform;
 
@@ -151,7 +151,9 @@ public class MineFragment extends BaseFragment {
 
     private Boolean mIsFacilitator = false; //是否是服务商
     private String mUserName;//用户名
-
+    RequestOptions mLoginOptions = new RequestOptions()
+            .error(R.mipmap.login_icon)
+            .transform(new GlideCircleTransform(getActivity()));
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -198,8 +200,7 @@ public class MineFragment extends BaseFragment {
 
             Glide.with(MineFragment.this)
                     .load(iUrl)
-                    .error(R.mipmap.login_icon)
-                    .transform(new GlideCircleTransform(getActivity()))
+                    .apply(mLoginOptions)
                     .into(userIconImg);
             getUserInfo();
         } else {
@@ -553,14 +554,12 @@ public class MineFragment extends BaseFragment {
         if (!TextUtils.isEmpty(imgString)) {
             Glide.with(MineFragment.this)
                     .load(imgString)
-                    .error(R.mipmap.login_icon)
-                    .transform(new GlideCircleTransform(getActivity()))
+                    .apply(mLoginOptions)
                     .into(userIconImg);
         } else {
             Glide.with(MineFragment.this)
                     .load(imgUrl)
-                    .error(R.mipmap.login_icon)
-                    .transform(new GlideCircleTransform(getActivity()))
+                    .apply(mLoginOptions)
                     .into(userIconImg);
         }
 
@@ -592,14 +591,12 @@ public class MineFragment extends BaseFragment {
                 if (!TextUtils.isEmpty(avatar) && avatar.startsWith("http")) {
                     Glide.with(MineFragment.this)
                             .load(avatar)
-                            .placeholder(R.mipmap.login_icon)
-                            .transform(new GlideCircleTransform(getActivity()))
+                            .apply(mLoginOptions)
                             .into(userIconImg);
                 } else {
                     Glide.with(MineFragment.this)
                             .load(URLConstants.REALM_URL + avatar)
-                            .placeholder(R.mipmap.login_icon)
-                            .transform(new GlideCircleTransform(getActivity()))
+                            .apply(mLoginOptions)
                             .into(userIconImg);
                 }
             }
@@ -675,10 +672,10 @@ public class MineFragment extends BaseFragment {
                     ToastUtils.makeTextShort("上传失败");
                 }
             });
+
             Glide.with(this)
                     .load(URLConstants.REALM_URL + imgUrl)
-                    .placeholder(R.mipmap.login_icon)
-                    .transform(new GlideCircleTransform(getActivity()))
+                    .apply(mLoginOptions)
                     .into(userIconImg);
         }
     }

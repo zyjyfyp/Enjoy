@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.FutureTarget;
+import com.bumptech.glide.request.RequestOptions;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
@@ -92,13 +95,16 @@ public class DBFengXiangActivity extends BaseFragmentActivity implements OnClick
             new AsyncTask<String, Nullable, Bitmap>() {
                 @Override
                 protected Bitmap doInBackground(String... strings) {
-                    FutureTarget<Bitmap> into = Glide.with(DBFengXiangActivity.this)
+                    FutureTarget<Drawable> submit = Glide.with(DBFengXiangActivity.this)
                             .load(mImagUrl)
-                            .asBitmap()
-                            .into(300, 300);
+                            .submit(300, 300);
                     Bitmap bitmap = null;
                     try {
-                        bitmap = into.get();
+                        Drawable drawable = submit.get();
+                        bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                                drawable.getIntrinsicHeight(),
+                                drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+                                        : Bitmap.Config.RGB_565);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {

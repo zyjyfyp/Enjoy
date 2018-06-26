@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.Constants;
@@ -70,10 +71,11 @@ public class ServiceShopInfoActivity extends BaseFragmentActivity {
         String addr = "详细地址：" + responseData.getProvince() + responseData.getCity() + responseData.getArea()
                 + responseData.getAddress();
         addressInfo.setText(addr);
-
+        RequestOptions options = new RequestOptions()
+                .placeholder(R.mipmap.bindingbg);
         Glide.with(this)
                 .load(responseData.getImg_url())
-                .placeholder(R.mipmap.bindingbg)
+                .apply(options)
                 .into(serviceImg);
     }
 

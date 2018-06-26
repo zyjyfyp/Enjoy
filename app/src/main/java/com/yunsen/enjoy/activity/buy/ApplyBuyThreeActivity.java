@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.yanzhenjie.permission.Permission;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
@@ -220,13 +221,17 @@ public class ApplyBuyThreeActivity extends BaseFragmentActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(PullImageEvent event) {
         int evenId = event.getEvenId();
+        RequestOptions options = new RequestOptions()
+                .placeholder(R.mipmap.img_loading);
         switch (evenId) {
             case Constants.PHOTO_IC_CARD:
                 mImgPullFinish = mImgPullFinish | ONE_IMG;
                 mFristImgUrl = event.getImgUrl();
+
+
                 Glide.with(ApplyBuyThreeActivity.this)
                         .load(URLConstants.REALM_URL + mFristImgUrl)
-                        .placeholder(R.mipmap.img_loading)
+                        .apply(options)
                         .into(icCardImg);
                 break;
             case Constants.PHOTO_IC_CARD_BG:
@@ -234,7 +239,7 @@ public class ApplyBuyThreeActivity extends BaseFragmentActivity {
                 mTwoImgUrl = event.getImgUrl();
                 Glide.with(ApplyBuyThreeActivity.this)
                         .load(URLConstants.REALM_URL + mTwoImgUrl)
-                        .placeholder(R.mipmap.img_loading)
+                        .apply(options)
                         .into(icCardImgBg);
                 break;
             case Constants.PHOTO_BANK:
@@ -242,7 +247,7 @@ public class ApplyBuyThreeActivity extends BaseFragmentActivity {
                 mThreeImgUrl = event.getImgUrl();
                 Glide.with(ApplyBuyThreeActivity.this)
                         .load(URLConstants.REALM_URL + mThreeImgUrl)
-                        .placeholder(R.mipmap.img_loading)
+                        .apply(options)
                         .into(bannerMoneyImg);
                 break;
         }
