@@ -43,7 +43,7 @@ public class UpdateApkThread extends Thread {
     private final int downloadError = 3;// 下载失败
     private DownLoadUtil downLoadUtil;
     ProgressDialog downLoadDialog;
-    public static boolean mIsLoading = false;
+    private static boolean mIsLoading = false;
     private Notification.Builder mNoticeBuilder;
 
     public UpdateApkThread(String downloadUrl, String fileLocation, String fileName, Context context) {
@@ -138,11 +138,10 @@ public class UpdateApkThread extends Thread {
                         if (notificationManager != null) {
                             notificationManager.createNotificationChannel(channel);
                             mNoticeBuilder.setChannelId(channelID);
-                            mNoticeBuilder.build();
+
                         }
-                    } else {
-                        notificationManager.notify(notificationID, mNoticeBuilder.build());
                     }
+                    notificationManager.notify(notificationID, mNoticeBuilder.build());
 
                     if (downLoadDialog != null && downLoadDialog.isShowing()) {
                         downLoadDialog.setProgress((int) size);
@@ -178,6 +177,7 @@ public class UpdateApkThread extends Thread {
                 }
                 if (downLoadDialog != null && downLoadDialog.isShowing()) {
                     downLoadDialog.dismiss();
+                    openAPKFile(file.getAbsolutePath());
                     context.startService(new Intent(context, ApkInstallService.class));
                 }
                 Log.e(TAG, "handleMessage: 下载完成  安装");
