@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/myjufen"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/rl_title"
@@ -11,7 +11,7 @@
         android:layout_height="45dp"
         android:layout_alignParentTop="true"
         android:layout_gravity="center_horizontal"
-        android:background="@color/ybs" >
+        android:background="@color/ybs">
 
         <TextView
             android:id="@+id/textView1"
@@ -42,102 +42,97 @@
     </RelativeLayout>
 
 
-  <View
-                android:layout_width="fill_parent"
-                android:layout_height="1px"
-                android:background="@color/all_939393" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:background="@color/all_939393" />
 
-    
 
-    
+    <ListView
+        android:id="@+id/new_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"></ListView>
 
-	    <ListView 
-	        android:id="@+id/new_list"
-	        android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-	        >
-	    </ListView>
-   
-   <View
-                android:layout_width="fill_parent"
-                android:layout_height="1px"
-                android:background="@color/all_c1c1c1" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:background="@color/all_c1c1c1" />
 
-            <LinearLayout
-                  android:id="@+id/ll_anliu"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white" >
+    <LinearLayout
+        android:id="@+id/ll_anliu"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center" >
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
 
-                    
-                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_shanche"
-                      android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="10dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/zhou_btn_red_3_5_shanchu_bg"
-                    android:gravity="center"
-                    android:text="删除订单"
-                    android:textColor="@color/all_wenzi"
-                    android:textSize="14dp" />
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_fukuang"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="10dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:visibility="gone"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/bg_ccc_3_5_bg_order"
-                    android:gravity="center"
-                    android:text="付款"
-                    android:textColor="@color/white"
-                    android:textSize="14dp" />
-                 <TextView
-                    android:id="@+id/tv_queren_fukuan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="10dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/bg_ccc_3_5_bg_order"
-                    android:gravity="center"
-                    android:text="付款"
-                    android:visibility="gone"
-                    android:textColor="@color/white"
-                    android:textSize="14dp" />
-                  <TextView
-                    android:id="@+id/tv_pingjia"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="10dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/bg_ccc_3_5_bg_order"
-                    android:gravity="center"
-                    android:text="付款"
-                    android:visibility="gone"
-                    android:textColor="@color/white"
-                    android:textSize="14dp" />
-            </LinearLayout>
+        <TextView
+            android:id="@+id/tv_shanche"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/zhou_btn_red_3_5_shanchu_bg"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="删除订单"
+            android:textColor="@color/all_wenzi"
+            android:textSize="14dp" />
 
-            
-    
-        
+        <TextView
+            android:id="@+id/tv_fukuang"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bg_ccc_3_5_bg_order"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="付款"
+            android:textColor="@color/white"
+            android:textSize="14dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_queren_fukuan"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bg_ccc_3_5_bg_order"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="付款"
+            android:textColor="@color/white"
+            android:textSize="14dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_pingjia"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bg_ccc_3_5_bg_order"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="付款"
+            android:textColor="@color/white"
+            android:textSize="14dp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+
 </LinearLayout>

@@ -69,13 +69,7 @@ public class MyOrderXqActivity extends AppCompatActivity implements OnClickListe
     LinearLayout ll_anliu;
     private String payment_status, express_status, status;
     int zhuangtai;
-    //	private List<MyOrderData> list = new ArrayList<MyOrderData>();
-    //	private List<OrderBean> lists = new ArrayList<OrderBean>();
-    MyOrderData md;
-    OrderBean mb;
     private MyOrderXqAdapter mybAdapter;
-    private int RUN_METHOD = -1;
-    int len;
     private List<MyOrderData> list;
     List<OrderBean> lists;
     public static Handler handler;
@@ -140,13 +134,10 @@ public class MyOrderXqActivity extends AppCompatActivity implements OnClickListe
             //			tv_fukuan.setOnClickListener(this);
             tv_queren_fukuan.setOnClickListener(this);
             tv_pingjia.setOnClickListener(this);
-
-            System.out.println("zhou1----------");
             iv_fanhui.setOnClickListener(new OnClickListener() {
 
                 @Override
                 public void onClick(View arg0) {
-
                     finish();
                 }
             });
@@ -157,17 +148,11 @@ public class MyOrderXqActivity extends AppCompatActivity implements OnClickListe
             list.add(bean);
             lists = list.get(0).getList();
             order_no = list.get(0).getOrder_no();
-            //			System.out.println("order_no----------"+order_no);
-            //			System.out.println("lists----------"+lists.size());
             String zhou = lists.get(0).getGoods_title();
-            //			System.out.println("zhou----------"+zhou);
 
             mybAdapter = new MyOrderXqAdapter(MyOrderXqActivity.this, list, handler);
             my_list.setAdapter(mybAdapter);
             MyOrderXqAdapter.mAq.clear();
-            //			String payment_status = getIntent().getStringExtra("payment_status");
-            //			System.out.println("payment_status----------"+payment_status);
-
             payment_status = list.get(0).getPayment_status();
             System.out.println("payment_status=============" + payment_status);
             express_status = list.get(0).getExpress_status();
@@ -335,8 +320,7 @@ public class MyOrderXqActivity extends AppCompatActivity implements OnClickListe
         System.out.println("order_no=================================" + order_no);
         String login_sign = spPreferences.getString("login_sign", "");
         System.out.println("login_sign=================================" + login_sign);
-        AsyncHttp.get(URLConstants.REALM_NAME_LL
-                        + "/delete_order?user_id=" + user_id + "&user_name=" + user_name + "" +
+        AsyncHttp.get(URLConstants.REALM_NAME_LL + "/delete_order?user_id=" + user_id + "&user_name=" + user_name + "" +
                         "&trade_no=" + order_no + "&sign=" + login_sign + "",
                 new AsyncHttpResponseHandler() {
                     @Override
