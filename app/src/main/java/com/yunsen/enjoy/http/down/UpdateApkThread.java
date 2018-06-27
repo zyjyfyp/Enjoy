@@ -154,7 +154,7 @@ public class UpdateApkThread extends Thread {
                 notificationViews.setProgressBar(R.id.progressBar, 100, 100, false);
 //                notification.contentView = notificationViews;
                 PendingIntent intent = getApkInstallService(file);
-                mNoticeBuilder.setAutoCancel(true);
+                mNoticeBuilder.setAutoCancel(false);
                 mNoticeBuilder.setContentIntent(intent);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     //8.0以上弹出通知状态栏
@@ -166,9 +166,9 @@ public class UpdateApkThread extends Thread {
                         mNoticeBuilder.setChannelId(channelID);
                         mNoticeBuilder.build();
                     }
-                } else {
-                    notificationManager.notify(notificationID, mNoticeBuilder.build());
                 }
+                notificationManager.notify(notificationID, mNoticeBuilder.build());
+
                 if (timer != null && task != null) {
                     timer.cancel();
                     task.cancel();
@@ -177,7 +177,6 @@ public class UpdateApkThread extends Thread {
                 }
                 if (downLoadDialog != null && downLoadDialog.isShowing()) {
                     downLoadDialog.dismiss();
-                    openAPKFile(file.getAbsolutePath());
                     context.startService(new Intent(context, ApkInstallService.class));
                 }
                 Log.e(TAG, "handleMessage: 下载完成  安装");
