@@ -2,8 +2,8 @@ package com.yunsen.enjoy.activity.buy;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,11 +12,10 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.adapter.PartsShopFragmentPager;
 import com.yunsen.enjoy.common.Constants;
-import com.yunsen.enjoy.fragment.home.GoodsPartsAdapter;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
-import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.ClassifyBean;
+import com.yunsen.enjoy.ui.UIHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +54,8 @@ public class PartsShopActivity extends BaseFragmentActivity {
     protected void initView() {
         ButterKnife.bind(this);
         actionBarTitle.setText("配件商城");
+        actionBarRight.setVisibility(View.VISIBLE);
+        actionBarRight.setImageResource(R.mipmap.search_icon2);
         mPartsShopFragments = new ArrayList<>();
     }
 
@@ -110,8 +111,15 @@ public class PartsShopActivity extends BaseFragmentActivity {
     }
 
 
-    @OnClick(R.id.action_back)
-    public void onViewClicked() {
-        finish();
+    @OnClick({R.id.action_back, R.id.action_bar_right})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.action_back:
+                finish();
+                break;
+            case R.id.action_bar_right:
+                UIHelper.showSearchActivity(this);
+                break;
+        }
     }
 }

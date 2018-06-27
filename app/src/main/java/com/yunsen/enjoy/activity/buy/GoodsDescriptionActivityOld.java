@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
@@ -17,7 +16,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
@@ -129,6 +127,9 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
     ImageView collectImg;
     @Bind(R.id.collect_tv)
     TextView collectTv;
+    @Bind(R.id.goods_attribute)
+    TextView goodsAttributeTv;
+
     private String mGoodId;
     private CarDetails mCarDetail;
 
@@ -307,6 +308,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
                 mCanExchange = false;
             }
         }
+        goodsAttributeTv.setText(defaultSpecItem.getSpec_text());
         goodsPacketPriceTv.setText("¥" + defaultSpecItem.getCashing_packetStr());
         this.mCarDetail = responseData;
 
@@ -344,6 +346,8 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
             DialogUtils.showBecomeVipDialog(this);
             return;
         }
+
+        DefaultSpecItemBean defaultSpecItem = mCarDetail.getDefault_spec_item();
 
         switch (view.getId()) {
             case R.id.btn_dianping: // 联系客服
@@ -390,7 +394,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
                 } else if (isSecondGoods && mRemainingTime == -1) {
                     ToastUtils.makeTextShort("秒杀活动即将开始");
                 } else {
-                    CommomConfrim.initData(mCarDetail.getDefault_spec_item().getSell_price(), mCarDetail.getImg_url(), 2, "" + mCarDetail.getDefault_spec_item().getGoods_id(), false);
+                    CommomConfrim.initData(defaultSpecItem.getSell_price(), mCarDetail.getImg_url(), 2, "" + defaultSpecItem.getGoods_id(), defaultSpecItem.getSpec_ids(), false);
                     CommomConfrim.showSheet(this, String.valueOf(mCarDetail.getId()));
                 }
                 break;
@@ -400,13 +404,15 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
                 } else if (isSecondGoods && mRemainingTime == -1) {
                     ToastUtils.makeTextShort("秒杀活动即将开始");
                 } else {
-                    CommomConfrim.initData(mCarDetail.getDefault_spec_item().getSell_price(), mCarDetail.getImg_url(), 1, "" + mCarDetail.getDefault_spec_item().getGoods_id(), false);
+                    CommomConfrim.initData(defaultSpecItem.getSell_price(), mCarDetail.getImg_url(), 1,
+                            "" + defaultSpecItem.getGoods_id(), defaultSpecItem.getSpec_ids(), false);
                     CommomConfrim.showSheet(this, String.valueOf(mCarDetail.getId()));
                 }
                 break;
             case R.id.market_information_juduihuan: //兑换
                 if (mCanExchange) {
-                    CommomConfrim.initData2(mCarDetail.getDefault_spec_item().getSell_price(), mCarDetail.getDefault_spec_item().getExchange_point(), mCarDetail.getImg_url(), 3, "" + mCarDetail.getDefault_spec_item().getGoods_id(), false);
+                    CommomConfrim.initData2(defaultSpecItem.getSell_price(), defaultSpecItem.getExchange_point(), mCarDetail.getImg_url(), 3,
+                            "" + defaultSpecItem.getGoods_id(), defaultSpecItem.getSpec_ids(), false);
                     CommomConfrim.showSheet(GoodsDescriptionActivityOld.this, String.valueOf(mCarDetail.getId()));
                 } else {
                     ToastUtils.makeTextShort("积分不足");
@@ -445,6 +451,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
         if (sHandler != null && sHandler.hasMessages(REMAINING_TIME)) { //销毁倒计时
             sHandler.removeMessages(REMAINING_TIME);
         }
+        CommomConfrim.onDestroy();
     }
 
     @Override

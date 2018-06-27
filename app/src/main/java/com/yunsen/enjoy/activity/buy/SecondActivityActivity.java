@@ -16,6 +16,7 @@ import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpHomeUiEvent;
+import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.layout.SecondActivityLayout;
 import com.yunsen.enjoy.ui.recyclerview.EndlessRecyclerOnScrollListener;
 import com.yunsen.enjoy.ui.recyclerview.LoadMoreLayout;
@@ -83,6 +84,8 @@ public class SecondActivityActivity extends BaseFragmentActivity implements Swip
         EventBus.getDefault().register(this);
         secondLayout.setTopTitleVisibility(View.GONE);
         actionBarTitle.setText("秒杀活动");
+        actionBarRight.setImageResource(R.mipmap.search_icon2);
+        actionBarRight.setVisibility(View.VISIBLE);
         loadMoreLayout = secondLayout.getLoadMoreLayout();
         mAdapter = secondLayout.getAdapter();
         listener.setLoadMoreLayout(loadMoreLayout);
@@ -129,10 +132,6 @@ public class SecondActivityActivity extends BaseFragmentActivity implements Swip
         });
     }
 
-    @OnClick(R.id.action_back)
-    public void onViewClicked() {
-        finish();
-    }
 
     @Override
     protected void onDestroy() {
@@ -164,5 +163,17 @@ public class SecondActivityActivity extends BaseFragmentActivity implements Swip
         isLoadMore = false;
         mIsRefresh = true;
         requestData();
+    }
+
+    @OnClick({R.id.action_back, R.id.action_bar_right})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.action_back:
+                finish();
+                break;
+            case R.id.action_bar_right:
+                UIHelper.showSearchActivity(this);
+                break;
+        }
     }
 }

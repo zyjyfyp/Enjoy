@@ -155,6 +155,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     int mQuantityCount = 0;
     private boolean mHasPay;
     private WxSignData mSignData;
+    private String mTextSpec;
 
 
     @Override
@@ -224,6 +225,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
         Intent intent = getIntent();
         if (intent != null) {
             mBuyNo = intent.getStringExtra("buy_no");
+            mTextSpec = intent.getStringExtra(Constants.TEXT_SPEC);
             mReadyPay = new ArrayList<ShopCartData>();
             initdata();
         }
@@ -804,6 +806,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                             data.cashing_packet = json.getDouble("cashing_packet");
                             data.exchange_price = json.getString("exchange_price");
                             data.exchange_point = json.getString("exchange_point");
+                            data.spec_text = json.getString("spec_text");
                             data.id = json.getString("id");
                             data.setQuantity(json.getInt("quantity"));
                             data.img_url = json.getString("img_url");
@@ -815,6 +818,9 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                             double redPackageSupport = data.cashing_packet * data.quantity;
                             // 保留2位小数
                             di_hongbao += redPackageSupport;
+                            if (!TextUtils.isEmpty(mTextSpec)) {  //当前为立即购买
+                                data.spec_text = mTextSpec;
+                            }
                             mReadyPay.add(data);
                         }
 

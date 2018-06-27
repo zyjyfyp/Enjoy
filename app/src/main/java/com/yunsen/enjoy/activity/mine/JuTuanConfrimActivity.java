@@ -686,16 +686,13 @@ public class JuTuanConfrimActivity extends AppCompatActivity {
                             data.title = json.getString("title");
                             data.market_price = json.getString("market_price");
                             data.sell_price = json.getString("sell_price");
-                            data.cashing_packet = json
-                                    .getDouble("cashing_packet");
+                            data.cashing_packet = json.getDouble("cashing_packet");
                             data.id = json.getString("id");
                             data.quantity = json.getInt("quantity");
                             data.img_url = json.getString("img_url");
                             data.spec_text = json.getString("spec_text");
-                            data.activity_people = json
-                                    .getString("activity_people");
-                            data.activity_price = json
-                                    .getString("activity_price");
+                            data.activity_people = json.getString("activity_people");
+                            data.activity_price = json.getString("activity_price");
                             data.buy_no = json.getString("buy_no");
                             data.goods_no = json.getString("goods_no");
 
@@ -714,61 +711,41 @@ public class JuTuanConfrimActivity extends AppCompatActivity {
                             // retailPrice = Double.toString(dzongjia);
 
                             try {
-                                type_title = getIntent().getStringExtra(
-                                        "type_title");
-                                System.out
-                                        .println("type_title------------------------------"
-                                                + type_title);
+                                type_title = getIntent().getStringExtra("type_title");
+                                System.out.println("type_title------------------------------" + type_title);
                                 if (type_title.equals("1")) {
-                                    BigDecimal c = new BigDecimal(Double
-                                            .parseDouble(data.activity_price)
-                                            * data.quantity);
+                                    BigDecimal c = new BigDecimal(Double.parseDouble(data.activity_price) * data.quantity);
                                     // 保留2位小数
-                                    dzongjia = c.setScale(2,
-                                            BigDecimal.ROUND_HALF_UP)
-                                            .doubleValue();
-                                    System.out
-                                            .println("dzongjia------------------------------"
-                                                    + dzongjia);
-                                    if (getIntent().getStringExtra("spec_text")
-                                            .equals("")) {
+                                    dzongjia = c.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+
+                                    if (getIntent().getStringExtra("spec_text").equals("")) {
                                         tv_guige.setText(data.spec_text);
                                     } else {
-                                        tv_guige.setText(getIntent()
-                                                .getStringExtra("spec_text"));
+                                        tv_guige.setText(getIntent().getStringExtra("spec_text"));
                                     }
+
                                     tv_1.setText("团购价：");
                                     tv_2.setText("团数：");
                                     tv_color.setText("¥" + dzongjia);// 团购价
-                                    tv_size.setText(getIntent().getStringExtra(
-                                            "people")
-                                            + "人");
+                                    tv_size.setText(getIntent().getStringExtra("people") + "人");
                                     heji.setText("合计:" + "¥" + dzongjia);
                                     shi_fukuang.setText("¥" + dzongjia);
                                 } else {
-                                    BigDecimal c = new BigDecimal(Double
-                                            .parseDouble(data.sell_price)
-                                            * data.quantity);
+                                    BigDecimal c = new BigDecimal(Double.parseDouble(data.sell_price) * data.quantity);
                                     // 保留2位小数
-                                    dzongjia = c.setScale(2,
-                                            BigDecimal.ROUND_HALF_UP)
-                                            .doubleValue();
+                                    dzongjia = c.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                                     tv_guige.setText(data.spec_text);
                                     tv_1.setText("价格：");
                                     tv_2.setText("市场价：");
                                     tv_color.setText("¥" + dzongjia);//
                                     tv_size.setText("¥" + data.market_price);
-                                    tv_size.getPaint().setFlags(
-                                            Paint.STRIKE_THRU_TEXT_FLAG
-                                                    | Paint.ANTI_ALIAS_FLAG);
+                                    tv_size.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
                                     heji.setText("合计:" + "¥" + dzongjia);
                                     shi_fukuang.setText("¥" + dzongjia);
                                 }
                                 tv_warename.setText(data.title);
                                 tv_num.setText(String.valueOf(data.quantity));
-                                mAq.id(img_ware).image(
-                                        URLConstants.REALM_NAME_HTTP
-                                                + data.img_url);
+                                mAq.id(img_ware).image(URLConstants.REALM_NAME_HTTP + data.img_url);
 
                                 list.add(data);
                             } catch (Exception e) {

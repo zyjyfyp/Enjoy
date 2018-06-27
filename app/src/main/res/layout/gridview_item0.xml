@@ -15,9 +15,4 @@
         android:text="突发嗓子痛"
         android:textSize="13dp" />
     
-    <!-- android:background="@null"
-    android:background="@drawable/zangfutiaoli"
-    getCheckedRadioButtonId() 
-    -->
-
 </RelativeLayout>
