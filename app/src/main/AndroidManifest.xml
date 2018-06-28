@@ -348,6 +348,11 @@
             android:screenOrientation="portrait" />
 
         <service android:name=".http.down.ApkInstallService" />
+
+        <activity
+            android:name=".activity.order.ApplyAfterSaleActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

@@ -24,6 +24,7 @@ import com.yunsen.enjoy.activity.pay.MyOrderZFActivity;
 import com.yunsen.enjoy.activity.pay.TishiCarArchivesActivity;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.MyOrderData;
+import com.yunsen.enjoy.ui.UIHelper;
 
 
 import java.io.Serializable;
@@ -123,6 +124,7 @@ public class MyOrderllAdapter extends BaseAdapter {
         LinearLayout ll_anliu = null;
         LinearLayout ll_hongbao = null;
         private long timeGetTime;
+        public TextView applyRefund;
     }
 
     @Override
@@ -151,21 +153,15 @@ public class MyOrderllAdapter extends BaseAdapter {
             holder.tv_zhuangtai = (TextView) convertView.findViewById(R.id.tv_zhuangtai);//
             holder.tv_tuikuan = (TextView) convertView.findViewById(R.id.tv_tuikuan);//
             holder.tv_yunfei = (TextView) convertView.findViewById(R.id.tv_yunfei);//
-            holder.shanchu = (TextView) convertView
-                    .findViewById(R.id.tv_shanche);//
-            holder.tv_queren_fukuan = (TextView) convertView
-                    .findViewById(R.id.tv_queren_fukuan);//
-            holder.tv_pingjia = (TextView) convertView
-                    .findViewById(R.id.tv_pingjia);//
-            holder.tv_hongbao = (TextView) convertView
-                    .findViewById(R.id.tv_hongbao);//
-            holder.tv_company_name = (TextView) convertView
-                    .findViewById(R.id.tv_company_name);//
-            holder.tv_heji = (TextView) convertView
-                    .findViewById(R.id.tv_heji);//
-            holder.tv_yanhuoma = (TextView) convertView
-                    .findViewById(R.id.tv_yanhuoma);//
+            holder.shanchu = (TextView) convertView.findViewById(R.id.tv_shanche);//
+            holder.tv_queren_fukuan = (TextView) convertView.findViewById(R.id.tv_queren_fukuan);//
+            holder.tv_pingjia = (TextView) convertView.findViewById(R.id.tv_pingjia);//
+            holder.tv_hongbao = (TextView) convertView.findViewById(R.id.tv_hongbao);//
+            holder.tv_company_name = (TextView) convertView.findViewById(R.id.tv_company_name);//
+            holder.tv_heji = (TextView) convertView.findViewById(R.id.tv_heji);//
+            holder.tv_yanhuoma = (TextView) convertView.findViewById(R.id.tv_yanhuoma);//
             View iv_hongbao = (View) convertView.findViewById(R.id.iv_hongbao);//
+            holder.applyRefund = (TextView) convertView.findViewById(R.id.apply_refund);
 
             // BigDecimal c = new
             // BigDecimal(Double.parseDouble(list.get(position).getPayable_amount())+Double.parseDouble(list.get(position).getExpress_fee()));
@@ -221,6 +217,7 @@ public class MyOrderllAdapter extends BaseAdapter {
                 holder.shanchu.setVisibility(View.VISIBLE);
                 holder.tv_tuikuan.setVisibility(View.GONE);
                 holder.tv_kukuang.setText("去付款");
+                holder.applyRefund.setVisibility(View.GONE);
                 zhuangtai = 2;
             } else if (status.equals("4")) {
                 holder.tv_zhuangtai.setText("已退款");
@@ -229,6 +226,7 @@ public class MyOrderllAdapter extends BaseAdapter {
                 holder.tv_kukuang.setVisibility(View.GONE);
                 holder.tv_pingjia.setVisibility(View.GONE);
                 holder.shanchu.setVisibility(View.GONE);
+                holder.applyRefund.setVisibility(View.GONE);
             } else if (payment_status.equals("2") && express_status.equals("1")
                     && status.equals("2")) {
                 System.out.println("待发货=============");
@@ -248,6 +246,7 @@ public class MyOrderllAdapter extends BaseAdapter {
                     System.out.println("待发货取货码为空=============");
                 }
                 holder.tv_tuikuan.setVisibility(View.VISIBLE);
+                holder.applyRefund.setVisibility(View.GONE);
                 zhuangtai = 3;
             } else if (payment_status.equals("2") && express_status.equals("2")
                     && status.equals("2")) {
@@ -260,6 +259,8 @@ public class MyOrderllAdapter extends BaseAdapter {
                 holder.tv_queren_fukuan.setVisibility(View.VISIBLE);
                 holder.tv_tuikuan.setVisibility(View.GONE);
                 holder.tv_queren_fukuan.setText("确认收货");
+                holder.applyRefund.setVisibility(View.GONE);
+
                 zhuangtai = 4;
             } else if (payment_status.equals("2") && express_status.equals("2")
                     && status.equals("3")) {
@@ -272,6 +273,7 @@ public class MyOrderllAdapter extends BaseAdapter {
                 holder.tv_pingjia.setVisibility(View.VISIBLE);
                 holder.tv_tuikuan.setVisibility(View.GONE);
                 holder.tv_pingjia.setText("评价");
+                holder.applyRefund.setVisibility(View.VISIBLE);
                 zhuangtai = 5;
             }
 
@@ -407,6 +409,13 @@ public class MyOrderllAdapter extends BaseAdapter {
                     }
                 }
             });
+
+            holder.applyRefund.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    UIHelper.showApplyAfterSaleActivity(context, list.get(position));
+                }
+            });
             addview.removeAllViews();
 
             for (int i = 0; i < list.get(position).getList().size(); i++) {
@@ -423,18 +432,16 @@ public class MyOrderllAdapter extends BaseAdapter {
                 holder.lv_dingdanxq = (LinearLayout) vi.findViewById(R.id.lv_dingdanxq);
 
                 holder.tv_goods_title.setText(list.get(position).getList().get(i).getArticle_title());
-                holder.tv_market_price.setText("¥" + list.get(position).getList().get(i)
-                        .getMarket_price());
+                holder.tv_market_price.setText("¥" + list.get(position).getList().get(i).getMarket_price());
                 // holder.sell_price.setText("¥"+list.get(position).getList().get(i).getSell_price());
-                holder.quantity.setText("x"
-                        + list.get(position).getList().get(i).getQuantity());
+                holder.quantity.setText("x" + list.get(position).getList().get(i).getQuantity());
                 holder.tv_market_price.getPaint().setFlags(
                         Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); // 设置市场价文字的中划线
                 // ImageLoader imageLoader=ImageLoader.getInstance();
                 // imageLoader.displayImage(RealmName.REALM_NAME_HTTP +
                 // list.get(position).getList().get(i).getImg_url(),
                 // holder.tupian);
-                mAq.id(holder.tupian).image(URLConstants.REALM_NAME_HTTP + list.get(position).getList().get(i).getImg_url());
+                mAq.id(holder.tupian).image(list.get(position).getList().get(i).getImg_url());
 
                 type = true;
                 int number = list.get(position).getList().get(i).getQuantity();
@@ -445,7 +452,6 @@ public class MyOrderllAdapter extends BaseAdapter {
 
                 holder.sell_price.setText("¥" + sell_price_zhi);// 价格
 
-                System.out.println("getGoods_title=============" + list.get(position).getList().get(i).getArticle_title());
 
                 addview.addView(vi);
                 // convertView.setTag(holder);

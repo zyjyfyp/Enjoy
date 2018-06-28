@@ -116,7 +116,7 @@ public class AddressManagerActivity extends AppCompatActivity {
                     intent = new Intent(AddressManagerActivity.this, JuTuanConfrimActivity.class);
                     JuTuanConfrimActivity.handlerll.sendEmptyMessage(2);
                 } else {
-                    intent = new Intent(AddressManagerActivity.this, MyOrderConfrimActivity.class);
+                    intent = new Intent();
 //                    MyOrderConfrimActivity.handlerll.sendEmptyMessage(2);
 
                 }

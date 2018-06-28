@@ -22,7 +22,7 @@ public class NoScrollLinearLayoutManager extends LinearLayoutManager {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    private boolean isScrollEnabled = true;
+    private boolean isScrollEnabled = false;
 
 
     public void setScrollEnabled(boolean flag) {

@@ -137,6 +137,8 @@ public class Constants {
      */
     public static final String BALANCE = "balance";
 
+    public static final String ORDER_DATA = "ORDER_NO";
+
     /***
      * 分享
      */

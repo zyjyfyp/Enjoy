@@ -1,5 +1,7 @@
 package com.yunsen.enjoy.model;
 
+import com.yunsen.enjoy.http.URLConstants;
+
 import java.io.Serializable;
 
 public class OrderBean implements Serializable {
@@ -259,8 +261,12 @@ public class OrderBean implements Serializable {
 	}
 
 	public String getImg_url() {
-		return img_url;
-	}
+        if (img_url != null && img_url.startsWith("http")) {
+            return img_url;
+        } else {
+            return URLConstants.REALM_URL + img_url;
+        }
+    }
 
 	public void setImg_url(String img_url) {
 		this.img_url = img_url;

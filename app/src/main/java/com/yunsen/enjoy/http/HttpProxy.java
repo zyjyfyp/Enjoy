@@ -65,6 +65,7 @@ import com.yunsen.enjoy.model.response.PullImageResponse;
 import com.yunsen.enjoy.model.response.SearchListResponse;
 import com.yunsen.enjoy.model.response.ServiceProjectListResponse;
 import com.yunsen.enjoy.model.response.ServiceShopInfoResponse;
+import com.yunsen.enjoy.model.response.ShoppingAddressResponse;
 import com.yunsen.enjoy.model.response.StringResponse;
 import com.yunsen.enjoy.model.response.TradeListResponse;
 import com.yunsen.enjoy.model.response.UserInfoResponse;
@@ -1616,6 +1617,32 @@ public class HttpProxy {
             @Override
             public void onSuccess(DefaultAddressResponse response) {
                 callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * @param userName
+     * @param callBack
+     */
+    public static void getUserShoppingAddress(String userName, final HttpCallBack<AddressInfo> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("user_name", userName);
+        HttpClient.get(URLConstants.SHOPPING_ADDRESS_URL, param, new HttpResponseHandler<ShoppingAddressResponse>() {
+            @Override
+            public void onSuccess(ShoppingAddressResponse response) {
+                List<AddressInfo> data = response.getData();
+                if (data != null) {
+                    callBack.onSuccess(data.get(0));
+                } else {
+                    callBack.onError(null, new Exception("dataList is empty"));
+                }
             }
 
             @Override

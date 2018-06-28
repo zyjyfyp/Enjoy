@@ -30,9 +30,9 @@ public class AddressInfo {
     private String user_accept_name;
     private String user_address;
     private String user_mobile;
-    private Object user_telphone;
-    private Object user_email;
-    private Object user_post_code;
+    private String user_telphone;
+    private String user_email;
+    private String user_post_code;
     private String province;
     private String city;
     private String area;
@@ -89,30 +89,6 @@ public class AddressInfo {
         this.user_mobile = user_mobile;
     }
 
-    public Object getUser_telphone() {
-        return user_telphone;
-    }
-
-    public void setUser_telphone(Object user_telphone) {
-        this.user_telphone = user_telphone;
-    }
-
-    public Object getUser_email() {
-        return user_email;
-    }
-
-    public void setUser_email(Object user_email) {
-        this.user_email = user_email;
-    }
-
-    public Object getUser_post_code() {
-        return user_post_code;
-    }
-
-    public void setUser_post_code(Object user_post_code) {
-        this.user_post_code = user_post_code;
-    }
-
     public String getProvince() {
         return province;
     }
@@ -167,5 +143,29 @@ public class AddressInfo {
 
     public void setUpdate_time(String update_time) {
         this.update_time = update_time;
+    }
+
+    public String getUser_telphone() {
+        return user_telphone;
+    }
+
+    public void setUser_telphone(String user_telphone) {
+        this.user_telphone = user_telphone;
+    }
+
+    public String getUser_email() {
+        return user_email;
+    }
+
+    public void setUser_email(String user_email) {
+        this.user_email = user_email;
+    }
+
+    public String getUser_post_code() {
+        return user_post_code;
+    }
+
+    public void setUser_post_code(String user_post_code) {
+        this.user_post_code = user_post_code;
     }
 }

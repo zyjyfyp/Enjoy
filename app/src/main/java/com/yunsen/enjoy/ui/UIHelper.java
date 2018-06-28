@@ -37,6 +37,7 @@ import com.yunsen.enjoy.activity.dealer.ApplyServiceActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceSecondActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceThreeActivity;
 import com.yunsen.enjoy.activity.dealer.MyFacilitatorActivity;
+import com.yunsen.enjoy.activity.mine.AddressManagerActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.BindBankCardActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
@@ -49,6 +50,7 @@ import com.yunsen.enjoy.activity.mine.ShopCartActivity;
 import com.yunsen.enjoy.activity.mine.TeamActivity;
 import com.yunsen.enjoy.activity.mine.UserForgotPasswordActivity;
 import com.yunsen.enjoy.activity.mine.WithdrawCashActivity;
+import com.yunsen.enjoy.activity.order.ApplyAfterSaleActivity;
 import com.yunsen.enjoy.activity.order.DianPingActivity;
 import com.yunsen.enjoy.activity.order.MyOrderActivity;
 import com.yunsen.enjoy.activity.order.MyOrderXqActivity;
@@ -942,4 +944,26 @@ public class UIHelper {
         ctx.startActivity(intent);
     }
 
+    /**
+     * 售后服务
+     *
+     * @param ctx
+     * @param myOrderData
+     */
+    public static void showApplyAfterSaleActivity(Context ctx, MyOrderData myOrderData) {
+        Intent intent = new Intent(ctx, ApplyAfterSaleActivity.class);
+        intent.putExtra(Constants.ORDER_DATA, myOrderData);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 去地址页面
+     *
+     * @param act
+     * @param requestCode
+     */
+    public static void showAddressManagerActivity(Activity act, int requestCode) {
+        Intent intent = new Intent(act, AddressManagerActivity.class);
+        act.startActivityForResult(intent, requestCode);
+    }
 }

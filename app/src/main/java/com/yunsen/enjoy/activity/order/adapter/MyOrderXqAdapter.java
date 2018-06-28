@@ -200,7 +200,7 @@ public class MyOrderXqAdapter extends BaseAdapter {
             }
             holderChild.quantity.setText("x" + myOrderData.getList().get(i).getQuantity());
             holderChild.tv_market_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); // 设置市场价文字的中划线
-            mAq.id(holderChild.tupian).image(URLConstants.REALM_NAME_HTTP + myOrderData.getList().get(i).getImg_url());
+            mAq.id(holderChild.tupian).image(myOrderData.getList().get(i).getImg_url());
 
             try {
                 int number = myOrderData.getList().get(i).getQuantity();

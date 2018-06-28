@@ -282,6 +282,21 @@
                     android:textColor="@color/white"
                     android:textSize="14dp"
                     android:visibility="gone" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/apply_refund"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/bg_ccc_3_5_bg_order"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="售后服务"
+                    android:textColor="@color/white"
+                    android:textSize="14dp" />
             </LinearLayout>
 
 

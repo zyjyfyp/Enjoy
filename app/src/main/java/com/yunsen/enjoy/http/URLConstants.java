@@ -237,6 +237,11 @@ public class URLConstants {
      */
     public static final String DEFAULT_ADDRESS_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_shopping_address_default";
     /**
+     * /* 获取用户购买地址地址
+     * http://mobile.szlxkg.com/tools/mobile_ajax.asmx/get_user_shopping_address?user_name=13249089599
+     */
+    public static final String SHOPPING_ADDRESS_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_shopping_address";
+    /**
      * 绑定银行卡
      * https://szlxkg.com/tools/mobile_ajax.asmx/add_user_bank
      */
