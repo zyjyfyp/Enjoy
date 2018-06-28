@@ -97,9 +97,10 @@ public class MainActivity extends BaseFragmentActivity {
                 float client_version = Float.parseFloat(c_version);//当前
                 if (server_version > client_version) {
                     dialog(URLConstants.REALM_URL + responseData.getFile_path(), responseData.getContent());
-                } else {
-                    ToastUtils.makeTextShort("当前为最新版本");
                 }
+//                else {
+//                    ToastUtils.makeTextShort("当前为最新版本");
+//                }
             }
 
             @Override
@@ -344,7 +345,7 @@ public class MainActivity extends BaseFragmentActivity {
     protected void onRequestPermissionSuccess(int requestCode) {
         super.onRequestPermissionSuccess(requestCode);
         if (requestCode == Constants.CALL_PHONE) {
-            UIHelper.showPhoneNumberActivity(this, "400****120");
+            UIHelper.showPhoneNumberActivity(this, Constants.PHONE_NUMBER);
         } else if (requestCode == Constants.WRITE_EXTERNAL_STORAGE) {
             UIHelper.showPhotoActivity(this, Constants.PHOTO_ACTIVITY_REQUEST);
         }

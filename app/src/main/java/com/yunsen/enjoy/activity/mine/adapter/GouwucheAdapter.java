@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.activity.mine.CommomConfrim;
 import com.yunsen.enjoy.activity.mine.JuJingCaiXqActivity;
 import com.yunsen.enjoy.activity.mine.JuTuanGouXqActivity;
 import com.yunsen.enjoy.activity.mine.WareInformationActivity;

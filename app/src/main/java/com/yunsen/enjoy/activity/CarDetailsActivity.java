@@ -263,7 +263,7 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
     protected void onRequestPermissionSuccess(int requestCode) {
         super.onRequestPermissionSuccess(requestCode);
         if (requestCode == Constants.CALL_PHONE) {
-            UIHelper.showPhoneNumberActivity(this, "444****120");
+            UIHelper.showPhoneNumberActivity(this, Constants.PHONE_NUMBER);
         }
     }
 

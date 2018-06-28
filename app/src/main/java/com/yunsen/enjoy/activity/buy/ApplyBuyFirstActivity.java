@@ -140,7 +140,7 @@ public class ApplyBuyFirstActivity extends BaseFragmentActivity {
     @Override
     protected void onRequestPermissionSuccess(int requestCode) {
         if (requestCode == Constants.CALL_PHONE) {
-            UIHelper.showPhoneNumberActivity(this, "444****120");
+            UIHelper.showPhoneNumberActivity(this, Constants.PHONE_NUMBER);
         }
     }
 

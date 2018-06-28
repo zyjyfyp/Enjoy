@@ -98,7 +98,7 @@ public class ApplyBuyTwoActivity extends BaseFragmentActivity {
     protected void onRequestPermissionSuccess(int requestCode) {
         super.onRequestPermissionSuccess(requestCode);
         if (requestCode == Constants.CALL_PHONE) {
-            UIHelper.showPhoneNumberActivity(this, "400****120");
+            UIHelper.showPhoneNumberActivity(this, Constants.PHONE_NUMBER);
         }
     }
 

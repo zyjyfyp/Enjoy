@@ -276,6 +276,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
             data_spec_text.add(data.getSpec_text());
             data_exchange_point.add(data.getExchange_point());
             data_exchange_price.add(data.getExchange_price());
+            data_price.add(data.getSell_price());
         }
 
 
@@ -394,7 +395,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
                 } else if (isSecondGoods && mRemainingTime == -1) {
                     ToastUtils.makeTextShort("秒杀活动即将开始");
                 } else {
-                    CommomConfrim.initData(defaultSpecItem.getSell_price(), mCarDetail.getImg_url(), 2, "" + defaultSpecItem.getGoods_id(), defaultSpecItem.getSpec_ids(), false);
+                    CommomConfrim.initData(mCarDetail, mCarDetail.getImg_url(), 2, "" + defaultSpecItem.getGoods_id(), defaultSpecItem.getSpec_ids(), false);
                     CommomConfrim.showSheet(this, String.valueOf(mCarDetail.getId()));
                 }
                 break;
@@ -404,7 +405,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
                 } else if (isSecondGoods && mRemainingTime == -1) {
                     ToastUtils.makeTextShort("秒杀活动即将开始");
                 } else {
-                    CommomConfrim.initData(defaultSpecItem.getSell_price(), mCarDetail.getImg_url(), 1,
+                    CommomConfrim.initData(mCarDetail, mCarDetail.getImg_url(), 1,
                             "" + defaultSpecItem.getGoods_id(), defaultSpecItem.getSpec_ids(), false);
                     CommomConfrim.showSheet(this, String.valueOf(mCarDetail.getId()));
                 }
