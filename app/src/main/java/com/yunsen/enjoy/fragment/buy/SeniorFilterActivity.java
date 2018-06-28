@@ -57,7 +57,7 @@ public class SeniorFilterActivity extends BaseFragmentActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-        actionBarTitle.setText("高级筛选");
+        actionBarTitle.setText("车型");
         topView = getLayoutInflater().inflate(R.layout.senior_filter_top_layout, null);
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
@@ -83,7 +83,7 @@ public class SeniorFilterActivity extends BaseFragmentActivity {
             @Override
             public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
                 List<HeightFilterBean> datas = mTopAdapter.getDatas();
-                if (datas != null && datas.size() > position-1) {
+                if (datas != null && datas.size() > position - 1) {
                     HeightFilterBean carBrand = datas.get(position - 1);
                     ActivityResultEvent event = new ActivityResultEvent(EventConstants.SENIOR_FILTER_ID, carBrand.getId(), carBrand.getTitle());
                     event.setFragmentType(mFragmentType);

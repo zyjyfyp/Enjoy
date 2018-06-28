@@ -44,11 +44,11 @@ public class Constants {
         SHOT_METHED_VALUE.put("理财最少", "");
     }
 
-    public static final String[] SORT_PRICES = new String[]{"5万以下", "5-10万", "10-15万", "15-20万", "20万以上"};
+    public static final String[] SORT_PRICES = new String[]{"不限", "5万以下", "5-10万", "10-15万", "15-20万", "20万以上"};
     public static Map<String, String> SHOT_PRICES_VALUES = new HashMap<>();
 
     static {
-//        SHOT_PRICES_VALUES.put("不限", "sell_price>=0");
+        SHOT_PRICES_VALUES.put("不限", "sell_price>=0");
         SHOT_PRICES_VALUES.put("5万以下", "sell_price<=5");
         SHOT_PRICES_VALUES.put("5-10万", "sell_price between 5and 10");
         SHOT_PRICES_VALUES.put("10-15万", "sell_price between 10and 15");

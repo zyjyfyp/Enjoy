@@ -519,7 +519,7 @@ public class UIHelper {
     }
 
     /**
-     * 高级筛选
+     * 车型
      *
      * @param act
      * @param type

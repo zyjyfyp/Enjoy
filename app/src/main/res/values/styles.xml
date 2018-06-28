@@ -75,6 +75,9 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="MoreTabLayoutStyle">
+        <item name="android:textSize">15sp</item>
+    </style>
     <!-- 自定义Dialog主题 -->
     <style name="BottomDialogStyle" parent="@android:style/Theme.Holo.Light.Dialog">
         <item name="android:windowNoTitle">true</item>

@@ -100,7 +100,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
         textHor1.setText("智能排序");
         textHor2.setText("品牌");
         textHor3.setText("价格");
-        textHor4.setText("筛选");
+        textHor4.setText("车型");
     }
 
     @Override

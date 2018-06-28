@@ -70,7 +70,7 @@ public class ServiceShopInfoActivity extends BaseFragmentActivity {
         String addr = "详细地址：" + responseData.getProvince() + responseData.getCity() + responseData.getArea()
                 + responseData.getAddress();
         addressInfo.setText(addr);
-
+        shopInfo.setText(responseData.getAdvantage());
         Glide.with(this)
                 .load(responseData.getImg_url())
                 .placeholder(R.mipmap.bindingbg)
