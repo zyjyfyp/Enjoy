@@ -95,6 +95,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
 
     @Override
     protected void initView() {
+        EventBus.getDefault().register(this);
         ButterKnife.bind(this, rootView);
         textHor1.setText("智能排序");
         textHor2.setText("品牌");
@@ -375,18 +376,17 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
     @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        EventBus.getDefault().unregister(this);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        EventBus.getDefault().unregister(this);
         ButterKnife.unbind(this);
     }
 }
