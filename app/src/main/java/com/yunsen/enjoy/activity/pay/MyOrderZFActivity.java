@@ -203,7 +203,7 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(MyOrderZFActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
                         if (mIsBecomeVip) {
-                            EventBus.getDefault().post(new UpUiEvent(EventConstants.APP_LOGIN));
+                            EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
                         }
                         finish();
 
@@ -244,9 +244,9 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 2) {
-            if (mIsBecomeVip) {
-                EventBus.getDefault().post(new UpUiEvent(EventConstants.APP_LOGIN));
-            }
+//            if (mIsBecomeVip) {
+//                EventBus.getDefault().post(new UpUiEvent(EventConstants.APP_LOGIN));
+//            }
         }
     }
 

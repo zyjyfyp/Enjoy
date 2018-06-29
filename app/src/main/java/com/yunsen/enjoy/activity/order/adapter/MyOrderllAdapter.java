@@ -263,14 +263,14 @@ public class MyOrderllAdapter extends BaseAdapter {
                 holder.applyRefund.setVisibility(View.GONE);
 
                 zhuangtai = 4;
-            } else if (payment_status.equals("2") && express_status.equals("2")
+            } else if (payment_status.equals("2") && (express_status.equals("2") || "3".equals(express_status) || "4".equals(express_status))
                     && status.equals("3")) {
                 System.out.println("已完成=============");
                 holder.tv_zhuangtai.setText("交易完成");
                 holder.ll_anliu.setVisibility(View.VISIBLE);
                 holder.tv_queren_fukuan.setVisibility(View.GONE);
                 holder.tv_kukuang.setVisibility(View.GONE);
-                holder.shanchu.setVisibility(View.VISIBLE);
+                holder.shanchu.setVisibility(View.GONE);
                 holder.tv_pingjia.setVisibility(View.VISIBLE);
                 holder.tv_tuikuan.setVisibility(View.GONE);
                 holder.tv_pingjia.setText("评价");
@@ -412,7 +412,7 @@ public class MyOrderllAdapter extends BaseAdapter {
 
 
             if ("2".equals(orderData.getExpress_status())) {  //1 未发货 2 已收货 3 退换中 4 已退货
-                holder.applyRefund.setClickable(true);
+                holder.applyRefund.setEnabled(true);
                 holder.applyRefund.setText("申请售后");
                 holder.applyRefund.setOnClickListener(new OnClickListener() {
                     @Override
@@ -422,12 +422,12 @@ public class MyOrderllAdapter extends BaseAdapter {
                 });
             } else if ("3".equals(orderData.getExpress_status())) {
                 holder.applyRefund.setText("客服处理中");
-                holder.applyRefund.setClickable(false);
+                holder.applyRefund.setEnabled(false);
             } else if ("4".equals(orderData.getExpress_status())) {
                 holder.applyRefund.setText("售后完成");
-                holder.applyRefund.setClickable(false);
+                holder.applyRefund.setEnabled(false);
             } else {
-                holder.applyRefund.setClickable(false);
+                holder.applyRefund.setEnabled(false);
                 holder.applyRefund.setVisibility(View.GONE);
             }
 

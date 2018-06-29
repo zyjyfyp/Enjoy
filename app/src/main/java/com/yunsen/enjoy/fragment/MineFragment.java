@@ -453,7 +453,6 @@ public class MineFragment extends BaseFragment {
      * 加载订单信息
      */
     private void load_list() {
-        Log.e(TAG, "load_list: ss");
         AsyncHttp.get(URLConstants.REALM_NAME_LL
                         + "/get_order_page_size_list?user_id=" + user_id + ""
                         + "&page_size=1000&page_index=1&strwhere=datatype=1&orderby=",
@@ -477,21 +476,20 @@ public class MineFragment extends BaseFragment {
                                     String status = obj.getString("status");
                                     // 订单状态
                                     if ("1".equals(payment_status)) {
-                                        System.out.println("待付款=============");
+//                                        System.out.println("待付款=============");
                                         list_1.add(payment_status);
                                     } else if ("2".equals(payment_status) && "1".equals(express_status) && "2".equals(status)) {
-                                        System.out.println("待发货=============");
+//                                        System.out.println("待发货=============");
                                         list_2.add(payment_status);
                                     } else if ("2".equals(payment_status) && "2".equals(express_status) && "2".equals(status)) {
-                                        System.out.println("待收货=============");
+//                                        System.out.println("待收货=============");
                                         list_3.add(payment_status);
-                                    } else if ("2".equals(payment_status) && "2".equals(express_status) && "3".equals(status)) {
-                                        System.out.println("已完成=============");
+                                    } else if ("2".equals(payment_status) && ("2".equals(express_status) || "3".equals(express_status) || "4".equals(express_status)) && "3".equals(status)) {
+//                                        System.out.println("已完成=============");
                                         list_4.add(payment_status);
                                     }
                                 }
                                 String num = String.valueOf(list_1.size());
-                                Log.e(TAG, "onSuccess: num=" + num);
                                 orderNumber1.setText(num);
                                 String num1 = String.valueOf(list_2.size());
                                 orderNumber2.setText(num1);
@@ -500,7 +498,7 @@ public class MineFragment extends BaseFragment {
                                 String num3 = String.valueOf(list_4.size());
                                 orderNumber4.setText(num3);
                             }
-                        } catch (JSONException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -695,6 +693,7 @@ public class MineFragment extends BaseFragment {
                 load_list();
                 break;
         }
+        EventBus.getDefault().removeStickyEvent(event);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

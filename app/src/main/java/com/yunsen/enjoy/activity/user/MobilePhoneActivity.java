@@ -90,7 +90,7 @@ public class MobilePhoneActivity extends AppCompatActivity implements OnClickLis
             switch (msg.what) {
                 case 0:
                     Toast.makeText(getApplicationContext(), "绑定成功", Toast.LENGTH_SHORT).show();
-                    EventBus.getDefault().post(new UpUiEvent(EventConstants.APP_LOGIN));
+                    EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
                     progress.CloseProgress();
                     finish();
                     break;

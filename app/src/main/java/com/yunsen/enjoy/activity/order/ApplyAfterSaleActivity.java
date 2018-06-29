@@ -338,7 +338,7 @@ public class ApplyAfterSaleActivity extends BaseFragmentActivity {
         int id = mResetAdapter.getCurrentTypeModel().getId();
         mRequestModel.setDatatype(String.valueOf(id));
         if (TextUtils.isEmpty(content)) {
-            ToastUtils.makeTextShort("请输入退换详情");
+            ToastUtils.makeTextShort("请输入问题描述");
         } else {
             mRequestModel.setCause_desc(content);
             HttpProxy.applySaleAfterService(mRequestModel, new HttpCallBack<Boolean>() {

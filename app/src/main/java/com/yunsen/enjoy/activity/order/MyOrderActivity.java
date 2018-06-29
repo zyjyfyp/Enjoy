@@ -127,8 +127,7 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
                     load_list(true, strwhere);
                 } else if (status.equals("4")) {
                     item5();
-                    strwhere = "payment_status=2%20and%20express_status=2%20and%20status=3%20and%20datatype=1";
-                    //				list.clear();
+                    strwhere = "payment_status%3d2+and+express_status+%3e+1+and+status%3d3+and+datatype%3d1";
                     load_list(true, strwhere);
                 }
             } else {
@@ -251,7 +250,7 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
                 item5();
                 list = new ArrayList<MyOrderData>();
                 System.out.println("list状态==============" + list.size());
-                strwhere = "payment_status=2%20and%20express_status=2%20and%20status=3%20and%20datatype=1";
+                strwhere = "payment_status%3d2+and+express_status+%3e+1+and+status%3d3+and+datatype%3d1";
                 System.out.println("=========66============" + strwhere);
                 load_list(true, strwhere);
                 break;

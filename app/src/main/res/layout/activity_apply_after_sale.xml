@@ -112,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/app_margin"
                 android:text="问题描述"
-                android:textColor="@color/color_888"
+                android:textColor="@color/title_color"
                 android:textSize="13sp" />
 
             <LinearLayout

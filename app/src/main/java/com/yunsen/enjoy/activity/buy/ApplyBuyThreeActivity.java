@@ -177,7 +177,7 @@ public class ApplyBuyThreeActivity extends BaseFragmentActivity {
             public void onSuccess(Boolean responseData) {
                 ToastUtils.makeTextShort("申请成功");
                 UIHelper.showHomeActivity(ApplyBuyThreeActivity.this);
-                EventBus.getDefault().post(new UpUiEvent(EventConstants.APP_LOGIN));
+                EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
                 finish();
             }
 

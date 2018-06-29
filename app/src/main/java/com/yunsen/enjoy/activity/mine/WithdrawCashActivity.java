@@ -219,7 +219,7 @@ public class WithdrawCashActivity extends BaseFragmentActivity implements Select
             @Override
             public void onSuccess(Boolean responseData) {
                 ToastUtils.makeTextShort("提现成功");
-                EventBus.getDefault().post(new UpUiEvent(EventConstants.APP_LOGIN));//暂时
+                EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));//暂时
                 finish();
             }
 

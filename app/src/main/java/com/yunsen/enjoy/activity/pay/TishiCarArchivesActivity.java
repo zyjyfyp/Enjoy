@@ -236,7 +236,7 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
                                     progress.CloseProgress();
                                     UIHelper.showMyOrderXqActivity(TishiCarArchivesActivity.this, order_no);
                                     ToastUtils.makeTextShort("支付成功");
-                                    EventBus.getDefault().post(new UpUiEvent(EventConstants.APP_LOGIN));
+                                    EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
                                     setResult(1);
                                     finish();
                                 } else {

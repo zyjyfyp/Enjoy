@@ -152,7 +152,7 @@ public class TishiNicknameActivity extends Activity implements OnClickListener {
                                 String info = object.getString("info");
                                 if (status.equals("y")) {
                                     progress.CloseProgress();
-                                    EventBus.getDefault().post(new UpUiEvent(EventConstants.APP_LOGIN));
+                                    EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
                                     finish();
                                 } else {
                                     progress.CloseProgress();
