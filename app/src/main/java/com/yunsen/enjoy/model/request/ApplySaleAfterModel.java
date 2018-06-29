@@ -5,15 +5,15 @@ package com.yunsen.enjoy.model.request;
  */
 
 public class ApplySaleAfterModel {
-    String order_no;//商品订单编号
-    String datatype;//售后类型
-    String user_id;//用户id
-    String user_name;//用户名
-    String user_mobile;//手机号码
-    String user_address;//收货地址
-    String cause_desc;//售后原因
-    String img_url;//图片路径
-    String return_way;//配送方式
+    private String order_no;//商品订单编号
+    private String datatype;//售后类型
+    private String user_id;//用户id
+    private String user_name;//用户名
+    private String user_mobile;//手机号码
+    private String user_address;//收货地址
+    private String cause_desc;//售后原因
+    private String img_url;//图片路径
+    private String return_way = "1";//配送方式
 
     public ApplySaleAfterModel(String user_id, String user_name, String user_mobile, String user_address) {
         this.user_id = user_id;
@@ -41,4 +41,5 @@ public class ApplySaleAfterModel {
     public void setReturn_way(String return_way) {
         this.return_way = return_way;
     }
+
 }

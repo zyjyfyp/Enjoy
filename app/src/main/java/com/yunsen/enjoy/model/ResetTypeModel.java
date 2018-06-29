@@ -14,6 +14,12 @@ public class ResetTypeModel {
         this.isCheck = isCheck;
     }
 
+    public ResetTypeModel(String title, boolean isCheck, int id) {
+        this.title = title;
+        this.isCheck = isCheck;
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
     }

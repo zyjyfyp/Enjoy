@@ -157,6 +157,59 @@ public class GetImgUtil {
 
             @Override
             protected void onPostExecute(String s) {
+                if (TextUtils.isEmpty(s)) {
+                    ToastUtils.makeTextShort("上传失败");
+                    return;
+                }
+                HashMap<String, String> params = new HashMap<>();
+                params.put("base64", s);
+                HttpProxy.getPullImageBase64(s, new HttpCallBack<PullImageResult>() {
+                    @Override
+                    public void onSuccess(PullImageResult responseData) {
+                        String img_url = responseData.getImg_url();
+                        EventBus.getDefault().post(new PullImageEvent(mType, img_url));
+                    }
+
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        ToastUtils.makeTextShort("上传失败");
+                    }
+                });
+            }
+        }.execute(type);
+    }
+
+    public static void pullImageBase4(final Activity activity, String selectedImage, int type) {
+        final String imgUri = selectedImage;
+        new AsyncTask<Integer, Nullable, String>() {
+            int mType;
+
+            @Override
+            protected String doInBackground(Integer... type) {
+                mType = type[0];
+                Bitmap bitmap = null;
+                try {
+                    bitmap = Glide.with(activity)
+                            .load(imgUri)
+                            .asBitmap()
+                            .into(200, 200)
+                            .get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                String imgStr = BitmapUtil.bitmapToBase64(bitmap);
+
+                return imgStr;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                if (TextUtils.isEmpty(s)) {
+                    ToastUtils.makeTextShort("上传失败");
+                    return;
+                }
                 HashMap<String, String> params = new HashMap<>();
                 params.put("base64",s);
                 HttpProxy.getPullImageBase64(s, new HttpCallBack<PullImageResult>() {

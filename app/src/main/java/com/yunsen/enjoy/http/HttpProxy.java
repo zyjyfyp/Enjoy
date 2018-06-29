@@ -36,6 +36,7 @@ import com.yunsen.enjoy.model.OrderGoodsBean;
 import com.yunsen.enjoy.model.OrderInfo;
 import com.yunsen.enjoy.model.PullImageResult;
 import com.yunsen.enjoy.model.SProviderModel;
+import com.yunsen.enjoy.model.SaleAfterBean;
 import com.yunsen.enjoy.model.ServiceProject;
 import com.yunsen.enjoy.model.ServiceProvideResponse;
 import com.yunsen.enjoy.model.TradeData;
@@ -64,6 +65,7 @@ import com.yunsen.enjoy.model.response.NoticeTokenResponse;
 import com.yunsen.enjoy.model.response.OrderResponse;
 import com.yunsen.enjoy.model.response.PullImageResponse;
 import com.yunsen.enjoy.model.response.SearchListResponse;
+import com.yunsen.enjoy.model.response.SelaAfterResponse;
 import com.yunsen.enjoy.model.response.ServiceProjectListResponse;
 import com.yunsen.enjoy.model.response.ServiceShopInfoResponse;
 import com.yunsen.enjoy.model.response.ShoppingAddressResponse;
@@ -1994,16 +1996,46 @@ public class HttpProxy {
     /**
      * 申请 售后
      */
-    public static void applySaleAfterService(ApplySaleAfterModel model, final HttpCallBack<WatchCarBean> callBack) {
+    public static void applySaleAfterService(ApplySaleAfterModel model, final HttpCallBack<Boolean> callBack) {
 
         Map<String, Object> param = EntityToMap.ConvertObjToMap(model);
-        HttpClient.get(URLConstants.APPLY_SALE_AFTER, param, new HttpResponseHandler<WatchCarResponse>() {
+        HttpClient.get(URLConstants.APPLY_SALE_AFTER, param, new HttpResponseHandler<RestApiResponse>() {
             @Override
-            public void onSuccess(WatchCarResponse response) {
-                WatchCarBean data = response.getData();
+            public void onSuccess(RestApiResponse response) {
+                callBack.onSuccess(true);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 查看售后
+     */
+    public static void selectApplySaleAfterService(String userId, String userName, String orderNo, final HttpCallBack<Boolean> callBack) {
+
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("user_id", userId);
+        param.put("user_name", userName);
+        param.put("order_no", orderNo);
+
+        HttpClient.get(URLConstants.SELECT_APPLY_SALE_AFTER, param, new HttpResponseHandler<SelaAfterResponse>() {
+            @Override
+            public void onSuccess(SelaAfterResponse response) {
+                boolean flag = false;
+                SelaAfterResponse.SaleMiddleData data = response.getData();
                 if (data != null) {
-                    callBack.onSuccess(data);
+                    SaleAfterBean saleModel = data.getSaleModel();
+                    if (saleModel != null) {
+                        if (saleModel.getOrder_no() != null) {
+                            flag = true;
+                        }
+                    }
                 }
+                callBack.onSuccess(flag);
             }
 
             @Override

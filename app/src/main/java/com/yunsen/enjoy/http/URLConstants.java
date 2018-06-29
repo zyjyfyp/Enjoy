@@ -280,6 +280,10 @@ public class URLConstants {
      * 申请售后
      */
     public static final String APPLY_SALE_AFTER = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_after_sale_service";
+    /**
+     * 查看售后信息 http://mobile.szlxkg.com/tools/mobile_ajax.asmx/get_after_sale_service
+     */
+    public static final String SELECT_APPLY_SALE_AFTER = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_after_sale_service";
 
     /**
      * 微信登录

@@ -6,13 +6,14 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.yancy.gallerypick.config.GalleryConfig;
@@ -28,16 +29,22 @@ import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
-import com.yunsen.enjoy.model.AddressInfo;
-import com.yunsen.enjoy.model.CarDetails;
+import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.MyOrderData;
 import com.yunsen.enjoy.model.ResetTypeModel;
+import com.yunsen.enjoy.model.event.PullImageEvent;
+import com.yunsen.enjoy.model.request.ApplySaleAfterModel;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.recyclerview.NoScrollLinearLayoutManager;
-import com.yunsen.enjoy.utils.SharedPreference;
+import com.yunsen.enjoy.utils.GetImgUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.GlideImageLoader;
+import com.yunsen.enjoy.widget.NoticeView;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,12 +90,21 @@ public class ApplyAfterSaleActivity extends BaseFragmentActivity {
     LinearLayout applyResetAddressLayout;
     @Bind(R.id.apply_reset_submit)
     Button applyResetSubmit;
+    @Bind(R.id.notice_layout)
+    NoticeView noticeLayout;
+    @Bind(R.id.apply_ok_layout)
+    LinearLayout applyOkLayout;
+    @Bind(R.id.apply_sale_layout)
+    ScrollView applySaleLayout;
     private GalleryConfig mGalleryConfig;
     private List<String> mPath = new ArrayList<>();
     private MyOrderData mMyOrderData;
     private ResetTypeAdapter mResetAdapter;
     private String mUserName;
     private ListImageAdapter mImageAdapter;
+    private ApplySaleAfterModel mRequestModel;
+    private String mImgUrl = "";
+    private String mUserId;
 
     @Override
     public int getLayout() {
@@ -97,6 +113,7 @@ public class ApplyAfterSaleActivity extends BaseFragmentActivity {
 
     @Override
     protected void initView() {
+        EventBus.getDefault().register(this);
         ButterKnife.bind(this);
         actionBarTitle.setText("申请售后服务");
         goodsRecycler.setLayoutManager(new NoScrollLinearLayoutManager(this));
@@ -124,6 +141,9 @@ public class ApplyAfterSaleActivity extends BaseFragmentActivity {
     protected void initData(Bundle savedInstanceState) {
         SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         mUserName = sp.getString(SpConstants.USER_NAME, "");
+        mUserId = sp.getString(SpConstants.USER_ID, "");
+        String userMobile = sp.getString(SpConstants.MOBILE, "");
+        String userAddress = sp.getString(SpConstants.ADDRESS, "");
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -137,8 +157,8 @@ public class ApplyAfterSaleActivity extends BaseFragmentActivity {
 
         recyclerResetType.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         ArrayList<ResetTypeModel> datas = new ArrayList<>();
-        datas.add(new ResetTypeModel("送货至自提点", true));
-        datas.add(new ResetTypeModel("快递至售货商", false));
+        datas.add(new ResetTypeModel("申请退换", true, 1));
+        datas.add(new ResetTypeModel("申请退款", false, 2));
         mResetAdapter = new ResetTypeAdapter(this, R.layout.reset_type_item, datas);
         recyclerResetType.setAdapter(mResetAdapter);
 
@@ -149,8 +169,8 @@ public class ApplyAfterSaleActivity extends BaseFragmentActivity {
                 .provider("com.yunsen.enjoy.fileprovider")   // provider (必填)
                 .pathList(mPath)                         // 记录已选的图片
                 .multiSelect(false)                      // 是否多选   默认：false
-                .multiSelect(false, 3)                   // 配置是否多选的同时 配置多选数量   默认：false ， 9
-                .maxSize(3)                             // 配置多选时 的多选数量。    默认：9
+                .multiSelect(false, 1)                   // 配置是否多选的同时 配置多选数量   默认：false ， 9
+                .maxSize(1)                             // 配置多选时 的多选数量。    默认：9
                 .crop(false)                             // 快捷开启裁剪功能，仅当单选 或直接开启相机时有效
                 .crop(false, 1, 1, 500, 500)             // 配置裁剪功能的参数，   默认裁剪比例 1:1
                 .isShowCamera(true)                     // 是否现实相机按钮  默认：false
@@ -158,6 +178,9 @@ public class ApplyAfterSaleActivity extends BaseFragmentActivity {
                 .build();
         mGalleryConfig.getBuilder().multiSelect(true).build();   // 修改多选
         mGalleryConfig.getBuilder().isShowCamera(true).build();   // 修改显示相机
+
+        mRequestModel = new ApplySaleAfterModel(mUserId, mUserName, userMobile, userAddress);
+        mRequestModel.setOrder_no(mMyOrderData.getOrder_no());
     }
 
     @Override
@@ -179,20 +202,41 @@ public class ApplyAfterSaleActivity extends BaseFragmentActivity {
 
     @Override
     public void requestData() {
-        HttpProxy.getUserShoppingAddress(mUserName, new HttpCallBack<AddressInfo>() {
+        HttpProxy.selectApplySaleAfterService(mUserId, mUserName, mMyOrderData.getOrder_no(), new HttpCallBack<Boolean>() {
             @Override
-            public void onSuccess(AddressInfo responseData) {
-                String address = responseData.getProvince() + responseData.getCity() + responseData.getArea() + responseData.getUser_address();
-                applyResetAddressTv.setText(address);
-                applyResetNameEdt.setText(responseData.getUser_accept_name());
-                applyResetPhoneEdt.setText(responseData.getUser_mobile());
+            public void onSuccess(Boolean responseData) {
+                if (responseData) {
+                    applyOkLayout.setVisibility(View.VISIBLE);
+                    applySaleLayout.setVisibility(View.GONE);
+                } else {
+                    applyOkLayout.setVisibility(View.GONE);
+                    applySaleLayout.setVisibility(View.VISIBLE);
+                }
+                noticeLayout.setVisibility(View.GONE);
+
             }
 
             @Override
             public void onError(Request request, Exception e) {
-
+                ToastUtils.makeTextShort("数据或网络异常");
             }
         });
+
+
+//        HttpProxy.getUserShoppingAddress(mUserName, new HttpCallBack<AddressInfo>() {
+//            @Override
+//            public void onSuccess(AddressInfo responseData) {
+//                String address = responseData.getProvince() + responseData.getCity() + responseData.getArea() + responseData.getUser_address();
+//                applyResetAddressTv.setText(address);
+//                applyResetNameEdt.setText(responseData.getUser_accept_name());
+//                applyResetPhoneEdt.setText(responseData.getUser_mobile());
+//            }
+//
+//            @Override
+//            public void onError(Request request, Exception e) {
+//
+//            }
+//        });
     }
 
     private IHandlerCallBack iHandlerCallBack = new IHandlerCallBack() {
@@ -203,12 +247,10 @@ public class ApplyAfterSaleActivity extends BaseFragmentActivity {
 
         @Override
         public void onSuccess(List<String> photoList) {
-//            if (photoList == null || photoList.size() < 3) {
-//                addImg.setVisibility(View.VISIBLE);
-//            } else {
-//                addImg.setVisibility(View.GONE);
-//            }
-            mImageAdapter.upBaseDatas(photoList);
+            if (photoList == null || photoList.size() > 0) {
+                String s = photoList.get(0);
+                GetImgUtil.pullImageBase4(ApplyAfterSaleActivity.this, s, Constants.APPLY_SALE_AFTER_IMG);
+            }
         }
 
         @Override
@@ -256,6 +298,19 @@ public class ApplyAfterSaleActivity extends BaseFragmentActivity {
         GalleryPick.getInstance().setGalleryConfig(mGalleryConfig).open(this);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(PullImageEvent event) {
+        int evenId = event.getEvenId();
+        switch (evenId) {
+            case Constants.APPLY_SALE_AFTER_IMG:
+                ArrayList<String> datas = new ArrayList<>();
+                datas.add(URLConstants.REALM_URL + event.getImgUrl());
+                mImageAdapter.upBaseDatas(datas);
+                mImgUrl = URLConstants.REALM_URL + event.getImgUrl();
+                break;
+        }
+    }
+
     @OnClick({R.id.action_back, R.id.add_img, R.id.apply_reset_address_layout, R.id.apply_reset_submit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -269,8 +324,44 @@ public class ApplyAfterSaleActivity extends BaseFragmentActivity {
                 UIHelper.showAddressManagerActivity(this, ADDRESS_REQUEST);
                 break;
             case R.id.apply_reset_submit:
-                ToastUtils.makeTextShort("功能在开发中");
+                applySubmit();
                 break;
         }
     }
+
+    /**
+     * 提交售后申请
+     */
+    private void applySubmit() {
+        mRequestModel.setImg_url(mImgUrl);
+        String content = descriptionContentEdt.getText().toString();
+        int id = mResetAdapter.getCurrentTypeModel().getId();
+        mRequestModel.setDatatype(String.valueOf(id));
+        if (TextUtils.isEmpty(content)) {
+            ToastUtils.makeTextShort("请输入退换详情");
+        } else {
+            mRequestModel.setCause_desc(content);
+            HttpProxy.applySaleAfterService(mRequestModel, new HttpCallBack<Boolean>() {
+                @Override
+                public void onSuccess(Boolean responseData) {
+                    ToastUtils.makeTextShort("申请成功，请耐心等待");
+                    finish();
+                }
+
+                @Override
+                public void onError(Request request, Exception e) {
+                    ToastUtils.makeTextShort("申请失败，请联系客服");
+
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+
 }

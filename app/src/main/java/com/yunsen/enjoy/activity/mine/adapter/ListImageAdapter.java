@@ -25,6 +25,7 @@ public class ListImageAdapter extends CommonAdapter<String> {
         ImageView imageView = (ImageView) holder.getView(R.id.image);
         Glide.with(mContext)
                 .load(tImage)
+                .placeholder(R.mipmap.img_loading)
                 .into(imageView);
 
     }
