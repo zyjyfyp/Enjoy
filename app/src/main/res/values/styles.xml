@@ -240,10 +240,14 @@
     <style name="ReleaseProductsContent">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">@dimen/item_height</item>
-        <item name="android:gravity">center_vertical</item>
+        <item name="android:gravity">center_vertical|right</item>
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/title_color</item>
     </style>
 
-
+    <style name="SelectBankDialogStyle" parent="android:style/Theme.Holo.Dialog.NoActionBar">
+        <item name="android:background">#ffffff</item>
+        <item name="android:windowNoTitle">true</item>
+        <!--<item name="android:windowIsFloating">true</item>-->
+    </style>
 </resources>

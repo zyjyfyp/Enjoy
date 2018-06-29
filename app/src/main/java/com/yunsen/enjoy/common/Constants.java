@@ -24,9 +24,12 @@ public class Constants {
 
 
     /**
-     * 买车界面
+     * 发布商品
      */
-    public static final String[] SORT_METHED = new String[]{"智能排序", "最新上架", "价格最低", "价格最高", "车龄最短", "理财最少"};
+    public static final String[] SORT_METHED = new String[]{"全新", "9成新", "8成新", "7成新", "7成新以下"};
+
+    public static final String[] POINT_METHED = new String[]{"瓶", "双", "只", "个", "件","把","包","盒","辆","吨","套"};
+
     public static Map<String, String> SHOT_METHED_VALUE = new HashMap<String, String>();
 
     static {
@@ -121,6 +124,8 @@ public class Constants {
     public static final String GOODS_ID_KEY = "goods_id";
     public static final String ACT_TYPE_KEY = "act_type_key";
 
+
+    public static final String PHOTO_PREVIEW_IMG = "photo_preview_img";
     /***
      * Activity type
      */

@@ -35,6 +35,7 @@ import com.yunsen.enjoy.activity.goods.ApplyAgentActivity;
 import com.yunsen.enjoy.activity.goods.ChangeGoodsActivity;
 import com.yunsen.enjoy.activity.goods.HowIncomeActivity;
 import com.yunsen.enjoy.activity.goods.HowOperateActivity;
+import com.yunsen.enjoy.activity.goods.PhotoPreviewActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
@@ -794,6 +795,15 @@ public class UIHelper {
         ctx.startActivity(intent);
     }
 
-
+    /**
+     * 照片预览页面
+     *
+     * @param ctx
+     */
+    public static void showPhotoPreviewActivity(Context ctx, String url) {
+        Intent intent = new Intent(ctx, PhotoPreviewActivity.class);
+        intent.putExtra(Constants.PHOTO_PREVIEW_IMG, url);
+        ctx.startActivity(intent);
+    }
 
 }

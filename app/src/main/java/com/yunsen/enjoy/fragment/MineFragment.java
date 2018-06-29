@@ -549,7 +549,9 @@ public class MineFragment extends BaseFragment {
      * @param imgUrl
      */
     private void setUserIconAndName(String name, String imgString, String imgUrl) {
-        userNameTv.setText(name);
+        if (name != null) {
+            userNameTv.setText(name);
+        }
         if (!TextUtils.isEmpty(imgString)) {
             Glide.with(MineFragment.this)
                     .load(imgString)

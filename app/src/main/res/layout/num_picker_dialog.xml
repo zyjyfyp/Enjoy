@@ -30,13 +30,12 @@
             android:layout_height="wrap_content"
             android:text="@string/ok"
             android:textColor="@color/color_22ac38"
-
             android:textSize="@dimen/item_title" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical">
 
