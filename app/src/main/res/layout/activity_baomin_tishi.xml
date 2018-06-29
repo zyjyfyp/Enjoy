@@ -4,14 +4,14 @@
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
     android:background="@color/no_color"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/ll_zhifu_buju"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <RelativeLayout
             android:id="@+id/rl_title"
@@ -19,7 +19,7 @@
             android:layout_height="45dp"
             android:layout_alignParentTop="true"
             android:layout_gravity="center_horizontal"
-            android:background="@color/ybs" >
+            android:background="@color/ybs">
 
             <TextView
 
@@ -49,12 +49,13 @@
                 android:src="@drawable/fanhuijian" />
             <!-- market_information_sep_closed -->
         </RelativeLayout>
-         <TextView
+
+        <TextView
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-              android:paddingLeft="5dp"
+            android:paddingLeft="5dp"
             android:text="身份证号码"
             android:textColor="@color/blcak"
             android:textSize="15dip" />
@@ -81,8 +82,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="姓名"
             android:paddingLeft="5dp"
+            android:text="姓名"
             android:textColor="@color/blcak"
             android:textSize="15dip" />
 
@@ -103,14 +104,15 @@
             android:textColorHint="@color/all_c1c1c1"
             android:textSize="16sp" />
 
- <TextView
+        <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-              android:paddingLeft="5dp"
+            android:paddingLeft="5dp"
             android:text="所属大厅"
             android:textColor="@color/blcak"
+            android:textColorHighlight="@color/title_color"
             android:textSize="15dip" />
 
         <EditText
@@ -131,6 +133,7 @@
             android:textColor="@color/all_wenzi"
             android:textColorHint="@color/all_c1c1c1"
             android:textSize="16sp" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -141,14 +144,14 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/white"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="4"
                 android:background="@color/white"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/btnConfirm"
@@ -167,7 +170,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:background="@color/hongse"
-                android:gravity="center" >
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/tv_activity_ent"

@@ -32,6 +32,7 @@
              android:textSize="16sp" />
 
          <TextView
+             android:textColor="@color/title_color"
              android:id="@+id/tv_xiabu"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"

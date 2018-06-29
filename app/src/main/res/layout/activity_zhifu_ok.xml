@@ -58,6 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:text=""
+             android:textColor="@color/title_color"
             android:textSize="15dip" />
     </LinearLayout>
     <LinearLayout 
