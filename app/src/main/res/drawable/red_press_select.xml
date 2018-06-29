@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/bg_ccc_3_5_bg_order" android:state_enabled="true" />
+    <item android:drawable="@drawable/bg_red_3_5_tixian" android:state_enabled="false" />
+    <item android:drawable="@drawable/bg_red_3_5_tixian" />
+</selector>

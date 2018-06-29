@@ -202,25 +202,25 @@ public class ApplyAfterSaleActivity extends BaseFragmentActivity {
 
     @Override
     public void requestData() {
-        HttpProxy.selectApplySaleAfterService(mUserId, mUserName, mMyOrderData.getOrder_no(), new HttpCallBack<Boolean>() {
-            @Override
-            public void onSuccess(Boolean responseData) {
-                if (responseData) {
-                    applyOkLayout.setVisibility(View.VISIBLE);
-                    applySaleLayout.setVisibility(View.GONE);
-                } else {
-                    applyOkLayout.setVisibility(View.GONE);
-                    applySaleLayout.setVisibility(View.VISIBLE);
-                }
-                noticeLayout.setVisibility(View.GONE);
-
-            }
-
-            @Override
-            public void onError(Request request, Exception e) {
-                ToastUtils.makeTextShort("数据或网络异常");
-            }
-        });
+//        HttpProxy.selectApplySaleAfterService(mUserId, mUserName, mMyOrderData.getOrder_no(), new HttpCallBack<Boolean>() {
+//            @Override
+//            public void onSuccess(Boolean responseData) {
+//                if (responseData) {
+//                    applyOkLayout.setVisibility(View.VISIBLE);
+//                    applySaleLayout.setVisibility(View.GONE);
+//                } else {
+//                    applyOkLayout.setVisibility(View.GONE);
+//                    applySaleLayout.setVisibility(View.VISIBLE);
+//                }
+//                noticeLayout.setVisibility(View.GONE);
+//
+//            }
+//
+//            @Override
+//            public void onError(Request request, Exception e) {
+//                ToastUtils.makeTextShort("数据或网络异常");
+//            }
+//        });
 
 
 //        HttpProxy.getUserShoppingAddress(mUserName, new HttpCallBack<AddressInfo>() {

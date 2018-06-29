@@ -290,7 +290,7 @@
                     android:layout_height="30dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/bg_ccc_3_5_bg_order"
+                    android:background="@drawable/red_press_select"
                     android:gravity="center"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"

@@ -168,35 +168,36 @@ public class MyOrderllAdapter extends BaseAdapter {
             // String total_cll =
             // Double.toString(c.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue());
 
-            sell_price = list.get(position).getPayable_amount();
-            holder.tv_heji.setText("¥" + list.get(position).getPayable_amount());
+            final MyOrderData orderData = list.get(position);
+            sell_price = orderData.getPayable_amount();
+            holder.tv_heji.setText("¥" + orderData.getPayable_amount());
 
-            holder.tv_company_name.setText(list.get(position).getCompany_name());
-            payment_status = list.get(position).getPayment_status();
+            holder.tv_company_name.setText(orderData.getCompany_name());
+            payment_status = orderData.getPayment_status();
             System.out.println("payment_status=============" + payment_status);
-            express_status = list.get(position).getExpress_status();
+            express_status = orderData.getExpress_status();
             System.out.println("express_status=============" + express_status);
-            status = list.get(position).getStatus();
+            status = orderData.getStatus();
             System.out.println("status=============" + status);
 
             // yunfei = Double.parseDouble(list.get(position).getExpress_fee());
             // int yunfei =
             // Integer.parseInt(list.get(position).getExpress_fee());
-            String yunfei = list.get(position).getExpress_fee();
+            String yunfei = orderData.getExpress_fee();
             // System.out.println("yunfei1============="+yunfei);
             if (yunfei.equals("0.0")) {
                 // if (yunfei == 0) {
                 holder.tv_yunfei.setVisibility(View.GONE);
             } else {
-                holder.tv_yunfei.setText("(含运费¥" + list.get(position).getExpress_fee() + ")");
+                holder.tv_yunfei.setText("(含运费¥" + orderData.getExpress_fee() + ")");
             }
-            if (list.get(position).getCashing_packet().equals("0.0")) {
+            if (orderData.getCashing_packet().equals("0.0")) {
                 holder.ll_hongbao.setVisibility(View.GONE);
                 iv_hongbao.setVisibility(View.GONE);
             } else {
                 holder.ll_hongbao.setVisibility(View.VISIBLE);
                 iv_hongbao.setVisibility(View.VISIBLE);
-                holder.tv_hongbao.setText("已抵红包:-¥" + list.get(position).getCashing_packet());
+                holder.tv_hongbao.setText("已抵红包:-¥" + orderData.getCashing_packet());
             }
             // String kedi_honbao = list.get(position).getCashing_packet();
             // // System.out.println("kedi_honbao============="+kedi_honbao);
@@ -234,14 +235,14 @@ public class MyOrderllAdapter extends BaseAdapter {
                 // tv_yanhuoma.setVisibility(View.VISIBLE);
                 holder.tv_zhuangtai.setText("已付款");
                 System.out.println("待发货取货码为空======1======="
-                        + list.get(position).getAccept_no());
+                        + orderData.getAccept_no());
                 holder.ll_anliu.setVisibility(View.VISIBLE);
                 holder.tv_kukuang.setVisibility(View.GONE);
                 holder.tv_pingjia.setVisibility(View.GONE);
                 holder.shanchu.setVisibility(View.GONE);
-                if (!list.get(position).getAccept_no().equals("")) {
+                if (!orderData.getAccept_no().equals("")) {
                     holder.tv_yanhuoma.setText("取货码:"
-                            + list.get(position).getAccept_no());
+                            + orderData.getAccept_no());
                 } else {
                     System.out.println("待发货取货码为空=============");
                 }
@@ -308,11 +309,11 @@ public class MyOrderllAdapter extends BaseAdapter {
                         System.out.println("order_type=====1============="
                                 + order_type);
 
-                        String order_no = list.get(position).getTrade_no();
+                        String order_no = orderData.getTrade_no();
                         Intent intent = new Intent(context, MyOrderZFActivity.class);
                         intent.putExtra("order_no", order_no);
                         intent.putExtra("order_type", order_type);
-                        intent.putExtra("total_c", list.get(position).getPayable_amount());
+                        intent.putExtra("total_c", orderData.getPayable_amount());
                         context.startActivity(intent);
 
                         Message msg = new Message();
@@ -338,7 +339,7 @@ public class MyOrderllAdapter extends BaseAdapter {
                         order_type = "2";
                         System.out.println("order_type=====2================" + order_type);
                         Intent intent = new Intent(context, TishiCarArchivesActivity.class);
-                        intent.putExtra("order_no", list.get(position).getOrder_no());
+                        intent.putExtra("order_no", orderData.getOrder_no());
                         intent.putExtra("order_type", order_type);
                         intent.putExtra("title", "title");
                         context.startActivity(intent);
@@ -357,7 +358,7 @@ public class MyOrderllAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     try {
-                        String order_no = list.get(position).getOrder_no();
+                        String order_no = orderData.getOrder_no();
                         Message msg = new Message();
                         msg.what = 2;
                         msg.obj = order_no;
@@ -377,13 +378,12 @@ public class MyOrderllAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     try {
-                        String order_no = list.get(position).getOrder_no();
+                        String order_no = orderData.getOrder_no();
                         Message msg = new Message();
                         msg.what = 1;
                         msg.obj = order_no;
                         handler.sendMessage(msg);
                     } catch (Exception e) {
-
                         e.printStackTrace();
                     }
 
@@ -398,7 +398,7 @@ public class MyOrderllAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     try {
-                        String order_no = list.get(position).getOrder_no();
+                        String order_no = orderData.getOrder_no();
                         Message msg = new Message();
                         msg.what = 3;
                         msg.obj = order_no;
@@ -410,15 +410,30 @@ public class MyOrderllAdapter extends BaseAdapter {
                 }
             });
 
-            holder.applyRefund.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    UIHelper.showApplyAfterSaleActivity(context, list.get(position));
-                }
-            });
+
+            if ("2".equals(orderData.getExpress_status())) {  //1 未发货 2 已收货 3 退换中 4 已退货
+                holder.applyRefund.setClickable(true);
+                holder.applyRefund.setText("申请售后");
+                holder.applyRefund.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        UIHelper.showApplyAfterSaleActivity(context, orderData);
+                    }
+                });
+            } else if ("3".equals(orderData.getExpress_status())) {
+                holder.applyRefund.setText("客服处理中");
+                holder.applyRefund.setClickable(false);
+            } else if ("4".equals(orderData.getExpress_status())) {
+                holder.applyRefund.setText("售后完成");
+                holder.applyRefund.setClickable(false);
+            } else {
+                holder.applyRefund.setClickable(false);
+                holder.applyRefund.setVisibility(View.GONE);
+            }
+
             addview.removeAllViews();
 
-            for (int i = 0; i < list.get(position).getList().size(); i++) {
+            for (int i = 0; i < orderData.getList().size(); i++) {
                 // ViewHolder holder = null;
                 p = i;
                 // holder = new ViewHolder();
@@ -431,21 +446,21 @@ public class MyOrderllAdapter extends BaseAdapter {
                 holder.quantity = (TextView) vi.findViewById(R.id.tv_quantity);
                 holder.lv_dingdanxq = (LinearLayout) vi.findViewById(R.id.lv_dingdanxq);
 
-                holder.tv_goods_title.setText(list.get(position).getList().get(i).getArticle_title());
-                holder.tv_market_price.setText("¥" + list.get(position).getList().get(i).getMarket_price());
+                holder.tv_goods_title.setText(orderData.getList().get(i).getArticle_title());
+                holder.tv_market_price.setText("¥" + orderData.getList().get(i).getMarket_price());
                 // holder.sell_price.setText("¥"+list.get(position).getList().get(i).getSell_price());
-                holder.quantity.setText("x" + list.get(position).getList().get(i).getQuantity());
+                holder.quantity.setText("x" + orderData.getList().get(i).getQuantity());
                 holder.tv_market_price.getPaint().setFlags(
                         Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); // 设置市场价文字的中划线
                 // ImageLoader imageLoader=ImageLoader.getInstance();
                 // imageLoader.displayImage(RealmName.REALM_NAME_HTTP +
                 // list.get(position).getList().get(i).getImg_url(),
                 // holder.tupian);
-                mAq.id(holder.tupian).image(list.get(position).getList().get(i).getImg_url());
+                mAq.id(holder.tupian).image(orderData.getList().get(i).getImg_url());
 
                 type = true;
-                int number = list.get(position).getList().get(i).getQuantity();
-                BigDecimal c = new BigDecimal(Double.parseDouble(list.get(position).getList().get(i).getSell_price()) / number);
+                int number = orderData.getList().get(i).getQuantity();
+                BigDecimal c = new BigDecimal(Double.parseDouble(orderData.getList().get(i).getSell_price()) / number);
                 // //保留2位小数
                 double sell_price_zhi = c.setScale(2, BigDecimal.ROUND_HALF_UP)
                         .doubleValue();
@@ -468,7 +483,7 @@ public class MyOrderllAdapter extends BaseAdapter {
 
                             Intent intent = new Intent(context,
                                     MyOrderXqActivity.class);
-                            MyOrderData bean = list.get(position);
+                            MyOrderData bean = orderData;
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("bean", (Serializable) bean);
                             intent.putExtras(bundle);
@@ -497,7 +512,7 @@ public class MyOrderllAdapter extends BaseAdapter {
                     try {
                         Intent intent = new Intent(context,
                                 DianPingActivity.class);
-                        intent.putExtra("article_id", list.get(position)
+                        intent.putExtra("article_id", orderData
                                 .getList().get(p).getArticle_id());
                         context.startActivity(intent);
 
