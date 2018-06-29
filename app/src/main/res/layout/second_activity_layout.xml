@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:text="秒杀活动"
             android:textColor="@color/title_color"
-            android:textSize="15sp" />
+            android:textSize="@dimen/item_title" />
 
         <View
             android:layout_width="0dp"

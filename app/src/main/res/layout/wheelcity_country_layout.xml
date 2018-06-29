@@ -13,7 +13,7 @@
         android:layout_marginLeft="0dp"
         android:text=""
         android:textColor="#F000"
-        android:textSize="18sp"
+        android:textSize="@dimen/bar_title_size"
          />
 
 </LinearLayout>

@@ -278,7 +278,7 @@
                 android:background="@drawable/button_bg"
                 android:text="下一步"
                 android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textSize="@dimen/bar_title_size" />
         </LinearLayout>
 
     </ScrollView>

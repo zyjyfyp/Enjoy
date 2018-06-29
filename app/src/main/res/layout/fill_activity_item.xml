@@ -37,7 +37,7 @@
                 android:ellipsize="end"
                 android:text="野马T70"
                 android:textColor="@color/title_color"
-                android:textSize="16sp" />
+                android:textSize="@dimen/item_title" />
 
             <com.yunsen.enjoy.ui.layout.CountDownLayout
                 android:id="@+id/count_down_layout"
@@ -68,7 +68,7 @@
                     android:layout_marginRight="5dp"
                     android:text="¥888.88"
                     android:textColor="@color/red"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/fill_market_price"

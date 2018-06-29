@@ -39,7 +39,7 @@
                 android:layout_marginLeft="120dp"
                 android:text="价格:"
                 android:textColor="@color/hongse"
-                android:textSize="15sp" />
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/tv_guige"
@@ -191,7 +191,7 @@
                         android:gravity="center"
                         android:text="确定"
                         android:textColor="@color/white"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
@@ -238,7 +238,7 @@
                     android:gravity="center"
                     android:text="取消"
                     android:textColor="@color/white"
-                    android:textSize="15sp"
+                    android:textSize="13sp"
                     android:visibility="gone" />
 
                 <Button
@@ -250,7 +250,7 @@
                     android:gravity="center"
                     android:text="确定"
                     android:textColor="@color/white"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>

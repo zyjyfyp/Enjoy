@@ -45,7 +45,7 @@
                 android:layout_marginTop="@dimen/app_margin"
                 android:text="交易完成后，在1万或两万内，乐享为本车提供发动机，变速箱两大系统的售后保质"
                 android:textColor="@color/color_888"
-                android:textSize="15sp" />
+                android:textSize="13sp" />
 
         </LinearLayout>
 
@@ -92,7 +92,7 @@
                 android:layout_marginTop="@dimen/app_margin"
                 android:text="14天内如果先退款，联系您的专属购车管家，即可以为您提供完善的售后服务"
                 android:textColor="@color/color_888"
-                android:textSize="15sp" />
+                android:textSize="13sp" />
 
         </LinearLayout>
 
@@ -139,7 +139,7 @@
                 android:layout_marginTop="@dimen/app_margin"
                 android:text="资深行业权威专家，完后两次专业检测，层层为您把关排除隐患，精选放心的车源，拒绝重大事故车、水泡车、火烧车"
                 android:textColor="@color/color_888"
-                android:textSize="15sp" />
+                android:textSize="13sp" />
 
         </LinearLayout>
 
@@ -175,7 +175,7 @@
                 android:maxLines="1"
                 android:text="杜绝事故车"
                 android:textColor="@color/color_3c434c"
-                android:textSize="15sp" />
+                android:textSize="13sp" />
 
         </LinearLayout>
 
@@ -199,7 +199,7 @@
                 android:maxLines="1"
                 android:text="杜绝泡水车"
                 android:textColor="@color/color_3c434c"
-                android:textSize="15sp" />
+                android:textSize="13sp" />
 
         </LinearLayout>
 
@@ -223,7 +223,7 @@
                 android:maxLines="1"
                 android:text="杜绝火烧车"
                 android:textColor="@color/color_3c434c"
-                android:textSize="15sp" />
+                android:textSize="13sp" />
 
         </LinearLayout>
     </LinearLayout>

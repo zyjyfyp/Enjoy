@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:textColor="@color/color_888"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -54,7 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/color_fe0000"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/goods_first_money"
@@ -63,7 +63,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:textColor="@color/color_fe0000"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
 
                 <View
                     android:layout_width="0dp"

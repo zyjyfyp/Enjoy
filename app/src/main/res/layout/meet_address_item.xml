@@ -34,7 +34,7 @@
                 android:lines="2"
                 android:text="标题"
                 android:textColor="@color/color_3c434c"
-                android:textSize="15sp" />
+                android:textSize="13sp" />
 
 
             <LinearLayout

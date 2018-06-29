@@ -51,6 +51,7 @@
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:maxLines="1"
+            android:textSize="13sp"
             android:text="@string/search_word" />
 
     </LinearLayout>

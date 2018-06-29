@@ -63,10 +63,10 @@ public class FilterRecAdapter extends CommonAdapter<GoodsData> {
     public boolean addData(List<GoodsData> datas) {
         if (datas != null && datas.size() > 0) {
             mDatas.addAll(datas);
-            this.notifyDataSetChanged();
 //            EventBus.getDefault().post(new UpUiEvent(EventConstants.UP_VIEW_PAGER_HEIGHT,true));
             return true;
         }
+        this.notifyDataSetChanged();
 //        EventBus.getDefault().post(new UpUiEvent(EventConstants.UP_VIEW_PAGER_HEIGHT,false));
         return false;
     }

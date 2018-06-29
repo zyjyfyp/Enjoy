@@ -34,7 +34,7 @@
                 android:maxLines="1"
                 android:text="工商银行卡(0010)"
                 android:textColor="@color/color_888"
-                android:textSize="15sp" />
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/select_bank_item_sub"

@@ -34,7 +34,7 @@
                 android:lines="2"
                 android:textColor="@color/title_color"
                 android:text="全天四季通用亚麻坐垫"
-                android:textSize="15sp" />
+                android:textSize="@dimen/item_title" />
 
             <LinearLayout
                 android:layout_width="match_parent"

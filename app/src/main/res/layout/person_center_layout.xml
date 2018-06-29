@@ -23,7 +23,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:text="账户管理"
-                android:textSize="18dip" />
+                android:textSize="16sp" />
 
             <ImageView
                 android:id="@+id/iv_fanhui"
@@ -33,7 +33,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/back"
-                android:textSize="18dip" />
+                android:textSize="16sp" />
 
         </RelativeLayout>
 
@@ -72,7 +72,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:text="头像"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
 
 
                         <ImageView
@@ -100,7 +100,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:text="昵称"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/tv_nicheng"
@@ -127,7 +127,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:text="会员号"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/v2"
@@ -154,7 +154,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:text="手机号"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/v7"
@@ -189,7 +189,7 @@
                             android:layout_gravity="center_vertical"
                             android:gravity="right"
                             android:text="性别"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
 
                         <EditText
                             android:layout_width="wrap_content"
@@ -213,7 +213,7 @@
                             android:layout_weight="1"
                             android:gravity="center_vertical|right"
                             android:text="男"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -251,7 +251,7 @@
                             android:layout_gravity="center_vertical"
                             android:gravity="right"
                             android:text="地区"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
 
 
                         <TextView
@@ -262,7 +262,7 @@
                             android:layout_weight="1"
                             android:gravity="center_vertical|right"
                             android:text=""
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -332,7 +332,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:text="收货地址"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/default_address_tv"
@@ -366,7 +366,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:text="账户安全"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -412,7 +412,7 @@
                             android:layout_gravity="center_vertical"
                             android:gravity="right"
                             android:text="姓名"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
 
                         <EditText
                             android:layout_width="wrap_content"
@@ -435,7 +435,7 @@
                             android:layout_height="fill_parent"
                             android:gravity="center_vertical|right"
                             android:paddingRight="5dp"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
                     </LinearLayout>
 
                     <EditText
@@ -465,7 +465,7 @@
                             android:layout_gravity="center_vertical"
                             android:gravity="right"
                             android:text="身份证"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
 
 
                         <TextView
@@ -475,7 +475,7 @@
                             android:gravity="center_vertical|right"
                             android:hint=""
                             android:paddingRight="5dp"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
                     </LinearLayout>
 
                     <View
@@ -537,7 +537,7 @@
                             android:layout_marginTop="10dp"
                             android:gravity="right"
                             android:text="身份证照片"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -552,7 +552,7 @@
                                 android:layout_marginBottom="10dp"
                                 android:layout_marginTop="10dp"
                                 android:scaleType="fitXY"
-                                android:textSize="18dip" />
+                                android:textSize="16sp" />
 
                             <ImageView
                                 android:id="@+id/iv_personal_icon1"
@@ -562,7 +562,7 @@
                                 android:layout_marginLeft="15dp"
                                 android:layout_marginTop="10dp"
                                 android:scaleType="fitXY"
-                                android:textSize="18dip" />
+                                android:textSize="16sp" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -583,7 +583,7 @@
                             android:layout_gravity="center_vertical"
                             android:gravity="right"
                             android:text="经销地址"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/tv_jxdizhi"
@@ -592,7 +592,7 @@
                             android:gravity="center_vertical|right"
                             android:hint=""
                             android:paddingRight="5dp"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
 
                     </LinearLayout>
 
@@ -614,7 +614,7 @@
                             android:gravity="center_vertical|right"
                             android:hint=""
                             android:paddingRight="5dp"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -640,7 +640,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:text="版本号"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/tv_banbenhao"
@@ -668,7 +668,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:text="版本检测"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
 
                         <TextView
                             android:layout_width="wrap_content"

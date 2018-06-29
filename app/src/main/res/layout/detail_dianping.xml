@@ -19,7 +19,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="评论"
-            android:textSize="18dip" />
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/iv_fanhui"
@@ -29,7 +29,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:src="@drawable/fanhuijian"
-            android:textSize="18dip" />
+            android:textSize="16sp" />
     </RelativeLayout>
 
     <View
@@ -61,7 +61,7 @@
         android:paddingRight="10dp"
         android:textColor="@color/all_wenzi"
         android:textColorHint="@color/all_c1c1c1"
-        android:textSize="15sp"
+        android:textSize="13sp"
         android:visibility="gone" />
 
     <RadioGroup
@@ -103,6 +103,6 @@
         android:background="@drawable/btn_red_3_5_bg"
         android:text="提交评论"
         android:textColor="#FFFFFF"
-        android:textSize="18sp" />
+        android:textSize="@dimen/bar_title_size" />
 
 </LinearLayout>

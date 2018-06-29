@@ -29,6 +29,6 @@
         android:paddingTop="30dp"
         android:text="没有搜索到任何内容"
         android:textColor="@color/color_888"
-        android:textSize="15sp" />
+        android:textSize="13sp" />
 
 </LinearLayout>

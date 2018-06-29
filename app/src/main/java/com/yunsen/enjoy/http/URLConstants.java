@@ -277,6 +277,11 @@ public class URLConstants {
     public static final String GET_APK_VERSION = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_apk_version?browser=android";
 
     /**
+     * 申请售后
+     */
+    public static final String APPLY_SALE_AFTER = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_after_sale_service";
+
+    /**
      * 微信登录
      */
     public static final String WX_LOGIN_URL = "https://api.weixin.qq.com/sns/userinfo";

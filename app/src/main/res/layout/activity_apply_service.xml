@@ -124,7 +124,7 @@
                 android:background="@drawable/button_bg"
                 android:text="完善服务商信息，开启营销大门"
                 android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textSize="@dimen/bar_title_size" />
         </LinearLayout>
 
 

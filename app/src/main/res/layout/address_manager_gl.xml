@@ -22,7 +22,7 @@
              android:layout_centerHorizontal="true"
              android:layout_centerVertical="true"
              android:text="收货地址"
-             android:textSize="18dip" />
+             android:textSize="16sp" />
 
 
          <ImageView
@@ -33,7 +33,7 @@
              android:layout_centerVertical="true"
              android:layout_marginLeft="10dp"
              android:src="@drawable/back"
-             android:textSize="18dip" />
+             android:textSize="16sp" />
 
          <View
              android:layout_width="match_parent"

@@ -29,7 +29,7 @@
              android:layout_centerHorizontal="true"
              android:layout_centerVertical="true"
              android:text="养老银行充值"
-             android:textSize="18dip" />
+             android:textSize="16sp" />
 
          <TextView
              android:id="@+id/tv_xiabu"
@@ -51,7 +51,7 @@
              android:layout_centerVertical="true"
              android:layout_marginLeft="10dp"
              android:src="@drawable/fanhuijian"
-             android:textSize="18dip" />
+             android:textSize="16sp" />
 
      </RelativeLayout>
 
@@ -92,7 +92,7 @@
                 android:padding="5dp"
                 android:textColor="@color/black"
                  android:textColorHint="@color/all_c1c1c1"
-                android:textSize="15sp" />
+                android:textSize="13sp" />
         </LinearLayout>
 
         <View

@@ -14,5 +14,5 @@
         android:paddingRight="10dp"
         android:paddingTop="5dp"
         android:textColor="@drawable/theme_text_select"
-        android:textSize="15sp" />
+        android:textSize="13sp" />
 </LinearLayout>

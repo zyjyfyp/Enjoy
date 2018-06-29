@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingLeft="25dp"
-                android:text="qq登录"
+                android:text="QQ登录"
                 android:textSize="16sp" />
 
             <TextView

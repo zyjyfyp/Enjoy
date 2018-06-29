@@ -34,7 +34,7 @@
                 android:layout_gravity="center"
                 android:text="0"
                 android:textColor="@color/orange_color"
-                android:textSize="15sp"/>
+                android:textSize="13sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
                 android:layout_gravity="center"
                 android:text="订单数量"
                 android:textColor="@color/title_color"
-                android:textSize="15sp"/>
+                android:textSize="13sp" />
 
         </LinearLayout>
 
@@ -60,7 +60,7 @@
                 android:layout_gravity="center"
                 android:text="0"
                 android:textColor="@color/orange_color"
-                android:textSize="15sp"/>
+                android:textSize="13sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -68,7 +68,7 @@
                 android:layout_gravity="center"
                 android:text="分红收入"
                 android:textColor="@color/title_color"
-                android:textSize="15sp"/>
+                android:textSize="13sp" />
 
         </LinearLayout>
 
@@ -86,7 +86,7 @@
                 android:layout_gravity="center"
                 android:text="0"
                 android:textColor="@color/orange_color"
-                android:textSize="15sp"/>
+                android:textSize="13sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -94,7 +94,7 @@
                 android:layout_gravity="center"
                 android:text="佣金收入"
                 android:textColor="@color/title_color"
-                android:textSize="15sp"/>
+                android:textSize="13sp" />
         </LinearLayout>
     </LinearLayout>
 

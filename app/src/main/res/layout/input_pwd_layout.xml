@@ -10,7 +10,7 @@
         android:layout_margin="20dp"
         android:text="请输入支付密码"
         android:textColor="@color/title_color"
-        android:textSize="15sp" />
+        android:textSize="13sp" />
 
     <EditText
         android:id="@+id/input_pwd_edt"

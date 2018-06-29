@@ -18,5 +18,5 @@
         android:layout_marginTop="@dimen/app_margin"
         android:maxEms="10"
         android:textColor="@color/title_color"
-        android:textSize="15sp" />
+        android:textSize="13sp" />
 </LinearLayout>

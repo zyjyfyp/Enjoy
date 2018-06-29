@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -101,6 +102,7 @@ public class ADTextView extends TextSwitcher implements ViewSwitcher.ViewFactory
         FrameLayout.LayoutParams lp = new
                 FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.CENTER_VERTICAL;
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
         tv.setLayoutParams(lp);
         return tv;
     }

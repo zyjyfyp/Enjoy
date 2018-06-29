@@ -16,7 +16,7 @@
             android:layout_marginLeft="20dp"
             android:text="选择到账银行卡"
             android:textColor="@color/title_color"
-            android:textSize="15sp" />
+            android:textSize="13sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -46,6 +46,6 @@
         android:gravity="center_vertical"
         android:text="使用新卡提现"
         android:textColor="@color/color_888"
-        android:textSize="15sp" />
+        android:textSize="13sp" />
 
 </LinearLayout>

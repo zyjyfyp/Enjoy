@@ -37,7 +37,7 @@
                     android:gravity="center_vertical"
                     android:text="姓名："
                     android:textColor="@color/title_color"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
 
                 <View
                     android:layout_width="0dp"
@@ -57,7 +57,7 @@
                         android:gravity="center_vertical"
                         android:text="电话："
                         android:textColor="@color/title_color"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
 
                     <ImageView
                         android:id="@+id/shop_phone_img"
@@ -83,11 +83,11 @@
                 android:layout_marginRight="@dimen/app_margin"
                 android:layout_marginTop="5dp"
                 android:ellipsize="end"
-                android:lines="2"
                 android:gravity="center_vertical"
+                android:lines="2"
                 android:text="详细地址："
                 android:textColor="@color/title_color"
-                android:textSize="15sp" />
+                android:textSize="13sp" />
 
             <View
                 android:layout_width="match_parent"
@@ -103,7 +103,7 @@
                 android:gravity="center_vertical"
                 android:text="营业时间：09:00 - 18:00"
                 android:textColor="@color/title_color"
-                android:textSize="15sp" />
+                android:textSize="13sp" />
 
             <View
                 android:layout_width="match_parent"
@@ -118,14 +118,16 @@
                 android:gravity="center_vertical"
                 android:text="服务商公告"
                 android:textColor="@color/orange_color"
-                android:textSize="18sp" />
+                android:textSize="@dimen/bar_title_size" />
 
             <TextView
                 android:id="@+id/shop_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/app_margin"
+                android:layout_marginRight="@dimen/app_margin"
                 android:textColor="@color/title_color"
-                android:textSize="15sp" />
+                android:textSize="13sp" />
         </LinearLayout>
     </ScrollView>
 

@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:text="扣取账户金额"
                 android:textColor="@color/title_color"
-                android:textSize="15sp"/>
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/withdraw_cash_time"
@@ -44,7 +44,7 @@
             android:gravity="center_vertical"
             android:text="528"
             android:textColor="@color/color_theme"
-            android:textSize="15sp"/>
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/withdraw_cash_finish"
@@ -54,7 +54,7 @@
             android:gravity="center_vertical|right"
             android:text="提现成功"
             android:textColor="@color/weixin"
-            android:textSize="15sp"/>
+            android:textSize="13sp" />
     </LinearLayout>
 
     <View

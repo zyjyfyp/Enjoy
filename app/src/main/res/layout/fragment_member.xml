@@ -42,8 +42,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:textSize="25sp"
-                        android:textStyle="bold" />
+                        android:textSize="17sp" />
 
                     <TextView
                         android:id="@+id/phone_num_tv"
@@ -53,7 +52,7 @@
                         android:layout_marginLeft="3dp"
                         android:layout_toRightOf="@id/user_name_tv"
                         android:textColor="@color/white"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/grade_tv"
@@ -64,7 +63,7 @@
                         android:drawableLeft="@mipmap/grade"
                         android:drawablePadding="5dp"
                         android:textColor="@color/white"
-                        android:textSize="15sp"
+                        android:textSize="13sp"
                         android:visibility="gone" />
 
                     <TextView
@@ -75,7 +74,7 @@
                         android:drawablePadding="5dp"
                         android:text="普通会员"
                         android:textColor="@color/white"
-                        android:textSize="15sp"
+                        android:textSize="13sp"
                         android:visibility="gone" />
                 </RelativeLayout>
 
@@ -114,7 +113,7 @@
                         android:layout_height="wrap_content"
                         android:text="0.0"
                         android:textColor="@color/white"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -141,7 +140,7 @@
                         android:layout_height="wrap_content"
                         android:text="0.0"
                         android:textColor="@color/white"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -168,7 +167,7 @@
                         android:layout_height="wrap_content"
                         android:text="0.0"
                         android:textColor="@color/white"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -194,7 +193,7 @@
                         android:layout_height="wrap_content"
                         android:text="0.0"
                         android:textColor="@color/white"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:layout_width="wrap_content"

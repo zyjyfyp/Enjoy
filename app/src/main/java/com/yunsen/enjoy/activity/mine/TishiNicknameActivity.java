@@ -19,8 +19,11 @@ import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserRegisterllData;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.widget.DialogProgress;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -137,8 +140,7 @@ public class TishiNicknameActivity extends Activity implements OnClickListener {
      */
     private void loadusersex(String login_sign) {
         try {
-            AsyncHttp.get(URLConstants.REALM_ACCOUNT_URL
-                            + "/user_update_field?user_id=" + user_id + "&user_name=" + user_name + "" +
+            AsyncHttp.get(URLConstants.REALM_ACCOUNT_URL + "/user_update_field?user_id=" + user_id + "&user_name=" + user_name + "" +
                             "&field=nick_name&value=" + nichen + "&sign=" + login_sign + "",
                     new AsyncHttpResponseHandler() {
                         @Override
@@ -150,7 +152,7 @@ public class TishiNicknameActivity extends Activity implements OnClickListener {
                                 String info = object.getString("info");
                                 if (status.equals("y")) {
                                     progress.CloseProgress();
-                                    //									Toast.makeText(TishiNicknameActivity.this, info, 200).show();
+                                    EventBus.getDefault().post(new UpUiEvent(EventConstants.APP_LOGIN));
                                     finish();
                                 } else {
                                     progress.CloseProgress();

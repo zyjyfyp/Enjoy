@@ -23,7 +23,7 @@
                 android:layout_margin="@dimen/app_margin"
                 android:text="服务类型"
                 android:textColor="@color/title_color"
-                android:textSize="15sp" />
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/apply_sale_type"
@@ -38,7 +38,7 @@
                 android:paddingTop="5dp"
                 android:text="维修"
                 android:textColor="@color/color_theme"
-                android:textSize="15sp" />
+                android:textSize="13sp" />
 
             <View
                 android:layout_width="match_parent"
@@ -61,7 +61,7 @@
                 android:layout_margin="@dimen/app_margin"
                 android:text="申请原因"
                 android:textColor="@color/title_color"
-                android:textSize="15sp" />
+                android:textSize="13sp" />
 
             <View
                 android:layout_width="match_parent"
@@ -74,7 +74,7 @@
                 android:layout_margin="@dimen/app_margin"
                 android:text="问题描述"
                 android:textColor="@color/color_888"
-                android:textSize="15sp" />
+                android:textSize="13sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -96,7 +96,7 @@
                     android:overScrollMode="ifContentScrolls"
                     android:padding="5dp"
                     android:scrollbars="vertical"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/description_word_length_tv"
@@ -152,7 +152,7 @@
                 android:layout_margin="@dimen/app_margin"
                 android:text="商品退回方式"
                 android:textColor="@color/title_color"
-                android:textSize="15sp" />
+                android:textSize="13sp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_reset_type"
@@ -182,7 +182,7 @@
                     android:gravity="center_vertical"
                     android:text="收货人:"
                     android:textColor="@color/color_888"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
 
                 <EditText
                     android:id="@+id/apply_reset_name_edt"
@@ -194,7 +194,7 @@
                     android:gravity="center_vertical"
                     android:hint="请输入姓名"
                     android:textColor="@color/title_color"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
             </LinearLayout>
 
             <View
@@ -216,7 +216,7 @@
                     android:gravity="center_vertical"
                     android:text="手机号码:"
                     android:textColor="@color/color_888"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
 
                 <EditText
                     android:id="@+id/apply_reset_phone_edt"
@@ -228,7 +228,7 @@
                     android:gravity="center_vertical"
                     android:hint="请输入您的手机号码"
                     android:textColor="@color/title_color"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
             </LinearLayout>
 
             <View
@@ -250,7 +250,7 @@
                     android:gravity="center_vertical"
                     android:text="收货地址"
                     android:textColor="@color/color_888"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -287,7 +287,7 @@
                     android:layout_weight="1"
                     android:maxLines="2"
                     android:textColor="@color/title_color"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
 
                 <ImageView
                     android:layout_width="20dp"

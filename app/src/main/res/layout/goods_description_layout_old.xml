@@ -78,7 +78,7 @@
                                     android:layout_weight="1"
                                     android:lines="2"
                                     android:text=""
-                                    android:textSize="15sp" />
+                                    android:textSize="@dimen/item_title" />
 
                                 <ImageView
                                     android:id="@+id/goods_share_img"
@@ -261,7 +261,7 @@
                                     android:layout_marginRight="@dimen/app_margin"
                                     android:text="属性："
                                     android:textColor="@color/title_color"
-                                    android:textSize="15sp" />
+                                    android:textSize="13sp" />
 
                                 <TextView
                                     android:id="@+id/goods_attribute"
@@ -290,7 +290,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
                                     android:text="商品评价"
-                                    android:textSize="15sp" />
+                                    android:textSize="13sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -527,7 +527,7 @@
                                     android:gravity="center_vertical"
                                     android:text="属性"
                                     android:textColor="@color/title_color"
-                                    android:textSize="15sp" />
+                                    android:textSize="13sp" />
 
                                 <TextView
                                     android:layout_width="0dp"
@@ -537,7 +537,7 @@
                                     android:gravity="center_vertical"
                                     android:text="无"
                                     android:textColor="@color/title_color"
-                                    android:textSize="15sp" />
+                                    android:textSize="13sp" />
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>

@@ -73,7 +73,7 @@
                         android:layout_marginTop="@dimen/app_margin"
                         android:text="售后保障"
                         android:textColor="@color/color_3c434c"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
@@ -95,7 +95,7 @@
                         android:layout_marginTop="@dimen/app_margin"
                         android:text="14天可退"
                         android:textColor="@color/color_3c434c"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
@@ -117,7 +117,7 @@
                         android:layout_marginTop="@dimen/app_margin"
                         android:text="259项检测"
                         android:textColor="@color/color_3c434c"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
@@ -139,7 +139,7 @@
                         android:layout_marginTop="@dimen/app_margin"
                         android:text="100%个人车"
                         android:textColor="@color/color_3c434c"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
@@ -176,7 +176,7 @@
                     android:textColor="@color/color_3c434c"
                     android:hint="请输入姓名"
                     android:maxLines="1"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
             </LinearLayout>
 
             <View
@@ -210,7 +210,7 @@
                     android:hint="请输入电话"
                     android:maxLines="1"
                     android:textColor="@color/color_3c434c"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
             </LinearLayout>
 
             <View
@@ -314,7 +314,7 @@
             android:paddingTop="10dp"
             android:text="确认预约"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
 
     </LinearLayout>
 

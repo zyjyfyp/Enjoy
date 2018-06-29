@@ -159,7 +159,7 @@
             android:layout_height="wrap_content"
             android:text="袋鼠车库"
             android:textColor="@color/title_color"
-            android:textSize="15sp" />
+            android:textSize="@dimen/item_title" />
 
         <View
             android:layout_width="0dp"
@@ -309,7 +309,7 @@
             android:layout_height="wrap_content"
             android:text="服务商"
             android:textColor="@color/title_color"
-            android:textSize="15sp" />
+            android:textSize="@dimen/item_title" />
 
         <View
             android:layout_width="0dp"

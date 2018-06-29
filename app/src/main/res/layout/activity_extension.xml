@@ -29,7 +29,7 @@
             android:layout_marginTop="10dp"
             android:text="好友扫描下载立即优惠！"
             android:textColor="@color/title_color"
-            android:textSize="18sp" />
+            android:textSize="@dimen/bar_title_size" />
     </LinearLayout>
 
 </LinearLayout>

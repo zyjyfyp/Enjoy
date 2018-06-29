@@ -37,7 +37,7 @@
                 android:minHeight="48dp"
                 android:text="购物车"
                 android:textColor="#1a1a1a"
-                android:textSize="18sp" />
+                android:textSize="@dimen/bar_title_size" />
 
             <TextView
                 android:id="@+id/subtitle"

@@ -54,7 +54,7 @@
                 android:gravity="center"
                 android:text="找回用户密码"
                 android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textSize="@dimen/bar_title_size" />
 
         </LinearLayout>
 

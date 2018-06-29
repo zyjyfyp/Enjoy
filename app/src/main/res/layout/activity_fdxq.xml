@@ -20,7 +20,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="商品详情"
-            android:textSize="18dip" />
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/iv_fanhui"
@@ -56,7 +56,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="商品详情"
-            android:textSize="18dip"
+            android:textSize="16sp"
             android:visibility="gone" />
 
         <Button
@@ -159,7 +159,7 @@
                                         android:layout_marginLeft="10dp"
                                         android:lines="2"
                                         android:text=""
-                                        android:textSize="15sp" />
+                                        android:textSize="13sp" />
                                 </LinearLayout>
 
                                 <ImageView
@@ -198,7 +198,7 @@
                                 android:paddingTop="0dp"
                                 android:text=""
                                 android:textColor="@color/red"
-                                android:textSize="15sp"
+                                android:textSize="13sp"
                                 android:visibility="gone" />
 
                             <LinearLayout
@@ -338,7 +338,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="20dp"
                                     android:text="选择:颜色/分类/套餐"
-                                    android:textSize="15sp" />
+                                    android:textSize="13sp" />
                             </LinearLayout>
 
                             <ImageView
@@ -371,7 +371,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
                                     android:text="商品介绍"
-                                    android:textSize="15sp" />
+                                    android:textSize="13sp" />
                             </LinearLayout>
 
                             <ImageView
@@ -409,7 +409,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
                                     android:text=""
-                                    android:textSize="15sp" />
+                                    android:textSize="13sp" />
                             </LinearLayout>
 
                             <ImageView
@@ -447,7 +447,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
                                     android:text="商品评价"
-                                    android:textSize="15sp" />
+                                    android:textSize="13sp" />
                             </LinearLayout>
                         </LinearLayout>
 

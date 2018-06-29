@@ -46,6 +46,7 @@ import com.yunsen.enjoy.model.WalletCashBean;
 import com.yunsen.enjoy.model.WatchCarBean;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
+import com.yunsen.enjoy.model.request.ApplySaleAfterModel;
 import com.yunsen.enjoy.model.request.ApplyWalletCashRequest;
 import com.yunsen.enjoy.model.request.BindBankCardRequest;
 import com.yunsen.enjoy.model.request.WatchCarModel;
@@ -1975,6 +1976,28 @@ public class HttpProxy {
         model.setIs_invoice("0");
         Map<String, Object> param = EntityToMap.ConvertObjToMap(model);
         HttpClient.get(URLConstants.MEET_CAR_URL, param, new HttpResponseHandler<WatchCarResponse>() {
+            @Override
+            public void onSuccess(WatchCarResponse response) {
+                WatchCarBean data = response.getData();
+                if (data != null) {
+                    callBack.onSuccess(data);
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 申请 售后
+     */
+    public static void applySaleAfterService(ApplySaleAfterModel model, final HttpCallBack<WatchCarBean> callBack) {
+
+        Map<String, Object> param = EntityToMap.ConvertObjToMap(model);
+        HttpClient.get(URLConstants.APPLY_SALE_AFTER, param, new HttpResponseHandler<WatchCarResponse>() {
             @Override
             public void onSuccess(WatchCarResponse response) {
                 WatchCarBean data = response.getData();

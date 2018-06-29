@@ -22,7 +22,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="订单结算"
-            android:textSize="18dip" />
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/iv_fanhui"
@@ -32,7 +32,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:src="@drawable/back"
-            android:textSize="18dip" />
+            android:textSize="16sp" />
     </RelativeLayout>
 
     <View
@@ -439,7 +439,7 @@
                             android:gravity="right"
                             android:text="配送方式"
                             android:textColor="@color/black"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/tv_zhifu"
@@ -767,7 +767,7 @@
             android:layout_height="wrap_content"
             android:text="实付款"
             android:textColor="@color/red"
-            android:textSize="15sp" />
+            android:textSize="13sp" />
 
         <Button
             android:id="@+id/confrim_btn"
@@ -777,7 +777,7 @@
             android:background="@drawable/btn_red_3_5_bg"
             android:text="提交订单"
             android:textColor="#FFFFFF"
-            android:textSize="15sp" />
+            android:textSize="13sp" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

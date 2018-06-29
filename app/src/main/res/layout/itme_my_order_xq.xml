@@ -168,7 +168,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="10dp"
                             android:text="订单总价"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
                     </LinearLayout>
 
                     <TextView
@@ -178,7 +178,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="10dp"
                         android:text="¥0.00"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout

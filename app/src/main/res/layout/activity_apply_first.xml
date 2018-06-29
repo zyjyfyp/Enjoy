@@ -82,7 +82,7 @@
                         android:layout_height="wrap_content"
                         android:text="100"
                         android:textColor="@color/color_theme"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/first_pay_unit"

@@ -37,7 +37,7 @@
                 android:minHeight="48dp"
                 android:text="购物车"
                 android:textColor="#1a1a1a"
-                android:textSize="18sp" />
+                android:textSize="@dimen/bar_title_size" />
 
             <TextView
                 android:id="@+id/subtitle"
@@ -129,7 +129,7 @@
                             android:paddingRight="10dp"
                             android:text="推荐商品"
                             android:textColor="@color/black"
-                            android:textSize="13sp" />
+                            android:textSize="@dimen/item_title" />
                     </LinearLayout>
 
                     <TextView
@@ -139,8 +139,8 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:text="更多>>"
-                        android:textColor="@color/black"
-                        android:textSize="13sp" />
+                        android:textColor="@color/color_888"
+                        android:textSize="@dimen/item_title" />
                 </LinearLayout>
 
                 <com.yunsen.enjoy.widget.MyGridView

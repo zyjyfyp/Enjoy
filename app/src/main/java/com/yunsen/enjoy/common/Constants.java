@@ -31,7 +31,7 @@ public class Constants {
     /**
      * 买车界面
      */
-    public static final String[] SORT_METHED = new String[]{"智能排序", "最新上架", "价格最低", "价格最高", "车龄最短", "理财最少"};
+    public static final String[] SORT_METHED = new String[]{"智能排序", "最新上架", "价格最低", "价格最高"};//, "车龄最短", "理财最少"
     public static Map<String, String> SHOT_METHED_VALUE = new HashMap<String, String>();
     public static final String ALL_CAR_TYPE = "all_car_type";
 
@@ -40,8 +40,8 @@ public class Constants {
         SHOT_METHED_VALUE.put("最新上架", "add_time desc");
         SHOT_METHED_VALUE.put("价格最低", "sell_price asc");
         SHOT_METHED_VALUE.put("价格最高", "sell_price desc");
-        SHOT_METHED_VALUE.put("车龄最短", "");
-        SHOT_METHED_VALUE.put("理财最少", "");
+//        SHOT_METHED_VALUE.put("车龄最短", "");
+//        SHOT_METHED_VALUE.put("理财最少", "");
     }
 
     public static final String[] SORT_PRICES = new String[]{"不限", "5万以下", "5-10万", "10-15万", "15-20万", "20万以上"};

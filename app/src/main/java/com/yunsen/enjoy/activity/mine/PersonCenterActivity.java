@@ -310,7 +310,6 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                                 }
 
                                 String nickname = mSp.getString(SpConstants.NICK_NAME, "");
-                                System.out.println("=============nickname======" + nickname);
                                 if (!nickname.equals("")) {
                                     tv_nicheng.setText(nickname);
                                     tv_nicheng.setTextColor(getResources().getColor(R.color.black));
