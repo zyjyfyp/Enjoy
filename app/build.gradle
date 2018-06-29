@@ -49,7 +49,7 @@ android {
 //            storeFile file("\\yunshangju")
 //            keyAlias "yunshangju"
 //            keyPassword "yunshangju"
-//            storePassword "yunshangju"
+//            storePassword "yunshangju"http://mobile.szlxkg.com
         }
     }
     buildTypes {
@@ -57,14 +57,14 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "ROOT_URL", "\"https://szlxkg.com\""
+            buildConfigField "String", "ROOT_URL", "\"http://mobile.szlxkg.com\""
         }
         debug {
             debuggable true
             signingConfig signingConfigs.debug
             minifyEnabled false//是否混淆
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "ROOT_URL", "\"http://szlxkg.com\""
+            buildConfigField "String", "ROOT_URL", "\"http://mobile.szlxkg.com\""
         }
     }
 
@@ -164,4 +164,6 @@ dependencies {
     compile 'com.android.support:multidex:1.0.2'
     implementation project(':citypicker')
     compile 'com.neovisionaries:nv-websocket-client:2.5'
+    implementation 'com.github.YancyYe:GalleryPick:1.2.1'
+
 }
