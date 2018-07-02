@@ -60,7 +60,7 @@ public class ExtensionActivity extends BaseFragmentActivity {
     @Override
     protected void initData(Bundle savedInstanceState) {
         mShareUrl = URLConstants.REALM_URL + "/appshare/" + mUserId + ".html";
-        final String path = getExternalCacheDir().toString() + "enjoy";
+        final String path = getCacheDir().toString() + "enjoy";
         new AsyncTask<String, Nullable, Boolean>() {
 
             @Override
