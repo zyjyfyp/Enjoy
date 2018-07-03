@@ -349,19 +349,23 @@ public class HttpProxy {
      * @param city
      */
     public static void getFilterBuyCarDatas(String pageIndex, final HttpCallBack<List<GoodsData>> callBack,
-                                            String brandIdOne, String brandId,
+                                            String categoryId,
+                                            String brandId,
                                             String channel, String strwhere, String orderby, String city) {
 
         HashMap<String, String> param = new HashMap<>();
         param.put("channel_name", channel);
-        param.put("category_id", "0");
+        if (TextUtils.isEmpty(categoryId)) {
+            categoryId = "0";
+        }
+        param.put("category_id", categoryId);
         param.put("page_size", "8");
         param.put("page_index", pageIndex);
         param.put("orderby", orderby);
 
-        if (!TextUtils.isEmpty(brandIdOne)) {
-            strwhere += "and brand_id like \'%" + brandIdOne + "%\'";
-        }
+//        if (!TextUtils.isEmpty(brandIdOne)) {
+//            strwhere += "and brand_id like \'%" + brandIdOne + "%\'";
+//        }
         if (!TextUtils.isEmpty(brandId)) {
             strwhere += "and brand_id like \'%" + brandId + "%\'";
         }

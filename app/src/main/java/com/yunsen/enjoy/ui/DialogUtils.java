@@ -131,14 +131,6 @@ public class DialogUtils {
                 model.setUser_id(String.valueOf(userInfo.getId()));
                 model.setArticle_id("2061");
                 model.setGoods_id("11272");
-                model.setCity(userInfo.getCity());
-                model.setProvince(userInfo.getProvince());
-                String address = userInfo.getAddress();
-                if (TextUtils.isEmpty(address)) {
-                    address = "地址为空";
-                }
-                model.setAddress(address);
-                model.setArea(userInfo.getArea());
                 model.setMobile(userInfo.getMobile());
                 model.setAccept_name(userInfo.getUser_name());
                 HttpProxy.submitVipOrder(model, new HttpCallBack<WatchCarBean>() {

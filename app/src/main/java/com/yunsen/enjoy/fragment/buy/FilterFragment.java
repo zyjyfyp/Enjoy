@@ -76,8 +76,9 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
     private String mCarTitle;
     private String mCarCity; //搜索框条件：
     private String mStrwhere = "sell_price>=0";
-    private String mBrandId = null; //汽车类型 高级筛选
-    private String mBrandIdOne = null; //品牌
+    private String mBrandId = null; //汽车类型
+    //    private String mBrandIdOne = null; //品牌
+    private String mCategoryId = null; //高级筛选
 
     private int mPageIndex = 1;
     private boolean mIsLoadMore = false;
@@ -166,7 +167,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
                 noticeView.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
             }
-        }, mBrandIdOne, mBrandId, mChannel, mStrwhere, mOrderby, city);
+        }, mCategoryId, mBrandId, mChannel, mStrwhere, mOrderby, city);
     }
 
     @Override
@@ -279,7 +280,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
     public void onFilterReset() {
         filterLayout.setVisibility(View.GONE);
         mBrandId = null;
-        mBrandIdOne = null;
+        mCategoryId = null;
         mStrwhere = mPrice;
         initRequestDta();
         requestData();
@@ -291,10 +292,10 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
 
         if (!TextUtils.isEmpty(mBrandId) && id == Integer.parseInt(mBrandId)) {
             mBrandId = null;
-        } else if (!TextUtils.isEmpty(mBrandIdOne) && id == Integer.parseInt(mBrandIdOne)) {
-            mBrandIdOne = null;
+        } else if (!TextUtils.isEmpty(mCategoryId) && id == Integer.parseInt(mCategoryId)) {
+            mCategoryId = null;
         }
-        if (TextUtils.isEmpty(mBrandId) && TextUtils.isEmpty(mBrandIdOne)) {
+        if (TextUtils.isEmpty(mBrandId) && TextUtils.isEmpty(mCategoryId)) {
             filterLayout.setVisibility(View.GONE);
         }
         initRequestDta();
@@ -314,33 +315,33 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
         switch (event.getEventId()) {
             case EventConstants.CAR_BRAND_ID_KEY:
                 if (!TextUtils.isEmpty(mChannel) && mChannel.equals(event.getFragmentType())) {
-                    if (!TextUtils.isEmpty(mBrandIdOne)) {
-                        int id = Integer.parseInt(mBrandIdOne);
-                        filterLayout.removeItemView(id);
-                    }
-                    int dataId = event.getDataId();
-                    mBrandIdOne = String.valueOf(dataId);
-                    filterLayout.addItemView(event.getName(), dataId);
-                    filterLayout.setVisibility(View.VISIBLE);
-                } else if (Constants.ALL_CAR_TYPE.equals(event.getFragmentType())) {
-                    if (!TextUtils.isEmpty(mBrandIdOne)) {
-                        int id = Integer.parseInt(mBrandIdOne);
-                        filterLayout.removeItemView(id);
-                    }
-                    int dataId = event.getDataId();
-                    mBrandIdOne = String.valueOf(dataId);
-                    filterLayout.addItemView(event.getName(), dataId);
-                    filterLayout.setVisibility(View.VISIBLE);
-                }
-                break;
-            case EventConstants.SENIOR_FILTER_ID:
-                if (!TextUtils.isEmpty(mChannel) && mChannel.equals(event.getFragmentType())) {
                     if (!TextUtils.isEmpty(mBrandId)) {
                         int id = Integer.parseInt(mBrandId);
                         filterLayout.removeItemView(id);
                     }
                     int dataId = event.getDataId();
                     mBrandId = String.valueOf(dataId);
+                    filterLayout.addItemView(event.getName(), dataId);
+                    filterLayout.setVisibility(View.VISIBLE);
+                } else if (Constants.ALL_CAR_TYPE.equals(event.getFragmentType())) {
+                    if (!TextUtils.isEmpty(mBrandId)) {
+                        int id = Integer.parseInt(mBrandId);
+                        filterLayout.removeItemView(id);
+                    }
+                    int dataId = event.getDataId();
+                    mBrandId = String.valueOf(dataId);
+                    filterLayout.addItemView(event.getName(), dataId);
+                    filterLayout.setVisibility(View.VISIBLE);
+                }
+                break;
+            case EventConstants.SENIOR_FILTER_ID:
+                if (!TextUtils.isEmpty(mChannel) && mChannel.equals(event.getFragmentType())) {
+                    if (!TextUtils.isEmpty(mCategoryId)) {
+                        int id = Integer.parseInt(mCategoryId);
+                        filterLayout.removeItemView(id);
+                    }
+                    int dataId = event.getDataId();
+                    mCategoryId = String.valueOf(dataId);
                     filterLayout.addItemView(event.getName(), dataId);
                     filterLayout.setVisibility(View.VISIBLE);
                 }
