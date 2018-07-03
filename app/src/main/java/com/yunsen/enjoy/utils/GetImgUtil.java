@@ -7,11 +7,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
@@ -20,12 +24,23 @@ import com.yunsen.enjoy.model.event.PullImageEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import it.sauronsoftware.ftp4j.FTPAbortedException;
+import it.sauronsoftware.ftp4j.FTPClient;
+import it.sauronsoftware.ftp4j.FTPDataTransferException;
+import it.sauronsoftware.ftp4j.FTPDataTransferListener;
+import it.sauronsoftware.ftp4j.FTPException;
+import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 import okhttp3.Request;
 
 public class GetImgUtil {
@@ -158,7 +173,7 @@ public class GetImgUtil {
             @Override
             protected void onPostExecute(String s) {
                 HashMap<String, String> params = new HashMap<>();
-                params.put("base64",s);
+                params.put("base64", s);
                 HttpProxy.getPullImageBase64(s, new HttpCallBack<PullImageResult>() {
                     @Override
                     public void onSuccess(PullImageResult responseData) {
@@ -173,5 +188,99 @@ public class GetImgUtil {
                 });
             }
         }.execute(type);
+    }
+
+    public static void FTPPushImage(List<String> photoList, final String userCode, final Handler handler) {
+        new AsyncTask<List<String>, Nullable, Boolean>() {
+            @Override
+            protected Boolean doInBackground(List<String>[] lists) {
+                List<String> list = lists[0];
+                FTPClient client = new FTPClient();
+                try {
+                    client.connect("139.159.215.36", 210);
+                    client.login("ddek3", "ddek3210.");
+//                    SimpleDateFormat f = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+                    String remotePathTmp = "upload/phone/" + userCode;//路径
+                    try {
+                        client.createDirectory(remotePathTmp);//客户端创建目录
+                    } catch (Exception e) {
+                    }
+
+                    client.changeDirectory(remotePathTmp);
+                    for (int i = 0; i < list.size(); i++) {
+                        final int fIndex = i;
+                        String pathname = list.get(i);
+                        File file = new File(pathname);
+                        int startIndex = pathname.lastIndexOf("/") + 1;
+                        String filePath = pathname.substring(startIndex);
+                        final String fFilePath = "/upload/phone/" + userCode + "/" + filePath;
+                        Log.e(TAG, "doInBackground: filePath=" + fFilePath);
+                        FileInputStream fis = new FileInputStream(file);
+                        try {
+                            client.upload(filePath, fis, 0, 0, new FTPDataTransferListener() {
+                                @Override
+                                public void started() {
+
+                                }
+
+                                @Override
+                                public void transferred(int i) {
+                                    Log.e(TAG, "transferred: " + i);
+                                }
+
+                                @Override
+                                public void completed() {
+                                    Log.d(TAG, ": 完成");
+                                    Message obtain = Message.obtain();
+                                    obtain.what = Constants.SUCCESS;
+                                    obtain.arg1 = fIndex;
+                                    obtain.obj = fFilePath;
+                                    handler.sendMessage(obtain);
+                                }
+
+                                @Override
+                                public void aborted() {
+                                    Log.e(TAG, "aborted: ");
+                                }
+
+                                @Override
+                                public void failed() {
+                                    Log.d(TAG, "failed: 失败");
+                                    Message obtain = Message.obtain();
+                                    obtain.what = Constants.FAILED;
+                                    obtain.arg1 = fIndex;
+                                    obtain.obj = fFilePath;
+                                    handler.sendMessage(obtain);
+                                }
+                            });
+                        } catch (FTPDataTransferException e) {
+                            e.printStackTrace();
+                            Log.e(TAG, "doInBackground: FTPDataTransferException=" + e.getMessage());
+                        } catch (FTPAbortedException e) {
+                            e.printStackTrace();
+                            Log.e(TAG, "doInBackground: FTPAbortedException=" + e.getMessage());
+                        }
+                    }
+                    client.disconnect(true);//exit
+                } catch (IllegalStateException e) {
+                    e.printStackTrace();//非法状态异常
+                    Log.e(TAG, "doInBackground: IllegalStateException" + e.getMessage());
+
+                } catch (FTPIllegalReplyException e) {
+                    e.printStackTrace();//非法回复异常
+                    Log.e(TAG, "doInBackground: FTPIllegalReplyException" + e.getMessage());
+
+                } catch (FTPException e) {
+                    e.printStackTrace();//异常
+                    Log.e(TAG, "doInBackground: FTPException " + e.getMessage());
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e(TAG, "doInBackground: IOException" + e.getMessage());
+                }
+                return null;
+            }
+        }.execute(photoList);
+
     }
 }

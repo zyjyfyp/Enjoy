@@ -189,12 +189,14 @@
                         android:layout_height="90dp" />
 
                     <ImageView
+                        android:padding="20dp"
                         android:id="@+id/add_img"
+                        android:scaleType="centerInside"
                         android:layout_width="90dp"
                         android:layout_height="90dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="@dimen/app_margin"
-                        android:src="@mipmap/default_img" />
+                        android:src="@mipmap/add_img" />
                 </LinearLayout>
             </HorizontalScrollView>
 

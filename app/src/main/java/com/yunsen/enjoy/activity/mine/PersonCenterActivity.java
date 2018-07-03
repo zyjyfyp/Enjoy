@@ -674,8 +674,8 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                             FTPClient client = new FTPClient();
                             //							client.connect("183.62.138.31", 2021);
                             //							client.login("zams", "yunsen1230.");
-                            client.connect("60.205.151.160", 2021);
-                            client.login("zams", "zams1230.");
+                            client.connect("139.159.215.36", 210);
+                            client.login("ddek3", "ddek3210.");
                             SimpleDateFormat f = new SimpleDateFormat("yyyyMMddHHmmssSSS");
                             time = f.format(new Date());
                             yth = MineFragment.yth;   // TODO: 2018/4/24 yth 是什么值

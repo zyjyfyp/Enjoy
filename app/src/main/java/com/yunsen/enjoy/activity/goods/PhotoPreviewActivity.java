@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.utils.ToastUtils;
 
 import butterknife.Bind;
@@ -43,9 +44,15 @@ public class PhotoPreviewActivity extends BaseFragmentActivity {
     @Override
     protected void initData(Bundle savedInstanceState) {
         Intent intent = getIntent();
-        mImgUrl = intent.getStringExtra(Constants.PHOTO_PREVIEW_IMG);
+        String imgUrl;
+        imgUrl = mImgUrl = intent.getStringExtra(Constants.PHOTO_PREVIEW_IMG);
+        if (imgUrl != null && !imgUrl.startsWith("http")) {
+            String trim = imgUrl.trim();
+            imgUrl = URLConstants.REALM_URL + trim;
+        }
         Glide.with(this)
-                .load(mImgUrl)
+                .load(imgUrl)
+                .placeholder(R.mipmap.default_big_img)
                 .into(previewImg);
     }
 
@@ -62,8 +69,10 @@ public class PhotoPreviewActivity extends BaseFragmentActivity {
                 finish();
                 break;
             case R.id.action_bar_tv_right:
-                ToastUtils.makeTextShort("删除图片");
-                setResult(RESULT_OK);
+                Intent intent = new Intent();
+                intent.putExtra(Constants.IMG_URL, mImgUrl);
+                setResult(RESULT_OK, intent);
+                finish();
                 break;
         }
     }

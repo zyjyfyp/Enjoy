@@ -37,6 +37,7 @@ import com.yunsen.enjoy.activity.goods.HowIncomeActivity;
 import com.yunsen.enjoy.activity.goods.HowOperateActivity;
 import com.yunsen.enjoy.activity.goods.PhotoPreviewActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
+import com.yunsen.enjoy.activity.mine.ClassifyActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
 import com.yunsen.enjoy.activity.mine.MyOrderConfrimActivity;
@@ -800,10 +801,14 @@ public class UIHelper {
      *
      * @param ctx
      */
-    public static void showPhotoPreviewActivity(Context ctx, String url) {
+    public static void showPhotoPreviewActivity(Activity ctx, String url) {
         Intent intent = new Intent(ctx, PhotoPreviewActivity.class);
         intent.putExtra(Constants.PHOTO_PREVIEW_IMG, url);
-        ctx.startActivity(intent);
+        ctx.startActivityForResult(intent,Constants.PHOTO_PRE_REQUEST);
     }
 
+    public static void showClassifyActivity(Activity act) {
+        Intent intent = new Intent(act, ClassifyActivity.class);
+        act.startActivityForResult(intent,Constants.ClASSIFY_REQUEST);
+    }
 }

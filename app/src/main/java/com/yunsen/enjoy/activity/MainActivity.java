@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.Window;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -26,7 +27,7 @@ import com.yunsen.enjoy.ui.UIHelper;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class MainActivity extends BaseFragmentActivity {
+public class MainActivity extends BaseFragmentActivity implements View.OnClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String CURR_INDEX = "currIndex";
@@ -103,6 +104,7 @@ public class MainActivity extends BaseFragmentActivity {
 
     private void initMainView() {
         group = (RadioGroup) findViewById(R.id.group);
+        findViewById(R.id.foot_bar_center).setOnClickListener(this);
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -118,9 +120,6 @@ public class MainActivity extends BaseFragmentActivity {
                         break;
                     case R.id.main_footbar_user:
                         currIndex = 3;
-                        break;
-                    case R.id.foot_bar_center:
-                        UIHelper.showReleaseProductsActivity(MainActivity.this);
                         break;
                     default:
                         break;
@@ -233,6 +232,13 @@ public class MainActivity extends BaseFragmentActivity {
             UIHelper.showPhoneNumberActivity(this, "400****120");
         } else if (requestCode == Constants.WRITE_EXTERNAL_STORAGE) {
             UIHelper.showPhotoActivity(this, Constants.PHOTO_ACTIVITY_REQUEST);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.foot_bar_center) {
+                UIHelper.showReleaseProductsActivity(MainActivity.this);
         }
     }
 }

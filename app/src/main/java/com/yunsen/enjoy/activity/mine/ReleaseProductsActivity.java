@@ -1,10 +1,14 @@
 package com.yunsen.enjoy.activity.mine;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -15,9 +19,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.j256.ormlite.stmt.query.In;
 import com.yancy.gallerypick.config.GalleryConfig;
 import com.yancy.gallerypick.config.GalleryPick;
 import com.yancy.gallerypick.inter.IHandlerCallBack;
@@ -26,7 +28,10 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.activity.mine.adapter.ListImageAdapter;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.SpConstants;
+import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.utils.GetImgUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.DatePickerViewDialog;
 import com.yunsen.enjoy.widget.GlideImageLoader;
@@ -37,6 +42,7 @@ import com.yunsen.enjoy.widget.numberkeyboard.KeyboardUtil;
 import com.yunsen.enjoy.widget.numberkeyboard.MyKeyBoardView;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,6 +118,10 @@ public class ReleaseProductsActivity extends BaseFragmentActivity implements Mul
     private KeyboardUtil keyboardUtil;
     private int mCurrentClick = -1;  // 0 起换量， 1 库存 2 价格
     private NumberPickerDialog mCLassifyPicker;
+    private String mUserCode;
+    private Handler mHandler;
+    private ArrayList<String> mPhotoPaths;
+    private ArrayList<String> mImageData;
 
 
     @Override
@@ -125,11 +135,17 @@ public class ReleaseProductsActivity extends BaseFragmentActivity implements Mul
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         actionBarTitle.setText("发布产品");
         actionBarRight.setVisibility(View.INVISIBLE);
+        mHandler = new MyHandler(this);
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+
+        mPhotoPaths = new ArrayList<>();
+        SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+        mUserCode = sp.getString(SpConstants.USER_CODE, "0000");
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        mImageData = new ArrayList<>();
         mImageAdapter = new ListImageAdapter(this, R.layout.img_layout, new ArrayList<String>());
         recyclerView.setAdapter(mImageAdapter);
         mGalleryConfig = new GalleryConfig.Builder()
@@ -170,10 +186,10 @@ public class ReleaseProductsActivity extends BaseFragmentActivity implements Mul
                 showPickerDialog();
                 break;
             case R.id.add_img:
-                requestPermission(Permission.WRITE_EXTERNAL_STORAGE, Constants.WRITE_EXTERNAL_STORAGE);
+                requestPermission(new String[]{Permission.WRITE_EXTERNAL_STORAGE, Permission.CAMERA}, Constants.WRITE_EXTERNAL_STORAGE);
                 break;
-            case R.id.classify_layout:
-                showClassifyDialog();
+            case R.id.classify_layout: //分类
+                UIHelper.showClassifyActivity(this);
                 break;
             case R.id.start_number_layout:
                 mCurrentClick = 0;
@@ -234,6 +250,27 @@ public class ReleaseProductsActivity extends BaseFragmentActivity implements Mul
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == Constants.ClASSIFY_REQUEST) {
+                String classifyData = data.getStringExtra(Constants.CLASSIFY_DATA);
+                classifyTv.setText(classifyData);
+            } else if (requestCode == Constants.PHOTO_PRE_REQUEST) {
+                String stringExtra = data.getStringExtra(Constants.IMG_URL);
+                if (stringExtra == null) {
+                    return;
+                }
+                Log.e(TAG, "onActivityResult: str=" + stringExtra);
+                int index = mImageAdapter.removeUrl(stringExtra);
+                Log.e(TAG, "onActivityResult: index=" + index);
+                if (index != -1) {
+                    if (index < mPhotoPaths.size()) {
+                        String remove = mPhotoPaths.remove(index);
+                        mGalleryConfig.getBuilder().pathList(mPhotoPaths);
+                        Log.e(TAG, "onActivityResult: remove" + remove);
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -253,11 +290,26 @@ public class ReleaseProductsActivity extends BaseFragmentActivity implements Mul
         @Override
         public void onSuccess(List<String> photoList) {
             if (photoList == null || photoList.size() < 9) {
+                int size = photoList.size();
+                mImageData.clear();
+                mPhotoPaths.clear();
+                mPhotoPaths.addAll(photoList);
+                for (int i = 0; i < size; i++) {
+                    String pathname = photoList.get(i);
+                    int startIndex = pathname.lastIndexOf("/");
+                    if (TextUtils.isEmpty(mUserCode)) {
+                        startIndex += 1;
+                    }
+                    String filePath = "/upload/phone/" + mUserCode + pathname.substring(startIndex);
+                    Log.e(TAG, "onSuccess: filePath= " + filePath);
+                    mImageData.add(filePath);
+                }
+                GetImgUtil.FTPPushImage(photoList, mUserCode, mHandler);
                 addImg.setVisibility(View.VISIBLE);
             } else {
                 addImg.setVisibility(View.GONE);
             }
-            mImageAdapter.upBaseDatas(photoList);
+            mImageAdapter.upBaseDatas(mImageData);
         }
 
         @Override
@@ -293,7 +345,7 @@ public class ReleaseProductsActivity extends BaseFragmentActivity implements Mul
             mCLassifyPicker.setRightOnclickListener("确定", new OnRightOnclickListener() {
                 @Override
                 public void onRightClick(int[] index) {
-                    pointTv.setText(Constants.POINT_METHED[index[0]]);
+                    classifyTv.setText(Constants.POINT_METHED[index[0]]);
                     if (mCLassifyPicker.isShowing()) {
                         mCLassifyPicker.dismiss();
                     }
@@ -493,5 +545,25 @@ public class ReleaseProductsActivity extends BaseFragmentActivity implements Mul
         return false;
     }
 
+    private static class MyHandler extends Handler {
+        WeakReference<ReleaseProductsActivity> weakReference;
 
+        public MyHandler(ReleaseProductsActivity activity) {
+            this.weakReference = new WeakReference<ReleaseProductsActivity>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            ReleaseProductsActivity act = weakReference.get();
+            if (!act.isFinishing()) {
+                if (msg.what == Constants.SUCCESS) {
+                    act.mImageAdapter.upIndexData(msg.arg1, (String) msg.obj);
+                } else {
+
+                }
+            }
+
+        }
+    }
 }

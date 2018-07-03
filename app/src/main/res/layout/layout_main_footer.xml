@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="51dp"
-    android:background="@color/main_footer_bg">
+    android:layout_height="71dp"
+    android:background="@color/transparent">
     <!--android:background="@color/main_footer_bg"-->
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginTop="20dp"
         android:background="#EDEDED" />
 
     <RadioGroup
         android:id="@+id/group"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/main_footer_bg"
         android:orientation="horizontal">
 
         <RadioButton
@@ -28,11 +31,12 @@
             style="@style/main_footer_bar_radio"
             android:drawableTop="@drawable/widget_bar_im_bg"
             android:text="@string/main_navigation_im" />
+
         <RadioButton
-            android:id="@+id/foot_bar_center"
             style="@style/main_footer_bar_radio"
-            android:drawableTop="@drawable/widget_bar_center_bg"
-            />
+            android:drawableTop="@null"
+            android:enabled="false" />
+
         <RadioButton
             android:id="@+id/foot_bar_interest"
             style="@style/main_footer_bar_radio"
@@ -47,10 +51,49 @@
     </RadioGroup>
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/foot_bar_center"
+            style="@style/main_footer_bar_radio"
+            android:layout_marginBottom="5dp"
+            android:src="@mipmap/navig_select" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@null"
         android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <View
             android:layout_width="0dp"
@@ -89,11 +132,11 @@
                 android:layout_toEndOf="@+id/viewSplitLine"
                 android:layout_toRightOf="@+id/viewSplitLine"
                 android:background="@drawable/ic_bg_unread_count"
-                android:visibility="gone"
                 android:gravity="center"
                 android:text="1"
                 android:textColor="#ffffff"
-                android:textSize="@dimen/text_size_13" />
+                android:textSize="@dimen/text_size_13"
+                android:visibility="gone" />
         </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

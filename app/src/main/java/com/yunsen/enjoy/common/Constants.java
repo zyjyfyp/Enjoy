@@ -17,6 +17,9 @@ public class Constants {
     public static final String APP_SECRET = "e94e0ca414b307f026334dbbc124426c";
     public static final String TEST_USER_ID = "44881"; // TODO: 2018/5/18  测试时用的UserId
     public static final String IMG_LIST = "img_list";
+    public static final int SUCCESS = 1;
+    public static final int FAILED = 0;
+    public static final String IMG_URL = "img_url";
 
     public static String WX_Code = "";
     public static QQAuth QQauth;
@@ -28,7 +31,7 @@ public class Constants {
      */
     public static final String[] SORT_METHED = new String[]{"全新", "9成新", "8成新", "7成新", "7成新以下"};
 
-    public static final String[] POINT_METHED = new String[]{"瓶", "双", "只", "个", "件","把","包","盒","辆","吨","套"};
+    public static final String[] POINT_METHED = new String[]{"瓶", "双", "只", "个", "件", "把", "包", "盒", "辆", "吨", "套"};
 
     public static Map<String, String> SHOT_METHED_VALUE = new HashMap<String, String>();
 
@@ -83,6 +86,8 @@ public class Constants {
     public static final int PAY_MONEY_ACT_REQUEST = 11;//支付页面，服务器的支付
     public static final int ADD_ADDRESS_ACT_REQUEST = 12;//支付页面添加地址
     public static final int ORDER_ACT_REQUEST = 5; //跳转订单页面
+    public static final int ClASSIFY_REQUEST = 13;//选择类型
+    public static final int PHOTO_PRE_REQUEST = 14;//上传图片浏览界面
 
     /*******************************************************************
      *                          申请手机权限时的请求码                      *
@@ -123,6 +128,8 @@ public class Constants {
     public static final String ACT_NAME_KEY = "activity_name";
     public static final String GOODS_ID_KEY = "goods_id";
     public static final String ACT_TYPE_KEY = "act_type_key";
+
+    public static final String CLASSIFY_DATA = "classify_data";
 
 
     public static final String PHOTO_PREVIEW_IMG = "photo_preview_img";
