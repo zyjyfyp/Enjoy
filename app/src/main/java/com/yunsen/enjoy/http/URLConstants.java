@@ -63,6 +63,7 @@ public class URLConstants {
      */
     public static final String BOUDLE_PHONE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_oauth_register_0217";
     public static final String HEIGHT_FILTER_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_category_list";
+
     //    http://mobile.zams.cn/tools/mobile_ajax.asmx/user_oauth_register_0217
     /**
      * 消息通知
@@ -297,7 +298,10 @@ public class URLConstants {
      * 更新信息
      */
     public static final String NOTICE_UP_USER_URL = "https://ju918.com/tools/client_ajax.asmx/user_refresh?access_token=";
-
+    /**
+     * 升级正式会员
+     */
+    public static final String APPLY_VIP_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_membership_upgrade";
 
     //
     //    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";

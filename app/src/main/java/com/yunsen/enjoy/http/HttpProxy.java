@@ -368,7 +368,7 @@ public class HttpProxy {
         if (TextUtils.isEmpty(city)) {
             param.put("strwhere", strwhere);
         } else {
-            param.put("strwhere", strwhere + " and city like \'%" + city + "%\' or city like \'%所有城市%\'");
+            param.put("strwhere", strwhere + " and (city like \'%" + city + "%\'  or city like \'%所有城市%\')");
         }
         HttpClient.get(URLConstants.BUY_CAR_URL, param, new HttpResponseHandler<GoogsListResponse>() {
             @Override
@@ -1970,14 +1970,14 @@ public class HttpProxy {
     }
 
     /**
-     * 预约看车
+     * 升级为正式会员
      */
     public static void submitVipOrder(WatchCarModel model, final HttpCallBack<WatchCarBean> callBack) {
         model.setPayment_id("5");
         model.setExpress_id("7");
         model.setIs_invoice("0");
         Map<String, Object> param = EntityToMap.ConvertObjToMap(model);
-        HttpClient.get(URLConstants.MEET_CAR_URL, param, new HttpResponseHandler<WatchCarResponse>() {
+        HttpClient.get(URLConstants.APPLY_VIP_URL, param, new HttpResponseHandler<WatchCarResponse>() {
             @Override
             public void onSuccess(WatchCarResponse response) {
                 WatchCarBean data = response.getData();
