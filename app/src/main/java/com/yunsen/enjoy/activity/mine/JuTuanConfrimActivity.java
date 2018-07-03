@@ -1369,6 +1369,7 @@ public class JuTuanConfrimActivity extends AppCompatActivity {
                         if (status.equals("y")) {
                             JSONObject obj = object.getJSONObject("data");
                             notify_url = obj.getString("notify_url");
+                            PayProxy.RSA2_PRIVATE = obj.getString("private_key");
                             progress.CloseProgress();
                             handler.sendEmptyMessage(1);
                         } else {

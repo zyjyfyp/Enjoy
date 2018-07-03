@@ -1191,6 +1191,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                     if ("y".equals(status)) {
                         JSONObject obj = object.getJSONObject("data");
                         PayProxy.NOTIFY_URL = notify_url = obj.getString("notify_url");
+                        PayProxy.RSA2_PRIVATE = obj.getString("private_key");
                         handler.sendEmptyMessage(1);
                     } else {
                         ToastUtils.makeTextShort(info);
