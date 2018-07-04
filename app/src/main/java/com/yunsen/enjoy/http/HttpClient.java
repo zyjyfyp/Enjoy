@@ -129,6 +129,7 @@ public class HttpClient {
         for (String key : keySet) {
             String value = params.get(key);
             formBodyBuilder.add(key, value);
+            Log.e(TAG, "post: " + key + ":" + value);
         }
         FormBody formBody = formBodyBuilder.build();
 

@@ -37,7 +37,9 @@ public abstract class BaseFragmentActivity extends AppCompatActivity {
         //        tintManager.setStatusBarTintEnabled(true);
         //        tintManager.setStatusBarTintResource(R.color.status_bar_bg);//通知栏所需颜色
         int layout = getLayout();
-        setContentView(layout);
+        if (layout != -1) {
+            setContentView(layout);
+        }
         initView();
         initData(savedInstanceState);
         requestData();

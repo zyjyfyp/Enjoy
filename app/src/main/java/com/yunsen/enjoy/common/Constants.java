@@ -133,6 +133,9 @@ public class Constants {
 
 
     public static final String PHOTO_PREVIEW_IMG = "photo_preview_img";
+
+    public static final String SUBMIT_GOODS_KEY = "submit_goods_key";
+
     /***
      * Activity type
      */

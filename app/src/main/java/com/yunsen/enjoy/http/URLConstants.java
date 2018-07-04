@@ -13,7 +13,7 @@ public class URLConstants {
      */
     public static final String REALM_URL = BuildConfig.ROOT_URL;
 
-    //    public static final String REALM_ACCOUNT_URL = "http://szlxkg.com/tools/mobile_ajax.asmx";
+    //    public static final String REALM_ACCOUNT_URL = http://mobile.ddek3.com/tools/mobile_ajax.asmx?op=submit_article";
     public static final String REALM_ACCOUNT_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx";
 
 
@@ -275,6 +275,11 @@ public class URLConstants {
      * 获取apk版本信息
      */
     public static final String GET_APK_VERSION = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_apk_version?browser=android";
+
+    /**
+     * 提交交换产品
+     */
+    public static final String SUBMIT_GOODS_ChANGES_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/submit_article";
 
     /**
      * 微信登录

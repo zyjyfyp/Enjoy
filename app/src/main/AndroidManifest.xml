@@ -333,6 +333,13 @@
         <activity
             android:name=".activity.mine.ClassifyActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.mine.SubmitProductsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.other.SelectCityNewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DefaultCityPickerTheme" />
     </application>
 
 </manifest>

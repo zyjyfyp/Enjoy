@@ -7,7 +7,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,7 +31,7 @@ import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.activity.mine.adapter.ListImageAdapter;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
-import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.model.request.SubmitGoodsModel;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.GetImgUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
@@ -54,7 +56,7 @@ import butterknife.OnClick;
  * Created by Administrator on 2018/6/5.
  */
 
-public class ReleaseProductsActivity extends BaseFragmentActivity implements MultiItemTypeAdapter.OnItemClickListener {
+public class ReleaseProductsActivity extends BaseFragmentActivity implements MultiItemTypeAdapter.OnItemClickListener, RadioGroup.OnCheckedChangeListener {
 
     @Bind(R.id.action_back)
     ImageView actionBack;
@@ -122,6 +124,9 @@ public class ReleaseProductsActivity extends BaseFragmentActivity implements Mul
     private Handler mHandler;
     private ArrayList<String> mPhotoPaths;
     private ArrayList<String> mImageData;
+    private SubmitGoodsModel mRequestData;
+    private String mCurrentType = "个人用户";
+    private String mUserId;
 
 
     @Override
@@ -136,6 +141,7 @@ public class ReleaseProductsActivity extends BaseFragmentActivity implements Mul
         actionBarTitle.setText("发布产品");
         actionBarRight.setVisibility(View.INVISIBLE);
         mHandler = new MyHandler(this);
+        mRequestData = new SubmitGoodsModel();
     }
 
     @Override
@@ -144,6 +150,7 @@ public class ReleaseProductsActivity extends BaseFragmentActivity implements Mul
         mPhotoPaths = new ArrayList<>();
         SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         mUserCode = sp.getString(SpConstants.USER_CODE, "0000");
+        mUserId = sp.getString(SpConstants.USER_ID, "0000");
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mImageData = new ArrayList<>();
         mImageAdapter = new ListImageAdapter(this, R.layout.img_layout, new ArrayList<String>());
@@ -164,17 +171,35 @@ public class ReleaseProductsActivity extends BaseFragmentActivity implements Mul
         mGalleryConfig.getBuilder().multiSelect(true).build();   // 修改多选
         mGalleryConfig.getBuilder().isShowCamera(true).build();   // 修改显示相机
         initKeyBoardUtil();
+        selectTitleEdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                int length = s.length();
+                selectTitleSizeTv.setText(length + "/30");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @Override
     protected void initListener() {
         mImageAdapter.setOnItemClickListener(this);
+        radioGroup.setOnCheckedChangeListener(this);
     }
 
 
     @OnClick({R.id.action_back, R.id.action_bar_right, R.id.select_goods_layout, R.id.classify_layout,
             R.id.start_number_layout, R.id.all_number_layout, R.id.quality_date_layout, R.id.create_date_layout,
-            R.id.point_layout, R.id.price_layout, R.id.add_img})
+            R.id.point_layout, R.id.price_layout, R.id.add_img, R.id.next_btn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.action_back:
@@ -233,17 +258,80 @@ public class ReleaseProductsActivity extends BaseFragmentActivity implements Mul
                 et_price.requestFocus();
                 ll_price_select.setVisibility(View.VISIBLE);
                 break;
+            case R.id.next_btn:
+                nextSubmit();
+                break;
         }
+    }
+
+    /**
+     * 下一步 检查数据完成
+     */
+    private void nextSubmit() {
+        String title = selectTitleEdt.getText().toString();
+        if (TextUtils.isEmpty(title)) {
+            ToastUtils.makeTextShort("请输入标题");
+            selectTitleEdt.setFocusable(true);
+        } else if (TextUtils.isEmpty(selectGoodsTv.getText().toString())) {
+            ToastUtils.makeTextShort("请选择产品的几成新");
+        } else if (TextUtils.isEmpty(productDiscriptionEdt.getText().toString())) {
+            ToastUtils.makeTextShort("请输入商品描述");
+            productDiscriptionEdt.setFocusable(true);
+        } else {
+            int size = mImageData.size();
+            if (size == 0) {
+                ToastUtils.makeTextShort("请至少上传一张图片");
+            } else if (TextUtils.isEmpty(classifyTv.getText().toString())) {
+                ToastUtils.makeTextShort("请选择分类");
+            } else if (TextUtils.isEmpty(startNumberEdt.getText().toString())) {
+                ToastUtils.makeTextShort("请输入起换量");
+            } else if (TextUtils.isEmpty(allNumberEdt.getText().toString())) {
+                ToastUtils.makeTextShort("请输入库存量");
+            } else if (TextUtils.isEmpty(qualityDateTv.getText().toString())) {
+                ToastUtils.makeTextShort("请选择保质日期");
+            } else if (TextUtils.isEmpty(createDateTv.getText().toString())) {
+                ToastUtils.makeTextShort("请选择生产日期");
+            } else if (TextUtils.isEmpty(pointTv.getText().toString())) {
+                ToastUtils.makeTextShort("请输入商品单位");
+            } else if (TextUtils.isEmpty(priceEdt.getText().toString())) {
+                ToastUtils.makeTextShort("请选择商品价格");
+            } else {
+                mRequestData.setChannel_name(mCurrentType);
+                String categoryStr = classifyTv.getText().toString(); //todo zyjy
+                mRequestData.setCategory_id("1");
+                mRequestData.setTitle(selectTitleEdt.getText().toString());
+                mRequestData.setSubtitle(selectTitleEdt.getText().toString());
+                mRequestData.setUser_id(mUserId);
+                mRequestData.setBrand_id("11");// TODO: 2018/7/3 品牌id
+                mRequestData.setImg_url(mImageData.get(0));
+                mRequestData.setSeo_title(selectTitleEdt.getText().toString());
+                //seo_keywords      seo关键词
+                //seo_description   seo描述
+                mRequestData.setContent(productDiscriptionEdt.getText().toString());
+                mRequestData.setSummary(productDiscriptionEdt.getText().toString());
+                mRequestData.setMcontent(productDiscriptionEdt.getText().toString());
+                mRequestData.setStart_time(createDateTv.getText().toString());
+                mRequestData.setEnd_time(qualityDateTv.getText().toString());
+                mRequestData.setMin_quantity(startNumberEdt.getText().toString());
+                mRequestData.setUnit(pointTv.getText().toString());
+                mRequestData.setStock_quantity(allNumberEdt.getText().toString());
+                String albums = "";
+                int i = 0;
+                for (; i < size - 1; i++) {
+                    albums += mImageData.get(i) + ",";
+                }
+                albums += mImageData.get(i);
+                mRequestData.setAlbums(albums);
+                UIHelper.showSubmitProductsActivity(this,mRequestData);
+            }
+        }
+
     }
 
     private void addImgRes() {
         GalleryPick.getInstance().setGalleryConfig(mGalleryConfig).open(this);
     }
 
-
-    @OnClick(R.id.radio_group)
-    public void onViewClicked() {
-    }
 
     private static final String TAG = "ReleaseProductsActivity";
 
@@ -327,33 +415,6 @@ public class ReleaseProductsActivity extends BaseFragmentActivity implements Mul
             ToastUtils.makeTextShort("出错");
         }
     };
-
-    /**
-     * classify 分类
-     */
-    private void showClassifyDialog() {
-        if (mCLassifyPicker == null) {
-            mCLassifyPicker = new NumberPickerDialog(this, Constants.POINT_METHED);
-            mCLassifyPicker.setLeftOnclickListener("取消", new OnLeftOnclickListener() {
-                @Override
-                public void onLeftClick() {
-                    if (mCLassifyPicker.isShowing()) {
-                        mCLassifyPicker.dismiss();
-                    }
-                }
-            });
-            mCLassifyPicker.setRightOnclickListener("确定", new OnRightOnclickListener() {
-                @Override
-                public void onRightClick(int[] index) {
-                    classifyTv.setText(Constants.POINT_METHED[index[0]]);
-                    if (mCLassifyPicker.isShowing()) {
-                        mCLassifyPicker.dismiss();
-                    }
-                }
-            });
-        }
-        mCLassifyPicker.show();
-    }
 
     /**
      * 新旧
@@ -468,6 +529,9 @@ public class ReleaseProductsActivity extends BaseFragmentActivity implements Mul
         mPointPicker.show();
     }
 
+    /**
+     * 键盘
+     */
     private void initKeyBoardUtil() {
         keyboardUtil = new KeyboardUtil(ReleaseProductsActivity.this);
         keyboardUtil.setOnOkClick(new KeyboardUtil.OnOkClick() {
@@ -543,6 +607,15 @@ public class ReleaseProductsActivity extends BaseFragmentActivity implements Mul
     @Override
     public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         return false;
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        if (checkedId == R.id.personal_rb) {
+            mCurrentType = "个人用户";
+        } else if (checkedId == R.id.corporate_rb) {
+            mCurrentType = "企业用户";
+        }
     }
 
     private static class MyHandler extends Handler {

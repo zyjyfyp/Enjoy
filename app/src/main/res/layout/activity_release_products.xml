@@ -88,7 +88,7 @@
                     android:layout_height="@dimen/item_height"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:gravity="center"
+                    android:gravity="right|center_vertical"
                     android:hint="品类品牌型号都是换家喜欢搜的"
                     android:textColor="@color/title_color"
                     android:textSize="15sp" />
@@ -133,8 +133,9 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
                     android:layout_marginRight="@dimen/app_margin"
-                    android:src="@mipmap/more" />
+                    android:src="@mipmap/new_more" />
             </LinearLayout>
 
             <View
@@ -189,13 +190,13 @@
                         android:layout_height="90dp" />
 
                     <ImageView
-                        android:padding="20dp"
                         android:id="@+id/add_img"
-                        android:scaleType="centerInside"
                         android:layout_width="90dp"
                         android:layout_height="90dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="@dimen/app_margin"
+                        android:padding="20dp"
+                        android:scaleType="centerInside"
                         android:src="@mipmap/add_img" />
                 </LinearLayout>
             </HorizontalScrollView>
@@ -235,8 +236,9 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
                     android:layout_marginRight="@dimen/app_margin"
-                    android:src="@mipmap/more" />
+                    android:src="@mipmap/new_more" />
             </LinearLayout>
 
             <View
@@ -258,15 +260,16 @@
                     android:id="@+id/start_number_edt"
                     style="@style/ReleaseProductsContent"
                     android:background="@null"
-                    android:hint="请输入奇幻的数量" />
+                    android:hint="请输入起换的数量" />
 
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
                     android:layout_marginRight="@dimen/app_margin"
-                    android:src="@mipmap/more" />
+                    android:src="@mipmap/new_more" />
             </LinearLayout>
 
             <View
@@ -295,8 +298,9 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
                     android:layout_marginRight="@dimen/app_margin"
-                    android:src="@mipmap/more" />
+                    android:src="@mipmap/new_more" />
             </LinearLayout>
 
             <View
@@ -324,8 +328,9 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
                     android:layout_marginRight="@dimen/app_margin"
-                    android:src="@mipmap/more" />
+                    android:src="@mipmap/new_more" />
             </LinearLayout>
 
             <View
@@ -353,8 +358,9 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
                     android:layout_marginRight="@dimen/app_margin"
-                    android:src="@mipmap/more" />
+                    android:src="@mipmap/new_more" />
             </LinearLayout>
 
             <View
@@ -382,8 +388,9 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
                     android:layout_marginRight="@dimen/app_margin"
-                    android:src="@mipmap/more" />
+                    android:src="@mipmap/new_more" />
             </LinearLayout>
 
             <View
@@ -412,8 +419,9 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
                     android:layout_marginRight="@dimen/app_margin"
-                    android:src="@mipmap/more" />
+                    android:src="@mipmap/new_more" />
             </LinearLayout>
 
             <LinearLayout
@@ -423,6 +431,7 @@
                 android:gravity="center">
 
                 <Button
+                    android:id="@+id/next_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/app_margin"

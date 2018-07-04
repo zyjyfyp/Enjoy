@@ -249,7 +249,9 @@ public class MainPagerFragment extends BaseFragment implements View.OnClickListe
                 break;
             case R.id.adt_text1:
                 NoticeModel data = adtTv1.getCurrentData();
-                UIHelper.showNoticeWebActivity(getActivity(), data.getId());
+                if (data != null) {
+                    UIHelper.showNoticeWebActivity(getActivity(), data.getId());
+                }
                 break;
             case R.id.button_layout:
                 UIHelper.goLoginOrIsFacilitator(getActivity(), mIsFacilitator);

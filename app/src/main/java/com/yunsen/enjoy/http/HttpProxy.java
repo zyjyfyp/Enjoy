@@ -43,6 +43,7 @@ import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.model.request.ApplyWalletCashRequest;
 import com.yunsen.enjoy.model.request.BindBankCardRequest;
+import com.yunsen.enjoy.model.request.SubmitGoodsModel;
 import com.yunsen.enjoy.model.request.WatchCarModel;
 import com.yunsen.enjoy.model.response.AccountBalanceResponse;
 import com.yunsen.enjoy.model.response.AddShoppingBuysResponse;
@@ -730,7 +731,7 @@ public class HttpProxy {
         model.setPayment_id("5");
         model.setExpress_id("7");
         model.setIs_invoice("0");
-        Map<String, Object> param = EntityToMap.ConvertObjToMap(model);
+        Map<String, String> param = EntityToMap.ConvertObjToMap(model);
         HttpClient.get(URLConstants.MEET_CAR_URL, param, new HttpResponseHandler<WatchCarResponse>() {
             @Override
             public void onSuccess(WatchCarResponse response) {
@@ -988,7 +989,7 @@ public class HttpProxy {
         data.setUser_id(userId);
         data.setUser_name(userName);
         data.setSort_id("0");
-        Map<String, Object> param = EntityToMap.ConvertObjToMap(data);
+        Map<String, String> param = EntityToMap.ConvertObjToMap(data);
         HttpClient.get(URLConstants.APPLY_SERVICE_FORM_URL, param, new HttpResponseHandler<RestApiResponse>() {
             @Override
             public void onSuccess(RestApiResponse response) {
@@ -1082,7 +1083,7 @@ public class HttpProxy {
      * @param callBack
      */
     public static void getApplyBuyCar(ApplyCarModel model, final HttpCallBack<Boolean> callBack) {
-        Map<String, Object> map = EntityToMap.ConvertObjToMap(model);
+        Map<String, String> map = EntityToMap.ConvertObjToMap(model);
 
         HttpClient.get(URLConstants.APPLY_BUY_CAR_URL, map, new HttpResponseHandler<StringResponse>() {
             @Override
@@ -1536,7 +1537,7 @@ public class HttpProxy {
      * @param callBack
      */
     public static void bindBankCard(BindBankCardRequest request, final HttpCallBack<Boolean> callBack) {
-        Map<String, Object> param = EntityToMap.ConvertObjToMap(request);
+        Map<String, String> param = EntityToMap.ConvertObjToMap(request);
         HttpClient.get(URLConstants.BIND_BANK_CARD_URL, param, new HttpResponseHandler<StringResponse>() {
             @Override
             public void onSuccess(StringResponse response) {
@@ -1583,7 +1584,7 @@ public class HttpProxy {
      * @param callBack
      */
     public static void applyWalletCash(ApplyWalletCashRequest request, final HttpCallBack<Boolean> callBack) {
-        Map<String, Object> param = EntityToMap.ConvertObjToMap(request);
+        Map<String, String> param = EntityToMap.ConvertObjToMap(request);
         HttpClient.get(URLConstants.APPLY_WALLET_CASH_URL, param, new HttpResponseHandler<RestApiResponse>() {
             @Override
             public void onSuccess(RestApiResponse response) {
@@ -1734,5 +1735,20 @@ public class HttpProxy {
         });
     }
 
+    public static void submitChangeGoods(SubmitGoodsModel mRequestData, final HttpCallBack<Boolean> callBack) {
+        Map<String, String> param = EntityToMap.ConvertObjToMap(mRequestData);
+        HttpClient.post(URLConstants.SUBMIT_GOODS_ChANGES_URL, param, new HttpResponseHandler<ApkVersionResponse>() {
+            @Override
+            public void onSuccess(ApkVersionResponse response) {
+                callBack.onSuccess(true);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
 }
 

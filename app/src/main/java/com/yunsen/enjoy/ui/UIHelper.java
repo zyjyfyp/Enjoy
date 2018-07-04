@@ -44,11 +44,13 @@ import com.yunsen.enjoy.activity.mine.MyOrderConfrimActivity;
 import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.activity.mine.ReleaseProductsActivity;
+import com.yunsen.enjoy.activity.mine.SubmitProductsActivity;
 import com.yunsen.enjoy.activity.mine.TeamActivity;
 import com.yunsen.enjoy.activity.mine.UserForgotPasswordActivity;
 import com.yunsen.enjoy.activity.order.DianPingActivity;
 import com.yunsen.enjoy.activity.order.MyOrderActivity;
 import com.yunsen.enjoy.activity.order.MyOrderXqActivity;
+import com.yunsen.enjoy.activity.other.SelectCityNewActivity;
 import com.yunsen.enjoy.activity.user.DBFengXiangActivity;
 import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
@@ -62,6 +64,7 @@ import com.yunsen.enjoy.model.MyOrderData;
 import com.yunsen.enjoy.model.OrderBean;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
+import com.yunsen.enjoy.model.request.SubmitGoodsModel;
 import com.yunsen.enjoy.utils.AccountUtils;
 
 import org.json.JSONArray;
@@ -142,7 +145,7 @@ public class UIHelper {
      * @param context
      */
     public static void showSelectCityActivity(Activity context) {
-        Intent intent = new Intent(context, SelectCityActivity.class);
+        Intent intent = new Intent(context, SelectCityNewActivity.class);
         context.startActivity(intent);
     }
 
@@ -804,11 +807,26 @@ public class UIHelper {
     public static void showPhotoPreviewActivity(Activity ctx, String url) {
         Intent intent = new Intent(ctx, PhotoPreviewActivity.class);
         intent.putExtra(Constants.PHOTO_PREVIEW_IMG, url);
-        ctx.startActivityForResult(intent,Constants.PHOTO_PRE_REQUEST);
+        ctx.startActivityForResult(intent, Constants.PHOTO_PRE_REQUEST);
     }
 
     public static void showClassifyActivity(Activity act) {
         Intent intent = new Intent(act, ClassifyActivity.class);
-        act.startActivityForResult(intent,Constants.ClASSIFY_REQUEST);
+        act.startActivityForResult(intent, Constants.ClASSIFY_REQUEST);
     }
+
+    /**
+     * 提交换的物品
+     *
+     * @param act
+     * @param requestData
+     */
+    public static void showSubmitProductsActivity(Activity act, SubmitGoodsModel requestData) {
+        Intent intent = new Intent(act, SubmitProductsActivity.class);
+        Bundle extras = new Bundle();
+        extras.putParcelable(Constants.SUBMIT_GOODS_KEY, requestData);
+        intent.putExtras(extras);
+        act.startActivity(intent);
+    }
+
 }
