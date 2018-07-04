@@ -54,7 +54,10 @@
                                 android:id="@+id/user_name_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="25dp"
+                                android:ellipsize="end"
                                 android:gravity="center"
+                                android:maxLength="8"
+                                android:maxLines="1"
                                 android:text="哥"
                                 android:textColor="@color/white"
                                 android:textSize="15sp"
@@ -78,7 +81,10 @@
                                 android:layout_alignBottom="@id/user_name_tv"
                                 android:layout_toRightOf="@id/user_sex_img"
                                 android:background="@mipmap/user_contribution_bg"
+                                android:maxLines="1"
+                                android:ellipsize="end"
                                 android:gravity="center_vertical"
+                                android:maxLength="10"
                                 android:paddingLeft="25dp"
                                 android:paddingRight="5dp"
                                 android:text="拯救99棵树"
@@ -127,8 +133,8 @@
                     android:id="@+id/no_login_layout"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:gravity="center"
                     android:background="@mipmap/login_bg"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
@@ -140,12 +146,12 @@
                         android:visibility="visible" />
 
                     <TextView
-                        android:layout_marginTop="10dp"
                         android:id="@+id/login_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginBottom="22dp"
+                        android:layout_marginTop="10dp"
                         android:text="登录后获取更多精彩内容"
                         android:textColor="@color/white"
                         android:textSize="16sp"

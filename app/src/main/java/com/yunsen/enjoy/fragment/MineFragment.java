@@ -555,8 +555,8 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
                             .transform(new GlideCircleTransform(getActivity()))
                             .into(userIconImg);
                 }
-                if (!TextUtils.isEmpty(data.getUser_code())) {
-                    userIdTv.setText("ID: " + data.getUser_code());
+                if (data.getId() != 0) {
+                    userIdTv.setText("ID: " + data.getId());
                 }
                 if (!TextUtils.isEmpty(data.getGroup_name())) {
                     gradeTv.setText(data.getGroup_name());

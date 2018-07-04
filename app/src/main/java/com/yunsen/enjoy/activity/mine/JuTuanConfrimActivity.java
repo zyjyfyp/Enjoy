@@ -1,6 +1,5 @@
 package com.yunsen.enjoy.activity.mine;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,14 +15,11 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.alipay.sdk.app.PayTask;
 
 import com.androidquery.AQuery;
 import com.hengyushop.dao.CardItem;
@@ -47,8 +43,9 @@ import com.yunsen.enjoy.model.ShopCartData;
 import com.yunsen.enjoy.model.UserRegisterData;
 import com.yunsen.enjoy.model.UserRegisterllData;
 import com.yunsen.enjoy.thirdparty.Common;
-import com.yunsen.enjoy.thirdparty.PayResult;
-import com.yunsen.enjoy.thirdparty.alipay.SignUtils;
+
+import com.yunsen.enjoy.thirdparty.PayProxy;
+import com.yunsen.enjoy.thirdparty.alipay.PayResult;
 import com.yunsen.enjoy.widget.DialogProgress;
 import com.yunsen.enjoy.widget.InScrollListView;
 import com.yunsen.enjoy.widget.MyPopupWindowMenu;
@@ -62,12 +59,12 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * 订单确认
  *
  * @author Administrator
- *
  */
 public class JuTuanConfrimActivity extends AppCompatActivity {
 	private ListView list_address_a;
@@ -157,10 +154,10 @@ public class JuTuanConfrimActivity extends AppCompatActivity {
 			}
 
 			// fanhui_type = true;
-            spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
-            user_name = spPreferences.getString(SpConstants.USER_NAME, "");
-            login_sign = spPreferences.getString("login_sign", "");
-            dzongjia = 0;
+			spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+			user_name = spPreferences.getString(SpConstants.USER_NAME, "");
+			login_sign = spPreferences.getString("login_sign", "");
+			dzongjia = 0;
 			// System.out.println("dzongjiade值为零================"+dzongjia);
 
 			// String type_wx = getIntent().getStringExtra("type_wx");
@@ -224,12 +221,12 @@ public class JuTuanConfrimActivity extends AppCompatActivity {
 			// tv_2.setText("团数：");
 			// String activity_price =
 			// getIntent().getStringExtra("activity_price");
-            // tv_color.setText( "¥" + activity_price);//团购价
-            // String ct_tuanshu = getIntent().getStringExtra("ct_tuanshu");
-            // tv_size.setText( "¥" +ct_tuanshu);//团数
-            // heji.setText("合计:" + "¥" + activity_price);
-            // shi_fukuang.setText("¥" + activity_price);
-            // tv_warename.setText(title);
+			// tv_color.setText( "¥" + activity_price);//团购价
+			// String ct_tuanshu = getIntent().getStringExtra("ct_tuanshu");
+			// tv_size.setText( "¥" +ct_tuanshu);//团数
+			// heji.setText("合计:" + "¥" + activity_price);
+			// shi_fukuang.setText("¥" + activity_price);
+			// tv_warename.setText(title);
 			// System.out.println("2======================");
 			// String img_url = getIntent().getStringExtra("img_url");
 			// mAq.id(img_ware).image(RealmName.REALM_NAME_HTTP + img_url);
@@ -258,9 +255,9 @@ public class JuTuanConfrimActivity extends AppCompatActivity {
 		setContentView(R.layout.jutuan_confrim);
 		mAq = new AQuery(this);
 		// progress.CreateProgress();
-        spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
-        user_name = spPreferences.getString(SpConstants.USER_NAME, "");
-        user_id = spPreferences.getString("user_id", "");
+		spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+		user_name = spPreferences.getString(SpConstants.USER_NAME, "");
+		user_id = spPreferences.getString("user_id", "");
 
 		handlerll = new Handler() {
 			public void handleMessage(Message msg) {
@@ -541,7 +538,9 @@ public class JuTuanConfrimActivity extends AppCompatActivity {
 
 						e.printStackTrace();
 					}
-				};
+				}
+
+				;
 			}, JuTuanConfrimActivity.this);
 
 		} catch (Exception e) {
@@ -740,13 +739,13 @@ public class JuTuanConfrimActivity extends AppCompatActivity {
 									}
 									tv_1.setText("团购价：");
 									tv_2.setText("团数：");
-                                    tv_color.setText("¥" + dzongjia);// 团购价
-                                    tv_size.setText(getIntent().getStringExtra(
+									tv_color.setText("¥" + dzongjia);// 团购价
+									tv_size.setText(getIntent().getStringExtra(
 											"people")
 											+ "人");
-                                    heji.setText("合计:" + "¥" + dzongjia);
-                                    shi_fukuang.setText("¥" + dzongjia);
-                                } else {
+									heji.setText("合计:" + "¥" + dzongjia);
+									shi_fukuang.setText("¥" + dzongjia);
+								} else {
 									BigDecimal c = new BigDecimal(Double
 											.parseDouble(data.sell_price)
 											* data.quantity);
@@ -757,14 +756,14 @@ public class JuTuanConfrimActivity extends AppCompatActivity {
 									tv_guige.setText(data.spec_text);
 									tv_1.setText("价格：");
 									tv_2.setText("市场价：");
-                                    tv_color.setText("¥" + dzongjia);//
-                                    tv_size.setText("¥" + data.market_price);
-                                    tv_size.getPaint().setFlags(
+									tv_color.setText("¥" + dzongjia);//
+									tv_size.setText("¥" + data.market_price);
+									tv_size.getPaint().setFlags(
 											Paint.STRIKE_THRU_TEXT_FLAG
 													| Paint.ANTI_ALIAS_FLAG);
-                                    heji.setText("合计:" + "¥" + dzongjia);
-                                    shi_fukuang.setText("¥" + dzongjia);
-                                }
+									heji.setText("合计:" + "¥" + dzongjia);
+									shi_fukuang.setText("¥" + dzongjia);
+								}
 								tv_warename.setText(data.title);
 								tv_num.setText(String.valueOf(data.quantity));
 								mAq.id(img_ware).image(
@@ -927,27 +926,17 @@ public class JuTuanConfrimActivity extends AppCompatActivity {
 				super.onSuccess(arg0, arg1);
 				try {
 					JSONObject object = new JSONObject(arg1);
-					System.out
-							.println("提交团购订单================================="
-									+ arg1);
 					String status = object.getString("status");
 					String info = object.getString("info");
 					if (status.equals("y")) {
-						Toast.makeText(JuTuanConfrimActivity.this, info, Toast.LENGTH_SHORT)
-								.show();
+						Toast.makeText(JuTuanConfrimActivity.this, info, Toast.LENGTH_SHORT).show();
 						JSONObject jsonObject = object.getJSONObject("data");
 						recharge_no = jsonObject.getString("trade_no");
-						// String order_no = jsonObject.getString("order_no");
-						// System.out.println("order_no================================="+order_no);
-						SharedPreferences spPreferences = getSharedPreferences(
-								"longuserset_id", Context.MODE_PRIVATE);
+						SharedPreferences spPreferences = getSharedPreferences("longuserset_id", Context.MODE_PRIVATE);
 						Editor editor = spPreferences.edit();
 						editor.putString("ct_order_no", recharge_no);
 						editor.commit();
-
-						String total_amount = jsonObject
-								.getString("payable_amount");
-						// data = new ShopCartData();
+						String total_amount = jsonObject.getString("payable_amount");
 						progress.CloseProgress();
 						if (type.equals("3")) {
 							loadzhidu(recharge_no, total_amount);
@@ -1126,36 +1115,26 @@ public class JuTuanConfrimActivity extends AppCompatActivity {
 					}
 
 					break;
-				case 5:// 支付宝
-					PayResult payResult = new PayResult((String) msg.obj);
-
-					// 支付宝返回此次支付结果及加签，建议对支付宝签名信息拿签约时支付宝提供的公钥做验签
-					String resultInfo = payResult.getResult();
-
+				case PayProxy.SDK_PAY_FLAG: {
+					PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+					/**
+					 对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+					 */
+					String resultInfo = payResult.getResult();// 同步返回需要验证的信息
 					String resultStatus = payResult.getResultStatus();
-					System.out.println(resultInfo + "---" + resultStatus);
-					// 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
+					// 判断resultStatus 为9000则代表支付成功
 					if (TextUtils.equals(resultStatus, "9000")) {
-						Toast.makeText(JuTuanConfrimActivity.this, "支付成功",
-								Toast.LENGTH_SHORT).show();
+						// 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+						Toast.makeText(JuTuanConfrimActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
 						userloginqm();
-						// finish();
+						finish();
 					} else {
-						// 判断resultStatus 为非“9000”则代表可能支付失败
-						// “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
-						if (TextUtils.equals(resultStatus, "8000")) {
-							Toast.makeText(JuTuanConfrimActivity.this, "支付结果确认中",
-									Toast.LENGTH_SHORT).show();
-							finish();
-
-						} else {
-							// 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-							Toast.makeText(JuTuanConfrimActivity.this, "支付失败",
-									Toast.LENGTH_SHORT).show();
-							finish();
-						}
+						//                            // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
+						Toast.makeText(JuTuanConfrimActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
+						finish();
 					}
 					break;
+				}
 				default:
 					break;
 			}
@@ -1502,121 +1481,7 @@ public class JuTuanConfrimActivity extends AppCompatActivity {
 	}
 
 	private void ali_pay() {
-		try {
 
-			//
-			String orderInfo = getOrderInfo("盖亚商城商品", "商品描述", recharge_no);
-
-			// 对订单做RSA 签名
-			String sign = sign(orderInfo);
-			try {
-				// 仅需对sign 做URL编码
-				sign = URLEncoder.encode(sign, "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-
-			// 完整的符合支付宝参数规范的订单信息
-			final String payInfo = orderInfo + "&sign=\"" + sign + "\"&"
-					+ getSignType();
-
-			Runnable payRunnable = new Runnable() {
-
-				@Override
-				public void run() {
-					// 构造PayTask 对象
-					PayTask alipay = new PayTask(JuTuanConfrimActivity.this);
-					// 调用支付接口，获取支付结果
-					String result = alipay.pay(payInfo,true);
-					Message msg = new Message();
-					msg.what = 5;
-					msg.obj = result;
-					handler.sendMessage(msg);
-				}
-			};
-
-			// 必须异步调用
-			Thread payThread = new Thread(payRunnable);
-			payThread.start();
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-
-		}
 	}
 
-	/**
-	 * sign the order info. 对订单信息进行签名
-	 *
-	 * @param content
-	 *            待签名订单信息
-	 */
-	public String sign(String content) {
-		return SignUtils.sign(content, Common.RSA_PRIVATE,false);
-	}
-
-	/**
-	 * get the sign type we use. 获取签名方式
-	 *
-	 */
-	public String getSignType() {
-		return "sign_type=\"RSA\"";
-	}
-
-	/**
-	 * create the order info. 创建订单信息
-	 *
-	 */
-	public String getOrderInfo(String subject, String body, String dingdan) {
-		// 签约合作者身份ID
-		String orderInfo = "partner=" + "\"" + Common.PARTNER + "\"";
-
-		// 签约卖家支付宝账号
-		orderInfo += "&seller_id=" + "\"" + Common.SELLER + "\"";
-
-		// 商户网站唯一订单号
-		orderInfo += "&out_trade_no=" + "\"" + dingdan + "\"";
-
-		// 商品名称
-		orderInfo += "&subject=" + "\"" + subject + "\"";
-
-		// 商品详情
-		orderInfo += "&body=" + "\"" + body + "\"";
-
-		// 商品金额
-		orderInfo += "&total_fee=" + "\"" + total_fee + "\"";
-		// orderInfo += "&total_fee=" + "\"" + 0.01 + "\"";
-
-		// 服务器异步通知页面路径
-		orderInfo += "&notify_url=" + "\"" + notify_url + "\"";
-		System.out.println("======notify_url=============" + notify_url);
-
-		// 服务接口名称， 固定值
-		orderInfo += "&service=\"mobile.securitypay.pay\"";
-
-		// 支付类型， 固定值
-		orderInfo += "&payment_type=\"1\"";
-
-		// 参数编码， 固定值
-		orderInfo += "&_input_charset=\"utf-8\"";
-
-		// 设置未付款交易的超时时间
-		// 默认30分钟，一旦超时，该笔交易就会自动被关闭。
-		// 取值范围：1m～15d。
-		// m-分钟，h-小时，d-天，1c-当天（无论交易何时创建，都在0点关闭）。
-		// 该参数数值不接受小数点，如1.5h，可转换为90m。
-		orderInfo += "&it_b_pay=\"30m\"";
-
-		// extern_token为经过快登授权获取到的alipay_open_id,带上此参数用户将使用授权的账户进行支付
-		// orderInfo += "&extern_token=" + "\"" + extern_token + "\"";
-
-		// 支付宝处理完请求后，当前页面跳转到商户指定页面的路径，可空
-		// orderInfo += "&return_url=\"m.alipay.com\"";
-
-		// 调用银行卡支付，需配置此参数，参与签名， 固定值 （需要签约《无线银行卡快捷支付》才能使用）
-		// orderInfo += "&paymethod=\"expressGateway\"";
-		System.out.println(orderInfo);
-		return orderInfo;
-	}
 }
