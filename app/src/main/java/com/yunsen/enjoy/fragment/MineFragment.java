@@ -465,6 +465,7 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
         } else {
             if (!TextUtils.isEmpty(user_name_phone)) {//手机登录
                 getLeXiangUserInfo();//获取乐享用户信息
+                requestIsFacilitator();//判断是否是服务商
                 load_list();
             } else {
                 hasLoginLayout.setVisibility(View.GONE);
@@ -696,13 +697,13 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
                     UIHelper.showMonthIncomeActivity(getActivity());
                     break;
                 case R.id.all_order_count_layout:
-                    ToastUtils.makeTextShort("本月订单");
+                    UIHelper.showMonthOrderActivity(getActivity());
                     break;
                 case R.id.all_income_layout://累计收益
                     UIHelper.showCumulativeIncomeActivity(getActivity());
                     break;
                 case R.id.stored_ic_card_layout:
-                    ToastUtils.makeTextShort("储值卡");
+                    UIHelper.showBecomeVipActivity(getActivity());
                     break;
                 case R.id.order_more_tv: //我的订单更多
                     UIHelper.showOrderActivity(getActivity(), "0");
@@ -710,14 +711,17 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
                 case R.id.grade_more_tv:
                     ToastUtils.makeTextShort("排名");
                     break;
-                case R.id.spread_layout:
-                    ToastUtils.makeTextShort("推广");
+                case R.id.spread_layout: //直推
+//                    UIHelper.showShareAppInfoActivity(getActivity(), "");
                     break;
                 case R.id.user_count_layout:
-                    ToastUtils.makeTextShort("人数");
+                    UIHelper.showPersonNumberActivity(getActivity());
                     break;
                 case R.id.order_count_layout:
-                    ToastUtils.makeTextShort("订单数");
+                    UIHelper.showOrderNumberActivity(getActivity());
+                    break;
+                case R.id.income_layout:// 累计收益
+                    UIHelper.showMineAchievementActivity(getActivity());
                     break;
 
             }
@@ -736,25 +740,25 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
                     UIHelper.showWithdrawCashActivity(getActivity(), mBalance);
                     break;
                 case 1:
-                    ToastUtils.makeTextShort("钱包");
+                    UIHelper.showWalletActivity(getActivity());
                     break;
                 case 2:
                     UIHelper.showAddressManagerGlActivity(getActivity());
                     break;
                 case 3:
-                    ToastUtils.makeTextShort("昨日收益");
+                    UIHelper.showCumulativeIncomeActivity(getActivity());// TODO: 2018/7/4 昨日收益
                     break;
                 case 4:
                     UIHelper.showExtensionActivity(getActivity());
                     break;
                 case 5:
-                    ToastUtils.makeTextShort("升级会员");
+                    UIHelper.showBecomeVipActivity(getActivity());
                     break;
                 case 6:
-                    ToastUtils.makeTextShort("申请代理");
+                    UIHelper.showApplyAgentActivity(getActivity());
                     break;
                 case 7:
-                    ToastUtils.makeTextShort("实名认证");
+                    UIHelper.showUserCertificationActivity(getActivity());
                     break;
             }
         }

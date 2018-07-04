@@ -14,6 +14,7 @@ import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yunsen.enjoy.activity.AdvertActivity;
+import com.yunsen.enjoy.activity.ApplyAgentActivity;
 import com.yunsen.enjoy.activity.CarDetailsActivity;
 import com.yunsen.enjoy.activity.HouseDetailActivity;
 import com.yunsen.enjoy.activity.MainActivity;
@@ -40,18 +41,25 @@ import com.yunsen.enjoy.activity.dealer.ApplyServiceThreeActivity;
 import com.yunsen.enjoy.activity.dealer.MyFacilitatorActivity;
 import com.yunsen.enjoy.activity.mine.AddressManagerGlActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
+import com.yunsen.enjoy.activity.mine.BecomeVipActivity;
 import com.yunsen.enjoy.activity.mine.BindBankCardActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.mine.CumulativeIncomeActivity;
 import com.yunsen.enjoy.activity.mine.ExtensionActivity;
+import com.yunsen.enjoy.activity.mine.MineAchievementActivity;
 import com.yunsen.enjoy.activity.mine.MonthIncomeActivity;
+import com.yunsen.enjoy.activity.mine.MonthOrderActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
 import com.yunsen.enjoy.activity.mine.MyOrderConfrimActivity;
 import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
+import com.yunsen.enjoy.activity.mine.OrderNumberActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
+import com.yunsen.enjoy.activity.mine.PersonNumberActivity;
 import com.yunsen.enjoy.activity.mine.ShopCartActivity;
 import com.yunsen.enjoy.activity.mine.TeamActivity;
+import com.yunsen.enjoy.activity.mine.UserCertificationActivity;
 import com.yunsen.enjoy.activity.mine.UserForgotPasswordActivity;
+import com.yunsen.enjoy.activity.mine.WalletActivity;
 import com.yunsen.enjoy.activity.mine.WithdrawCashActivity;
 import com.yunsen.enjoy.activity.order.DianPingActivity;
 import com.yunsen.enjoy.activity.order.MyOrderActivity;
@@ -998,4 +1006,84 @@ public class UIHelper {
         ctx.startActivity(intent);
     }
 
+    /**
+     * 本月订单
+     *
+     * @param ctx
+     */
+    public static void showMonthOrderActivity(Context ctx) {
+        Intent intent = new Intent(ctx, MonthOrderActivity.class);
+        ctx.startActivity(intent);
+    }
+
+
+    /**
+     * 升级会员
+     *
+     * @param ctx
+     */
+    public static void showBecomeVipActivity(Context ctx) {
+        Intent intent = new Intent(ctx, BecomeVipActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 我的业绩
+     *
+     * @param ctx
+     */
+    public static void showMineAchievementActivity(Context ctx) {
+        Intent intent = new Intent(ctx, MineAchievementActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 订单数
+     *
+     * @param ctx
+     */
+    public static void showOrderNumberActivity(Context ctx) {
+        Intent intent = new Intent(ctx, OrderNumberActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 人数
+     *
+     * @param ctx
+     */
+    public static void showPersonNumberActivity(Context ctx) {
+        Intent intent = new Intent(ctx, PersonNumberActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 验证身份
+     *
+     * @param ctx
+     */
+    public static void showUserCertificationActivity(Context ctx) {
+        Intent intent = new Intent(ctx, UserCertificationActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 钱包
+     *
+     * @param ctx
+     */
+    public static void showWalletActivity(Context ctx) {
+        Intent intent = new Intent(ctx, WalletActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 申请代理
+     *
+     * @param ctx
+     */
+    public static void showApplyAgentActivity(Context ctx) {
+        Intent intent = new Intent(ctx, ApplyAgentActivity.class);
+        ctx.startActivity(intent);
+    }
 }
