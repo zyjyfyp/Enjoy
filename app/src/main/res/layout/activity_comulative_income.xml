@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include layout="@layout/back_action_bar" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,12 +17,40 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.yunsen.enjoy.widget.piechart.PieChart
-                android:id="@+id/pie_chart"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                app:name="Demo"
-                app:textSize="20sp" />
+                android:layout_height="250dp">
+
+                <com.yunsen.enjoy.widget.ZyRingView
+                    android:id="@+id/zy_ring_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="总收益（元）"
+                        android:textColor="@color/color_888"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="6"
+                        android:text="0"
+                        android:textColor="@color/color_theme"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </FrameLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"

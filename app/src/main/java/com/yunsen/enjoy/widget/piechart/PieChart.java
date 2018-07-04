@@ -369,7 +369,6 @@ public class PieChart extends View {
         }
     }
 
-    @SuppressLint("NewApi")
     private void drawArc(Canvas canvas, float currentStartAngle, float drawAngle, PieData pie,
                          float outR, float midR, float inR, RectF outRectF, RectF midRectF, RectF inRectF, Paint paint){
         outPath.lineTo(outR*(float) Math.cos(Math.toRadians(currentStartAngle)),outR*(float) Math.sin(Math.toRadians(currentStartAngle)));
@@ -378,8 +377,9 @@ public class PieChart extends View {
         midPath.arcTo(midRectF,currentStartAngle,drawAngle);
         inPath.lineTo(inR*(float) Math.cos(Math.toRadians(currentStartAngle)),inR*(float) Math.sin(Math.toRadians(currentStartAngle)));
         inPath.arcTo(inRectF,currentStartAngle,drawAngle);
-        outMidPath.op(outPath,midPath, Path.Op.DIFFERENCE);
-        midInPath.op(midPath,inPath, Path.Op.DIFFERENCE);
+
+//        outMidPath.op(outPath,midPath, Path.Op.DIFFERENCE);
+//        midInPath.op(midPath,inPath, Path.Op.DIFFERENCE);
         paint.setColor(pie.getColor());
         canvas.drawPath(outMidPath,paint);
         paint.setAlpha(0x80);//设置透明度

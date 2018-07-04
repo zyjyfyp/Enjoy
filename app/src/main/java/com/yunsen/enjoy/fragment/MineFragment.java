@@ -698,7 +698,7 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
                 case R.id.all_order_count_layout:
                     ToastUtils.makeTextShort("本月订单");
                     break;
-                case R.id.all_income_layout:
+                case R.id.all_income_layout://累计收益
                     UIHelper.showCumulativeIncomeActivity(getActivity());
                     break;
                 case R.id.stored_ic_card_layout:
@@ -719,9 +719,7 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
                 case R.id.order_count_layout:
                     ToastUtils.makeTextShort("订单数");
                     break;
-                case R.id.income_layout:
-                    ToastUtils.makeTextShort("累计收益");
-                    break;
+
             }
         }
     }

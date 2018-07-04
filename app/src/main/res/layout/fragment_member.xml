@@ -371,7 +371,7 @@
                     android:paddingRight="10dp"
                     android:text="查看更多"
                     android:textColor="@color/color_888"
-                    android:textSize="11sp" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -525,7 +525,7 @@
                     android:paddingRight="10dp"
                     android:text="排名"
                     android:textColor="@color/color_888"
-                    android:textSize="11sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <View

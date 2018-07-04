@@ -2,15 +2,13 @@ package com.yunsen.enjoy.activity.mine;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
-import com.yunsen.enjoy.widget.piechart.PieChart;
-import com.yunsen.enjoy.widget.piechart.PieData;
-
-import java.util.ArrayList;
+import com.yunsen.enjoy.widget.ZyRingView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,8 +19,8 @@ import butterknife.OnClick;
  */
 
 public class CumulativeIncomeActivity extends BaseFragmentActivity {
-    @Bind(R.id.pie_chart)
-    PieChart pieChart;
+    @Bind(R.id.zy_ring_view)
+    ZyRingView ringVIew;
     @Bind(R.id.income_push_percent)
     TextView incomePushPercent;
     @Bind(R.id.income_team_percent)
@@ -41,6 +39,10 @@ public class CumulativeIncomeActivity extends BaseFragmentActivity {
     TextView incomeProxyMoney;
     @Bind(R.id.income_proxy_layout)
     LinearLayout incomeProxyLayout;
+    @Bind(R.id.action_back)
+    ImageView actionBack;
+    @Bind(R.id.action_bar_title)
+    TextView actionBarTitle;
 
     @Override
     public int getLayout() {
@@ -50,29 +52,11 @@ public class CumulativeIncomeActivity extends BaseFragmentActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-
+        actionBarTitle.setText("累计收益");
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        pieChart.setStartAngle(0);
-        pieChart.setName("0元");
-        ArrayList<PieData> mPieDatas = new ArrayList<>();
-        PieData pieData1 = new PieData();
-        pieData1.setValue(0);
-        pieData1.setColor(getResources().getColor(R.color.color_yellow));
-
-        PieData pieData2 = new PieData();
-        pieData2.setValue(0);
-        pieData2.setColor(getResources().getColor(R.color.color_violet));
-
-        PieData pieData3 = new PieData();
-        pieData3.setValue(0);
-        pieData3.setColor(getResources().getColor(R.color.color_pink));
-        mPieDatas.add(pieData1);
-        mPieDatas.add(pieData2);
-        mPieDatas.add(pieData3);
-        pieChart.setPieData(mPieDatas);
     }
 
     @Override
@@ -81,7 +65,7 @@ public class CumulativeIncomeActivity extends BaseFragmentActivity {
     }
 
 
-    @OnClick({R.id.income_push_layout, R.id.income_team_layout, R.id.income_proxy_layout})
+    @OnClick({R.id.income_push_layout, R.id.income_team_layout, R.id.income_proxy_layout, R.id.action_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.income_push_layout:
@@ -90,6 +74,11 @@ public class CumulativeIncomeActivity extends BaseFragmentActivity {
                 break;
             case R.id.income_proxy_layout:
                 break;
+            case R.id.action_back:
+                finish();
+                break;
         }
     }
+
+
 }
