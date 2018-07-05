@@ -740,7 +740,7 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
                     UIHelper.showBalanceCashActivity(getActivity(), mBalance);
                     break;
                 case 1:
-                    UIHelper.showWalletActivity(getActivity());
+                    UIHelper.showWalletActivity(getActivity(),mBalance);
                     break;
                 case 2:
                     UIHelper.showAddressManagerGlActivity(getActivity());

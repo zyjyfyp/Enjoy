@@ -203,8 +203,9 @@ public class AddUserAddressActivity extends AppCompatActivity {
                 dialog1.show();
             }
         });
-
-        ImageView iv_fanhui = (ImageView) findViewById(R.id.iv_fanhui);
+        TextView titleView = (TextView) findViewById(R.id.action_bar_title);
+        titleView.setText("新增收货地址");
+        ImageView iv_fanhui = (ImageView) findViewById(R.id.action_back);
         iv_fanhui.setOnClickListener(new OnClickListener() {
 
             @Override

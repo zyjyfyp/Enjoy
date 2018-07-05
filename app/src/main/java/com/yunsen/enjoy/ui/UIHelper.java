@@ -66,6 +66,8 @@ import com.yunsen.enjoy.activity.order.DianPingActivity;
 import com.yunsen.enjoy.activity.order.MyOrderActivity;
 import com.yunsen.enjoy.activity.order.MyOrderXqActivity;
 import com.yunsen.enjoy.activity.pay.MonneyChongZhiActivity;
+import com.yunsen.enjoy.activity.pay.MyOrderZFActivity;
+import com.yunsen.enjoy.activity.pay.TishiCarArchivesActivity;
 import com.yunsen.enjoy.activity.user.DBFengXiangActivity;
 import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
@@ -923,6 +925,7 @@ public class UIHelper {
 
     /**
      * 绑定银行卡
+     * 填写银行卡信息
      *
      * @param activity
      */
@@ -1074,8 +1077,9 @@ public class UIHelper {
      *
      * @param ctx
      */
-    public static void showWalletActivity(Context ctx) {
+    public static void showWalletActivity(Context ctx, double balance) {
         Intent intent = new Intent(ctx, WalletActivity.class);
+        intent.putExtra(Constants.BALANCE, balance);
         ctx.startActivity(intent);
     }
 
@@ -1110,4 +1114,31 @@ public class UIHelper {
         ctx.startActivity(intent);
     }
 
+    /**
+     * 去支付
+     *
+     * @param ctx
+     * @param orderNo
+     * @param money
+     */
+    public static void toPayVipMoney(Context ctx, String orderNo, double money) {
+        Intent intent = new Intent(ctx, MyOrderZFActivity.class);
+        intent.putExtra("order_no", orderNo);
+        intent.putExtra("order_type", "5");
+        intent.putExtra("total_c", String.valueOf(money));
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 商品余额支付
+     *
+     * @param act
+     * @param orderNo
+     */
+    public static void showTishiCarArchivesActivity(Activity act, String orderNo) {
+        Intent intent = new Intent(act, TishiCarArchivesActivity.class);
+        intent.putExtra("order_no", orderNo);
+        intent.putExtra("order_yue", "order_yue");
+        act.startActivity(intent);
+    }
 }

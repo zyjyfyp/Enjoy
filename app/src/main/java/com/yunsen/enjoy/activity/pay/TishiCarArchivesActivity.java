@@ -183,7 +183,6 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
     private void userloginqm() {
         try {
             String strUrlone = URLConstants.REALM_NAME_LL + "/get_user_model?username=" + user_name + "";
-            System.out.println("======11=============" + strUrlone);
             AsyncHttp.get(strUrlone, new AsyncHttpResponseHandler() {
                 public void onSuccess(int arg0, String arg1) {
                     try {

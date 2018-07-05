@@ -62,9 +62,6 @@
          android:divider="@drawable/list_div"
         android:dividerHeight="1dip"
         />
-    
-    
-    
 
 
 </RelativeLayout>

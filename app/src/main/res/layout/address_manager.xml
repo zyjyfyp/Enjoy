@@ -4,52 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f0f0f0"
-    android:orientation="vertical" >
-    
-    <RelativeLayout
-         android:id="@+id/rl_title"
-         android:layout_width="match_parent"
-         android:layout_height="45dp"
-         android:layout_alignParentTop="true"
-         android:layout_gravity="center_horizontal"
-         android:background="@color/ybs" >
+    android:orientation="vertical">
 
-         <TextView
-             android:id="@+id/textView1"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_centerHorizontal="true"
-             android:layout_centerVertical="true"
-             android:text="收货地址"
-             android:textSize="18dip" />
+    <include  android:id="@+id/rl_title"
+        layout="@layout/back_action_bar" />
 
-         <ImageView
-             android:id="@+id/iv_fanhui"
-             android:layout_width="wrap_content"
-             android:layout_height="20dp"
-             android:layout_alignParentLeft="true"
-             android:layout_centerVertical="true"
-             android:layout_marginLeft="10dp"
-             android:src="@drawable/back"
-             android:textSize="18dip" />
-
-         <View
-             android:layout_width="match_parent"
-             android:layout_height="1dp"
-             android:layout_alignParentBottom="true"
-             android:layout_alignParentLeft="true"
-             android:background="@color/gray" />
-
-         <TextView
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_alignParentRight="true"
-             android:layout_alignTop="@+id/iv_fanhui"
-             android:layout_marginRight="15dp"
-             android:text=""
-             android:textSize="18dip" />
-
-     </RelativeLayout>
 
     <ListView
         android:id="@+id/list_address"
@@ -63,13 +22,13 @@
     <Button
         android:id="@+id/btn_add_address"
         android:layout_width="match_parent"
-        android:layout_height="45dp" 
+        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="5dp"
-        android:layout_marginTop="0dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:background="@drawable/btn_red_3_5_bg"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/gaiya_btn_bg"
         android:text="新增收货地址"
         android:textColor="#ffffff"
         android:textSize="18dp" />

@@ -21,6 +21,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -56,9 +57,6 @@ public class AddressManagerGlActivity extends AppCompatActivity {
     private static final int UP_MANAGER_ADDRESS = 10;
     private ListView list_address;
     private Button btn_add_address;
-    private WareDao wareDao;
-    private String yth, key, strUrl;
-    private UserRegisterData registerData;
     private DialogProgress progress;
     private MyPopupWindowMenu popupWindowMenu;
     private SharedPreferences spPreferences;
@@ -68,13 +66,11 @@ public class AddressManagerGlActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.address_manager);
         try {
             popupWindowMenu = new MyPopupWindowMenu(this);
-            wareDao = new WareDao(getApplicationContext());
             progress = new DialogProgress(AddressManagerGlActivity.this);
             list_address = (ListView) findViewById(R.id.list_address);
             btn_add_address = (Button) findViewById(R.id.btn_add_address);
@@ -84,13 +80,14 @@ public class AddressManagerGlActivity extends AppCompatActivity {
 
             e.printStackTrace();
         }
+        TextView titleView = (TextView) findViewById(R.id.action_bar_title);
+        titleView.setText("收货地址");
 
-        ImageView iv_fanhui = (ImageView) findViewById(R.id.iv_fanhui);
+        ImageView iv_fanhui = (ImageView) findViewById(R.id.action_back);
         iv_fanhui.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-
                 finish();
             }
         });
@@ -110,8 +107,7 @@ public class AddressManagerGlActivity extends AppCompatActivity {
         list_address.setOnItemLongClickListener(new OnItemLongClickListener() {
 
             @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-                                           int arg2, long arg3) {
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 
                 ID = list.get(arg2).id;
                 dialog(ID);

@@ -16,6 +16,7 @@ import com.yunsen.enjoy.model.AccountBalanceModel;
 import com.yunsen.enjoy.model.AddressInfo;
 import com.yunsen.enjoy.model.AdvertList;
 import com.yunsen.enjoy.model.AdvertModel;
+import com.yunsen.enjoy.model.AliPaySignBean;
 import com.yunsen.enjoy.model.ApkVersionInfo;
 import com.yunsen.enjoy.model.AuthorizationModel;
 import com.yunsen.enjoy.model.BindCardBean;
@@ -45,6 +46,7 @@ import com.yunsen.enjoy.model.WXAccessTokenEntity;
 import com.yunsen.enjoy.model.WXUserInfo;
 import com.yunsen.enjoy.model.WalletCashBean;
 import com.yunsen.enjoy.model.WatchCarBean;
+import com.yunsen.enjoy.model.WxPaySignBean;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.model.request.ApplyWalletCashRequest;
@@ -52,6 +54,7 @@ import com.yunsen.enjoy.model.request.BindBankCardRequest;
 import com.yunsen.enjoy.model.request.WatchCarModel;
 import com.yunsen.enjoy.model.response.AccountBalanceResponse;
 import com.yunsen.enjoy.model.response.AddShoppingBuysResponse;
+import com.yunsen.enjoy.model.response.AliPaySignResponse;
 import com.yunsen.enjoy.model.response.ApkVersionResponse;
 import com.yunsen.enjoy.model.response.AuthorizationResponse;
 import com.yunsen.enjoy.model.response.BindBankListResponse;
@@ -72,6 +75,7 @@ import com.yunsen.enjoy.model.response.TradeListResponse;
 import com.yunsen.enjoy.model.response.UserInfoResponse;
 import com.yunsen.enjoy.model.response.WalletCashResponse;
 import com.yunsen.enjoy.model.response.WatchCarResponse;
+import com.yunsen.enjoy.model.response.WxPaySignResponse;
 import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.EntityToMap;
 import com.yunsen.enjoy.utils.SpUtils;
@@ -2033,7 +2037,6 @@ public class HttpProxy {
     }
 
     /**
-     *
      * @param userId
      * @param userName
      * @param loginSign
@@ -2061,5 +2064,71 @@ public class HttpProxy {
             }
         });
     }
+
+    /**
+     * 支付宝签名
+     *
+     * @param userId
+     * @param userName
+     * @param tatalfee
+     * @param tradeNo
+     * @param callBack
+     */
+    public static void alipaySign(String userId, String userName, String tatalfee, String tradeNo, final HttpCallBack<AliPaySignBean> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("user_id", userId);
+        map.put("user_name", userName);
+        map.put("total_fee", tatalfee);
+        map.put("out_trade_no", tradeNo);
+        map.put("payment_type", "alipay");
+
+        HttpClient.get(URLConstants.ALIPAY_SIGN_URL, map, new HttpResponseHandler<AliPaySignResponse>() {
+            @Override
+            public void onSuccess(AliPaySignResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 支付宝签名
+     *
+     * @param userId
+     * @param userName
+     * @param tatalfee
+     * @param tradeNo
+     * @param callBack
+     */
+    public static void wXinPaySign(String userId, String userName, String tatalfee, String tradeNo, final HttpCallBack<WxPaySignBean> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("user_id", userId);
+        map.put("user_name", userName);
+        map.put("total_fee", tatalfee);
+        map.put("out_trade_no", tradeNo);
+        map.put("payment_type", "weixin");
+
+        HttpClient.get(URLConstants.WX_PAY_SIGN_URL, map, new HttpResponseHandler<WxPaySignResponse>() {
+            @Override
+            public void onSuccess(WxPaySignResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+
 }
 

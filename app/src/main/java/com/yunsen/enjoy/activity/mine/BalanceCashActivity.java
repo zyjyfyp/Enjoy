@@ -63,7 +63,7 @@ public class BalanceCashActivity extends BaseFragmentActivity {
             case R.id.consume_tv:
                 break;
             case R.id.withdraw_cash_btn:
-                UIHelper.showWithdrawCashActivity(this, mBalance);
+                UIHelper.showWalletActivity(this,mBalance);
                 break;
             case R.id.recharge_btn:
                 UIHelper.showMonneyChongZhiActivity(this);

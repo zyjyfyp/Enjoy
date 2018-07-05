@@ -42,6 +42,7 @@ import okhttp3.Request;
 
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     private static final String TAG = "WXEntryActivity";
+    public static String SIGN;
     /**
      * 微信登录相关
      */

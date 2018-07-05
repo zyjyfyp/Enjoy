@@ -40,7 +40,7 @@ import org.json.JSONObject;
 import java.util.Map;
 
 /**
- * 袋鼠车宝
+ *
  *
  * @author Administrator
  */
@@ -104,10 +104,7 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-//        if (flag == true) {
-//            userloginqm();
         orderxq = getIntent().getStringExtra("5");
-//        }
     }
 
     @Override
@@ -179,7 +176,6 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
                                 flag = api.sendReq(req);
                                 System.out.println("支付" + flag);
                             } catch (Exception e) {
-
                                 e.printStackTrace();
                             }
                         } else {

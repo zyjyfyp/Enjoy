@@ -302,7 +302,18 @@ public class URLConstants {
     /**
      * 修改QQ
      */
-    public static final String CHANGE_ONLINE_QQ_URL =BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_update_field"; ;
+    public static final String CHANGE_ONLINE_QQ_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_update_field";
+    /**
+     * 支付宝支付 签名
+     * http://szlxkg.com/tools/mobile_ajax.asmx/payment_sign?
+     */
+    public static final String ALIPAY_SIGN_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/payment_sign";
+    /**
+     * 微信支付 签名
+     * http://szlxkg.com/tools/mobile_ajax.asmx/payment_sign
+     */
+    public static final String WX_PAY_SIGN_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/payment_sign";
+    ;
 
     //
     //    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";
