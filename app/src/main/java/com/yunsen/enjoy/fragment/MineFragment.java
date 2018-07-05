@@ -557,7 +557,7 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
                             .into(userIconImg);
                 }
                 if (data.getId() != 0) {
-                    userIdTv.setText("ID: " + data.getId());
+                    userIdTv.setText("ID: " + data.getUser_code());
                 }
                 if (!TextUtils.isEmpty(data.getGroup_name())) {
                     gradeTv.setText(data.getGroup_name());

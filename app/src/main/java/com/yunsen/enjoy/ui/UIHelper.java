@@ -68,6 +68,7 @@ import com.yunsen.enjoy.activity.order.MyOrderXqActivity;
 import com.yunsen.enjoy.activity.pay.MonneyChongZhiActivity;
 import com.yunsen.enjoy.activity.pay.MyOrderZFActivity;
 import com.yunsen.enjoy.activity.pay.TishiCarArchivesActivity;
+import com.yunsen.enjoy.activity.user.AgentHadActivity;
 import com.yunsen.enjoy.activity.user.DBFengXiangActivity;
 import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
@@ -1140,5 +1141,15 @@ public class UIHelper {
         intent.putExtra("order_no", orderNo);
         intent.putExtra("order_yue", "order_yue");
         act.startActivity(intent);
+    }
+
+    /**
+     * 已成为代理
+     *
+     * @param ctx
+     */
+    public static void showAgentHadActivity(Context ctx) {
+        Intent intent = new Intent(ctx, AgentHadActivity.class);
+        ctx.startActivity(intent);
     }
 }
