@@ -5,4 +5,33 @@
     android:orientation="vertical">
 
     <include layout="@layout/back_action_bar" />
+
+    <LinearLayout
+        android:layout_marginLeft="@dimen/app_margin"
+        android:layout_marginRight="@dimen/app_margin"   android:layout_width="match_parent"
+        android:layout_height="@dimen/item_min_height"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/PersonTopTv"
+            android:text="昵称" />
+
+        <TextView
+            style="@style/PersonTopTv"
+            android:text="ID" />
+
+        <TextView
+            style="@style/PersonTopTv"
+            android:text="本月收益" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_f5f7fa" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_achievement"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

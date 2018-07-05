@@ -41,6 +41,7 @@ import com.yunsen.enjoy.activity.dealer.ApplyServiceThreeActivity;
 import com.yunsen.enjoy.activity.dealer.MyFacilitatorActivity;
 import com.yunsen.enjoy.activity.mine.AddressManagerGlActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
+import com.yunsen.enjoy.activity.mine.BalanceCashActivity;
 import com.yunsen.enjoy.activity.mine.BecomeVipActivity;
 import com.yunsen.enjoy.activity.mine.BindBankCardActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
@@ -64,6 +65,7 @@ import com.yunsen.enjoy.activity.mine.WithdrawCashActivity;
 import com.yunsen.enjoy.activity.order.DianPingActivity;
 import com.yunsen.enjoy.activity.order.MyOrderActivity;
 import com.yunsen.enjoy.activity.order.MyOrderXqActivity;
+import com.yunsen.enjoy.activity.pay.MonneyChongZhiActivity;
 import com.yunsen.enjoy.activity.user.DBFengXiangActivity;
 import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
@@ -1086,4 +1088,26 @@ public class UIHelper {
         Intent intent = new Intent(ctx, ApplyAgentActivity.class);
         ctx.startActivity(intent);
     }
+
+    /**
+     * 余额提现
+     *
+     * @param ctx
+     */
+    public static void showBalanceCashActivity(Context ctx, double balance) {
+        Intent intent = new Intent(ctx, BalanceCashActivity.class);
+        intent.putExtra(Constants.BALANCE, balance);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 充值
+     *
+     * @param ctx
+     */
+    public static void showMonneyChongZhiActivity(Context ctx) {
+        Intent intent = new Intent(ctx, MonneyChongZhiActivity.class);
+        ctx.startActivity(intent);
+    }
+
 }

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/back_action_bar" />
+
+    <TextView
+        android:id="@+id/consume_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="@dimen/app_margin"
+        android:gravity="right"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="消费记录"
+        android:textColor="@color/color_888"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/app_margin"
+        android:layout_marginTop="@dimen/app_margin"
+        android:src="@mipmap/draw_cash" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/app_margin"
+        android:layout_marginRight="@dimen/app_margin"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="0.00"
+        android:textColor="@color/title_color"
+        android:textSize="22sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/app_margin"
+        android:layout_marginRight="@dimen/app_margin"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="我的余额（元）"
+        android:textColor="@color/color_888"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/withdraw_cash_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/gaiya_btn_bg"
+            android:text="提现"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/recharge_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/gaiya_btn_frame_bg"
+            android:text="充值"
+            android:textColor="@color/color_theme"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+
+</LinearLayout>

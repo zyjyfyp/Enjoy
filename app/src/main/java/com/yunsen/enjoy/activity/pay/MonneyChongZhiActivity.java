@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
@@ -31,10 +33,12 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.mine.MyOrderConfrimActivity;
+import com.yunsen.enjoy.activity.pay.adapter.RechargeMoneyAdapter;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.model.RechargeModel;
 import com.yunsen.enjoy.model.UserRegisterllData;
 import com.yunsen.enjoy.model.WxSignData;
 import com.yunsen.enjoy.thirdparty.Common;
@@ -43,12 +47,15 @@ import com.yunsen.enjoy.thirdparty.alipay.OrderInfoUtil2_0;
 import com.yunsen.enjoy.thirdparty.alipay.PayResult;
 import com.yunsen.enjoy.thirdparty.alipay.SignUtils;
 import com.yunsen.enjoy.widget.DialogProgress;
+import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -56,10 +63,10 @@ import java.util.Map;
  *
  * @author Administrator
  */
-public class MonneyChongZhiActivity extends AppCompatActivity implements OnClickListener {
+public class MonneyChongZhiActivity extends AppCompatActivity implements OnClickListener, MultiItemTypeAdapter.OnItemClickListener {
     private Button chongzhi_submit;
     private EditText chongzhi_edit;
-    private TextView yfje_edit, textView1;
+    private TextView textView1;
     private LinearLayout yu_pay0, yu_pay1, yu_pay2;
     private CheckBox yu_pay_c0, yu_pay_c1, yu_pay_c2;
     private IWXAPI api;
@@ -69,12 +76,11 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
     String payment_id;
     public static String recharge_no, notify_url, return_url;
     private ImageView iv_fanhui;
-    private String partner_id, prepayid, noncestr, timestamp, package_, sign;
     private DialogProgress progress;
     String pety;
-    public static Handler handlerll;
     boolean flag = false;
     private WxSignData mSignData;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onResume() {
@@ -86,207 +92,176 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yanglao_chongzhi);
-        try {
+        iv_fanhui = (ImageView) findViewById(R.id.action_back);
+        iv_fanhui.setOnClickListener(this);
+        textView1 = (TextView) findViewById(R.id.action_bar_title);
+        textView1.setText("钱包充值");
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        api = WXAPIFactory.createWXAPI(MonneyChongZhiActivity.this, null);
+        api.registerApp(Constants.APP_ID);
+        wareDao = new WareDao(getApplicationContext());
+        progress = new DialogProgress(this);
+        spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+        user_name = spPreferences.getString(SpConstants.USER_NAME, "");
+        user_id = spPreferences.getString("user_id", "");
+        pwd = spPreferences.getString("pwd", "");
+
+        chongzhi_edit = (EditText) findViewById(R.id.chongzhi_edit);
+        chongzhi_submit = (Button) findViewById(R.id.chongzhi_submit);
+        yu_pay0 = (LinearLayout) findViewById(R.id.yu_pay0);
+        yu_pay1 = (LinearLayout) findViewById(R.id.yu_pay1);
+        yu_pay2 = (LinearLayout) findViewById(R.id.yu_pay2);
+        yu_pay_c0 = (CheckBox) findViewById(R.id.yu_pay_c0);
+        yu_pay_c1 = (CheckBox) findViewById(R.id.yu_pay_c1);
+        yu_pay_c2 = (CheckBox) findViewById(R.id.yu_pay_c2);
+        chongzhi_edit.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
+        initData();
 
 
-            handlerll = new Handler() {
-                public void dispatchMessage(Message msg) {
-                    switch (msg.what) {
-                        case 1:
-                            finish();
-                            break;
-                        default:
-                            break;
-                    }
+        /**
+         * 微信支付
+         */
+        yu_pay0.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                if (yu_pay_c1.isChecked()) {
+                    yu_pay_c1.setChecked(false);
+                } else if (yu_pay_c2.isChecked()) {
+                    yu_pay_c2.setChecked(false);
                 }
-            };
+                yu_pay_c0.setChecked(true);
+            }
+        });
+        yu_pay_c0.setOnClickListener(new OnClickListener() {
 
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-            api = WXAPIFactory.createWXAPI(MonneyChongZhiActivity.this, null);
-            api.registerApp(Constants.APP_ID);
-            wareDao = new WareDao(getApplicationContext());
-            progress = new DialogProgress(this);
-
-            //		yth = registerData.getHengyuCode();
-            //		key = registerData.getUserkey();
-
-            spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
-            user_name = spPreferences.getString(SpConstants.USER_NAME, "");
-            user_id = spPreferences.getString("user_id", "");
-            pwd = spPreferences.getString("pwd", "");
-            iv_fanhui = (ImageView) findViewById(R.id.iv_fanhui);
-            iv_fanhui.setOnClickListener(this);
-
-            //		loadguanggao();
-
-            textView1 = (TextView) findViewById(R.id.textView1);
-            textView1.setText("钱包充值");
-            chongzhi_edit = (EditText) findViewById(R.id.chongzhi_edit);
-            chongzhi_submit = (Button) findViewById(R.id.chongzhi_submit);
-            yu_pay0 = (LinearLayout) findViewById(R.id.yu_pay0);
-            yu_pay1 = (LinearLayout) findViewById(R.id.yu_pay1);
-            yu_pay2 = (LinearLayout) findViewById(R.id.yu_pay2);
-            yu_pay_c0 = (CheckBox) findViewById(R.id.yu_pay_c0);
-            yu_pay_c1 = (CheckBox) findViewById(R.id.yu_pay_c1);
-            yu_pay_c2 = (CheckBox) findViewById(R.id.yu_pay_c2);
-            chongzhi_edit.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-            /**
-             * 微信支付
-             */
-            yu_pay0.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View arg0) {
-
-                    if (yu_pay_c1.isChecked()) {
-                        yu_pay_c1.setChecked(false);
-                    } else if (yu_pay_c2.isChecked()) {
-                        yu_pay_c2.setChecked(false);
-                    }
-                    yu_pay_c0.setChecked(true);
+            @Override
+            public void onClick(View arg0) {
+                if (yu_pay_c1.isChecked()) {
+                    //点击设置是否为点击状态
+                    yu_pay_c1.setChecked(false);
+                } else if (yu_pay_c2.isChecked()) {
+                    yu_pay_c2.setChecked(false);
                 }
-            });
-            yu_pay_c0.setOnClickListener(new OnClickListener() {
+                yu_pay_c0.setChecked(true);
+            }
+        });
+        /**
+         * 支付宝支付
+         */
+        yu_pay_c1.setOnClickListener(new OnClickListener() {
 
-                @Override
-                public void onClick(View arg0) {
+            @Override
+            public void onClick(View arg0) {
 
-                    if (yu_pay_c1.isChecked()) {
-                        //点击设置是否为点击状态
-                        yu_pay_c1.setChecked(false);
-                    } else if (yu_pay_c2.isChecked()) {
-                        yu_pay_c2.setChecked(false);
-                    }
-                    yu_pay_c0.setChecked(true);
+                if (yu_pay_c0.isChecked()) {
+                    yu_pay_c0.setChecked(false);
+                } else if (yu_pay_c2.isChecked()) {
+                    yu_pay_c2.setChecked(false);
                 }
-            });
-            /**
-             * 支付宝支付
-             */
-            yu_pay_c1.setOnClickListener(new OnClickListener() {
+                yu_pay_c1.setChecked(true);
+            }
+        });
+        yu_pay1.setOnClickListener(new OnClickListener() {
 
-                @Override
-                public void onClick(View arg0) {
+            @Override
+            public void onClick(View arg0) {
+
+                if (yu_pay_c0.isChecked()) {
+                    yu_pay_c0.setChecked(false);
+                } else if (yu_pay_c2.isChecked()) {
+                    yu_pay_c2.setChecked(false);
+                }
+                yu_pay_c1.setChecked(true);
+            }
+        });
+        /**
+         * 余额支付
+         */
+        yu_pay_c2.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                if (yu_pay_c0.isChecked()) {
+                    yu_pay_c0.setChecked(false);
+                } else if (yu_pay_c1.isChecked()) {
+                    yu_pay_c1.setChecked(false);
+                }
+                yu_pay_c2.setChecked(true);
+            }
+        });
+        yu_pay2.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                if (yu_pay_c0.isChecked()) {
+                    yu_pay_c0.setChecked(false);
+                } else if (yu_pay_c1.isChecked()) {
+                    yu_pay_c1.setChecked(false);
+                }
+                yu_pay_c2.setChecked(true);
+            }
+        });
+
+        chongzhi_submit.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                String yue = chongzhi_edit.getText().toString();
+                try {
+                    Double.parseDouble(yue);
+                    double monney = Double.parseDouble(yue);
 
                     if (yu_pay_c0.isChecked()) {
-                        yu_pay_c0.setChecked(false);
-                    } else if (yu_pay_c2.isChecked()) {
-                        yu_pay_c2.setChecked(false);
-                    }
-                    yu_pay_c1.setChecked(true);
-                }
-            });
-            yu_pay1.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View arg0) {
-
-                    if (yu_pay_c0.isChecked()) {
-                        yu_pay_c0.setChecked(false);
-                    } else if (yu_pay_c2.isChecked()) {
-                        yu_pay_c2.setChecked(false);
-                    }
-                    yu_pay_c1.setChecked(true);
-                }
-            });
-            /**
-             * 余额支付
-             */
-            yu_pay_c2.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View arg0) {
-
-                    if (yu_pay_c0.isChecked()) {
-                        yu_pay_c0.setChecked(false);
+                        payment_id = "5";
+                        loadweixinzf1(payment_id);
                     } else if (yu_pay_c1.isChecked()) {
-                        yu_pay_c1.setChecked(false);
+                        payment_id = "3";
+                        loadguanggao(payment_id);
+                    } else if (yu_pay_c2.isChecked()) {
+                        payment_id = "2";
+                        loadguanggao(payment_id);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "请选择支付方式", Toast.LENGTH_SHORT).show();
                     }
-                    yu_pay_c2.setChecked(true);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "请输入金额", Toast.LENGTH_SHORT).show();
                 }
-            });
-            yu_pay2.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View arg0) {
-
-                    if (yu_pay_c0.isChecked()) {
-                        yu_pay_c0.setChecked(false);
-                    } else if (yu_pay_c1.isChecked()) {
-                        yu_pay_c1.setChecked(false);
-                    }
-                    yu_pay_c2.setChecked(true);
-                }
-            });
-
-            chongzhi_submit.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View arg0) {
-                    String yue = chongzhi_edit.getText().toString();
-                    try {
-                        Double.parseDouble(yue);
-                        double monney = Double.parseDouble(yue);
-                        //					if (monney >= 100) {
-
-                        if (yu_pay_c0.isChecked()) {
-
-                            //						processWX(yue);
-                            payment_id = "5";
-                            System.out.println("payment_id==============" + payment_id);
-                            loadweixinzf1(payment_id);
-                            //						Toast.makeText(getApplicationContext(), "暂时无法支付",Toast.LENGTH_SHORT).show();
-                        } else if (yu_pay_c1.isChecked()) {
-
-                            //						process(yue);
-                            payment_id = "3";
-                            loadguanggao(payment_id);
-                        } else if (yu_pay_c2.isChecked()) {
-
-                            //						process(yue);
-                            payment_id = "2";
-                            loadguanggao(payment_id);
-                            //						Toast.makeText(getApplicationContext(), "暂时无法支付",Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "请选择支付方式", Toast.LENGTH_SHORT).show();
-                        }
-
-                        //                    }else {
-                        //					Toast.makeText(getApplicationContext(), "请输入正确的金额,不能小于100", Toast.LENGTH_SHORT).show();
-                        //					}
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        Toast.makeText(getApplicationContext(), "请输入金额", Toast.LENGTH_SHORT).show();
-                    }
 
 
-                }
-            });
+            }
+        });
 
-        } catch (Exception e) {
+    }
 
-            e.printStackTrace();
-        }
+    private void initData() {
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        ArrayList<RechargeModel> datas = new ArrayList<>();
+        datas.add(new RechargeModel("1000", true));
+        datas.add(new RechargeModel("2000", false));
+        datas.add(new RechargeModel("3000", false));
+        datas.add(new RechargeModel("4000", false));
+        RechargeMoneyAdapter adapter = new RechargeMoneyAdapter(this, R.layout.recharge_item, datas);
+        recyclerView.setAdapter(adapter);
+        chongzhi_edit.setText("1000");
+        adapter.setOnItemClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-
-
         switch (v.getId()) {
             case R.id.iv_fanhui:
                 finish();
                 break;
-            case R.id.tv_xiabu:
-                //			finish();
-                //			Intent intent = new Intent(ShengJiCkActivity.this,ApplyBusiness2Activity.class);
-                //			startActivity(intent);
-                break;
-
             default:
                 break;
         }
@@ -300,7 +275,6 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
             SharedPreferences spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
             String user_name = spPreferences.getString(SpConstants.USER_NAME, "");
             String strUrlone = URLConstants.REALM_NAME_LL + "/get_user_model?username=" + user_name + "";
-            System.out.println("======11=============" + strUrlone);
             AsyncHttp.get(strUrlone, new AsyncHttpResponseHandler() {
                 public void onSuccess(int arg0, String arg1) {
                     try {
@@ -311,8 +285,6 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
                             UserRegisterllData data = new UserRegisterllData();
                             data.login_sign = obj.getString("login_sign");
                             String login_sign = data.login_sign;
-                            System.out.println("======login_sign=============" + login_sign);
-                            System.out.println("======recharge_no=============" + recharge_no);
                             loadguanggaoll(recharge_no, login_sign);
                         } else {
                         }
@@ -571,7 +543,6 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
         }
     }
 
-
     /**
      * 用户在线充值    微信支付3
      *
@@ -679,4 +650,21 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
 
         ;
     };
+
+    @Override
+    public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
+        if (adapter instanceof RechargeMoneyAdapter) {
+            List<RechargeModel> datas = ((RechargeMoneyAdapter) adapter).getDatas();
+            if (datas != null && datas.size() > position) {
+                RechargeModel model = datas.get(position);
+                chongzhi_edit.setText(model.getMoney());
+                ((RechargeMoneyAdapter) adapter).setSelected(position);
+            }
+        }
+    }
+
+    @Override
+    public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
+        return false;
+    }
 }

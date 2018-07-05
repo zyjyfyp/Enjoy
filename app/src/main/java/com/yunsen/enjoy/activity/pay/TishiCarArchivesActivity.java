@@ -20,10 +20,13 @@ import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserRegisterllData;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.DialogProgress;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -233,6 +236,7 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
                                     progress.CloseProgress();
                                     UIHelper.showMyOrderXqActivity(TishiCarArchivesActivity.this, order_no);
                                     ToastUtils.makeTextShort("支付成功");
+                                    EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
                                     setResult(1);
                                     finish();
                                 } else {

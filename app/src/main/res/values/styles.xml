@@ -384,5 +384,15 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="PersonTopTv">
+        <item name="android:layout_height">@dimen/item_min_height</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:textColor">@color/title_color</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+
 
 </resources>

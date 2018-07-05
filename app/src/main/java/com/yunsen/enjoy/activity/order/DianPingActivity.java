@@ -56,7 +56,6 @@ public class DianPingActivity extends AppCompatActivity implements OnClickListen
 		try {
 
 			iv_fanhui = (ImageView) findViewById(R.id.iv_fanhui);
-			tv_xiabu = (TextView) findViewById(R.id.tv_xiabu);
 			iv_fanhui.setOnClickListener(this);
 			RadioGroup ra0 = (RadioGroup) findViewById(R.id.ra0);
 			RadioButton ra1 = (RadioButton) findViewById(R.id.ra1);
