@@ -582,7 +582,7 @@ public class UIHelper {
      * @param ctx
      */
     public static void showMainActivity(Context ctx) {
-        Intent intent = new Intent(ctx, ApplyServiceSecondActivity.class);
+        Intent intent = new Intent(ctx, MainActivity.class);
         ctx.startActivity(intent);
     }
 

@@ -54,7 +54,7 @@ public class Constants {
         SHOT_PRICES_VALUES.put("5-10万", "sell_price between 5and 10");
         SHOT_PRICES_VALUES.put("10-15万", "sell_price between 10and 15");
         SHOT_PRICES_VALUES.put("15-20万", "sell_price between 15and 20");
-        SHOT_PRICES_VALUES.put("20万以上", "and sell_price>20");
+        SHOT_PRICES_VALUES.put("20万以上", "sell_price>20");
     }
 
 

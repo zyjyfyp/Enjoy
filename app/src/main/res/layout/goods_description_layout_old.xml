@@ -131,12 +131,14 @@
                                         android:orientation="horizontal">
 
                                         <TextView
+                                            android:visibility="gone"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="红包可抵:"
                                             android:textColor="#000000" />
 
                                         <TextView
+                                            android:visibility="gone"
                                             android:id="@+id/goods_packet_price_tv"
                                             android:layout_width="80dp"
                                             android:layout_height="wrap_content"

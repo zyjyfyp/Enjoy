@@ -533,6 +533,7 @@ public class MineFragment extends BaseFragment {
         } else {
             if (!TextUtils.isEmpty(user_name_phone)) {//手机登录
                 getLeXiangUserInfo();//获取乐享用户信息
+                requestIsFacilitator();//判断是否是服务商
                 load_list();
             } else {
                 hasLoginLayout.setVisibility(View.GONE);

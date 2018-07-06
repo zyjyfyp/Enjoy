@@ -22,9 +22,12 @@ import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.RestApiResponse;
 import com.yunsen.enjoy.model.TradeData;
+import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.PullImageEvent;
+import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.GetImgUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.NumberPickerDialog;
@@ -223,8 +226,10 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
         HttpProxy.getApplyServiceForm(this, mRequsetData, new HttpCallBack<RestApiResponse>() {
             @Override
             public void onSuccess(RestApiResponse responseData) {
-                Log.e(TAG, "onSuccess: " + responseData.getInfo());
+                Log.d(TAG, "onSuccess: " + responseData.getInfo());
+                EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
                 UIHelper.showMainActivity(ApplyServiceThreeActivity.this);
+                ToastUtils.makeTextShort("服务商申请成功");
                 finish();
             }
 
