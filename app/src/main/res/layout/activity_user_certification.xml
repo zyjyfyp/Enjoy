@@ -418,6 +418,8 @@
                 android:orientation="vertical">
 
                 <Button
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
                     android:id="@+id/submit_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

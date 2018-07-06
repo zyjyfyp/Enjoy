@@ -51,6 +51,7 @@ import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.model.request.ApplyWalletCashRequest;
 import com.yunsen.enjoy.model.request.BindBankCardRequest;
+import com.yunsen.enjoy.model.request.UserCertificationRequestModel;
 import com.yunsen.enjoy.model.request.WatchCarModel;
 import com.yunsen.enjoy.model.response.AccountBalanceResponse;
 import com.yunsen.enjoy.model.response.AddShoppingBuysResponse;
@@ -2129,6 +2130,27 @@ public class HttpProxy {
         });
     }
 
+    /**
+     * 实名认证
+     *
+     * @param requestModel
+     * @param callBack
+     */
+    public static void userCertificationRequest(UserCertificationRequestModel requestModel, final HttpCallBack<Boolean> callBack) {
+        Map<String, Object> map = EntityToMap.ConvertObjToMap(requestModel);
+        HttpClient.get(URLConstants.USER_CERTIFICATION, map, new HttpResponseHandler<RestApiResponse>() {
+            @Override
+            public void onSuccess(RestApiResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(true);
+            }
 
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
 }
 

@@ -313,7 +313,11 @@ public class URLConstants {
      * http://szlxkg.com/tools/mobile_ajax.asmx/payment_sign
      */
     public static final String WX_PAY_SIGN_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/payment_sign";
-    ;
+    /**
+     * http://mobile.gaiachn.com/tools/mobile_ajax.asmx/user_info_authentication
+     * 实名认证
+     */
+    public static final String USER_CERTIFICATION = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_info_authentication";
 
     //
     //    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";
