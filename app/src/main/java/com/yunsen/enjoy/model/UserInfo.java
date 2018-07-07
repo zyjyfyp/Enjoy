@@ -132,6 +132,7 @@ public class UserInfo {
     private Object authen_time;
     private Object audit_time;
     private CompanyBean company;
+    private double card;
 
     public int getId() {
         return id;
@@ -452,6 +453,14 @@ public class UserInfo {
     public String getAmountStr() {
         DecimalFormat df = new DecimalFormat("#0.00");
         return df.format(amount);
+    }
+
+    public double getCard() {
+        return card;
+    }
+
+    public void setCard(double card) {
+        this.card = card;
     }
 
     public void setAmount(double amount) {

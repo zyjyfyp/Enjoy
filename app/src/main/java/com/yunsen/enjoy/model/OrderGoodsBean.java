@@ -2,6 +2,8 @@ package com.yunsen.enjoy.model;
 
 import com.yunsen.enjoy.http.URLConstants;
 
+import java.math.BigDecimal;
+
 /**
  * Created by Administrator on 2018/5/29.
  */
@@ -79,12 +81,12 @@ public class OrderGoodsBean {
     private String spec_ids;
     private String spec_text;
     private int market_price;
-    private int sell_price;
-    private int real_price;
-    private int rebate_price;
-    private int cost_price;
-    private int is_exchange_price;
-    private int exchange_price;
+    private double sell_price;
+    private double real_price;
+    private double rebate_price;
+    private double cost_price;
+    private double is_exchange_price;
+    private double exchange_price;
     private int is_exchange_point;
     private int exchange_point;
     private int is_cashing_packet;
@@ -102,8 +104,8 @@ public class OrderGoodsBean {
     private int group_id;
     private String activity_no;
     private int activity_min;
-    private int activity_price;
-    private int brokerage_price;
+    private double activity_price;
+    private double brokerage_price;
     private int activity_people;
     private int activity_member;
     private int is_foreman;
@@ -207,7 +209,9 @@ public class OrderGoodsBean {
         this.market_price = market_price;
     }
 
-    public int getSell_price() {
+    public double getSell_price() {
+        BigDecimal bg = new BigDecimal(sell_price);
+        sell_price = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return sell_price;
     }
 
@@ -215,41 +219,6 @@ public class OrderGoodsBean {
         this.sell_price = sell_price;
     }
 
-    public int getReal_price() {
-        return real_price;
-    }
-
-    public void setReal_price(int real_price) {
-        this.real_price = real_price;
-    }
-
-    public int getRebate_price() {
-        return rebate_price;
-    }
-
-    public void setRebate_price(int rebate_price) {
-        this.rebate_price = rebate_price;
-    }
-
-    public int getCost_price() {
-        return cost_price;
-    }
-
-    public void setCost_price(int cost_price) {
-        this.cost_price = cost_price;
-    }
-
-    public int getIs_exchange_price() {
-        return is_exchange_price;
-    }
-
-    public void setIs_exchange_price(int is_exchange_price) {
-        this.is_exchange_price = is_exchange_price;
-    }
-
-    public int getExchange_price() {
-        return exchange_price;
-    }
 
     public void setExchange_price(int exchange_price) {
         this.exchange_price = exchange_price;
@@ -391,16 +360,64 @@ public class OrderGoodsBean {
         this.activity_min = activity_min;
     }
 
-    public int getActivity_price() {
+    public void setSell_price(double sell_price) {
+        this.sell_price = sell_price;
+    }
+
+    public double getReal_price() {
+        return real_price;
+    }
+
+    public void setReal_price(double real_price) {
+        this.real_price = real_price;
+    }
+
+    public double getRebate_price() {
+        return rebate_price;
+    }
+
+    public void setRebate_price(double rebate_price) {
+        this.rebate_price = rebate_price;
+    }
+
+    public double getCost_price() {
+        return cost_price;
+    }
+
+    public void setCost_price(double cost_price) {
+        this.cost_price = cost_price;
+    }
+
+    public double getIs_exchange_price() {
+        return is_exchange_price;
+    }
+
+    public void setIs_exchange_price(double is_exchange_price) {
+        this.is_exchange_price = is_exchange_price;
+    }
+
+    public double getExchange_price() {
+        return exchange_price;
+    }
+
+    public void setExchange_price(double exchange_price) {
+        this.exchange_price = exchange_price;
+    }
+
+    public double getActivity_price() {
         return activity_price;
     }
 
-    public void setActivity_price(int activity_price) {
+    public void setActivity_price(double activity_price) {
         this.activity_price = activity_price;
     }
 
-    public int getBrokerage_price() {
+    public double getBrokerage_price() {
         return brokerage_price;
+    }
+
+    public void setBrokerage_price(double brokerage_price) {
+        this.brokerage_price = brokerage_price;
     }
 
     public void setBrokerage_price(int brokerage_price) {

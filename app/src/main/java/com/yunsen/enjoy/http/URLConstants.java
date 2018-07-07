@@ -318,12 +318,45 @@ public class URLConstants {
      * 实名认证
      */
     public static final String USER_CERTIFICATION = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_info_authentication";
+    /**
+     * 直推数量
+     */
+    public static final String ACHIEVEMENT_ACCOUNT_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_straight_push_count";
+    /**
+     * get_straight_push_list
+     * 直推明细
+     */
+    public static final String ACHIEVEMENT_CONTENT_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_straight_push_list";
+    /**
+     * 4、盖亚我的业绩团队统计：get_team_count
+     */
+    public static final String TEAM_ACHI_COUNT_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_team_count";
+    /**
+     * 5、盖亚我的业绩团队明细：get_team_list
+     */
+    public static final String TEAM_ACHI_CONTENT_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_team_list";
+    /**
+     * 6、盖亚我的业绩代理统计：get_agent_count
+     */
+    public static final String AGENT_ACHI_COUNT_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_agent_count";
+    /**
+     * 7、盖亚我的业绩代理明细：get_agent_list
+     */
+    public static final String AGENT_ACHI_CONTENT_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_agent_list";
+    /**
+     * 盖亚我的业绩直推/团队/代理（累计收益）统计：get_profit_count
+     */
+    public static final String PROFIT_COUNT_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_profit_count";
+    /**
+     * 统计本月盈收和累计收益：get_payment_amount_sum
+     */
+    public static final String PAYMENT_AMOUNT_SUM_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_payment_amount_sum";
+    /**
+     * 本月盈收明细：get_user_amount_list
+     */
+    public static final String USER_AMOUNT_LIST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_amount_list";
 
-    //
-    //    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";
-    //    public static final String REALM_NAME_HTTP = "http://mobile.zams.cn";
-    //    public static final String REALM_NAME_LL = "http://mobile.zams.cn/tools/mobile_ajax.asmx";
-    //    public static final String REALM_NAME_FX = "http://mobile.zams.cn";
+
     public static final String REALM_NAME_WEB = BuildConfig.ROOT_URL;
     public static final String REALM_NAME_HTTP = BuildConfig.ROOT_URL;
     public static final String REALM_NAME_LL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx";

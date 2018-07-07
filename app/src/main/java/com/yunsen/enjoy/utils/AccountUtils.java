@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.yunsen.enjoy.common.AppContext;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 
 /**
@@ -20,11 +21,18 @@ public class AccountUtils {
     private static String unionid;
     private static String access_token;
     private static String sex;
+    private static String userName;
+    private static String loginSign;
 
     private static boolean mHasLogin;
     private static boolean mHasBound;
 
     public static boolean mWeiXiHasLogin = false; //微信登录时的标记
+    private static SharedPreferences mSp;
+
+    static {
+        mSp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+    }
 
     /**
      * 是否已经登录
@@ -78,6 +86,8 @@ public class AccountUtils {
         mHasBound = false;
         mHasLogin = false;
         mWeiXiHasLogin = false;
+        userName="";
+        loginSign="";
     }
 
     public static String getUser_name_phone() {
@@ -89,7 +99,10 @@ public class AccountUtils {
     }
 
     public static String getUser_id() {
-        return user_id;
+        if (TextUtils.isEmpty(user_id)) {
+            user_id = mSp.getString(SpConstants.USER_ID, Constants.EMPTY);
+        }
+        return "143";
     }
 
     public static String getNickname() {
@@ -110,6 +123,21 @@ public class AccountUtils {
 
     public static String getSex() {
         return sex;
+    }
+
+    public static String getUserName() {
+        if (TextUtils.isEmpty(userName)) {
+            userName = mSp.getString(SpConstants.USER_NAME, Constants.EMPTY);
+        }
+
+        return "18516500065";
+    }
+
+    public static String getLoginSign() {
+        if (TextUtils.isEmpty(loginSign)) {
+            loginSign = mSp.getString(SpConstants.LOGIN_SIGN, Constants.EMPTY);
+        }
+        return "21039E0FCD403C2E9C64CDD0515C7110";
     }
 
 

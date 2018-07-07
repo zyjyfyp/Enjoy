@@ -1007,8 +1007,9 @@ public class UIHelper {
      *
      * @param ctx
      */
-    public static void showCumulativeIncomeActivity(Context ctx) {
+    public static void showCumulativeIncomeActivity(Context ctx,boolean isYesterday) {
         Intent intent = new Intent(ctx, CumulativeIncomeActivity.class);
+        intent.putExtra(Constants.IS_YESTERDAY_KEY,isYesterday);
         ctx.startActivity(intent);
     }
 
@@ -1038,8 +1039,9 @@ public class UIHelper {
      *
      * @param ctx
      */
-    public static void showMineAchievementActivity(Context ctx) {
+    public static void showMineAchievementActivity(Context ctx, String url) {
         Intent intent = new Intent(ctx, MineAchievementActivity.class);
+        intent.putExtra(Constants.MINE_ACHIEVE_URL_KEY, url);
         ctx.startActivity(intent);
     }
 
@@ -1048,8 +1050,9 @@ public class UIHelper {
      *
      * @param ctx
      */
-    public static void showOrderNumberActivity(Context ctx) {
+    public static void showOrderNumberActivity(Context ctx, String url) {
         Intent intent = new Intent(ctx, OrderNumberActivity.class);
+        intent.putExtra(Constants.ORDER_NUMBER_URL_KEY, url);
         ctx.startActivity(intent);
     }
 
@@ -1058,8 +1061,9 @@ public class UIHelper {
      *
      * @param ctx
      */
-    public static void showPersonNumberActivity(Context ctx) {
+    public static void showPersonNumberActivity(Context ctx, String url) {
         Intent intent = new Intent(ctx, PersonNumberActivity.class);
+        intent.putExtra(Constants.USER_NUMBER_URL_KEY, url);
         ctx.startActivity(intent);
     }
 

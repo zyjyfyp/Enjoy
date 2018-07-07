@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/month_income_time"
+            style="@style/PersonTopTv" />
+
+        <TextView
+            android:id="@+id/month_income_income"
+            style="@style/PersonTopTv"
+            android:textColor="@color/red" />
+
+        <TextView
+            android:id="@+id/month_income_pay"
+            style="@style/PersonTopTv"
+            android:textColor="@color/color_theme" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_f5f7fa" />
+
+
+</LinearLayout>

@@ -33,4 +33,5 @@
 	<dimen name="notice_progress_width">30dp</dimen>
 	<dimen name="dpi_85">85dp</dimen>
 	<dimen name="item_min_height">40dp</dimen>
+	<dimen name="item_height_and_line">51dp</dimen>
 </resources>

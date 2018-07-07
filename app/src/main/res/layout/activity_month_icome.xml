@@ -9,6 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:gravity="center"
         android:layout_marginLeft="@dimen/app_margin"
         android:layout_marginRight="@dimen/app_margin"
         android:orientation="horizontal">
@@ -40,6 +41,11 @@
             android:textColor="@color/title_color"
             android:textSize="16sp" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_f5f7fa" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"

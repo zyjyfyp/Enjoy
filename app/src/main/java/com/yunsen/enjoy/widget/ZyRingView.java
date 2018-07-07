@@ -17,10 +17,10 @@ import com.yunsen.enjoy.utils.DeviceUtil;
  */
 
 public class ZyRingView extends View {
-    private float mAllProfit = 0;
-    private float mOneProfit = 0;
-    private float mTwoProfit = 0;
-    private float mThreeProfit = 0;
+    private double mAllProfit = 0;
+    private double mOneProfit = 0;
+    private double mTwoProfit = 0;
+    private double mThreeProfit = 0;
 
     private int mRingWidth;
     private Context mContext;
@@ -126,7 +126,7 @@ public class ZyRingView extends View {
         return angle;
     }
 
-    public void initData(float allProfit, float oneProfit, float twoProfit, float threeProfit) {
+    public void initData(double allProfit, double oneProfit, double twoProfit, double threeProfit) {
         mAllProfit = allProfit;
         mOneProfit = oneProfit;
         mTwoProfit = twoProfit;

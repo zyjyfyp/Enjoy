@@ -11,6 +11,7 @@
         android:layout_height="@dimen/item_min_height"
         android:layout_marginLeft="@dimen/app_margin"
         android:layout_marginRight="@dimen/app_margin"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <TextView

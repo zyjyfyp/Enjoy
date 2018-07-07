@@ -31,6 +31,7 @@ public class Constants {
     public static final String BOY = "男";
     public static final int EMIL = 2;
     public static final int ONLINE_QQ = 3;
+    public static final String EMPTY = "";
 //    public static final String APP_SECRET = "";
 //appId=wxe60c28541b0fa8a2&body=zyjytest&device_info=1000&key=ca30ef7495cdd92ee94e1190f78a8735&mch_id=1502153101&nonce_str=ibuaiVcKdpRxkhJA
 
@@ -158,6 +159,17 @@ public class Constants {
     public static final int SHARE_GOODS_INFO = 2; //分享商品
     public static final String SHARE_TITLE = "share_title"; //分享标题
     public static final String SHARE_DESCRIPTION = "share_description";//描述
+    /**
+     * 我的业绩 通过判断 group_id 显示几行
+     */
+    public static final String ONE_LINE = "13";
+    public static final String TWO_LINE = "14";
+    public static final String THREE_LINE = "6";
+
+    public static final String ORDER_NUMBER_URL_KEY ="order_number_url_key" ;
+    public static final String USER_NUMBER_URL_KEY ="user_number_url_key" ;
+    public static final String MINE_ACHIEVE_URL_KEY = "mine_achieve_url_key";
+    public static final String IS_YESTERDAY_KEY = "is_yesterday_key";
 
     /**
      * webView

@@ -10,7 +10,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,6 +36,8 @@ import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.model.AchievementAccountBean;
+import com.yunsen.enjoy.model.ProfitCountBean;
 import com.yunsen.enjoy.model.UsedFunction;
 import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.event.EventConstants;
@@ -54,6 +58,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -146,6 +151,22 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
     LinearLayout noLoginLayout;
     @Bind(R.id.recycler_mine)
     RecyclerView recyclerMine;
+    @Bind(R.id.user_count_tv_2)
+    TextView userCountTv2;
+    @Bind(R.id.order_count_tv_2)
+    TextView orderCountTv2;
+    @Bind(R.id.income_tv_2)
+    TextView incomeTv2;
+    @Bind(R.id.achi_root_layout_2)
+    LinearLayout achiRootLayout2;
+    @Bind(R.id.user_count_tv_3)
+    TextView userCountTv3;
+    @Bind(R.id.order_count_tv_3)
+    TextView orderCountTv3;
+    @Bind(R.id.income_tv_3)
+    TextView incomeTv3;
+    @Bind(R.id.achi_root_layout_3)
+    LinearLayout achiRootLayout3;
     private Activity context;
     private String user_name_phone;
     private String user_id;
@@ -157,6 +178,9 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
     private String mUserName;//用户名
     private ImageAndTextAdapter mFuncAdapter;
     private double mBalance = 0;//余额
+    private String mUserId;
+    private String mLoginSign;
+    private String mGroupId;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -201,6 +225,9 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
 
         mSp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
         mIsFacilitator = mSp.getBoolean(SpConstants.HAS_SERVICE_SHOP, false);
+        mUserId = mSp.getString(SpConstants.USER_ID, "");
+        mLoginSign = mSp.getString(SpConstants.LOGIN_SIGN, "");
+        mGroupId = mSp.getString(SpConstants.GROUP_ID, "");
         if (AccountUtils.hasLogin()) {
             hasLoginLayout.setVisibility(View.VISIBLE);
             loginIcon.setVisibility(View.GONE);
@@ -239,6 +266,85 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
     protected void requestData() {
 
     }
+
+    private void requestPaymentAmountSum() {
+        HttpProxy.paymentAmountSumRequest(new HttpCallBack<ProfitCountBean>() {
+            @Override
+            public void onSuccess(ProfitCountBean responseData) {
+                double monthProfitCount = responseData.getMonth_profit_count();
+                int orderCount = responseData.getOrder_count();
+                double profitCount = responseData.getProfit_count();
+                allIncomeMoneyTv.setText(String.valueOf(monthProfitCount));
+                allOrderCountTv.setText(String.valueOf(orderCount));
+                allIncomeTv.setText(String.valueOf(profitCount));
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
+    }
+
+    /**
+     * 直推
+     */
+    private void getAchievementAccount() {
+        achiRootLayout3.setVisibility(View.GONE);
+        achiRootLayout2.setVisibility(View.GONE);
+
+        switch (mGroupId) {
+            case Constants.THREE_LINE:
+                achiRootLayout3.setVisibility(View.VISIBLE);
+                HttpProxy.achievementAccountRequest(URLConstants.AGENT_ACHI_COUNT_URL, new HttpCallBack<AchievementAccountBean>() {
+                    @Override
+                    public void onSuccess(AchievementAccountBean responseData) {
+
+                        userCountTv3.setText(responseData.getRecordCount() + "人");
+                        orderCountTv3.setText(responseData.getOrderCounts() + "单");
+                        incomeTv3.setText(responseData.getCumulative_income() + "元");  }
+
+                    @Override
+                    public void onError(Request request, Exception e) {
+
+                    }
+                });
+            case Constants.TWO_LINE:
+                achiRootLayout2.setVisibility(View.VISIBLE);
+                HttpProxy.achievementAccountRequest(URLConstants.TEAM_ACHI_COUNT_URL, new HttpCallBack<AchievementAccountBean>() {
+                    @Override
+                    public void onSuccess(AchievementAccountBean responseData) {
+                        userCountTv2.setText(responseData.getRecordCount() + "人");
+                        orderCountTv2.setText(responseData.getOrderCounts() + "单");
+                        incomeTv2.setText(responseData.getCumulative_income() + "元");
+                    }
+
+                    @Override
+                    public void onError(Request request, Exception e) {
+
+                    }
+                });
+            case Constants.ONE_LINE:
+                HttpProxy.achievementAccountRequest(URLConstants.ACHIEVEMENT_ACCOUNT_URL, new HttpCallBack<AchievementAccountBean>() {
+                    @Override
+                    public void onSuccess(AchievementAccountBean responseData) {
+                        userCountTv.setText(responseData.getRecordCount() + "人");
+                        orderCountTv.setText(responseData.getOrderCounts() + "单");
+                        incomeTv.setText(responseData.getCumulative_income() + "元");
+                    }
+
+                    @Override
+                    public void onError(Request request, Exception e) {
+
+                    }
+                });
+
+                break;
+        }
+
+
+    }
+
 
     @Override
     protected void initListener() {
@@ -532,8 +638,17 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
             public void onSuccess(UserInfo data) {
                 yth = data.getUser_code();
                 mBalance = data.getAmount();
+                mUserId = String.valueOf(data.getId());
+                mUserName = data.getUser_name();
+                mLoginSign = data.getLogin_sign();
+                mGroupId = String.valueOf(data.getGroup_id());
                 balanceTv.setText(data.getAmountStr()); //钱包
+                storedIcCardTv.setText(String.valueOf(data.getCard()));//储存卡
                 String nickName = data.getNick_name();
+
+
+                getAchievementAccount();
+                requestPaymentAmountSum();
                 if (TextUtils.isEmpty(nickName)) {
                     userNameTv.setText(data.getUser_name());
                 } else {
@@ -570,6 +685,7 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
                 } else {
                     userSexImg.setImageResource(R.mipmap.secrecy);
                 }
+
             }
 
             @Override
@@ -606,11 +722,26 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
                 loginTv.setVisibility(View.VISIBLE);
                 noLoginLayout.setVisibility(View.VISIBLE);
                 mIsFacilitator = false;
-                balanceTv.setText("0.00");
                 Log.e(TAG, "onEvent: 注销更新");
+                allIncomeMoneyTv.setText("0");
+                allOrderCountTv.setText("0");
+                allIncomeTv.setText("0");
+                balanceTv.setText("0.00");
+                storedIcCardTv.setText("0.00");
                 orderNumber1.setText("0");
                 orderNumber2.setText("0");
                 orderNumber3.setText("0");
+                userCountTv.setText("0人");
+                orderCountTv.setText("0单");
+                incomeTv.setText("0元");
+                userCountTv2.setText("0人");
+                orderCountTv2.setText("0单");
+                incomeTv2.setText("0元");
+                userCountTv3.setText("0人");
+                orderCountTv3.setText("0单");
+                incomeTv3.setText("0元");
+                achiRootLayout2.setVisibility(View.GONE);
+                achiRootLayout3.setVisibility(View.GONE);
                 gradeTv.setVisibility(View.GONE);
                 AccountUtils.clearData();
                 SharedPreferences sp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
@@ -674,7 +805,9 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
     @OnClick({
             R.id.balance_layout, R.id.user_icon_img, R.id.setting_img, R.id.all_income_money_layout,
             R.id.all_order_count_layout, R.id.all_income_layout, R.id.stored_ic_card_layout, R.id.order_more_tv, R.id.grade_more_tv,
-            R.id.spread_layout, R.id.user_count_layout, R.id.order_count_layout, R.id.income_layout})
+            R.id.spread_layout, R.id.user_count_layout, R.id.order_count_layout, R.id.income_layout,
+            R.id.user_count_layout_2, R.id.order_count_layout_2, R.id.income_layout_2,
+            R.id.user_count_layout_3, R.id.order_count_layout_3, R.id.income_layout_3})
     public void onViewClicked(View view) {
         if (!AccountUtils.hasLogin()) {
             UIHelper.showUserLoginActivity(getActivity());
@@ -700,7 +833,7 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
                     UIHelper.showMonthOrderActivity(getActivity());
                     break;
                 case R.id.all_income_layout://累计收益
-                    UIHelper.showCumulativeIncomeActivity(getActivity());
+                    UIHelper.showCumulativeIncomeActivity(getActivity(), false);
                     break;
                 case R.id.stored_ic_card_layout:
                     UIHelper.showBecomeVipActivity(getActivity());
@@ -715,13 +848,36 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
 //                    UIHelper.showShareAppInfoActivity(getActivity(), "");
                     break;
                 case R.id.user_count_layout:
-                    UIHelper.showPersonNumberActivity(getActivity());
+                    UIHelper.showPersonNumberActivity(getActivity(), URLConstants.ACHIEVEMENT_CONTENT_URL);
                     break;
                 case R.id.order_count_layout:
-                    UIHelper.showOrderNumberActivity(getActivity());
+                    UIHelper.showOrderNumberActivity(getActivity(), URLConstants.ACHIEVEMENT_CONTENT_URL);
                     break;
                 case R.id.income_layout:// 累计收益
-                    UIHelper.showMineAchievementActivity(getActivity());
+                    UIHelper.showMineAchievementActivity(getActivity(), URLConstants.ACHIEVEMENT_CONTENT_URL);
+                    break;
+                case R.id.spread_layout_2:
+                    break;
+                case R.id.user_count_layout_2:
+                    UIHelper.showPersonNumberActivity(getActivity(), URLConstants.TEAM_ACHI_CONTENT_URL);
+                    break;
+                case R.id.order_count_layout_2:
+                    UIHelper.showOrderNumberActivity(getActivity(), URLConstants.TEAM_ACHI_CONTENT_URL);
+                    break;
+                case R.id.income_layout_2:
+                    UIHelper.showMineAchievementActivity(getActivity(), URLConstants.TEAM_ACHI_CONTENT_URL);
+                    break;
+                case R.id.spread_layout_3:
+
+                    break;
+                case R.id.user_count_layout_3:
+                    UIHelper.showPersonNumberActivity(getActivity(), URLConstants.AGENT_ACHI_CONTENT_URL);
+                    break;
+                case R.id.order_count_layout_3:
+                    UIHelper.showOrderNumberActivity(getActivity(), URLConstants.AGENT_ACHI_CONTENT_URL);
+                    break;
+                case R.id.income_layout_3:
+                    UIHelper.showMineAchievementActivity(getActivity(), URLConstants.AGENT_ACHI_CONTENT_URL);
                     break;
 
             }
@@ -740,13 +896,13 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
                     UIHelper.showBalanceCashActivity(getActivity(), mBalance);
                     break;
                 case 1:
-                    UIHelper.showWalletActivity(getActivity(),mBalance);
+                    UIHelper.showWalletActivity(getActivity(), mBalance);
                     break;
                 case 2:
                     UIHelper.showAddressManagerGlActivity(getActivity());
                     break;
                 case 3:
-                    UIHelper.showCumulativeIncomeActivity(getActivity());// TODO: 2018/7/4 昨日收益
+                    UIHelper.showCumulativeIncomeActivity(getActivity(), true);// TODO: 2018/7/4 昨日收益
                     break;
                 case 4:
                     UIHelper.showExtensionActivity(getActivity());
@@ -768,4 +924,5 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
     public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         return false;
     }
+
 }

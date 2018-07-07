@@ -2,6 +2,7 @@ package com.yunsen.enjoy.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -138,26 +139,26 @@ public class OrderDataBean {
     private int is_invoice;
     private String invoice_title;
     private int invoice_taxes;
-    private int is_exchange_price;
-    private int exchange_price_total;
+    private double is_exchange_price;
+    private double exchange_price_total;
     private int is_exchange_point;
-    private int exchange_point_total;
+    private double exchange_point_total;
     private int is_cashing_packet;
-    private int cashing_packet_total;
+    private double cashing_packet_total;
     private int is_cashing_point;
-    private int cashing_point_total;
-    private int give_packet_total;
-    private int give_pension_total;
+    private double cashing_point_total;
+    private double give_packet_total;
+    private double give_pension_total;
     private int give_sinup_point_total;
     private int give_sinin_point_total;
-    private int give_sinup_exp_total;
-    private int give_sinin_exp_total;
-    private int payable_amount;
-    private int real_amount;
-    private int market_price_total;
-    private int sell_price_total;
-    private int cost_price_total;
-    private int rebate_price_total;
+    private double give_sinup_exp_total;
+    private double give_sinin_exp_total;
+    private double payable_amount;
+    private double real_amount;
+    private double market_price_total;
+    private double sell_price_total;
+    private double cost_price_total;
+    private double rebate_price_total;
     @JSONField(name = "status")
     private int statusX;
     private int datatype;
@@ -535,19 +536,19 @@ public class OrderDataBean {
         this.invoice_taxes = invoice_taxes;
     }
 
-    public int getIs_exchange_price() {
+    public double getIs_exchange_price() {
         return is_exchange_price;
     }
 
-    public void setIs_exchange_price(int is_exchange_price) {
+    public void setIs_exchange_price(double is_exchange_price) {
         this.is_exchange_price = is_exchange_price;
     }
 
-    public int getExchange_price_total() {
+    public double getExchange_price_total() {
         return exchange_price_total;
     }
 
-    public void setExchange_price_total(int exchange_price_total) {
+    public void setExchange_price_total(double exchange_price_total) {
         this.exchange_price_total = exchange_price_total;
     }
 
@@ -559,11 +560,11 @@ public class OrderDataBean {
         this.is_exchange_point = is_exchange_point;
     }
 
-    public int getExchange_point_total() {
+    public double getExchange_point_total() {
         return exchange_point_total;
     }
 
-    public void setExchange_point_total(int exchange_point_total) {
+    public void setExchange_point_total(double exchange_point_total) {
         this.exchange_point_total = exchange_point_total;
     }
 
@@ -575,11 +576,11 @@ public class OrderDataBean {
         this.is_cashing_packet = is_cashing_packet;
     }
 
-    public int getCashing_packet_total() {
+    public double getCashing_packet_total() {
         return cashing_packet_total;
     }
 
-    public void setCashing_packet_total(int cashing_packet_total) {
+    public void setCashing_packet_total(double cashing_packet_total) {
         this.cashing_packet_total = cashing_packet_total;
     }
 
@@ -591,27 +592,27 @@ public class OrderDataBean {
         this.is_cashing_point = is_cashing_point;
     }
 
-    public int getCashing_point_total() {
+    public double getCashing_point_total() {
         return cashing_point_total;
     }
 
-    public void setCashing_point_total(int cashing_point_total) {
+    public void setCashing_point_total(double cashing_point_total) {
         this.cashing_point_total = cashing_point_total;
     }
 
-    public int getGive_packet_total() {
+    public double getGive_packet_total() {
         return give_packet_total;
     }
 
-    public void setGive_packet_total(int give_packet_total) {
+    public void setGive_packet_total(double give_packet_total) {
         this.give_packet_total = give_packet_total;
     }
 
-    public int getGive_pension_total() {
+    public double getGive_pension_total() {
         return give_pension_total;
     }
 
-    public void setGive_pension_total(int give_pension_total) {
+    public void setGive_pension_total(double give_pension_total) {
         this.give_pension_total = give_pension_total;
     }
 
@@ -631,67 +632,69 @@ public class OrderDataBean {
         this.give_sinin_point_total = give_sinin_point_total;
     }
 
-    public int getGive_sinup_exp_total() {
+    public double getGive_sinup_exp_total() {
         return give_sinup_exp_total;
     }
 
-    public void setGive_sinup_exp_total(int give_sinup_exp_total) {
+    public void setGive_sinup_exp_total(double give_sinup_exp_total) {
         this.give_sinup_exp_total = give_sinup_exp_total;
     }
 
-    public int getGive_sinin_exp_total() {
+    public double getGive_sinin_exp_total() {
         return give_sinin_exp_total;
     }
 
-    public void setGive_sinin_exp_total(int give_sinin_exp_total) {
+    public void setGive_sinin_exp_total(double give_sinin_exp_total) {
         this.give_sinin_exp_total = give_sinin_exp_total;
     }
 
-    public int getPayable_amount() {
+    public double getPayable_amount() {
         return payable_amount;
     }
 
-    public void setPayable_amount(int payable_amount) {
+    public void setPayable_amount(double payable_amount) {
         this.payable_amount = payable_amount;
     }
 
-    public int getReal_amount() {
+    public double getReal_amount() {
         return real_amount;
     }
 
-    public void setReal_amount(int real_amount) {
+    public void setReal_amount(double real_amount) {
         this.real_amount = real_amount;
     }
 
-    public int getMarket_price_total() {
+    public double getMarket_price_total() {
+        BigDecimal bg = new BigDecimal(market_price_total);
+        market_price_total = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         return market_price_total;
     }
 
-    public void setMarket_price_total(int market_price_total) {
+    public void setMarket_price_total(double market_price_total) {
         this.market_price_total = market_price_total;
     }
 
-    public int getSell_price_total() {
+    public double getSell_price_total() {
         return sell_price_total;
     }
 
-    public void setSell_price_total(int sell_price_total) {
+    public void setSell_price_total(double sell_price_total) {
         this.sell_price_total = sell_price_total;
     }
 
-    public int getCost_price_total() {
+    public double getCost_price_total() {
         return cost_price_total;
     }
 
-    public void setCost_price_total(int cost_price_total) {
+    public void setCost_price_total(double cost_price_total) {
         this.cost_price_total = cost_price_total;
     }
 
-    public int getRebate_price_total() {
+    public double getRebate_price_total() {
         return rebate_price_total;
     }
 
-    public void setRebate_price_total(int rebate_price_total) {
+    public void setRebate_price_total(double rebate_price_total) {
         this.rebate_price_total = rebate_price_total;
     }
 

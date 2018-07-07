@@ -34,13 +34,15 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/income_title_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="总收益（元）"
+                        android:text="累计收益（元）"
                         android:textColor="@color/color_888"
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/all_income_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:maxLines="6"

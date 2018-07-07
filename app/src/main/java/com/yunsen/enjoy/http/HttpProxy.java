@@ -11,8 +11,12 @@ import android.util.Log;
 import com.alibaba.fastjson.JSON;
 import com.orhanobut.logger.Logger;
 import com.yunsen.enjoy.common.AppContext;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
+import com.yunsen.enjoy.db.entity.User;
 import com.yunsen.enjoy.model.AccountBalanceModel;
+import com.yunsen.enjoy.model.AchieveInfoBean;
+import com.yunsen.enjoy.model.AchievementAccountBean;
 import com.yunsen.enjoy.model.AddressInfo;
 import com.yunsen.enjoy.model.AdvertList;
 import com.yunsen.enjoy.model.AdvertModel;
@@ -29,12 +33,14 @@ import com.yunsen.enjoy.model.ClassifyBean;
 import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.GoogsListResponse;
 import com.yunsen.enjoy.model.HeightFilterBean;
+import com.yunsen.enjoy.model.MonthAmountBean;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.NoticeResponse;
 import com.yunsen.enjoy.model.NoticeTokeBean;
 import com.yunsen.enjoy.model.OrderDataBean;
 import com.yunsen.enjoy.model.OrderGoodsBean;
 import com.yunsen.enjoy.model.OrderInfo;
+import com.yunsen.enjoy.model.ProfitCountBean;
 import com.yunsen.enjoy.model.PullImageResult;
 import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.model.ServiceProject;
@@ -54,6 +60,8 @@ import com.yunsen.enjoy.model.request.BindBankCardRequest;
 import com.yunsen.enjoy.model.request.UserCertificationRequestModel;
 import com.yunsen.enjoy.model.request.WatchCarModel;
 import com.yunsen.enjoy.model.response.AccountBalanceResponse;
+import com.yunsen.enjoy.model.response.AchieveInfoResponse;
+import com.yunsen.enjoy.model.response.AchievementAccountResponse;
 import com.yunsen.enjoy.model.response.AddShoppingBuysResponse;
 import com.yunsen.enjoy.model.response.AliPaySignResponse;
 import com.yunsen.enjoy.model.response.ApkVersionResponse;
@@ -64,8 +72,10 @@ import com.yunsen.enjoy.model.response.CarDetailsResponse;
 import com.yunsen.enjoy.model.response.ClassifyResponse;
 import com.yunsen.enjoy.model.response.DefaultAddressResponse;
 import com.yunsen.enjoy.model.response.HeightFilterResponse;
+import com.yunsen.enjoy.model.response.MonthAmountResponse;
 import com.yunsen.enjoy.model.response.NoticeTokenResponse;
 import com.yunsen.enjoy.model.response.OrderResponse;
+import com.yunsen.enjoy.model.response.ProfitCountResponse;
 import com.yunsen.enjoy.model.response.PullImageResponse;
 import com.yunsen.enjoy.model.response.SearchListResponse;
 import com.yunsen.enjoy.model.response.ServiceProjectListResponse;
@@ -1015,24 +1025,26 @@ public class HttpProxy {
     }
 
     /**
-     * 预约管理
+     * 获取月订单
      */
-    public static void getMeetManagement() {
+    public static void getMonthOrderList(String pageIndex, final HttpCallBack<List<OrderDataBean>> callBack) {
+        String userId = AccountUtils.getUser_id();
         HashMap<String, String> param = new HashMap<>();
-        param.put("id", "");//: 用户id,id: 用户id
+        param.put("user_id", userId);//: 用户id,id: 用户id
         param.put("page_size", "10");
-        param.put("page_index", "1");
-        param.put("strwhere", "status=2 and datatype=11");
-        param.put("orderby", "");
+        param.put("page_index", pageIndex);
+        param.put("strwhere", Constants.EMPTY);
+        param.put("orderby", Constants.EMPTY);
 
-        HttpClient.get(URLConstants.MEET_MANAGEMENT_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
+        HttpClient.get(URLConstants.ORDER_LIST_URL, param, new HttpResponseHandler<OrderResponse>() {
             @Override
-            public void onSuccess(AccountBalanceResponse response) {
-                super.onSuccess(response);
+            public void onSuccess(OrderResponse response) {
+                callBack.onSuccess(response.getData());
             }
 
             @Override
             public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
                 Logger.e(TAG, "onFailure: " + e.getMessage());
             }
         });
@@ -2152,5 +2164,150 @@ public class HttpProxy {
             }
         });
     }
+
+    /**
+     * 直推信息
+     *
+     * @param
+     * @param callBack
+     */
+    public static void achievementContentRequest(String url, String pageIndex, final HttpCallBack<AchieveInfoBean> callBack) {
+
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("user_id", AccountUtils.getUser_id());
+        param.put("user_name", AccountUtils.getUserName());
+        param.put("login_sign", AccountUtils.getLoginSign());
+        param.put("showday", "false");
+        param.put("page_size", "10");
+        param.put("page_index", pageIndex);
+        param.put("strwhere", Constants.EMPTY);
+        param.put("orderby", Constants.EMPTY);
+
+        HttpClient.get(url, param, new HttpResponseHandler<AchieveInfoResponse>() {
+            @Override
+            public void onSuccess(AchieveInfoResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+
+    /**
+     * 直推明细
+     *
+     * @param url
+     * @param callBack
+     */
+    public static void achievementAccountRequest(String url, final HttpCallBack<AchievementAccountBean> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("user_id",AccountUtils.getUser_id());
+        param.put("user_name", AccountUtils.getUserName());
+        param.put("login_sign", AccountUtils.getLoginSign());
+        param.put("showday", "false");
+
+        HttpClient.get(url, param, new HttpResponseHandler<AchievementAccountResponse>() {
+            @Override
+            public void onSuccess(AchievementAccountResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 盖亚我的业绩直推/团队/代理（累计收益）统计：get_profit_count
+     */
+    public static void profitCountRequest(boolean isYesterDay, final HttpCallBack<ProfitCountBean> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("user_id", AccountUtils.getUser_id());
+        param.put("user_name", AccountUtils.getUserName());
+        param.put("login_sign", AccountUtils.getLoginSign());
+        param.put("showday", "" + isYesterDay);
+
+        HttpClient.get(URLConstants.PROFIT_COUNT_URL, param, new HttpResponseHandler<ProfitCountResponse>() {
+            @Override
+            public void onSuccess(ProfitCountResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 统计本月盈收和累计收益：get_payment_amount_sum
+     *
+     * @param callBack
+     */
+    public static void paymentAmountSumRequest(final HttpCallBack<ProfitCountBean> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("user_id", AccountUtils.getUser_id());
+        param.put("user_name", AccountUtils.getUserName());
+        param.put("login_sign", AccountUtils.getLoginSign());
+        HttpClient.get(URLConstants.PAYMENT_AMOUNT_SUM_URL, param, new HttpResponseHandler<ProfitCountResponse>() {
+            @Override
+            public void onSuccess(ProfitCountResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 本月盈收明细：get_user_amount_list
+     *
+     * @param pageIndex
+     * @param callBack
+     */
+    public static void userAmountListRequest(String pageIndex, final HttpCallBack<List<MonthAmountBean>> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("user_id", AccountUtils.getUser_id());
+        param.put("user_name", AccountUtils.getUserName());
+        param.put("login_sign", AccountUtils.getLoginSign());
+        param.put("showday", "false");
+        param.put("page_size", "10");
+        param.put("page_index", pageIndex);
+        param.put("strwhere", Constants.EMPTY);
+        param.put("orderby", Constants.EMPTY);
+        HttpClient.get(URLConstants.USER_AMOUNT_LIST_URL, param, new HttpResponseHandler<MonthAmountResponse>() {
+            @Override
+            public void onSuccess(MonthAmountResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+
 }
 
