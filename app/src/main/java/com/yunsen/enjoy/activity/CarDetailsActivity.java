@@ -131,7 +131,7 @@ public class CarDetailsActivity extends BaseFragmentActivity implements NoticeVi
         actionBarTitle.setText("汽车详情");
         mScreenWidth = DeviceUtil.getWidth(this);
         ViewGroup.LayoutParams lp = layoutEntGallery.getLayoutParams();
-        lp.height = mScreenWidth / 4 * 3;
+        lp.height = mScreenWidth;
     }
 
 
