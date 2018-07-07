@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yunsen.enjoy.R;
@@ -46,6 +48,8 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
 
     @Bind(R.id.tab_layout)
     TabLayout tabLayout;
+    @Bind(R.id.layout_ent_gallery)
+    RelativeLayout galleryLayout;
     @Bind(R.id.loop_pager)
     AutoLoopViewPager loopPager;
     @Bind(R.id.indicator)
@@ -91,6 +95,8 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         indicator.setFocusableInTouchMode(true);
         indicator.requestFocus();
         pullToResh.setEnablePullTorefresh(false);
+        ViewGroup.LayoutParams lp = galleryLayout.getLayoutParams();
+        lp.height = (int) (DeviceUtil.getScreenWidth() * 0.56);
     }
 
     /**

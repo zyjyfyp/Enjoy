@@ -78,12 +78,14 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
     public static boolean teby = false;
     public static String notify_url;
     private Activity activity;
+    private String mStatus;//1 待付款 2 待发货 3待收货 4 已完成
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_my_order_list);
+        mStatus = getIntent().getStringExtra("status");
         spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         user_name = spPreferences.getString(SpConstants.USER_NAME, "");
         user_id = spPreferences.getString("user_id", "");
@@ -106,29 +108,28 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
             }
 
             //		//判断状态到界面
-            String status = getIntent().getStringExtra("status");
-            if (status != null) {
-                if (status.equals("0")) {
+            if (mStatus != null) {
+                if (mStatus.equals("0")) {
                     item1();
                     strwhere = "datatype=1";
                     //				list.clear();
                     load_list(true, strwhere);
-                } else if (status.equals("1")) {
+                } else if (mStatus.equals("1")) {
                     item2();
                     strwhere = "payment_status=1%20and%20datatype=1";
                     //				list.clear();
                     load_list(true, strwhere);
-                } else if (status.equals("2")) {
+                } else if (mStatus.equals("2")) {
                     item3();
                     strwhere = "payment_status=2%20and%20express_status=1%20and%20status=2%20and%20datatype=1";
                     //				list.clear();
                     load_list(true, strwhere);
-                } else if (status.equals("3")) {
+                } else if (mStatus.equals("3")) {
                     item4();
                     strwhere = "payment_status=2%20and%20express_status=2%20and%20status=2%20and%20datatype=1";
                     //				list.clear();
                     load_list(true, strwhere);
-                } else if (status.equals("4")) {
+                } else if (mStatus.equals("4")) {
                     item5();
                     strwhere = "payment_status%3d2+and+express_status+%3e+1+and+status%3d3+and+datatype%3d1";
                     load_list(true, strwhere);
@@ -228,7 +229,7 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
             case R.id.index_item1:
                 item2();
                 list = new ArrayList<MyOrderData>();
-                System.out.println("list状态==============" + list.size());
+                mStatus = "1";
                 strwhere = "payment_status=1%20and%20datatype=1";
                 System.out.println("=========22============" + strwhere);
                 load_list(true, strwhere);
@@ -236,6 +237,7 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
             case R.id.index_item2:
                 item3();
                 list = new ArrayList<MyOrderData>();
+                mStatus = "2";
                 System.out.println("list状态==============" + list.size());
                 strwhere = "payment_status=2%20and%20express_status=1%20and%20status=2%20and%20datatype=1";
                 System.out.println("=========33============" + strwhere);
@@ -244,6 +246,7 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
             case R.id.index_item3:
                 item4();
                 list = new ArrayList<MyOrderData>();
+                mStatus = "3";
                 System.out.println("list状态==============" + list.size());
                 strwhere = "payment_status=2%20and%20express_status=2%20and%20status=2%20and%20datatype=1";
                 System.out.println("=========55============" + strwhere);
@@ -251,6 +254,7 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
                 break;
             case R.id.index_item4:
                 item5();
+                mStatus = "4";
                 list = new ArrayList<MyOrderData>();
                 System.out.println("list状态==============" + list.size());
                 strwhere = "payment_status%3d2+and+express_status+%3e+1+and+status%3d3+and+datatype%3d1";
