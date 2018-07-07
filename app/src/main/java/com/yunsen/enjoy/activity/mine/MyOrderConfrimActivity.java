@@ -21,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.alipay.sdk.app.PayTask;
 
 import com.bumptech.glide.Glide;
 import com.hengyushop.dao.CardItem;
@@ -47,11 +46,9 @@ import com.yunsen.enjoy.model.UserRegisterllData;
 import com.yunsen.enjoy.model.WxSignData;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
-import com.yunsen.enjoy.thirdparty.Common;
 import com.yunsen.enjoy.thirdparty.PayProxy;
 import com.yunsen.enjoy.thirdparty.alipay.OrderInfoUtil2_0;
 import com.yunsen.enjoy.thirdparty.alipay.PayResult;
-import com.yunsen.enjoy.thirdparty.alipay.SignUtils;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.DialogProgress;
@@ -64,9 +61,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -158,8 +153,9 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     private WxSignData mSignData;
     private String mTextSpec;
     private String mExchangePoint;
-    private double mNeedSumMoney;
+    private double mNeedExchangeSumMoney;
     private int mBuyType;
+    private int mNeedExchangePoint;
 
 
     @Override
@@ -853,23 +849,29 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                         if (mBuyType == 3) {
                             ll_ljgm.setVisibility(View.VISIBLE);
                             rl_hongbao.setVisibility(View.GONE);
-                            mExchangePoint = data.exchange_point;
+                            String oneExchangePoint = data.exchange_point;
                             Double onePrice = Double.parseDouble(data.exchange_price);
                             Glide.with(MyOrderConfrimActivity.this)
                                     .load(URLConstants.REALM_NAME_HTTP + data.img_url)
                                     .into(img_ware);
-                            jubi = mExchangePoint;
-                            mNeedSumMoney = data.quantity * Double.parseDouble(data.exchange_price);
+                            jubi = String.valueOf(onePrice * mQuantityCount);
 
+                            mNeedExchangeSumMoney = data.quantity * onePrice;
+                            mNeedExchangePoint = data.quantity * Integer.parseInt(data.exchange_point);
 //                            tv_color.setText(mExchangePoint);
 //                            tv_color.setVisibility(View.GONE);
-                            tv_size.setText(mExchangePoint + "积分" + "+" + onePrice + "元");// 价格
+                            tv_size.setText(oneExchangePoint + "积分" + "+" + onePrice + "元");// 价格
                             tv_2.setText("兑换价:");
                             tv_warename.setText(data.title);
+                            tv_jiaguo.setText("¥" + mNeedExchangeSumMoney + "+" + mNeedExchangePoint + "积分 , " + mQuantityCount + "件");
                         } else {
+                            ll_ljgm.setVisibility(View.GONE);
                             adapter = new ShopingCartOrderAdapter(mReadyPay, MyOrderConfrimActivity.this);
                             list_shop_cart.setAdapter(adapter);
+                            tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件");
                         }
+
+
                         loadWeather();
                     } else {
                         progress.CloseProgress();
@@ -923,7 +925,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                                         tv_zhifu.setText(ZhiFuFangShi + "(免邮)");
                                         if (mBuyType == 3) {
                                             if (dzongjia > 0) {
-                                                heji.setText("实付款:" + " 积分" + jubi + " + " + "¥" + mNeedSumMoney);
+                                                heji.setText("实付款:" + " 积分" + jubi + " + " + "¥" + mNeedExchangeSumMoney);
                                             } else {
                                                 heji.setText("实付款:" + " 积分" + jubi);
                                             }
@@ -933,7 +935,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                                     } else {
                                         String price = String.valueOf(express_fee);
                                         tv_zhifu.setText(ZhiFuFangShi + "(" + "¥" + price + ")");
-                                        BigDecimal c = new BigDecimal(mNeedSumMoney + express_fee);
+                                        BigDecimal c = new BigDecimal(mNeedExchangeSumMoney + express_fee);
                                         needMoney = c.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                                         if (mBuyType == 3) {
                                             heji.setText("实付款:" + " 积分" + jubi + " + " + "¥" + needMoney);
@@ -949,7 +951,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                                         tv_zhifu.setText(ZhiFuFangShi + "(免邮)");
                                         if (mBuyType == 3) {
                                             if (dzongjia > 0) {
-                                                heji.setText("实付款:" + " 积分" + jubi + " + " + "¥" + mNeedSumMoney);
+                                                heji.setText("实付款:" + " 积分" + jubi + " + " + "¥" + mNeedExchangeSumMoney);
                                             } else {
                                                 heji.setText("实付款:" + " 积分" + jubi);
                                             }
@@ -959,7 +961,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                                     } else {
                                         String price = String.valueOf(express_fee);
                                         tv_zhifu.setText(ZhiFuFangShi + "(" + "¥" + price + ")");
-                                        BigDecimal c = new BigDecimal(mNeedSumMoney + express_fee);
+                                        BigDecimal c = new BigDecimal(mNeedExchangeSumMoney + express_fee);
                                         needMoney = c.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                                         if (mBuyType == 3) {
                                             heji.setText("实付款:" + " 积分" + jubi + " + " + "¥" + needMoney);

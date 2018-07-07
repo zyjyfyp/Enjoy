@@ -81,7 +81,7 @@
                     android:src="@mipmap/address_icon" />
 
                 <TextView
-                    android:maxLines="1"
+                    android:lines="1"
                     android:id="@+id/goods_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
