@@ -37,6 +37,7 @@
                 android:textSize="15sp" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/select_bank_item_sub"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

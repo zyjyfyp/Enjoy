@@ -43,6 +43,9 @@ public class BindCardBean {
     private String update_time;
     private int recycle_status;
 
+    public BindCardBean() {
+    }
+
     public int getId() {
         return id;
     }

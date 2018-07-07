@@ -176,10 +176,7 @@ public class WithdrawCashActivity extends BaseFragmentActivity implements Select
      * 请求银行列表
      */
     public void selectBankCardRequest() {
-        SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
-        String userId = sp.getString(SpConstants.USER_ID, "");
-        String loginSign = sp.getString(SpConstants.LOGIN_SIGN, "");
-        HttpProxy.getBindBankCardList(userId, loginSign, new HttpCallBack<List<BindCardBean>>() {
+        HttpProxy.getBindBankCardList( new HttpCallBack<List<BindCardBean>>() {
             @Override
             public void onSuccess(List<BindCardBean> responseData) {
                 if (responseData != null && responseData.size() > 1) {

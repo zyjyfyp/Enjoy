@@ -355,6 +355,15 @@ public class URLConstants {
      * 本月盈收明细：get_user_amount_list
      */
     public static final String USER_AMOUNT_LIST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_amount_list";
+    /**
+     * 发送手机短信验证码（第三方授权）
+     */
+    public static final String USER_OAUTH_SMSCODE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_oauth_smscode";
+    /**
+     * http://mobile.gaiachn.com/tools/mobile_ajax.asmx/post_user_bankcard
+     * 添加银行卡
+     */
+    public static final String POST_USER_BANKCARD_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/post_user_bankcard";
 
 
     public static final String REALM_NAME_WEB = BuildConfig.ROOT_URL;

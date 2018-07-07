@@ -10,18 +10,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.model.BindCardBean;
 import com.yunsen.enjoy.model.BindCardTypeBean;
 import com.yunsen.enjoy.model.request.BindBankCardRequest;
+import com.yunsen.enjoy.model.request.BindBankCardRequest2;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.utils.Validator;
 import com.yunsen.enjoy.widget.dialog.BindCardTypeDialog;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -61,7 +65,7 @@ public class BindBankCardActivity extends BaseFragmentActivity implements BindCa
     Button submit;
     private ArrayList<BindCardTypeBean> mTypeDatas;
     private BindCardTypeDialog mBindCardTypeDialog;
-    private BindBankCardRequest mRequestDatas;
+    private BindBankCardRequest2 mRequestDatas;
 
     private int mStepUp = 1;
 
@@ -91,7 +95,8 @@ public class BindBankCardActivity extends BaseFragmentActivity implements BindCa
         SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         String userId = sp.getString(SpConstants.USER_ID, "");
         String loginSign = sp.getString(SpConstants.LOGIN_SIGN, "");
-        mRequestDatas = new BindBankCardRequest(userId, loginSign);
+        String userName = sp.getString(SpConstants.USER_NAME, "");
+        mRequestDatas = new BindBankCardRequest2(userId, userName);
         mBindCardTypeDialog = new BindCardTypeDialog(BindBankCardActivity.this, mTypeDatas);
     }
 
@@ -117,6 +122,12 @@ public class BindBankCardActivity extends BaseFragmentActivity implements BindCa
                 }
                 break;
             case R.id.get_verification_btn:
+                String phone = bindPhoneEdt.getText().toString().trim();
+                if (!Validator.isMobile(phone)) {
+                    ToastUtils.makeTextShort("请输入正确的验证码");
+                } else {
+                    HttpProxy.userOauthSmscodeRequest(phone);
+                }
                 break;
             case R.id.submit:
                 submitData(mStepUp);
@@ -124,6 +135,7 @@ public class BindBankCardActivity extends BaseFragmentActivity implements BindCa
         }
 
     }
+
 
     private void submitData(int step) {
         String name = bindUserNameEdt.getText().toString().trim();
@@ -138,6 +150,8 @@ public class BindBankCardActivity extends BaseFragmentActivity implements BindCa
                 } else if (TextUtils.isEmpty(cardId)) {
                     ToastUtils.makeTextShort("请输入卡号");
                 } else {
+                    mRequestDatas.setBank_card(cardId);
+                    mRequestDatas.setBank_account(name);
                     nextStep();
                 }
                 break;
@@ -149,6 +163,8 @@ public class BindBankCardActivity extends BaseFragmentActivity implements BindCa
                 } else if (!Validator.isMobile(phone)) {
                     ToastUtils.makeTextShort("请输入正确的电话号码");
                 } else {
+                    mRequestDatas.setBank_name(cardType);
+                    mRequestDatas.setMobile(phone);
                     nextStep();
                 }
                 break;
@@ -156,9 +172,7 @@ public class BindBankCardActivity extends BaseFragmentActivity implements BindCa
                 if (TextUtils.isEmpty(verification)) {
                     ToastUtils.makeTextShort("请输入验证码");
                 } else {
-                    mRequestDatas.setBank_account(name);
-                    mRequestDatas.setBank_card(cardId);
-                    mRequestDatas.setBank_name(cardType);
+                    mRequestDatas.setCode(verification);
                     nextStep();
                 }
                 break;
@@ -205,9 +219,8 @@ public class BindBankCardActivity extends BaseFragmentActivity implements BindCa
                 threeSetupLayout.setVisibility(View.VISIBLE);
                 break;
             case 3:
-
                 // ddd
-                HttpProxy.bindBankCard(mRequestDatas, new HttpCallBack<Boolean>() {
+                HttpProxy.postUserBankcardRequest(mRequestDatas, new HttpCallBack<Boolean>() {
                     @Override
                     public void onSuccess(Boolean responseData) {
                         ToastUtils.makeTextShort("绑定成功");

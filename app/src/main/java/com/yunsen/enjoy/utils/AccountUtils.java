@@ -86,8 +86,8 @@ public class AccountUtils {
         mHasBound = false;
         mHasLogin = false;
         mWeiXiHasLogin = false;
-        userName="";
-        loginSign="";
+        userName = "";
+        loginSign = "";
     }
 
     public static String getUser_name_phone() {
@@ -98,12 +98,6 @@ public class AccountUtils {
         return user_name_key;
     }
 
-    public static String getUser_id() {
-        if (TextUtils.isEmpty(user_id)) {
-            user_id = mSp.getString(SpConstants.USER_ID, Constants.EMPTY);
-        }
-        return "143";
-    }
 
     public static String getNickname() {
         return nickname;
@@ -125,19 +119,28 @@ public class AccountUtils {
         return sex;
     }
 
+    public static String getUser_id() {
+        if (TextUtils.isEmpty(user_id)) {
+            user_id = mSp.getString(SpConstants.USER_ID, Constants.EMPTY);
+        }
+        return user_id;
+//        return "143";
+    }
+
     public static String getUserName() {
         if (TextUtils.isEmpty(userName)) {
             userName = mSp.getString(SpConstants.USER_NAME, Constants.EMPTY);
         }
-
-        return "18516500065";
+        return userName;
+//        return "18516500065";
     }
 
     public static String getLoginSign() {
         if (TextUtils.isEmpty(loginSign)) {
             loginSign = mSp.getString(SpConstants.LOGIN_SIGN, Constants.EMPTY);
         }
-        return "21039E0FCD403C2E9C64CDD0515C7110";
+        return loginSign;
+//        return "21039E0FCD403C2E9C64CDD0515C7110";
     }
 
 

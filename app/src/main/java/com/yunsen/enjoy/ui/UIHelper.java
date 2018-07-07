@@ -48,6 +48,7 @@ import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.mine.CumulativeIncomeActivity;
 import com.yunsen.enjoy.activity.mine.ExtensionActivity;
 import com.yunsen.enjoy.activity.mine.MineAchievementActivity;
+import com.yunsen.enjoy.activity.mine.MoneyRecordActivity;
 import com.yunsen.enjoy.activity.mine.MonthIncomeActivity;
 import com.yunsen.enjoy.activity.mine.MonthOrderActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
@@ -1154,6 +1155,16 @@ public class UIHelper {
      */
     public static void showAgentHadActivity(Context ctx) {
         Intent intent = new Intent(ctx, AgentHadActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 消费记录
+     *
+     * @param ctx
+     */
+    public static void showMoneyRecordActivity(Context ctx) {
+        Intent intent = new Intent(ctx, MoneyRecordActivity.class);
         ctx.startActivity(intent);
     }
 }

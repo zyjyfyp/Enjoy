@@ -6,14 +6,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.http.HttpCallBack;
+import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.model.BindCardBean;
 import com.yunsen.enjoy.ui.UIHelper;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Request;
 
 /**
  * Created by Administrator on 2018/7/5.
@@ -31,6 +38,7 @@ public class BalanceCashActivity extends BaseFragmentActivity {
     @Bind(R.id.recharge_btn)
     Button rechargeBtn;
     private double mBalance;
+    private boolean mNeedToWallectActivity = true;
 
     @Override
     public int getLayout() {
@@ -53,6 +61,22 @@ public class BalanceCashActivity extends BaseFragmentActivity {
 
     }
 
+    @Override
+    public void requestData() {
+        HttpProxy.getBindBankCardList(new HttpCallBack<List<BindCardBean>>() {
+            @Override
+            public void onSuccess(List<BindCardBean> responseData) {
+                if (responseData != null && responseData.size() > 0) {
+                    mNeedToWallectActivity = false;
+                }
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+                Logger.e("onError: " + e.getMessage());
+            }
+        });
+    }
 
     @OnClick({R.id.action_back, R.id.consume_tv, R.id.withdraw_cash_btn, R.id.recharge_btn})
     public void onViewClicked(View view) {
@@ -61,9 +85,14 @@ public class BalanceCashActivity extends BaseFragmentActivity {
                 finish();
                 break;
             case R.id.consume_tv:
+                UIHelper.showMoneyRecordActivity(this);
                 break;
             case R.id.withdraw_cash_btn:
-                UIHelper.showWalletActivity(this,mBalance);
+                if (mNeedToWallectActivity) {
+                    UIHelper.showWalletActivity(this, mBalance);
+                } else {
+                    UIHelper.showWithdrawCashActivity(this, mBalance);
+                }
                 break;
             case R.id.recharge_btn:
                 UIHelper.showMonneyChongZhiActivity(this);

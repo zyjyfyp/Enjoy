@@ -57,6 +57,7 @@ import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.model.request.ApplyWalletCashRequest;
 import com.yunsen.enjoy.model.request.BindBankCardRequest;
+import com.yunsen.enjoy.model.request.BindBankCardRequest2;
 import com.yunsen.enjoy.model.request.UserCertificationRequestModel;
 import com.yunsen.enjoy.model.request.WatchCarModel;
 import com.yunsen.enjoy.model.response.AccountBalanceResponse;
@@ -888,9 +889,9 @@ public class HttpProxy {
     /**
      * 提现接口
      */
-    public static void getWithDrawCash(String userId, String pageIndex, final HttpCallBack<List<WalletCashBean>> callBack) {
+    public static void getWithDrawCash(String pageIndex, final HttpCallBack<List<WalletCashBean>> callBack) {
         HashMap<String, String> param = new HashMap<>();
-        param.put("user_id", userId);
+        param.put("user_id", AccountUtils.getUser_id());
         param.put("fund_id", "1");
         param.put("expenses_id", "0");
         param.put("page_size", "8");
@@ -1647,7 +1648,7 @@ public class HttpProxy {
     }
 
     /**
-     * 绑定银行卡
+     * 绑定银行卡 old
      *
      * @param request
      * @param callBack
@@ -1671,14 +1672,12 @@ public class HttpProxy {
     /**
      * 获取用户绑定的银行卡列表
      *
-     * @param userId
-     * @param userSign
      * @param callBack
      */
-    public static void getBindBankCardList(String userId, String userSign, final HttpCallBack<List<BindCardBean>> callBack) {
+    public static void getBindBankCardList(final HttpCallBack<List<BindCardBean>> callBack) {
         HashMap<String, Object> param = new HashMap<>();
-        param.put("user_id", userId);
-        param.put("sign", userSign);
+        param.put("user_id", AccountUtils.getUser_id());
+        param.put("sign", AccountUtils.getLoginSign());
         HttpClient.get(URLConstants.GET_BIND_BACK_LIST_URL, param, new HttpResponseHandler<BindBankListResponse>() {
             @Override
             public void onSuccess(BindBankListResponse response) {
@@ -2207,7 +2206,7 @@ public class HttpProxy {
      */
     public static void achievementAccountRequest(String url, final HttpCallBack<AchievementAccountBean> callBack) {
         HashMap<String, Object> param = new HashMap<>();
-        param.put("user_id",AccountUtils.getUser_id());
+        param.put("user_id", AccountUtils.getUser_id());
         param.put("user_name", AccountUtils.getUserName());
         param.put("login_sign", AccountUtils.getLoginSign());
         param.put("showday", "false");
@@ -2298,6 +2297,54 @@ public class HttpProxy {
             public void onSuccess(MonthAmountResponse response) {
                 super.onSuccess(response);
                 callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 发送手机短信验证码（第三方授权）
+     *
+     * @param phoneNumber
+     */
+    public static void userOauthSmscodeRequest(String phoneNumber) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put(SpConstants.MOBILE, phoneNumber);
+        HttpClient.get(URLConstants.USER_OAUTH_SMSCODE_URL, param, new HttpResponseHandler<StringResponse>() {
+            @Override
+            public void onSuccess(StringResponse response) {
+                super.onSuccess(response);
+                ToastUtils.makeTextShort(response.getInfo());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                if (e instanceof DataException) {
+                    ToastUtils.makeTextShort(e.getMessage());
+                }
+            }
+        });
+    }
+
+    /**
+     * 绑定银行卡2
+     *
+     * @param request
+     * @param callBack
+     */
+    public static void postUserBankcardRequest(BindBankCardRequest2 request, final HttpCallBack<Boolean> callBack) {
+        Map<String, Object> map = EntityToMap.ConvertObjToMap(request);
+        HttpClient.get(URLConstants.POST_USER_BANKCARD_URL, map, new HttpResponseHandler<StringResponse>() {
+            @Override
+            public void onSuccess(StringResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(true);
             }
 
             @Override

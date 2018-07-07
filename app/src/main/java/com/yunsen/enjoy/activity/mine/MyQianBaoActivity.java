@@ -132,7 +132,7 @@ public class MyQianBaoActivity extends BaseFragmentActivity {
 
     @Override
     public void requestData() {
-        HttpProxy.getWithDrawCash(mUserId, String.valueOf(mPageIndex), new HttpCallBack<List<WalletCashBean>>() {
+        HttpProxy.getWithDrawCash( String.valueOf(mPageIndex), new HttpCallBack<List<WalletCashBean>>() {
             @Override
             public void onSuccess(List<WalletCashBean> responseData) {
                 if (mIsLoadMore) {
