@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alipay.sdk.app.PayTask;
 
+import com.bumptech.glide.Glide;
 import com.hengyushop.dao.CardItem;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.orhanobut.logger.Logger;
@@ -156,6 +157,9 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     private boolean mHasPay;
     private WxSignData mSignData;
     private String mTextSpec;
+    private String mExchangePoint;
+    private double mNeedSumMoney;
+    private int mBuyType;
 
 
     @Override
@@ -169,7 +173,6 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
         popupWindowMenu = new MyPopupWindowMenu(this);
         progress = new DialogProgress(MyOrderConfrimActivity.this);
         api = WXAPIFactory.createWXAPI(MyOrderConfrimActivity.this, Constants.APP_ID, false);
-//        api.registerApp(Constants.APP_ID);
         progress.CreateProgress();
         mSp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         user_name = mSp.getString(SpConstants.USER_NAME, "");
@@ -225,6 +228,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
         Intent intent = getIntent();
         if (intent != null) {
             mBuyNo = intent.getStringExtra("buy_no");
+            mBuyType = getIntent().getIntExtra(Constants.BUY_TYPE_KEY, 0);
             mTextSpec = intent.getStringExtra(Constants.TEXT_SPEC);
             mReadyPay = new ArrayList<ShopCartData>();
             initdata();
@@ -281,7 +285,9 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
         tv_color = (TextView) findViewById(R.id.tv_color);
         tv_size = (TextView) findViewById(R.id.tv_size);
         ll_ljgm = (LinearLayout) findViewById(R.id.ll_ljgm);
-        getuserhongbao(user_name);
+//        getuserhongbao(user_name);
+        load_list(true);
+
     }
 
     public static Handler handlerll;
@@ -329,21 +335,21 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                         tv_hongbao.setText("无可抵红包");
                         kou_hongbao = 0;// 红包为0
                         rl_hongbao.setVisibility(View.GONE);
-                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + 0 + "元");
+                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件");
 
                     } else if (cashing_packet == 0) {
                         heji.setVisibility(View.VISIBLE);
                         tv_hongbao.setText("无可抵红包");
                         kou_hongbao = 0;// 无可抵红包
                         rl_hongbao.setVisibility(View.GONE);
-                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + 0 + "元");
+                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件");
 
                     } else if (dzongjia == cashing_packet) {
                         heji.setVisibility(View.GONE);
                         tv_hongbao.setText("可用" + cashing_packet + "元红包抵" + cashing_packet + "元");
                         kou_hongbao = 1;// 已低红包
                         rl_hongbao.setVisibility(View.VISIBLE);
-                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + cashing_packet + "元");
+                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件");
 
                     } else if (mUserRedPacket >= cashing_packet) {
                         BigDecimal w = new BigDecimal(dzongjia - cashing_packet);
@@ -354,7 +360,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                         tv_hongbao.setText("可用" + cashing_packet + "元红包抵" + cashing_packet + "元");
                         kou_hongbao = 1;// 已低红包
                         rl_hongbao.setVisibility(View.VISIBLE);
-                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + cashing_packet + "元");
+                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件");
 
                     } else if (mUserRedPacket <= cashing_packet) {
                         BigDecimal w = new BigDecimal(dzongjia - mUserRedPacket);
@@ -365,7 +371,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                         tv_hongbao.setText("可用" + mUserRedPacket + "元红包抵" + mUserRedPacket + "元");
                         kou_hongbao = 1;// 已低红包
                         rl_hongbao.setVisibility(View.VISIBLE);
-                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + mUserRedPacket + "元");
+                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件");
                     }
 
                     hongbao_tety = isCheck;
@@ -374,20 +380,20 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                         heji.setVisibility(View.VISIBLE);
                         tv_hongbao.setText("不可以使用红包");
                         rl_hongbao.setVisibility(View.GONE);
-                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + 0 + "元");
+                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件");
 
                     } else if ("0.0".equals(kedi_hongbao)) {
                         heji.setVisibility(View.VISIBLE);
                         tv_hongbao.setText("不可以使用红包");
                         rl_hongbao.setVisibility(View.GONE);
-                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + 0 + "元");
+                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件");
 
                     } else if (dzongjia == cashing_packet) {
                         heji.setVisibility(View.VISIBLE);
                         // dzongjia = 0.0;
                         tv_hongbao.setText("可用" + cashing_packet + "元红包抵" + cashing_packet + "元");
                         rl_hongbao.setVisibility(View.VISIBLE);
-                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + 0 + "元");
+                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件");
 
                     } else if (mUserRedPacket >= cashing_packet) {
                         BigDecimal w = new BigDecimal(dzongjia + cashing_packet);
@@ -397,7 +403,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                         heji.setText("实付款:" + needPayMoney);
                         tv_hongbao.setText("可用" + cashing_packet + "元红包抵" + cashing_packet + "元");
                         rl_hongbao.setVisibility(View.VISIBLE);
-                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + 0 + "元");
+                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件");
 
                     } else if (mUserRedPacket <= cashing_packet) {
                         BigDecimal w = new BigDecimal(dzongjia + mUserRedPacket);
@@ -407,7 +413,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                         heji.setText("实付款:" + needPayMoney);
                         tv_hongbao.setText("可用" + mUserRedPacket + "元红包抵" + mUserRedPacket + "元");
                         rl_hongbao.setVisibility(View.VISIBLE);
-                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + 0 + "元");
+                        tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件");
                     }
 
                     hongbao_tety = isCheck;
@@ -431,14 +437,14 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 heji.setVisibility(View.VISIBLE);
                 kou_hongbao = 0;// 红包为0
                 rl_hongbao.setVisibility(View.GONE);
-                tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + 0 + "元");
+                tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件");
 
             } else if ("0.0".equals(kedi_hongbao)) {
                 tv_hongbao.setText("无可抵红包");
                 heji.setVisibility(View.VISIBLE);
                 kou_hongbao = 0;// 无可抵红包
                 rl_hongbao.setVisibility(View.GONE);
-                tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + 0 + "元");
+                tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件");
 
             } else if (dzongjia == cashing_packet) {
                 heji.setVisibility(View.GONE);
@@ -446,7 +452,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 tv_hongbao.setText("可用" + cashing_packet + "元红包抵" + cashing_packet + "元");
                 kou_hongbao = 1;// 已低红包
                 rl_hongbao.setVisibility(View.VISIBLE);
-                tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + cashing_packet + "元");
+                tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件");
 
             } else if (mUserRedPacket >= cashing_packet) {
                 BigDecimal w = new BigDecimal(dzongjia - cashing_packet);
@@ -457,7 +463,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 tv_hongbao.setText("可用" + cashing_packet + "元红包抵" + cashing_packet + "元");
                 kou_hongbao = 1;// 已低红包
                 rl_hongbao.setVisibility(View.VISIBLE);
-                tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + cashing_packet + "元");
+                tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件");
 
             } else if (mUserRedPacket <= cashing_packet) {
                 BigDecimal w = new BigDecimal(dzongjia - mUserRedPacket);
@@ -469,7 +475,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 // tv_hongbao.setText("可用"+hongbao+"元红包");
                 kou_hongbao = 1;// 已低红包
                 rl_hongbao.setVisibility(View.VISIBLE);
-                tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件，红包可抵扣: ¥" + mUserRedPacket + "元");
+                tv_jiaguo.setText("¥" + dzongjia + " , " + mQuantityCount + "件");
             }
 
             tv_hb_ye.setText(String.valueOf(mUserRedPacket));
@@ -649,7 +655,6 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 } else {
                     System.out.println("type======结算方式========" + type);
                     loadusertijiao(type, kou_hongbao);// 提交聚团订单
-
                 }
 
             }
@@ -829,40 +834,42 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                         retailPrice = Double.toString(dzongjia);
 
                         BigDecimal b = new BigDecimal(di_hongbao);
-                        cashing_packet = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+//                        cashing_packet = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                         kedi_hongbao = String.valueOf(cashing_packet);
 
-
-                        if (mUserRedPacket == 0) {
-                            tv_hongbao.setText("不可以使用红包");
-                        } else if (cashing_packet == 0) {
-                            tv_hongbao.setText("不可以使用红包");
-                        } else if (mUserRedPacket >= cashing_packet) {
-                            tv_hongbao.setText("可用" + cashing_packet + "元红包抵" + cashing_packet + "元");
-                        } else if (mUserRedPacket < cashing_packet) {
-                            tv_hongbao.setText("可用" + mUserRedPacket + "元红包抵" + mUserRedPacket + "元");
-                        }
+//                        if (mUserRedPacket == 0) {
+//                            tv_hongbao.setText("不可以使用红包");
+//                        } else if (cashing_packet == 0) {
+//                            tv_hongbao.setText("不可以使用红包");
+//                        } else if (mUserRedPacket >= cashing_packet) {
+//                            tv_hongbao.setText("可用" + cashing_packet + "元红包抵" + cashing_packet + "元");
+//                        } else if (mUserRedPacket < cashing_packet) {
+//                            tv_hongbao.setText("可用" + mUserRedPacket + "元红包抵" + mUserRedPacket + "元");
+//                        }
 
                         progress.CloseProgress();
-//                        jiekou_type_ysj = WareInformationActivity.jdh_type;
-//                        if (jiekou_type_ysj.equals("1")) {  //团购 todo 团购
-//                            ll_ljgm.setVisibility(View.VISIBLE);
-//                            rl_hongbao.setVisibility(View.GONE);
-//                            jubi = data.exchange_point;
-//                            dzongjia = Double.parseDouble(data.exchange_price);
-//                            Glide.with(MyOrderConfrimActivity.this)
-//                                    .load(URLConstants.REALM_NAME_HTTP + data.img_url)
-//                                    .into(img_ware);
-//                            tv_color.setText(jubi);// 聚币
+                        jiekou_type_ysj = WareInformationActivity.jdh_type;
+                        System.out.println("jiekou_type_ysj=====================" + jiekou_type_ysj);
+                        if (mBuyType == 3) {
+                            ll_ljgm.setVisibility(View.VISIBLE);
+                            rl_hongbao.setVisibility(View.GONE);
+                            mExchangePoint = data.exchange_point;
+                            Double onePrice = Double.parseDouble(data.exchange_price);
+                            Glide.with(MyOrderConfrimActivity.this)
+                                    .load(URLConstants.REALM_NAME_HTTP + data.img_url)
+                                    .into(img_ware);
+                            jubi = mExchangePoint;
+                            mNeedSumMoney = data.quantity * Double.parseDouble(data.exchange_price);
+
+//                            tv_color.setText(mExchangePoint);
 //                            tv_color.setVisibility(View.GONE);
-//                            tv_size.setText(jubi + "聚币" + "+" + dzongjia + "元");// 价格
-//                            tv_2.setText("聚兑价:");
-//                            tv_warename.setText(data.title);
-//                            tv_1.setText("聚币:");
-//                            tv_1.setVisibility(View.GONE);
-//                        } else {
-                        adapter = new ShopingCartOrderAdapter(mReadyPay, MyOrderConfrimActivity.this, handler);
-                        list_shop_cart.setAdapter(adapter);
+                            tv_size.setText(mExchangePoint + "积分" + "+" + onePrice + "元");// 价格
+                            tv_2.setText("兑换价:");
+                            tv_warename.setText(data.title);
+                        } else {
+                            adapter = new ShopingCartOrderAdapter(mReadyPay, MyOrderConfrimActivity.this);
+                            list_shop_cart.setAdapter(adapter);
+                        }
                         loadWeather();
                     } else {
                         progress.CloseProgress();
@@ -914,11 +921,11 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                                 if (ZhiFuFangShi != null) {
                                     if (express_fee == 0) {
                                         tv_zhifu.setText(ZhiFuFangShi + "(免邮)");
-                                        if (jubi != null) {
+                                        if (mBuyType == 3) {
                                             if (dzongjia > 0) {
-                                                heji.setText("实付款:" + " 福利" + jubi + " + " + "¥" + dzongjia);
+                                                heji.setText("实付款:" + " 积分" + jubi + " + " + "¥" + mNeedSumMoney);
                                             } else {
-                                                heji.setText("实付款:" + " 福利" + jubi);
+                                                heji.setText("实付款:" + " 积分" + jubi);
                                             }
                                         } else {
                                             heji.setText("实付款:" + " ¥" + dzongjia);
@@ -926,10 +933,10 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                                     } else {
                                         String price = String.valueOf(express_fee);
                                         tv_zhifu.setText(ZhiFuFangShi + "(" + "¥" + price + ")");
-                                        BigDecimal c = new BigDecimal(dzongjia + express_fee);
+                                        BigDecimal c = new BigDecimal(mNeedSumMoney + express_fee);
                                         needMoney = c.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                                        if (jubi != null) {
-                                            heji.setText("实付款:" + " 福利" + jubi + " + " + "¥" + needMoney);
+                                        if (mBuyType == 3) {
+                                            heji.setText("实付款:" + " 积分" + jubi + " + " + "¥" + needMoney);
                                         } else {
                                             heji.setText("实付款:" + " ¥" + needMoney);
                                         }
@@ -940,11 +947,11 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                                     express_fee = list_zf.get(0).getExpress_fee();
                                     if (express_fee == 0) {
                                         tv_zhifu.setText(ZhiFuFangShi + "(免邮)");
-                                        if (jubi != null) {
+                                        if (mBuyType == 3) {
                                             if (dzongjia > 0) {
-                                                heji.setText("实付款:" + " 福利" + jubi + " + " + "¥" + dzongjia);
+                                                heji.setText("实付款:" + " 积分" + jubi + " + " + "¥" + mNeedSumMoney);
                                             } else {
-                                                heji.setText("实付款:" + " 福利" + jubi);
+                                                heji.setText("实付款:" + " 积分" + jubi);
                                             }
                                         } else {
                                             heji.setText("实付款:" + " ¥" + dzongjia);
@@ -952,16 +959,15 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                                     } else {
                                         String price = String.valueOf(express_fee);
                                         tv_zhifu.setText(ZhiFuFangShi + "(" + "¥" + price + ")");
-                                        BigDecimal c = new BigDecimal(dzongjia + express_fee);
+                                        BigDecimal c = new BigDecimal(mNeedSumMoney + express_fee);
                                         needMoney = c.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                                        if (jubi != null) {
-                                            heji.setText("实付款:" + " 福利" + jubi + " + " + "¥" + needMoney);
+                                        if (mBuyType == 3) {
+                                            heji.setText("实付款:" + " 积分" + jubi + " + " + "¥" + needMoney);
                                         } else {
                                             heji.setText("实付款:" + " ¥" + needMoney);
                                         }
                                     }
                                 }
-                                gethongbao();
                                 progress.CloseProgress();
                             } else {
                                 progress.CloseProgress();
@@ -985,7 +991,9 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
 
     private void loadusertijiao(String payment_id, int kou_hongbao) {
         jiekou_type_ysj = WareInformationActivity.jdh_type;
-        System.out.println("jiekou_type_ysj=====================" + jiekou_type_ysj);
+        if (mBuyType == 3) {
+            jiekou_type_ysj = "1";
+        }
         if ("1".equals(jiekou_type_ysj)) {
             jiekou_type = "add_order_point";// 提交兑换订单
             is_cashing_point = "1";
@@ -1036,6 +1044,9 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                             Intent intent = new Intent(MyOrderConfrimActivity.this, TishiCarArchivesActivity.class);
                             intent.putExtra("order_no", recharge_no);
                             intent.putExtra("yue", "yue");
+                            if (mBuyType == 3) {
+                                intent.putExtra("jubi", jubi);
+                            }
                             startActivityForResult(intent, Constants.PAY_MONEY_ACT_REQUEST);
                         }
                     } else {

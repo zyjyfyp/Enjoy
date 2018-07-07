@@ -1034,8 +1034,7 @@ public class JuTuanConfrimActivity extends AppCompatActivity {
                     try {
 
                         System.out.println("3================" + list.size());
-                        adapter = new ShopingCartOrderAdapter(list,
-                                getApplicationContext(), handler);
+                        adapter = new ShopingCartOrderAdapter(list, getApplicationContext());
                         list_shop_cart.setAdapter(adapter);
                         // ShopingCartOrderAdapter.query.clear();
                         // list_shop_cart.setChoiceMode(ListView.CHOICE_MODE_SINGLE);

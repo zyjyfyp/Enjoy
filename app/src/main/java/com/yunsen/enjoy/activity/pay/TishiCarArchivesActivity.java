@@ -18,7 +18,10 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
+import com.yunsen.enjoy.http.HttpCallBack;
+import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.UserRegisterllData;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
@@ -29,6 +32,8 @@ import com.yunsen.enjoy.widget.DialogProgress;
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import okhttp3.Request;
 
 /**
  * 钱包支付（输入密码）
@@ -155,7 +160,7 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
                             tv_yue.setText("提示");
                         } else {
                             if (jubi != null) {
-                                tv_yue.setText("您剩余的福利为¥" + point);
+                                tv_yue.setText("您剩余的积分为¥" + point);
                                 System.out.println("point-------------" + point);
                             } else {
                                 tv_yue.setText("您剩余的余额为¥" + amount);
@@ -236,6 +241,7 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
                                     progress.CloseProgress();
                                     UIHelper.showMyOrderXqActivity(TishiCarArchivesActivity.this, order_no);
                                     ToastUtils.makeTextShort("支付成功");
+                                    upUserInfo();//更新用户数据
                                     EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
                                     setResult(1);
                                     finish();
@@ -263,6 +269,20 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
 
             e.printStackTrace();
         }
+    }
+
+    private void upUserInfo() {
+        HttpProxy.getUserInfo(user_name, new HttpCallBack<UserInfo>() {
+            @Override
+            public void onSuccess(UserInfo responseData) {
+
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
     }
 
     /**

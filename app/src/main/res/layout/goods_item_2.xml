@@ -13,15 +13,16 @@
 
         <ImageView
             android:id="@+id/goods_left_img"
-            android:layout_width="122dp"
+            android:layout_width="120dp"
             android:layout_height="80dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/app_margin"
-            android:layout_marginRight="@dimen/app_margin" />
+            android:layout_marginRight="5dp" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/app_margin"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="vertical">
@@ -40,6 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:maxLines="2"
                 android:textColor="@color/color_888"
                 android:textSize="13sp" />
 
@@ -50,6 +52,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:maxLines="1"
                     android:id="@+id/goods_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -57,6 +60,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:maxLines="1"
                     android:id="@+id/goods_first_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -77,10 +81,10 @@
                     android:src="@mipmap/address_icon" />
 
                 <TextView
+                    android:maxLines="1"
                     android:id="@+id/goods_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/app_margin"
                     android:text="深圳"
                     android:textColor="@color/color_888"
                     android:textSize="12sp" />
@@ -89,8 +93,8 @@
     </LinearLayout>
 
     <View
-        android:layout_below="@id/root_layout"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_below="@id/root_layout"
         android:background="@color/color_f5f7fa" />
 </RelativeLayout>

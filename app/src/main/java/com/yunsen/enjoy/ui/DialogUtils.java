@@ -89,7 +89,7 @@ public class DialogUtils {
                 SharedPreferences spPreferences_tishi = fAct.getSharedPreferences("longuserset_tishi", Context.MODE_PRIVATE);
                 spPreferences_login.edit().clear().commit();
                 spPreferences.edit().clear().commit();
-                jdh_spPreferences.edit().clear().commit();// 积兑换保存福利清除
+                jdh_spPreferences.edit().clear().commit();// 积兑换保存积分清除
                 spPreferences_tishi.edit().clear().commit();// 第三方授权登录提示绑定手机号信息清空
                 AccountUtils.clearData();
                 UIHelper.showUserLoginActivity(fAct);

@@ -46,7 +46,7 @@ public class URLConstants {
     /**
      * 买车
      */
-    public static final String BUY_CAR_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_page_size_list";
+    public static final String BUY_CAR_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_province_article_page_size_list";
 
     /*----发现------**/
     /**

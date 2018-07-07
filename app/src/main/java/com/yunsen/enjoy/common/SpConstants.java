@@ -116,4 +116,5 @@ public class SpConstants {
     public static final String ADDRESS_SP = "user_dizhixinxi";
 
     public static final String APP_VERSION_NAME = "app_version_name";
+    public static final String CITY_CODE = "city_code";
 }

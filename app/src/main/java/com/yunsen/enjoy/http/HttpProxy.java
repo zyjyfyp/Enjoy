@@ -362,6 +362,7 @@ public class HttpProxy {
         param.put("page_size", "8");
         param.put("page_index", pageIndex);
         param.put("orderby", orderby);
+        param.put("city", city);
 
 //        if (!TextUtils.isEmpty(brandIdOne)) {
 //            strwhere += "and brand_id like \'%" + brandIdOne + "%\'";
@@ -369,11 +370,11 @@ public class HttpProxy {
         if (!TextUtils.isEmpty(brandId)) {
             strwhere += "and brand_id like \'%" + brandId + "%\'";
         }
-        if (TextUtils.isEmpty(city)) {
+//        if (TextUtils.isEmpty(city)) {
             param.put("strwhere", strwhere);
-        } else {
-            param.put("strwhere", strwhere + " and (city like \'%" + city + "%\'  or city like \'%所有城市%\')");
-        }
+//        } else {
+//            param.put("strwhere", strwhere + " and (city like \'%" + city + "%\'  or city like \'%所有城市%\')");
+//        }
         HttpClient.get(URLConstants.BUY_CAR_URL, param, new HttpResponseHandler<GoogsListResponse>() {
             @Override
             public void onSuccess(GoogsListResponse response) {

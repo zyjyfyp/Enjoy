@@ -68,7 +68,9 @@ public class SelectCityHelp {
                     @Override
                     public void onPick(int position, City data) {
                         SharedPreference.getInstance().putString(SpConstants.CITY_KEY, data.getName());
-                        EventBus.getDefault().postSticky(new UpCityEvent(EventConstants.UP_CITY, data.getName()));
+                        SharedPreference.getInstance().putString(SpConstants.CITY_CODE, data.getName());
+                        SharedPreference.getInstance().putString(SpConstants.PROVINCE, data.getProvince());
+                        EventBus.getDefault().postSticky(new UpCityEvent(EventConstants.UP_CITY, data.getName(), data.getCode()));
                         if (!act.isDestroyed()) {
                             act.finish();
 

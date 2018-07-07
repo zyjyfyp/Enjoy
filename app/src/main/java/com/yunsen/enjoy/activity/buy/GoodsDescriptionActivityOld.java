@@ -182,7 +182,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
         SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         mUserId = sp.getString(SpConstants.USER_ID, "");
         mUserName = sp.getString(SpConstants.USER_NAME, "");
-        mPoint = sp.getString(SpConstants.POINT, "");
+        mPoint = sp.getString(SpConstants.POINT, "0");
         mUnionid = sp.getString(SpConstants.UNION_ID, "");
         switch (mBuyType) {
             case Constants.DEFAULT_BUY:
@@ -300,7 +300,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
         } else if (mBuyType == Constants.POINT_BUY) {
             int exchangePoint = defaultSpecItem.getExchange_point();
             String exchangePriceStr = defaultSpecItem.getExchange_priceStr();
-            goodsPointTv.setText(exchangePoint + "分+" + exchangePriceStr + "元");
+            goodsPointTv.setText(exchangePoint + "积分+" + exchangePriceStr + "元");
             goodsMarketPriceTv2.setText("¥" + defaultSpecItem.getMarkePriceStr());
             int ownPoint = Integer.parseInt(mPoint);
             if (exchangePoint < ownPoint) {
@@ -412,7 +412,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
                 break;
             case R.id.market_information_juduihuan: //兑换
                 if (mCanExchange) {
-                    CommomConfrim.initData2(defaultSpecItem.getSell_price(), defaultSpecItem.getExchange_point(), mCarDetail.getImg_url(), 3,
+                    CommomConfrim.initData2(defaultSpecItem.getExchange_price(), defaultSpecItem.getExchange_point(), mCarDetail.getImg_url(), 3,
                             "" + defaultSpecItem.getGoods_id(), defaultSpecItem.getSpec_ids(), false);
                     CommomConfrim.showSheet(GoodsDescriptionActivityOld.this, String.valueOf(mCarDetail.getId()));
                 } else {

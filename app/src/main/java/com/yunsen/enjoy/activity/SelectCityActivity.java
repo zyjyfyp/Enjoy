@@ -176,7 +176,9 @@ public class SelectCityActivity extends BaseFragmentActivity implements AdapterV
         } else if (cityModel != null && TextUtils.isEmpty(cityModel.getFirstLetter())
                 && !TextUtils.isEmpty(cityModel.getName())) {
             SharedPreference.getInstance().putString(SpConstants.CITY_KEY, cityModel.getName());
-            EventBus.getDefault().postSticky(new UpCityEvent(EventConstants.UP_CITY, cityModel.getName()));
+            SharedPreference.getInstance().putString(SpConstants.CITY_CODE, cityModel.getId());
+            SharedPreference.getInstance().putString(SpConstants.PROVINCE, "过时");
+            EventBus.getDefault().postSticky(new UpCityEvent(EventConstants.UP_CITY, cityModel.getName(), cityModel.getId()));
             finish();
         }
 

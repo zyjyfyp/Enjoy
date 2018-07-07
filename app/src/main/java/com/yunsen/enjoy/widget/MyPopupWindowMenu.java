@@ -550,7 +550,7 @@ public class MyPopupWindowMenu extends PopupWindow implements OnClickListener,
             //							String data = "http://183.62.138.31:8088/appshare/"+id+".html";
             String data = "http://183.62.138.31:1011/appshare/" + user_id + ".html";
             System.out.println("分享11======================" + data);
-            String zhou = "袋鼠车宝下载地址,下载后可帮分享的好友获得福利" + data;
+            String zhou = "袋鼠车宝下载地址,下载后可帮分享的好友获得积分" + data;
 
             System.out.println("==========" + zhou);
             softshareWxChat(zhou);

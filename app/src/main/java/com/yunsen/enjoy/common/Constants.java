@@ -21,6 +21,7 @@ public class Constants {
     public static final String TEXT_SPEC = "text_spec"; //物品销售属性
     public static final String PHONE_NUMBER = "400-832-7990";
     public static final int APPLY_SALE_AFTER_IMG = 5;
+    public static final String BUY_TYPE_KEY = "buy_type_key";
 //    public static final String APP_SECRET = "";
 //appId=wxe60c28541b0fa8a2&body=zyjytest&device_info=1000&key=ca30ef7495cdd92ee94e1190f78a8735&mch_id=1502153101&nonce_str=ibuaiVcKdpRxkhJA
 

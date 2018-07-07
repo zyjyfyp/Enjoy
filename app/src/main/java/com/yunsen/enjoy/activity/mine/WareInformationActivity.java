@@ -969,10 +969,10 @@ public class WareInformationActivity extends AppCompatActivity implements
                     ling_tip.setVisibility(view.VISIBLE);
                     System.out.println("proInverseImg===================" + proInverseImg);
                     mAq.id(ling_tip).image(URLConstants.REALM_NAME_HTTP + proInverseImg);
-                    tv_wenzi1.setText("福利兑换:");
+                    tv_wenzi1.setText("积分兑换:");
                     tv_wenzi2.setText("市场价:");
 
-                    //福利兑换
+                    //积分兑换
                     market_information_juduihuan.setOnClickListener(new OnClickListener() {
 
                         @Override
@@ -983,7 +983,7 @@ public class WareInformationActivity extends AppCompatActivity implements
                             System.out.println("exchange_point========1==========" + exchange_point);
                             if (!user_name.equals("")) {
                                 if (user_point.equals("")) {
-                                    Toast.makeText(WareInformationActivity.this, "请重新登录获取用户福利", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(WareInformationActivity.this, "请重新登录获取用户积分", Toast.LENGTH_SHORT).show();
                                 } else {
                                     try {
                                         int jubi = Integer.parseInt(exchange_point);
@@ -994,7 +994,7 @@ public class WareInformationActivity extends AppCompatActivity implements
                                         if (dq_jubi >= jubi) {
                                             fangshi = 3;//销售属性判断
                                             title_jdh = "2";
-                                            taocan_type = true;//福利兑换判断套餐价格显示
+                                            taocan_type = true;//积分兑换判断套餐价格显示
                                             spec_text_list = 1;//销售套餐判断为1
                                             jdh_type = getIntent().getStringExtra("jdh_type");//乐豆兑换调用接口
                                             System.out.println("jdh_type===================" + jdh_type);
@@ -1010,7 +1010,7 @@ public class WareInformationActivity extends AppCompatActivity implements
                                             //								intent.putExtra("price",price);
                                             //								startActivity(intent);
                                         } else {
-                                            Toast.makeText(WareInformationActivity.this, "您当前的福利不够兑换", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(WareInformationActivity.this, "您当前的积分不够兑换", Toast.LENGTH_SHORT).show();
                                         }
 
                                     } catch (Exception e) {

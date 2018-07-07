@@ -64,7 +64,9 @@ public class SelectCityNewActivity extends BaseFragmentActivity implements AMapL
                         if (position != -1) {
                             String name = data.getName() + "市";
                             SharedPreference.getInstance().putString(SpConstants.CITY_KEY, name);
-                            EventBus.getDefault().postSticky(new UpCityEvent(EventConstants.UP_CITY, name));
+                            SharedPreference.getInstance().putString(SpConstants.CITY_CODE, data.getCode());
+                            SharedPreference.getInstance().putString(SpConstants.PROVINCE, data.getProvince());
+                            EventBus.getDefault().postSticky(new UpCityEvent(EventConstants.UP_CITY, name, data.getCode()));
                         }
                         finish();
                     }

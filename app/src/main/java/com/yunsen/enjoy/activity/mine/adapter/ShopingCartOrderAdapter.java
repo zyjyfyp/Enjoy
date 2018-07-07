@@ -25,14 +25,11 @@ public class ShopingCartOrderAdapter extends BaseAdapter {
     private LayoutInflater inflater = null;
     private Context context;
     private ShopCartData cartData;
-    private Handler handler;
     AQuery aQuery;
 
     // 构造器
-    public ShopingCartOrderAdapter(ArrayList<ShopCartData> list, Context context
-            , Handler handler) {
+    public ShopingCartOrderAdapter(ArrayList<ShopCartData> list, Context context) {
         this.context = context;
-        this.handler = handler;
         this.list = list;
         inflater = LayoutInflater.from(context);
         aQuery = new AQuery(context);

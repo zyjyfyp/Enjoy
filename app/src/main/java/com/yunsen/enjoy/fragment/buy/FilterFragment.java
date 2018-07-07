@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -139,6 +140,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
     @Override
     protected void requestData() {
         String city = SharedPreference.getInstance().getString(SpConstants.CITY_KEY, "深圳市");
+        String cityCode = SharedPreference.getInstance().getString(SpConstants.CITY_CODE, "深圳市");
         HttpProxy.getFilterBuyCarDatas(String.valueOf(mPageIndex), new HttpCallBack<List<GoodsData>>() {
             @Override
             public void onSuccess(List<GoodsData> responseData) {
@@ -305,6 +307,7 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(UpCityEvent event) {
         if (event.getEventId() == EventConstants.UP_CITY) {
+//            Log.e(TAG, "onEvent: getCityCode= " + event.getCityCode() + "  getCity=" + event.getCity());
             initRequestDta();
             requestData();
         }

@@ -1040,7 +1040,7 @@ public class JuJingCaiXqActivity extends AppCompatActivity implements OnClickLis
                 type_xq = true;//聚团详情销售属性不显示
                 type_spec_item = true;//聚团详情销售属性显示
                 spec_text_list = 2;//销售套餐判断为2
-                taocan_type = false;//福利兑换判断套餐价格显示
+                taocan_type = false;//积分兑换判断套餐价格显示
                 CommomConfrim.showSheet(JuJingCaiXqActivity.this, data.id);
 
 //			Intent intent1 = new Intent(JuJingCaiXqActivity.this,XiaoShouShuXingActivity.class);

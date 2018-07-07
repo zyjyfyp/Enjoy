@@ -34,7 +34,7 @@ public class FilterRecAdapter extends CommonAdapter<GoodsData> {
         holder.setText(R.id.goods_address, goodsData.getCity());
         Picasso.with(mContext)
                 .load(goodsData.getImg_url())
-                .resize(DeviceUtil.dp2px(mContext, 122), DeviceUtil.dp2px(mContext, 90))
+                .resize(DeviceUtil.dp2px(mContext, 120), DeviceUtil.dp2px(mContext, 80))
                 .centerCrop()
                 .into(((ImageView) holder.getView(R.id.goods_left_img)));
     }

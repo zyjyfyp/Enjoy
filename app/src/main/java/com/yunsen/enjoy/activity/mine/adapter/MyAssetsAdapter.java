@@ -62,7 +62,7 @@ public class MyAssetsAdapter extends BaseAdapter {
 		System.out.println("=====================二级值17");
 		//		if (list.get(position).remark.contains("扣取账户金额")) {
 		//			tv_income.setText("-"+list.get(position).expense+"元");
-		//		}else if (list.get(position).remark.contains("福利")) {
+		//		}else if (list.get(position).remark.contains("积分")) {
 		//			tv_income.setText("+"+list.get(position).income+"元");
 		//		}else{
 		//			tv_income.setText("+"+list.get(position).income+"元");
@@ -89,7 +89,7 @@ public class MyAssetsAdapter extends BaseAdapter {
 		//			tv_income.setText("+"+list.get(position).income+"元");
 		//		}else  if (list.get(position).remark.contains("养老金")){
 		//			tv_income.setText("+"+list.get(position).income+"元");
-		//		}else if (list.get(position).remark.contains("福利")){
+		//		}else if (list.get(position).remark.contains("积分")){
 		//			tv_income.setText("+"+list.get(position).balance+"分");
 		//		}else if (list.get(position).remark.contains("红包")){
 		//			tv_income.setText("+"+list.get(position).balance+"元");
