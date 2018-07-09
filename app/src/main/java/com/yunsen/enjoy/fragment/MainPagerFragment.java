@@ -8,8 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -46,6 +48,7 @@ import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
+import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.SharedPreference;
 import com.yunsen.enjoy.widget.ADTextView;
 import com.yunsen.enjoy.widget.HorizontalLayout;
@@ -140,7 +143,9 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         secondActivity = (SecondActivityLayout) topView.findViewById(R.id.home_activity_layout);
         goodsPartsLayout = ((GoodsPartsLayout) topView.findViewById(R.id.goods_parts_layout));
         serviceMoreTv = topView.findViewById(R.id.service_more_tv);
-
+        RelativeLayout bannerRoot = (RelativeLayout) topView.findViewById(R.id.layout_ent_gallery);
+        ViewGroup.LayoutParams lp = bannerRoot.getLayoutParams();
+        lp.height = (int) (DeviceUtil.getScreenWidth() * 0.49);
     }
 
     @Override

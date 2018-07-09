@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.yanzhenjie.permission.Permission;
@@ -26,6 +27,7 @@ import com.yunsen.enjoy.model.event.UpFilterReqEvent;
 import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
+import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.SharedPreference;
 import com.yunsen.enjoy.widget.PullToRefreshView;
 import com.yunsen.enjoy.widget.SearchActionBar;
@@ -97,6 +99,8 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
         });
         refreshView.setEnablePullLoadMoreDataStatus(false);
         refreshView.setEnablePullTorefresh(false);
+        ViewGroup.LayoutParams lp = layoutEntGallery.getLayoutParams();
+        lp.height = (int) (DeviceUtil.getScreenWidth() * 0.49);
     }
 
     @Override

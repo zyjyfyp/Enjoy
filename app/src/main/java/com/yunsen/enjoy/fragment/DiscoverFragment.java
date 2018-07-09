@@ -96,7 +96,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         indicator.requestFocus();
         pullToResh.setEnablePullTorefresh(false);
         ViewGroup.LayoutParams lp = galleryLayout.getLayoutParams();
-        lp.height = (int) (DeviceUtil.getScreenWidth() * 0.56);
+        lp.height = (int) (DeviceUtil.getScreenWidth() * 0.49);
     }
 
     /**
