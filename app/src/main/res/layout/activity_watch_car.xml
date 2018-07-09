@@ -163,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/app_margin"
                     android:layout_marginRight="@dimen/app_margin"
-                    android:text="姓\t\t\t名"
+                    android:text="姓\t\t名"
                     android:textColor="@color/color_888" />
 
                 <EditText
@@ -198,7 +198,7 @@
                     android:layout_marginLeft="@dimen/app_margin"
                     android:layout_marginRight="@dimen/app_margin"
                     android:gravity="center"
-                    android:text="电\t\t\t话"
+                    android:text="电\t\t话"
                     android:textColor="@color/color_888" />
 
                 <EditText

@@ -51,6 +51,7 @@
 
 
             <LinearLayout
+                android:id="@+id/facilitator_tag_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/item_height"
                 android:layout_marginLeft="@dimen/app_margin"
@@ -59,27 +60,26 @@
 
                 <TextView
                     style="@style/ApplyService2Tv"
-                    android:text="服务商标签" />
+                    android:text="服务项目" />
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1" />
 
-                <TextView
+                <com.yunsen.enjoy.widget.MarqueTextView
                     android:id="@+id/facilitator_tag_tv"
                     style="@style/ApplyService2Tv"
                     android:layout_marginRight="0dp"
                     android:drawablePadding="10dp"
                     android:drawableRight="@drawable/down_more_selected"
-                    android:hint="汽车" />
+                    android:ellipsize="marquee"
+                    android:singleLine="true"
+                    android:gravity="right|center_vertical"
+                    android:hint="请选择服务项目"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:scrollbars="none" />
             </LinearLayout>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray_light" />
 
 
             <LinearLayout
@@ -87,7 +87,8 @@
                 android:layout_height="@dimen/item_height"
                 android:layout_marginLeft="@dimen/app_margin"
                 android:layout_marginRight="@dimen/app_margin"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:visibility="gone">
 
                 <TextView
                     style="@style/ApplyService2Tv"
@@ -188,7 +189,7 @@
                 <EditText
                     android:id="@+id/facilitator_gps_edt"
                     style="@style/ApplyService2Edt"
-                    android:hint="已定位" />
+                    android:hint="请输入您的详细地址" />
             </LinearLayout>
 
 
@@ -199,6 +200,7 @@
 
 
             <LinearLayout
+                android:id="@+id/facilitator_start_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/item_height"
                 android:layout_marginLeft="@dimen/app_margin"
@@ -218,7 +220,7 @@
                     android:id="@+id/facilitator_start_tv"
                     style="@style/ApplyService2Tv"
                     android:layout_marginRight="0dp"
-                    android:hint="09:00" />
+                    android:text="09:00" />
             </LinearLayout>
 
 
@@ -228,6 +230,7 @@
                 android:background="@color/gray_light" />
 
             <LinearLayout
+                android:id="@+id/facilitator_end_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/item_height"
                 android:layout_marginLeft="@dimen/app_margin"
@@ -247,7 +250,7 @@
                     android:id="@+id/facilitator_end_tv"
                     style="@style/ApplyService2Tv"
                     android:layout_marginRight="0dp"
-                    android:hint="21:00" />
+                    android:text="21:00" />
             </LinearLayout>
 
 

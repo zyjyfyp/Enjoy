@@ -4,7 +4,7 @@ package com.yunsen.enjoy.model;
  * Created by Administrator on 2018/5/10.
  */
 
-public  class ServiceProject {
+public class ServiceProject {
     private int id;
     private String title;
     private int parent_id;
@@ -21,6 +21,7 @@ public  class ServiceProject {
     private String seo_keywords;
     private String seo_description;
     private String update_time;
+    private boolean isSelected;
 
     public int getId() {
         return id;
@@ -148,5 +149,13 @@ public  class ServiceProject {
 
     public void setUpdate_time(String update_time) {
         this.update_time = update_time;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

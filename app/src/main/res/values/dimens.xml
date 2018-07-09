@@ -33,4 +33,5 @@
 	<dimen name="notice_progress_width">30dp</dimen>
 	<dimen name="dpi_85">85dp</dimen>
     <dimen name="bar_title_size">16sp</dimen>
+    <dimen name="dp_40">40dp</dimen>
 </resources>

@@ -50,6 +50,7 @@ import okhttp3.Request;
  */
 
 public class ApplyServiceThreeActivity extends BaseFragmentActivity {
+    private static final String TAG = "ApplyServiceThree";
 
     @Bind(R.id.action_back)
     ImageView actionBack;
@@ -63,8 +64,6 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
     EditText facilitatorSynopsisEdt;
     @Bind(R.id.facilitator_advantage_edt)
     EditText facilitatorAdvantageEdt;
-    @Bind(R.id.facilitator_work_number_edt)
-    EditText facilitatorWorkNumberEdt;
     @Bind(R.id.facilitator_logo_img)
     ImageView facilitatorLogoImg;
     @Bind(R.id.facilitator_aptitude_img)
@@ -172,6 +171,7 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
                 UIHelper.showPhotoActivity(this, Constants.APPLY_SERVICE_REQUEST_4);
                 break;
             case R.id.join_protocol_tv:
+                UIHelper.showServiceAgreement(this);
                 break;
             case R.id.submit_btn:
                 initRequestData();
@@ -184,35 +184,24 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
         Integer tradeId = (Integer) facilitatorCategoryTv.getTag();
         String synonsis = facilitatorSynopsisEdt.getText().toString();//简介
         String advatage = facilitatorAdvantageEdt.getText().toString();//优势
-        String workNumber = facilitatorWorkNumberEdt.getText().toString();//服务工号
         String businessLicence = facilitatorBusinessLicenceEdt.getText().toString();//营业执照注册号
         String refereeNum = facilitatorRefereeNumEdt.getText().toString();//推荐人号码
 
         mRequsetData.setTrade_id("" + tradeId);
         mRequsetData.setContact(synonsis);
-        mRequsetData.setAdvantage(advatage);
+//        mRequsetData.setAdvantage(advatage);
         mRequsetData.setLicense(businessLicence);
 
         if (TextUtils.isEmpty(category)) {
-            ToastUtils.makeTextShort("请选择行业类别");
+            ToastUtils.makeTextShort("请选择战略合作类别");
         } else if (TextUtils.isEmpty(synonsis)) {
             ToastUtils.makeTextShort("请填写服务商简介");
-        } else if (TextUtils.isEmpty(advatage)) {
-            ToastUtils.makeTextShort("请填写特色优势");
-        } else if (TextUtils.isEmpty(workNumber)) {
-            ToastUtils.makeTextShort("请填写服务工号");
         } else if (TextUtils.isEmpty(businessLicence)) {
             ToastUtils.makeTextShort("请填写营业执照号码");
-        } else if (TextUtils.isEmpty(refereeNum)) {
-            ToastUtils.makeTextShort("请填写推荐人号码");
         } else if ((mImgPullFinish & ONE_IMG) != ONE_IMG) {
             ToastUtils.makeTextShort("请上传服务商Logo");
         } else if ((mImgPullFinish & TWO_IMG) != TWO_IMG) {
             ToastUtils.makeTextShort("请上传营业执照");
-        } else if ((mImgPullFinish & TWO_IMG) != TWO_IMG) {
-            ToastUtils.makeTextShort("请上传税务登记证明");
-        } else if ((mImgPullFinish & TWO_IMG) != TWO_IMG) {
-            ToastUtils.makeTextShort("请上传组织机构代码证明");
         } else if (!protocolSelectionCb.isChecked()) {
             ToastUtils.makeTextShort("请同意协议");
         } else {
@@ -226,7 +215,6 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
         HttpProxy.getApplyServiceForm(this, mRequsetData, new HttpCallBack<RestApiResponse>() {
             @Override
             public void onSuccess(RestApiResponse responseData) {
-                Log.d(TAG, "onSuccess: " + responseData.getInfo());
                 EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
                 UIHelper.showMainActivity(ApplyServiceThreeActivity.this);
                 ToastUtils.makeTextShort("服务商申请成功");
@@ -235,7 +223,6 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
 
             @Override
             public void onError(Request request, Exception e) {
-                Log.e(TAG, "onError: " + e.getMessage());
                 if (e instanceof DataException) {
                     ToastUtils.makeTextShort(e.getMessage());
                 }
@@ -343,10 +330,8 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
                 mImgPullFinish = mImgPullFinish | FOUR_IMG;
                 break;
         }
-        Log.e(TAG, "onEvent:上传成功 " + event.getImgUrl());
     }
 
-    private static final String TAG = "ApplyServiceThreeActivi";
 
     @Override
     protected void onDestroy() {

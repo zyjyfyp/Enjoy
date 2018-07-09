@@ -352,7 +352,6 @@
         <activity
             android:name=".activity.order.ApplyAfterSaleActivity"
             android:screenOrientation="portrait" />
-
     </application>
 
 </manifest>

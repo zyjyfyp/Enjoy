@@ -32,7 +32,7 @@
 
                 <TextView
                     style="@style/ApplyService2Tv"
-                    android:text="行业类别" />
+                    android:text="战略合作类别" />
 
                 <View
                     android:layout_width="0dp"
@@ -43,8 +43,8 @@
                     android:id="@+id/facilitator_category_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="请选择行业类别"
                     android:gravity="right"
+                    android:hint="请选择战略合作类别"
                     android:textColor="@color/title_color"
                     android:textSize="13sp" />
 
@@ -75,12 +75,9 @@
                 android:textColor="@color/title_color"
                 android:textSize="13sp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray_light" />
 
             <TextView
+                android:visibility="gone"
                 style="@style/ApplyService2Tv"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/item_height"
@@ -88,6 +85,7 @@
                 android:text="服务特色优势" />
 
             <EditText
+                android:visibility="gone"
                 android:id="@+id/facilitator_advantage_edt"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
@@ -99,35 +97,6 @@
                 android:scrollbars="vertical"
                 android:textColor="@color/title_color"
                 android:textSize="13sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray_light" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/item_height"
-                android:layout_marginLeft="@dimen/app_margin"
-                android:layout_marginRight="@dimen/app_margin"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    style="@style/ApplyService2Tv"
-                    android:text="服务工号" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" />
-
-                <EditText
-                    android:id="@+id/facilitator_work_number_edt"
-                    style="@style/ApplyService2Edt"
-                    android:hint="请输入您的工号" />
-
-            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -218,7 +187,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/app_margin"
                 android:layout_marginRight="@dimen/app_margin"
-                android:text="请上传税务登记证明，组织机构代码证明"
+                android:text="请上传税务登记证明，组织机构代码证明\n(注意：如果是三证合一，不需要上传下面的证件)"
                 android:textColor="@color/color_888"
                 android:textSize="13sp" />
 
@@ -278,7 +247,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="同时申请成为消费银行商家并同意"
+                        android:text="同时申请成为服务商并同意"
                         android:textColor="@color/title_color"
                         android:textSize="13sp" />
 
@@ -286,7 +255,7 @@
                         android:id="@+id/join_protocol_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="《消费银行服务商加盟协议》"
+                        android:text="《袋鼠车宝服务商加盟协议》"
                         android:textColor="@color/orange_color"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -305,7 +274,8 @@
                 android:layout_marginLeft="@dimen/app_margin"
                 android:layout_marginRight="@dimen/app_margin"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     style="@style/ApplyService2Tv"

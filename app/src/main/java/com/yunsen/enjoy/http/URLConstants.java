@@ -308,6 +308,7 @@ public class URLConstants {
     //    public static final String REALM_NAME_HTTP = "http://mobile.zams.cn";
     //    public static final String REALM_NAME_LL = "http://mobile.zams.cn/tools/mobile_ajax.asmx";
     //    public static final String REALM_NAME_FX = "http://mobile.zams.cn";
+//    public static final String REALM_NAME_WEB = "http://szlxkg.com/mobile/news/conent- 1023.html";
     public static final String REALM_NAME_WEB = "http://szlxkg.com";
     public static final String REALM_NAME_HTTP = "http://szlxkg.com";
     public static final String REALM_NAME_LL = "http://szlxkg.com/tools/mobile_ajax.asmx";

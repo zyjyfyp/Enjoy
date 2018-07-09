@@ -899,7 +899,17 @@ public class UIHelper {
      * @param ctx
      */
     public static void showUserAgreement(Context ctx) {
-        String url = URLConstants.REALM_NAME_WEB + "/mobile/news/conent- 1006.html";
+        String url = URLConstants.REALM_NAME_WEB + "/mobile/news/conent-1006.html";
+        showWebActivity(ctx, url);
+    }
+
+    /**
+     * 服务商协议
+     *
+     * @param ctx
+     */
+    public static void showServiceAgreement(Context ctx) {
+        String url = URLConstants.REALM_NAME_WEB + "/mobile/news/conent-4023.html";
         showWebActivity(ctx, url);
     }
 
