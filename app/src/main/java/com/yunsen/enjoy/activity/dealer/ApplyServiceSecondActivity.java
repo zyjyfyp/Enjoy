@@ -263,8 +263,7 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
      * @return
      */
     private View dialogm() {
-        View contentView = LayoutInflater.from(this).inflate(
-                R.layout.wheelcity_cities_layout, null);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.wheelcity_cities_layout, null);
         final WheelView country = (WheelView) contentView.findViewById(R.id.wheelcity_country);
         country.setVisibleItems(3);
         country.setViewAdapter(new CountryAdapter(this));
@@ -332,7 +331,7 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
     private void updateCities(WheelView city, String cities[][], int index) {
         ArrayWheelAdapter<String> adapter = new ArrayWheelAdapter<String>(this,
                 cities[index]);
-        adapter.setTextSize(18);
+        adapter.setTextSize(16);
         city.setViewAdapter(adapter);
         city.setCurrentItem(0);
     }
@@ -344,7 +343,7 @@ public class ApplyServiceSecondActivity extends BaseFragmentActivity {
                                int index2) {
         ArrayWheelAdapter<String> adapter = new ArrayWheelAdapter<String>(this,
                 ccities[index][index2]);
-        adapter.setTextSize(18);
+        adapter.setTextSize(16);
         city.setViewAdapter(adapter);
         city.setCurrentItem(0);
     }

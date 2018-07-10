@@ -769,22 +769,18 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
      * @return
      */
     private View dialogm() {
-        View contentView = LayoutInflater.from(this).inflate(
-                R.layout.wheelcity_cities_layout, null);
-        final WheelView country = (WheelView) contentView
-                .findViewById(R.id.wheelcity_country);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.wheelcity_cities_layout, null);
+        final WheelView country = (WheelView) contentView.findViewById(R.id.wheelcity_country);
         country.setVisibleItems(3);
         country.setViewAdapter(new CountryAdapter(this));
 
         final String cities[][] = AddressData.CITIES;
         final String ccities[][][] = AddressData.COUNTIES;
-        final WheelView city = (WheelView) contentView
-                .findViewById(R.id.wheelcity_city);
+        final WheelView city = (WheelView) contentView.findViewById(R.id.wheelcity_city);
         city.setVisibleItems(0);
 
         // 地区选择
-        final WheelView ccity = (WheelView) contentView
-                .findViewById(R.id.wheelcity_ccity);
+        final WheelView ccity = (WheelView) contentView.findViewById(R.id.wheelcity_ccity);
         ccity.setVisibleItems(0);// 不限城市
 
         country.addChangingListener(new OnWheelChangedListener() {
@@ -843,7 +839,7 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
     private void updateCities(WheelView city, String cities[][], int index) {
         ArrayWheelAdapter<String> adapter = new ArrayWheelAdapter<String>(this,
                 cities[index]);
-        adapter.setTextSize(18);
+        adapter.setTextSize(16);
         city.setViewAdapter(adapter);
         city.setCurrentItem(0);
     }
@@ -851,11 +847,10 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
     /**
      * Updates the ccity wheel
      */
-    private void updatecCities(WheelView city, String ccities[][][], int index,
-                               int index2) {
+    private void updatecCities(WheelView city, String ccities[][][], int index, int index2) {
         ArrayWheelAdapter<String> adapter = new ArrayWheelAdapter<String>(this,
                 ccities[index][index2]);
-        adapter.setTextSize(18);
+        adapter.setTextSize(16);
         city.setViewAdapter(adapter);
         city.setCurrentItem(0);
     }

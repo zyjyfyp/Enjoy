@@ -125,7 +125,7 @@ public class SelectCityProxy {
      */
     private void updateCities(WheelView city, String cities[][], int index) {
         ArrayWheelAdapter<String> adapter = new ArrayWheelAdapter<String>(mContext, cities[index]);
-        adapter.setTextSize(18);
+        adapter.setTextSize(16);
         city.setViewAdapter(adapter);
         city.setCurrentItem(0);
     }
@@ -136,7 +136,7 @@ public class SelectCityProxy {
     private void updatecCities(WheelView city, String ccities[][][], int index,
                                int index2) {
         ArrayWheelAdapter<String> adapter = new ArrayWheelAdapter<String>(mContext, ccities[index][index2]);
-        adapter.setTextSize(18);
+        adapter.setTextSize(16);
         city.setViewAdapter(adapter);
         city.setCurrentItem(0);
     }

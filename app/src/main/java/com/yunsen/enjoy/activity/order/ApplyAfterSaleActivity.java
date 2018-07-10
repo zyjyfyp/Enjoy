@@ -27,6 +27,7 @@ import com.yunsen.enjoy.activity.order.adapter.GoodsResetAdapter;
 import com.yunsen.enjoy.activity.order.adapter.ResetTypeAdapter;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
+import com.yunsen.enjoy.http.DataException;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
@@ -143,7 +144,7 @@ public class ApplyAfterSaleActivity extends BaseFragmentActivity {
         mUserName = sp.getString(SpConstants.USER_NAME, "");
         mUserId = sp.getString(SpConstants.USER_ID, "");
         String userMobile = sp.getString(SpConstants.MOBILE, "");
-        String userAddress = sp.getString(SpConstants.ADDRESS, "");
+
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -179,7 +180,7 @@ public class ApplyAfterSaleActivity extends BaseFragmentActivity {
         mGalleryConfig.getBuilder().multiSelect(true).build();   // 修改多选
         mGalleryConfig.getBuilder().isShowCamera(true).build();   // 修改显示相机
 
-        mRequestModel = new ApplySaleAfterModel(mUserId, mUserName, userMobile, userAddress);
+        mRequestModel = new ApplySaleAfterModel(mUserId, mUserName, userMobile, mMyOrderData.getAddress());
         mRequestModel.setOrder_no(mMyOrderData.getOrder_no());
     }
 
@@ -350,8 +351,11 @@ public class ApplyAfterSaleActivity extends BaseFragmentActivity {
 
                 @Override
                 public void onError(Request request, Exception e) {
-                    ToastUtils.makeTextShort("申请失败，请联系客服");
-
+                    if (e instanceof DataException) {
+                        ToastUtils.makeTextShort(e.getMessage());
+                    } else {
+                        ToastUtils.makeTextShort("申请失败，请联系客服");
+                    }
                 }
             });
         }

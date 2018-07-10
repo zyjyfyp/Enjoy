@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.androidquery.AQuery;
+import com.bumptech.glide.Glide;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.order.DianPingActivity;
 import com.yunsen.enjoy.activity.order.MyOrderXqActivity;
@@ -172,7 +173,8 @@ public class MyOrderllAdapter extends BaseAdapter {
             sell_price = orderData.getPayable_amount();
             holder.tv_heji.setText("¥" + orderData.getPayable_amount());
 
-            holder.tv_company_name.setText(orderData.getCompany_name());
+//            holder.tv_company_name.setText(orderData.getCompany_name());
+            holder.tv_company_name.setText(context.getResources().getText(R.string.app_name));
             payment_status = orderData.getPayment_status();
             System.out.println("payment_status=============" + payment_status);
             express_status = orderData.getExpress_status();
@@ -450,27 +452,18 @@ public class MyOrderllAdapter extends BaseAdapter {
                 holder.tv_market_price.setText("¥" + orderData.getList().get(i).getMarket_price());
                 // holder.sell_price.setText("¥"+list.get(position).getList().get(i).getSell_price());
                 holder.quantity.setText("x" + orderData.getList().get(i).getQuantity());
-                holder.tv_market_price.getPaint().setFlags(
-                        Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); // 设置市场价文字的中划线
-                // ImageLoader imageLoader=ImageLoader.getInstance();
-                // imageLoader.displayImage(RealmName.REALM_NAME_HTTP +
-                // list.get(position).getList().get(i).getImg_url(),
-                // holder.tupian);
-                mAq.id(holder.tupian).image(orderData.getList().get(i).getImg_url());
-
+                holder.tv_market_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); // 设置市场价文字的中划线
+                Glide.with(context)
+                        .load((orderData.getList().get(i).getImg_url()))
+                        .into(holder.tupian);
                 type = true;
                 int number = orderData.getList().get(i).getQuantity();
                 BigDecimal c = new BigDecimal(Double.parseDouble(orderData.getList().get(i).getSell_price()) / number);
                 // //保留2位小数
-                double sell_price_zhi = c.setScale(2, BigDecimal.ROUND_HALF_UP)
-                        .doubleValue();
-
+                double sell_price_zhi = c.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                 holder.sell_price.setText("¥" + sell_price_zhi);// 价格
-
-
                 addview.addView(vi);
                 // convertView.setTag(holder);
-
                 /**
                  * 订单详情
                  */
@@ -478,11 +471,8 @@ public class MyOrderllAdapter extends BaseAdapter {
 
                     @Override
                     public void onClick(View v) {
-
                         try {
-
-                            Intent intent = new Intent(context,
-                                    MyOrderXqActivity.class);
+                            Intent intent = new Intent(context, MyOrderXqActivity.class);
                             MyOrderData bean = orderData;
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("bean", (Serializable) bean);
@@ -510,10 +500,8 @@ public class MyOrderllAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     try {
-                        Intent intent = new Intent(context,
-                                DianPingActivity.class);
-                        intent.putExtra("article_id", orderData
-                                .getList().get(p).getArticle_id());
+                        Intent intent = new Intent(context, DianPingActivity.class);
+                        intent.putExtra("article_id", orderData.getList().get(p).getArticle_id());
                         context.startActivity(intent);
 
                     } catch (Exception e) {

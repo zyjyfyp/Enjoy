@@ -152,7 +152,6 @@ public class MyOrderXqActivity extends AppCompatActivity implements OnClickListe
 
             mybAdapter = new MyOrderXqAdapter(MyOrderXqActivity.this, list, handler);
             my_list.setAdapter(mybAdapter);
-            MyOrderXqAdapter.mAq.clear();
             payment_status = list.get(0).getPayment_status();
             System.out.println("payment_status=============" + payment_status);
             express_status = list.get(0).getExpress_status();

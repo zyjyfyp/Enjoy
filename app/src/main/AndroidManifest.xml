@@ -250,6 +250,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.order.MyOrderXqActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.WebActivity"

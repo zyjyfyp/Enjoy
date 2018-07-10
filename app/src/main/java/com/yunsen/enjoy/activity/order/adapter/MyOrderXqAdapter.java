@@ -19,6 +19,8 @@ import com.bumptech.glide.Glide;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.MyOrderData;
+import com.yunsen.enjoy.model.OrderBean;
+import com.yunsen.enjoy.ui.UIHelper;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -31,31 +33,21 @@ import java.util.List;
  */
 public class MyOrderXqAdapter extends BaseAdapter {
     private Context context;
-    private Intent intent;
     private List<MyOrderData> list;
     private LayoutInflater inflater;
-    private Activity act;
-    private Handler handler;
-    public static AQuery mAq;
     public static String total_c, heji_zongjia;
-    public static List<Double> list_monney = new ArrayList<Double>();
 
-    public MyOrderXqAdapter(Context context, List<MyOrderData> list,
-                            Handler handler) {
+    public MyOrderXqAdapter(Context context, List<MyOrderData> list, Handler handler) {
         this.list = list;
         this.context = context;
-        this.handler = handler;
         this.inflater = LayoutInflater.from(context);
-        mAq = new AQuery(context);
     }
 
     @Override
     public int getCount() {
         if (list.size() < 1) {
-
             return 0;
         } else {
-
             return list.size();
         }
     }
@@ -80,7 +72,6 @@ public class MyOrderXqAdapter extends BaseAdapter {
         ImageView tupian;//
         TextView lv_jijian, tv_sj_name;
         TextView tv_kukuang, tv_haoma;
-        TextView tv_quxiao;//
         TextView tv_name;//
         TextView tv_addview;//
         TextView tv_order_bh;//
@@ -129,7 +120,7 @@ public class MyOrderXqAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.addView.removeAllViews();
-        MyOrderData myOrderData = list.get(position);
+        final MyOrderData myOrderData = list.get(position);
 
         if (!TextUtils.isEmpty(myOrderData.getAccept_name())) {
             holder.tv_name.setText("收货人: " + myOrderData.getAccept_name());//
@@ -153,7 +144,8 @@ public class MyOrderXqAdapter extends BaseAdapter {
             holder.tv_addview.setVisibility(View.GONE);
         }
 
-        holder.tv_sj_name.setText(myOrderData.getCompany_name());
+        holder.tv_sj_name.setText("袋鼠车宝");
+//        holder.tv_sj_name.setText(myOrderData.getCompany_name());
         holder.tv_order_bh.setText(myOrderData.getOrder_no());//
         // 订单时间
         holder.tv_order_cjsj.setText(myOrderData.getAdd_time());
@@ -191,30 +183,36 @@ public class MyOrderXqAdapter extends BaseAdapter {
             holderChild.tv_hongbao = (TextView) vi.findViewById(R.id.tv_hongbao);
             holderChild.lv_dingdanxq = (LinearLayout) vi.findViewById(R.id.lv_dingdanxq);
             holderChild.ll_kedihongbao = (LinearLayout) vi.findViewById(R.id.ll_kedihongbao);
-            holderChild.tv_goods_title.setText(myOrderData.getList().get(i).getArticle_title());
-            holderChild.tv_market_price.setText("市场价:¥" + myOrderData.getList().get(i).getMarket_price());
+            final OrderBean orderBean = myOrderData.getList().get(i);
+            holderChild.tv_goods_title.setText(orderBean.getArticle_title());
+            holderChild.tv_market_price.setText("市场价:¥" + orderBean.getMarket_price());
             String kedi_honbao = myOrderData.getCashing_packet();
             if ("0.0".equals(kedi_honbao)) {
                 holderChild.ll_kedihongbao.setVisibility(View.GONE);
             } else {
-                holderChild.tv_hongbao.setText("-¥" + myOrderData.getList().get(i).getCashing_packet());
+                holderChild.tv_hongbao.setText("-¥" + orderBean.getCashing_packet());
             }
-            holderChild.quantity.setText("x" + myOrderData.getList().get(i).getQuantity());
+
+            holderChild.lv_dingdanxq.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    UIHelper.showGoodsDescriptionActivity(context, orderBean.getArticle_id(), orderBean.getArticle_title());
+                }
+            });
+            holderChild.quantity.setText("x" + orderBean.getQuantity());
             holderChild.tv_market_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); // 设置市场价文字的中划线
             Glide.with(context)
-                    .load(URLConstants.REALM_NAME_HTTP
-                            + myOrderData.getList().get(i)
-                            .getImg_url())
+                    .load(orderBean.getImg_url())
                     .into(holderChild.tupian);
 
             try {
-                int number = myOrderData.getList().get(i).getQuantity();
-                BigDecimal c = new BigDecimal(Double.parseDouble(myOrderData.getList().get(i).getSell_price()) / number);
+                int number = orderBean.getQuantity();
+                BigDecimal c = new BigDecimal(Double.parseDouble(orderBean.getSell_price()) / number);
                 // //保留2位小数
                 double sell_price = c.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 
                 holderChild.real_price.setText("价格:¥" + sell_price);
-                holderChild.tv_zongjia.setText("¥" + myOrderData.getList().get(i).getSell_price());//
+                holderChild.tv_zongjia.setText("¥" + orderBean.getSell_price());//
             } catch (Exception e) {
                 e.printStackTrace();
             }

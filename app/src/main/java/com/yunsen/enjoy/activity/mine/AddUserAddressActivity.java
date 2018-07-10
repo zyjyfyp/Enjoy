@@ -377,7 +377,7 @@ public class AddUserAddressActivity extends AppCompatActivity {
     private void updateCities(WheelView city, String cities[][], int index) {
         ArrayWheelAdapter<String> adapter = new ArrayWheelAdapter<String>(this,
                 cities[index]);
-        adapter.setTextSize(18);
+        adapter.setTextSize(16);
         city.setViewAdapter(adapter);
         city.setCurrentItem(0);
     }
@@ -389,7 +389,7 @@ public class AddUserAddressActivity extends AppCompatActivity {
                                int index2) {
         ArrayWheelAdapter<String> adapter = new ArrayWheelAdapter<String>(this,
                 ccities[index][index2]);
-        adapter.setTextSize(18);
+        adapter.setTextSize(16);
         city.setViewAdapter(adapter);
         city.setCurrentItem(0);
     }

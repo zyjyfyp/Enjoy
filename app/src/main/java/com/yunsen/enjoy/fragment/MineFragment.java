@@ -320,7 +320,7 @@ public class MineFragment extends BaseFragment {
      */
     private void goLoginOrIsFacilitator() {
         Intent intent = null;
-        if (!mIsFacilitator) {
+        if (mIsFacilitator) {
             intent = new Intent(getActivity(), ApplyServiceActivity.class);
         } else {
             intent = new Intent(getActivity(), MyFacilitatorActivity.class);
