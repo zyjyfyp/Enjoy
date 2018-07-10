@@ -320,7 +320,7 @@ public class MineFragment extends BaseFragment {
      */
     private void goLoginOrIsFacilitator() {
         Intent intent = null;
-        if (mIsFacilitator) {
+        if (!mIsFacilitator) {
             intent = new Intent(getActivity(), ApplyServiceActivity.class);
         } else {
             intent = new Intent(getActivity(), MyFacilitatorActivity.class);
@@ -683,6 +683,7 @@ public class MineFragment extends BaseFragment {
                 orderNumber2.setText("0");
                 orderNumber3.setText("0");
                 orderNumber4.setText("0");
+                applyServiceTv.setText("申请服务商");
                 gradeTv.setVisibility(View.GONE);
                 AccountUtils.clearData();
                 SharedPreferences sp = getActivity().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);

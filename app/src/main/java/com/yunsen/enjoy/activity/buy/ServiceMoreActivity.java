@@ -148,7 +148,7 @@ public class ServiceMoreActivity extends BaseFragmentActivity implements MultiIt
         if (mData != null && mData.size() > position) {
             SProviderModel data = mData.get(position);
             if (data != null) {
-                int id = data.getId();
+                int id = data.getUser_id();
                 UIHelper.showServiceShopInfoActivity(this, String.valueOf(id));
             }
         }

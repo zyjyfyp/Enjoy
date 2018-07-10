@@ -190,7 +190,7 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
         mRequsetData.setTrade_id("" + tradeId);
         mRequsetData.setContact(synonsis);
 //        mRequsetData.setAdvantage(advatage);
-        mRequsetData.setLicense(businessLicence);
+        mRequsetData.setRegisteredid(businessLicence);
 
         if (TextUtils.isEmpty(category)) {
             ToastUtils.makeTextShort("请选择战略合作类别");
@@ -205,6 +205,14 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
         } else if (!protocolSelectionCb.isChecked()) {
             ToastUtils.makeTextShort("请同意协议");
         } else {
+            mRequsetData.setLogo_url(mImageUrls[0]);
+            mRequsetData.setImg_url(mImageUrls[0]);
+            mRequsetData.setLicense(mImageUrls[1]);
+            if (!TextUtils.isEmpty(mImageUrls[2])) {
+                mRequsetData.setRevenue_card(mImageUrls[2]);
+            } else if (TextUtils.isEmpty(mImageUrls[3])) {
+                mRequsetData.setOrgani_card(mImageUrls[3]);
+            }
             submitData();
         }
 
