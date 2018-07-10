@@ -74,7 +74,8 @@ public class DataBean {
     }
 
     double sell_price;
-    boolean isChoose;
+
+    boolean isChoose; //是否选中
 
     public boolean isChoose() {
         return isChoose;

@@ -341,7 +341,6 @@ public class HttpProxy {
     /**
      * @param pageIndex
      * @param callBack
-     * @param brandIdOne 品牌
      * @param brandId    高级筛选
      * @param channel
      * @param strwhere
