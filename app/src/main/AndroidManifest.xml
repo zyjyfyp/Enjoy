@@ -85,8 +85,10 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="ba972155375ade032175041398457297" />
+
         <service android:name="com.amap.api.location.APSService"></service>
 
+        <service android:name=".http.down.ApkInstallService" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -387,6 +389,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.mine.MoneyRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.mine.StoredCardActivity"
             android:screenOrientation="portrait" />
     </application>
 

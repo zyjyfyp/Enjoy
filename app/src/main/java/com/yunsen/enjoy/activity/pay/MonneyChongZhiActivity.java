@@ -73,7 +73,7 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
     private WareDao wareDao;
     private SharedPreferences spPreferences;
     String user_name, user_id, pwd;
-    String payment_id;
+    String payment_id; //2 3 5微信
     public static String recharge_no, notify_url, return_url;
     private ImageView iv_fanhui;
     private DialogProgress progress;
@@ -377,7 +377,6 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
                                     AdvertDao1 data = new AdvertDao1();
                                     data.recharge_no = obj.getString("recharge_no");
                                     recharge_no = data.recharge_no;
-                                    System.out.println("11=================================" + data.recharge_no);
                                     progress.CloseProgress();
                                     if (pety.equals("2")) {
                                         loadYue(recharge_no);
@@ -462,7 +461,6 @@ public class MonneyChongZhiActivity extends AppCompatActivity implements OnClick
             AsyncHttp.get(URLConstants.REALM_NAME_LL
                             + "/payment_balance?user_id=" + user_id + "&user_name=" + user_name + "" +
                             "&order_no=" + recharge_no + "&paypassword=" + pwd + "",
-
                     new AsyncHttpResponseHandler() {
                         @Override
                         public void onSuccess(int arg0, String arg1) {

@@ -68,8 +68,8 @@ public class SpConstants {
     public static final String AMOUNT = "amount";//账户余额
     public static final String RESERVE = "reserve";//冻结资金
     public static final String LOGIN_FLAG = "login_flag";
-    public static final String WEI_XIN = "wei_xin";
-    public static final String QQ_LOGIN = "qq";
+    public static final String WEI_XIN = "android_wei_xin";
+    public static final String QQ_LOGIN = "android_qq";
     public static final String PAN_DUAN = "panduan";
     public static final String PAN_DUAN_TI_SHI = "panduantishi";
     public static final String HAS_SERVICE_SHOP = "has_service_shop";//是否是服务商
@@ -115,4 +115,5 @@ public class SpConstants {
     public static final String ADDRESS_SP = "user_dizhixinxi";
 
     public static final String APP_VERSION_NAME = "app_version_name";
+    public static final String CARD = "card";
 }

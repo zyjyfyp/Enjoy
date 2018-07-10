@@ -57,7 +57,7 @@ public class PayMoneyProxy {
      *
      * @param
      */
-    private void loadzhidu(Activity act, String userId, String userName, String totalMoney, String recharge_no, final Handler handler) {
+    public void aliayPay(Activity act, String userId, String userName, String totalMoney, String recharge_no, final Handler handler) {
         final Activity fAct = act;
         final String fTotalMoney = totalMoney;
         final String fRechargeNo = recharge_no;

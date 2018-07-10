@@ -29,6 +29,7 @@ public class AccountUtils {
 
     public static boolean mWeiXiHasLogin = false; //微信登录时的标记
     private static SharedPreferences mSp;
+    private static boolean mIsVip;
 
     static {
         mSp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
@@ -71,6 +72,25 @@ public class AccountUtils {
     }
 
     /**
+     * 是否是Vip
+     *
+     * @return
+     */
+    public static boolean isVipAccount() {
+        if (mIsVip) {
+            return true;
+        }
+        SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+        String groupId = sp.getString(SpConstants.GROUP_ID, "");
+        if (Constants.TWO_LINE.equals(groupId) || Constants.THREE_LINE.equals(groupId)) {
+            mIsVip = true;
+        } else {
+            mIsVip = false;
+        }
+        return mIsVip;
+    }
+
+    /**
      * 退出时清空
      */
     public static void clearData() {
@@ -88,6 +108,7 @@ public class AccountUtils {
         mWeiXiHasLogin = false;
         userName = "";
         loginSign = "";
+        mIsVip = false;
     }
 
     public static String getUser_name_phone() {

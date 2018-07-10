@@ -181,6 +181,7 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
     private String mUserId;
     private String mLoginSign;
     private String mGroupId;
+    private String mCardMoney = Constants.EMPTY;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -302,7 +303,8 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
 
                         userCountTv3.setText(responseData.getRecordCount() + "人");
                         orderCountTv3.setText(responseData.getOrderCounts() + "单");
-                        incomeTv3.setText(responseData.getCumulative_income() + "元");  }
+                        incomeTv3.setText(responseData.getCumulative_income() + "元");
+                    }
 
                     @Override
                     public void onError(Request request, Exception e) {
@@ -643,7 +645,8 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
                 mLoginSign = data.getLogin_sign();
                 mGroupId = String.valueOf(data.getGroup_id());
                 balanceTv.setText(data.getAmountStr()); //钱包
-                storedIcCardTv.setText(String.valueOf(data.getCard()));//储存卡
+                mCardMoney = String.valueOf(data.getCard());
+                storedIcCardTv.setText(mCardMoney);//储存卡
                 String nickName = data.getNick_name();
 
 
@@ -740,6 +743,7 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
                 userCountTv3.setText("0人");
                 orderCountTv3.setText("0单");
                 incomeTv3.setText("0元");
+                mCardMoney = Constants.EMPTY;
                 achiRootLayout2.setVisibility(View.GONE);
                 achiRootLayout3.setVisibility(View.GONE);
                 gradeTv.setVisibility(View.GONE);
@@ -821,7 +825,20 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
                     }
                     break;
                 case R.id.balance_layout:
-                    assetsClick("1");
+//                    assetsClick("1");
+                    if (AccountUtils.hasLogin()) {
+                        if (AccountUtils.hasBoundPhone()) {
+                            UIHelper.showMoneyRecordActivity(getActivity(), Constants.CONSUMPTION_RECORD);
+                        } else {
+                            UIHelper.showBundPhoneActivity(getActivity());
+                        }
+                    } else {
+                        if (AccountUtils.hasBoundPhone()) {
+                            UIHelper.showMoneyRecordActivity(getActivity(), Constants.CONSUMPTION_RECORD);
+                        } else {
+                            UIHelper.showUserLoginActivity(getActivity());
+                        }
+                    }
                     break;
                 case R.id.setting_img:
                     UIHelper.showPersonCenterActivity(getActivity());
@@ -836,7 +853,11 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
                     UIHelper.showCumulativeIncomeActivity(getActivity(), false);
                     break;
                 case R.id.stored_ic_card_layout:
-                    UIHelper.showBecomeVipActivity(getActivity());
+                    if (AccountUtils.isVipAccount()) {
+                        UIHelper.showStoredCardActivity(getActivity(),mCardMoney);
+                    } else {
+                        UIHelper.showBecomeVipActivity(getActivity());
+                    }
                     break;
                 case R.id.order_more_tv: //我的订单更多
                     UIHelper.showOrderActivity(getActivity(), "0");

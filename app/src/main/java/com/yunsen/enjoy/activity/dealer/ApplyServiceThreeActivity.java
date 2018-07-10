@@ -338,7 +338,7 @@ public class ApplyServiceThreeActivity extends BaseFragmentActivity {
                 mImgPullFinish = mImgPullFinish | FOUR_IMG;
                 break;
         }
-        Log.e(TAG, "onEvent:上传成功 " + event.getImgUrl());
+        Log.d(TAG, "onEvent:上传成功 " + event.getImgUrl());
     }
 
     private static final String TAG = "ApplyServiceThreeActivi";

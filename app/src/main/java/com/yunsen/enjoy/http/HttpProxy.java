@@ -42,6 +42,7 @@ import com.yunsen.enjoy.model.OrderGoodsBean;
 import com.yunsen.enjoy.model.OrderInfo;
 import com.yunsen.enjoy.model.ProfitCountBean;
 import com.yunsen.enjoy.model.PullImageResult;
+import com.yunsen.enjoy.model.RechargeNoBean;
 import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.model.ServiceProject;
 import com.yunsen.enjoy.model.ServiceProvideResponse;
@@ -78,6 +79,7 @@ import com.yunsen.enjoy.model.response.NoticeTokenResponse;
 import com.yunsen.enjoy.model.response.OrderResponse;
 import com.yunsen.enjoy.model.response.ProfitCountResponse;
 import com.yunsen.enjoy.model.response.PullImageResponse;
+import com.yunsen.enjoy.model.response.RechargeNoResponse;
 import com.yunsen.enjoy.model.response.SearchListResponse;
 import com.yunsen.enjoy.model.response.ServiceProjectListResponse;
 import com.yunsen.enjoy.model.response.ServiceShopInfoResponse;
@@ -887,12 +889,40 @@ public class HttpProxy {
 
 
     /**
-     * 提现接口
+     * 提现接口 fund_id =1
      */
-    public static void getWithDrawCash(String pageIndex, final HttpCallBack<List<WalletCashBean>> callBack) {
+    public static void getWithDrawCash(String pageIndex, String fundId, final HttpCallBack<List<WalletCashBean>> callBack) {
         HashMap<String, String> param = new HashMap<>();
         param.put("user_id", AccountUtils.getUser_id());
-        param.put("fund_id", "1");
+        param.put("fund_id", fundId);
+        param.put("expenses_id", "0");
+        param.put("page_size", "8");
+        param.put("page_index", pageIndex);
+        HttpClient.get(URLConstants.WITH_DRAW_CASH_URL, param, new HttpResponseHandler<WalletCashResponse>() {
+            @Override
+            public void onSuccess(WalletCashResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                Logger.e(TAG, "onFailure: " + e.getMessage());
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 提现明细
+     *
+     * @param pageIndex
+     * @param callBack
+     */
+    public static void getPutForwardCash(String pageIndex, final HttpCallBack<List<WalletCashBean>> callBack) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("user_id", AccountUtils.getUser_id());
+        param.put("fund_id", "11");
         param.put("expenses_id", "0");
         param.put("page_size", "8");
         param.put("page_index", pageIndex);
@@ -2345,6 +2375,61 @@ public class HttpProxy {
             public void onSuccess(StringResponse response) {
                 super.onSuccess(response);
                 callBack.onSuccess(true);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 充值2add_amount_recharge
+     * paymentId 3 支付宝 5 微信 2 余额
+     */
+    public static void addAmountRechargeRequest(String amount, String paymentId, final HttpCallBack<RechargeNoBean> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put(SpConstants.USER_ID, AccountUtils.getUser_id());
+        map.put(SpConstants.USER_NAME, AccountUtils.getUserName());
+        map.put(SpConstants.AMOUNT, amount);
+        map.put("fund_id", "16");
+        map.put("payment_id", paymentId);
+        map.put("rebate_item_id", "0");
+        HttpClient.get(URLConstants.ADD_AMOUNT_RECHARGE_URL, map, new HttpResponseHandler<RechargeNoResponse>() {
+            @Override
+            public void onSuccess(RechargeNoResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 余额支付
+     *
+     * @param callBack
+     */
+    public static void paymentBalanceRequest(String pwd, String orderNo, final HttpCallBack<RechargeNoBean> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put(SpConstants.USER_ID, AccountUtils.getUser_id());
+        map.put(SpConstants.USER_NAME, AccountUtils.getUserName());
+        map.put("action", "payment");
+        map.put("user_sign", AccountUtils.getLoginSign());
+        map.put("paypassword", pwd);
+        map.put("order_no", orderNo);
+        HttpClient.get(URLConstants.PAYMENT_BALANCE_URL_2, map, new HttpResponseHandler<RechargeNoResponse>() {
+            @Override
+            public void onSuccess(RechargeNoResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
             }
 
             @Override

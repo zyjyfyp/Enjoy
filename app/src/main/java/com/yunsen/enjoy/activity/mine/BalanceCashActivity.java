@@ -35,6 +35,8 @@ public class BalanceCashActivity extends BaseFragmentActivity {
     TextView consumeTv;
     @Bind(R.id.withdraw_cash_btn)
     Button withdrawCashBtn;
+    @Bind(R.id.balance_tv)
+    TextView balanceTv;
     @Bind(R.id.recharge_btn)
     Button rechargeBtn;
     private double mBalance;
@@ -53,7 +55,8 @@ public class BalanceCashActivity extends BaseFragmentActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        mBalance = getIntent().getDoubleExtra(Constants.BALANCE, 0);
+        mBalance = getIntent().getDoubleExtra(Constants.BALANCE, 0.00);
+        balanceTv.setText(String.valueOf(mBalance));
     }
 
     @Override
@@ -85,7 +88,7 @@ public class BalanceCashActivity extends BaseFragmentActivity {
                 finish();
                 break;
             case R.id.consume_tv:
-                UIHelper.showMoneyRecordActivity(this);
+                UIHelper.showMoneyRecordActivity(this, Constants.WITHDRAW_RECORD);
                 break;
             case R.id.withdraw_cash_btn:
                 if (mNeedToWallectActivity) {

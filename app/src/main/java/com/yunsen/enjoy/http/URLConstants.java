@@ -364,6 +364,20 @@ public class URLConstants {
      * 添加银行卡
      */
     public static final String POST_USER_BANKCARD_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/post_user_bankcard";
+    /**
+     * http://mobile.gaiachn.com/tools/mobile_ajax.asmx/add_amount_recharge
+     * 充值
+     */
+    public static final String ADD_AMOUNT_RECHARGE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_amount_recharge";
+    /**
+     * http://mobile.gaiachn.com/tools/mobile_ajax.asmx/payment_balance
+     * 余额支付
+     */
+    public static final String PAYMENT_BALANCE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/payment_balance";
+    /**
+     * 余额支付http://mobile.gaiachn.com/api/payment/balance/index.aspx
+     */
+    public static final String PAYMENT_BALANCE_URL_2 = BuildConfig.ROOT_URL + "/api/payment/balance/index.aspx";
 
 
     public static final String REALM_NAME_WEB = BuildConfig.ROOT_URL;

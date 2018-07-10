@@ -393,7 +393,7 @@ public class LoginActivity extends BaseFragmentActivity {
      * QQ第三方登录
      */
     private void requestBundlePhone(final String loginType) {
-        HttpProxy.requestBindPhone(new HttpCallBack<AuthorizationModel>() {
+        HttpProxy.requestBindPhone(loginType, new HttpCallBack<AuthorizationModel>() {
             @Override
             public void onSuccess(AuthorizationModel responseData) {
                 SpUtils.saveUserInfo(responseData, loginType);

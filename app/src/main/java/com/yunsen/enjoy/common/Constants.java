@@ -106,6 +106,7 @@ public class Constants {
     public static final int WRITE_EXTERNAL_STORAGE = 3;//存储权限
     public static final int READ_PHONE_STATE = 4;
     public static final int ORDER_ACT_REQUEST = 5; //跳转订单页面
+    public static final int BALANCE_PAY_REQUEST =6 ;
 
     /*******************************************************************
      *                            intent key                          *
@@ -148,6 +149,8 @@ public class Constants {
      * 提现
      */
     public static final String BALANCE = "balance";
+    public static final String CONSUMPTION_RECORD = "1";//消费记录
+    public static final String WITHDRAW_RECORD = "11";//提现记录
 
     /***
      * 分享
@@ -160,7 +163,7 @@ public class Constants {
     public static final String SHARE_TITLE = "share_title"; //分享标题
     public static final String SHARE_DESCRIPTION = "share_description";//描述
     /**
-     * 我的业绩 通过判断 group_id 显示几行
+     * 我的业绩 通过判断 group_id 显示几行  14 6 是会员
      */
     public static final String ONE_LINE = "13";
     public static final String TWO_LINE = "14";
@@ -170,6 +173,8 @@ public class Constants {
     public static final String USER_NUMBER_URL_KEY ="user_number_url_key" ;
     public static final String MINE_ACHIEVE_URL_KEY = "mine_achieve_url_key";
     public static final String IS_YESTERDAY_KEY = "is_yesterday_key";
+
+    public static final String CARD_MONEY_KEY = "card_money";
 
     /**
      * webView

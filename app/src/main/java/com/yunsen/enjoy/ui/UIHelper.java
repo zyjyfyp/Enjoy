@@ -58,6 +58,7 @@ import com.yunsen.enjoy.activity.mine.OrderNumberActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.activity.mine.PersonNumberActivity;
 import com.yunsen.enjoy.activity.mine.ShopCartActivity;
+import com.yunsen.enjoy.activity.mine.StoredCardActivity;
 import com.yunsen.enjoy.activity.mine.TeamActivity;
 import com.yunsen.enjoy.activity.mine.UserCertificationActivity;
 import com.yunsen.enjoy.activity.mine.UserForgotPasswordActivity;
@@ -942,7 +943,7 @@ public class UIHelper {
      * @param ctx
      */
     public static void showUserAgreement(Context ctx) {
-        String url = URLConstants.REALM_NAME_WEB + "/mobile/news/conent- 1006.html";
+        String url = URLConstants.REALM_NAME_WEB + "/mobile/news/conent-1006.html";
         showWebActivity(ctx, url);
     }
 
@@ -1008,9 +1009,9 @@ public class UIHelper {
      *
      * @param ctx
      */
-    public static void showCumulativeIncomeActivity(Context ctx,boolean isYesterday) {
+    public static void showCumulativeIncomeActivity(Context ctx, boolean isYesterday) {
         Intent intent = new Intent(ctx, CumulativeIncomeActivity.class);
-        intent.putExtra(Constants.IS_YESTERDAY_KEY,isYesterday);
+        intent.putExtra(Constants.IS_YESTERDAY_KEY, isYesterday);
         ctx.startActivity(intent);
     }
 
@@ -1145,7 +1146,7 @@ public class UIHelper {
         Intent intent = new Intent(act, TishiCarArchivesActivity.class);
         intent.putExtra("order_no", orderNo);
         intent.putExtra("order_yue", "order_yue");
-        act.startActivity(intent);
+        act.startActivityForResult(intent, Constants.BALANCE_PAY_REQUEST);
     }
 
     /**
@@ -1159,12 +1160,25 @@ public class UIHelper {
     }
 
     /**
-     * 消费记录
      *
-     * @param ctx
+     * @param ctx Constants.CONSUMPTION_RECORD  消费记录，，Constants.WITHDRAW_RECORD提现记录
      */
-    public static void showMoneyRecordActivity(Context ctx) {
+    public static void showMoneyRecordActivity(Context ctx, String actType) {
         Intent intent = new Intent(ctx, MoneyRecordActivity.class);
+        intent.putExtra(Constants.ACT_TYPE_KEY, actType);
         ctx.startActivity(intent);
     }
+
+    /**
+     * 储纸卡
+     *
+     * @param ctx
+     * @param cardMoney
+     */
+    public static void showStoredCardActivity(Context ctx, String cardMoney) {
+        Intent intent = new Intent(ctx, StoredCardActivity.class);
+        intent.putExtra(Constants.CARD_MONEY_KEY,cardMoney);
+        ctx.startActivity(intent);
+    }
+
 }
