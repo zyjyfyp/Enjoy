@@ -30,6 +30,8 @@ public class AccountUtils {
     public static boolean mWeiXiHasLogin = false; //微信登录时的标记
     private static SharedPreferences mSp;
     private static boolean mIsVip;
+    private static boolean mIsAgent;
+    private static int mCertificationState = 0; // 0 未认证，1 正在认证中 2 认证完成
 
     static {
         mSp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
@@ -109,6 +111,7 @@ public class AccountUtils {
         userName = "";
         loginSign = "";
         mIsVip = false;
+        mIsAgent = false;
     }
 
     public static String getUser_name_phone() {
@@ -164,5 +167,47 @@ public class AccountUtils {
 //        return "21039E0FCD403C2E9C64CDD0515C7110";
     }
 
+    /**
+     * 是否是代理
+     *
+     * @return
+     */
+    public static boolean isAgentUser() {
+        if (mIsAgent) {
+            return false;
+        }
+        SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+        String groupId = sp.getString(SpConstants.GROUP_ID, "");
+        if (Constants.THREE_LINE.equals(groupId)) {
+            mIsAgent = true;
+        } else {
+            mIsAgent = false;
+        }
+        return false;
+    }
 
+    /**
+     * 1\ 真实姓名 real_name 和 身份证号 identity 都为空 未认证
+     * 2、提交了认证信息 真实姓名 real_name 和 身份证号 identity 都不为空 状态 status=1
+     * 3、提交了认证信息 审核通过 真实姓名 real_name 和 身份证号 identity 都不为空 状态 status=0
+     *
+     * @return
+     */
+    public static int getCertificationState() {
+        mCertificationState = 0;
+        SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+        String identityCard = sp.getString(SpConstants.IDENTITY_CARD, "");
+        String realName = sp.getString(SpConstants.REAL_NAME, "");
+        String status = sp.getString(SpConstants.STATUS, "");
+        if (TextUtils.isEmpty(identityCard) && TextUtils.isEmpty(realName)) {
+            mCertificationState = 0;
+        } else if (!TextUtils.isEmpty(identityCard) && !TextUtils.isEmpty(realName)) {
+            if ("1".endsWith(status)) {//提交了认证信息
+                mCertificationState = 1;
+            } else { //2提交了认证信息 审核通过
+                mCertificationState = 2;
+            }
+        }
+        return mCertificationState;
+    }
 }

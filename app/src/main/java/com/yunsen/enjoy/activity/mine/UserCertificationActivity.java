@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -26,7 +27,9 @@ import com.yunsen.enjoy.http.DataException;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.PullImageEvent;
+import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.model.request.UserCertificationRequestModel;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.AccountUtils;
@@ -62,8 +65,12 @@ public class UserCertificationActivity extends BaseFragmentActivity {
     Button backBtn;
     @Bind(R.id.user_certification_ing_layout)
     LinearLayout userCertificationIngLayout;
+    @Bind(R.id.user_no_certification_layout)
+    ScrollView userNoCertificationLayout;
     @Bind(R.id.user_name_edt)
     EditText userNameEdt;
+    @Bind(R.id.user_cert_info_tv)
+    TextView userCertInfoTv;
     @Bind(R.id.sex_boy)
     RadioButton sexBoy;
     @Bind(R.id.sex_girl)
@@ -89,6 +96,11 @@ public class UserCertificationActivity extends BaseFragmentActivity {
     private String mFristImgUrl;
     private String mTwoImgUrl;
     private int mRequestActivityCode;
+    private int mActType;
+    private static final int CERTIFICATION_NO = 0; //未认证
+    private static final int CERTIFICATION_ING = 1;//认证中
+    private static final int CERTIFICATION_OK = 2;//认证成功
+
 
     @Override
     public int getLayout() {
@@ -104,8 +116,32 @@ public class UserCertificationActivity extends BaseFragmentActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        mRequestModel = new UserCertificationRequestModel();
+        Intent intent = getIntent();
+        mActType = intent.getIntExtra(Constants.ACT_TYPE_KEY, 0);
         SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
+        String name = sp.getString(SpConstants.REAL_NAME, Constants.EMPTY);
+        String card = sp.getString(SpConstants.IDENTITY_CARD, Constants.EMPTY);
+        switch (mActType) {
+            case CERTIFICATION_NO:
+                userCertificationIngLayout.setVisibility(View.GONE);
+                userNoCertificationLayout.setVisibility(View.VISIBLE);
+                break;
+            case CERTIFICATION_ING:
+                userCertificationIngLayout.setVisibility(View.VISIBLE);
+                userNoCertificationLayout.setVisibility(View.GONE);
+                userCertInfoTv.setText("认证信息正在审核中...");
+                userCertificationCardTv.setText(card);
+                userCertificationNameTv.setText(name);
+                break;
+            case CERTIFICATION_OK:
+                userCertificationIngLayout.setVisibility(View.VISIBLE);
+                userNoCertificationLayout.setVisibility(View.GONE);
+                userCertInfoTv.setText("认证已完成");
+                userCertificationCardTv.setText(card);
+                userCertificationNameTv.setText(name);
+                break;
+        }
+        mRequestModel = new UserCertificationRequestModel();
         String userId = sp.getString(SpConstants.USER_ID, null);
         String userName = sp.getString(SpConstants.USER_NAME, null);
         mRequestModel.setUser_id(userId);
@@ -122,6 +158,7 @@ public class UserCertificationActivity extends BaseFragmentActivity {
             @Override
             public void onSuccess(Boolean responseData) {
                 ToastUtils.makeTextShort("提交认证成功");
+                EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
                 finish();
             }
 
@@ -149,7 +186,6 @@ public class UserCertificationActivity extends BaseFragmentActivity {
             case R.id.user_cert_zmzp:
                 mRequestActivityCode = Constants.PHOTO_IC_CARD;
                 requestPermission(Permission.WRITE_EXTERNAL_STORAGE, Constants.WRITE_EXTERNAL_STORAGE);
-
                 break;
             case R.id.user_cert_fmzp:
                 mRequestActivityCode = Constants.PHOTO_IC_CARD_BG;
@@ -221,7 +257,7 @@ public class UserCertificationActivity extends BaseFragmentActivity {
         switch (index) {
             case Constants.PHOTO_IC_CARD:
                 imageView = userCertZmzp;
-                type =  Constants.PHOTO_IC_CARD;
+                type = Constants.PHOTO_IC_CARD;
                 break;
             case Constants.PHOTO_IC_CARD_BG:
                 imageView = userCertFmzp;

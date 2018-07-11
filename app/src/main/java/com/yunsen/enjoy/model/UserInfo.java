@@ -126,7 +126,7 @@ public class UserInfo {
     private int exp_time;
     private String vip_card;
     private int is_system;
-    private int status;
+    private String status;
     private String reg_time;
     private String update_time;
     private Object authen_time;
@@ -580,11 +580,11 @@ public class UserInfo {
         this.is_system = is_system;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

@@ -151,14 +151,14 @@ public class BecomeVipActivity extends BaseFragmentActivity {
             @Override
             public void onSuccess(RechargeNoBean data) {
                 switch (mPayType) {
-                    case 2:
+                    case Constants.BALANCE_PAY_TYPE:
                         UIHelper.showTishiCarArchivesActivity(BecomeVipActivity.this, data.getRecharge_no());
                         break;
-                    case 3:
+                    case Constants.ALIPAY_TYPE:
                         PayMoneyProxy.getInstance().aliayPay(BecomeVipActivity.this, AccountUtils.getUser_id(), AccountUtils.getUserName(),
                                 mPayMoney, data.getRecharge_no(), mMyHandler);
                         break;
-                    case 5:
+                    case Constants.WEI_XIN_PAY_TYPE:
                         PayMoneyProxy.getInstance().weiXinPay(BecomeVipActivity.this, AccountUtils.getUser_id(), AccountUtils.getUserName(),
                                 mPayMoney, data.getRecharge_no(), mMyHandler);
                         break;

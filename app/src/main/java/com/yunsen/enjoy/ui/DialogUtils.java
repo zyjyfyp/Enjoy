@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,6 +130,10 @@ public class DialogUtils {
                                                    final OnLeftOnclickListener leftListener, final OnRightOnclickListener rightListener) {
         LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.delete_message_layout, null);
+        TextView messageTV = (TextView) view.findViewById(R.id.delete_tv);
+        if (!TextUtils.isEmpty(message)) {
+            messageTV.setText(message);
+        }
         view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 40));
         AlertDialog dialog = new AlertDialog.Builder(ctx).setView(view)
                 .setPositiveButton(rightText, new DialogInterface.OnClickListener() {
@@ -148,6 +153,37 @@ public class DialogUtils {
 
                     }
                 }).create();
+        return dialog;
+    }
+
+    public static AlertDialog createYesAndNoTitleDialog(Context ctx, String title, String message, final String leftText, String rightText,
+                                                        final OnLeftOnclickListener leftListener, final OnRightOnclickListener rightListener) {
+        LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.title_message_layout, null);
+        TextView titleTv = (TextView) view.findViewById(R.id.title);
+        TextView contentTv = (TextView) view.findViewById(R.id.content);
+        titleTv.setText(title);
+        contentTv.setText(message);
+        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 150));
+        AlertDialog dialog = new AlertDialog.Builder(ctx).setView(view)
+                .setPositiveButton(rightText, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (rightListener != null) {
+                            rightListener.onRightClick();
+                        }
+                    }
+                })
+                .setNegativeButton(leftText, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (leftListener != null) {
+                            leftListener.onLeftClick();
+                        }
+
+                    }
+                }).create();
+
         return dialog;
     }
 

@@ -8,16 +8,8 @@ public class SpConstants {
     public static final String CITY_KEY = "city";
 
     /**
-     * 第三方用户信息
-     */
-    public static final String SP_USER_SET = "longuserset";
-
-
-    /**
      * 用户信息 sp file
      */
-
-    //    public static final String SP_LONG_USER_SET_LOGIN = "longuserset_login";
 
     public static final String HEAD_IMG_URL = "headimgurl";
     public static final String HEAD_IMG_URL_2 = "headimgurl2";
@@ -27,22 +19,6 @@ public class SpConstants {
     public static final String PROVINCE = "province";
     public static final String CITY = "city";
     public static final String COUNTRY = "country";
-
-
-    /**
-     *
-     */
-    public static final String SP_LONG_USER_SET_PTYE = "longuserset_ptye";
-
-    /**
-     *
-     */
-    public static final String SP_LONG_USER_SET_LOGIN = "longuserset_login";
-
-    /**
-     *
-     */
-    public static final String SP_LONG_USER_SET_TISHI = "longuserset_tishi";
 
     /**
      * 手机账号用户信息
@@ -98,6 +74,7 @@ public class SpConstants {
     public static final String PACKET = "packet";
     public static final String INPUT_USER_NAME = "input_user_name";
     public static final String INPUT_USER_PWD = "input_user_pwd";
+    public static final String STATUS = "status";
 
 
     /**

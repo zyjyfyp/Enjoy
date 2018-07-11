@@ -39,7 +39,9 @@ public class Constants {
     public static QQAuth QQauth;
     public static final String APP_QQ_ID = "1106880995";// 测试时使用，真正发布的时候要换成自己的APP_ID
 
-
+    public static final int BALANCE_PAY_TYPE = 2; //余额
+    public static final int ALIPAY_TYPE = 3;  //z支付宝
+    public static final int WEI_XIN_PAY_TYPE = 5;//微信
     /**
      * 买车界面
      */
@@ -106,7 +108,7 @@ public class Constants {
     public static final int WRITE_EXTERNAL_STORAGE = 3;//存储权限
     public static final int READ_PHONE_STATE = 4;
     public static final int ORDER_ACT_REQUEST = 5; //跳转订单页面
-    public static final int BALANCE_PAY_REQUEST =6 ;
+    public static final int BALANCE_PAY_REQUEST = 6;
 
     /*******************************************************************
      *                            intent key                          *
@@ -169,8 +171,8 @@ public class Constants {
     public static final String TWO_LINE = "14";
     public static final String THREE_LINE = "6";
 
-    public static final String ORDER_NUMBER_URL_KEY ="order_number_url_key" ;
-    public static final String USER_NUMBER_URL_KEY ="user_number_url_key" ;
+    public static final String ORDER_NUMBER_URL_KEY = "order_number_url_key";
+    public static final String USER_NUMBER_URL_KEY = "user_number_url_key";
     public static final String MINE_ACHIEVE_URL_KEY = "mine_achieve_url_key";
     public static final String IS_YESTERDAY_KEY = "is_yesterday_key";
 

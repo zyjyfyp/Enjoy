@@ -1071,11 +1071,12 @@ public class UIHelper {
 
     /**
      * 验证身份
-     *
+     * type 0 未认证 1认证中 2 完成认证
      * @param ctx
      */
-    public static void showUserCertificationActivity(Context ctx) {
+    public static void showUserCertificationActivity(Context ctx, int actType) {
         Intent intent = new Intent(ctx, UserCertificationActivity.class);
+        intent.putExtra(Constants.ACT_TYPE_KEY,actType);
         ctx.startActivity(intent);
     }
 
@@ -1160,7 +1161,6 @@ public class UIHelper {
     }
 
     /**
-     *
      * @param ctx Constants.CONSUMPTION_RECORD  消费记录，，Constants.WITHDRAW_RECORD提现记录
      */
     public static void showMoneyRecordActivity(Context ctx, String actType) {
@@ -1177,7 +1177,7 @@ public class UIHelper {
      */
     public static void showStoredCardActivity(Context ctx, String cardMoney) {
         Intent intent = new Intent(ctx, StoredCardActivity.class);
-        intent.putExtra(Constants.CARD_MONEY_KEY,cardMoney);
+        intent.putExtra(Constants.CARD_MONEY_KEY, cardMoney);
         ctx.startActivity(intent);
     }
 

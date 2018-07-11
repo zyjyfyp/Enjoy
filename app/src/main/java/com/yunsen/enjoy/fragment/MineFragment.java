@@ -1,6 +1,7 @@
 package com.yunsen.enjoy.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,9 +11,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -45,6 +44,8 @@ import com.yunsen.enjoy.model.event.PullImageEvent;
 import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.ui.DialogUtils;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.ui.interfaces.OnLeftOnclickListener;
+import com.yunsen.enjoy.ui.interfaces.OnRightOnclickListener;
 import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.GetImgUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
@@ -58,7 +59,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URL;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -182,6 +182,8 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
     private String mLoginSign;
     private String mGroupId;
     private String mCardMoney = Constants.EMPTY;
+    private AlertDialog mCertificationDialog;
+    private AlertDialog mNoCertificationDialog;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -211,6 +213,8 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
 
     @Override
     protected void initData() {
+        isShowCertification();
+
         recyclerMine.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         ArrayList<UsedFunction> datas = new ArrayList<>();
         datas.add(new UsedFunction(R.mipmap.withdraw_cash, "余额提现"));
@@ -262,6 +266,19 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
 
     }
 
+    private void isShowCertification() {
+        if (!AccountUtils.hasBoundPhone()) {
+            return;
+        }
+        switch (AccountUtils.getCertificationState()) {
+            case 0:
+                showNoCertificationDialog();
+                break;
+            case 1:
+                showCertificationIngDialog();
+                break;
+        }
+    }
 
     @Override
     protected void requestData() {
@@ -706,6 +723,50 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
         }
     }
 
+    /**
+     * 显示认证中dialog
+     */
+    private void showCertificationIngDialog() {
+        if (mCertificationDialog == null) {
+            mCertificationDialog = DialogUtils.createYesAndNoTitleDialog(getActivity(), "实名认证", "认证信息正在审核中...", "取消", "确认", new OnLeftOnclickListener() {
+                @Override
+                public void onLeftClick() {
+
+                }
+            }, new OnRightOnclickListener() {
+                @Override
+                public void onRightClick(int... index) {
+
+                }
+            });
+        }
+        if (!mCertificationDialog.isShowing()) {
+            mCertificationDialog.show();
+        }
+    }
+
+    /**
+     * 未认证dialog
+     */
+    private void showNoCertificationDialog() {
+        if (mNoCertificationDialog == null) {
+            mNoCertificationDialog = DialogUtils.createYesAndNoTitleDialog(getActivity(), "实名认证", "您还未实名认证请前往认证", "取消", "确认", new OnLeftOnclickListener() {
+                @Override
+                public void onLeftClick() {
+
+                }
+            }, new OnRightOnclickListener() {
+                @Override
+                public void onRightClick(int... index) {
+
+                }
+            });
+        }
+        if (!mNoCertificationDialog.isShowing()) {
+            mNoCertificationDialog.show();
+        }
+    }
+
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(UpUiEvent event) {
         switch (event.getEventId()) {
@@ -854,7 +915,7 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
                     break;
                 case R.id.stored_ic_card_layout:
                     if (AccountUtils.isVipAccount()) {
-                        UIHelper.showStoredCardActivity(getActivity(),mCardMoney);
+                        UIHelper.showStoredCardActivity(getActivity(), mCardMoney);
                     } else {
                         UIHelper.showBecomeVipActivity(getActivity());
                     }
@@ -935,7 +996,8 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
                     UIHelper.showApplyAgentActivity(getActivity());
                     break;
                 case 7:
-                    UIHelper.showUserCertificationActivity(getActivity());
+                    int state = AccountUtils.getCertificationState();
+                    UIHelper.showUserCertificationActivity(getActivity(), state);
                     break;
             }
         }

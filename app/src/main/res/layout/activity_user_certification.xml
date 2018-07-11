@@ -7,11 +7,11 @@
     <include layout="@layout/back_action_bar" />
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/user_certification_ing_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -28,6 +28,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/user_cert_info_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/app_margin"
@@ -92,6 +93,7 @@
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/user_no_certification_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -200,10 +202,10 @@
                     android:layout_weight="1" />
 
                 <EditText
-                    android:maxLength="16"
                     android:id="@+id/user_cert_card_num_edt"
                     style="@style/ApplyService2Edt"
-                    android:hint="请输入持卡人身份证号" />
+                    android:hint="请输入持卡人身份证号"
+                    android:maxLength="16" />
             </LinearLayout>
 
             <View
@@ -418,12 +420,12 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:layout_marginRight="20dp"
-                    android:layout_marginLeft="20dp"
                     android:id="@+id/submit_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:background="@drawable/gaiya_btn_bg"
                     android:text="完成"
                     android:textColor="@color/white"
