@@ -423,7 +423,7 @@ public class MyOrderllAdapter extends BaseAdapter {
                     }
                 });
             } else if ("3".equals(orderData.getExpress_status())) {
-                holder.applyRefund.setText("客服处理中");
+                holder.applyRefund.setText("售后处理中");
                 holder.applyRefund.setEnabled(false);
             } else if ("4".equals(orderData.getExpress_status())) {
                 holder.applyRefund.setText("售后完成");
