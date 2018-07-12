@@ -120,8 +120,8 @@ public class DialogUtils {
     public static void showBecomeVipDialog(final Context act) {
         final Context fAct = act;
         AlertDialog.Builder builder = new AlertDialog.Builder(fAct);
-        builder.setTitle("升级正式会员");
-        builder.setMessage("您目前还是准用户，缴纳9.9元成为正式会员，立享多重优惠！");
+        builder.setTitle("升级成为正式会员");
+        builder.setMessage("您目前还是非会员，缴纳9.9元成为正式会员，立享多重优惠！");
         builder.setPositiveButton("去升级", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -133,6 +133,7 @@ public class DialogUtils {
                 model.setGoods_id("11272");
                 model.setMobile(userInfo.getMobile());
                 model.setAccept_name(userInfo.getUser_name());
+                model.setMessage("升级成为正式会员");
                 HttpProxy.submitVipOrder(model, new HttpCallBack<WatchCarBean>() {
                     @Override
                     public void onSuccess(WatchCarBean responseData) {

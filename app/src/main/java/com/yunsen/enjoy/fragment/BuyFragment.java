@@ -137,7 +137,7 @@ public class BuyFragment extends BaseFragment implements SearchActionBar.SearchC
 
     @Override
     protected void requestData() {
-        HttpProxy.getHomeAdvertList(1017, new HttpCallBack<List<AdvertModel>>() {
+        HttpProxy.getHomeAdvertList(1016, new HttpCallBack<List<AdvertModel>>() {
             @Override
             public void onSuccess(List<AdvertModel> responseData) {
                 if (responseData != null && responseData.size() > 0) {

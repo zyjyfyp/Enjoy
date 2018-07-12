@@ -28,6 +28,7 @@ import com.yunsen.enjoy.model.ClassifyBean;
 import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.GoogsListResponse;
 import com.yunsen.enjoy.model.HeightFilterBean;
+import com.yunsen.enjoy.model.MyApplyCarBean;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.NoticeResponse;
 import com.yunsen.enjoy.model.NoticeTokeBean;
@@ -61,6 +62,7 @@ import com.yunsen.enjoy.model.response.CarDetailsResponse;
 import com.yunsen.enjoy.model.response.ClassifyResponse;
 import com.yunsen.enjoy.model.response.DefaultAddressResponse;
 import com.yunsen.enjoy.model.response.HeightFilterResponse;
+import com.yunsen.enjoy.model.response.MyApplyCarListResponse;
 import com.yunsen.enjoy.model.response.NoticeTokenResponse;
 import com.yunsen.enjoy.model.response.OrderResponse;
 import com.yunsen.enjoy.model.response.PullImageResponse;
@@ -341,7 +343,7 @@ public class HttpProxy {
     /**
      * @param pageIndex
      * @param callBack
-     * @param brandId    高级筛选
+     * @param brandId   高级筛选
      * @param channel
      * @param strwhere
      * @param orderby
@@ -370,7 +372,7 @@ public class HttpProxy {
             strwhere += "and brand_id like \'%" + brandId + "%\'";
         }
 //        if (TextUtils.isEmpty(city)) {
-            param.put("strwhere", strwhere);
+        param.put("strwhere", strwhere);
 //        } else {
 //            param.put("strwhere", strwhere + " and (city like \'%" + city + "%\'  or city like \'%所有城市%\')");
 //        }
@@ -2048,5 +2050,32 @@ public class HttpProxy {
             }
         });
     }
+
+    /**
+     * 申购管理
+     */
+    public static void getApplyBuyCarData(String pageIndex, final HttpCallBack<List<MyApplyCarBean>> callBack) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put(SpConstants.USER_ID, AccountUtils.getUser_id());
+        param.put("page_size", "8");
+        param.put("page_index", pageIndex);
+//        param.put("strwhere", "status=2 and datatype=11");
+        param.put("strwhere", "");
+        param.put("orderby", "");
+        HttpClient.get(URLConstants.APPLY_PURCHASE_LIST_URL, param, new HttpResponseHandler<MyApplyCarListResponse>() {
+            @Override
+            public void onSuccess(MyApplyCarListResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
 }
 

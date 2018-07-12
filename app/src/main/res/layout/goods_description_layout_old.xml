@@ -11,20 +11,14 @@
         android:layout_marginBottom="50dp"
         android:orientation="vertical">
 
-        <com.yunsen.enjoy.widget.ScrollViewContainer
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            >
-
             <ScrollView
                 android:fillViewport="true"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
                     <RelativeLayout
@@ -413,27 +407,32 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:layout_below="@id/imagesLayout"
-                        android:layout_marginBottom="0dp"
-                        android:layout_marginTop="30dp"
-                        android:background="#eeeeee"
-                        android:gravity="center"
-                        android:text="继续拖动，查看图文详情"
-                        android:textColor="#aaaaaa" />
+                    <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="60dp"-->
+                    <!--android:layout_below="@id/imagesLayout"-->
+                    <!--android:layout_marginBottom="0dp"-->
+                    <!--android:layout_marginTop="30dp"-->
+                    <!--android:background="#eeeeee"-->
+                    <!--android:gravity="center"-->
+                    <!--android:text="继续拖动，查看图文详情"-->
+                    <!--android:textColor="#aaaaaa" />-->
 
-                    <View
+                    <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:background="@color/list_diver" />-->
+                    <WebView
+                        android:id="@+id/webview"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/list_diver" />
+                        android:layout_height="match_parent" />
                 </LinearLayout>
 
 
             </ScrollView>
 
             <ScrollView
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white">
@@ -503,10 +502,10 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <WebView
-                            android:id="@+id/webview"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                        <!--<WebView-->
+                        <!--android:id="@+id/webview"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent" />-->
 
                         <LinearLayout
                             android:id="@+id/specifications_layout"
@@ -547,7 +546,6 @@
 
                 </LinearLayout>
             </ScrollView>
-        </com.yunsen.enjoy.widget.ScrollViewContainer>
     </LinearLayout>
 
     <include layout="@layout/goods_top_layout" />

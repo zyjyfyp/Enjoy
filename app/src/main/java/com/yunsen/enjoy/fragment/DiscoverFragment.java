@@ -15,8 +15,10 @@ import android.widget.TextView;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.adapter.DiscoverBannerAdapter;
 import com.yunsen.enjoy.fragment.discover.GoodsAdapter;
+import com.yunsen.enjoy.fragment.home.BannerAdapter;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
@@ -61,7 +63,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     @Bind(R.id.pull_to_refresh)
     PullToRefreshView pullToResh;
 
-    private DiscoverBannerAdapter bannerAdapter;
+    private BannerAdapter bannerAdapter;
     private ListPagerAdapter mListPagerAdapter;
 
     private GoodsAdapter mAdapter1;
@@ -138,7 +140,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
 
     @Override
     protected void initData() {
-        bannerAdapter = new DiscoverBannerAdapter(getData(), getActivity());
+        bannerAdapter = new BannerAdapter(getData(), getActivity());
         loopPager.setAdapter(bannerAdapter);
         indicator.setViewPager(loopPager);
         indicator.setPadding(5, 5, 10, 5);
@@ -149,9 +151,9 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         dataPager.setOffscreenPageLimit(4);
     }
 
-    public List<GoodsData> getData() {
-        ArrayList<GoodsData> data = new ArrayList<>();
-        data.add(new GoodsData(R.mipmap.adv_home));
+    public List<AdvertModel> getData() {
+        ArrayList<AdvertModel> data = new ArrayList<>();
+        data.add(new AdvertModel(R.mipmap.adv_home, ""));
         return data;
     }
 
@@ -167,11 +169,26 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     }
 
     private void requestBanner() {
-        HttpProxy.getDiscoverBannerList(new HttpCallBack<List<GoodsData>>() {
+//        HttpProxy.getDiscoverBannerList(new HttpCallBack<List<GoodsData>>() {
+//            @Override
+//            public void onSuccess(List<GoodsData> responseData) {
+//                if (responseData != null && responseData.size() > 0) {
+//                    bannerAdapter = new DiscoverBannerAdapter(responseData, getActivity());
+//                    loopPager.setAdapter(bannerAdapter);
+//                }
+//            }
+//
+//            @Override
+//            public void onError(Request request, Exception e) {
+//
+//            }
+//        });
+
+        HttpProxy.getHomeAdvertList(1017, new HttpCallBack<List<AdvertModel>>() {
             @Override
-            public void onSuccess(List<GoodsData> responseData) {
+            public void onSuccess(List<AdvertModel> responseData) {
                 if (responseData != null && responseData.size() > 0) {
-                    bannerAdapter = new DiscoverBannerAdapter(responseData, getActivity());
+                    bannerAdapter = new BannerAdapter(responseData, getActivity());// TODO: 2018/4/20 need upData方法
                     loopPager.setAdapter(bannerAdapter);
                 }
             }

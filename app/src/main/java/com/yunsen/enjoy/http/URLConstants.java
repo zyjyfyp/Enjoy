@@ -302,6 +302,11 @@ public class URLConstants {
      * 升级正式会员
      */
     public static final String APPLY_VIP_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_membership_upgrade";
+    /**
+     * 申请卖出的列表
+     * get_apply_purchase_list
+     */
+    public static final String APPLY_PURCHASE_LIST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_apply_purchase_list";
 
     //
     //    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";

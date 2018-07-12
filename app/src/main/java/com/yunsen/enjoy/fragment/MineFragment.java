@@ -25,6 +25,7 @@ import com.yunsen.enjoy.activity.dealer.ApplyServiceActivity;
 import com.yunsen.enjoy.activity.dealer.MyFacilitatorActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
+import com.yunsen.enjoy.activity.mine.MyApplyCarActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
 import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
@@ -144,6 +145,8 @@ public class MineFragment extends BaseFragment {
     LinearLayout hasLoginLayout;
     @Bind(R.id.my_loan_layout)
     LinearLayout myLoanLayout;
+    @Bind(R.id.apply_buy_layout)
+    LinearLayout applyBuyLayout;
 
     private Activity context;
 
@@ -422,7 +425,8 @@ public class MineFragment extends BaseFragment {
     }
 
     @OnClick({R.id.user_icon_img, R.id.balance_layout, R.id.freeze_layout,
-            R.id.commission_layout, R.id.ready_money_layout, R.id.my_loan_layout})
+            R.id.commission_layout, R.id.ready_money_layout, R.id.my_loan_layout,
+            R.id.apply_buy_layout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.user_icon_img:
@@ -444,6 +448,9 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.my_loan_layout:
                 goLoginOrOtherActivity(MyLoanActivity.class);
+                break;
+            case R.id.apply_buy_layout:
+                goLoginOrOtherActivity(MyApplyCarActivity.class);
                 break;
         }
     }

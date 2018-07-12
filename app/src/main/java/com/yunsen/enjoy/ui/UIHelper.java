@@ -38,10 +38,12 @@ import com.yunsen.enjoy.activity.dealer.ApplyServiceSecondActivity;
 import com.yunsen.enjoy.activity.dealer.ApplyServiceThreeActivity;
 import com.yunsen.enjoy.activity.dealer.MyFacilitatorActivity;
 import com.yunsen.enjoy.activity.mine.AddressManagerActivity;
+import com.yunsen.enjoy.activity.mine.ApplyCarInfoActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.BindBankCardActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
 import com.yunsen.enjoy.activity.mine.ExtensionActivity;
+import com.yunsen.enjoy.activity.mine.MyApplyCarActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
 import com.yunsen.enjoy.activity.mine.MyOrderConfrimActivity;
 import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
@@ -64,6 +66,7 @@ import com.yunsen.enjoy.fragment.buy.SelectBrandActivity;
 import com.yunsen.enjoy.fragment.buy.SeniorFilterActivity;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.model.MyApplyCarBean;
 import com.yunsen.enjoy.model.MyOrderData;
 import com.yunsen.enjoy.model.OrderBean;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
@@ -975,5 +978,22 @@ public class UIHelper {
     public static void showAddressManagerActivity(Activity act, int requestCode) {
         Intent intent = new Intent(act, AddressManagerActivity.class);
         act.startActivityForResult(intent, requestCode);
+
+    }
+
+    /**
+     * 申购管理
+     *
+     * @param ctx
+     */
+    public static void showMyApplyCarActivity(Context ctx) {
+        Intent intent = new Intent(ctx, MyApplyCarActivity.class);
+        ctx.startActivity(intent);
+    }
+
+    public static void showApplyCarInfoActivity(Context ctx, MyApplyCarBean data) {
+        Intent intent = new Intent(ctx, ApplyCarInfoActivity.class);
+        intent.putExtra(Constants.ACT_DATA, data);
+        ctx.startActivity(intent);
     }
 }
