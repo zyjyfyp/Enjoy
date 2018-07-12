@@ -30,8 +30,8 @@ public class URLConstants {
     /**
      * 公告
      */
-//    public static final String NOTICE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_page_size_list";
-    public static final String NOTICE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_top_list_2017";
+    public static final String NOTICE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_page_size_list";
+//    public static final String NOTICE_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_article_top_list_2017";
 
     /**
      * 推荐汽车,品牌筛选，高级筛选
@@ -302,7 +302,6 @@ public class URLConstants {
      * 升级正式会员
      */
     public static final String APPLY_VIP_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_membership_upgrade";
-
 
     //
     //    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";

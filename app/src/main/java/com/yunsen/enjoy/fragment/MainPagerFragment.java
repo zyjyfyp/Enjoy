@@ -251,7 +251,6 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         HttpProxy.getNoticeData1(new HttpCallBack<List<NoticeModel>>() {
             @Override
             public void onSuccess(List<NoticeModel> responseData) {
-                Log.e(TAG, "onSuccess: 公告1");
                 adtTv1.setResources(responseData);
                 adtTv1.setTextStillTime(5000, 1);
             }
@@ -265,7 +264,6 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         HttpProxy.getNoticeData2(new HttpCallBack<List<NoticeModel>>() {
             @Override
             public void onSuccess(List<NoticeModel> responseData) {
-                Log.e(TAG, "onSuccess: 公告2");
                 adtTv2.setResources(responseData);
                 adtTv2.setTextStillTime(5000, 2);
             }

@@ -147,15 +147,15 @@ public class HttpProxy {
      */
     public static void getNoticeData1(final HttpCallBack<List<NoticeModel>> callBack) {
         HashMap<String, String> param = new HashMap<>();
-//        param.put("channel_name", "news");
-//        param.put("category_id", "6");
-//        param.put("page_size", "8");
-//        param.put("page_index", "1");
-//        param.put("strwhere", "status=0");
-//        param.put("orderby", "");
         param.put("channel_name", "news");
-        param.put("top", "5");
-        param.put("strwhere", "");
+        param.put("category_id", "6");
+        param.put("page_size", "8");
+        param.put("page_index", "1");
+        param.put("strwhere", "status=0");
+        param.put("orderby", "");
+//        param.put("channel_name", "news");
+//        param.put("top", "5");
+//        param.put("strwhere", "");
 
         HttpClient.get(URLConstants.NOTICE_URL, param, new HttpResponseHandler<NoticeResponse>() {
             @Override
@@ -177,15 +177,15 @@ public class HttpProxy {
      */
     public static void getNoticeData2(final HttpCallBack<List<NoticeModel>> callBack) {
         HashMap<String, String> param = new HashMap<>();
-//        param.put("channel_name", "news");
-//        param.put("category_id", "7");
-//        param.put("page_size", "8");
-//        param.put("page_index", "1");
-//        param.put("strwhere", "status=0");
-//        param.put("orderby", "");
         param.put("channel_name", "news");
-        param.put("top", "5");
-        param.put("strwhere", "");
+        param.put("category_id", "7");
+        param.put("page_size", "8");
+        param.put("page_index", "1");
+        param.put("strwhere", "status=0");
+        param.put("orderby", "");
+//        param.put("channel_name", "news");
+//        param.put("top", "5");
+//        param.put("strwhere", "");
         HttpClient.get(URLConstants.NOTICE_URL, param, new HttpResponseHandler<NoticeResponse>() {
             @Override
             public void onSuccess(NoticeResponse response) {
