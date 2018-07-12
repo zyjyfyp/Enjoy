@@ -109,6 +109,7 @@ public class Constants {
     public static final int READ_PHONE_STATE = 4;
     public static final int ORDER_ACT_REQUEST = 5; //跳转订单页面
     public static final int BALANCE_PAY_REQUEST = 6;
+    public static final int NEED_USER_INFO_REQUEST = 7;//需要更新用户信息的请求码
 
     /*******************************************************************
      *                            intent key                          *
@@ -165,7 +166,7 @@ public class Constants {
     public static final String SHARE_TITLE = "share_title"; //分享标题
     public static final String SHARE_DESCRIPTION = "share_description";//描述
     /**
-     * 我的业绩 通过判断 group_id 显示几行  14 6 是会员
+     * 我的业绩 通过判断 group_id 显示几行  14  是会员6 代理
      */
     public static final String ONE_LINE = "13";
     public static final String TWO_LINE = "14";
@@ -177,6 +178,7 @@ public class Constants {
     public static final String IS_YESTERDAY_KEY = "is_yesterday_key";
 
     public static final String CARD_MONEY_KEY = "card_money";
+    public static final String PAY_MONEY = "pay_money";
 
     /**
      * webView

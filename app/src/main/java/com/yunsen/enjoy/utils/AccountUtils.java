@@ -23,7 +23,7 @@ public class AccountUtils {
     private static String sex;
     private static String userName;
     private static String loginSign;
-
+    private static double mBalance;
     private static boolean mHasLogin;
     private static boolean mHasBound;
 
@@ -167,6 +167,11 @@ public class AccountUtils {
 //        return "21039E0FCD403C2E9C64CDD0515C7110";
     }
 
+    public static String getBalance() {
+        String balance = mSp.getString(SpConstants.AMOUNT, "0.00");
+        return balance;
+    }
+
     /**
      * 是否是代理
      *
@@ -174,7 +179,7 @@ public class AccountUtils {
      */
     public static boolean isAgentUser() {
         if (mIsAgent) {
-            return false;
+            return mIsAgent;
         }
         SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
         String groupId = sp.getString(SpConstants.GROUP_ID, "");
@@ -183,7 +188,7 @@ public class AccountUtils {
         } else {
             mIsAgent = false;
         }
-        return false;
+        return mIsAgent;
     }
 
     /**

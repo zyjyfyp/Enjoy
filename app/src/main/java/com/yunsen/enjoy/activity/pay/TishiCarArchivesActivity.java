@@ -54,7 +54,6 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tishi_carxing);
         spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
@@ -233,7 +232,6 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
                                 String info = object.getString("info");
                                 if (status.equals("y")) {
                                     progress.CloseProgress();
-                                    UIHelper.showMyOrderXqActivity(TishiCarArchivesActivity.this, order_no);
                                     ToastUtils.makeTextShort("支付成功");
                                     EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
                                     setResult(1);

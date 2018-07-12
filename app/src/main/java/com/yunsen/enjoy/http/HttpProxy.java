@@ -618,6 +618,32 @@ public class HttpProxy {
     }
 
     /**
+     * 获取用户信息
+     *
+     * @param userName 用户名 不保存
+     * @param callBack
+     */
+    public static void getUserInfoNoSave(String userName, final HttpCallBack<UserInfo> callBack) {
+        HttpClient.get(URLConstants.PHONE_USER_INFO_URL + userName, new HashMap<String, String>(), new HttpResponseHandler<UserInfoResponse>() {
+            @Override
+            public void onSuccess(UserInfoResponse response) {
+                super.onSuccess(response);
+                UserInfo data = response.getData();
+                if (data != null) {
+                    callBack.onSuccess(data);
+                } else {
+                    ToastUtils.makeTextShort("获取用户信息失败");
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+            }
+        });
+    }
+
+    /**
      * 电话用户登录
      *
      * @param phone    登录的手机号

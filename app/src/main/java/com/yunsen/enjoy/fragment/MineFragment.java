@@ -736,7 +736,7 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
             }, new OnRightOnclickListener() {
                 @Override
                 public void onRightClick(int... index) {
-
+                    UIHelper.showUserCertificationActivity(getActivity(), 1);
                 }
             });
         }
@@ -758,7 +758,7 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
             }, new OnRightOnclickListener() {
                 @Override
                 public void onRightClick(int... index) {
-
+                    UIHelper.showUserCertificationActivity(getActivity(), 0);
                 }
             });
         }
@@ -991,6 +991,10 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
                     break;
                 case 5:
                     UIHelper.showBecomeVipActivity(getActivity());
+                    if (AccountUtils.isVipAccount()) {
+                    } else {
+
+                    }
                     break;
                 case 6:
                     UIHelper.showApplyAgentActivity(getActivity());

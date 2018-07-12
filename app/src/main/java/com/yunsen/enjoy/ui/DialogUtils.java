@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -187,4 +188,37 @@ public class DialogUtils {
         return dialog;
     }
 
+
+    /**
+     * @param ctx
+     * @param message
+     * @param leftText
+     * @param leftListener
+     * @return
+     */
+    public static AlertDialog createOKDialog(Context ctx, String message, final String leftText,
+                                             final OnLeftOnclickListener leftListener) {
+        LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.ok_message_layout, null);
+        TextView messageTV = (TextView) view.findViewById(R.id.message_tv);
+        TextView okBtn = (TextView) view.findViewById(R.id.ok_btn);
+        if (!TextUtils.isEmpty(message)) {
+            messageTV.setText(message);
+        }
+        if (!TextUtils.isEmpty(leftText)) {
+            okBtn.setText(leftText);
+        }
+        okBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (leftListener != null) {
+                    leftListener.onLeftClick();
+                }
+            }
+        });
+
+        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 120));
+        AlertDialog dialog = new AlertDialog.Builder(ctx).setView(view).create();
+        return dialog;
+    }
 }

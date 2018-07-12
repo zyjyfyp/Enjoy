@@ -1,5 +1,8 @@
 package com.yunsen.enjoy.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -9,9 +12,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.activity.pay.MyOrderZFActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.PayMoneyProxy;
 import com.yunsen.enjoy.http.DataException;
@@ -19,17 +24,24 @@ import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.RestApiResponse;
 import com.yunsen.enjoy.model.RechargeNoBean;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.thirdparty.PayProxy;
+import com.yunsen.enjoy.thirdparty.alipay.PayResult;
 import com.yunsen.enjoy.ui.DialogUtils;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.ui.interfaces.OnLeftOnclickListener;
 import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.GlideRoundTransform;
 import com.yunsen.enjoy.widget.MyAlertDialog;
 import com.yunsen.enjoy.widget.SelectCityProxy;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.lang.ref.WeakReference;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -75,6 +87,7 @@ public class ApplyAgentActivity extends BaseFragmentActivity {
     private ApplyFacilitatorModel mRequestData;
     private String mPayMoney = "0.01";
     private Handler mMyHandler;
+    private AlertDialog mApplyOkDialog;
 
     @Override
     public int getLayout() {
@@ -237,13 +250,14 @@ public class ApplyAgentActivity extends BaseFragmentActivity {
         HttpProxy.getApplyServiceForm(this, mRequestData, new HttpCallBack<RestApiResponse>() {
             @Override
             public void onSuccess(RestApiResponse responseData) {
-
-
+                showApplyAgentOkDialog();
             }
 
             @Override
             public void onError(Request request, Exception e) {
-
+                if (e instanceof DataException) {
+                    ToastUtils.makeTextShort(e.getMessage());
+                }
             }
         });
     }
@@ -256,14 +270,31 @@ public class ApplyAgentActivity extends BaseFragmentActivity {
             super.onBackPressed();
         }
     }
-    private void showApplyAgentOkDialog(){
+
+    private void showApplyAgentOkDialog() {
+        if (mApplyOkDialog != null && mApplyOkDialog.isShowing()) {
+            mApplyOkDialog.dismiss();
+        }
+        mApplyOkDialog = DialogUtils.createOKDialog(this, "您已成为" + selectCityTv.getText().toString() + "代理", "确认", new OnLeftOnclickListener() {
+            @Override
+            public void onLeftClick() {
+                if (mApplyOkDialog != null && mApplyOkDialog.isShowing()) {
+                    mApplyOkDialog.dismiss();
+                    finish();
+                }
+            }
+        });
+        mApplyOkDialog.show();
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 1 && requestCode == Constants.BALANCE_PAY_REQUEST) {
+            applyAgentRequest();
+        } else if (requestCode == 2) {
+            applyAgentRequest();
+        }
     }
 
     private static class MyHandler extends Handler {
@@ -280,10 +311,26 @@ public class ApplyAgentActivity extends BaseFragmentActivity {
             if (!act.isFinishing()) {
                 switch (msg.what) {
                     case PayProxy.SDK_PAY_FLAG: //支付完成
-                        act.applyAgentRequest();
-                        break;
-                }
 
+                        PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+                        /**
+                         对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+                         */
+                        String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+                        String resultStatus = payResult.getResultStatus();
+                        // 判断resultStatus 为9000则代表支付成功
+                        if (TextUtils.equals(resultStatus, "9000")) {
+                            // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                            Toast.makeText(act, "支付成功", Toast.LENGTH_SHORT).show();
+                            act.applyAgentRequest();
+                            EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
+                        } else {
+                            // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                            Toast.makeText(act, "支付失败", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+
+                }
             }
         }
     }

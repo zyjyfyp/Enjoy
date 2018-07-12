@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.yunsen.enjoy.R;
@@ -24,14 +26,20 @@ import com.yunsen.enjoy.http.DataException;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.RechargeNoBean;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpUiEvent;
 import com.yunsen.enjoy.thirdparty.PayProxy;
+import com.yunsen.enjoy.thirdparty.alipay.PayResult;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.GlideRoundTransform;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.lang.ref.WeakReference;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -64,7 +72,7 @@ public class BecomeVipActivity extends BaseFragmentActivity {
     private int mPayType = 2; //5微信 ,3 支付宝 ,2余额
     private int mScreenWidth;
     private Button mToPay;
-    private String mPayMoney = "0.01";
+    private String mPayMoney = "1000";
     private MyHandler mMyHandler;
 
     @Override
@@ -251,6 +259,10 @@ public class BecomeVipActivity extends BaseFragmentActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 1 && requestCode == Constants.BALANCE_PAY_REQUEST) {
+            UIHelper.showGaiYaOrderInfoActivity(this, mPayMoney, "账号余额");
+            finish();
+        } else if (requestCode == 2) {
+            UIHelper.showGaiYaOrderInfoActivity(this, mPayMoney, "微信");
             finish();
         }
     }
@@ -269,7 +281,24 @@ public class BecomeVipActivity extends BaseFragmentActivity {
             if (!act.isFinishing()) {
                 switch (msg.what) {
                     case PayProxy.SDK_PAY_FLAG: //支付完成
-                        act.finish();
+                        PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+                        /**
+                         对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+                         */
+                        String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+                        String resultStatus = payResult.getResultStatus();
+                        // 判断resultStatus 为9000则代表支付成功
+                        if (TextUtils.equals(resultStatus, "9000")) {
+                            // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                            Toast.makeText(act, "支付成功", Toast.LENGTH_SHORT).show();
+                            EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
+                            UIHelper.showGaiYaOrderInfoActivity(act, act.mPayMoney, "支付宝");
+                            act.finish();
+                        } else {
+                            // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                            Toast.makeText(act, "支付失败", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
                         break;
                 }
 

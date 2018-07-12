@@ -176,7 +176,7 @@ public class WithdrawCashActivity extends BaseFragmentActivity implements Select
      * 请求银行列表
      */
     public void selectBankCardRequest() {
-        HttpProxy.getBindBankCardList( new HttpCallBack<List<BindCardBean>>() {
+        HttpProxy.getBindBankCardList(new HttpCallBack<List<BindCardBean>>() {
             @Override
             public void onSuccess(List<BindCardBean> responseData) {
                 if (responseData != null && responseData.size() > 1) {
@@ -216,7 +216,8 @@ public class WithdrawCashActivity extends BaseFragmentActivity implements Select
             @Override
             public void onSuccess(Boolean responseData) {
                 ToastUtils.makeTextShort("提现成功");
-                EventBus.getDefault().post(new UpUiEvent(EventConstants.APP_LOGIN));//暂时
+                EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));
+                setResult(RESULT_OK);
                 finish();
             }
 

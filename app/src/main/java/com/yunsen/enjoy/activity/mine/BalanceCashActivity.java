@@ -1,5 +1,6 @@
 package com.yunsen.enjoy.activity.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +14,9 @@ import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.BindCardBean;
+import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.utils.AccountUtils;
 
 import java.util.List;
 
@@ -79,6 +82,25 @@ public class BalanceCashActivity extends BaseFragmentActivity {
                 Logger.e("onError: " + e.getMessage());
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == Constants.NEED_USER_INFO_REQUEST) {
+            HttpProxy.getUserInfoNoSave(AccountUtils.getUserName(), new HttpCallBack<UserInfo>() {
+                @Override
+                public void onSuccess(UserInfo responseData) {
+                    mBalance = responseData.getAmount();
+                    balanceTv.setText(String.valueOf(mBalance));
+                }
+
+                @Override
+                public void onError(Request request, Exception e) {
+
+                }
+            });
+        }
     }
 
     @OnClick({R.id.action_back, R.id.consume_tv, R.id.withdraw_cash_btn, R.id.recharge_btn})

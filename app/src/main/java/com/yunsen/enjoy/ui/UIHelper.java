@@ -65,6 +65,7 @@ import com.yunsen.enjoy.activity.mine.UserForgotPasswordActivity;
 import com.yunsen.enjoy.activity.mine.WalletActivity;
 import com.yunsen.enjoy.activity.mine.WithdrawCashActivity;
 import com.yunsen.enjoy.activity.order.DianPingActivity;
+import com.yunsen.enjoy.activity.order.GaiYaOrderInfoActivity;
 import com.yunsen.enjoy.activity.order.MyOrderActivity;
 import com.yunsen.enjoy.activity.order.MyOrderXqActivity;
 import com.yunsen.enjoy.activity.pay.MonneyChongZhiActivity;
@@ -646,12 +647,12 @@ public class UIHelper {
     /**
      * 提现页面
      *
-     * @param ctx
+     * @param act
      */
-    public static void showWithdrawCashActivity(Context ctx, double balance) {
-        Intent intent = new Intent(ctx, WithdrawCashActivity.class);
+    public static void showWithdrawCashActivity(Activity act, double balance) {
+        Intent intent = new Intent(act, WithdrawCashActivity.class);
         intent.putExtra(Constants.BALANCE, balance);
-        ctx.startActivity(intent);
+        act.startActivityForResult(intent,Constants.NEED_USER_INFO_REQUEST);
     }
 
     /**
@@ -1072,11 +1073,12 @@ public class UIHelper {
     /**
      * 验证身份
      * type 0 未认证 1认证中 2 完成认证
+     *
      * @param ctx
      */
     public static void showUserCertificationActivity(Context ctx, int actType) {
         Intent intent = new Intent(ctx, UserCertificationActivity.class);
-        intent.putExtra(Constants.ACT_TYPE_KEY,actType);
+        intent.putExtra(Constants.ACT_TYPE_KEY, actType);
         ctx.startActivity(intent);
     }
 
@@ -1178,6 +1180,20 @@ public class UIHelper {
     public static void showStoredCardActivity(Context ctx, String cardMoney) {
         Intent intent = new Intent(ctx, StoredCardActivity.class);
         intent.putExtra(Constants.CARD_MONEY_KEY, cardMoney);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 订单详情页面
+     *
+     * @param ctx
+     * @param money
+     * @param type
+     */
+    public static void showGaiYaOrderInfoActivity(Context ctx, String money, String type) {
+        Intent intent = new Intent(ctx, GaiYaOrderInfoActivity.class);
+        intent.putExtra(Constants.PAY_MONEY, money);
+        intent.putExtra(Constants.ACT_TYPE_KEY, type);
         ctx.startActivity(intent);
     }
 
