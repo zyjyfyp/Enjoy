@@ -17,6 +17,10 @@ import com.yunsen.enjoy.http.DataException;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.OneNoticeInfoBean;
+import com.yunsen.enjoy.ui.recyclerview.EndlessRecyclerOnScrollListener;
+import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
+import com.yunsen.enjoy.ui.recyclerview.LoadMoreLayout;
+import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -37,6 +41,10 @@ public class DefaultNoticeFragment extends BaseFragment {
     private int mPageIndex = 1;
     private ArrayList<OneNoticeInfoBean> mDatas;
     private NoticeListAdapter mAdapter;
+    private LoadMoreLayout loadMoreLayout;
+    private EndlessRecyclerOnScrollListener mOnListener;
+    private boolean mIsLoadMore;
+    private boolean mHasMore;
 
     @Override
     protected int getLayoutId() {
@@ -49,7 +57,10 @@ public class DefaultNoticeFragment extends BaseFragment {
         defaultNoticeRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         mDatas = new ArrayList<>();
         mAdapter = new NoticeListAdapter(getActivity(), mDatas);
-        defaultNoticeRecycler.setAdapter(mAdapter);
+        HeaderAndFooterRecyclerViewAdapter footerRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
+        defaultNoticeRecycler.setAdapter(footerRecyclerViewAdapter);
+        loadMoreLayout = new LoadMoreLayout(getActivity());
+        RecyclerViewUtils.setFooterView(defaultNoticeRecycler, loadMoreLayout);
     }
 
     @Override
@@ -70,14 +81,23 @@ public class DefaultNoticeFragment extends BaseFragment {
                         ((NoticeFragment) parentFragment).setMessageNumber(mFragmentType, infoBean.getMessageSize());
                     }
 
-
                 } else {
                     Fragment parentFragment = getParentFragment();
                     if (parentFragment instanceof NoticeFragment) {
                         ((NoticeFragment) parentFragment).setMessageNumber(mFragmentType, 0);
                     }
                 }
-                mAdapter.addDatas(responseData);
+
+                if (mIsLoadMore) {
+                    mHasMore = mAdapter.addDatas(responseData);
+                } else {
+                    mAdapter.upDatas(responseData);
+                }
+                if (mHasMore) {
+                    mOnListener.onRefreshComplete();
+                } else {
+                    mOnListener.noMore(null);
+                }
             }
 
             @Override
@@ -89,19 +109,40 @@ public class DefaultNoticeFragment extends BaseFragment {
                 if (parentFragment instanceof NoticeFragment) {
                     ((NoticeFragment) parentFragment).setMessageNumber(mFragmentType, 0);
                 }
+                mHasMore = false;
+                mOnListener.noMore(null);
             }
         });
     }
 
     @Override
     protected void initListener() {
+        mOnListener = new EndlessRecyclerOnScrollListener() {
+            @Override
+            public void onLoadNextPage(View view) {
+                super.onLoadNextPage(view);
+                mPageIndex++;
+                mIsLoadMore = true;
+                defaultNoticeRecycler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        requestData();
+                    }
+                }, 500);
+            }
 
+        };
+        mOnListener.setLoadMoreLayout(loadMoreLayout);
+        defaultNoticeRecycler.addOnScrollListener(mOnListener);
     }
 
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (mOnListener != null) {
+            defaultNoticeRecycler.removeOnScrollListener(mOnListener);
+        }
         ButterKnife.unbind(this);
     }
 }
