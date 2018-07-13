@@ -208,6 +208,10 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
         Glide.with(MineFragment.this)
                 .load(R.mipmap.login_icon)
                 .transform(new GlideCircleTransform(getActivity()))
+                .into(loginIcon);
+        Glide.with(MineFragment.this)
+                .load(R.mipmap.login_icon)
+                .transform(new GlideCircleTransform(getActivity()))
                 .into(userIconImg);
     }
 

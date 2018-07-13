@@ -23,10 +23,12 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.orhanobut.logger.Logger;
 import com.tencent.connect.UserInfo;
@@ -55,10 +57,12 @@ import com.yunsen.enjoy.http.down.UpdateApkThread;
 import com.yunsen.enjoy.model.AuthorizationModel;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
+import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.SpUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.DialogProgress;
+import com.yunsen.enjoy.widget.GlideCircleTransform;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -80,28 +84,20 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
     private static final int PHONE_LOGIN_REQUEST = 1;
     private Button btn_login;
     private DialogProgress progress;
-    public static String kahao;
-    //	private String user_name,user_id;
     private String nickname, headimgurl, access_token, sex, unionid, province, city, country, oauth_openid;
     private SharedPreferences spPreferences_weixin;
     private SharedPreferences spPreferences_login;
     public static boolean isWXLogin = false;
     private IWXAPI mWxApi;
     public static String WX_CODE = "";
-    public static String mAppid;
-    public static QQAuth mQQAuth;
     public static Bitmap bitmap;
     public static String oauth_name = "";
     public static boolean panduan_tishi = false;
     public static boolean wx_fanhui = false;
-    public static boolean panduan = false;
     public static Handler handler1;
     public static boolean zhuangtai = false;
     private String strUr2 = URLConstants.REALM_NAME_LL + "/get_apk_version?browser=android";
     private String URL;
-    SharedPreferences spPreferences;
-    SharedPreferences spPreferences_tishi;
-    SharedPreferences longuserset_ptye;
     SharedPreferences spPreferences_qq;
     Editor editor;
     private AlertDialog dialog;
@@ -115,18 +111,18 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_weixin_login);
-
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-//        mWxApi = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);
         mWxApi = WXAPIFactory.createWXAPI(this, null);
         mWxApi.registerApp(Constants.APP_ID);
-
         mTencent = Tencent.createInstance(Constants.APP_QQ_ID, AppContext.getInstance());
-
-
         spPreferences_weixin = getSharedPreferences("longuserset_weixin", MODE_PRIVATE);
         spPreferences_login = getSharedPreferences("longuserset_login", MODE_PRIVATE);
+        ImageView loginImage= (ImageView) findViewById(R.id.login_img);
+        Glide.with(this)
+                .load(R.mipmap.login_icon)
+                .transform(new GlideCircleTransform(this))
+                .into(loginImage);
         try {
             progress = new DialogProgress(UserLoginActivity.this);
             initdata();
@@ -212,7 +208,6 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
                         city = object.getString("city");
                         country = object.getString("country");
                         oauth_openid = object.getString("openid");
-
                         editor = spPreferences_login.edit();
                         editor.putString(SpConstants.NICK_NAME, nickname);
                         editor.putString("headimgurl", headimgurl);
@@ -248,7 +243,6 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
     Handler handler = new Handler() {
 
         public void dispatchMessage(android.os.Message msg) {
-
             switch (msg.what) {
                 case 0:
                     dialog();
@@ -278,17 +272,13 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
 
     private void initdata() {
         btn_login = (Button) findViewById(R.id.btn_login);
-        TextView tv_denglu = (TextView) findViewById(R.id.tv_denglu);
-        TextView tv_qq_login = (TextView) findViewById(R.id.tv_qq_login);
+        Button phoneLoginBtn = (Button) findViewById(R.id.phone_login_btn);
         btn_login.setOnClickListener(this);
-        tv_denglu.setOnClickListener(this);
-        tv_qq_login.setOnClickListener(this);
-
+        phoneLoginBtn.setOnClickListener(this);
         TextView img_menu = (TextView) findViewById(R.id.img_menu);
         img_menu.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-
                 finish();
             }
         });
@@ -305,14 +295,10 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
                 req.state = "wei_xin_log_in";
                 mWxApi.sendReq(req);
                 break;
-            case R.id.tv_qq_login://qq登录
-                qqLogin();
-                break;
-            case R.id.tv_denglu://手机登录
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivityForResult(intent, PHONE_LOGIN_REQUEST);
-                break;
-            default:
+            case R.id.phone_login_btn://qq登录
+//                Intent intent = new Intent(this, LoginActivity.class);
+//                startActivityForResult(intent, PHONE_LOGIN_REQUEST);
+                UIHelper.showPhoneLoginActivity(this);
                 break;
         }
     }

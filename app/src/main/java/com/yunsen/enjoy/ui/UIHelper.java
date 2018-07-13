@@ -73,6 +73,7 @@ import com.yunsen.enjoy.activity.pay.MyOrderZFActivity;
 import com.yunsen.enjoy.activity.pay.TishiCarArchivesActivity;
 import com.yunsen.enjoy.activity.user.AgentHadActivity;
 import com.yunsen.enjoy.activity.user.DBFengXiangActivity;
+import com.yunsen.enjoy.activity.user.PhoneLoginActivity;
 import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
 import com.yunsen.enjoy.activity.user.UserRegisterActivity;
@@ -652,7 +653,7 @@ public class UIHelper {
     public static void showWithdrawCashActivity(Activity act, double balance) {
         Intent intent = new Intent(act, WithdrawCashActivity.class);
         intent.putExtra(Constants.BALANCE, balance);
-        act.startActivityForResult(intent,Constants.NEED_USER_INFO_REQUEST);
+        act.startActivityForResult(intent, Constants.NEED_USER_INFO_REQUEST);
     }
 
     /**
@@ -1194,6 +1195,16 @@ public class UIHelper {
         Intent intent = new Intent(ctx, GaiYaOrderInfoActivity.class);
         intent.putExtra(Constants.PAY_MONEY, money);
         intent.putExtra(Constants.ACT_TYPE_KEY, type);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 手机登录
+     *
+     * @param ctx
+     */
+    public static void showPhoneLoginActivity(Context ctx) {
+        Intent intent = new Intent(ctx, PhoneLoginActivity.class);
         ctx.startActivity(intent);
     }
 
