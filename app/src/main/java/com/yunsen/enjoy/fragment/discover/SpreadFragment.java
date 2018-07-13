@@ -15,11 +15,15 @@ import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.event.DiscoverEvent;
 import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpFilterReqEvent;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.FlowLayout;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +47,9 @@ public class SpreadFragment extends BaseFragment implements MultiItemTypeAdapter
     private String mChannelId;
     private ArrayList<CarDetails> mDatas;
     private SpreadAdapter mAdapter;
-    private int mPosition = 0;
+    private int mPosition = 0; //位置
+    private int mPageIndex = 1;
+    private boolean mIsLoadMore = false;
 
     @Override
     protected int getLayoutId() {
@@ -53,6 +59,7 @@ public class SpreadFragment extends BaseFragment implements MultiItemTypeAdapter
     @Override
     protected void initView() {
         ButterKnife.bind(this, rootView);
+        EventBus.getDefault().register(this);
         recyclerSpread.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mDatas = new ArrayList<>();
         mAdapter = new SpreadAdapter(getActivity(), R.layout.spread_item, mDatas);
@@ -70,16 +77,20 @@ public class SpreadFragment extends BaseFragment implements MultiItemTypeAdapter
 
     @Override
     protected void requestData() {
-        HttpProxy.getSpreadDatas("1", mId, new HttpCallBack<List<CarDetails>>() {
+        HttpProxy.getSpreadDatas(String.valueOf(mPageIndex), mId, new HttpCallBack<List<CarDetails>>() {
             @Override
             public void onSuccess(List<CarDetails> responseData) {
-                mAdapter.addBaseDatas(responseData);
-                EventBus.getDefault().post(new DiscoverEvent(EventConstants.LOAD_FINISH, mPosition));
+                boolean hasMore = mAdapter.addBaseDatas(responseData);
+                if (hasMore) {
+                    EventBus.getDefault().post(new DiscoverEvent(EventConstants.SHOW_HAS_MORE, mPosition));
+                }else {
+                    EventBus.getDefault().post(new DiscoverEvent(EventConstants.NO_MORE, mPosition));
+                }
             }
 
             @Override
             public void onError(Request request, Exception e) {
-                EventBus.getDefault().post(new DiscoverEvent(EventConstants.LOAD_FINISH, mPosition));
+                EventBus.getDefault().post(new DiscoverEvent(EventConstants.NO_MORE, mPosition));
             }
         });
     }
@@ -92,6 +103,7 @@ public class SpreadFragment extends BaseFragment implements MultiItemTypeAdapter
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        EventBus.getDefault().unregister(this);
         ButterKnife.unbind(this);
     }
 
@@ -106,5 +118,14 @@ public class SpreadFragment extends BaseFragment implements MultiItemTypeAdapter
     @Override
     public boolean onItemLongClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
         return false;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLodeMoreEvent(UpFilterReqEvent event) {
+        if (event.getEventId() == EventConstants.SHOW_HAS_MORE && event.getCurrentIndex() == mPosition) {
+            mPageIndex++;
+            mIsLoadMore = true;
+            requestData();
+        }
     }
 }

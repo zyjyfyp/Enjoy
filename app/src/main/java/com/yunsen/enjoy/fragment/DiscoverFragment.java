@@ -9,16 +9,22 @@ import android.util.Log;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.adapter.DiscoverBannerAdapter;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.StaticVar;
 import com.yunsen.enjoy.fragment.discover.SpreadFragment;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.AdvertModel;
 import com.yunsen.enjoy.model.ClassifyBean;
+import com.yunsen.enjoy.model.LoadingData;
 import com.yunsen.enjoy.model.event.DiscoverEvent;
+import com.yunsen.enjoy.model.event.EventConstants;
+import com.yunsen.enjoy.model.event.UpFilterReqEvent;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.utils.DeviceUtil;
+import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.BaseScrollView;
+import com.yunsen.enjoy.widget.PullToRefreshView;
 import com.yunsen.enjoy.widget.ZyViewPager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,8 +55,8 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     ZyViewPager dataPager;
     @Bind(R.id.srcoll)
     BaseScrollView srcollView;
-//    @Bind(R.id.pull_to_refresh)
-//    PullToRefreshView pullToResh;
+    @Bind(R.id.pull_to_refresh)
+    PullToRefreshView refreshView;
 
     private DiscoverBannerAdapter bannerAdapter;
     private ListPagerAdapter mListPagerAdapter;
@@ -60,7 +66,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     private int mScreenHeight;
     private int mPageIndexs[] = new int[]{1, 1, 1, 1};
     private boolean mHasMores[] = new boolean[]{true, true, true, true};
-
+    private List<LoadingData> mLoadFlag = new ArrayList<>();
     private ArrayList<Fragment> mFragments;
     private ArrayList<ClassifyBean> mTitles;
     private int mCurrentPosition = 0;
@@ -78,7 +84,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         indicator.setFocusable(true);
         indicator.setFocusableInTouchMode(true);
         indicator.requestFocus();
-//        pullToResh.setEnablePullTorefresh(false);
+        refreshView.setEnablePullTorefresh(false);
     }
 
 
@@ -117,8 +123,12 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         HttpProxy.getGoodsClassifyDatas("news", new HttpCallBack<List<ClassifyBean>>() {
             @Override
             public void onSuccess(List<ClassifyBean> responseData) {
-                upUi(responseData);
+                mLoadFlag.clear();
                 int size = mTitles.size();
+                for (int i = 0; i < size; i++) {
+                    mLoadFlag.add(new LoadingData(i));
+                }
+                upUi(responseData);
                 dataPager.setOffscreenPageLimit(size);
             }
 
@@ -183,29 +193,19 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     @Override
     protected void initListener() {
         dataPager.setOnPageChangeListener(this);
-//        pullToResh.setOnFooterRefreshListener(new PullToRefreshView.OnFooterRefreshListener() {
-//            @Override
-//            public void onFooterRefresh(PullToRefreshView view) {
-//                final int index = dataPager.getCurrentItem();
-//                mPageIndexs[index]++;
-//                pullToResh.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        switch (index) {
-//                            case 0:
-//                                break;
-//                            case 1:
-//                                break;
-//                            case 2:
-//                                break;
-//                            case 3:
-//                                break;
-//                        }
-//                    }
-//                }, 500);
-//
-//            }
-//        });
+        refreshView.setOnFooterRefreshListener(new PullToRefreshView.OnFooterRefreshListener() {
+            @Override
+            public void onFooterRefresh(PullToRefreshView view) {
+                refreshView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshView.setEnablePullLoadMoreDataStatus(true);
+                        EventBus.getDefault().post(new UpFilterReqEvent(EventConstants.SHOW_HAS_MORE, mCurrentPosition));
+                    }
+                }, 500);
+
+            }
+        });
     }
 
 
@@ -236,8 +236,20 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(DiscoverEvent event) {
         int position = event.getPosition();
-        if (mCurrentPosition == position) {
+        if (event.getEventId() == EventConstants.SHOW_HAS_MORE) {
+            //动态改变ViewPager的高度
             dataPager.upViewPagerIndexHeight(position);
+//            if (!event.isMore()) {
+//                refreshView.setEnablePullLoadMoreDataStatus(true);
+//            }
+            refreshView.onFooterRefreshComplete();
+//            } else {
+//                refreshView.setEnablePullLoadMoreDataStatus(false);
+//                refreshView.onFooterRefreshComplete();
+//            }
+        } else if (event.getEventId() == EventConstants.NO_MORE) {
+            ToastUtils.makeTextShort("没有更多数据");
+            refreshView.onFooterRefreshComplete();
         }
     }
 

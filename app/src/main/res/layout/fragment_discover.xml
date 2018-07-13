@@ -6,12 +6,11 @@
     android:orientation="vertical">
 
 
-
-    <!--<com.yunsen.enjoy.widget.PullToRefreshView-->
-        <!--android:id="@+id/pull_to_refresh"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:orientation="vertical">-->
+    <com.yunsen.enjoy.widget.PullToRefreshView
+        android:id="@+id/pull_to_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <com.yunsen.enjoy.widget.BaseScrollView
             android:id="@+id/srcoll"
@@ -49,11 +48,12 @@
                     android:id="@+id/tab_layout"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
+                    app:tabIndicatorColor="@color/color_22ac38"
                     app:tabIndicatorHeight="2dp"
                     app:tabMode="scrollable"
-                    app:tabIndicatorColor="@color/color_22ac38"
                     app:tabSelectedTextColor="@color/title_color"
                     app:tabTextColor="@color/color_5f6670" />
+
                 <com.yunsen.enjoy.widget.ZyViewPager
 
                     android:id="@+id/data_pager"
@@ -65,6 +65,6 @@
             </LinearLayout>
 
         </com.yunsen.enjoy.widget.BaseScrollView>
-    <!--</com.yunsen.enjoy.widget.PullToRefreshView>-->
+    </com.yunsen.enjoy.widget.PullToRefreshView>
 
 </LinearLayout>

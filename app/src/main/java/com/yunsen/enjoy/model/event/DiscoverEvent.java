@@ -8,6 +8,16 @@ public class DiscoverEvent {
     private int eventId;
     private int position;
 
+    public void setMore(boolean more) {
+        isMore = more;
+    }
+
+    private boolean isMore;
+
+    public boolean isMore() {
+        return isMore;
+    }
+
     public DiscoverEvent(int eventId, int position) {
         this.eventId = eventId;
         this.position = position;

@@ -7,10 +7,15 @@ package com.yunsen.enjoy.model.event;
 public class UpFilterReqEvent {
     private int eventId;
     private String type;
-
+    private int currentIndex;
     public UpFilterReqEvent(int eventId, String type) {
         this.eventId = eventId;
         this.type = type;
+    }
+
+    public UpFilterReqEvent(int eventId, int currentIndex) {
+        this.eventId = eventId;
+        this.currentIndex = currentIndex;
     }
 
     public int getEventId() {
@@ -27,5 +32,13 @@ public class UpFilterReqEvent {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public int getCurrentIndex() {
+        return currentIndex;
+    }
+
+    public void setCurrentIndex(int currentIndex) {
+        this.currentIndex = currentIndex;
     }
 }
