@@ -39,7 +39,7 @@ public class NoticeFragmentAdapter extends FragmentPagerAdapter {
         Integer num = mNum.get(position);
         switch (position) {
             case 0:
-                return "交流物流（" + num + ")";
+                return "交易物流（" + num + ")";
             case 1:
                 return "系统消息（" + num + ")";
 

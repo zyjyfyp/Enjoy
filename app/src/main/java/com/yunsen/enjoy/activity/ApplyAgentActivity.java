@@ -85,7 +85,7 @@ public class ApplyAgentActivity extends BaseFragmentActivity {
     private MyAlertDialog mCityDialog;
     private int mPayType = Constants.WEI_XIN_PAY_TYPE; //5 微信支付 3 支付宝 2 余额
     private ApplyFacilitatorModel mRequestData;
-    private String mPayMoney = "0.01";
+    private String mPayMoney = "1000";
     private Handler mMyHandler;
     private AlertDialog mApplyOkDialog;
 

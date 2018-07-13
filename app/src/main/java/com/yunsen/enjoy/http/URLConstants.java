@@ -161,7 +161,7 @@ public class URLConstants {
      * 服务商申请提交表单数据
      * https://szlxkg.com/tools/mobile_ajax.asmx/add_user_commpany_2017
      */
-    public static final String APPLY_SERVICE_FORM_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_user_commpany_2017";
+    public static final String APPLY_SERVICE_FORM_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_application_agent";
 
     /**
      * 预约管理Booking Management
@@ -384,6 +384,10 @@ public class URLConstants {
      * user_update_sales 升级会员
      */
     public static final String USER_UPDATE_SALES_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_update_sales";
+    /**
+     * get_user_message_list 获取消息列表
+     */
+    public static final String USER_MESSAGE_LIST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_message_list";
 
     public static final String REALM_NAME_WEB = BuildConfig.ROOT_URL;
     public static final String REALM_NAME_HTTP = BuildConfig.ROOT_URL;

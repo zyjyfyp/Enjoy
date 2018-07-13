@@ -136,7 +136,7 @@ public class UserCertificationActivity extends BaseFragmentActivity {
             case CERTIFICATION_OK:
                 userCertificationIngLayout.setVisibility(View.VISIBLE);
                 userNoCertificationLayout.setVisibility(View.GONE);
-                userCertInfoTv.setText("认证已完成");
+                userCertInfoTv.setText("您已实名认证");
                 userCertificationCardTv.setText(card);
                 userCertificationNameTv.setText(name);
                 break;

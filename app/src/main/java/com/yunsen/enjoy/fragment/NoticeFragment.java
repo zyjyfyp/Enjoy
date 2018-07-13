@@ -15,6 +15,7 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.fragment.notice.DefaultNoticeFragment;
 import com.yunsen.enjoy.fragment.notice.adapter.NoticeFragmentAdapter;
+import com.yunsen.enjoy.http.HttpProxy;
 
 import java.util.ArrayList;
 
@@ -39,6 +40,9 @@ public class NoticeFragment extends BaseFragment {
     private DefaultNoticeFragment mDefaultFragment2;
     private DefaultNoticeFragment mDefaultFragment3;
     private NoticeFragmentAdapter mAdapter;
+    private final static int TRANSACTION_MESSAGE = 27;//交易
+    private final static int SYSTEM_MESSAGE = 1;//系统
+    private final static int SERVICE_MESSAGE = 4;//服务
 
     @Override
     protected int getLayoutId() {
@@ -48,6 +52,8 @@ public class NoticeFragment extends BaseFragment {
     @Override
     protected void initView() {
         ButterKnife.bind(this, rootView);
+
+        ButterKnife.bind(this, rootView);
         actionBack.setVisibility(View.GONE);
         actionBarTitle.setGravity(Gravity.CENTER);
         actionBarTitle.setText("消息");
@@ -55,24 +61,25 @@ public class NoticeFragment extends BaseFragment {
         ArrayList<Fragment> fragments = new ArrayList<>();
         mDefaultFragment1 = new DefaultNoticeFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(Constants.FRAGMENT_TYPE_KEY, 1);
+        bundle.putInt(Constants.FRAGMENT_TYPE_KEY, TRANSACTION_MESSAGE);
         mDefaultFragment1.setArguments(bundle);
         fragments.add(mDefaultFragment1);
 
         mDefaultFragment2 = new DefaultNoticeFragment();
         Bundle bundle2 = new Bundle();
-        bundle2.putInt(Constants.FRAGMENT_TYPE_KEY, 2);
+        bundle2.putInt(Constants.FRAGMENT_TYPE_KEY, SYSTEM_MESSAGE);
         mDefaultFragment2.setArguments(bundle2);
         fragments.add(mDefaultFragment2);
 
         mDefaultFragment3 = new DefaultNoticeFragment();
         Bundle bundle3 = new Bundle();
-        bundle3.putInt(Constants.FRAGMENT_TYPE_KEY, 3);
+        bundle3.putInt(Constants.FRAGMENT_TYPE_KEY, SERVICE_MESSAGE);
         mDefaultFragment3.setArguments(bundle3);
         fragments.add(mDefaultFragment3);
         mAdapter = new NoticeFragmentAdapter(getChildFragmentManager(), fragments);
         noticeTab.setupWithViewPager(noticeViewPager);
         noticeViewPager.setAdapter(mAdapter);
+        noticeViewPager.setOffscreenPageLimit(3);
     }
 
     @Override
@@ -82,7 +89,6 @@ public class NoticeFragment extends BaseFragment {
 
     @Override
     protected void requestData() {
-
     }
 
     @Override
@@ -97,11 +103,18 @@ public class NoticeFragment extends BaseFragment {
         ButterKnife.unbind(this);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        return rootView;
+    public void setMessageNumber(int mFragmentType, int messageSize) {
+        switch (mFragmentType) {
+            case SYSTEM_MESSAGE:
+                TabLayout.Tab sysTab = noticeTab.getTabAt(1);
+                sysTab.setText("系统消息（" + messageSize + "）");
+                break;
+            case SERVICE_MESSAGE:
+                TabLayout.Tab serviceTab = noticeTab.getTabAt(2);
+                serviceTab.setText("客服消息（" + messageSize + "）");  break;
+            case TRANSACTION_MESSAGE:
+                TabLayout.Tab transTab = noticeTab.getTabAt(0);
+                transTab.setText("交易物流（" + messageSize + "）");  break;
+        }
     }
 }

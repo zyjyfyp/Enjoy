@@ -4,7 +4,6 @@ package com.yunsen.enjoy.http;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.MainThread;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -13,7 +12,6 @@ import com.orhanobut.logger.Logger;
 import com.yunsen.enjoy.common.AppContext;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
-import com.yunsen.enjoy.db.entity.User;
 import com.yunsen.enjoy.model.AccountBalanceModel;
 import com.yunsen.enjoy.model.AchieveInfoBean;
 import com.yunsen.enjoy.model.AchievementAccountBean;
@@ -37,8 +35,8 @@ import com.yunsen.enjoy.model.MonthAmountBean;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.NoticeResponse;
 import com.yunsen.enjoy.model.NoticeTokeBean;
+import com.yunsen.enjoy.model.OneNoticeInfoBean;
 import com.yunsen.enjoy.model.OrderDataBean;
-import com.yunsen.enjoy.model.OrderGoodsBean;
 import com.yunsen.enjoy.model.OrderInfo;
 import com.yunsen.enjoy.model.ProfitCountBean;
 import com.yunsen.enjoy.model.PullImageResult;
@@ -76,6 +74,7 @@ import com.yunsen.enjoy.model.response.DefaultAddressResponse;
 import com.yunsen.enjoy.model.response.HeightFilterResponse;
 import com.yunsen.enjoy.model.response.MonthAmountResponse;
 import com.yunsen.enjoy.model.response.NoticeTokenResponse;
+import com.yunsen.enjoy.model.response.OneNoticeListResponse;
 import com.yunsen.enjoy.model.response.OrderResponse;
 import com.yunsen.enjoy.model.response.ProfitCountResponse;
 import com.yunsen.enjoy.model.response.PullImageResponse;
@@ -2466,6 +2465,39 @@ public class HttpProxy {
         });
     }
 
+    /**
+     * 获取消息列表
+     *
+     * @param requestId
+     * @param pageIndex
+     * @param callBack
+     */
+    public static void getOneTypeNoticeList(final String requestId, String pageIndex, final HttpCallBack<List<OneNoticeInfoBean>> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put(SpConstants.USER_ID, AccountUtils.getUser_id());
+        param.put("template_id", requestId);
+        param.put("index", pageIndex);
+        param.put("size", "10");
+
+        HttpClient.get(URLConstants.USER_MESSAGE_LIST_URL, param, new HttpResponseHandler<OneNoticeListResponse>() {
+            @Override
+            public void onSuccess(OneNoticeListResponse response) {
+                super.onSuccess(response);
+                if (response != null && response.getData() != null && response.getData().size() > 0) {
+                    OneNoticeInfoBean infoBean = response.getData().get(0);
+                    infoBean.setMessageSize(response.getRecord());//消息的数量
+                }
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+
+    }
 
 }
 
