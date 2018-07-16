@@ -88,12 +88,10 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
     private TextView imgbtn_findpwd;
     private MessageDigest md;
     private String status, rnd, name, password, mm, mi;
-    private String inStr;
     private DialogProgress progress;
     private String strUrlone, strUrltwo;
     private MyPopupWindowMenu popupWindowMenu;
     private String strUr2 = URLConstants.REALM_NAME_LL + "/get_apk_version?browser=android";
-    private String URL;
     boolean zhuangtai = false;
     public static Bitmap bitmap;
 
@@ -318,5 +316,11 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
         } catch (Exception e) {
             System.out.println(e.toString());
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        progress.CloseProgress();
     }
 }
