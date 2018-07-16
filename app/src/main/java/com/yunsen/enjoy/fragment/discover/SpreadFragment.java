@@ -83,7 +83,7 @@ public class SpreadFragment extends BaseFragment implements MultiItemTypeAdapter
                 boolean hasMore = mAdapter.addBaseDatas(responseData);
                 if (hasMore) {
                     EventBus.getDefault().post(new DiscoverEvent(EventConstants.SHOW_HAS_MORE, mPosition));
-                }else {
+                } else {
                     EventBus.getDefault().post(new DiscoverEvent(EventConstants.NO_MORE, mPosition));
                 }
             }

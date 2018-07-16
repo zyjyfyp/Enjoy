@@ -124,11 +124,11 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
             @Override
             public void onSuccess(List<ClassifyBean> responseData) {
                 mLoadFlag.clear();
+                upUi(responseData);
                 int size = mTitles.size();
                 for (int i = 0; i < size; i++) {
                     mLoadFlag.add(new LoadingData(i));
                 }
-                upUi(responseData);
                 dataPager.setOffscreenPageLimit(size);
             }
 
@@ -247,7 +247,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
 //                refreshView.setEnablePullLoadMoreDataStatus(false);
 //                refreshView.onFooterRefreshComplete();
 //            }
-        } else if (event.getEventId() == EventConstants.NO_MORE) {
+        } else if (event.getEventId() == EventConstants.NO_MORE && mCurrentPosition == position) {
             ToastUtils.makeTextShort("没有更多数据");
             refreshView.onFooterRefreshComplete();
         }
