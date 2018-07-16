@@ -2,67 +2,76 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/no_color"
-    android:orientation="vertical"
     android:layout_gravity="bottom"
-    android:padding="5dp" >
-
-<LinearLayout 
-    android:id="@+id/ll_zhifu_buju"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     android:background="@color/no_color"
     android:orientation="vertical"
-     >
-     
-    <TextView
-        android:id="@+id/item0"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/actionsheet_top_selector"
-        android:gravity="center"
-        android:text="余额支付"
-        android:textColor="#037BFF"
-        android:textSize="16sp" />
+    android:padding="5dp">
 
-    <TextView
-        android:id="@+id/item1"
+    <LinearLayout
+        android:id="@+id/ll_zhifu_buju"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/actionsheet_middle_selector"
-        android:gravity="center"
-        android:visibility="gone"
-        android:text="银行卡支付"
-        android:textColor="#037BFF"
-        android:textSize="16sp" />
-	 <TextView
-        android:id="@+id/item2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/actionsheet_middle_selector"
-        android:gravity="center"
-        android:text="支付宝支付"
-        android:textColor="#FD4A2E"
-        android:textSize="16sp" />
-	  <TextView
-        android:id="@+id/item3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/actionsheet_bottom_selector"
-        android:gravity="center"
-        android:text="微信支付"
-        android:textColor="#FD4A2E"
-        android:textSize="16sp" />
-    
-    <TextView
-        android:id="@+id/item4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/actionsheet_single_selector"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:text="取消支付"
-        android:textColor="#8F8F8F"
-        android:textSize="16sp" />
+        android:background="@color/no_color"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/item0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/actionsheet_top_selector"
+            android:gravity="center"
+            android:text="余额支付"
+            android:textColor="#037BFF"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/item1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/actionsheet_middle_selector"
+            android:gravity="center"
+            android:text="银行卡支付"
+            android:textColor="#037BFF"
+            android:textSize="16sp"
+            android:visibility="gone" />
+        <TextView
+            android:id="@+id/item3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/actionsheet_middle_selector"
+            android:gravity="center"
+            android:text="微信支付"
+            android:textColor="#FD4A2E"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/item2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/actionsheet_middle_selector"
+            android:gravity="center"
+            android:text="支付宝支付"
+            android:textColor="#FD4A2E"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/card_pay_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/actionsheet_bottom_selector"
+            android:gravity="center"
+            android:text="储值卡支付"
+            android:textColor="#FD4A2E"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/item4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/actionsheet_single_selector"
+            android:gravity="center"
+            android:text="取消支付"
+            android:textColor="#8F8F8F"
+            android:textSize="16sp" />
     </LinearLayout>
 </LinearLayout>

@@ -368,6 +368,7 @@
     <color name="color_999999">#999999</color>
     <color name="color_bf1a1p">#bf1a19</color>
     <color name="color_ededed">#ededed</color>
+    <color name="color_0088d1">#0088d1</color>
 
     <style name="NoticeTabLayoutStyle">
         <item name="android:textSize">16sp</item>
@@ -394,6 +395,42 @@
         <item name="android:textSize">14sp</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="order_desc_title">
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/color_0088d1</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingRight">@dimen/app_margin</item>
+        <item name="android:paddingLeft">@dimen/app_margin</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="order_desc_item_layout">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="order_desc_sub">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/color_888</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_marginRight">5dp</item>
+    </style>
+
+    <style name="order_desc_info">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/title_color</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">5dp</item>
     </style>
 
 

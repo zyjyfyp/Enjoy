@@ -225,39 +225,50 @@
                 android:layout_marginLeft="@dimen/app_margin"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:weightSum="6">
+                android:weightSum="13">
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="2" />
 
                 <TextView
                     android:id="@+id/goods_desc_online_service"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:drawableTop="@mipmap/online_service"
                     android:gravity="center"
                     android:paddingTop="5dp"
                     android:text="联系客服"
                     android:textSize="13sp" />
 
-                <TextView
-                    android:id="@+id/goods_desc_add_goods"
+
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:text="加入购物车"
-                    android:textColor="@color/title_color"
-                    android:textSize="15sp" />
+                    android:layout_weight="4"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="2px"
+                        android:layout_height="match_parent"
+                        android:background="@color/color_f5f7fa" />
+
+                    <TextView
+                        android:id="@+id/goods_desc_add_goods"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="加入购物车"
+                        android:textSize="15sp" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/goods_desc_now_buy"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:layout_weight="4"
                     android:background="@mipmap/btn_bg"
                     android:gravity="center"
                     android:text="立即购买"
@@ -269,7 +280,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:weightSum="6">
+                android:weightSum="13">
 
                 <ImageView
                     android:id="@+id/goods_desc_car"
@@ -277,7 +288,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/app_margin"
                     android:layout_marginLeft="@dimen/app_margin"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:src="@mipmap/goods_car_img" />
             </LinearLayout>
         </FrameLayout>

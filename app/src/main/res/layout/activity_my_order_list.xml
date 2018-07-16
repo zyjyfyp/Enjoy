@@ -5,46 +5,13 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/rl_title"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_alignParentTop="true"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/ybs">
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="我的订单"
-            android:textSize="18dip" />
-
-        <ImageView
-            android:id="@+id/iv_fanhui"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/fanhuijian"
-            android:textSize="18dip" />
-
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="10dp"
-        android:background="@color/gray" />
+    <include layout="@layout/back_action_bar" />
 
     <LinearLayout
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="0dp">
-
+        android:layout_height="32dp">
 
 
         <LinearLayout
@@ -54,15 +21,14 @@
             android:layout_weight="1"
             android:background="@android:color/white"
             android:gravity="center"
-            android:orientation="vertical"
-            android:paddingTop="0dp">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="待付款"
+                android:text="全部"
                 android:textColor="@color/all_wenzi"
                 android:textSize="16dp" />
         </LinearLayout>
@@ -83,7 +49,7 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="待发货"
+                android:text="待付款"
                 android:textColor="@color/all_wenzi"
                 android:textSize="16dp" />
         </LinearLayout>
@@ -103,7 +69,7 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="待收货"
+                android:text="待发货"
                 android:textColor="@color/all_wenzi"
                 android:textSize="16dp" />
         </LinearLayout>
@@ -123,7 +89,7 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="申请售后"
+                android:text="待收货"
                 android:textColor="@color/all_wenzi"
                 android:textSize="16dp" />
         </LinearLayout>
@@ -132,9 +98,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="2dp"
-        android:layout_marginTop="8dp"
         android:orientation="horizontal">
-
 
 
         <ImageView
@@ -142,7 +106,7 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:background="@color/hongse"
+            android:background="@color/color_theme"
             android:visibility="visible" />
 
         <ImageView

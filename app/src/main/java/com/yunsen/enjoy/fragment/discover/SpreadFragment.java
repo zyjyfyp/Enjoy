@@ -3,6 +3,7 @@ package com.yunsen.enjoy.fragment.discover;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.fragment.BaseFragment;
+import com.yunsen.enjoy.http.DataException;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.CarDetails;
@@ -17,6 +19,9 @@ import com.yunsen.enjoy.model.event.DiscoverEvent;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpFilterReqEvent;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
+import com.yunsen.enjoy.ui.recyclerview.LoadMoreLayout;
+import com.yunsen.enjoy.ui.recyclerview.RecyclerViewUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.FlowLayout;
 import com.yunsen.enjoy.widget.recyclerview.MultiItemTypeAdapter;
@@ -50,6 +55,7 @@ public class SpreadFragment extends BaseFragment implements MultiItemTypeAdapter
     private int mPosition = 0; //位置
     private int mPageIndex = 1;
     private boolean mIsLoadMore = false;
+    private LoadMoreLayout loadMoreLayout;
 
     @Override
     protected int getLayoutId() {
@@ -63,7 +69,10 @@ public class SpreadFragment extends BaseFragment implements MultiItemTypeAdapter
         recyclerSpread.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mDatas = new ArrayList<>();
         mAdapter = new SpreadAdapter(getActivity(), R.layout.spread_item, mDatas);
-        recyclerSpread.setAdapter(mAdapter);
+        HeaderAndFooterRecyclerViewAdapter footerRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
+        recyclerSpread.setAdapter(footerRecyclerViewAdapter);
+        loadMoreLayout = new LoadMoreLayout(getActivity());
+        RecyclerViewUtils.setFooterView(recyclerSpread, loadMoreLayout);
     }
 
     @Override
@@ -83,13 +92,16 @@ public class SpreadFragment extends BaseFragment implements MultiItemTypeAdapter
                 boolean hasMore = mAdapter.addBaseDatas(responseData);
                 if (hasMore) {
                     EventBus.getDefault().post(new DiscoverEvent(EventConstants.SHOW_HAS_MORE, mPosition));
+                    loadMoreLayout.goneView();
                 } else {
+                    loadMoreLayout.showLoadNoMore(null);
                     EventBus.getDefault().post(new DiscoverEvent(EventConstants.NO_MORE, mPosition));
                 }
             }
 
             @Override
             public void onError(Request request, Exception e) {
+                loadMoreLayout.showLoadNoMore(null);
                 EventBus.getDefault().post(new DiscoverEvent(EventConstants.NO_MORE, mPosition));
             }
         });

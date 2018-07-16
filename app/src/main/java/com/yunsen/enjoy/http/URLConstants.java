@@ -389,6 +389,11 @@ public class URLConstants {
      */
     public static final String USER_MESSAGE_LIST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_user_message_list";
 
+    /**
+     * 更改支付方式
+     */
+    public static final String EDIT_ORDERS_INFO_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/edit_orders_info";
+
     public static final String REALM_NAME_WEB = BuildConfig.ROOT_URL;
     public static final String REALM_NAME_HTTP = BuildConfig.ROOT_URL;
     public static final String REALM_NAME_LL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx";

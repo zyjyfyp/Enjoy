@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/back_action_bar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <TextView
+            style="@style/order_desc_title"
+            android:text="订单信息" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/app_margin"
+            android:layout_marginRight="@dimen/app_margin"
+            android:background="@color/color_f5f7fa" />
+
+        <LinearLayout style="@style/order_desc_item_layout">
+
+            <TextView
+                style="@style/order_desc_sub"
+                android:text="订单号" />
+
+            <TextView style="@style/order_desc_info" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/order_desc_item_layout">
+
+            <TextView
+                style="@style/order_desc_sub"
+                android:text="订单号" />
+
+            <TextView style="@style/order_desc_info" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/order_desc_item_layout">
+
+            <TextView
+                style="@style/order_desc_sub"
+                android:text="订单号" />
+
+            <TextView style="@style/order_desc_info" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/order_desc_item_layout">
+
+            <TextView
+                style="@style/order_desc_sub"
+                android:text="订单号" />
+
+            <TextView style="@style/order_desc_info" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/order_desc_item_layout">
+
+            <TextView
+                style="@style/order_desc_sub"
+                android:text="订单号" />
+
+            <TextView style="@style/order_desc_info" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/order_desc_item_layout">
+
+            <TextView
+                style="@style/order_desc_sub"
+                android:text="订单号" />
+
+            <TextView style="@style/order_desc_info" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/order_desc_item_layout">
+
+            <TextView
+                style="@style/order_desc_sub"
+                android:text="订单号" />
+
+            <TextView style="@style/order_desc_info" />
+
+        </LinearLayout>
+        <!--收货信息-->
+        <TextView
+            style="@style/order_desc_title"
+            android:text="收货信息" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/app_margin"
+            android:layout_marginRight="@dimen/app_margin"
+            android:background="@color/color_f5f7fa" />
+
+        <LinearLayout style="@style/order_desc_item_layout">
+
+            <TextView
+                style="@style/order_desc_sub"
+                android:text="订单号" />
+
+            <TextView style="@style/order_desc_info" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/order_desc_item_layout">
+
+            <TextView
+                style="@style/order_desc_sub"
+                android:text="订单号" />
+
+            <TextView style="@style/order_desc_info" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/order_desc_item_layout">
+
+            <TextView
+                style="@style/order_desc_sub"
+                android:text="订单号" />
+
+            <TextView style="@style/order_desc_info" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/order_desc_item_layout">
+
+            <TextView
+                style="@style/order_desc_sub"
+                android:text="订单号" />
+
+            <TextView style="@style/order_desc_info" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/order_desc_item_layout">
+
+            <TextView
+                style="@style/order_desc_sub"
+                android:text="订单号" />
+
+            <TextView style="@style/order_desc_info" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

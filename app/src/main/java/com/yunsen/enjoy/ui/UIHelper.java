@@ -1154,6 +1154,20 @@ public class UIHelper {
     }
 
     /**
+     * 储值卡支付
+     *
+     * @param act
+     * @param orderNo
+     */
+    public static void showTishiCardPayActivity(Activity act, String orderNo) {
+        Intent intent = new Intent(act, TishiCarArchivesActivity.class);
+        intent.putExtra("order_no", orderNo);
+        intent.putExtra("order_yue", "order_yue");
+        intent.putExtra(Constants.IS_CARD_MONEY, true);
+        act.startActivityForResult(intent, Constants.BALANCE_PAY_REQUEST);
+    }
+
+    /**
      * 已成为代理
      *
      * @param ctx

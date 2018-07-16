@@ -1089,7 +1089,7 @@ public class HttpProxy {
         param.put("user_id", userId);//: 用户id,id: 用户id
         param.put("page_size", "10");
         param.put("page_index", pageIndex);
-        param.put("strwhere", Constants.EMPTY);
+        param.put("strwhere", "datediff(month,add_time ,getdate())=0 and payment_status=2");
         param.put("orderby", Constants.EMPTY);
 
         HttpClient.get(URLConstants.ORDER_LIST_URL, param, new HttpResponseHandler<OrderResponse>() {
@@ -2496,7 +2496,33 @@ public class HttpProxy {
                 callBack.onError(request, e);
             }
         });
+    }
 
+    /**
+     * 更新支付方式
+     *
+     * @param callBack
+     */
+    public static void editOrdersInfo(String tradeNo, String paymentId, final HttpCallBack<Boolean> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put(SpConstants.USER_ID, AccountUtils.getUser_id());
+        param.put("trade_no", tradeNo);
+        param.put("payment_id", paymentId);
+
+        HttpClient.get(URLConstants.EDIT_ORDERS_INFO_URL, param, new HttpResponseHandler<OneNoticeListResponse>() {
+            @Override
+            public void onSuccess(OneNoticeListResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(true);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onSuccess(false);
+                callBack.onError(request, e);
+            }
+        });
     }
 
 }

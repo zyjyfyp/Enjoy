@@ -488,7 +488,6 @@
                             android:background="@null"
                             android:imeOptions="actionNext"
                             android:singleLine="true"
-                            android:text="查看全部订单"
                             android:textColor="@color/ban_louming"
                             android:textSize="13sp"
                             android:visibility="gone" />
@@ -508,7 +507,6 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:gravity="right"
-                        android:hint="查看全部订单"
                         android:textColor="@color/all_wenzi"
                         android:textColorHint="@color/all_c1c1c1"
                         android:textSize="13sp"

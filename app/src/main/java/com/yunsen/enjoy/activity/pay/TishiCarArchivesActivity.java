@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
@@ -38,9 +40,7 @@ import org.json.JSONObject;
 public class TishiCarArchivesActivity extends Activity implements OnClickListener {
     private TextView btnConfirm;//
     private TextView btnCancle, tv_yue;//
-    private Intent intent;
     public Activity mContext;
-    public static Handler handler;
     String user_name, user_id, pwd;
     private EditText zhidupess;
     private DialogProgress progress;
@@ -69,22 +69,9 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
     protected void initUI() {
         zhidupess = (EditText) findViewById(R.id.et_user_pwd);
         btnConfirm = (TextView) findViewById(R.id.btnConfirm);//
-        btnConfirm.setOnClickListener(this);//
         btnCancle = (TextView) findViewById(R.id.btnCancle);//
-        //		tv_yue =(TextView) findViewById(R.id.tv_yue);
-        //		System.out.println("amount-------------"+amount);
-        //		tv_yue.setText("你剩余的余额为¥"+amount);
-
         btnCancle.setOnClickListener(this);//
-
-        handler = new Handler() {
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case 8:
-
-                }
-            }
-        };
+        btnConfirm.setOnClickListener(this);//
     }
 
 
@@ -93,20 +80,15 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
      */
     @Override
     public void onClick(View v) {
-
-
-        intent = new Intent();
         switch (v.getId()) {
             case R.id.btnConfirm://取消
-                //			String yue_fanhui = getIntent().getStringExtra("yue");
+                yue_zhuangtai = "1";
                 setResult(RESULT_OK);
                 finish();
-                yue_zhuangtai = "1";
                 break;
             case R.id.btnCancle://
                 pwd = zhidupess.getText().toString().trim();
-                System.out.println("pwd-------------" + pwd);
-                if (pwd.equals("")) {
+                if (TextUtils.isEmpty(pwd)) {
                     Toast.makeText(TishiCarArchivesActivity.this, "请输入密码", Toast.LENGTH_SHORT).show();
                 } else {
                     String yue = getIntent().getStringExtra("yue");
@@ -121,7 +103,6 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
                     } else {
                         ShouhuoOK(order_no);
                     }
-
                 }
                 break;
 
@@ -146,24 +127,28 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
                     if (status.equals("y")) {
                         JSONObject obj = object.getJSONObject("data");
                         amount = obj.getString("amount");
+                        String cardMoney = obj.getString("card");
                         String point = obj.getString("point");
                         String jubi = getIntent().getStringExtra("jubi");
                         String title = getIntent().getStringExtra("title");
+                        boolean isCard = getIntent().getBooleanExtra(Constants.IS_CARD_MONEY, false);
+
                         tv_yue = (TextView) findViewById(R.id.tv_yue);
                         if (title != null) {
                             tv_yue.setText("提示");
                         } else {
-                            if (jubi != null) {
-                                tv_yue.setText("您剩余的福利为¥" + point);
-                                System.out.println("point-------------" + point);
-                            } else {
+                            if (isCard) {
+                                tv_yue.setText("您的剩余储值卡为¥" + cardMoney);
+                            }else {
                                 tv_yue.setText("您剩余的余额为¥" + amount);
-                                System.out.println("amount-------------" + amount);
                             }
                         }
                     } else {
                     }
-                } catch (JSONException e) {
+                } catch (
+                        JSONException e)
+
+                {
 
                     e.printStackTrace();
                 }
@@ -240,7 +225,6 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
                                     progress.CloseProgress();
                                     Toast.makeText(TishiCarArchivesActivity.this, info, Toast.LENGTH_SHORT).show();
                                 }
-
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -248,10 +232,7 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
 
                         @Override
                         public void onFailure(Throwable arg0, String arg1) {
-
                             super.onFailure(arg0, arg1);
-                            System.out.println("arg0-------------" + arg0);
-                            System.out.println("arg1-------------" + arg1);
                             Toast.makeText(TishiCarArchivesActivity.this, "异常", Toast.LENGTH_SHORT).show();
                         }
 
@@ -271,8 +252,6 @@ public class TishiCarArchivesActivity extends Activity implements OnClickListene
      */
     public void ShouhuoOK(String order_no) {
         progress.CreateProgress();
-        System.out.println("order_no=================================" + order_no);
-        System.out.println("login_sign=================================" + pwd);
         AsyncHttp.get(URLConstants.REALM_NAME_LL
                         + "/update_order_complete?user_id=" + user_id + "&user_name=" + user_name + "" +
                         "&trade_no=" + order_no + "&paypassword=" + pwd + "",

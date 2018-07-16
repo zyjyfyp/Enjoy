@@ -24,7 +24,7 @@ public class OrderNumberAdapter extends CommonAdapter<ListOrderCountBean> {
         holder.setText(R.id.order_item_type, listOrderCountBean.getDatatype());
         holder.setText(R.id.order_item_name, listOrderCountBean.getNick_name());
         holder.setText(R.id.order_item_id, listOrderCountBean.getUser_code());
-        holder.setText(R.id.order_item_money, "" + listOrderCountBean.getPaycount());
-        holder.setText(R.id.order_item_income, "" + listOrderCountBean.getReal_amount());
+        holder.setText(R.id.order_item_money, "" +listOrderCountBean.getReal_amount());
+        holder.setText(R.id.order_item_income, "" +  listOrderCountBean.getPaycount());
     }
 }

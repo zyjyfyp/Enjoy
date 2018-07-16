@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -53,7 +54,6 @@ import java.util.List;
  */
 public class MyOrderActivity extends AppCompatActivity implements OnClickListener {
     private ImageView iv_fanhui, cursor2, cursor3, cursor4, cursor5;
-    private Button fanhui, btn_chongzhi;
     private LinearLayout index_item1, index_item2, index_item3, index_item4;
     private SharedPreferences spPreferences;
     private PullToRefreshView refresh;
@@ -68,13 +68,11 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
     int len;
     String strwhere = "datatype=1";
     private int RUN_METHOD = -1;
-    String recharge_no, total_c;
     LinearLayout no_data_no;
-    String payment_status;
     String type = "";
     public static boolean teby = false;
     public static String notify_url;
-    private Activity activity;
+    private String status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +87,8 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
         list = new ArrayList<MyOrderData>();
         madapter = new MyOrderllAdapter(list, MyOrderActivity.this, handler);
         my_list.setAdapter(madapter);
+        //		//判断状态到界面
+       status = getIntent().getStringExtra("status");
     }
 
     @Override
@@ -101,27 +101,24 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
             if (teby == true) {
                 //				userloginqm();
             }
-
-            //		//判断状态到界面
-            String status = getIntent().getStringExtra("status");
             if (status != null) {
                 if (status.equals("0")) {
-                    item1();
+                    item2();
                     strwhere = "datatype=1";
                     //				list.clear();
                     load_list(true, strwhere);
                 } else if (status.equals("1")) {
-                    item2();
+                    item3();
                     strwhere = "payment_status=1%20and%20datatype=1";
                     //				list.clear();
                     load_list(true, strwhere);
                 } else if (status.equals("2")) {
-                    item3();
+                    item4();
                     strwhere = "payment_status=2%20and%20express_status=1%20and%20status=2%20and%20datatype=1";
                     //				list.clear();
                     load_list(true, strwhere);
                 } else if (status.equals("3")) {
-                    item4();
+                    item5();
                     strwhere = "payment_status=2%20and%20express_status=2%20and%20status=2%20and%20datatype=1";
                     //				list.clear();
                     load_list(true, strwhere);
@@ -134,7 +131,6 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
             } else {
                 load_list(true, strwhere);
             }
-
         } catch (Exception e) {
 
             e.printStackTrace();
@@ -202,16 +198,16 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
             index_item3.setOnClickListener(this);
             index_item4.setOnClickListener(this);
 
-            ImageView iv_fanhui = (ImageView) findViewById(R.id.iv_fanhui);
+            ImageView iv_fanhui = (ImageView) findViewById(R.id.action_back);
+            TextView titleView = (TextView) findViewById(R.id.action_bar_title);
+            titleView.setText("我的订单");
             iv_fanhui.setOnClickListener(new OnClickListener() {
 
                 @Override
                 public void onClick(View arg0) {
-
                     finish();
                 }
             });
-
         } catch (Exception e) {
 
             e.printStackTrace();
@@ -222,51 +218,45 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
     public void onClick(View v) {
 
         switch (v.getId()) {
-
             case R.id.index_item1:
                 item2();
+                list = new ArrayList<MyOrderData>();
+                System.out.println("list状态==============" + list.size());
+                strwhere = "datatype=1";
+                System.out.println("=========66============" + strwhere);
+                load_list(true, strwhere);
+                break;
+
+            case R.id.index_item2:
+                item3();
                 list = new ArrayList<MyOrderData>();
                 System.out.println("list状态==============" + list.size());
                 strwhere = "payment_status=1%20and%20datatype=1";
                 System.out.println("=========22============" + strwhere);
                 load_list(true, strwhere);
                 break;
-            case R.id.index_item2:
-                item3();
+            case R.id.index_item3:
+                item4();
                 list = new ArrayList<MyOrderData>();
                 System.out.println("list状态==============" + list.size());
                 strwhere = "payment_status=2%20and%20express_status=1%20and%20status=2%20and%20datatype=1";
                 System.out.println("=========33============" + strwhere);
                 load_list(true, strwhere);
                 break;
-            case R.id.index_item3:
-                item4();
+            case R.id.index_item4:
+                item5();
                 list = new ArrayList<MyOrderData>();
                 System.out.println("list状态==============" + list.size());
                 strwhere = "payment_status=2%20and%20express_status=2%20and%20status=2%20and%20datatype=1";
                 System.out.println("=========55============" + strwhere);
                 load_list(true, strwhere);
                 break;
-            case R.id.index_item4:
-                item5();
-                list = new ArrayList<MyOrderData>();
-                System.out.println("list状态==============" + list.size());
-                strwhere = "payment_status=2%20and%20express_status=2%20and%20status=3%20and%20datatype=1";
-                System.out.println("=========66============" + strwhere);
-                load_list(true, strwhere);
-                break;
-
             default:
                 break;
         }
     }
 
-    private void item1() {
-        cursor2.setVisibility(View.INVISIBLE);
-        cursor3.setVisibility(View.INVISIBLE);
-        cursor4.setVisibility(View.INVISIBLE);
-        cursor5.setVisibility(View.INVISIBLE);
-    }
+
 
     private void item2() {
         cursor2.setVisibility(View.VISIBLE);

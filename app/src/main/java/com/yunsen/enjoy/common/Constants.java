@@ -32,6 +32,7 @@ public class Constants {
     public static final int EMIL = 2;
     public static final int ONLINE_QQ = 3;
     public static final String EMPTY = "";
+    public static final String IS_CARD_MONEY = "is_card_money";
 //    public static final String APP_SECRET = "";
 //appId=wxe60c28541b0fa8a2&body=zyjytest&device_info=1000&key=ca30ef7495cdd92ee94e1190f78a8735&mch_id=1502153101&nonce_str=ibuaiVcKdpRxkhJA
 
@@ -42,6 +43,7 @@ public class Constants {
     public static final int BALANCE_PAY_TYPE = 2; //余额
     public static final int ALIPAY_TYPE = 3;  //z支付宝
     public static final int WEI_XIN_PAY_TYPE = 5;//微信
+    public static final int CARD_PAY_TYPE = 9;//储值卡支付
     /**
      * 买车界面
      */

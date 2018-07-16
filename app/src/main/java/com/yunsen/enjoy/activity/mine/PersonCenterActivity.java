@@ -247,7 +247,6 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
         networkImage.setOnClickListener(this);
         emilTv.setOnClickListener(this);
         String version = getAppVersionName(PersonCenterActivity.this);
-        System.out.println("c_version==============" + version);
         tv_banbenhao.setText(version);
         tv_banbenhao.setOnClickListener(new OnClickListener() {
             @Override
@@ -322,7 +321,6 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                             data.email = obj.getString("email");
                             mBirthday = obj.getString("birthday");
                             mQQData = obj.getString("qq");
-                            Log.e("nihoa", "onSuccess: " + mBirthday);
                             if (mBirthday != null) {
                                 mBirthday = mBirthday.trim();
                                 int endIndex = mBirthday.indexOf(" ");
@@ -343,12 +341,11 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                                 }
 
                                 String nickname = mSp.getString(SpConstants.NICK_NAME, "");
-                                System.out.println("=============nickname======" + nickname);
                                 if (!nickname.equals("")) {
                                     tv_nicheng.setText(nickname);
                                 } else {
-                                    if (nick_name.equals("")) {
-                                        tv_nicheng.setText("请输入您的昵称");
+                                    if (TextUtils.isEmpty(nick_name)) {
+                                        tv_nicheng.setHint("请输入您的昵称");
                                     } else {
                                         tv_nicheng.setText(nick_name);
                                     }
@@ -384,12 +381,6 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                                             .transform(new GlideCircleTransform(PersonCenterActivity.this))
                                             .into(networkImage);
                                 }
-//                                if (SpConstants.OK.equals(data.avatar)) {
-//                                    GetImgUtil.loadLocationImg(PersonCenterActivity.this, networkImage);
-//                                } else {
-//                                    ToastUtils.makeTextShort("需要默认图片");
-//                                }
-
 
                             } catch (Exception e) {
 
@@ -415,12 +406,11 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                             tv_jxdizhi = (TextView) findViewById(R.id.tv_jxdizhi);
                             tv_xqdizhi = (TextView) findViewById(R.id.tv_xqdizhi);
 
-
                             if (bean.province.equals("")) {
                                 ll_shenji.setVisibility(View.GONE);
                                 vi_shenji.setVisibility(View.GONE);
                             } else {
-                                ll_shenji.setVisibility(View.VISIBLE);
+//                                ll_shenji.setVisibility(View.VISIBLE);
                                 vi_shenji.setVisibility(View.VISIBLE);
                                 tv_name.setText(bean.contact);
                                 tv_shenfenzheng.setText(bean.idcard);
@@ -497,8 +487,6 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                             float server_version = Float.parseFloat(file_version.replaceAll("\\.", ""));//服务器
                             float client_version = Float.parseFloat(c_version);//当前
                             content = "有最新版本了，服务器" + file_version + "是否替换当前版本" + version;
-                            System.out.println("content==============" + content);
-                            System.out.println("服务器:" + server_version + "/当前:" + client_version);
                             if (server_version > client_version) {
                                 Message message = new Message();
                                 message.what = 0;
@@ -566,7 +554,7 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                 showDatePicker();
                 break;
             case R.id.logout_layout:
-               DialogUtils.showLoginDialog(this);
+                DialogUtils.showLoginDialog(this);
                 break;
             default:
                 break;
@@ -695,43 +683,6 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
         }
     }
 
-    /**
-     * 裁剪图片方法实现
-     *
-     * @param uri
-     */
-    protected void startPhotoZoom(Uri uri) {
-        if (uri == null) {
-            Log.i("tag", "The uri is not exist.");
-        }
-        tempUri = uri;
-        //		System.out.println("裁剪图片方法实现================"+tempUri);
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        // 设置裁剪
-        intent.putExtra("crop", "true");
-        // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        // outputX outputY 是裁剪图片宽高
-        intent.putExtra("outputX", 300);
-        intent.putExtra("outputY", 300);
-        intent.putExtra("return-data", true);
-        startActivityForResult(intent, CROP_SMALL_PICTURE);
-    }
-
-    public void saveBitmapFile(Bitmap bitmap) {
-        File file = new File("/mnt/sdcard/pic/01.jpg");//将要保存图片的路径
-        try {
-            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-
-            bos.flush();
-            bos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * 保存裁剪之后的图片数据
@@ -743,9 +694,6 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
         Bundle extras = data.getExtras();
         Bitmap photo = extras.getParcelable("data");
         if (extras != null) {
-            //			photo = Utils.toRoundBitmap(photo, tempUri); // 这个时候的图片已经被处理成圆形的了
-            System.out.println("图片的值1=================" + photo);
-            System.out.println("图片的值2=================" + tempUri);
             networkImage.setImageBitmap(photo);
             try {
                 imagePath = Utils.savePhoto(photo, Environment.getExternalStorageDirectory().getAbsolutePath(),
@@ -756,14 +704,11 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                     public void run() {
                         try {
                             FTPClient client = new FTPClient();
-                            //							client.connect("183.62.138.31", 2021);
-                            //							client.login("zams", "yunsen1230.");
                             client.connect("60.205.151.160", 2021);
                             client.login("zams", "zams1230.");
                             SimpleDateFormat f = new SimpleDateFormat("yyyyMMddHHmmssSSS");
                             time = f.format(new Date());
                             yth = MineFragment.yth;   // TODO: 2018/4/24 yth 是什么值
-
                             String remotePathTmp = "phone/" + "" + yth + "";//路径
                             System.out.println("========================" + remotePathTmp);
 
@@ -964,81 +909,6 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
         return versionName;
     }
 
-
-    private LayoutInflater mLayoutInflater;
-    private View popView;
-    private PopupWindow mPopupWindow;
-
-//    private void initPopupWindow() {
-//        mLayoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-//        popView = mLayoutInflater.inflate(R.layout.chose_payment, null);
-//        mPopupWindow = new PopupWindow(popView, LayoutParams.MATCH_PARENT,
-//                LayoutParams.WRAP_CONTENT);
-//        // mPopupWindow.setBackgroundDrawable(new
-//        // BitmapDrawable());//必须设置background才能消失
-//        mPopupWindow.setBackgroundDrawable(getResources().getDrawable(
-//                R.color.grey));
-//        mPopupWindow.setOutsideTouchable(true);
-//        // 自定义动画
-//        // mPopupWindow.setAnimationStyle(R.style.PopupAnimation);
-//        // 使用系统动画
-//        mPopupWindow.setAnimationStyle(android.R.style.Animation_Toast);
-//        mPopupWindow.update();
-//        mPopupWindow.setTouchable(true);
-//        mPopupWindow.setFocusable(true);
-//        bank_item = (WheelViewll) popView.findViewById(R.id.bank_item);
-//        Button cancle = (Button) popView.findViewById(R.id.cancle);
-//        Button sure = (Button) popView.findViewById(R.id.sure);
-//        String[] name = new String[2];
-//        name[0] = "登录密码";
-//        name[1] = "支付密码";
-//        ArrayWheelAdapterll<String> bankAdapter = new ArrayWheelAdapterll<String>(
-//                name);
-//        bank_item.setAdapter(bankAdapter);
-//
-//        cancle.setOnClickListener(new OnClickListener() {
-//
-//            @Override
-//            public void onClick(View arg0) {
-//
-//
-//
-//                dissPop();
-//            }
-//        });
-//        sure.setOnClickListener(new OnClickListener() {
-//
-//            @Override
-//            public void onClick(View arg0) {
-//
-//                int index = bank_item.getCurrentItem();
-//                Intent intent = new Intent(PersonCenterActivity.this,
-//                        ModPassActivity.class);
-//                intent.putExtra("tag", index);
-//                startActivity(intent);
-//
-//                dissPop();
-//            }
-//        });
-//    }
-//
-//    private void showPopupWindow(View view) {
-//        if (!mPopupWindow.isShowing()) {
-//            // mPopupWindow.showAsDropDown(view,0,0);
-//            // 第一个参数指定PopupWindow的锚点view，即依附在哪个view上。
-//            // 第二个参数指定起始点为parent的右下角，第三个参数设置以parent的右下角为原点，向左、上各偏移10像素。
-//            // int[] location = new int[2];
-//            // view.getLocationOnScreen(location);
-//            mPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-//        }
-//    }
-
-    private void dissPop() {
-        if (mPopupWindow != null && mPopupWindow.isShowing()) {
-            mPopupWindow.dismiss();
-        }
-    }
-
     // 程序版本更新
     private void dialog() {
 
@@ -1082,82 +952,6 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                 });
         builder.create().show();
     }
-
-    public static File getFileFromServer(String path, ProgressDialog pd)
-            throws Exception {
-        // 如果相等的话表示当前的sdcard挂载在手机上并且是可用的
-        if (Environment.getExternalStorageState().equals(
-                Environment.MEDIA_MOUNTED)) {
-            java.net.URL url = new URL(path);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setConnectTimeout(5000);
-            // 获取到文件的大小
-            pd.setMax(conn.getContentLength());
-            InputStream is = conn.getInputStream();
-            File file = new File(Environment.getExternalStorageDirectory(),
-                    "updata.apk");
-            FileOutputStream fos = new FileOutputStream(file);
-            BufferedInputStream bis = new BufferedInputStream(is);
-            byte[] buffer = new byte[1024];
-            int len;
-            int total = 0;
-            while ((len = bis.read(buffer)) != -1) {
-                fos.write(buffer, 0, len);
-                total += len;
-                // 获取当前下载量
-                pd.setProgress(total);
-            }
-            fos.close();
-            bis.close();
-            is.close();
-            return file;
-        } else {
-            return null;
-        }
-    }
-
-    /*
-     * 从服务器中下载APK
-     */
-    protected void downLoadApk() {
-        final ProgressDialog pd; // 进度条对话框
-        pd = new ProgressDialog(PersonCenterActivity.this);
-        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        pd.setCanceledOnTouchOutside(true);
-        pd.setProgressNumberFormat(null);
-        pd.setMessage("正在下载更新");
-        zhuangtai = true;
-        pd.show();
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    File file = getFileFromServer(URL, pd);
-                    sleep(3000);
-                    installApk(file);
-                    pd.dismiss(); // 结束掉进度条对话框
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-    }
-
-    // 安装apk
-    protected void installApk(File file) {
-//        MainFragment.zhuangtai = false;
-//        UserLoginActivity.zhuangtai = false;
-        PersonCenterActivity.zhuangtai = false;
-        Intent intent = new Intent();
-        // 执行动作
-        intent.setAction(Intent.ACTION_VIEW);
-        // 执行的数据类型
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setDataAndType(Uri.fromFile(file),
-                "application/vnd.android.package-archive");// 编者按：此处Android应为android，否则造成安装不了
-        PersonCenterActivity.this.startActivity(intent);
-    }
-
     /**
      * 修改地区
      */

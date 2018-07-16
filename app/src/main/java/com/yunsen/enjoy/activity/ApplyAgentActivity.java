@@ -65,6 +65,11 @@ public class ApplyAgentActivity extends BaseFragmentActivity {
     ImageView payTypeImg2;
     @Bind(R.id.pay_type_img_3)
     ImageView payTypeImg3;
+    @Bind(R.id.pay_type_img_4)
+    ImageView payTypeImg4;
+    @Bind(R.id.pay_type_layout_4)
+    LinearLayout payTypeLayout4;
+
     @Bind(R.id.select_pay_type_layout)
     LinearLayout selectPayTypeLayout;
     @Bind(R.id.select_city_layout)
@@ -98,6 +103,7 @@ public class ApplyAgentActivity extends BaseFragmentActivity {
     protected void initView() {
         ButterKnife.bind(this);
         actionBarTitle.setText("申请代理");
+        payTypeLayout4.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -139,7 +145,7 @@ public class ApplyAgentActivity extends BaseFragmentActivity {
 
 
     @OnClick({R.id.action_back, R.id.select_city_layout, R.id.pay_type_layout, R.id.pay_type_layout_2,
-            R.id.pay_type_layout_3, R.id.next_btn, R.id.back_to_mine})
+            R.id.pay_type_layout_3, R.id.next_btn, R.id.back_to_mine, R.id.pay_type_layout_4})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.action_back:
@@ -159,19 +165,30 @@ public class ApplyAgentActivity extends BaseFragmentActivity {
                 payTypeImg.setSelected(true);
                 payTypeImg2.setSelected(false);
                 payTypeImg3.setSelected(false);
+                payTypeImg4.setSelected(false);
                 mPayType = Constants.WEI_XIN_PAY_TYPE;
                 break;
             case R.id.pay_type_layout_2:
                 payTypeImg.setSelected(false);
                 payTypeImg2.setSelected(true);
                 payTypeImg3.setSelected(false);
+                payTypeImg4.setSelected(false);
                 mPayType = Constants.ALIPAY_TYPE;
                 break;
             case R.id.pay_type_layout_3:
                 payTypeImg.setSelected(false);
                 payTypeImg2.setSelected(false);
                 payTypeImg3.setSelected(true);
+                payTypeImg4.setSelected(false);
                 mPayType = Constants.BALANCE_PAY_TYPE;
+                break;
+            case R.id.pay_type_layout_4:
+                payTypeImg.setSelected(false);
+                payTypeImg2.setSelected(false);
+                payTypeImg3.setSelected(false);
+                payTypeImg4.setSelected(true);
+                mPayType = Constants.CARD_PAY_TYPE;
+
                 break;
             case R.id.next_btn:
                 nextStep();
@@ -199,14 +216,14 @@ public class ApplyAgentActivity extends BaseFragmentActivity {
             selectCityLayout.setVisibility(View.GONE);
             mStep++;
         } else {
-            switch (mPayType) {
-                case Constants.BALANCE_PAY_TYPE:
-                    break;
-                case Constants.ALIPAY_TYPE:
-                    break;
-                case Constants.WEI_XIN_PAY_TYPE:
-                    break;
-            }
+//            switch (mPayType) {
+//                case Constants.BALANCE_PAY_TYPE:
+//                    break;
+//                case Constants.ALIPAY_TYPE:
+//                    break;
+//                case Constants.WEI_XIN_PAY_TYPE:
+//                    break;
+//            }
             toBuyRequest();
         }
     }
@@ -226,6 +243,9 @@ public class ApplyAgentActivity extends BaseFragmentActivity {
                     case Constants.WEI_XIN_PAY_TYPE:
                         PayMoneyProxy.getInstance().weiXinPay(ApplyAgentActivity.this, AccountUtils.getUser_id(), AccountUtils.getUserName(),
                                 mPayMoney, data.getRecharge_no(), mMyHandler);
+                        break;
+                    case Constants.CARD_PAY_TYPE:
+                        UIHelper.showTishiCardPayActivity(ApplyAgentActivity.this, data.getRecharge_no());
                         break;
                 }
             }

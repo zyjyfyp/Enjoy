@@ -98,12 +98,12 @@ public class OrderNumberActivity extends BaseFragmentActivity {
         HttpProxy.achievementContentRequest(mUrl, String.valueOf(mPageIndex), new HttpCallBack<AchieveInfoBean>() {
             @Override
             public void onSuccess(AchieveInfoBean responseData) {
-                mAdapter.upBaseDatas(responseData.getListOrderCount());
-                if (mIsLoadMore) {
+//                mAdapter.upBaseDatas(responseData.getListOrderCount());
+//                if (mIsLoadMore) {
                     mHasMore = mAdapter.addBaseDatas(responseData.getListOrderCount());
-                } else {
-                    mAdapter.upBaseDatas(responseData.getListOrderCount());
-                }
+//                } else {
+//                    mAdapter.upBaseDatas(responseData.getListOrderCount());
+//                }
                 if (mHasMore) {
                     mOnListener.onRefreshComplete();
                 } else {

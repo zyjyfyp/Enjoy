@@ -22,6 +22,8 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
+import com.yunsen.enjoy.http.HttpCallBack;
+import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.UserRegisterllData;
 import com.yunsen.enjoy.model.event.EventConstants;
@@ -39,9 +41,9 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
+import okhttp3.Request;
+
 /**
- *
- *
  * @author Administrator
  */
 public class MyOrderZFActivity extends AppCompatActivity implements OnClickListener {
@@ -88,6 +90,7 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
         TextView item2 = (TextView) findViewById(R.id.item2);
         TextView item3 = (TextView) findViewById(R.id.item3);
         TextView item4 = (TextView) findViewById(R.id.item4);
+        TextView cardPaytv = (TextView) findViewById(R.id.card_pay_tv);
         ll_zhifu_buju = (LinearLayout) findViewById(R.id.ll_zhifu_buju);
         if (mIsBecomeVip) {
             item0.setVisibility(View.GONE);
@@ -99,6 +102,7 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
         item2.setOnClickListener(this);
         item3.setOnClickListener(this);
         item4.setOnClickListener(this);
+        cardPaytv.setOnClickListener(this);
     }
 
     @Override
@@ -112,34 +116,21 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
 
         switch (v.getId()) {
             case R.id.item0:
-                // 余额支付
-                orderxq = getIntent().getStringExtra("5");
-                Intent intent = new Intent(MyOrderZFActivity.this, TishiCarArchivesActivity.class);
-                // intent.putExtra("order_type",order_type);
-                intent.putExtra("order_no", recharge_no);
-                intent.putExtra("order_yue", "order_yue");
-                intent.putExtra("orderxq", orderxq);
-                intent.putExtra("img_url", getIntent().getStringExtra("img_url"));
-                intent.putExtra("hd_title", getIntent().getStringExtra("title"));
-                intent.putExtra("start_time", getIntent().getStringExtra("start_time"));
-                intent.putExtra("end_time", getIntent().getStringExtra("end_time"));
-                intent.putExtra("address", getIntent().getStringExtra("address"));
-                intent.putExtra("id", getIntent().getStringExtra("id"));
-                intent.putExtra("real_name", getIntent().getStringExtra("real_name"));
-                intent.putExtra("mobile", getIntent().getStringExtra("mobile"));
-                startActivity(intent);
-                finish();
+                upPayment(recharge_no, Constants.BALANCE_PAY_TYPE);
                 break;
             case R.id.item1:
                 break;
             case R.id.item2:// 支付宝
-                loadzhidu(recharge_no);
+                upPayment(recharge_no, Constants.ALIPAY_TYPE);
                 break;
             case R.id.item3:// 微信
-                loadweixinzf2(recharge_no);
+                upPayment(recharge_no, Constants.WEI_XIN_PAY_TYPE);
                 break;
             case R.id.item4:
                 finish();
+                break;
+            case R.id.card_pay_tv:
+                upPayment(recharge_no, Constants.CARD_PAY_TYPE);
                 break;
             default:
                 break;
@@ -444,6 +435,73 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
                 + total_c + "\",\"subject\":\"袋鼠车宝\",\"body\":\"商品描述\",\"out_trade_no\":\"" + recharge_no + "\"}";
         Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(PayProxy.APPID, true, bizContent);
         PayProxy.payV2(this, handler, params);
+    }
+
+    /**
+     * 更新支付方式后支付
+     *
+     * @param tradeNo
+     * @param paymentId
+     */
+    public void upPayment(String tradeNo, int paymentId) {
+        final int fPaymentId = paymentId;
+        HttpProxy.editOrdersInfo(tradeNo, String.valueOf(paymentId), new HttpCallBack<Boolean>() {
+            @Override
+            public void onSuccess(Boolean responseData) {
+                switch (fPaymentId) {
+                    case Constants.BALANCE_PAY_TYPE:
+                        // 余额支付
+                        orderxq = getIntent().getStringExtra("5");
+                        Intent intent = new Intent(MyOrderZFActivity.this, TishiCarArchivesActivity.class);
+                        intent.putExtra("order_no", recharge_no);
+                        intent.putExtra("order_yue", "order_yue");
+                        intent.putExtra("orderxq", orderxq);
+                        intent.putExtra("img_url", getIntent().getStringExtra("img_url"));
+                        intent.putExtra("hd_title", getIntent().getStringExtra("title"));
+                        intent.putExtra("start_time", getIntent().getStringExtra("start_time"));
+                        intent.putExtra("end_time", getIntent().getStringExtra("end_time"));
+                        intent.putExtra("address", getIntent().getStringExtra("address"));
+                        intent.putExtra("id", getIntent().getStringExtra("id"));
+                        intent.putExtra("real_name", getIntent().getStringExtra("real_name"));
+                        intent.putExtra("mobile", getIntent().getStringExtra("mobile"));
+                        startActivity(intent);
+                        finish();
+                        break;
+                    case Constants.CARD_PAY_TYPE:
+                        // 储值卡支付
+                        orderxq = getIntent().getStringExtra("5");
+                        Intent intent2 = new Intent(MyOrderZFActivity.this, TishiCarArchivesActivity.class);
+                        // intent.putExtra("order_type",order_type);
+                        intent2.putExtra("order_no", recharge_no);
+                        intent2.putExtra("order_yue", "order_yue");
+                        intent2.putExtra("orderxq", orderxq);
+                        intent2.putExtra("img_url", getIntent().getStringExtra("img_url"));
+                        intent2.putExtra("hd_title", getIntent().getStringExtra("title"));
+                        intent2.putExtra("start_time", getIntent().getStringExtra("start_time"));
+                        intent2.putExtra("end_time", getIntent().getStringExtra("end_time"));
+                        intent2.putExtra("address", getIntent().getStringExtra("address"));
+                        intent2.putExtra("id", getIntent().getStringExtra("id"));
+                        intent2.putExtra("real_name", getIntent().getStringExtra("real_name"));
+                        intent2.putExtra("mobile", getIntent().getStringExtra("mobile"));
+                        intent2.putExtra(Constants.IS_CARD_MONEY, true);
+                        startActivity(intent2);
+                        finish();
+                        break;
+                    case Constants.WEI_XIN_PAY_TYPE:
+                        loadweixinzf2(recharge_no);
+                        break;
+                    case Constants.ALIPAY_TYPE:
+                        loadzhidu(recharge_no);
+                        break;
+
+                }
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
     }
 
 

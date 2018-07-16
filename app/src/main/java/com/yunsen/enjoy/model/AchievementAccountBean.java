@@ -13,7 +13,7 @@ public  class AchievementAccountBean {
 
     private int recordCount;
     private int orderCounts;
-    private int cumulative_income;
+    private double cumulative_income;
 
     public int getRecordCount() {
         return recordCount;
@@ -31,11 +31,11 @@ public  class AchievementAccountBean {
         this.orderCounts = orderCounts;
     }
 
-    public int getCumulative_income() {
+    public double getCumulative_income() {
         return cumulative_income;
     }
 
-    public void setCumulative_income(int cumulative_income) {
+    public void setCumulative_income(double cumulative_income) {
         this.cumulative_income = cumulative_income;
     }
 }

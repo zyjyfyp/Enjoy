@@ -21,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.alipay.sdk.app.PayTask;
 
 import com.hengyushop.dao.CardItem;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -46,11 +45,9 @@ import com.yunsen.enjoy.model.UserRegisterllData;
 import com.yunsen.enjoy.model.WxSignData;
 import com.yunsen.enjoy.model.event.EventConstants;
 import com.yunsen.enjoy.model.event.UpUiEvent;
-import com.yunsen.enjoy.thirdparty.Common;
 import com.yunsen.enjoy.thirdparty.PayProxy;
 import com.yunsen.enjoy.thirdparty.alipay.OrderInfoUtil2_0;
 import com.yunsen.enjoy.thirdparty.alipay.PayResult;
-import com.yunsen.enjoy.thirdparty.alipay.SignUtils;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.DialogProgress;
@@ -63,9 +60,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -75,15 +70,7 @@ import java.util.Map;
  * @author Administrator
  */
 public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnClickListener {
-    private String pwd;
     private DialogProgress progress;
-    private StringBuilder orderid;
-    private MyPopupWindowMenu popupWindowMenu;
-    private String trade_no;
-    private ArrayList<CardItem> banks = null;
-    private String bankNames[] = null;
-    private static final int REQUESTCODE = 10000;
-    private ArrayList<ShopCarts> carts;
     private TextView tv_user_name, tv_user_address, tv_user_phone, tv_hongbao;
     public static String user_name, user_id;
     private ImageButton btn_add_address;
@@ -104,14 +91,13 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     TextView tv_size, tv_zhifu;
     private String ZhiFuFangShi, express_id;
     private String jubi;
-    String type = "5"; // 5 微信支付, 3 支付宝支付  ,2 余额支付
+    String type = "5"; // 5 微信支付, 3 支付宝支付  ,2 余额支付  9 储值卡
     String notify_url;
     int kou_hongbao;
     private IWXAPI api;
-    private String partner_id, prepayid, noncestr, timestamp, package_, sign;
     private int len;
     String url;
-    String login_sign, dandu_goumai;
+    String login_sign;
     boolean flag;
     boolean hongbao_tety = true;
     String total_fee;
@@ -155,6 +141,8 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     int mQuantityCount = 0;
     private boolean mHasPay;
     private WxSignData mSignData;
+    private LinearLayout stordPayLayout;
+    private CheckBox storedCardPay;
 
 
     @Override
@@ -165,7 +153,6 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
 
     @Override
     protected void initView() {
-        popupWindowMenu = new MyPopupWindowMenu(this);
         progress = new DialogProgress(MyOrderConfrimActivity.this);
         api = WXAPIFactory.createWXAPI(MyOrderConfrimActivity.this, Constants.APP_ID, false);
 //        api.registerApp(Constants.APP_ID);
@@ -203,9 +190,11 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
         yu_pay0 = (LinearLayout) findViewById(R.id.yu_pay0);
         yu_pay1 = (LinearLayout) findViewById(R.id.yu_pay1);
         yu_pay2 = (LinearLayout) findViewById(R.id.yu_pay2);
+        stordPayLayout = (LinearLayout) findViewById(R.id.stored_card_pay_layout);
         yu_pay_c0 = (CheckBox) findViewById(R.id.yu_pay_c0);
         yu_pay_c1 = (CheckBox) findViewById(R.id.yu_pay_c1);
         yu_pay_c2 = (CheckBox) findViewById(R.id.yu_pay_c2);
+        storedCardPay = (CheckBox) findViewById(R.id.stored_card_pay);
 
 
         handlerll = new Handler() {
@@ -499,19 +488,17 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                     String province = data.getStringExtra("province");
                     String city = data.getStringExtra("city");
                     tv_user_name.setText("收货人:" + name);
-                    tv_user_address.setText("地址：" + province + "、" + city + "、" + user_area + "、"
-                            + user_address);
+                    tv_user_address.setText("地址：" + province + "、" + city + "、" + user_area + "、" + user_address);
                     tv_user_phone.setText(user_mobile);
                     break;
             }
         } else if (resultCode == 1 && requestCode == Constants.PAY_MONEY_ACT_REQUEST) {
             finish();
+        } else if (resultCode == 2) {
+            delayPayState(PAY_FINISH);
+        } else if (requestCode == 3) {
+            delayPayState(PAY_ORDER);
         }
-//        else if (resultCode == 2) {
-//            delayPayState(PAY_FINISH);
-//        } else if (requestCode == 3) {
-//            delayPayState(PAY_ORDER);
-//        }
         Logger.t(TAG).d("onActivityResult:resultCode= " + resultCode + " requestCode= " + requestCode);
     }
 
@@ -577,20 +564,20 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
         });
 
 
-        /**
-         * 微信支付
-         */
-        yu_pay_c0.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                yu_pay_c1.setChecked(false);
-                yu_pay_c2.setChecked(false);
-                yu_pay_c0.setChecked(true);
-                System.out.println("type======微信支付========" + type);
-                // 微信
-                type = "5";
-            }
-        });
+//        /**
+//         * 微信支付
+//         */
+//        yu_pay_c0.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View arg0) {
+//                yu_pay_c1.setChecked(false);
+//                yu_pay_c2.setChecked(false);
+//                yu_pay_c0.setChecked(true);
+//                storedCardPay.setChecked(false);
+//                // 微信
+//                type = "5";
+//            }
+//        });
         yu_pay0.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -598,34 +585,46 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 yu_pay_c1.setChecked(false);
                 yu_pay_c2.setChecked(false);
                 yu_pay_c0.setChecked(true);
-                System.out.println("type======微信支付========" + type);
+                storedCardPay.setChecked(false);
                 // 微信
                 type = "5";
             }
         });
-        /**
-         * 支付宝支付
-         */
-        yu_pay_c1.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                yu_pay_c0.setChecked(false);
-                yu_pay_c1.setChecked(true);
-                yu_pay_c2.setChecked(false);
-                System.out.println("type======支付宝支付========" + type);
-                // 支付宝
-                type = "3";
-            }
-        });
+//        /**
+//         * 支付宝支付
+//         */
+//        yu_pay_c1.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View arg0) {
+//                yu_pay_c0.setChecked(false);
+//                yu_pay_c1.setChecked(true);
+//                yu_pay_c2.setChecked(false);
+//                System.out.println("type======支付宝支付========" + type);
+//                // 支付宝
+//                type = "3";
+//            }
+//        });
         yu_pay1.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 yu_pay_c0.setChecked(false);
                 yu_pay_c1.setChecked(true);
                 yu_pay_c2.setChecked(false);
-                System.out.println("type======支付宝支付========" + type);
+                storedCardPay.setChecked(false);
                 // 支付宝
                 type = "3";
+            }
+        });
+
+        stordPayLayout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                yu_pay_c0.setChecked(false);
+                yu_pay_c1.setChecked(false);
+                yu_pay_c2.setChecked(false);
+                storedCardPay.setChecked(true);
+                // 储值卡
+                type = "9";
             }
         });
 
@@ -1014,6 +1013,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                     if ("y".equals(status)) {
                         JSONObject jsonObject = object.getJSONObject("data");
                         recharge_no = jsonObject.getString("trade_no");
+                        mTradeNo = recharge_no;
                         if ("1".equals(jiekou_type_ysj)) {
                             WareInformationActivity.jdh_type = "";
                             total_amount = jsonObject.getString("payable_amount");
@@ -1030,6 +1030,13 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                             Intent intent = new Intent(MyOrderConfrimActivity.this, TishiCarArchivesActivity.class);
                             intent.putExtra("order_no", recharge_no);
                             intent.putExtra("yue", "yue");
+                            startActivityForResult(intent, Constants.PAY_MONEY_ACT_REQUEST);
+                        } else if ("9".equals(type)) { //储值卡
+                            mHasPay = true;
+                            Intent intent = new Intent(MyOrderConfrimActivity.this, TishiCarArchivesActivity.class);
+                            intent.putExtra("order_no", recharge_no);
+                            intent.putExtra("yue", "yue");
+                            intent.putExtra(Constants.IS_CARD_MONEY, true);
                             startActivityForResult(intent, Constants.PAY_MONEY_ACT_REQUEST);
                         }
                     } else {
@@ -1133,7 +1140,6 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                         super.onSuccess(arg0, arg1);
                         try {
                             JSONObject object = new JSONObject(arg1);
-                            System.out.println("更新订单=================================" + arg1);
                             String status = object.getString("status");
                             String info = object.getString("info");
                             if (status.equals("y")) {
@@ -1241,47 +1247,6 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
 
     }
 
-    /**
-     * 余额支付
-     *
-     * @param
-     */
-    private void loadYue(String recharge_no) {
-        try {
-            AsyncHttp.get(URLConstants.REALM_NAME_LL + "/payment_balance?user_id="
-                            + user_id + "&user_name=" + user_name + "" + "&trade_no="
-                            + recharge_no + "&paypassword=" + pwd + "",
-
-                    new AsyncHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(int arg0, String arg1) {
-                            super.onSuccess(arg0, arg1);
-                            try {
-                                JSONObject object = new JSONObject(arg1);
-                                System.out.println("2================================="
-                                        + arg1);
-                                String status = object.getString("status");
-                                String info = object.getString("info");
-                                if (status.equals("y")) {
-                                    progress.CloseProgress();
-//                                    userloginqm();
-                                    finish();
-                                } else {
-                                    progress.CloseProgress();
-                                    Toast.makeText(MyOrderConfrimActivity.this, info, Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                    }, null);
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-    }
 
     private void ali_pay() {
         String bizContent = "{\"timeout_express\":\"30m\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\""
@@ -1312,6 +1277,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 yu_pay_c0.setChecked(false);
                 yu_pay_c1.setChecked(false);
                 yu_pay_c2.setChecked(true);
+                storedCardPay.setChecked(false);
                 // 余额支付
                 type = "2";
                 break;
