@@ -263,7 +263,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/app_margin"
-                android:text="申请服务商需要人工审核，请准备填写服务信息客服电话：400-120-5151"
+                android:text="申请服务商需要人工审核，请准备填写服务信息客服电话：400-8327-990"
                 android:textColor="@color/color_888"
                 android:textSize="13sp" />
 

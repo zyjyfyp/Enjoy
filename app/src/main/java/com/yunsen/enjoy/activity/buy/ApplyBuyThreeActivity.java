@@ -158,7 +158,8 @@ public class ApplyBuyThreeActivity extends BaseFragmentActivity {
             ToastUtils.makeTextShort("请上传银行流水照");
         } else {
             mRequsetData.setIdentity_card(icCard);
-            mRequsetData.setUser_name(name);
+            mRequsetData.setReal_name(name);
+            mRequsetData.setType("1");
             submitInfo();
         }
 

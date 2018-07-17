@@ -139,11 +139,7 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
     Handler handler = new Handler() {
 
         public void dispatchMessage(android.os.Message msg) {
-
             switch (msg.what) {
-                case 0:
-                    dialog();
-                    break;
                 case -1:
                     progress.CloseProgress();
                     break;
@@ -158,15 +154,11 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
                     break;
                 case 5:
                     try {
-                        System.out.println("=================2222222==" + mi);
                         strUrltwo = URLConstants.REALM_URL + "/mi/login.ashx?yth="
                                 + processParam(name) + "&pwd=" + mi + "&msisdn=";
                     } catch (UnsupportedEncodingException e) {
-
                         e.printStackTrace();
                     }
-
-                    System.out.println("strUrltwo   " + strUrltwo);
                     AsyncHttp.get(strUrltwo, new AsyncHttpResponseHandler() {
                         public void onSuccess(int arg0, String arg1) {
                             try {
@@ -195,15 +187,11 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
 
                         @Override
                         public void onFailure(Throwable arg0, String arg1) {
-
                             super.onFailure(arg0, arg1);
-                            Toast.makeText(PhoneLoginActivity.this, "连接超时",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PhoneLoginActivity.this, "连接超时", Toast.LENGTH_SHORT).show();
                         }
                     }, PhoneLoginActivity.this);
-
                     break;
-
                 default:
                     break;
             }
@@ -214,196 +202,6 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
 
     };
 
-    // 获取当前程序的版本信息
-    public static String getAppVersionName(Context context) {
-        String versionName = "";
-        try {
-            PackageManager pm = context.getPackageManager();
-            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
-            versionName = pi.versionName;
-            if (versionName == null || versionName.length() <= 0) {
-                return "";
-            }
-        } catch (Exception e) {
-            Log.e("VersionInfo", "Exception", e);
-        }
-        return versionName;
-    }
-
-    // private String strUrl = URLConstants.REALM_NAME_LL;
-    private String url, version, updatainfo;
-
-    // 解析服务器端的版本信息
-    public void xmlparse(String st) {
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory
-                    .newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(new ByteArrayInputStream(st
-                    .getBytes()));
-            NodeList nodeList1 = document.getElementsByTagName("version");
-            NodeList nodeList2 = document.getElementsByTagName("url");
-            NodeList nodeList3 = document.getElementsByTagName("updateInfo");
-            version = nodeList1.item(0).getTextContent();
-            url = nodeList2.item(0).getTextContent();
-            updatainfo = nodeList3.item(0).getTextContent();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void updata() {
-
-        try {
-            /**
-             * 版本2
-             */
-            AsyncHttp.get(strUr2, new AsyncHttpResponseHandler() {
-                @Override
-                public void onSuccess(int arg0, String arg1) {
-
-                    super.onSuccess(arg0, arg1);
-                    System.out.println("首页版本==============" + arg1);
-                    try {
-                        JSONObject jsonObject = new JSONObject(arg1);
-                        JSONObject jsob = jsonObject.getJSONObject("data");
-                        String file_version = jsob.getString("file_version");
-                        String link_url = jsob.getString("link_url");
-                        String file_path = jsob.getString("file_path");
-                        String id = jsob.getString("id");
-                        URL = URLConstants.REALM_NAME_HTTP + file_path;
-                        System.out.println("首页版本URL==============" + URL);
-                        String c_version = getAppVersionName(
-                                getApplicationContext()).trim().replaceAll(
-                                "\\.", "");
-                        float server_version = Float.parseFloat(file_version
-                                .replaceAll("\\.", ""));// 服务器
-                        float client_version = Float.parseFloat(c_version);// 当前
-
-                        System.out.println("服务器:" + server_version + "/当前:"
-                                + client_version);
-                        if (server_version > client_version) {
-                            // Toast.makeText(MainFragment.this, "提示更新",
-                            // 200).show();
-                            Message message = new Message();
-                            message.what = 0;
-                            handler.sendMessage(message);
-                        }
-                        // Toast.makeText(MainFragment.this, "没有提示更新",
-                        // 200).show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }, getApplicationContext());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static File getFileFromServer(String path, ProgressDialog pd)
-            throws Exception {
-        // 如果相等的话表示当前的sdcard挂载在手机上并且是可用的
-        if (Environment.getExternalStorageState().equals(
-                Environment.MEDIA_MOUNTED)) {
-            System.out.println("=====0==============");
-            java.net.URL url = new URL(path);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setConnectTimeout(5000);
-            // 获取到文件的大小
-            pd.setMax(conn.getContentLength());
-            InputStream is = conn.getInputStream();
-            File file = new File(Environment.getExternalStorageDirectory(),
-                    "updata.apk");
-            FileOutputStream fos = new FileOutputStream(file);
-            BufferedInputStream bis = new BufferedInputStream(is);
-            byte[] buffer = new byte[1024];
-            int len;
-            int total = 0;
-            System.out.println("=====1==============");
-            while ((len = bis.read(buffer)) != -1) {
-                System.out.println("=====2==============");
-                fos.write(buffer, 0, len);
-                total += len;
-                // 获取当前下载量
-                pd.setProgress(total);
-            }
-            fos.close();
-            bis.close();
-            is.close();
-            return file;
-        } else {
-            return null;
-        }
-    }
-
-    protected void downLoadApk() {
-        final ProgressDialog pd; // 进度条对话框
-        pd = new ProgressDialog(PhoneLoginActivity.this);
-        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        pd.setMessage("正在下载更新");
-        pd.setCanceledOnTouchOutside(false);
-        pd.setProgressNumberFormat(null);
-        zhuangtai = true;
-        pd.show();
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    System.out.println("=====URL==============" + URL);
-                    File file = getFileFromServer(URL, pd);
-                    sleep(3000);
-                    installApk(file);
-                    pd.dismiss(); // 结束掉进度条对话框
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-    }
-
-    /*
-     * Auto-generated method stub this.setResult(0);
-     * AppManager.getAppManager().finishActivity(); return true;
-     *
-     * }
-     */
-    // 安装apk
-    protected void installApk(File file) {
-        Intent intent = new Intent();
-        // 执行动作
-        intent.setAction(Intent.ACTION_VIEW);
-        // 执行的数据类型
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setDataAndType(Uri.fromFile(file),
-                "application/vnd.android.package-archive");// 编者按：此处Android应为android，否则造成安装不了
-        PhoneLoginActivity.this.startActivity(intent);
-    }
-
-    // 程序版本更新
-    private void dialog() {
-
-        AlertDialog.Builder builder = new Builder(PhoneLoginActivity.this);
-        // builder.setMessage(updatainfo);
-        builder.setMessage("检查到最新版本，是否要更新！");
-        builder.setTitle("提示:新版本");
-        builder.setPositiveButton("更新", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                downLoadApk();
-            }
-        });
-        builder.setNegativeButton("以后再说",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        builder.create().show();
-    }
 
     private void initdata() {
         userphone = (EditText) findViewById(R.id.et_user_phone);
@@ -426,7 +224,6 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
 
             @Override
             public void onClick(View arg0) {
-
                 finish();
             }
         });
@@ -447,8 +244,6 @@ public class PhoneLoginActivity extends BaseFragmentActivity implements OnClickL
                 req.scope = "snsapi_userinfo";
                 req.state = "wechat_sdk_demo";
                 mWxApi.sendReq(req);
-                break;
-            case R.id.img_qq_login:// QQ登录
                 break;
             case R.id.img_title_registre:
                 requestPermission(new String[]{Permission.READ_PHONE_STATE, Permission.READ_PHONE_STATE}, Constants.READ_PHONE_STATE);

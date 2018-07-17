@@ -1,7 +1,10 @@
 package com.yunsen.enjoy.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +17,8 @@ import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.ui.UIHelper;
+
+import java.net.URL;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -70,12 +75,35 @@ public class ServiceShopInfoActivity extends BaseFragmentActivity {
         String addr = "详细地址：" + responseData.getProvince() + responseData.getCity() + responseData.getArea()
                 + responseData.getAddress();
         addressInfo.setText(addr);
-        shopInfo.setText(responseData.getAdvantage());
+        String advantage = responseData.getContent();
+        shopInfo.setText(Html.fromHtml(advantage, imgGetter, null));
         Glide.with(this)
                 .load(responseData.getImg_url())
                 .placeholder(R.mipmap.bindingbg)
                 .into(serviceImg);
     }
+
+    //这里面的resource就是fromhtml函数的第一个参数里面的含有的url
+    Html.ImageGetter imgGetter = new Html.ImageGetter() {
+        public Drawable getDrawable(String source) {
+            Log.i("RG", "source---?>>>" + source);
+            Drawable drawable = null;
+            URL url;
+            try {
+                url = new URL(source);
+                Log.i("RG", "url---?>>>" + url);
+                drawable = Drawable.createFromStream(url.openStream(), ""); // 获取网路图片
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
+                    drawable.getIntrinsicHeight());
+            Log.i("RG", "url---?>>>" + url);
+            return drawable;
+        }
+    };
+
 
     @Override
     public void requestData() {

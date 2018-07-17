@@ -507,12 +507,10 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
 
                         Logger.e("服务器:" + server_version + "/当前:" + client_version);
                         if (server_version > client_version) {
-                            //						Toast.makeText(UserLoginActivity.this, "提示更新", Toast.LENGTH_SHORT).show();
                             Message message = new Message();
                             message.what = 0;
                             handler.sendMessage(message);
                         } else {
-                            //					Toast.makeText(UserLoginActivity.this, "没有提示更新", Toast.LENGTH_SHORT).show();
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -559,44 +557,10 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
         }
     }
 
-    protected void downLoadApk() {
-        final ProgressDialog pd; // 进度条对话框
-        pd = new ProgressDialog(UserLoginActivity.this);
-        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        pd.setMessage("正在下载更新");
-        pd.setCanceledOnTouchOutside(true);
-        pd.setProgressNumberFormat(null);
-        zhuangtai = true;
-        pd.show();
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    File file = getFileFromServer(URL, pd);
-                    sleep(3000);
-                    installApk(file);
-                    pd.dismiss(); // 结束掉进度条对话框
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-    }
 
-    // 安装apk
-    protected void installApk(File file) {
-        Intent intent = new Intent();
-        // 执行动作
-        intent.setAction(Intent.ACTION_VIEW);
-        // 执行的数据类型
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");// 编者按：此处Android应为android，否则造成安装不了
-        UserLoginActivity.this.startActivity(intent);
-    }
 
     // 程序版本更新
     private void dialog() {
-
         AlertDialog.Builder builder = new Builder(UserLoginActivity.this);
         builder.setMessage("检查到最新版本，是否要更新！");
         builder.setTitle("提示:新版本");

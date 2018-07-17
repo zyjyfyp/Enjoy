@@ -53,8 +53,8 @@ public class AccountUtils {
             return true;
         }
         SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
-        String userId = sp.getString(SpConstants.USER_ID, "");
-        if (TextUtils.isEmpty(userId) || "0".equals(userId)) {
+        user_id = sp.getString(SpConstants.USER_ID, "");
+        if (TextUtils.isEmpty(user_id) || "0".equals(user_id)) {
             mHasBound = false;
             return false;
         } else {
@@ -64,7 +64,7 @@ public class AccountUtils {
     }
 
     /**
-     * 是否是正式会员
+     * 是否是正式会员 group_id == 14 正式会员 group_id == 13 普通会员
      *
      * @return
      */
@@ -73,15 +73,14 @@ public class AccountUtils {
             return true;
         }
         SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
-        String status = sp.getString(SpConstants.STATUS, "");
-        if (TextUtils.isEmpty(status) || "1".equals(status)) {//非正式会员；
-            mHasVIP = false;
-        } else {
+        String groupId = sp.getString(SpConstants.GROUP_ID, "");
+        if (!"13".equals(groupId)) {
             mHasVIP = true;
+        } else {
+            mHasVIP = false;
         }
         return mHasVIP;
     }
-
 
     /**
      * 退出时清空
@@ -111,6 +110,10 @@ public class AccountUtils {
     }
 
     public static String getUser_id() {
+        if (TextUtils.isEmpty(user_id)) {
+            SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+            user_id = sp.getString(SpConstants.USER_ID, "");
+        }
         return user_id;
     }
 

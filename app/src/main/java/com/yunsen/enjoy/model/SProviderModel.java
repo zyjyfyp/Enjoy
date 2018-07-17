@@ -75,7 +75,7 @@ public  class SProviderModel {
     private int recommend_id;
     private Object recommend_name;
     private String name;
-    private Object content;
+    private String content;
     private String contact;
     private String tel;
     private String regtime;
@@ -193,11 +193,11 @@ public  class SProviderModel {
         this.name = name;
     }
 
-    public Object getContent() {
+    public String getContent() {
         return content;
     }
 
-    public void setContent(Object content) {
+    public void setContent(String content) {
         this.content = content;
     }
 
