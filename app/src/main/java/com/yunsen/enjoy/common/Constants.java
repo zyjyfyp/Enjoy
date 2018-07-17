@@ -33,6 +33,7 @@ public class Constants {
     public static final int ONLINE_QQ = 3;
     public static final String EMPTY = "";
     public static final String IS_CARD_MONEY = "is_card_money";
+    public static final String BALANCE_RECORD = "1";
 //    public static final String APP_SECRET = "";
 //appId=wxe60c28541b0fa8a2&body=zyjytest&device_info=1000&key=ca30ef7495cdd92ee94e1190f78a8735&mch_id=1502153101&nonce_str=ibuaiVcKdpRxkhJA
 
@@ -154,7 +155,7 @@ public class Constants {
      * 提现
      */
     public static final String BALANCE = "balance";
-    public static final String CONSUMPTION_RECORD = "1";//消费记录
+    public static final String CONSUMPTION_RECORD = "16";//消费记录
     public static final String WITHDRAW_RECORD = "11";//提现记录
 
     /***

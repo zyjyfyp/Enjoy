@@ -9,11 +9,12 @@ import android.widget.TextView;
 import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.activity.mine.adapter.MoneyRecordAdapter;
+import com.yunsen.enjoy.activity.mine.adapter.MoneyWithdrawAdapter;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.WalletCashBean;
-import com.yunsen.enjoy.model.WalletCashNewBean;
+import com.yunsen.enjoy.model.WithdrawLogData;
 import com.yunsen.enjoy.ui.recyclerview.EndlessRecyclerOnScrollListener;
 import com.yunsen.enjoy.ui.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.yunsen.enjoy.ui.recyclerview.LoadMoreLayout;
@@ -31,16 +32,15 @@ import okhttp3.Request;
  * Created by Administrator on 2018/7/7.
  */
 
-public class MoneyRecordActivity extends BaseFragmentActivity {
+public class MoneyWithdrawActivity extends BaseFragmentActivity {
 
     @Bind(R.id.action_bar_title)
     TextView actionBarTitle;
-    @Bind(R.id.recycler_record)
-    RecyclerView recyclerRecord;
+    @Bind(R.id.recycler_withdraw)
+    RecyclerView recyclerWithdraw;
     private int mPageIndex = 1;
-    private ArrayList<WalletCashNewBean> mDatas;
-    private MoneyRecordAdapter mAdapter;
-    private String mFundId;
+    private ArrayList<WithdrawLogData> mDatas;
+    private MoneyWithdrawAdapter mAdapter;
     private boolean mHasMore;
     private boolean mIsLoadMore;
     private EndlessRecyclerOnScrollListener mOnListener;
@@ -48,31 +48,24 @@ public class MoneyRecordActivity extends BaseFragmentActivity {
 
     @Override
     public int getLayout() {
-        return R.layout.activity_money_record;
+        return R.layout.activity_money_withdraw;
     }
 
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-        mFundId = getIntent().getStringExtra(Constants.ACT_TYPE_KEY);
-
-//        if (mFundId == Constants.CONSUMPTION_RECORD) {
-            actionBarTitle.setText("消费记录");
-//        } else {
-//            actionBarTitle.setText("提现记录");
-//        }
-
+        actionBarTitle.setText("提现记录");
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        recyclerRecord.setLayoutManager(new LinearLayoutManager(this));
+        recyclerWithdraw.setLayoutManager(new LinearLayoutManager(this));
         mDatas = new ArrayList<>();
-        mAdapter = new MoneyRecordAdapter(this, R.layout.money_record_item, mDatas);
+        mAdapter = new MoneyWithdrawAdapter(this, R.layout.money_withdraw_item, mDatas);
         HeaderAndFooterRecyclerViewAdapter footerRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(mAdapter);
-        recyclerRecord.setAdapter(footerRecyclerViewAdapter);
+        recyclerWithdraw.setAdapter(footerRecyclerViewAdapter);
         loadMoreLayout = new LoadMoreLayout(this);
-        RecyclerViewUtils.setFooterView(recyclerRecord, loadMoreLayout);
+        RecyclerViewUtils.setFooterView(recyclerWithdraw, loadMoreLayout);
     }
 
     @Override
@@ -83,7 +76,7 @@ public class MoneyRecordActivity extends BaseFragmentActivity {
                 super.onLoadNextPage(view);
                 mPageIndex++;
                 mIsLoadMore = true;
-                recyclerRecord.postDelayed(new Runnable() {
+                recyclerWithdraw.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         requestData();
@@ -93,16 +86,15 @@ public class MoneyRecordActivity extends BaseFragmentActivity {
 
         };
         mOnListener.setLoadMoreLayout(loadMoreLayout);
-        recyclerRecord.addOnScrollListener(mOnListener);
+        recyclerWithdraw.addOnScrollListener(mOnListener);
 
     }
 
     @Override
     public void requestData() {
-        // actionBarTitle.setText("消费记录");
-        HttpProxy.getWithDrawCashNew(String.valueOf(mPageIndex), mFundId, new HttpCallBack<List<WalletCashNewBean>>() {
+        HttpProxy.userApplyWithdrawLog(String.valueOf(mPageIndex), new HttpCallBack<List<WithdrawLogData>>() {
             @Override
-            public void onSuccess(List<WalletCashNewBean> responseData) {
+            public void onSuccess(List<WithdrawLogData> responseData) {
                 if (mIsLoadMore) {
                     mHasMore = mAdapter.addBaseDatas(responseData);
                 } else {
@@ -133,7 +125,7 @@ public class MoneyRecordActivity extends BaseFragmentActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (mOnListener != null) {
-            recyclerRecord.removeOnScrollListener(mOnListener);
+            recyclerWithdraw.removeOnScrollListener(mOnListener);
         }
         ButterKnife.unbind(this);
     }

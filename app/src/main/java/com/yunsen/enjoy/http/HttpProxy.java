@@ -50,7 +50,9 @@ import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.WXAccessTokenEntity;
 import com.yunsen.enjoy.model.WXUserInfo;
 import com.yunsen.enjoy.model.WalletCashBean;
+import com.yunsen.enjoy.model.WalletCashNewBean;
 import com.yunsen.enjoy.model.WatchCarBean;
+import com.yunsen.enjoy.model.WithdrawLogData;
 import com.yunsen.enjoy.model.WxPaySignBean;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
@@ -86,8 +88,10 @@ import com.yunsen.enjoy.model.response.ShopCarAccountResponse;
 import com.yunsen.enjoy.model.response.StringResponse;
 import com.yunsen.enjoy.model.response.TradeListResponse;
 import com.yunsen.enjoy.model.response.UserInfoResponse;
+import com.yunsen.enjoy.model.response.WalletCashNewResponse;
 import com.yunsen.enjoy.model.response.WalletCashResponse;
 import com.yunsen.enjoy.model.response.WatchCarResponse;
+import com.yunsen.enjoy.model.response.WithdrawLogResponse;
 import com.yunsen.enjoy.model.response.WxPaySignResponse;
 import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.EntityToMap;
@@ -926,6 +930,35 @@ public class HttpProxy {
         HttpClient.get(URLConstants.WITH_DRAW_CASH_URL, param, new HttpResponseHandler<WalletCashResponse>() {
             @Override
             public void onSuccess(WalletCashResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                Logger.e(TAG, "onFailure: " + e.getMessage());
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 盖亚获取提现信息的接口
+     *
+     * @param pageIndex
+     * @param fundId
+     * @param callBack
+     */
+    public static void getWithDrawCashNew(String pageIndex, String fundId, final HttpCallBack<List<WalletCashNewBean>> callBack) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("user_id", AccountUtils.getUser_id());
+        param.put(SpConstants.USER_NAME,AccountUtils.getUserName());
+        param.put("fund_id", fundId);
+        param.put("page_size", "10");
+        param.put("page_index", pageIndex);
+        HttpClient.get(URLConstants.GET_PAYRECORD_URL, param, new HttpResponseHandler<WalletCashNewResponse>() {
+            @Override
+            public void onSuccess(WalletCashNewResponse response) {
                 super.onSuccess(response);
                 callBack.onSuccess(response.getData());
             }
@@ -2520,6 +2553,34 @@ public class HttpProxy {
             public void onFailure(Request request, Exception e) {
                 super.onFailure(request, e);
                 callBack.onSuccess(false);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 提现记录
+     *
+     * @param pageIndex
+     * @param callBack
+     */
+    public static void userApplyWithdrawLog(String pageIndex, final HttpCallBack<List<WithdrawLogData>> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put(SpConstants.USER_ID, AccountUtils.getUser_id());
+        param.put("sign", AccountUtils.getLoginSign());
+        param.put("page_size", "10");
+        param.put("page_index", pageIndex);
+
+        HttpClient.get(URLConstants.USER_APPLY_WITHDRAW_LOG_URL, param, new HttpResponseHandler<WithdrawLogResponse>() {
+            @Override
+            public void onSuccess(WithdrawLogResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
                 callBack.onError(request, e);
             }
         });

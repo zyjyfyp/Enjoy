@@ -893,13 +893,13 @@ public class MineFragment extends BaseFragment implements MultiItemTypeAdapter.O
 //                    assetsClick("1");
                     if (AccountUtils.hasLogin()) {
                         if (AccountUtils.hasBoundPhone()) {
-                            UIHelper.showMoneyRecordActivity(getActivity(), Constants.CONSUMPTION_RECORD);
+                            UIHelper.showMoneyRecordActivity(getActivity(), Constants.BALANCE_RECORD);
                         } else {
                             UIHelper.showBundPhoneActivity(getActivity());
                         }
                     } else {
                         if (AccountUtils.hasBoundPhone()) {
-                            UIHelper.showMoneyRecordActivity(getActivity(), Constants.CONSUMPTION_RECORD);
+                            UIHelper.showMoneyRecordActivity(getActivity(), Constants.BALANCE_RECORD);
                         } else {
                             UIHelper.showUserLoginActivity(getActivity());
                         }

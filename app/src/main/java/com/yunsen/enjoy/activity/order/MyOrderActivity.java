@@ -61,8 +61,6 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
     private MyOrderllAdapter madapter;
     private ArrayList<MyOrderData> list;
     ImageView imageView1;
-    MyOrderData md;
-    OrderBean mb;
     private DialogProgress progress;
     String user_name, user_id, login_sign, order_no;
     int len;
@@ -372,7 +370,7 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
                                 JSONArray jsonArray = object.getJSONArray("data");
                                 len = jsonArray.length();
                                 for (int i = 0; i < jsonArray.length(); i++) {
-                                    md = new MyOrderData();
+                                    MyOrderData md = new MyOrderData();
                                     JSONObject obj = jsonArray.getJSONObject(i);
                                     md.setId(obj.getString("id"));
                                     md.setAccept_no(obj.getString("accept_no"));
@@ -393,6 +391,7 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
                                     md.setAdd_time(obj.getString("add_time"));//创建时间
                                     md.setComplete_time(obj.getString("complete_time"));//完成时间
                                     md.setRebate_time(obj.getString("rebate_time"));
+                                    md.setPayment_id(obj.getInt("payment_id"));
 
                                     md.setCity(obj.getString("city"));
                                     md.setArea(obj.getString("area"));
@@ -405,7 +404,7 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
                                     JSONArray ja = new JSONArray(order_goods);
                                     List<OrderBean> lists = new ArrayList<OrderBean>();
                                     for (int j = 0; j < ja.length(); j++) {
-                                        mb = new OrderBean();
+                                        OrderBean mb = new OrderBean();
                                         JSONObject jo = ja.getJSONObject(j);
                                         mb.setImg_url(jo.getString("img_url"));
                                         mb.setArticle_title(jo.getString("article_title"));
@@ -423,8 +422,7 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
                                     list.add(md);
                                 }
 
-                                md = null;
-                                mb = null;
+
                                 //								progress.CloseProgress();
                                 no_data_no.setVisibility(View.GONE);
                             } else {

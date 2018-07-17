@@ -35,6 +35,7 @@ import com.yunsen.enjoy.activity.mine.adapter.ShopingCartOrderAdapter;
 import com.yunsen.enjoy.activity.pay.TishiCarArchivesActivity;
 import com.yunsen.enjoy.activity.pay.ZhiFuFangShiActivity;
 import com.yunsen.enjoy.common.Constants;
+import com.yunsen.enjoy.common.PayMoneyProxy;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
@@ -73,7 +74,6 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     private DialogProgress progress;
     private TextView tv_user_name, tv_user_address, tv_user_phone, tv_hongbao;
     public static String user_name, user_id;
-    private ImageButton btn_add_address;
     private ShopingCartOrderAdapter adapter;
     private InScrollListView list_shop_cart;
     private LinearLayout layout0, ll_ljgm, layout2, ll_zhifufs;
@@ -170,7 +170,6 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
         confrim_btn = (Button) findViewById(R.id.confrim_btn);
         list_shop_cart = (InScrollListView) findViewById(R.id.list_shop_cart);
         list_shop_cart.setFocusable(false);
-        btn_add_address = (ImageButton) findViewById(R.id.img_btn_add_address);
         layout0 = (LinearLayout) findViewById(R.id.layout0);
         layout1 = (RelativeLayout) findViewById(R.id.layout1);
         rl_hongbao = (RelativeLayout) findViewById(R.id.rl_hongbao);
@@ -195,17 +194,6 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
         yu_pay_c1 = (CheckBox) findViewById(R.id.yu_pay_c1);
         yu_pay_c2 = (CheckBox) findViewById(R.id.yu_pay_c2);
         storedCardPay = (CheckBox) findViewById(R.id.stored_card_pay);
-
-
-        handlerll = new Handler() {
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case 2:
-                        finish();
-                        break;
-                }
-            }
-        };
     }
 
     @Override
@@ -271,7 +259,6 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
         getuserhongbao(user_name);
     }
 
-    public static Handler handlerll;
 
     /**
      * 获取用户红包
@@ -512,7 +499,6 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
         ll_zhifufs.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                System.out.println("支付方式retailPrice=====================" + retailPrice);
                 Intent intent = new Intent(MyOrderConfrimActivity.this, ZhiFuFangShiActivity.class);
                 intent.putExtra("order_confrim", "order_confrim");
                 startActivity(intent);
@@ -1055,44 +1041,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
         @SuppressWarnings("unchecked")
         @Override
         public void dispatchMessage(Message msg) {
-
             switch (msg.what) {
-                case 0:
-                    break;
-                case 1:
-                    ali_pay();
-                    break;
-                case 2:// 微信支付
-                    try {
-                        boolean isPaySupported = api.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
-                        if (isPaySupported && mSignData != null) {
-                            try {
-                                // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-                                api.registerApp(mSignData.getApp_id());
-                                PayReq req = new PayReq();
-                                req.appId = mSignData.getApp_id();
-                                req.partnerId = mSignData.getMch_id();//商户id
-                                req.prepayId = mSignData.getPrepay_id();// 7 预支付交易会话ID
-                                req.nonceStr = mSignData.getNonce_str();// 3
-                                req.timeStamp = mSignData.getTimestamp();// -1
-                                req.packageValue = "Sign=WXPay"; //扩展字段
-                                req.sign = mSignData.getSign();// -3
-                                //3.调用微信支付sdk支付方法
-                                flag = api.sendReq(req);
-                            } catch (Exception e) {
-                                Toast.makeText(MyOrderConfrimActivity.this, "支付失败。。。", Toast.LENGTH_SHORT).show();
-                                delayPayState(mPayState);
-                                e.printStackTrace();
-                            }
-                        } else {
-                            Toast.makeText(MyOrderConfrimActivity.this, "支付失败。。。", Toast.LENGTH_SHORT).show();
-                            delayPayState(mPayState);
-                        }
-                    } catch (Exception e) {
-
-                        e.printStackTrace();
-                    }
-                    break;
                 case PayProxy.SDK_PAY_FLAG: {
                     PayResult payResult = new PayResult((Map<String, String>) msg.obj);
                     /**
@@ -1109,13 +1058,18 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                         delayPayState(mPayState);
                         finish();
                     } else {
-                        //                            // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
+                        // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
                         Toast.makeText(MyOrderConfrimActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
                         delayPayState(mPayState);
                         finish();
                     }
                     break;
                 }
+                case PayProxy.PAY_FAIL: //签名失败
+                    String troNo = (String) msg.obj;
+                    UIHelper.showMyOrderXqActivity(MyOrderConfrimActivity.this, troNo);
+                    delayPayState(PAY_ORDER);
+                    break;
                 default:
                     break;
             }
@@ -1129,11 +1083,8 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
      * @param
      */
     private void loadguanggaoll(String recharge_noll, String login_sign) {
-        AsyncHttp.get(URLConstants.REALM_NAME_LL
-                        + "/update_order_payment?user_id=" + user_id
-                        + "&user_name=" + user_name + "" + "&trade_no="
+        AsyncHttp.get(URLConstants.REALM_NAME_LL + "/update_order_payment?user_id=" + user_id + "&user_name=" + user_name + "" + "&trade_no="
                         + recharge_noll + "&sign=" + login_sign + "",
-
                 new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int arg0, String arg1) {
@@ -1175,35 +1126,11 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
      * @param
      */
     private void loadzhidu(String recharge_no3, String total_amount) {
+        PayMoneyProxy.getInstance().aliayPay(this, user_id, user_name, total_amount, recharge_no3, handler);
         recharge_no = recharge_no3;
         total_fee = total_amount;
-        AsyncHttp.get(URLConstants.REALM_NAME_LL + "/payment_sign?user_id="
-                + user_id + "&user_name=" + user_name + "" + "&total_fee="
-                + total_amount + "&out_trade_no=" + recharge_no
-                + "&payment_type=alipay", new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int arg0, String arg1) {
-                super.onSuccess(arg0, arg1);
-                try {
-                    JSONObject object = new JSONObject(arg1);
-                    String status = object.getString("status");
-                    String info = object.getString("info");
-                    if ("y".equals(status)) {
-                        JSONObject obj = object.getJSONObject("data");
-                        PayProxy.NOTIFY_URL = notify_url = obj.getString("notify_url");
-                        PayProxy.RSA2_PRIVATE = obj.getString("private_key");
-                        handler.sendEmptyMessage(1);
-                    } else {
-                        ToastUtils.makeTextShort(info);
-                    }
-                    progress.CloseProgress();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }, null);
     }
+
 
     /**
      * 微信支付
@@ -1213,46 +1140,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
      */
     private void loadweixinzf2(String recharge_no2, String total_amount) {
         recharge_no = recharge_no2;
-        String monney = String.valueOf(Double.parseDouble(total_amount) * 100);
-
-        AsyncHttp.get(URLConstants.REALM_NAME_LL + "/payment_sign?user_id="
-                        + user_id + "&user_name=" + user_name + "" + "&total_fee="
-                        + monney + "&out_trade_no=" + recharge_no
-                        + "&payment_type=weixin",
-
-                new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int arg0, String arg1) {
-                        super.onSuccess(arg0, arg1);
-                        try {
-                            JSONObject object = new JSONObject(arg1);
-                            String status = object.getString("status");
-                            String info = object.getString("info");
-                            if (status.equals("y")) {
-                                JSONObject jsonObject = object.getJSONObject("data");
-                                String json = jsonObject.toString();
-                                mSignData = JSON.parseObject(json, WxSignData.class);
-                                progress.CloseProgress();
-                                handler.sendEmptyMessage(2);
-                            } else {
-                                progress.CloseProgress();
-                                Toast.makeText(MyOrderConfrimActivity.this, info, Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                }, MyOrderConfrimActivity.this);
-
-    }
-
-
-    private void ali_pay() {
-        String bizContent = "{\"timeout_express\":\"30m\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\""
-                + total_fee + "\",\"subject\":\"袋鼠车宝\",\"body\":\"商品描述\",\"out_trade_no\":\"" + recharge_no + "\"}";
-        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(PayProxy.APPID, true, bizContent);
-        PayProxy.payV2(this, handler, params);
+        PayMoneyProxy.getInstance().weiXinPay(this, user_id, user_name, total_amount, recharge_no2, handler);
     }
 
     @Override
@@ -1279,7 +1167,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 yu_pay_c2.setChecked(true);
                 storedCardPay.setChecked(false);
                 // 余额支付
-                type = "2";
+                type = String.valueOf(Constants.BALANCE_PAY_TYPE);
                 break;
         }
     }

@@ -110,7 +110,7 @@ public class BalanceCashActivity extends BaseFragmentActivity {
                 finish();
                 break;
             case R.id.consume_tv:
-                UIHelper.showMoneyRecordActivity(this, Constants.WITHDRAW_RECORD);
+                UIHelper.showMoneyWithdrawActivity(this);
                 break;
             case R.id.withdraw_cash_btn:
                 if (mNeedToWallectActivity) {

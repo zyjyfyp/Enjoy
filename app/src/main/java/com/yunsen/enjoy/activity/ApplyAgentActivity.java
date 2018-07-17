@@ -347,9 +347,11 @@ public class ApplyAgentActivity extends BaseFragmentActivity {
                         } else {
                             // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                             Toast.makeText(act, "支付失败", Toast.LENGTH_SHORT).show();
-                            break;
                         }
+                        break;
+                    case PayProxy.PAY_FAIL:
 
+                        break;
                 }
             }
         }

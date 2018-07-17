@@ -69,18 +69,13 @@ public class MyOrderXqActivity extends AppCompatActivity implements OnClickListe
     LinearLayout ll_anliu;
     private String payment_status, express_status, status;
     int zhuangtai;
-    //	private List<MyOrderData> list = new ArrayList<MyOrderData>();
-    //	private List<OrderBean> lists = new ArrayList<OrderBean>();
-    MyOrderData md;
-    OrderBean mb;
     private MyOrderXqAdapter mybAdapter;
-    private int RUN_METHOD = -1;
-    int len;
     private List<MyOrderData> list;
     List<OrderBean> lists;
     public static Handler handler;
     public static boolean teby = false;
     MyOrderData bean;
+    private TextView barTitleTv;
 
     @Override
     protected void onResume() {
@@ -135,18 +130,17 @@ public class MyOrderXqActivity extends AppCompatActivity implements OnClickListe
             tv_queren_fukuan = (TextView) findViewById(R.id.tv_queren_fukuan);//
             tv_pingjia = (TextView) findViewById(R.id.tv_pingjia);//
             ll_anliu = (LinearLayout) findViewById(R.id.ll_anliu);//
-            iv_fanhui = (ImageView) findViewById(R.id.iv_fanhui);
+            iv_fanhui = (ImageView) findViewById(R.id.action_back);
+            barTitleTv = (TextView) findViewById(R.id.action_bar_title);
+            barTitleTv.setText("订单详情");
             tv_shanche.setOnClickListener(this);
             //			tv_fukuan.setOnClickListener(this);
             tv_queren_fukuan.setOnClickListener(this);
             tv_pingjia.setOnClickListener(this);
-
-            System.out.println("zhou1----------");
             iv_fanhui.setOnClickListener(new OnClickListener() {
 
                 @Override
                 public void onClick(View arg0) {
-
                     finish();
                 }
             });
@@ -157,24 +151,12 @@ public class MyOrderXqActivity extends AppCompatActivity implements OnClickListe
             list.add(bean);
             lists = list.get(0).getList();
             order_no = list.get(0).getOrder_no();
-            //			System.out.println("order_no----------"+order_no);
-            //			System.out.println("lists----------"+lists.size());
             String zhou = lists.get(0).getGoods_title();
-            //			System.out.println("zhou----------"+zhou);
-
             mybAdapter = new MyOrderXqAdapter(MyOrderXqActivity.this, list, handler);
             my_list.setAdapter(mybAdapter);
-            MyOrderXqAdapter.mAq.clear();
-            //			String payment_status = getIntent().getStringExtra("payment_status");
-            //			System.out.println("payment_status----------"+payment_status);
-
             payment_status = list.get(0).getPayment_status();
-            System.out.println("payment_status=============" + payment_status);
             express_status = list.get(0).getExpress_status();
-            System.out.println("express_status=============" + express_status);
             status = list.get(0).getStatus();
-            System.out.println("status=============" + status);
-
             System.out.println("zhou3----------");
             if (payment_status.equals("1")) {
                 System.out.println("待付款=============");
@@ -335,8 +317,7 @@ public class MyOrderXqActivity extends AppCompatActivity implements OnClickListe
         System.out.println("order_no=================================" + order_no);
         String login_sign = spPreferences.getString("login_sign", "");
         System.out.println("login_sign=================================" + login_sign);
-        AsyncHttp.get(URLConstants.REALM_NAME_LL
-                        + "/delete_order?user_id=" + user_id + "&user_name=" + user_name + "" +
+        AsyncHttp.get(URLConstants.REALM_NAME_LL + "/delete_order?user_id=" + user_id + "&user_name=" + user_name + "" +
                         "&trade_no=" + order_no + "&sign=" + login_sign + "",
                 new AsyncHttpResponseHandler() {
                     @Override
@@ -524,10 +505,7 @@ public class MyOrderXqActivity extends AppCompatActivity implements OnClickListe
 
                         @Override
                         public void onFailure(Throwable arg0, String arg1) {
-
                             super.onFailure(arg0, arg1);
-                            System.out.println("11=================================" + arg0);
-                            System.out.println("22=================================" + arg1);
                             Toast.makeText(MyOrderXqActivity.this, "网络超时异常", Toast.LENGTH_SHORT).show();
                         }
 

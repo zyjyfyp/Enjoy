@@ -435,7 +435,7 @@ public class MyOrderllAdapter extends BaseAdapter {
                 // imageLoader.displayImage(RealmName.REALM_NAME_HTTP +
                 // list.get(position).getList().get(i).getImg_url(),
                 // holder.tupian);
-                mAq.id(holder.tupian).image(URLConstants.REALM_NAME_HTTP + list.get(position).getList().get(i).getImg_url());
+                mAq.id(holder.tupian).image(list.get(position).getList().get(i).getImg_url());
 
                 type = true;
                 int number = list.get(position).getList().get(i).getQuantity();

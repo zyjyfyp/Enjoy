@@ -80,7 +80,7 @@ public class AccountUtils {
      */
     public static boolean isVipAccount() {
         if (mIsVip) {
-            return false;
+            return mIsVip;
         }
         SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
         String groupId = sp.getString(SpConstants.GROUP_ID, "");
@@ -89,7 +89,7 @@ public class AccountUtils {
         } else {
             mIsVip = false;
         }
-        return false;
+        return mIsVip;
     }
 
     /**
@@ -179,7 +179,7 @@ public class AccountUtils {
      */
     public static boolean isAgentUser() {
         if (mIsAgent) {
-            return false;
+            return mIsAgent;
         }
         SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
         String groupId = sp.getString(SpConstants.GROUP_ID, "");
@@ -188,7 +188,7 @@ public class AccountUtils {
         } else {
             mIsAgent = false;
         }
-        return false;
+        return mIsAgent;
     }
 
     /**

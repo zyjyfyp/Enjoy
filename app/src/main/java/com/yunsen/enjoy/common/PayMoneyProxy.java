@@ -3,6 +3,7 @@ package com.yunsen.enjoy.common;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.Toast;
 
@@ -105,9 +106,9 @@ public class PayMoneyProxy {
      *
      * @param
      */
-    public void weiXinPay(Activity act, String userId, String userName, String totalMoney, final String recharge_no, Handler handler) {
+    public void weiXinPay(Activity act, String userId, String userName, String totalMoney, final String recharge_no, final Handler handler) {
         final Activity fAct = act;
-        final String fTotalMoney = totalMoney;
+        final String fTotalMoney = totalMoney = String.valueOf(Double.parseDouble(totalMoney) * 100);
         final String fRechargeNo = recharge_no;
 
         HttpProxy.wXinPaySign(userId, userName, totalMoney, recharge_no, new HttpCallBack<WxPaySignBean>() {
@@ -119,17 +120,23 @@ public class PayMoneyProxy {
                 String noncestr = responseData.getNonce_str();
                 String timestamp = responseData.getTimestampX();
                 String package_ = "Sign=WXPay";
-                wXinPay(prepayid, noncestr, timestamp, package_, sign);
+                wXinPay(prepayid, noncestr, timestamp, package_, sign, fRechargeNo, handler);
             }
 
             @Override
             public void onError(Request request, Exception e) {
-
+                if (e instanceof DataException) {
+                    ToastUtils.makeTextShort(e.getMessage());
+                }
+                Message message = Message.obtain();
+                message.obj = fRechargeNo;
+                message.what=PayProxy.PAY_FAIL;
+                handler.sendMessage(message);
             }
         });
     }
 
-    private void wXinPay(String prepayid, String noncestr, String timestamp, String package_, String sign) {
+    private void wXinPay(String prepayid, String noncestr, String timestamp, String package_, String sign, String rechargeNo, Handler handler) {
         IWXAPI api = WXAPIFactory.createWXAPI(AppContext.getInstance(), null);
         api.registerApp(Constants.APP_ID);
         boolean isPaySupported = api.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
@@ -145,6 +152,11 @@ public class PayMoneyProxy {
             // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
             api.registerApp(Constants.APP_ID);
             api.sendReq(req);
+        } else {
+            Message obtain = Message.obtain();
+            obtain.obj = rechargeNo;
+            obtain.what=PayProxy.PAY_FAIL;
+            handler.sendMessage(obtain);
         }
     }
 

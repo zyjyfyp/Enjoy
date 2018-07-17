@@ -393,6 +393,14 @@ public class URLConstants {
      * 更改支付方式
      */
     public static final String EDIT_ORDERS_INFO_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/edit_orders_info";
+    /**
+     * user_apply_withdraw_log 提现记录
+     */
+    public static final String USER_APPLY_WITHDRAW_LOG_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_apply_withdraw_log";
+    /**
+     * http://mobile.gaiachn.com/tools/mobile_ajax.asmx/get_payrecord_list 盖亚获取提现信息
+     */
+    public static final String GET_PAYRECORD_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_payrecord_list";
 
     public static final String REALM_NAME_WEB = BuildConfig.ROOT_URL;
     public static final String REALM_NAME_HTTP = BuildConfig.ROOT_URL;

@@ -49,6 +49,7 @@ import com.yunsen.enjoy.activity.mine.CumulativeIncomeActivity;
 import com.yunsen.enjoy.activity.mine.ExtensionActivity;
 import com.yunsen.enjoy.activity.mine.MineAchievementActivity;
 import com.yunsen.enjoy.activity.mine.MoneyRecordActivity;
+import com.yunsen.enjoy.activity.mine.MoneyWithdrawActivity;
 import com.yunsen.enjoy.activity.mine.MonthIncomeActivity;
 import com.yunsen.enjoy.activity.mine.MonthOrderActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
@@ -1178,11 +1179,21 @@ public class UIHelper {
     }
 
     /**
-     * @param ctx Constants.CONSUMPTION_RECORD  消费记录，，Constants.WITHDRAW_RECORD提现记录
+     * @param ctx Constants.CONSUMPTION_RECORD  消费记录，，Constants.BALANCE_RECORD提现记录
      */
     public static void showMoneyRecordActivity(Context ctx, String actType) {
         Intent intent = new Intent(ctx, MoneyRecordActivity.class);
         intent.putExtra(Constants.ACT_TYPE_KEY, actType);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * Constants.WITHDRAW_RECORD提现记录
+     *
+     * @param ctx
+     */
+    public static void showMoneyWithdrawActivity(Context ctx) {
+        Intent intent = new Intent(ctx, MoneyWithdrawActivity.class);
         ctx.startActivity(intent);
     }
 
