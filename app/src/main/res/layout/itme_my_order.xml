@@ -44,7 +44,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_marginLeft="10dp"
-                        android:src="@drawable/user_order_manager" />
+                        android:src="@mipmap/login_icon" />
 
                     <TextView
                          android:id="@+id/tv_company_name"

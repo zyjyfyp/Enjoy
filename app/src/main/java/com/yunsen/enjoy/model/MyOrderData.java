@@ -32,6 +32,7 @@ public class MyOrderData implements Serializable {
 	public String exchange_price_total;
 	public String exchange_point_total;
 	private String express_no;
+	private String express_titile;
 	private int payment_id;
 
 	public String getExchange_price_total() {
@@ -258,5 +259,13 @@ public class MyOrderData implements Serializable {
 
 	public void setPayment_id(int payment_id) {
 		this.payment_id = payment_id;
+	}
+
+	public String getExpress_titile() {
+		return express_titile;
+	}
+
+	public void setExpress_titile(String express_titile) {
+		this.express_titile = express_titile;
 	}
 }

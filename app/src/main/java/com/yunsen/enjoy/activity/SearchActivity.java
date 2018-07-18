@@ -114,8 +114,9 @@ public class SearchActivity extends BaseFragmentActivity implements SearchView.O
     @Override
     public boolean onQueryTextSubmit(String query) {
         Logger.e("提交onQueryTextSubmit: " + query);
-
 //        Toast.makeText(this, "开始搜索" + mSearchText, Toast.LENGTH_SHORT).show();
+        mPagerIndex = 1;
+        mIsLoadMore = false;
         submitSearchRequest();
         return false;
     }
@@ -125,22 +126,17 @@ public class SearchActivity extends BaseFragmentActivity implements SearchView.O
         HttpProxy.getSearchList(mSearchText, String.valueOf(mPagerIndex), new HttpCallBack<List<CarDetails>>() {
             @Override
             public void onSuccess(List<CarDetails> responseData) {
-                if (responseData.size() == 0) {
-                    noCarTv.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.GONE);
+                if (mIsLoadMore) {
+                    mHasMore = mAdapter.addData(responseData);
                 } else {
-                    if (mIsLoadMore) {
-                        mHasMore = mAdapter.addData(responseData);
-                    } else {
-                        mAdapter.upData(responseData);
-                    }
-                    if (mHasMore) {
-                        mOnScrollListener.onRefreshComplete();
-                    } else {
-                        mOnScrollListener.noMore(null);
-                    }
+                    mAdapter.upData(responseData);
+                }
+                if (mHasMore) {
                     noCarTv.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
+                    mOnScrollListener.onRefreshComplete();
+                } else {
+                    mOnScrollListener.noMore(null);
                 }
             }
 

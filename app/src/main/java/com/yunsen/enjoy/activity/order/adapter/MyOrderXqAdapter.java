@@ -90,6 +90,8 @@ public class MyOrderXqAdapter extends BaseAdapter {
         LinearLayout ll_xinxi;
         LinearLayout payTypeLayout;
         TextView payTypeTv;
+        LinearLayout shoppingMethodLayout;
+        public TextView shoppingMethodTv;
     }
 
     @Override
@@ -118,7 +120,9 @@ public class MyOrderXqAdapter extends BaseAdapter {
             holder.expressTv = (TextView) convertView.findViewById(R.id.express_tv);
             holder.tv_heji = (TextView) convertView.findViewById(R.id.tv_heji);
             holder.payTypeTv = (TextView) convertView.findViewById(R.id.pay_type_tv);
+            holder.shoppingMethodTv = (TextView) convertView.findViewById(R.id.shopping_method_tv);
             holder.payTypeLayout = (LinearLayout) convertView.findViewById(R.id.pay_type_layout);
+            holder.shoppingMethodLayout = (LinearLayout) convertView.findViewById(R.id.shopping_method_layout);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -161,12 +165,13 @@ public class MyOrderXqAdapter extends BaseAdapter {
         }
         if ("1".equals(myOrderData.payment_status)) {
             holder.payTypeLayout.setVisibility(View.GONE);
+//            holder.shoppingMethodLayout.setVisibility(View.GONE);
         } else {
             String payTypeStr = "余额";
             switch (myOrderData.getPayment_id()) {
                 case Constants.BALANCE_PAY_TYPE:
                     payTypeStr = "余额";
-                    break;
+                                                                                                                                                                                                                                                                                                break;
                 case Constants.CARD_PAY_TYPE:
                     payTypeStr = "储值卡";
                     break;
@@ -176,10 +181,13 @@ public class MyOrderXqAdapter extends BaseAdapter {
                 case Constants.ALIPAY_TYPE:
                     payTypeStr = "支付宝";
                     break;
+
             }
             holder.payTypeLayout.setVisibility(View.VISIBLE);
             holder.payTypeTv.setText(payTypeStr);
         }
+        holder.shoppingMethodLayout.setVisibility(View.VISIBLE);
+        holder.shoppingMethodTv.setText(myOrderData.getExpress_titile());// 配送方式
 
         try {
             if (!myOrderData.getPayment_time().equals("null")) {
