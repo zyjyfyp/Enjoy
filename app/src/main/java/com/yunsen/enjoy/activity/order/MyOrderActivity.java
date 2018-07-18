@@ -393,7 +393,7 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
                                     md.setRebate_time(obj.getString("rebate_time"));
                                     md.setPayment_id(obj.getInt("payment_id"));
                                     md.setExpress_titile(obj.getString("express_titile"));
-
+                                    md.setExpress_no(obj.getString("express_no"));
                                     md.setCity(obj.getString("city"));
                                     md.setArea(obj.getString("area"));
                                     md.setMobile(obj.getString("mobile"));
