@@ -528,7 +528,7 @@ public class MainPagerFragment extends BaseFragment implements SearchActionBar.S
         super.onResume();
         banner.startAutoScroll();
         adtTv1.onStartAuto(1);
-        adtTv2.onStopAuto(2);
+        adtTv2.onStartAuto(2);
     }
 
     @Override

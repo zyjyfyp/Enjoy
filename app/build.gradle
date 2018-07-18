@@ -21,7 +21,7 @@ android {
     buildToolsVersion "26.0.3"
 
     defaultConfig {
-        // Warning:Renderscript support mode is not currently supported with renderscript target 21+
+        // Warning:Renderscript support mode is not currently suppo rted with renderscript target 21+
         renderscriptTargetApi 20
         renderscriptSupportModeEnabled true
         //添加如下配置就OK了
