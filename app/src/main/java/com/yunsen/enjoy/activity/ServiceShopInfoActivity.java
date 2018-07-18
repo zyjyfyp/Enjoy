@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -62,12 +63,36 @@ public class ServiceShopInfoActivity extends BaseFragmentActivity {
         actionBarTitle.setText("服务商详情");
     }
 
+    Html.ImageGetter imgGetter = null;
+
     @Override
     protected void initData(Bundle savedInstanceState) {
         Intent intent = getIntent();
         if (intent != null) {
             mServiceId = intent.getStringExtra(Constants.SERVICE_SHOP_KEY);
         }
+
+        //这里面的resource就是fromhtml函数的第一个参数里面的含有的url
+        imgGetter = new Html.ImageGetter() {
+            public Drawable getDrawable(String source) {
+                Log.i("RG", "source---?>>>" + source);
+                Drawable drawable = null;
+                URL url;
+                try {
+                    url = new URL(source);
+                    Log.i("RG", "url---?>>>" + url);
+                    drawable = Drawable.createFromStream(url.openStream(), ""); // 获取网路图片
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+                drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
+                        drawable.getIntrinsicHeight());
+                Log.i("RG", "url---?>>>" + url);
+                return drawable;
+            }
+        };
+
     }
 
     private void upData(SProviderModel responseData) {
@@ -76,33 +101,14 @@ public class ServiceShopInfoActivity extends BaseFragmentActivity {
                 + responseData.getAddress();
         addressInfo.setText(addr);
         String advantage = responseData.getContent();
-        shopInfo.setText(Html.fromHtml(advantage, imgGetter, null));
+        if (!TextUtils.isEmpty(advantage)) {
+            shopInfo.setText(Html.fromHtml(advantage, imgGetter, null));
+        }
         Glide.with(this)
                 .load(responseData.getImg_url())
                 .placeholder(R.mipmap.bindingbg)
                 .into(serviceImg);
     }
-
-    //这里面的resource就是fromhtml函数的第一个参数里面的含有的url
-    Html.ImageGetter imgGetter = new Html.ImageGetter() {
-        public Drawable getDrawable(String source) {
-            Log.i("RG", "source---?>>>" + source);
-            Drawable drawable = null;
-            URL url;
-            try {
-                url = new URL(source);
-                Log.i("RG", "url---?>>>" + url);
-                drawable = Drawable.createFromStream(url.openStream(), ""); // 获取网路图片
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
-                    drawable.getIntrinsicHeight());
-            Log.i("RG", "url---?>>>" + url);
-            return drawable;
-        }
-    };
 
 
     @Override

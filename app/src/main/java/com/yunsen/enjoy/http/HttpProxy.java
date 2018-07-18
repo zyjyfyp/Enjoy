@@ -369,7 +369,7 @@ public class HttpProxy {
 //            strwhere += "and brand_id like \'%" + brandIdOne + "%\'";
 //        }
         if (!TextUtils.isEmpty(brandId)) {
-            strwhere += "and brand_id like \'%" + brandId + "%\'";
+            strwhere += "and brand_id =" + brandId;
         }
 //        if (TextUtils.isEmpty(city)) {
         param.put("strwhere", strwhere);

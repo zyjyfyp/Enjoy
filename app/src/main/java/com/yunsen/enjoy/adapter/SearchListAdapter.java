@@ -47,12 +47,12 @@ public class SearchListAdapter extends CommonAdapter<CarDetails> {
         mDatas.clear();
         if (responseData != null) {
             mDatas.addAll(responseData);
-            notifyDataSetChanged();
         }
+        notifyDataSetChanged();
     }
 
     public boolean addData(List<CarDetails> datas) {
-        if (datas != null) {
+        if (datas != null && datas.size() > 0) {
             mDatas.addAll(datas);
             this.notifyDataSetChanged();
             return true;
