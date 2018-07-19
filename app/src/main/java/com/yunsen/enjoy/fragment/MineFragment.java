@@ -671,11 +671,11 @@ public class MineFragment extends BaseFragment {
                 loginIcon.setVisibility(View.GONE);
                 loginTv.setVisibility(View.GONE);
                 Log.e(TAG, "onEvent: 登录更新");
-                WsManager.getInstance().init();
+//                WsManager.getInstance().init();
                 getUserInfo();
                 break;
             case EventConstants.APP_LOGOUT:
-                WsManager.getInstance().disconnect();
+//                WsManager.getInstance().disconnect();
                 hasLoginLayout.setVisibility(View.GONE);
                 loginIcon.setVisibility(View.VISIBLE);
                 loginTv.setVisibility(View.VISIBLE);

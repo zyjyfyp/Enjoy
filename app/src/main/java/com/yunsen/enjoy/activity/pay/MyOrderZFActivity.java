@@ -243,11 +243,9 @@ public class MyOrderZFActivity extends AppCompatActivity implements OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 2) {
-//            if (mIsBecomeVip) {
-//                EventBus.getDefault().post(new UpUiEvent(EventConstants.APP_LOGIN));
-//            }
-        }
+//        if (resultCode == 2) { //支付成功更新ui
+//
+//        }
     }
 
     /**

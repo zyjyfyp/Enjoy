@@ -29,7 +29,7 @@ public class NetStatusReceiver extends BroadcastReceiver {
 
             if (info != null && info.isAvailable()) {
                 Logger.t("WsManager").d("监听到可用网络切换,调用重连方法");
-                WsManager.getInstance().reconnect();//wify 4g切换重连websocket
+//                WsManager.getInstance().reconnect();//wify 4g切换重连websocket
             }
 
         }

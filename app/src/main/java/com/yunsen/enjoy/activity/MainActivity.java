@@ -70,7 +70,7 @@ public class MainActivity extends BaseFragmentActivity {
 
     @Override
     protected void initView() {
-        WsManager.getInstance().init();
+//        WsManager.getInstance().init();
     }
 
     @Override
@@ -360,6 +360,6 @@ public class MainActivity extends BaseFragmentActivity {
             }
             mAppUpDataDialog = null;
         }
-        WsManager.getInstance().disconnect();
+//        WsManager.getInstance().disconnect();
     }
 }

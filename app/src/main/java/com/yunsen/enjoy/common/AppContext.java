@@ -85,7 +85,7 @@ public class AppContext extends Application {
             @Override
             public void onBecameForeground() {
                 Logger.t("WsManager").d("应用回到前台调用重连方法");
-                WsManager.getInstance().reconnect();
+//                WsManager.getInstance().reconnect();
             }
 
             @Override

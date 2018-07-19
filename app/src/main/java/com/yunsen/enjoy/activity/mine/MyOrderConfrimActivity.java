@@ -510,12 +510,11 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
             }
         } else if (resultCode == 1 && requestCode == Constants.PAY_MONEY_ACT_REQUEST) {
             finish();
+        } else if (resultCode == 2) {
+            delayPayState(PAY_FINISH);
+        } else if (resultCode == 3) {
+            delayPayState(PAY_ORDER);
         }
-//        else if (resultCode == 2) {
-//            delayPayState(PAY_FINISH);
-//        } else if (requestCode == 3) {
-//            delayPayState(PAY_ORDER);
-//        }
         Logger.t(TAG).d("onActivityResult:resultCode= " + resultCode + " requestCode= " + requestCode);
     }
 

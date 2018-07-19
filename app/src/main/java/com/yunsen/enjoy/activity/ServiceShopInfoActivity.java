@@ -72,26 +72,26 @@ public class ServiceShopInfoActivity extends BaseFragmentActivity {
             mServiceId = intent.getStringExtra(Constants.SERVICE_SHOP_KEY);
         }
 
-        //这里面的resource就是fromhtml函数的第一个参数里面的含有的url
-        imgGetter = new Html.ImageGetter() {
-            public Drawable getDrawable(String source) {
-                Log.i("RG", "source---?>>>" + source);
-                Drawable drawable = null;
-                URL url;
-                try {
-                    url = new URL(source);
-                    Log.i("RG", "url---?>>>" + url);
-                    drawable = Drawable.createFromStream(url.openStream(), ""); // 获取网路图片
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return null;
-                }
-                drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
-                        drawable.getIntrinsicHeight());
-                Log.i("RG", "url---?>>>" + url);
-                return drawable;
-            }
-        };
+//        //这里面的resource就是fromhtml函数的第一个参数里面的含有的url
+//        imgGetter = new Html.ImageGetter() {
+//            public Drawable getDrawable(String source) {
+//                Log.i("RG", "source---?>>>" + source);
+//                Drawable drawable = null;
+//                URL url;
+//                try {
+//                    url = new URL(source);
+//                    Log.i("RG", "url---?>>>" + url);
+//                    drawable = Drawable.createFromStream(url.openStream(), ""); // 获取网路图片
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    return null;
+//                }
+//                drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
+//                        drawable.getIntrinsicHeight());
+//                Log.i("RG", "url---?>>>" + url);
+//                return drawable;
+//            }
+//        };
 
     }
 
@@ -102,7 +102,7 @@ public class ServiceShopInfoActivity extends BaseFragmentActivity {
         addressInfo.setText(addr);
         String advantage = responseData.getContent();
         if (!TextUtils.isEmpty(advantage)) {
-            shopInfo.setText(Html.fromHtml(advantage, imgGetter, null));
+            shopInfo.setText(Html.fromHtml(advantage));
         }
         Glide.with(this)
                 .load(responseData.getImg_url())
