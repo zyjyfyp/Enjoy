@@ -509,38 +509,6 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
         }
     }
 
-    public static File getFileFromServer(String path, ProgressDialog pd)
-            throws Exception {
-        // 如果相等的话表示当前的sdcard挂载在手机上并且是可用的
-        if (Environment.getExternalStorageState().equals(
-                Environment.MEDIA_MOUNTED)) {
-            java.net.URL url = new URL(path);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setConnectTimeout(5000);
-            // 获取到文件的大小
-            pd.setMax(conn.getContentLength());
-            InputStream is = conn.getInputStream();
-            File file = new File(Environment.getExternalStorageDirectory(),
-                    "updata.apk");
-            FileOutputStream fos = new FileOutputStream(file);
-            BufferedInputStream bis = new BufferedInputStream(is);
-            byte[] buffer = new byte[1024];
-            int len;
-            int total = 0;
-            while ((len = bis.read(buffer)) != -1) {
-                fos.write(buffer, 0, len);
-                total += len;
-                // 获取当前下载量
-                pd.setProgress(total);
-            }
-            fos.close();
-            bis.close();
-            is.close();
-            return file;
-        } else {
-            return null;
-        }
-    }
 
     // 程序版本更新
     private void dialog() {
@@ -561,8 +529,7 @@ public class UserLoginActivity extends AppCompatActivity implements OnClickListe
                             .onGranted(new Action() {
                                 @Override
                                 public void onAction(List<String> permissions) {
-                                    String filePath = Environment.getExternalStorageDirectory() + "/ss";
-                                    new UpdateApkThread(URL, filePath, "zams.apk", UserLoginActivity.this).start();
+                                    new UpdateApkThread(URL,Constants.APK_NAME, UserLoginActivity.this).startDownLoadFile();
                                 }
                             })
                             .onDenied(new Action() {

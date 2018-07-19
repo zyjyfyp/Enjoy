@@ -12,6 +12,8 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 
+import com.yunsen.enjoy.common.Constants;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -30,10 +32,9 @@ public class ApkInstallService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String filePath = Environment.getExternalStorageDirectory() + "/ss";
-        File file = new File(filePath, "zams.apk");
+        String filePath = getFilesDir().getAbsolutePath();
+        File file = new File(filePath, Constants.APK_NAME);
         openAPKFile(file);
-        Log.e(TAG, "onStartCommand: " + filePath);
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -63,7 +64,7 @@ public class ApkInstallService extends Service {
                 //兼容7.0
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    Uri contentUri = FileProvider.getUriForFile(this, this.getPackageName() + ".fileProvider", apkFile);
+                    Uri contentUri = FileProvider.getUriForFile(this, "com.yunsen.gaea.fileprovider", apkFile);
                     intent.setDataAndType(contentUri, "application/vnd.android.package-archive");
                     //兼容8.0
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

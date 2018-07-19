@@ -4,6 +4,8 @@ package com.yunsen.enjoy.http;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -38,6 +40,7 @@ import com.yunsen.enjoy.model.NoticeTokeBean;
 import com.yunsen.enjoy.model.OneNoticeInfoBean;
 import com.yunsen.enjoy.model.OrderDataBean;
 import com.yunsen.enjoy.model.OrderInfo;
+import com.yunsen.enjoy.model.PgyAppVersion;
 import com.yunsen.enjoy.model.ProfitCountBean;
 import com.yunsen.enjoy.model.PullImageResult;
 import com.yunsen.enjoy.model.RechargeNoBean;
@@ -78,6 +81,7 @@ import com.yunsen.enjoy.model.response.MonthAmountResponse;
 import com.yunsen.enjoy.model.response.NoticeTokenResponse;
 import com.yunsen.enjoy.model.response.OneNoticeListResponse;
 import com.yunsen.enjoy.model.response.OrderResponse;
+import com.yunsen.enjoy.model.response.PgyAppVersionRequest;
 import com.yunsen.enjoy.model.response.ProfitCountResponse;
 import com.yunsen.enjoy.model.response.PullImageResponse;
 import com.yunsen.enjoy.model.response.RechargeNoResponse;
@@ -94,6 +98,7 @@ import com.yunsen.enjoy.model.response.WatchCarResponse;
 import com.yunsen.enjoy.model.response.WithdrawLogResponse;
 import com.yunsen.enjoy.model.response.WxPaySignResponse;
 import com.yunsen.enjoy.utils.AccountUtils;
+import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.EntityToMap;
 import com.yunsen.enjoy.utils.SpUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
@@ -102,9 +107,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -952,7 +959,7 @@ public class HttpProxy {
     public static void getWithDrawCashNew(String pageIndex, String fundId, final HttpCallBack<List<WalletCashNewBean>> callBack) {
         HashMap<String, String> param = new HashMap<>();
         param.put("user_id", AccountUtils.getUser_id());
-        param.put(SpConstants.USER_NAME,AccountUtils.getUserName());
+        param.put(SpConstants.USER_NAME, AccountUtils.getUserName());
         param.put("fund_id", fundId);
         param.put("page_size", "10");
         param.put("page_index", pageIndex);
@@ -1936,6 +1943,58 @@ public class HttpProxy {
                 callBack.onError(request, e);
             }
         });
+    }
+
+
+    /**
+     * 获取蒲公英版本的信息
+     */
+    public static void getPGYApkVersion(final HttpCallBack<PgyAppVersion> callBack) {
+        final Handler mainHandler = new Handler(Looper.getMainLooper());
+        String url = "https://www.pgyer.com/apiv2/app/check";
+        FormBody.Builder formBodyBuilder = new FormBody.Builder();
+        formBodyBuilder.add("buildBuildVersion", "0");
+        formBodyBuilder.add("buildVersion", DeviceUtil.getAppVersionName(AppContext.getInstance()));
+        formBodyBuilder.add("appKey", "5a0c6c62e0f0ff846df79017846e1401");
+        formBodyBuilder.add("_api_key", "ed2ae2909295d84464ed5a57eee0ca5d");
+        FormBody formBody = formBodyBuilder.build();
+        final Request request = new Request.Builder().url(url).post(formBody).build();
+        HttpClient.getClient().newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callBack.onError(request, null);
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                try {
+                    String responseBody = response.body().string();
+                    PgyAppVersionRequest wxResponse = JSON.parseObject(responseBody, PgyAppVersionRequest.class);
+                    final PgyAppVersion fData = wxResponse.getData();
+                    mainHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callBack.onSuccess(fData);
+                        }
+                    });
+                } catch (Exception e) {
+                    Log.e(TAG, "onResponse: " + e.getMessage());
+                    final Exception fE = e;
+                    mainHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callBack.onError(request, fE);
+                        }
+                    });
+                }
+            }
+        });
+
     }
 
     /**

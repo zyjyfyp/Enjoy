@@ -931,7 +931,7 @@ public class PersonCenterActivity extends BaseFragmentActivity implements OnClic
                                 @Override
                                 public void onAction(List<String> permissions) {
                                     String filePath = Environment.getExternalStorageDirectory() + "/ss";
-                                    new UpdateApkThread(URL, filePath, "zams.apk", PersonCenterActivity.this).start();
+                                    new UpdateApkThread(URL,  Constants.APK_NAME, PersonCenterActivity.this).startDownLoadFile();
                                 }
                             })
                             .onDenied(new Action() {

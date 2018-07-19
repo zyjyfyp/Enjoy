@@ -34,6 +34,8 @@ public class Constants {
     public static final String EMPTY = "";
     public static final String IS_CARD_MONEY = "is_card_money";
     public static final String BALANCE_RECORD = "1";
+    public static final String APK_NAME = "GaYa.apk";
+    public static final String GAI_YA_DIR = "/gaiya";
 //    public static final String APP_SECRET = "";
 //appId=wxe60c28541b0fa8a2&body=zyjytest&device_info=1000&key=ca30ef7495cdd92ee94e1190f78a8735&mch_id=1502153101&nonce_str=ibuaiVcKdpRxkhJA
 
@@ -113,6 +115,7 @@ public class Constants {
     public static final int ORDER_ACT_REQUEST = 5; //跳转订单页面
     public static final int BALANCE_PAY_REQUEST = 6;
     public static final int NEED_USER_INFO_REQUEST = 7;//需要更新用户信息的请求码
+    public static final int APP_UP_WRITE_REQUEST = 8;
 
     /*******************************************************************
      *                            intent key                          *
