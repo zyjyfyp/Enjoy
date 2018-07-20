@@ -285,7 +285,16 @@ public class URLConstants {
      * 微信登录
      */
     public static final String WX_LOGIN_URL = "https://api.weixin.qq.com/sns/userinfo";
-
+    /**
+     * 支付宝支付 签名
+     * http://szlxkg.com/tools/mobile_ajax.asmx/payment_sign?
+     */
+    public static final String ALIPAY_SIGN_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/payment_sign";
+    /**
+     * 微信支付 签名
+     * http://szlxkg.com/tools/mobile_ajax.asmx/payment_sign
+     */
+    public static final String WX_PAY_SIGN_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/payment_sign";
     //    public static final String REALM_NAME_WEB = "http://szlxkg.com";
 //    public static final String REALM_NAME_HTTP = "http://szlxkg.com";
 //    public static final String REALM_NAME_LL = "http://szlxkg.com/tools/mobile_ajax.asmx";

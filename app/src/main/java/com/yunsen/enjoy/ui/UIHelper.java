@@ -51,6 +51,7 @@ import com.yunsen.enjoy.activity.order.DianPingActivity;
 import com.yunsen.enjoy.activity.order.MyOrderActivity;
 import com.yunsen.enjoy.activity.order.MyOrderXqActivity;
 import com.yunsen.enjoy.activity.other.SelectCityNewActivity;
+import com.yunsen.enjoy.activity.pay.TishiCarArchivesActivity;
 import com.yunsen.enjoy.activity.user.DBFengXiangActivity;
 import com.yunsen.enjoy.activity.user.TishiWxBangDingActivity;
 import com.yunsen.enjoy.activity.user.UserLoginActivity;
@@ -828,5 +829,19 @@ public class UIHelper {
         intent.putExtras(extras);
         act.startActivity(intent);
     }
+
+    /**
+     * 商品余额支付
+     *
+     * @param act
+     * @param orderNo
+     */
+    public static void showTishiCarArchivesActivity(Activity act, String orderNo) {
+        Intent intent = new Intent(act, TishiCarArchivesActivity.class);
+        intent.putExtra("order_no", orderNo);
+        intent.putExtra("order_yue", "order_yue");
+        act.startActivityForResult(intent, Constants.BALANCE_PAY_REQUEST);
+    }
+
 
 }

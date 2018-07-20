@@ -250,4 +250,18 @@
         <item name="android:windowNoTitle">true</item>
         <!--<item name="android:windowIsFloating">true</item>-->
     </style>
+    /**
+    微信登录
+    */
+
+    <style name="wx_login_style" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:activityCloseExitAnimation">@anim/push_up_in</item><!--退出动画-->
+        <item name="android:activityOpenExitAnimation">@anim/push_up_out</item>
+        <!--<item name="android:background">@color/color_transparent_9000</item>-->
+    </style>
 </resources>

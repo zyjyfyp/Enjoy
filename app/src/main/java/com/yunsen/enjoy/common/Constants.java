@@ -20,6 +20,7 @@ public class Constants {
     public static final int SUCCESS = 1;
     public static final int FAILED = 0;
     public static final String IMG_URL = "img_url";
+    public static final int BALANCE_PAY_REQUEST = 6;
 
     public static String WX_Code = "";
     public static QQAuth QQauth;
