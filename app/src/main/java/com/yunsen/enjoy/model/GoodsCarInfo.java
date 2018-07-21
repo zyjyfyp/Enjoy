@@ -1,12 +1,15 @@
 package com.yunsen.enjoy.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.yunsen.enjoy.http.URLConstants;
 
 /**
  * Created by Administrator on 2018/5/18.
  */
 
-public class GoodsCarInfo {
+public class GoodsCarInfo implements Parcelable {
     /**
      * id : 40801
      * user_id : 61219
@@ -76,6 +79,57 @@ public class GoodsCarInfo {
     private String spec_ids;
     private int quantity;
     private String update_time;
+
+    public GoodsCarInfo() {
+    }
+
+    protected GoodsCarInfo(Parcel in) {
+        isCheckGoods = in.readByte() != 0;
+        id = in.readInt();
+        user_id = in.readInt();
+        user_name = in.readString();
+        sale_id = in.readInt();
+        company_id = in.readInt();
+        company_name = in.readString();
+        title = in.readString();
+        img_url = in.readString();
+        article_id = in.readInt();
+        goods_id = in.readInt();
+        goods_no = in.readString();
+        stock_quantity = in.readInt();
+        market_price = in.readDouble();
+        sell_price = in.readDouble();
+        cost_price = in.readDouble();
+        rebate_price = in.readDouble();
+        cashing_packet = in.readDouble();
+        cashing_point = in.readDouble();
+        group_id = in.readInt();
+        group_price = in.readDouble();
+        exchange_price = in.readDouble();
+        exchange_point = in.readInt();
+        give_packet = in.readDouble();
+        give_sinup_point = in.readInt();
+        give_sinin_point = in.readInt();
+        give_pension = in.readInt();
+        give_sinup_exp = in.readInt();
+        give_sinin_exp = in.readInt();
+        spec_text = in.readString();
+        spec_ids = in.readString();
+        quantity = in.readInt();
+        update_time = in.readString();
+    }
+
+    public static final Creator<GoodsCarInfo> CREATOR = new Creator<GoodsCarInfo>() {
+        @Override
+        public GoodsCarInfo createFromParcel(Parcel in) {
+            return new GoodsCarInfo(in);
+        }
+
+        @Override
+        public GoodsCarInfo[] newArray(int size) {
+            return new GoodsCarInfo[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -355,5 +409,47 @@ public class GoodsCarInfo {
 
     public void setCheckGoods(boolean checkGoods) {
         isCheckGoods = checkGoods;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeByte((byte) (isCheckGoods ? 1 : 0));
+        dest.writeInt(id);
+        dest.writeInt(user_id);
+        dest.writeString(user_name);
+        dest.writeInt(sale_id);
+        dest.writeInt(company_id);
+        dest.writeString(company_name);
+        dest.writeString(title);
+        dest.writeString(img_url);
+        dest.writeInt(article_id);
+        dest.writeInt(goods_id);
+        dest.writeString(goods_no);
+        dest.writeInt(stock_quantity);
+        dest.writeDouble(market_price);
+        dest.writeDouble(sell_price);
+        dest.writeDouble(cost_price);
+        dest.writeDouble(rebate_price);
+        dest.writeDouble(cashing_packet);
+        dest.writeDouble(cashing_point);
+        dest.writeInt(group_id);
+        dest.writeDouble(group_price);
+        dest.writeDouble(exchange_price);
+        dest.writeInt(exchange_point);
+        dest.writeDouble(give_packet);
+        dest.writeInt(give_sinup_point);
+        dest.writeInt(give_sinin_point);
+        dest.writeInt(give_pension);
+        dest.writeInt(give_sinup_exp);
+        dest.writeInt(give_sinin_exp);
+        dest.writeString(spec_text);
+        dest.writeString(spec_ids);
+        dest.writeInt(quantity);
+        dest.writeString(update_time);
     }
 }

@@ -32,4 +32,5 @@
     <dimen name="notice_width">90dp</dimen>
     <dimen name="dp_90">90dp</dimen>
     <dimen name="dp_10">10dp</dimen>
+    <dimen name="price_size">14sp</dimen>
 </resources>

@@ -36,6 +36,8 @@ import com.yunsen.enjoy.activity.goods.ChangeGoodsActivity;
 import com.yunsen.enjoy.activity.goods.HowIncomeActivity;
 import com.yunsen.enjoy.activity.goods.HowOperateActivity;
 import com.yunsen.enjoy.activity.goods.PhotoPreviewActivity;
+import com.yunsen.enjoy.activity.mine.AddUserAddressActivity;
+import com.yunsen.enjoy.activity.mine.AddressManagerActivity;
 import com.yunsen.enjoy.activity.mine.AppointmentActivity;
 import com.yunsen.enjoy.activity.mine.ClassifyActivity;
 import com.yunsen.enjoy.activity.mine.CollectionActivity;
@@ -50,6 +52,7 @@ import com.yunsen.enjoy.activity.mine.UserForgotPasswordActivity;
 import com.yunsen.enjoy.activity.order.DianPingActivity;
 import com.yunsen.enjoy.activity.order.MyOrderActivity;
 import com.yunsen.enjoy.activity.order.MyOrderXqActivity;
+import com.yunsen.enjoy.activity.order.SubmitOrderActivity;
 import com.yunsen.enjoy.activity.other.SelectCityNewActivity;
 import com.yunsen.enjoy.activity.pay.TishiCarArchivesActivity;
 import com.yunsen.enjoy.activity.user.DBFengXiangActivity;
@@ -61,6 +64,7 @@ import com.yunsen.enjoy.fragment.buy.SelectBrandActivity;
 import com.yunsen.enjoy.fragment.buy.SeniorFilterActivity;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.model.GoodsCarInfo;
 import com.yunsen.enjoy.model.MyOrderData;
 import com.yunsen.enjoy.model.OrderBean;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
@@ -673,6 +677,39 @@ public class UIHelper {
         Intent intent = new Intent(ctx, MyOrderConfrimActivity.class);
         intent.putExtra("buy_no", buyNo);
         ctx.startActivity(intent);
+    }
+
+    /**
+     * 提交交换物品订单
+     *  @param ctx
+     * @param requestDatas
+     * @param account
+     * @param price
+     */
+    public static void showSubmitOrderActivity(Context ctx, ArrayList<GoodsCarInfo> requestDatas, int account, double price) {
+        Intent intent = new Intent(ctx, SubmitOrderActivity.class);
+        Bundle extras = new Bundle();
+        extras.putParcelableArrayList(Constants.SUBMIT_ORDER_KEY,requestDatas);
+        extras.putInt(Constants.GOODS_SIZE,account);
+        extras.putDouble(Constants.GOODS_PRICE,price);
+        intent.putExtras(extras);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 显示地址管理页面
+     *
+     * @param act
+     */
+
+    public static void showAddressManagerActivity(Activity act) {
+        Intent intent = new Intent(act, AddressManagerActivity.class);
+        act.startActivityForResult(intent, Constants.ADDRESS_MANAGER_REQUEST);
+    }
+
+    public static void showAddUserAddressActivity(Activity act) {
+        Intent intent = new Intent(act, AddUserAddressActivity.class);
+//        act.startActivityForResult(intent, Constants.ADD_ADDRESS_ACT_REQUEST);
     }
 
     /**

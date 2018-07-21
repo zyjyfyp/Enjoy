@@ -1,5 +1,7 @@
 package com.yunsen.enjoy.http;
 
+import android.net.Uri;
+
 import com.yunsen.enjoy.BuildConfig;
 import com.yunsen.enjoy.common.Constants;
 
@@ -299,8 +301,8 @@ public class URLConstants {
 //    public static final String REALM_NAME_HTTP = "http://szlxkg.com";
 //    public static final String REALM_NAME_LL = "http://szlxkg.com/tools/mobile_ajax.asmx";
 //    public static final String REALM_NAME_FX = "http://szlxkg.com";
-    public static final String REALM_NAME_WEB = "http://183.62.138.31:1066";
-    public static final String REALM_NAME_HTTP = "http://183.62.138.31:1066";
-    public static final String REALM_NAME_LL = "http://183.62.138.31:1066/tools/mobile_ajax.asmx";
-    public static final String REALM_NAME_FX = "http://183.62.138.31:1066";
+    public static final String REALM_NAME_WEB = BuildConfig.ROOT_URL;
+    public static final String REALM_NAME_HTTP = BuildConfig.ROOT_URL;
+    public static final String REALM_NAME_LL = BuildConfig.ROOT_URL+"/tools/mobile_ajax.asmx";
+    public static final String REALM_NAME_FX = BuildConfig.ROOT_URL;
 }

@@ -24,6 +24,7 @@ public class AddAndSubView extends LinearLayout implements View.OnClickListener 
     private EditText numEdt;
     private int mMaxNum = 100;
     private OnRightOnclickListener rightOnclickListener;
+    private int mMinNum = 1;
 
     public AddAndSubView(Context context) {
         super(context);
@@ -74,7 +75,7 @@ public class AddAndSubView extends LinearLayout implements View.OnClickListener 
                 }
                 break;
             case R.id.sub_tv:
-                if (num <= 1) {
+                if (num <= mMinNum) {
                     ToastUtils.makeTextShort("不能减少了");
                 } else {
                     numEdt.setText(String.valueOf((num - 1)));
@@ -90,7 +91,13 @@ public class AddAndSubView extends LinearLayout implements View.OnClickListener 
         numEdt.setText("" + num);
     }
 
+    public int getmMinNum() {
+        return mMinNum;
+    }
 
+    public void setmMinNum(int mMinNum) {
+        this.mMinNum = mMinNum;
+    }
 
     public void setRightOnclickListener(OnRightOnclickListener rightOnclickListener) {
         this.rightOnclickListener = rightOnclickListener;

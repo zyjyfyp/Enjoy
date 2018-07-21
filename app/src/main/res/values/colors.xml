@@ -15,6 +15,7 @@
     <!-- 字体颜色值 -->
     <color name="text_color_white">#ffffff</color>
     <color name="text_color_gray">#888888</color>
+    <color name="color_text">#1e1e1e</color>
 
     <!-- 分割线色值 -->
 
@@ -93,6 +94,7 @@
 
     <!-- 橙色 -->
     <color name="orange_color">#de6838</color>
+    <color name="color_price">#de6838</color>
     <!-- 字体颜色 -->
     <color name="huiheise">#C8CACC</color>
 

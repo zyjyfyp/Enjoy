@@ -21,6 +21,11 @@ public class Constants {
     public static final int FAILED = 0;
     public static final String IMG_URL = "img_url";
     public static final int BALANCE_PAY_REQUEST = 6;
+    public static final String ADDRESS_DATA_KEY = "address_data_key";
+    public static final String EMPTY = "";
+    public static final String SUBMIT_ORDER_KEY = "SUBMIT_ORDER_KEY";
+    public static final String GOODS_SIZE = "goods_size";
+    public static final String GOODS_PRICE = "GOODS_PRICE";
 
     public static String WX_Code = "";
     public static QQAuth QQauth;
@@ -89,6 +94,7 @@ public class Constants {
     public static final int ORDER_ACT_REQUEST = 5; //跳转订单页面
     public static final int ClASSIFY_REQUEST = 13;//选择类型
     public static final int PHOTO_PRE_REQUEST = 14;//上传图片浏览界面
+    public static final int ADDRESS_MANAGER_REQUEST = 16;//地址管理
 
     /*******************************************************************
      *                          申请手机权限时的请求码                      *

@@ -14,7 +14,8 @@
         <item name="android:statusBarColor" tools:ignore="NewApi">@android:color/black</item>
         <!-- true: status栏的图标和文字为黑色；false: sstatus栏的图标和文字为白色 -->
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:textViewStyle">@style/MyTextViewStyle</item>
+         All customizations that are NOT specific to a particular API-level can go here.
         <!--<item name="vpiIconPageIndicatorStyle">@style/Widget.IconPageIndicator</item>-->
         <!--<item name="vpiTabPageIndicatorStyle">@style/Widget.TabPageIndicator.Custom</item>-->
         <!--<item name="android:windowIsTranslucent">true</item>-->
@@ -23,6 +24,11 @@
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:fitsSystemWindows">true</item>
          -->
+    </style>
+
+    <style name="MyTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/color_text</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="footer_bar">

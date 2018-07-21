@@ -350,6 +350,11 @@
             android:name=".activity.other.SelectCityNewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DefaultCityPickerTheme" />
+        <activity
+            android:name=".activity.order.SubmitOrderActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden|navigation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
     </application>
 
 </manifest>

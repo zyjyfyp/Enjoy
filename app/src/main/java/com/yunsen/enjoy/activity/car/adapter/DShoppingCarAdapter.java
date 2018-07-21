@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 
@@ -17,6 +18,7 @@ import com.yunsen.enjoy.model.ShopCarCount;
 import com.yunsen.enjoy.ui.DialogUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.widget.AddAndSubView;
+import com.yunsen.enjoy.widget.interfaces.GoodsSumInterface;
 import com.yunsen.enjoy.widget.interfaces.OnLeftOnclickListener;
 import com.yunsen.enjoy.widget.interfaces.OnRightOnclickListener;
 import com.yunsen.enjoy.widget.recyclerview.CommonAdapter;
@@ -32,11 +34,9 @@ import okhttp3.Request;
 
 public class DShoppingCarAdapter extends CommonAdapter<GoodsCarInfo> {
     private GoodsSumInterface mGoodsSumCall;
-    private String mUserId;
 
-    public DShoppingCarAdapter(Context context, int layoutId, List<GoodsCarInfo> datas,String mUserId) {
+    public DShoppingCarAdapter(Context context, int layoutId, List<GoodsCarInfo> datas) {
         super(context, layoutId, datas);
-        this.mUserId=mUserId;
     }
 
     private static final String TAG = "DShoppingCarAdapter";
@@ -59,12 +59,22 @@ public class DShoppingCarAdapter extends CommonAdapter<GoodsCarInfo> {
             @Override
             public void onClick(View v) {
                 boolean checked = ((CheckBox) v).isChecked();
-                Log.e(TAG, "onClick: checked =" + checked);
                 goodsData.setCheckGoods(checked);
-
                 if (mGoodsSumCall != null) {
                     double goodsSumPrice = getGoodsSumPrice();
                     mGoodsSumCall.GoodsSumCallBack(mGoodsCount, goodsSumPrice);
+                    if (checked) {
+                        int size = mDatas.size();
+                        int i = 0;
+                        for (; i < size; i++) {
+                            if (!mDatas.get(i).isCheckGoods()) {
+                                break;
+                            }
+                        }
+                        mGoodsSumCall.isCheckAll(size == i);
+                    } else {
+                        mGoodsSumCall.isCheckAll(false);
+                    }
                 }
             }
         });
@@ -75,7 +85,7 @@ public class DShoppingCarAdapter extends CommonAdapter<GoodsCarInfo> {
                 if (mGoodsSumCall != null) {
                     final int fIndex = index[0];
                     int id = goodsData.getId();
-                    HttpProxy.upShopCarGoods(mUserId, String.valueOf(id), String.valueOf(fIndex), new HttpCallBack<ShopCarCount>() {
+                    HttpProxy.upShopCarGoods(String.valueOf(id), String.valueOf(fIndex), new HttpCallBack<ShopCarCount>() {
                         @Override
                         public void onSuccess(ShopCarCount responseData) {
                             goodsData.setQuantity(fIndex);
@@ -103,7 +113,7 @@ public class DShoppingCarAdapter extends CommonAdapter<GoodsCarInfo> {
                             public void onRightClick(int... index) {
                                 final GoodsCarInfo data = (GoodsCarInfo) fView.getTag();
 
-                                HttpProxy.deleteShopCarGoods(mUserId, "" + data.getId(), new HttpCallBack<ShopCarCount>() {
+                                HttpProxy.deleteShopCarGoods("" + data.getId(), new HttpCallBack<ShopCarCount>() {
                                     @Override
                                     public void onSuccess(ShopCarCount responseData) {
                                         if (mDatas.remove(data)) {
@@ -170,12 +180,12 @@ public class DShoppingCarAdapter extends CommonAdapter<GoodsCarInfo> {
         this.mGoodsSumCall = goodsSumCall;
     }
 
-    public void setCheckAllOrNo(boolean isChecked) {
+    public void setCheckAllOrNo(DShoppingCarAdapter adapte, boolean isChecked) {
         int size = mDatas.size();
         for (int i = 0; i < size; i++) {
             mDatas.get(i).setCheckGoods(isChecked);
         }
-        this.notifyDataSetChanged();
+        adapte.notifyDataSetChanged();
     }
 
     /**
@@ -217,7 +227,5 @@ public class DShoppingCarAdapter extends CommonAdapter<GoodsCarInfo> {
         return datas;
     }
 
-    public interface GoodsSumInterface {
-        public void GoodsSumCallBack(int goodsSum, double goodsPrices);
-    }
+
 }

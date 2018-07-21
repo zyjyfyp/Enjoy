@@ -23,7 +23,7 @@
             <CheckBox
                 android:id="@+id/car_goods_cb"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/app_margin"
                 android:button="@drawable/car_goods_select" />

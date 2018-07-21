@@ -68,6 +68,7 @@ import com.yunsen.enjoy.model.response.UserInfoResponse;
 import com.yunsen.enjoy.model.response.WalletCashResponse;
 import com.yunsen.enjoy.model.response.WatchCarResponse;
 import com.yunsen.enjoy.model.response.WxPaySignResponse;
+import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.EntityToMap;
 import com.yunsen.enjoy.utils.SpUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
@@ -1350,11 +1351,11 @@ public class HttpProxy {
     /**
      * 获取购物车
      */
-    public static void getMyShoppingCart(String userId, String pageIdx, final HttpCallBack<List<GoodsCarInfo>> callBack) {
+    public static void getMyShoppingCart(String pageIdx, final HttpCallBack<List<GoodsCarInfo>> callBack) {
         HashMap<String, String> map = new HashMap<>();
         map.put("pageSize", "50");
         map.put("pageIndex", pageIdx);
-        map.put("user_id", userId);
+        map.put("user_id", AccountUtils.getUser_id());
         HttpClient.get(URLConstants.MY_SHOPPING_CART_LIST, map, new HttpResponseHandler<GoodsCarResponse>() {
             @Override
             public void onSuccess(GoodsCarResponse response) {
@@ -1378,10 +1379,10 @@ public class HttpProxy {
     /**
      * 删除购物车的某个商品
      */
-    public static void deleteShopCarGoods(String userId, String GoodsId, final HttpCallBack<ShopCarCount> callBack) {
+    public static void deleteShopCarGoods(String GoodsId, final HttpCallBack<ShopCarCount> callBack) {
         HashMap<String, String> map = new HashMap<>();
         map.put("clear", "0");
-        map.put("user_id", userId);
+        map.put("user_id", AccountUtils.getUser_id());
         map.put("cart_id", GoodsId);
         HttpClient.get(URLConstants.DELETE_SHOPPING_CART_GOODS, map, new HttpResponseHandler<ShopCarAccountResponse>() {
             @Override
@@ -1406,14 +1407,13 @@ public class HttpProxy {
     /**
      * 更新购物车物品数量
      *
-     * @param userId
      * @param GoodsId
      * @param callBack
      */
-    public static void upShopCarGoods(String userId, String GoodsId, String quantity, final HttpCallBack<ShopCarCount> callBack) {
+    public static void upShopCarGoods(String GoodsId, String quantity, final HttpCallBack<ShopCarCount> callBack) {
         HashMap<String, String> map = new HashMap<>();
         map.put("quantity", quantity);
-        map.put("user_id", userId);
+        map.put("user_id", AccountUtils.getUser_id());
         map.put("cart_id", GoodsId);
 
         HttpClient.get(URLConstants.UP_SHOPPING_CART_GOODS, map, new HttpResponseHandler<ShopCarAccountResponse>() {
