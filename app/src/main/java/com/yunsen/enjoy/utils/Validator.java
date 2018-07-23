@@ -82,7 +82,7 @@ public class Validator {
 	 */
 	public static boolean isMobile(String mobile) {
 //		return Pattern.matches(REGEX_MOBILE, mobile);
-		String regex = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,1,2,5-9])|(17[0-9]))\\d{8}$";
+		String regex = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,1,2,3,5-9])|(17[0-9]))\\d{8}$";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(mobile);
 		return matcher.matches();

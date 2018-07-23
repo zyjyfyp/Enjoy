@@ -87,6 +87,7 @@ public class Constants {
     public static final int ADD_ADDRESS_ACT_REQUEST = 12;//支付页面添加地址
     public static final int PHONE_LOGIN_REQUEST = 14;// 手机登录
     public static final int BIND_BANK_CARD_REQUEST = 15;//绑定银行的页面
+    public static final int LOCATION_ADDRESS_REQUEST = 16;//开启gps请求码
 
 
     /*******************************************************************

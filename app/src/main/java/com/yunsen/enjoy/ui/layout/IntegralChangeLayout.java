@@ -111,31 +111,31 @@ public class IntegralChangeLayout extends LinearLayout implements View.OnClickLi
                 UIHelper.showExchangePointActivity(mContext);
                 break;
             case R.id.hone_point_img_0:
-                if (mDatas.size() > 1) {
+                if (mDatas.size() > 0) {
                     carDetails = mDatas.get(0);
                     UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(carDetails.getId()), carDetails.getTitle(), Constants.POINT_BUY);
                 }
                 break;
             case R.id.hone_point_img_1:
-                if (mDatas.size() > 2) {
+                if (mDatas.size() > 1) {
                     carDetails = mDatas.get(1);
                     UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(carDetails.getId()), carDetails.getTitle(), Constants.POINT_BUY);
                 }
                 break;
             case R.id.hone_point_img_2:
-                if (mDatas.size() > 3) {
+                if (mDatas.size() > 2) {
                     carDetails = mDatas.get(2);
                     UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(carDetails.getId()), carDetails.getTitle(), Constants.POINT_BUY);
                 }
                 break;
             case R.id.hone_point_img_3:
-                if (mDatas.size() > 4) {
+                if (mDatas.size() > 3) {
                     carDetails = mDatas.get(3);
                     UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(carDetails.getId()), carDetails.getTitle(), Constants.POINT_BUY);
                 }
                 break;
             case R.id.hone_point_img_4:
-                if (mDatas.size() > 5) {
+                if (mDatas.size() > 4) {
                     carDetails = mDatas.get(4);
                     UIHelper.showGoodsDescriptionActivity(mContext, String.valueOf(carDetails.getId()), carDetails.getTitle(), Constants.POINT_BUY);
                 }

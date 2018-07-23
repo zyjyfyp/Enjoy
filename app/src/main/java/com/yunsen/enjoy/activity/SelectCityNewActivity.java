@@ -102,7 +102,7 @@ public class SelectCityNewActivity extends BaseFragmentActivity implements AMapL
             Toast.makeText(this, "系统检测到未开启GPS定位服务", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent();
             intent.setAction(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivity(intent);
+            startActivityForResult(intent, 6);
         }
     }
 
@@ -167,5 +167,11 @@ public class SelectCityNewActivity extends BaseFragmentActivity implements AMapL
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        initAddress();
     }
 }
