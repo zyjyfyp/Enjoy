@@ -22,6 +22,7 @@ import com.yunsen.enjoy.activity.mine.fragment.TeamFragment;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
 
@@ -75,7 +76,9 @@ public class TeamActivity extends BaseFragmentActivity {
     protected void initData(Bundle savedInstanceState) {
         SharedPreferences sp = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         mUserId = sp.getString(SpConstants.USER_ID, "");
-        mShareUrl = URLConstants.REALM_URL + "/appshare/" + mUserId + ".html";
+        mShareUrl = URLConstants.REALM_URL + "/appshare/" + mUserId + ".html" +
+                "?unionid=" + AccountUtils.getUnionid() + "&shareid=" + mUserId + "&from=android ";
+        //http://mobile.szlxkg.com/appshare/8823.html
         initFragment();
         viewpager.setAdapter(new TeamFragmentAdapter(getSupportFragmentManager(), mFragments));
         tabLayout.setupWithViewPager(viewpager);

@@ -120,6 +120,7 @@ public  class SProviderModel {
     private String update_time;
     private String add_time;
     private List<?> article;
+    private String service_time;
 
     public int getId() {
         return id;
@@ -307,6 +308,14 @@ public  class SProviderModel {
 
     public void setSeo_description(String seo_description) {
         this.seo_description = seo_description;
+    }
+
+    public String getService_time() {
+        return service_time;
+    }
+
+    public void setService_time(String service_time) {
+        this.service_time = service_time;
     }
 
     public String getProvince() {

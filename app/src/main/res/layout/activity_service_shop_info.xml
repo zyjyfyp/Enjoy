@@ -22,6 +22,20 @@
                 android:layout_height="200dp"
                 android:scaleType="centerCrop" />
 
+            <TextView
+                android:id="@+id/service_title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:textColor="@color/title_color"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray_light" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/item_height"
@@ -31,41 +45,60 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:minEms="4"
+                    android:text="联系人："
+                    android:textColor="@color/title_color"
+                    android:textSize="13sp" />
+
+                <TextView
                     android:id="@+id/service_name_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="姓名："
+                    android:textColor="@color/title_color"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray_light" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                android:layout_marginLeft="@dimen/app_margin"
+                android:layout_marginRight="@dimen/app_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:minEms="4"
+                    android:text="联系电话："
                     android:textColor="@color/title_color"
                     android:textSize="13sp" />
 
-                <View
+                <TextView
+                    android:id="@+id/service_online_phone_tv"
                     android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_weight="1"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/title_color"
+                    android:textSize="13sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="right"
-                        android:drawablePadding="5dp"
-                        android:gravity="center_vertical"
-                        android:text="电话："
-                        android:textColor="@color/title_color"
-                        android:textSize="13sp" />
-
-                    <ImageView
-                        android:id="@+id/shop_phone_img"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@mipmap/phone_call" />
-
-                </LinearLayout>
+                <ImageView
+                    android:id="@+id/shop_phone_img"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/phone_call" />
 
             </LinearLayout>
 
@@ -74,20 +107,34 @@
                 android:layout_height="1dp"
                 android:background="@color/gray_light" />
 
-            <TextView
-                android:id="@+id/address_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/item_height"
                 android:layout_marginLeft="@dimen/app_margin"
                 android:layout_marginRight="@dimen/app_margin"
-                android:layout_marginTop="5dp"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:lines="2"
-                android:text="详细地址："
-                android:textColor="@color/title_color"
-                android:textSize="13sp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:minEms="4"
+                    android:text="详细地址："
+                    android:textColor="@color/title_color"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/address_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:lines="2"
+                    android:textColor="@color/title_color"
+                    android:textSize="13sp" />
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -126,6 +173,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/app_margin"
                 android:layout_marginRight="@dimen/app_margin"
+                android:paddingBottom="20dp"
                 android:textColor="@color/title_color"
                 android:textSize="13sp" />
         </LinearLayout>

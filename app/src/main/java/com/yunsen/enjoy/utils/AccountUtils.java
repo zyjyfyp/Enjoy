@@ -126,6 +126,10 @@ public class AccountUtils {
     }
 
     public static String getUnionid() {
+        if (TextUtils.isEmpty(unionid)) {
+            SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
+            unionid = sp.getString(SpConstants.UNION_ID, "");
+        }
         return unionid;
     }
 

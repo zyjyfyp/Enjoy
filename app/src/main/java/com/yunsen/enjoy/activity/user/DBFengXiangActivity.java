@@ -32,6 +32,7 @@ import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.ApkVersionInfo;
+import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.widget.DialogProgress;
 
 import java.util.concurrent.ExecutionException;
@@ -118,7 +119,8 @@ public class DBFengXiangActivity extends BaseFragmentActivity implements OnClick
         switch (mShareType) {
             case Constants.SHARE_APP_INFO: // 分享app
                 mShareTitle = getResources().getString(R.string.app_name);
-                mShareUrl = URLConstants.REALM_URL + "/appshare/" + mUserId + ".html";
+                mShareUrl = URLConstants.REALM_URL + "/appshare/" + mUserId + ".html" +
+                        "?unionid=" + AccountUtils.getUnionid() + "&shareid=" + mUserId + "&from=android";
                 requestAppVersion();
                 break;
             default:

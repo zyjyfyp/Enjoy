@@ -19,6 +19,7 @@ import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.BitmapUtil;
 
 import java.io.File;
@@ -59,7 +60,8 @@ public class ExtensionActivity extends BaseFragmentActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        mShareUrl = URLConstants.REALM_URL + "/appshare/" + mUserId + ".html";
+        mShareUrl = URLConstants.REALM_URL + "/appshare/" + mUserId + ".html" +
+                "?unionid=" + AccountUtils.getUnionid() + "&shareid=" + mUserId + "&from=android";
         final String path = getCacheDir().toString() + "enjoy";
         new AsyncTask<String, Nullable, Boolean>() {
 

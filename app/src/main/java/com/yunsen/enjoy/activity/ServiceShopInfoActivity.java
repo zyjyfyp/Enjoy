@@ -1,11 +1,9 @@
 package com.yunsen.enjoy.activity;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,8 +16,6 @@ import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.ui.UIHelper;
-
-import java.net.URL;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -49,6 +45,10 @@ public class ServiceShopInfoActivity extends BaseFragmentActivity {
     TextView shopTime;
     @Bind(R.id.shop_info)
     TextView shopInfo;
+    @Bind(R.id.service_title_tv)
+    TextView serviceTitleTv;
+    @Bind(R.id.service_online_phone_tv)
+    TextView serviceOnlinePhoneTv;
     private String mServiceId;
     public SProviderModel mData;
 
@@ -97,10 +97,14 @@ public class ServiceShopInfoActivity extends BaseFragmentActivity {
 
     private void upData(SProviderModel responseData) {
         serviceNameTv.setText(responseData.getArtperson());
-        String addr = "详细地址：" + responseData.getProvince() + responseData.getCity() + responseData.getArea()
+        String addr = responseData.getProvince() + responseData.getCity() + responseData.getArea()
                 + responseData.getAddress();
         addressInfo.setText(addr);
+//
+        shopTime.setText("营业时间：" + responseData.getService_time());
         String advantage = responseData.getContent();
+        serviceOnlinePhoneTv.setText(responseData.getMobile());
+        serviceTitleTv.setText(responseData.getName());
         if (!TextUtils.isEmpty(advantage)) {
             shopInfo.setText(Html.fromHtml(advantage));
         }
