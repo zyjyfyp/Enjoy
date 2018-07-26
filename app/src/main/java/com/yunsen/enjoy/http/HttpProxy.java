@@ -40,6 +40,7 @@ import com.yunsen.enjoy.model.SProviderModel;
 import com.yunsen.enjoy.model.SaleAfterBean;
 import com.yunsen.enjoy.model.ServiceProject;
 import com.yunsen.enjoy.model.ServiceProvideResponse;
+import com.yunsen.enjoy.model.TeamInfoBean;
 import com.yunsen.enjoy.model.TradeData;
 import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.WXAccessTokenEntity;
@@ -72,6 +73,7 @@ import com.yunsen.enjoy.model.response.ServiceProjectListResponse;
 import com.yunsen.enjoy.model.response.ServiceShopInfoResponse;
 import com.yunsen.enjoy.model.response.ShoppingAddressResponse;
 import com.yunsen.enjoy.model.response.StringResponse;
+import com.yunsen.enjoy.model.response.TeamInfoResponse;
 import com.yunsen.enjoy.model.response.TradeListResponse;
 import com.yunsen.enjoy.model.response.UserInfoResponse;
 import com.yunsen.enjoy.model.response.WalletCashResponse;
@@ -906,21 +908,23 @@ public class HttpProxy {
     /**
      * 铁杆圈
      */
-    public static void getGavelockRing() {
+    public static void getGavelockRing(String pageIndex, final HttpCallBack<TeamInfoBean> callBack) {
         HashMap<String, String> param = new HashMap<>();
-        param.put("user_id", "");
-        param.put("page_size", "5");
+        param.put("user_id", AccountUtils.getUser_id());
+        param.put("page_size", "10");
         param.put("strwhere", "");
         param.put("orderby", "id desc");
-        param.put("page_index", "1");
-        HttpClient.get(URLConstants.GAVELOCK_RING_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
+        param.put("page_index", pageIndex);
+        HttpClient.get(URLConstants.GAVELOCK_RING_URL, param, new HttpResponseHandler<TeamInfoResponse>() {
             @Override
-            public void onSuccess(AccountBalanceResponse response) {
+            public void onSuccess(TeamInfoResponse response) {
                 super.onSuccess(response);
+                callBack.onSuccess(response.getData());
             }
 
             @Override
             public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
                 Logger.e(TAG, "onFailure: " + e.getMessage());
             }
         });
@@ -930,21 +934,23 @@ public class HttpProxy {
     /**
      * 朋友圈
      */
-    public static void getFriendRing() {
+    public static void getFriendRing(String pageIndex, final HttpCallBack<TeamInfoBean> callBack) {
         HashMap<String, String> param = new HashMap<>();
-        param.put("user_id", "");
-        param.put("page_size", "5");
-        param.put("page_index", "1");
+        param.put("user_id", AccountUtils.getUser_id());
+        param.put("page_size", "10");
+        param.put("page_index", pageIndex);
         param.put("strwhere", "");
         param.put("orderby", "id desc");
-        HttpClient.get(URLConstants.FRIEND_RING_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
+        HttpClient.get(URLConstants.FRIEND_RING_URL, param, new HttpResponseHandler<TeamInfoResponse>() {
             @Override
-            public void onSuccess(AccountBalanceResponse response) {
+            public void onSuccess(TeamInfoResponse response) {
                 super.onSuccess(response);
+                callBack.onSuccess(response.getData());
             }
 
             @Override
             public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
                 Logger.e(TAG, "onFailure: " + e.getMessage());
             }
         });
@@ -953,21 +959,23 @@ public class HttpProxy {
     /**
      * 粉丝圈Vermicelli
      */
-    public static void getVermicelliRing() {
+    public static void getVermicelliRing(String pageIndex, final HttpCallBack<TeamInfoBean> callBack) {
         HashMap<String, String> param = new HashMap<>();
         param.put("user_id", "");
         param.put("page_size", "5");
-        param.put("page_index", "1");
+        param.put("page_index", pageIndex);
         param.put("strwhere", "");
         param.put("orderby", "id desc");
-        HttpClient.get(URLConstants.VERMICELLI_URL, param, new HttpResponseHandler<AccountBalanceResponse>() {
+        HttpClient.get(URLConstants.VERMICELLI_URL, param, new HttpResponseHandler<TeamInfoResponse>() {
             @Override
-            public void onSuccess(AccountBalanceResponse response) {
+            public void onSuccess(TeamInfoResponse response) {
                 super.onSuccess(response);
+                callBack.onSuccess(response.getData());
             }
 
             @Override
             public void onFailure(Request request, Exception e) {
+                callBack.onError(request, e);
                 Logger.e(TAG, "onFailure: " + e.getMessage());
             }
         });

@@ -19,6 +19,7 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.activity.mine.adapter.TeamFragmentAdapter;
 import com.yunsen.enjoy.activity.mine.fragment.TeamFragment;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.ui.UIHelper;
@@ -82,13 +83,26 @@ public class TeamActivity extends BaseFragmentActivity {
         initFragment();
         viewpager.setAdapter(new TeamFragmentAdapter(getSupportFragmentManager(), mFragments));
         tabLayout.setupWithViewPager(viewpager);
+        viewpager.setOffscreenPageLimit(3);
     }
 
     private void initFragment() {
         mFragments = new ArrayList<Fragment>();
         teamOneFragment = new TeamFragment();
+        Bundle args1 = new Bundle();
+        args1.putInt(Constants.TEAM_TYPE_KEY, Constants.TEAM_TYPE_ONE);
+        teamOneFragment.setArguments(args1);
+
         teamTwoFragment = new TeamFragment();
+        Bundle args2 = new Bundle();
+        args2.putInt(Constants.TEAM_TYPE_KEY, Constants.TEAM_TYPE_TWO);
+        teamTwoFragment.setArguments(args2);
+
         teamThreeFragment = new TeamFragment();
+        Bundle args3 = new Bundle();
+        args3.putInt(Constants.TEAM_TYPE_KEY, Constants.TEAM_TYPE_THREE);
+        teamThreeFragment.setArguments(args3);
+
         mFragments.add(teamOneFragment);
         mFragments.add(teamTwoFragment);
         mFragments.add(teamThreeFragment);

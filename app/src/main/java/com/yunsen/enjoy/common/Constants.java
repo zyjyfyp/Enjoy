@@ -143,6 +143,11 @@ public class Constants {
 
     public static final String ORDER_DATA = "ORDER_NO";
 
+    public static final String TEAM_TYPE_KEY = "team_type_key";
+    public static final int TEAM_TYPE_ONE = 1;
+    public static final int TEAM_TYPE_TWO = 2;
+    public static final int TEAM_TYPE_THREE = 3;
+
     /***
      * 分享
      */
