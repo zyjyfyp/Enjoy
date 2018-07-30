@@ -252,13 +252,13 @@ public class MineFragment extends BaseFragment {
                 UIHelper.showBundPhoneActivity(getActivity());
             }
         } else {
-            if (AccountUtils.hasVIP()) {
-                UIHelper.showOrderActivity(getActivity(), type);
-            } else if (AccountUtils.hasBoundPhone()) {
-                DialogUtils.showBecomeVipDialog(getActivity());
-            } else {
+//            if (AccountUtils.hasVIP()) {
+//                UIHelper.showOrderActivity(getActivity(), type);
+//            } else if (AccountUtils.hasBoundPhone()) {
+//                DialogUtils.showBecomeVipDialog(getActivity());
+//            } else {
                 UIHelper.showUserLoginActivity(getActivity());
-            }
+//            }
         }
     }
 

@@ -52,8 +52,8 @@ public class TeamActivity extends BaseFragmentActivity {
     @Bind(R.id.viewpager)
     ViewPager viewpager;
     private TeamFragment teamOneFragment;
-    private TeamFragment teamTwoFragment;
-    private TeamFragment teamThreeFragment;
+    //    private TeamFragment teamTwoFragment;
+//    private TeamFragment teamThreeFragment;
     private List<Fragment> mFragments;
     private PopupWindow mpopuWindw;
     private PopupWindow popupWindow;
@@ -68,7 +68,7 @@ public class TeamActivity extends BaseFragmentActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-        actionBarTitle.setText("团队信息");
+        actionBarTitle.setText("我的团队");
         actionBarRight.setVisibility(View.VISIBLE);
         actionBarRight.setImageResource(R.drawable.share_app_seletor);
     }
@@ -82,8 +82,7 @@ public class TeamActivity extends BaseFragmentActivity {
         //http://mobile.szlxkg.com/appshare/8823.html
         initFragment();
         viewpager.setAdapter(new TeamFragmentAdapter(getSupportFragmentManager(), mFragments));
-        tabLayout.setupWithViewPager(viewpager);
-        viewpager.setOffscreenPageLimit(3);
+//        tabLayout.setupWithViewPager(viewpager);
     }
 
     private void initFragment() {
@@ -93,19 +92,19 @@ public class TeamActivity extends BaseFragmentActivity {
         args1.putInt(Constants.TEAM_TYPE_KEY, Constants.TEAM_TYPE_ONE);
         teamOneFragment.setArguments(args1);
 
-        teamTwoFragment = new TeamFragment();
-        Bundle args2 = new Bundle();
-        args2.putInt(Constants.TEAM_TYPE_KEY, Constants.TEAM_TYPE_TWO);
-        teamTwoFragment.setArguments(args2);
-
-        teamThreeFragment = new TeamFragment();
-        Bundle args3 = new Bundle();
-        args3.putInt(Constants.TEAM_TYPE_KEY, Constants.TEAM_TYPE_THREE);
-        teamThreeFragment.setArguments(args3);
-
+//        teamTwoFragment = new TeamFragment();
+//        Bundle args2 = new Bundle();
+//        args2.putInt(Constants.TEAM_TYPE_KEY, Constants.TEAM_TYPE_TWO);
+//        teamTwoFragment.setArguments(args2);
+//
+//        teamThreeFragment = new TeamFragment();
+//        Bundle args3 = new Bundle();
+//        args3.putInt(Constants.TEAM_TYPE_KEY, Constants.TEAM_TYPE_THREE);
+//        teamThreeFragment.setArguments(args3);
+//
         mFragments.add(teamOneFragment);
-        mFragments.add(teamTwoFragment);
-        mFragments.add(teamThreeFragment);
+//        mFragments.add(teamTwoFragment);
+//        mFragments.add(teamThreeFragment);
     }
 
     @Override

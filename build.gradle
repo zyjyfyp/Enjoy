@@ -8,7 +8,7 @@ buildscript {
 //        maven {
 //            url "http://mvn.mob.com/android"
 //        }
-        google()
+//        google()
         jcenter()
 
     }

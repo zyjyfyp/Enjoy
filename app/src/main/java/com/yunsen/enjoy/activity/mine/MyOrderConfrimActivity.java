@@ -14,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -157,6 +158,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
     private double mNeedExchangeSumMoney;
     private int mBuyType;
     private int mNeedExchangePoint;
+    private EditText messageEdt;
 
 
     @Override
@@ -207,8 +209,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
         yu_pay_c0 = (CheckBox) findViewById(R.id.yu_pay_c0);
         yu_pay_c1 = (CheckBox) findViewById(R.id.yu_pay_c1);
         yu_pay_c2 = (CheckBox) findViewById(R.id.yu_pay_c2);
-
-
+        messageEdt = (EditText) findViewById(R.id.message_edt);
         handlerll = new Handler() {
             public void handleMessage(Message msg) {
                 switch (msg.what) {
@@ -1017,7 +1018,7 @@ public class MyOrderConfrimActivity extends BaseFragmentActivity implements OnCl
                 + user_accept_name + "&province=" + province + "&city="
                 + city + "&area=" + area + "&address=" + user_address
                 + "&telphone=" + "&mobile=" + user_mobile
-                + "&email=&post_code=&message=";
+                + "&email=&post_code=&message=" + messageEdt.getText().toString();
 
         AsyncHttp.get(url, new AsyncHttpResponseHandler() {
             @Override

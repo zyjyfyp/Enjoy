@@ -70,7 +70,7 @@ public class AccountUtils {
      */
     public static boolean hasVIP() {
         if (mHasVIP) {
-            return true;
+            return mHasVIP;
         }
         SharedPreferences sp = AppContext.getInstance().getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, Context.MODE_PRIVATE);
         String groupId = sp.getString(SpConstants.GROUP_ID, "");

@@ -55,8 +55,7 @@ import java.util.List;
  * @author Administrator
  */
 public class MyOrderActivity extends AppCompatActivity implements OnClickListener {
-    private ImageView iv_fanhui, cursor2, cursor3, cursor4, cursor5;
-    private Button fanhui, btn_chongzhi;
+    private ImageView cursor2, cursor3, cursor4, cursor5;
     private LinearLayout index_item1, index_item2, index_item3, index_item4;
     private SharedPreferences spPreferences;
     private PullToRefreshView refresh;
@@ -70,14 +69,9 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
     String user_name, user_id, login_sign, order_no;
     int len;
     String strwhere = "datatype=1";
-    private int RUN_METHOD = -1;
-    String recharge_no, total_c;
     LinearLayout no_data_no;
-    String payment_status;
     String type = "";
     public static boolean teby = false;
-    public static String notify_url;
-    private Activity activity;
     private String mStatus;//1 待付款 2 待发货 3待收货 4 已完成
 
     @Override
@@ -88,7 +82,7 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
         mStatus = getIntent().getStringExtra("status");
         spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         user_name = spPreferences.getString(SpConstants.USER_NAME, "");
-        user_id = spPreferences.getString("user_id", "");
+        user_id = spPreferences.getString(SpConstants.USER_ID, "");
         progress = new DialogProgress(MyOrderActivity.this);
         Initialize();
         list = new ArrayList<MyOrderData>();
@@ -180,45 +174,34 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
      * 控件初始化
      */
     private void Initialize() {
+        imageView1 = (ImageView) findViewById(R.id.iv_no_data);
+        imageView1.setImageResource(R.drawable.no_data);
+        refresh = (PullToRefreshView) findViewById(R.id.refresh);
+        refresh.setOnHeaderRefreshListener(listHeadListener);
+        refresh.setOnFooterRefreshListener(listFootListener);
+        my_list = (ListView) findViewById(R.id.new_list);
+        no_data_no = (LinearLayout) findViewById(R.id.no_data_no);
+        index_item1 = (LinearLayout) findViewById(R.id.index_item1);
+        index_item2 = (LinearLayout) findViewById(R.id.index_item2);
+        index_item3 = (LinearLayout) findViewById(R.id.index_item3);
+        index_item4 = (LinearLayout) findViewById(R.id.index_item4);
+        cursor2 = (ImageView) findViewById(R.id.cursor2);
+        cursor3 = (ImageView) findViewById(R.id.cursor3);
+        cursor4 = (ImageView) findViewById(R.id.cursor4);
+        cursor5 = (ImageView) findViewById(R.id.cursor5);
+        index_item1.setOnClickListener(this);
+        index_item2.setOnClickListener(this);
+        index_item3.setOnClickListener(this);
+        index_item4.setOnClickListener(this);
+        ImageView iv_fanhui = (ImageView) findViewById(R.id.iv_fanhui);
+        iv_fanhui.setOnClickListener(new OnClickListener() {
 
-        try {
-            imageView1 = (ImageView) findViewById(R.id.iv_no_data);
-            Bitmap bm = BitmapFactory.decodeResource(this.getResources(), R.drawable.no_data);
-            BitmapDrawable bd = new BitmapDrawable(this.getResources(), bm);
-            imageView1.setBackgroundDrawable(bd);
+            @Override
+            public void onClick(View arg0) {
+                finish();
+            }
+        });
 
-            refresh = (PullToRefreshView) findViewById(R.id.refresh);
-            refresh.setOnHeaderRefreshListener(listHeadListener);
-            refresh.setOnFooterRefreshListener(listFootListener);
-            my_list = (ListView) findViewById(R.id.new_list);
-            no_data_no = (LinearLayout) findViewById(R.id.no_data_no);
-            index_item1 = (LinearLayout) findViewById(R.id.index_item1);
-            index_item2 = (LinearLayout) findViewById(R.id.index_item2);
-            index_item3 = (LinearLayout) findViewById(R.id.index_item3);
-            index_item4 = (LinearLayout) findViewById(R.id.index_item4);
-            cursor2 = (ImageView) findViewById(R.id.cursor2);
-            cursor3 = (ImageView) findViewById(R.id.cursor3);
-            cursor4 = (ImageView) findViewById(R.id.cursor4);
-            cursor5 = (ImageView) findViewById(R.id.cursor5);
-            index_item1.setOnClickListener(this);
-            index_item2.setOnClickListener(this);
-            index_item3.setOnClickListener(this);
-            index_item4.setOnClickListener(this);
-
-            ImageView iv_fanhui = (ImageView) findViewById(R.id.iv_fanhui);
-            iv_fanhui.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View arg0) {
-
-                    finish();
-                }
-            });
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -361,7 +344,6 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
 
     private void load_list(boolean flag, String strwhere) {
         progress.CreateProgress();
-        RUN_METHOD = 1;
         if (flag) {
             // 计数和容器清零
             CURRENT_NUM = 1;
@@ -374,6 +356,13 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
         AsyncHttp.get(URLConstants.REALM_NAME_LL + "/get_order_page_size_list?user_id=" + user_id + "" +
                         "&page_size=" + VIEW_NUM + "&page_index=" + CURRENT_NUM + "&strwhere=" + strwhere + "&orderby=",
                 new AsyncHttpResponseHandler() {
+
+                    @Override
+                    public void onFailure(Throwable throwable, String s) {
+                        super.onFailure(throwable, s);
+                        progress.CloseProgress();
+                    }
+
                     @Override
                     public void onSuccess(int arg0, String arg1) {
 
@@ -438,10 +427,8 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
                                     }
                                     list.add(md);
                                 }
-
                                 md = null;
                                 mb = null;
-                                //								progress.CloseProgress();
                                 no_data_no.setVisibility(View.GONE);
                             } else {
                                 //									System.out.println("====list.size()========="+list.size());
@@ -452,28 +439,23 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
                                     Toast.makeText(MyOrderActivity.this, "没有订单了", Toast.LENGTH_SHORT).show();
                                 }
                             }
-
-                            System.out.println("==2==list.size()=========" + list.size());
-
                             if (len != 0) {
                                 CURRENT_NUM = CURRENT_NUM + 1;
                             }
-                            progress.CloseProgress();
-
                             Message msg = new Message();
                             msg.what = 0;
                             msg.obj = list;
                             handler.sendMessage(msg);
                             //								handler.sendEmptyMessage(0);
-                            progress.CloseProgress();
-
                         } catch (Exception e) {
-
                             e.printStackTrace();
                         }
+                        progress.CloseProgress();
+
                     }
 
                 }, MyOrderActivity.this);
+
     }
 
     Handler handler = new Handler() {
@@ -680,17 +662,15 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
                             String status = object.getString("status");
                             String info = object.getString("info");
                             if (status.equals("y")) {
-                                progress.CloseProgress();
                                 Toast.makeText(MyOrderActivity.this, info, Toast.LENGTH_SHORT).show();
                             } else {
-                                progress.CloseProgress();
                                 Toast.makeText(MyOrderActivity.this, info, Toast.LENGTH_SHORT).show();
                             }
-
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        progress.CloseProgress();
+
                     }
 
                 }, MyOrderActivity.this);
@@ -722,12 +702,10 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
                             String status = object.getString("status");
                             String info = object.getString("info");
                             if (status.equals("y")) {
-                                progress.CloseProgress();
                                 Toast.makeText(MyOrderActivity.this, info, Toast.LENGTH_SHORT).show();
                                 load_list(true, strwhere);
                                 madapter.notifyDataSetChanged();
                             } else {
-                                progress.CloseProgress();
                                 Toast.makeText(MyOrderActivity.this, info, Toast.LENGTH_SHORT).show();
                             }
 
@@ -738,6 +716,8 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
                     }
 
                 }, MyOrderActivity.this);
+        progress.CloseProgress();
+
 
     }
 
@@ -766,12 +746,10 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
                             String status = object.getString("status");
                             String info = object.getString("info");
                             if (status.equals("y")) {
-                                progress.CloseProgress();
                                 Toast.makeText(MyOrderActivity.this, info, Toast.LENGTH_SHORT).show();
                                 load_list(true, strwhere);
                                 madapter.notifyDataSetChanged();
                             } else {
-                                progress.CloseProgress();
                                 Toast.makeText(MyOrderActivity.this, info, Toast.LENGTH_SHORT).show();
                             }
 
@@ -779,6 +757,8 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        progress.CloseProgress();
+
                     }
 
                 }, MyOrderActivity.this);
@@ -823,7 +803,6 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
             }, MyOrderActivity.this);
 
         } catch (Exception e) {
-
             e.printStackTrace();
         }
     }
@@ -864,7 +843,6 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
             }, MyOrderActivity.this);
 
         } catch (Exception e) {
-
             e.printStackTrace();
         }
     }
@@ -894,26 +872,24 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
                                 String status = object.getString("status");
                                 String info = object.getString("info");
                                 if (status.equals("y")) {
-                                    progress.CloseProgress();
                                     teby = false;
                                     //							    	   finish();
                                     Toast.makeText(MyOrderActivity.this, info, Toast.LENGTH_SHORT).show();
                                 } else {
-                                    progress.CloseProgress();
                                     teby = false;
                                     Toast.makeText(MyOrderActivity.this, info, Toast.LENGTH_SHORT).show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                            progress.CloseProgress();
+
                         }
 
                         @Override
                         public void onFailure(Throwable arg0, String arg1) {
-
                             super.onFailure(arg0, arg1);
-                            System.out.println("11=================================" + arg0);
-                            System.out.println("22=================================" + arg1);
+                            progress.CloseProgress();
                             Toast.makeText(MyOrderActivity.this, "更新订单网络超时异常", Toast.LENGTH_SHORT).show();
                         }
 

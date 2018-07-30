@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -87,6 +87,11 @@
         </LinearLayout>
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_f5f7fa" />
+
     <TextView
         android:id="@+id/no_data_tv"
         android:layout_width="match_parent"
@@ -95,7 +100,7 @@
         android:gravity="center_horizontal"
         android:paddingTop="30dp"
         android:text="暂无数据"
-        android:textColor="@color/color_888"/>
+        android:textColor="@color/color_888" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"

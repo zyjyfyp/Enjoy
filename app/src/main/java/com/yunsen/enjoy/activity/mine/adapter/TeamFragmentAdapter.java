@@ -12,7 +12,7 @@ import java.util.List;
 
 public class TeamFragmentAdapter extends FragmentPagerAdapter {
     private List<Fragment> mFragments;
-    private String[] mTitles = new String[]{"铁杆圈", "朋友圈", "粉丝圈"};
+    private String[] mTitles = new String[]{"我的团队", "朋友圈", "粉丝圈"};
 
     public TeamFragmentAdapter(FragmentManager fm, List<Fragment> fragments) {
         super(fm);
@@ -29,8 +29,4 @@ public class TeamFragmentAdapter extends FragmentPagerAdapter {
         return mFragments.size();
     }
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return mTitles[position];
-    }
 }
