@@ -5,7 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -89,6 +91,26 @@ public class WithdrawCashActivity extends BaseFragmentActivity implements Select
         String userId = sp.getString(SpConstants.USER_ID, "");
         String loginSign = sp.getString(SpConstants.LOGIN_SIGN, "");
         mApplyWalletRequest = new ApplyWalletCashRequest(userId, loginSign);
+        /**
+         * 第二种方法
+         */
+        moneyEdt.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable edt) {
+                String temp = edt.toString();
+                int posDot = temp.indexOf(".");
+                if (posDot <= 0) return;
+                if (temp.length() - posDot - 1 > 2) {
+                    edt.delete(posDot + 3, posDot + 4);
+                }
+            }
+
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+            }
+
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+            }
+        });
+
     }
 
     @Override
@@ -218,14 +240,15 @@ public class WithdrawCashActivity extends BaseFragmentActivity implements Select
         HttpProxy.applyWalletCash(mApplyWalletRequest, new HttpCallBack<Boolean>() {
             @Override
             public void onSuccess(Boolean responseData) {
-                ToastUtils.makeTextShort("提现成功");
+                ToastUtils.makeTextShort("申请成功");
                 EventBus.getDefault().postSticky(new UpUiEvent(EventConstants.APP_LOGIN));//暂时
+                setResult(RESULT_OK);
                 finish();
             }
 
             @Override
             public void onError(Request request, Exception e) {
-                ToastUtils.makeTextShort("提现失败");
+                ToastUtils.makeTextShort("申请失败");
             }
         });
     }

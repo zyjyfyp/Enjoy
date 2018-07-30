@@ -29,6 +29,7 @@ import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.GoogsListResponse;
 import com.yunsen.enjoy.model.HeightFilterBean;
 import com.yunsen.enjoy.model.MyApplyCarBean;
+import com.yunsen.enjoy.model.MyAssetsBean;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.NoticeResponse;
 import com.yunsen.enjoy.model.NoticeTokeBean;
@@ -61,6 +62,7 @@ import com.yunsen.enjoy.model.response.BindBankListResponse;
 import com.yunsen.enjoy.model.response.CarBrandResponese;
 import com.yunsen.enjoy.model.response.CarDetailsResponse;
 import com.yunsen.enjoy.model.response.ClassifyResponse;
+import com.yunsen.enjoy.model.response.CrashMoneyResponse;
 import com.yunsen.enjoy.model.response.DefaultAddressResponse;
 import com.yunsen.enjoy.model.response.HeightFilterResponse;
 import com.yunsen.enjoy.model.response.MyApplyCarListResponse;
@@ -882,16 +884,37 @@ public class HttpProxy {
     /**
      * 提现接口
      */
-    public static void getWithDrawCash(String userId, String pageIndex, final HttpCallBack<List<WalletCashBean>> callBack) {
+    public static void getWithDrawCash(String sign, String pageIndex, final HttpCallBack<List<MyAssetsBean>> callBack) {
         HashMap<String, String> param = new HashMap<>();
-        param.put("user_id", userId);
-        param.put("fund_id", "1");
-        param.put("expenses_id", "0");
-        param.put("page_size", "8");
+        param.put("user_id", AccountUtils.getUser_id());
+        param.put("sign", sign);
+        param.put("page_size", "10");
         param.put("page_index", pageIndex);
         HttpClient.get(URLConstants.WITH_DRAW_CASH_URL, param, new HttpResponseHandler<WalletCashResponse>() {
             @Override
             public void onSuccess(WalletCashResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                Logger.e(TAG, "onFailure: " + e.getMessage());
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 提现总金额
+     */
+    public static void getCrashMoneyAll(String sign, final HttpCallBack<Double> callBack) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("user_id", AccountUtils.getUser_id());
+        param.put("sign", sign);
+        HttpClient.get(URLConstants.CASH_MONEY_ALL_URL, param, new HttpResponseHandler<CrashMoneyResponse>() {
+            @Override
+            public void onSuccess(CrashMoneyResponse response) {
                 super.onSuccess(response);
                 callBack.onSuccess(response.getData());
             }

@@ -455,6 +455,21 @@ public class MineFragment extends BaseFragment {
         }
     }
 
+    private void requetCrashMoney() {
+        String sign = mSp.getString(SpConstants.LOGIN_SIGN, "");
+        HttpProxy.getCrashMoneyAll(sign, new HttpCallBack<Double>() {
+            @Override
+            public void onSuccess(Double responseData) {
+                readyMoneyTv.setText(String.valueOf(responseData));// 提现
+
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
+    }
 
     /**
      * 加载订单信息
@@ -614,6 +629,7 @@ public class MineFragment extends BaseFragment {
      * 获取乐享用户信息
      */
     public void getLeXiangUserInfo() {
+        requetCrashMoney();
         HttpProxy.getUserInfo(user_name_phone, new HttpCallBack<UserInfo>() {
             @Override
             public void onSuccess(UserInfo data) {
@@ -621,7 +637,7 @@ public class MineFragment extends BaseFragment {
                 balanceTv.setText("" + data.getAmount()); //钱包
                 freezeTv.setText("" + data.getReserve());//冻结基金
                 commissionTv.setText("0.0");//佣金
-                readyMoneyTv.setText("0.0");// 提现
+//                readyMoneyTv.setText("0.0");// 提现
                 String nickName = data.getNick_name();
                 if (TextUtils.isEmpty(nickName)) {
                     userNameTv.setText(data.getUser_name());

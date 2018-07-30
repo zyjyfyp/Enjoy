@@ -16,9 +16,11 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.activity.mine.adapter.WalletCashAdapter;
 import com.yunsen.enjoy.activity.pay.MonneyChongZhiActivity;
+import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
+import com.yunsen.enjoy.model.MyAssetsBean;
 import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.WalletCashBean;
 import com.yunsen.enjoy.ui.UIHelper;
@@ -62,8 +64,8 @@ public class MyQianBaoActivity extends BaseFragmentActivity {
     String pwd;
     public static String recharge_no;
     private WalletCashAdapter mAdapter;
-    private ArrayList<WalletCashBean> mDatas;
-    private String mUserId;
+    private ArrayList<MyAssetsBean> mDatas;
+    private String mSign;
     private int mPageIndex = 1;
     private String mUserName;
     private double mBalance = 0.0;
@@ -75,7 +77,6 @@ public class MyQianBaoActivity extends BaseFragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getAmount();
     }
 
     @Override
@@ -104,7 +105,7 @@ public class MyQianBaoActivity extends BaseFragmentActivity {
     protected void initData(Bundle savedInstanceState) {
         spPreferences = getSharedPreferences(SpConstants.SP_LONG_USER_SET_USER, MODE_PRIVATE);
         mUserName = spPreferences.getString(SpConstants.USER_NAME, "");
-        mUserId = spPreferences.getString(SpConstants.USER_ID, "");
+        mSign = spPreferences.getString(SpConstants.LOGIN_SIGN, "");
         pwd = spPreferences.getString(SpConstants.PWD, "");
     }
 
@@ -132,9 +133,10 @@ public class MyQianBaoActivity extends BaseFragmentActivity {
 
     @Override
     public void requestData() {
-        HttpProxy.getWithDrawCash(mUserId, String.valueOf(mPageIndex), new HttpCallBack<List<WalletCashBean>>() {
+        getAmount();
+        HttpProxy.getWithDrawCash(mSign, String.valueOf(mPageIndex), new HttpCallBack<List<MyAssetsBean>>() {
             @Override
-            public void onSuccess(List<WalletCashBean> responseData) {
+            public void onSuccess(List<MyAssetsBean> responseData) {
                 if (mIsLoadMore) {
                     mHasMore = mAdapter.addData(responseData);
                 } else {
@@ -177,6 +179,13 @@ public class MyQianBaoActivity extends BaseFragmentActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == Constants.WITHDRAW_CASH_REQUEST) {
+            requestData();
+        }
+    }
 
     @OnClick({R.id.action_back, R.id.push_layout, R.id.pull_layout})
     public void onViewClicked(View view) {
@@ -186,7 +195,7 @@ public class MyQianBaoActivity extends BaseFragmentActivity {
                 break;
             case R.id.push_layout:
                 Intent intent = new Intent(MyQianBaoActivity.this, MonneyChongZhiActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, Constants.WITHDRAW_CASH_REQUEST);
                 break;
             case R.id.pull_layout:
                 UIHelper.showWithdrawCashActivity(this, mBalance);

@@ -125,7 +125,15 @@ public class URLConstants {
     /**
      * 提现接口withdraw cash
      */
-    public static final String WITH_DRAW_CASH_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_expense_list";
+    public static final String WITH_DRAW_CASH_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_apply_withdraw_log";
+//    public static final String WITH_DRAW_CASH_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_expense_list";
+    /**
+     * 提现总金额
+     * http://szlxkg.com/tools/mobile_ajax.asmx/user_apply_withdraw_count
+     */
+    public static final String CASH_MONEY_ALL_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/user_apply_withdraw_count";
+
+
     /**
      * 铁杆圈gavelock ring
      * https://szlxkg.com/tools/mobile_ajax.asmx/get_user_hardcore_list

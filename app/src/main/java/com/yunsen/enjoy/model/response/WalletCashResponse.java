@@ -1,6 +1,7 @@
 package com.yunsen.enjoy.model.response;
 
 import com.yunsen.enjoy.http.RestApiResponse;
+import com.yunsen.enjoy.model.MyAssetsBean;
 import com.yunsen.enjoy.model.WalletCashBean;
 
 import java.util.List;
@@ -11,13 +12,13 @@ import java.util.List;
 
 public class WalletCashResponse extends RestApiResponse {
 
-    private List<WalletCashBean> data;
+    private List<MyAssetsBean> data;
 
-    public List<WalletCashBean> getData() {
+    public List<MyAssetsBean> getData() {
         return data;
     }
 
-    public void setData(List<WalletCashBean> data) {
+    public void setData(List<MyAssetsBean> data) {
         this.data = data;
     }
 

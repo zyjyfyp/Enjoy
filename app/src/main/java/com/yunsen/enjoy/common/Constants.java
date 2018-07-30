@@ -88,6 +88,7 @@ public class Constants {
     public static final int PHONE_LOGIN_REQUEST = 14;// 手机登录
     public static final int BIND_BANK_CARD_REQUEST = 15;//绑定银行的页面
     public static final int LOCATION_ADDRESS_REQUEST = 16;//开启gps请求码
+    public static final int WITHDRAW_CASH_REQUEST = 17; //提现页面
 
 
     /*******************************************************************
