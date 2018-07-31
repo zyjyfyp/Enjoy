@@ -67,6 +67,7 @@ import com.yunsen.enjoy.model.response.DefaultAddressResponse;
 import com.yunsen.enjoy.model.response.HeightFilterResponse;
 import com.yunsen.enjoy.model.response.MyApplyCarListResponse;
 import com.yunsen.enjoy.model.response.NoticeTokenResponse;
+import com.yunsen.enjoy.model.response.OneNoticeListResponse;
 import com.yunsen.enjoy.model.response.OrderResponse;
 import com.yunsen.enjoy.model.response.PullImageResponse;
 import com.yunsen.enjoy.model.response.SearchListResponse;
@@ -2103,6 +2104,33 @@ public class HttpProxy {
             @Override
             public void onFailure(Request request, Exception e) {
                 super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 更新支付方式
+     *
+     * @param callBack
+     */
+    public static void editOrdersInfo(String tradeNo, String paymentId, final HttpCallBack<Boolean> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put(SpConstants.USER_ID, AccountUtils.getUser_id());
+        param.put("trade_no", tradeNo);
+        param.put("payment_id", paymentId);
+
+        HttpClient.get(URLConstants.EDIT_ORDERS_INFO_URL, param, new HttpResponseHandler<OneNoticeListResponse>() {
+            @Override
+            public void onSuccess(OneNoticeListResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(true);
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onSuccess(false);
                 callBack.onError(request, e);
             }
         });

@@ -310,6 +310,11 @@ public class URLConstants {
      * 升级正式会员
      */
     public static final String APPLY_VIP_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/add_membership_upgrade";
+
+    /**
+     * 更改支付方式
+     */
+    public static final String EDIT_ORDERS_INFO_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/edit_orders_info";
     /**
      * 申请卖出的列表
      * get_apply_purchase_list

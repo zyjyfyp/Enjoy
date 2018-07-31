@@ -149,6 +149,11 @@ public class Constants {
     public static final int TEAM_TYPE_TWO = 2;
     public static final int TEAM_TYPE_THREE = 3;
 
+
+    public static final int BALANCE_PAY_TYPE = 2; //余额
+    public static final int ALIPAY_TYPE = 3;  //z支付宝
+    public static final int WEI_XIN_PAY_TYPE = 5;//微信
+    public static final int CARD_PAY_TYPE = 9;//储值卡支付
     /***
      * 分享
      */

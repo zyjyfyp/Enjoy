@@ -422,7 +422,7 @@ public class MyAssetsActivity extends BaseFragmentActivity implements OnClickLis
         String amount = sp.getString(SpConstants.AMOUNT, "0.0");
         String reserve = sp.getString(SpConstants.RESERVE, "0.0");
         tv_ticket.setText(amount + "元");//余额
-        tv_shop_ticket.setText(reserve + "元");//冻结资金
+//        tv_shop_ticket.setText(reserve + "元");//冻结资金
 
 //        tv_jifen_ticket.setText("0.0元");//提现
         tv_djjifen_ticket.setText("0.0元");// 佣金
