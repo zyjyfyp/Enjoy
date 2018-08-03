@@ -72,6 +72,8 @@ import com.yunsen.enjoy.model.OrderBean;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
 import com.yunsen.enjoy.utils.AccountUtils;
+import com.yunsen.enjoy.utils.DeviceUtil;
+import com.yunsen.enjoy.utils.ToastUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -89,6 +91,7 @@ public class UIHelper {
 
     public final static int RESULT_OK = 0x00;
     public final static int REQUEST_CODE = 0x01;
+    private static boolean hasWx;
 
     public static void ToastMessage(Context cont, String msg) {
         if (cont == null || msg == null) {
@@ -934,11 +937,16 @@ public class UIHelper {
     public static void goWXApp(Context ctx) {
         String appId = Constants.APP_ID; // "wxe60c28541b0fa8a2"填应用AppId
         IWXAPI api = WXAPIFactory.createWXAPI(ctx, appId);
-        WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
-        req.userName = Constants.WX_GH_ID; // 填小程序原始id
-        req.path = "pages/customer/customer";                  //拉起小程序页面的可带参路径，不填默认拉起小程序首页
-        req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
-        api.sendReq(req);
+        hasWx = DeviceUtil.isWeChatAppInstalled(ctx, api);
+        if (!hasWx) {
+            ToastUtils.makeTextShort("请安装微信客户端");
+        } else {
+            WXLaunchMiniProgram.Req req = new WXLaunchMiniProgram.Req();
+            req.userName = Constants.WX_GH_ID; // 填小程序原始id
+            req.path = "pages/customer/customer";                  //拉起小程序页面的可带参路径，不填默认拉起小程序首页
+            req.miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE;// 可选打开 开发版，体验版和正式版
+            api.sendReq(req);
+        }
     }
 
     /**
