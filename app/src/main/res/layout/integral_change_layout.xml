@@ -55,6 +55,12 @@
                     android:layout_height="match_parent"
                     android:src="@mipmap/integral_change_0" />
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/point_bg" />
+
                 <TextView
                     android:id="@+id/home_point_old_price_0"
                     style="@style/HomePointOldPrice"
@@ -91,6 +97,11 @@
                     android:layout_height="match_parent"
                     android:src="@mipmap/integral_change_1" />
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/point_bg" />
 
                 <TextView
                     android:id="@+id/home_point_old_price_1"
@@ -130,6 +141,11 @@
                     android:layout_height="match_parent"
                     android:src="@mipmap/integral_change_2" />
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/point_bg" />
 
                 <TextView
                     android:id="@+id/home_point_old_price_2"
@@ -163,6 +179,11 @@
                     android:layout_height="match_parent"
                     android:src="@mipmap/integral_change_3" />
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/point_bg" />
 
                 <TextView
                     android:id="@+id/home_point_old_price_3"
@@ -196,6 +217,11 @@
                     android:layout_height="match_parent"
                     android:src="@mipmap/integral_change_4" />
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/point_bg" />
 
                 <TextView
                     android:id="@+id/home_point_old_price_4"

@@ -113,5 +113,6 @@
     <color name="cash_color">#09b109</color>
     <color name="share_layout_bg">#dedede</color>
     <color name="toast_bg_color">#2c252525</color>
+    <color name="point_bg_color">#8c000000</color>
 
 </resources>
