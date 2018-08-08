@@ -38,6 +38,7 @@ import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.DeviceUtil;
 import com.yunsen.enjoy.utils.ToastUtils;
+import com.yunsen.enjoy.widget.drag.DragLayout;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -129,6 +130,8 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
     TextView collectTv;
     @Bind(R.id.goods_attribute)
     TextView goodsAttributeTv;
+    @Bind(R.id.drag_layout)
+    DragLayout dragLayout;
 
     private String mGoodId;
     private CarDetails mCarDetail;
@@ -159,6 +162,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
         goodsMarketPriceTv2.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
         goodsRLayout.getLayoutParams().height = (int) (DeviceUtil.getWidth(this) * 0.6);
         sHandler = new MyHandler(this);
+        dragLayout.setCanDrag(false);
     }
 
     @Override
@@ -205,6 +209,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
     @Override
     protected void initListener() {
         goodsRadioGroup.setOnCheckedChangeListener(this);
+        dragLayout.setDragIconClick(this);
     }
 
     @Override
@@ -249,6 +254,13 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
         });
     }
 
+    @Override
+    protected void onRequestPermissionSuccess(int requestCode) {
+        super.onRequestPermissionSuccess(requestCode);
+        if (requestCode == Constants.CALL_PHONE) {
+            UIHelper.showPhoneNumberActivity(this, Constants.PHONE_NUMBER);
+        }
+    }
     /**
      * need 升级 移植旧代码 拥有添加商品
      *

@@ -70,7 +70,7 @@ public class DragLayout extends FrameLayout implements View.OnClickListener {
         int width = DeviceUtil.dp2px(getContext(), 40);
         LayoutParams lp = new LayoutParams(width, width);
         lp.gravity = Gravity.BOTTOM | Gravity.END;
-        lp.bottomMargin = 150;
+        lp.bottomMargin = 200;
         lp.rightMargin = 50;
         dragIcon.setLayoutParams(lp);
         this.addView(dragIcon);
