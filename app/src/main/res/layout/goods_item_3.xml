@@ -40,6 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:maxLines="2"
                 android:textColor="@color/color_888"
                 android:textSize="13sp" />
 
@@ -71,8 +72,8 @@
     </LinearLayout>
 
     <View
-        android:layout_below="@id/root_layout"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_below="@id/root_layout"
         android:background="@color/color_f5f7fa" />
 </RelativeLayout>

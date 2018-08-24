@@ -1544,6 +1544,34 @@ public class HttpProxy {
     }
 
     /**
+     * 搜索商品
+     *
+     * @param
+     */
+    public static void getSearchGoods(String pageIndex, String keyword, final HttpCallBack<List<CarDetails>> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("channel_name", "mall");
+        param.put("category_id", "0");
+        param.put("page_size", "10");
+        param.put("page_index", pageIndex);
+        param.put("strwhere", "status=0 and title like '%" + keyword + "%'");
+        param.put("orderby", "");
+
+        HttpClient.get(URLConstants.GOODS_MORE_URL, param, new HttpResponseHandler<SearchListResponse>() {
+            @Override
+            public void onSuccess(SearchListResponse response) {
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
      * 商品部件
      *
      * @param callBack

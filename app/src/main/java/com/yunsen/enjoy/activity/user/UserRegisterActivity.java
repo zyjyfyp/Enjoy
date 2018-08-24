@@ -2,9 +2,9 @@ package com.yunsen.enjoy.activity.user;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -21,18 +21,20 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout.LayoutParams;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.yunsen.enjoy.R;
-import com.yunsen.enjoy.activity.mine.Webview1;
+import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.AsyncHttp;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.Register_Va;
 import com.yunsen.enjoy.ui.UIHelper;
+import com.yunsen.enjoy.utils.CodeUtils;
 import com.yunsen.enjoy.utils.ToastUtils;
 import com.yunsen.enjoy.utils.Validator;
 import com.yunsen.enjoy.widget.DialogProgress;
@@ -42,14 +44,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserRegisterActivity extends AppCompatActivity implements OnClickListener {
+public class UserRegisterActivity extends BaseFragmentActivity implements OnClickListener {
 
     private EditText userpwd, userphone, et_user_yz;
     private Button btn_register, get_yz;
@@ -61,24 +61,55 @@ public class UserRegisterActivity extends AppCompatActivity implements OnClickLi
     private TextView regise_tip;
     public Handler mHandler = new MyHandler(this);
     private int time;
+    private EditText numImgEdt;
+    private ImageView numImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_zhuce);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        popupWindowMenu = new MyPopupWindowMenu(this);
-        initData();
-        TextView img_menu = (TextView) findViewById(R.id.iv_fanhui);
-        img_menu.setOnClickListener(new OnClickListener() {
 
+
+    }
+
+    @Override
+    public int getLayout() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        return R.layout.activity_zhuce;
+    }
+
+    @Override
+    protected void initView() {
+        popupWindowMenu = new MyPopupWindowMenu(this);
+        TextView img_menu = (TextView) findViewById(R.id.iv_fanhui);
+        numImgEdt = (EditText) findViewById(R.id.img_num_edt);
+        numImg = (ImageView) findViewById(R.id.num_img);
+        img_menu.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 finish();
             }
         });
+        regise_tip = (TextView) findViewById(R.id.regise_tip);
+        et_user_yz = (EditText) findViewById(R.id.et_user_yz);
+        get_yz = (Button) findViewById(R.id.get_yz);
+        userphone = (EditText) findViewById(R.id.et_user_phone);
+        userpwd = (EditText) findViewById(R.id.et_user_pwd);
+        btn_register = (Button) findViewById(R.id.btn_register);
+    }
 
+    @Override
+    protected void initData(Bundle savedInstanceState) {
+        Bitmap bitmap = CodeUtils.getInstance().createBitmap();
+        numImg.setImageBitmap(bitmap);
+    }
+
+    @Override
+    protected void initListener() {
+        btn_register.setOnClickListener(this);
+        get_yz.setOnClickListener(this);
+        regise_tip.setOnClickListener(this);
+        numImg.setOnClickListener(this);
     }
 
     static class MyHandler extends Handler {
@@ -194,17 +225,6 @@ public class UserRegisterActivity extends AppCompatActivity implements OnClickLi
         return args;
     }
 
-    private void initData() {
-        regise_tip = (TextView) findViewById(R.id.regise_tip);
-        et_user_yz = (EditText) findViewById(R.id.et_user_yz);
-        get_yz = (Button) findViewById(R.id.get_yz);
-        userphone = (EditText) findViewById(R.id.et_user_phone);
-        userpwd = (EditText) findViewById(R.id.et_user_pwd);
-        btn_register = (Button) findViewById(R.id.btn_register);
-        btn_register.setOnClickListener(this);
-        get_yz.setOnClickListener(this);
-        regise_tip.setOnClickListener(this);
-    }
 
     @Override
     public void onClick(View v) {
@@ -254,6 +274,7 @@ public class UserRegisterActivity extends AppCompatActivity implements OnClickLi
             case R.id.btn_register:
                 yz = et_user_yz.getText().toString().trim();
                 phone = userphone.getText().toString().trim();
+                String numStr = numImgEdt.getText().toString();
                 final String pwd = userpwd.getText().toString();
                 this.pwd = pwd.trim();
                 if (phone.equals("")) {
@@ -273,6 +294,9 @@ public class UserRegisterActivity extends AppCompatActivity implements OnClickLi
                             .show();
                 } else if (!(pwd.length() <= 20 && pwd.length() >= 6)) {
                     Toast.makeText(UserRegisterActivity.this, "密码在6-20位之间", Toast.LENGTH_SHORT)
+                            .show();
+                } else if (TextUtils.isEmpty(numStr) || !numStr.equals(CodeUtils.code)) {
+                    Toast.makeText(UserRegisterActivity.this, "请输入正确的验证码", Toast.LENGTH_SHORT)
                             .show();
                 } else {
                     try {
@@ -332,6 +356,11 @@ public class UserRegisterActivity extends AppCompatActivity implements OnClickLi
                         e.printStackTrace();
                     }
                 }
+                break;
+
+            case R.id.num_img:
+                Bitmap bitmap = CodeUtils.getInstance().createBitmap();
+                numImg.setImageBitmap(bitmap);
                 break;
             default:
                 break;

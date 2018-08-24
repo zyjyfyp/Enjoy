@@ -13,6 +13,7 @@ import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yunsen.enjoy.activity.MainActivity;
@@ -215,7 +216,7 @@ public class DeviceUtil {
     }
 
     public static boolean isWeChatAppInstalled(Context context, IWXAPI api) {
-        if (api.isWXAppInstalled() && api.isWXAppSupportAPI()) {
+        if (api.isWXAppInstalled() && api.getWXAppSupportAPI() < Build.PAY_SUPPORTED_SDK_INT) {
             return true;
         } else {
             final PackageManager packageManager = context.getPackageManager();// 获取packagemanager
