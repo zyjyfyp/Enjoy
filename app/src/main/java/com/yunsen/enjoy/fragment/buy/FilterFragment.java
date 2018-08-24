@@ -164,7 +164,11 @@ public class FilterFragment extends BaseFragment implements MultiItemTypeAdapter
 
             @Override
             public void onError(Request request, Exception e) {
-                StaticVar.sHasMore[mCurrentPosition] = mAdapter.addData(null);
+                if (mIsLoadMore) {
+                    StaticVar.sHasMore[mCurrentPosition] = mAdapter.addData(null);
+                } else {
+                    StaticVar.sHasMore[mCurrentPosition] = mAdapter.upData(null);
+                }
                 moreCarView.setVisibility(View.VISIBLE);
                 noticeView.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);

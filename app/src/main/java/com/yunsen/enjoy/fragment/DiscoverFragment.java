@@ -333,10 +333,10 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
         if (tabLayout != null) {
             tabLayout.removeOnTabSelectedListener(this);
         }
+        ButterKnife.unbind(this);
     }
 
     public List<RecyclerView> getRecyclerView() {

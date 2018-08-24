@@ -208,7 +208,7 @@ public class MineFragment extends BaseFragment {
                     .error(R.mipmap.login_icon)
                     .transform(new GlideCircleTransform(getActivity()))
                     .into(userIconImg);
-            getUserInfo();
+            getUserInfo(false);
         } else {
             hasLoginLayout.setVisibility(View.GONE);
             loginIcon.setVisibility(View.VISIBLE);
@@ -240,25 +240,17 @@ public class MineFragment extends BaseFragment {
      */
     private void orderClick(String type) {
         if (AccountUtils.hasLogin()) {
-            if (AccountUtils.hasVIP()) {
-                UIHelper.showOrderActivity(getActivity(), type);
-            } else if (AccountUtils.hasBoundPhone()) {
+            if (AccountUtils.hasBoundPhone()) {
                 if (!AccountUtils.hasVIP()) {
                     DialogUtils.showBecomeVipDialog(getActivity());
                 } else {
-                    DialogUtils.showBecomeVipDialog(getActivity());
+                    UIHelper.showOrderActivity(getActivity(), type);
                 }
             } else {
                 UIHelper.showBundPhoneActivity(getActivity());
             }
         } else {
-//            if (AccountUtils.hasVIP()) {
-//                UIHelper.showOrderActivity(getActivity(), type);
-//            } else if (AccountUtils.hasBoundPhone()) {
-//                DialogUtils.showBecomeVipDialog(getActivity());
-//            } else {
-                UIHelper.showUserLoginActivity(getActivity());
-//            }
+            UIHelper.showUserLoginActivity(getActivity());
         }
     }
 
@@ -531,7 +523,8 @@ public class MineFragment extends BaseFragment {
     /**
      * 获取用户信息
      */
-    private void getUserInfo() {
+    private void getUserInfo(boolean mIslogin) {
+
         String nickname = mSp.getString(SpConstants.NICK_NAME, "");
         headimgurl = mSp.getString(SpConstants.HEAD_IMG_URL, "");
         headimgurl2 = mSp.getString(SpConstants.HEAD_IMG_URL_2, "");
@@ -562,6 +555,10 @@ public class MineFragment extends BaseFragment {
                 loginIcon.setVisibility(View.VISIBLE);
                 loginTv.setVisibility(View.VISIBLE);
             }
+        }
+
+        if (!AccountUtils.hasVIP()) {
+            DialogUtils.showBecomeVipDialog(getActivity());
         }
     }
 
@@ -688,7 +685,7 @@ public class MineFragment extends BaseFragment {
                 loginTv.setVisibility(View.GONE);
                 Log.e(TAG, "onEvent: 登录更新");
 //                WsManager.getInstance().init();
-                getUserInfo();
+                getUserInfo(true);
                 break;
             case EventConstants.APP_LOGOUT:
 //                WsManager.getInstance().disconnect();
