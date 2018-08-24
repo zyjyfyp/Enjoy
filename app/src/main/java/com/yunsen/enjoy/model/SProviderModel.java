@@ -1,7 +1,11 @@
 package com.yunsen.enjoy.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.alibaba.fastjson.annotation.JSONField;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.utils.MapUtils;
 
 import java.util.List;
 
@@ -9,7 +13,7 @@ import java.util.List;
  * Created by Administrator on 2018/4/20.
  */
 
-public  class SProviderModel {
+public class SProviderModel implements Parcelable {
     /**
      * id : 20933
      * user_name : 13316989009
@@ -19,7 +23,7 @@ public  class SProviderModel {
      * user_id : 4782
      * recommend_id : 0
      * recommend_name : null
-     * name : 深圳南山源兴科技大厦服务商
+     * name : 深圳南山源兴科技大厦商家
      * content : null
      * contact : 马先生
      * tel :
@@ -92,8 +96,8 @@ public  class SProviderModel {
     private String province;
     private String city;
     private String area;
-    private int lng;
-    private int lat;
+    private double lng;
+    private double lat;
     private String address;
     private String advantage;
     private String idcard;
@@ -120,7 +124,119 @@ public  class SProviderModel {
     private String update_time;
     private String add_time;
     private List<?> article;
+    /**
+     * shop_name :
+     * shop_style :
+     * is_system : 0
+     * agency_id : 0
+     * store_id : 0
+     * shops_id : 0
+     * company_layer : 0
+     * company_list : null
+     * recommend_name : null
+     * content : 测试服务商简介..
+     * nature : 私营
+     * post_code : null
+     * email : null
+     * street : null
+     * is_lock : 0
+     * is_red : 0
+     * service_time : 09：00-21：00
+     * settle_time : 1
+     * service : []
+     */
+
+    private String shop_name;
+    private String shop_style;
+    private int is_system;
+    private int agency_id;
+    private int store_id;
+    private int shops_id;
+    private int company_layer;
+    private Object company_list;
+    private Object street;
+    private int is_lock;
+    private int is_red;
     private String service_time;
+    private int settle_time;
+    private List<?> service;
+
+    public SProviderModel() {
+    }
+
+    protected SProviderModel(Parcel in) {
+        id = in.readInt();
+        user_name = in.readString();
+        group_id = in.readInt();
+        agency_layer = in.readInt();
+        parent_id = in.readInt();
+        user_id = in.readInt();
+        recommend_id = in.readInt();
+        name = in.readString();
+        contact = in.readString();
+        tel = in.readString();
+        regtime = in.readString();
+        post_code = in.readString();
+        mobile = in.readString();
+        artperson = in.readString();
+        img_url = in.readString();
+        sort_id = in.readInt();
+        seo_title = in.readString();
+        seo_keywords = in.readString();
+        seo_description = in.readString();
+        province = in.readString();
+        city = in.readString();
+        area = in.readString();
+        lng = in.readDouble();
+        lat = in.readDouble();
+        address = in.readString();
+        advantage = in.readString();
+        idcard = in.readString();
+        idcard_a = in.readString();
+        idcard_b = in.readString();
+        license = in.readString();
+        accredit = in.readString();
+        aptitude = in.readString();
+        revenue_card = in.readString();
+        organi_card = in.readString();
+        statusX = in.readInt();
+        brand_card = in.readString();
+        bank_licence = in.readString();
+        trade_aptitude = in.readString();
+        trade_id = in.readInt();
+        account_name = in.readString();
+        bank_name = in.readString();
+        bank_account = in.readString();
+        registeredid = in.readString();
+        logo_url = in.readString();
+        datatype = in.readString();
+        distance = in.readInt();
+        update_time = in.readString();
+        add_time = in.readString();
+        shop_name = in.readString();
+        shop_style = in.readString();
+        is_system = in.readInt();
+        agency_id = in.readInt();
+        store_id = in.readInt();
+        shops_id = in.readInt();
+        company_layer = in.readInt();
+        is_lock = in.readInt();
+        is_red = in.readInt();
+        service_time = in.readString();
+        settle_time = in.readInt();
+    }
+
+    public static final Creator<SProviderModel> CREATOR = new Creator<SProviderModel>() {
+        @Override
+        public SProviderModel createFromParcel(Parcel in) {
+            return new SProviderModel(in);
+        }
+
+        @Override
+        public SProviderModel[] newArray(int size) {
+            return new SProviderModel[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -310,14 +426,6 @@ public  class SProviderModel {
         this.seo_description = seo_description;
     }
 
-    public String getService_time() {
-        return service_time;
-    }
-
-    public void setService_time(String service_time) {
-        this.service_time = service_time;
-    }
-
     public String getProvince() {
         return province;
     }
@@ -342,19 +450,19 @@ public  class SProviderModel {
         this.area = area;
     }
 
-    public int getLng() {
-        return lng;
+    public double getLng() {
+        return MapUtils.getLongitude(lng, lat);
     }
 
-    public void setLng(int lng) {
+    public void setLng(double lng) {
         this.lng = lng;
     }
 
-    public int getLat() {
-        return lat;
+    public double getLat() {
+        return MapUtils.getLantitude(lng, lat);
     }
 
-    public void setLat(int lat) {
+    public void setLat(double lat) {
         this.lat = lat;
     }
 
@@ -556,5 +664,185 @@ public  class SProviderModel {
 
     public void setArticle(List<?> article) {
         this.article = article;
+    }
+
+    public String getShop_name() {
+        return shop_name;
+    }
+
+    public void setShop_name(String shop_name) {
+        this.shop_name = shop_name;
+    }
+
+    public String getShop_style() {
+        return shop_style;
+    }
+
+    public void setShop_style(String shop_style) {
+        this.shop_style = shop_style;
+    }
+
+    public int getIs_system() {
+        return is_system;
+    }
+
+    public void setIs_system(int is_system) {
+        this.is_system = is_system;
+    }
+
+    public int getAgency_id() {
+        return agency_id;
+    }
+
+    public void setAgency_id(int agency_id) {
+        this.agency_id = agency_id;
+    }
+
+    public int getStore_id() {
+        return store_id;
+    }
+
+    public void setStore_id(int store_id) {
+        this.store_id = store_id;
+    }
+
+    public int getShops_id() {
+        return shops_id;
+    }
+
+    public void setShops_id(int shops_id) {
+        this.shops_id = shops_id;
+    }
+
+    public int getCompany_layer() {
+        return company_layer;
+    }
+
+    public void setCompany_layer(int company_layer) {
+        this.company_layer = company_layer;
+    }
+
+    public Object getCompany_list() {
+        return company_list;
+    }
+
+    public void setCompany_list(Object company_list) {
+        this.company_list = company_list;
+    }
+
+    public Object getStreet() {
+        return street;
+    }
+
+    public void setStreet(Object street) {
+        this.street = street;
+    }
+
+    public int getIs_lock() {
+        return is_lock;
+    }
+
+    public void setIs_lock(int is_lock) {
+        this.is_lock = is_lock;
+    }
+
+    public int getIs_red() {
+        return is_red;
+    }
+
+    public void setIs_red(int is_red) {
+        this.is_red = is_red;
+    }
+
+    public String getService_time() {
+        return service_time;
+    }
+
+    public void setService_time(String service_time) {
+        this.service_time = service_time;
+    }
+
+    public int getSettle_time() {
+        return settle_time;
+    }
+
+    public void setSettle_time(int settle_time) {
+        this.settle_time = settle_time;
+    }
+
+    public List<?> getService() {
+        return service;
+    }
+
+    public void setService(List<?> service) {
+        this.service = service;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(user_name);
+        dest.writeInt(group_id);
+        dest.writeInt(agency_layer);
+        dest.writeInt(parent_id);
+        dest.writeInt(user_id);
+        dest.writeInt(recommend_id);
+        dest.writeString(name);
+        dest.writeString(contact);
+        dest.writeString(tel);
+        dest.writeString(regtime);
+        dest.writeString(post_code);
+        dest.writeString(mobile);
+        dest.writeString(artperson);
+        dest.writeString(img_url);
+        dest.writeInt(sort_id);
+        dest.writeString(seo_title);
+        dest.writeString(seo_keywords);
+        dest.writeString(seo_description);
+        dest.writeString(province);
+        dest.writeString(city);
+        dest.writeString(area);
+        dest.writeDouble(lng);
+        dest.writeDouble(lat);
+        dest.writeString(address);
+        dest.writeString(advantage);
+        dest.writeString(idcard);
+        dest.writeString(idcard_a);
+        dest.writeString(idcard_b);
+        dest.writeString(license);
+        dest.writeString(accredit);
+        dest.writeString(aptitude);
+        dest.writeString(revenue_card);
+        dest.writeString(organi_card);
+        dest.writeInt(statusX);
+        dest.writeString(brand_card);
+        dest.writeString(bank_licence);
+        dest.writeString(trade_aptitude);
+        dest.writeInt(trade_id);
+        dest.writeString(account_name);
+        dest.writeString(bank_name);
+        dest.writeString(bank_account);
+        dest.writeString(registeredid);
+        dest.writeString(logo_url);
+        dest.writeString(datatype);
+        dest.writeInt(distance);
+        dest.writeString(update_time);
+        dest.writeString(add_time);
+        dest.writeString(shop_name);
+        dest.writeString(shop_style);
+        dest.writeInt(is_system);
+        dest.writeInt(agency_id);
+        dest.writeInt(store_id);
+        dest.writeInt(shops_id);
+        dest.writeInt(company_layer);
+        dest.writeInt(is_lock);
+        dest.writeInt(is_red);
+        dest.writeString(service_time);
+        dest.writeInt(settle_time);
     }
 }

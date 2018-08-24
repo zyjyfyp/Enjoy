@@ -23,7 +23,10 @@ public class Constants {
     public static final int APPLY_SALE_AFTER_IMG = 5;
     public static final String BUY_TYPE_KEY = "buy_type_key";
     public static final String ACT_DATA = "act_data";
-//    public static final String APP_SECRET = "";
+    public static final String ADDRESS_LAT = "address_lat";
+    public static final String ADDRESS_LONG = "address_long";
+    public static final String DATA = "data";
+    //    public static final String APP_SECRET = "";
 //appId=wxe60c28541b0fa8a2&body=zyjytest&device_info=1000&key=ca30ef7495cdd92ee94e1190f78a8735&mch_id=1502153101&nonce_str=ibuaiVcKdpRxkhJA
 
     public static String WX_Code = "";

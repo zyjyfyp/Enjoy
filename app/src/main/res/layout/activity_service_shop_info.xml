@@ -108,6 +108,7 @@
                 android:background="@color/gray_light" />
 
             <LinearLayout
+                android:id="@+id/address_info_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/item_height"
                 android:layout_marginLeft="@dimen/app_margin"
@@ -125,6 +126,8 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:drawableLeft="@mipmap/address_icon"
+                    android:drawablePadding="5dp"
                     android:id="@+id/address_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

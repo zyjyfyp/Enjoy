@@ -141,7 +141,7 @@ public class ServiceShopInfoActivity extends BaseFragmentActivity {
     }
 
 
-    @OnClick({R.id.action_back, R.id.shop_phone_img})
+    @OnClick({R.id.action_back, R.id.shop_phone_img, R.id.address_info_layout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.action_back:
@@ -149,6 +149,9 @@ public class ServiceShopInfoActivity extends BaseFragmentActivity {
                 break;
             case R.id.shop_phone_img:
                 requestPermission(Permission.CALL_PHONE, Constants.CALL_PHONE);
+                break;
+            case R.id.address_info_layout:
+                UIHelper.showMapActivity(this, mData, mData.getLng(), mData.getLat(), mData.getAddress());
                 break;
         }
     }

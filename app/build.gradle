@@ -165,5 +165,4 @@ dependencies {
     implementation project(':citypicker')
     compile 'com.neovisionaries:nv-websocket-client:2.5'
     implementation 'com.github.YancyYe:GalleryPick:1.2.1'
-
 }
