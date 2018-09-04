@@ -31,6 +31,7 @@ import com.yunsen.enjoy.activity.buy.CarServiceActivity;
 import com.yunsen.enjoy.activity.buy.ExchangePointActivity;
 import com.yunsen.enjoy.activity.buy.GoodsDescriptionActivityOld;
 import com.yunsen.enjoy.activity.buy.MeetAddressActivity;
+import com.yunsen.enjoy.activity.buy.MoreCommentActivity;
 import com.yunsen.enjoy.activity.buy.PartsShopActivity;
 import com.yunsen.enjoy.activity.buy.SecondActivityActivity;
 import com.yunsen.enjoy.activity.buy.ServiceMoreActivity;
@@ -49,6 +50,7 @@ import com.yunsen.enjoy.activity.mine.MyApplyCarActivity;
 import com.yunsen.enjoy.activity.mine.MyAssetsActivity;
 import com.yunsen.enjoy.activity.mine.MyOrderConfrimActivity;
 import com.yunsen.enjoy.activity.mine.MyQianBaoActivity;
+import com.yunsen.enjoy.activity.mine.NoticeActivity;
 import com.yunsen.enjoy.activity.mine.PersonCenterActivity;
 import com.yunsen.enjoy.activity.mine.ShopCartActivity;
 import com.yunsen.enjoy.activity.mine.TeamActivity;
@@ -1002,8 +1004,30 @@ public class UIHelper {
         ctx.startActivity(intent);
     }
 
+    /**
+     * x显示通知
+     *
+     * @param ctx
+     */
+    public static void showNoticeActivity(Context ctx) {
+        Intent intent = new Intent(ctx, NoticeActivity.class);
+        ctx.startActivity(intent);
+    }
+
     public static void showApplyCarInfoActivity(Context ctx, MyApplyCarBean data) {
         Intent intent = new Intent(ctx, ApplyCarInfoActivity.class);
+        intent.putExtra(Constants.ACT_DATA, data);
+        ctx.startActivity(intent);
+    }
+
+    /**
+     * 显示评语列表
+     *
+     * @param ctx
+     * @param data
+     */
+    public static void showMoreCommentActivity(Context ctx, String data) {
+        Intent intent = new Intent(ctx, MoreCommentActivity.class);
         intent.putExtra(Constants.ACT_DATA, data);
         ctx.startActivity(intent);
     }

@@ -295,9 +295,6 @@ public class UserRegisterActivity extends BaseFragmentActivity implements OnClic
                 } else if (!(pwd.length() <= 20 && pwd.length() >= 6)) {
                     Toast.makeText(UserRegisterActivity.this, "密码在6-20位之间", Toast.LENGTH_SHORT)
                             .show();
-                } else if (TextUtils.isEmpty(numStr) || !numStr.equals(CodeUtils.code)) {
-                    Toast.makeText(UserRegisterActivity.this, "请输入正确的验证码", Toast.LENGTH_SHORT)
-                            .show();
                 } else {
                     try {
                         progress = new DialogProgress(UserRegisterActivity.this);
@@ -368,6 +365,10 @@ public class UserRegisterActivity extends BaseFragmentActivity implements OnClic
     }
 
     /*
+    else if (TextUtils.isEmpty(numStr) || !numStr.equals(CodeUtils.code)) {
+                    Toast.makeText(UserRegisterActivity.this, "请输入正确的验证码", Toast.LENGTH_SHORT)
+                            .show();
+                }
      * searchFile 查找文件并加入到ArrayList 当中去
      *
      * @String keyword 查找的关键词

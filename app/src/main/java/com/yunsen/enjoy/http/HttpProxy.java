@@ -4,7 +4,6 @@ package com.yunsen.enjoy.http;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.MainThread;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -25,6 +24,7 @@ import com.yunsen.enjoy.model.CarBrandList;
 import com.yunsen.enjoy.model.CarDetails;
 import com.yunsen.enjoy.model.CarModel;
 import com.yunsen.enjoy.model.ClassifyBean;
+import com.yunsen.enjoy.model.CommentBean;
 import com.yunsen.enjoy.model.GoodsData;
 import com.yunsen.enjoy.model.GoogsListResponse;
 import com.yunsen.enjoy.model.HeightFilterBean;
@@ -33,8 +33,8 @@ import com.yunsen.enjoy.model.MyAssetsBean;
 import com.yunsen.enjoy.model.NoticeModel;
 import com.yunsen.enjoy.model.NoticeResponse;
 import com.yunsen.enjoy.model.NoticeTokeBean;
+import com.yunsen.enjoy.model.OneNoticeInfoBean;
 import com.yunsen.enjoy.model.OrderDataBean;
-import com.yunsen.enjoy.model.OrderGoodsBean;
 import com.yunsen.enjoy.model.OrderInfo;
 import com.yunsen.enjoy.model.PullImageResult;
 import com.yunsen.enjoy.model.SProviderModel;
@@ -46,7 +46,6 @@ import com.yunsen.enjoy.model.TradeData;
 import com.yunsen.enjoy.model.UserInfo;
 import com.yunsen.enjoy.model.WXAccessTokenEntity;
 import com.yunsen.enjoy.model.WXUserInfo;
-import com.yunsen.enjoy.model.WalletCashBean;
 import com.yunsen.enjoy.model.WatchCarBean;
 import com.yunsen.enjoy.model.request.ApplyCarModel;
 import com.yunsen.enjoy.model.request.ApplyFacilitatorModel;
@@ -62,6 +61,7 @@ import com.yunsen.enjoy.model.response.BindBankListResponse;
 import com.yunsen.enjoy.model.response.CarBrandResponese;
 import com.yunsen.enjoy.model.response.CarDetailsResponse;
 import com.yunsen.enjoy.model.response.ClassifyResponse;
+import com.yunsen.enjoy.model.response.CommentResponse;
 import com.yunsen.enjoy.model.response.CrashMoneyResponse;
 import com.yunsen.enjoy.model.response.DefaultAddressResponse;
 import com.yunsen.enjoy.model.response.HeightFilterResponse;
@@ -2163,6 +2163,102 @@ public class HttpProxy {
             }
         });
     }
+
+    /**
+     * 获取消息
+     * 下单通知：27
+     * 系统消息：1
+     * 客服消息：4
+     *
+     * @param templateId
+     * @param pageIndex
+     * @param callBack
+     */
+
+    /**
+     * 获取消息列表
+     *
+     * @param requestId
+     * @param pageIndex
+     * @param callBack
+     */
+    public static void getOneTypeNoticeList(final String requestId, String pageIndex, final HttpCallBack<List<OneNoticeInfoBean>> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put(SpConstants.USER_ID, AccountUtils.getUser_id());
+        param.put("template_id", requestId);
+        param.put("index", pageIndex);
+        param.put("size", "10");
+
+        HttpClient.get(URLConstants.GET_MESSAGE_LIST_URL, param, new HttpResponseHandler<OneNoticeListResponse>() {
+            @Override
+            public void onSuccess(OneNoticeListResponse response) {
+                super.onSuccess(response);
+                if (response != null && response.getData() != null && response.getData().size() > 0) {
+                    OneNoticeInfoBean infoBean = response.getData().get(0);
+                    infoBean.setMessageSize(response.getRecord());//消息的数量
+                }
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 获取商品评价
+     *
+     * @param articleId
+     * @param pageIndex
+     * @param callBack
+     */
+    public static void getCommentList(final String articleId, String pageIndex, String pageSize, final HttpCallBack<List<CommentBean>> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("article_id", articleId);
+        param.put("page_index", pageIndex);
+        param.put("page_size", pageSize);
+
+        HttpClient.get(URLConstants.GET_COMMENT_LIST_URL, param, new HttpResponseHandler<CommentResponse>() {
+            @Override
+            public void onSuccess(CommentResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
+    /**
+     * 获取商品评价
+     *
+     * @param articleId
+     */
+    public static void getCommentSizeList(final String articleId, final HttpCallBack<String> callBack) {
+        HashMap<String, Object> param = new HashMap<>();
+        param.put("article_id", articleId);
+        HttpClient.get(URLConstants.VIEW_COMMENT_COUNT_LIST, param, new HttpResponseHandler<StringResponse>() {
+            @Override
+            public void onSuccess(StringResponse response) {
+                super.onSuccess(response);
+                callBack.onSuccess(response.getData());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+                super.onFailure(request, e);
+                callBack.onError(request, e);
+            }
+        });
+    }
+
 
 }
 

@@ -182,6 +182,7 @@
                 android:background="@color/gray" />
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginRight="@dimen/app_margin"

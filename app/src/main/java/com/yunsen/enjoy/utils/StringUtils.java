@@ -2,6 +2,7 @@ package com.yunsen.enjoy.utils;
 
 import android.app.Activity;
 import android.content.res.AssetManager;
+import android.util.Log;
 
 import com.yunsen.enjoy.widget.city.CityList;
 import com.yunsen.enjoy.widget.city.CityModel;
@@ -160,7 +161,54 @@ public class StringUtils {
      * @return
      */
     public static String decodeURL(String str) {
-        return URLDecoder.decode(str);
+        try {
+            return URLDecoder.decode(str, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    /**
+     * @param dataStr
+     * @return
+     */
+    public static String decodeUnicode(final String dataStr) {
+        int start = 0;
+        int end = 0;
+        final StringBuffer buffer = new StringBuffer();
+        while (start > -1) {
+            end = dataStr.indexOf("%u", start + 2);
+            String charStr = "";
+            if (end == -1) {
+                charStr = dataStr.substring(start + 2, dataStr.length());
+            } else {
+                charStr = dataStr.substring(start + 2, end);
+            }
+            char letter = (char) Integer.parseInt(charStr, 16); // 16进制parse整形字符串。
+            buffer.append(new Character(letter).toString());
+            start = end;
+        }
+        return buffer.toString();
+    }
+
+    public static String toURLDecoded(String paramString) {
+        if (paramString == null || paramString.equals("")) {
+            Log.e("toURLDecoded error:" + paramString, "");
+            return "";
+        }
+
+        try {
+            String str = new String(paramString.getBytes(), "UTF-8");
+            str = URLDecoder.decode(str, "UTF-8");
+            return str;
+        } catch (Exception localException) {
+            Log.e("toURLDecoded error:" + paramString, localException.getMessage());
+        }
+
+        return "";
     }
 
     public static String enCodeRUL(String str) {

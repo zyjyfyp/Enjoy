@@ -32,7 +32,9 @@ public class Constants {
     public static String WX_Code = "";
     public static QQAuth QQauth;
     public static final String APP_QQ_ID = "1106880995";// 测试时使用，真正发布的时候要换成自己的APP_ID
-
+    public final static int TRANSACTION_MESSAGE = 27;//交易
+    public final static int SYSTEM_MESSAGE = 1;//系统
+    public final static int SERVICE_MESSAGE = 4;//服务
 
     /**
      * 买车界面

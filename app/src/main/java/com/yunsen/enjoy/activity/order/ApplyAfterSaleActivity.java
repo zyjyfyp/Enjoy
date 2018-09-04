@@ -31,6 +31,7 @@ import com.yunsen.enjoy.http.DataException;
 import com.yunsen.enjoy.http.HttpCallBack;
 import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
+import com.yunsen.enjoy.model.AddressInfo;
 import com.yunsen.enjoy.model.MyOrderData;
 import com.yunsen.enjoy.model.ResetTypeModel;
 import com.yunsen.enjoy.model.event.PullImageEvent;
@@ -95,6 +96,8 @@ public class ApplyAfterSaleActivity extends BaseFragmentActivity {
     NoticeView noticeLayout;
     @Bind(R.id.apply_ok_layout)
     LinearLayout applyOkLayout;
+    @Bind(R.id.is_change_layout)
+    LinearLayout isChangeLayout;
     @Bind(R.id.apply_sale_layout)
     ScrollView applySaleLayout;
     private GalleryConfig mGalleryConfig;
@@ -106,6 +109,7 @@ public class ApplyAfterSaleActivity extends BaseFragmentActivity {
     private ApplySaleAfterModel mRequestModel;
     private String mImgUrl = "";
     private String mUserId;
+    private boolean isChangeGoods = false;
 
     @Override
     public int getLayout() {
@@ -158,8 +162,9 @@ public class ApplyAfterSaleActivity extends BaseFragmentActivity {
 
         recyclerResetType.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         ArrayList<ResetTypeModel> datas = new ArrayList<>();
-        datas.add(new ResetTypeModel("申请退换", true, 1));
         datas.add(new ResetTypeModel("申请退款", false, 2));
+        datas.add(new ResetTypeModel("申请退换", true, 1));
+        isChangeLayout.setVisibility(View.VISIBLE);
         mResetAdapter = new ResetTypeAdapter(this, R.layout.reset_type_item, datas);
         recyclerResetType.setAdapter(mResetAdapter);
 
@@ -189,6 +194,13 @@ public class ApplyAfterSaleActivity extends BaseFragmentActivity {
         mResetAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.Adapter adapter, RecyclerView.ViewHolder holder, int position) {
+                if (position == 0) {
+                    isChangeLayout.setVisibility(View.GONE);
+                    isChangeGoods = false;
+                } else {
+                    isChangeLayout.setVisibility(View.VISIBLE);
+                    isChangeGoods = true;
+                }
                 mResetAdapter.setSelectView(position);
             }
 
@@ -224,20 +236,20 @@ public class ApplyAfterSaleActivity extends BaseFragmentActivity {
 //        });
 
 
-//        HttpProxy.getUserShoppingAddress(mUserName, new HttpCallBack<AddressInfo>() {
-//            @Override
-//            public void onSuccess(AddressInfo responseData) {
-//                String address = responseData.getProvince() + responseData.getCity() + responseData.getArea() + responseData.getUser_address();
-//                applyResetAddressTv.setText(address);
-//                applyResetNameEdt.setText(responseData.getUser_accept_name());
-//                applyResetPhoneEdt.setText(responseData.getUser_mobile());
-//            }
-//
-//            @Override
-//            public void onError(Request request, Exception e) {
-//
-//            }
-//        });
+        HttpProxy.getUserShoppingAddress(mUserName, new HttpCallBack<AddressInfo>() {
+            @Override
+            public void onSuccess(AddressInfo responseData) {
+                String address = responseData.getProvince() + responseData.getCity() + responseData.getArea() + responseData.getUser_address();
+                applyResetAddressTv.setText(address);
+                applyResetNameEdt.setText(responseData.getUser_accept_name());
+                applyResetPhoneEdt.setText(responseData.getUser_mobile());
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
     }
 
     private IHandlerCallBack iHandlerCallBack = new IHandlerCallBack() {
@@ -338,28 +350,49 @@ public class ApplyAfterSaleActivity extends BaseFragmentActivity {
         String content = descriptionContentEdt.getText().toString();
         int id = mResetAdapter.getCurrentTypeModel().getId();
         mRequestModel.setDatatype(String.valueOf(id));
-        if (TextUtils.isEmpty(content)) {
-            ToastUtils.makeTextShort("请输入问题描述");
+        boolean flag = false;
+        if (isChangeGoods) {
+            String name = applyResetNameEdt.getText().toString();
+            String phone = applyResetPhoneEdt.getText().toString();
+            String address = applyResetAddressTv.getText().toString();
+            if (TextUtils.isEmpty(name)) {
+                ToastUtils.makeTextShort("请输入收货人姓名");
+            } else if (TextUtils.isEmpty(phone)) {
+                ToastUtils.makeTextShort("请输入收货人联系电话");
+            } else if (TextUtils.isEmpty(address)) {
+                ToastUtils.makeTextShort("请填写收货地址");
+            } else {
+                flag = true;
+            }
         } else {
-            mRequestModel.setCause_desc(content);
-            HttpProxy.applySaleAfterService(mRequestModel, new HttpCallBack<Boolean>() {
-                @Override
-                public void onSuccess(Boolean responseData) {
-                    ToastUtils.makeTextShort("申请成功，请耐心等待");
-                    finish();
-                }
+            flag = true;
+        }
 
-                @Override
-                public void onError(Request request, Exception e) {
-                    if (e instanceof DataException) {
-                        ToastUtils.makeTextShort(e.getMessage());
-                    } else {
-                        ToastUtils.makeTextShort("申请失败，请联系客服");
+        if (flag) {
+            if (TextUtils.isEmpty(content)) {
+                ToastUtils.makeTextShort("请输入问题描述");
+            } else {
+                mRequestModel.setCause_desc(content);
+                HttpProxy.applySaleAfterService(mRequestModel, new HttpCallBack<Boolean>() {
+                    @Override
+                    public void onSuccess(Boolean responseData) {
+                        ToastUtils.makeTextShort("申请成功，请耐心等待");
+                        finish();
                     }
-                }
-            });
+
+                    @Override
+                    public void onError(Request request, Exception e) {
+                        if (e instanceof DataException) {
+                            ToastUtils.makeTextShort(e.getMessage());
+                        } else {
+                            ToastUtils.makeTextShort("申请失败，请联系客服");
+                        }
+                    }
+                });
+            }
         }
     }
+
 
     @Override
     protected void onDestroy() {

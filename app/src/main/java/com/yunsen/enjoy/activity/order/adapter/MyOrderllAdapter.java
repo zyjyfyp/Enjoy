@@ -273,7 +273,7 @@ public class MyOrderllAdapter extends BaseAdapter {
                 holder.tv_queren_fukuan.setVisibility(View.GONE);
                 holder.tv_kukuang.setVisibility(View.GONE);
                 holder.shanchu.setVisibility(View.GONE);
-                holder.tv_pingjia.setVisibility(View.GONE);
+                holder.tv_pingjia.setVisibility(View.VISIBLE);
                 holder.tv_tuikuan.setVisibility(View.GONE);
                 holder.tv_pingjia.setText("评价");
                 holder.applyRefund.setVisibility(View.VISIBLE);

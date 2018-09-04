@@ -418,7 +418,7 @@ public class MineFragment extends BaseFragment {
 
     @OnClick({R.id.user_icon_img, R.id.balance_layout, R.id.freeze_layout,
             R.id.commission_layout, R.id.ready_money_layout, R.id.my_loan_layout,
-            R.id.apply_buy_layout})
+            R.id.apply_buy_layout, R.id.notice_layout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.user_icon_img:
@@ -443,6 +443,9 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.apply_buy_layout:
                 goLoginOrOtherActivity(MyApplyCarActivity.class);
+                break;
+            case R.id.notice_layout:
+                UIHelper.showNoticeActivity(getActivity());
                 break;
         }
     }
@@ -488,8 +491,9 @@ public class MineFragment extends BaseFragment {
                                     String payment_status = obj.getString("payment_status");
                                     String express_status = obj.getString("express_status");
                                     String status = obj.getString("status");
+                                    String datatype = obj.getString("datatype");
                                     // 订单状态
-                                    if ("1".equals(payment_status)) {
+                                    if ("1".equals(payment_status) && "2".equals(status) && "1".equals(express_status) && "1".equals(datatype)) {
 //                                        System.out.println("待付款=============");
                                         list_1.add(payment_status);
                                     } else if ("2".equals(payment_status) && "1".equals(express_status) && "2".equals(status)) {

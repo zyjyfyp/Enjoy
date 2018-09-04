@@ -6,6 +6,8 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
@@ -21,6 +23,7 @@ import com.yunsen.enjoy.R;
 import com.yunsen.enjoy.activity.BaseFragmentActivity;
 import com.yunsen.enjoy.activity.mine.CommomConfrim;
 import com.yunsen.enjoy.adapter.CarTopBannerAdapter;
+import com.yunsen.enjoy.adapter.CommentAdapter;
 import com.yunsen.enjoy.common.Constants;
 import com.yunsen.enjoy.common.SpConstants;
 import com.yunsen.enjoy.http.DataException;
@@ -29,11 +32,13 @@ import com.yunsen.enjoy.http.HttpProxy;
 import com.yunsen.enjoy.http.URLConstants;
 import com.yunsen.enjoy.model.AlbumsBean;
 import com.yunsen.enjoy.model.CarDetails;
+import com.yunsen.enjoy.model.CommentBean;
 import com.yunsen.enjoy.model.DefaultSpecItemBean;
 import com.yunsen.enjoy.model.SpecItemBean;
 import com.yunsen.enjoy.ui.DialogUtils;
 import com.yunsen.enjoy.ui.UIHelper;
 import com.yunsen.enjoy.ui.loopviewpager.AutoLoopViewPager;
+import com.yunsen.enjoy.ui.recyclerview.NoScrollLinearLayoutManager;
 import com.yunsen.enjoy.ui.viewpagerindicator.CirclePageIndicator;
 import com.yunsen.enjoy.utils.AccountUtils;
 import com.yunsen.enjoy.utils.DeviceUtil;
@@ -132,6 +137,12 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
     TextView goodsAttributeTv;
     @Bind(R.id.drag_layout)
     DragLayout dragLayout;
+    @Bind(R.id.recycler_evaluate)
+    RecyclerView recyclerEvaluate;
+    @Bind(R.id.comment_count_tv)
+    TextView commentCountTv;
+    @Bind(R.id.show_more_comment)
+    TextView showMoreComment;
 
     private String mGoodId;
     private CarDetails mCarDetail;
@@ -148,6 +159,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
     private boolean isSecondGoods = false;
     private boolean mRequestFinish = false;
     private String mUnionid;
+    private CommentAdapter mCommentAdapter;
 
     @Override
 
@@ -163,6 +175,9 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
         goodsRLayout.getLayoutParams().height = (int) (DeviceUtil.getWidth(this) * 0.6);
         sHandler = new MyHandler(this);
         dragLayout.setCanDrag(false);
+        recyclerEvaluate.setLayoutManager(new NoScrollLinearLayoutManager(this));
+
+
     }
 
     @Override
@@ -202,7 +217,8 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
                 pointLayout.setVisibility(View.VISIBLE);
                 break;
         }
-
+        mCommentAdapter = new CommentAdapter(this, R.layout.comment_item_layout, new ArrayList<CommentBean>());
+        recyclerEvaluate.setAdapter(mCommentAdapter);
     }
 
 
@@ -252,6 +268,36 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
                 mRequestFinish = true;
             }
         });
+
+        HttpProxy.getCommentList(mGoodId, "1", "3", new HttpCallBack<List<CommentBean>>() {
+            @Override
+            public void onSuccess(List<CommentBean> responseData) {
+                mCommentAdapter.upBaseDatas(responseData);
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
+
+        HttpProxy.getCommentSizeList(mGoodId, new HttpCallBack<String>() {
+            @Override
+            public void onSuccess(String responseData) {
+                int size = Integer.parseInt(responseData);
+                commentCountTv.setText("评价(" + responseData + ")");
+                if (size > 3) {
+                    showMoreComment.setVisibility(View.VISIBLE);
+                } else {
+                    showMoreComment.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+        });
     }
 
     @Override
@@ -261,6 +307,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
             UIHelper.showPhoneNumberActivity(this, Constants.PHONE_NUMBER);
         }
     }
+
     /**
      * need 升级 移植旧代码 拥有添加商品
      *
@@ -338,7 +385,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
 
     @OnClick({R.id.enter_shop, R.id.back_btn, R.id.goods_share_img,
             R.id.btn_dianping, R.id.btn_collect, R.id.btn_add_shop_cart,
-            R.id.order_shop_now, R.id.market_information_juduihuan})
+            R.id.order_shop_now, R.id.market_information_juduihuan, R.id.show_more_comment})
     public void onViewClicked(View view) {
         if (mCarDetail == null) {
             return;
@@ -431,6 +478,9 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
                     ToastUtils.makeTextShort("积分不足");
                 }
                 break;
+            case R.id.show_more_comment:
+                UIHelper.showMoreCommentActivity(this, mGoodId);
+                break;
         }
     }
 
@@ -480,6 +530,7 @@ public class GoodsDescriptionActivityOld extends BaseFragmentActivity implements
                 break;
         }
     }
+
 
     private static class MyHandler extends Handler {
         WeakReference<GoodsDescriptionActivityOld> weakReference;

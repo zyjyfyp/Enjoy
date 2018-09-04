@@ -321,6 +321,18 @@ public class URLConstants {
      */
     public static final String APPLY_PURCHASE_LIST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_apply_purchase_list";
 
+    /**
+     * 获取消息
+     */
+    public static final String GET_MESSAGE_LIST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_message_list";
+    /**
+     * 获取评论列表
+     */
+    public static final String GET_COMMENT_LIST_URL = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/get_comment_list";
+    /**
+     * 评价列表
+     */
+    public static final String VIEW_COMMENT_COUNT_LIST = BuildConfig.ROOT_URL + "/tools/mobile_ajax.asmx/view_comment_count";
     //
     //    public static final String REALM_NAME_WEB = "http://mobile.zams.cn";
     //    public static final String REALM_NAME_HTTP = "http://mobile.zams.cn";

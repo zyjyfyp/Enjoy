@@ -42,4 +42,15 @@ public class ApplySaleAfterModel {
         this.return_way = return_way;
     }
 
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
+    public void setUser_mobile(String user_mobile) {
+        this.user_mobile = user_mobile;
+    }
+
+    public void setUser_address(String user_address) {
+        this.user_address = user_address;
+    }
 }

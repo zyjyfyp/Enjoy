@@ -110,7 +110,7 @@ public class MyOrderActivity extends AppCompatActivity implements OnClickListene
                     load_list(true, strwhere);
                 } else if (mStatus.equals("1")) {
                     item2();
-                    strwhere = "payment_status=1%20and%20datatype=1";
+                    strwhere = "payment_status%3d1+and+status%3d2+and+express_status%3d1+and+datatype%3d1";
                     //				list.clear();
                     load_list(true, strwhere);
                 } else if (mStatus.equals("2")) {

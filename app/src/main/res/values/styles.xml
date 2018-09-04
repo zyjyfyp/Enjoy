@@ -367,6 +367,11 @@
         <item name="android:windowExitAnimation">@anim/anim_clicktoast_out</item>
     </style>
 
+    <style name="NoticeTabLayoutStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <color name="color_060606">#060606</color>
     <color name="color_999999">#999999</color>
     <color name="color_bf1a1p">#bf1a19</color>
